@@ -12,6 +12,10 @@ requires = [
     'pyramid',
     'pyramid_chameleon',
     'pyramid_debugtoolbar',
+    'pyramid_tm',
+    'SQLAlchemy',
+    'transaction',
+    'zope.sqlalchemy',
     'waitress',
     ]
 
@@ -28,15 +32,16 @@ setup(name='CyberRange',
       author='',
       author_email='',
       url='',
-      keywords='web pyramid pylons',
+      keywords='web wsgi bfg pylons pyramid',
       packages=find_packages(),
       include_package_data=True,
       zip_safe=False,
+      test_suite='cyberrange',
       install_requires=requires,
-      tests_require=requires,
-      test_suite="cyberrange",
       entry_points="""\
       [paste.app_factory]
       main = cyberrange:main
+      [console_scripts]
+      initialize_CyberRange_db = cyberrange.scripts.initializedb:main
       """,
       )

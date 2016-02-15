@@ -12,8 +12,11 @@ CyberRange.egg-info/not-zip-safe
 CyberRange.egg-info/requires.txt
 CyberRange.egg-info/top_level.txt
 cyberrange/__init__.py
+cyberrange/models.py
 cyberrange/tests.py
 cyberrange/views.py
+cyberrange/scripts/__init__.py
+cyberrange/scripts/initializedb.py
 cyberrange/static/pyramid-16x16.png
 cyberrange/static/pyramid.png
 cyberrange/static/theme.css
