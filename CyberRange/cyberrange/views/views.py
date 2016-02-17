@@ -1,15 +1,29 @@
 from pyramid.response import Response
 from pyramid.view import view_config
 
+from cyberrange.scripts import logger
+
 from sqlalchemy.exc import DBAPIError
 
-from .models import (
+logger = logger.Logger(__name__)
+
+from cyberrange.models.models import (
     DBSession,
     MyModel,
     )
 
+def view_includes(config):
+    config.add_route('sample', '/sample')
+    config.add_route('home', '/')
 
-@view_config(route_name='home', renderer='templates/mytemplate.pt')
+@view_config(route_name='sample', renderer='cyberrange:templates/mytemplate.pt')
+def sample(request):
+    return {'project': 'Cyber Range'}
+
+@view_config(route_name='home', renderer='cyberrange:templates/index.pt')
+def home(request):
+    return {'home': 'Home View'}
+
 def my_view(request):
     try:
         one = DBSession.query(MyModel).filter(MyModel.name == 'one').first()

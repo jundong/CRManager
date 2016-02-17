@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="css/login.css" media="all"/>
+        <!--[if lte IE 9]>
+        <link rel="stylesheet" type="text/css" href="css/login-ie.css" media="all"/>
+        <!-- <![endif] -->
+
+        <script type="text/javascript" src="lib/jquery-1.7.2.min.js"></script>
+		<script type="text/javascript" src="js/textBox.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('body').on("focus", "input", function(){
+                    $(this).data('holder',$(this).attr('placeholder'));
+                    $(this).attr('placeholder','');
+                    console.log($(this));
+                });
+                $('body').on("blur", "input", function(){
+                    $(this).attr('placeholder',$(this).data('holder'));
+                    console.log($(this));
+                });
+                $('#login').click(function () {
+                    $('#login-form').submit();
+                });
+
+                $('#login').keyup(function (event) {
+                    if (event.keyCode == 32) {
+                        $('#login-form').submit();
+                    }
+                });
+
+                $('.remember-me-label').click(function () {
+                    $('#remember-me').click();
+                });
+
+                $('.remember-me-label').keyup(function (event) {
+                    if (event.keyCode == 32) {
+                        $('#remember-me').click();
+                    }
+                });
+                $('input').keydown(function(event) {
+                    if (event.which == 13) {
+                        event.preventDefault();
+                        $("#login").trigger('click');
+                    }
+                });
+                // remove below: just for testing
+
+                // lifted from: http://stackoverflow.com/questions/901115/get-query-string-values-in-javascript
+                var urlParams = {};
+                (function () {
+                    var match,
+                            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+                            search = /([^&=]+)=?([^&]*)/g,
+                            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+                            query  = window.location.search.substring(1);
+
+                    while (match = search.exec(query))
+                        urlParams[decode(match[1])] = decode(match[2]);
+                })();
+
+                if (urlParams.showerror == 'true') {
+                    $('.error').show();
+                }
+
+                // remove above: just for testing
+            });
+        </script>
+    </head>
+    <body>
+    <div class="logo">
+        <img src="images/login-spirent-logo.png"/>
+    </div>
+    <div class="box login-box">
+        <form id="login-form" class="container" method="post" action="/login">
+            {% if message %}
+                <div class="error section">
+                    <h2>ERROR</h2>
+                    <p>{{ message }}</p>
+                </div>
+            {% endif %}
+            {% if current_user %}
+                <div class="error section">
+                    <p>{{ current_user.full_name }} is currently logged in to the system.</p>
+                </div>
+            {% endif %}
+            <div class="section"><input class="text-box login-text-box default" id="username" name="username" type="email" placeholder="Username"/></div>
+            <!--<div class="section"><div class="text-box login-text-box default" id="password-placeholder" type="text" onclick="showPassword()">PASSWORD</div><input class="text-box login-text-box" id="password" name="password" type="password" value=""/></div>-->
+            <div class="section password-container"><input class="text-box login-text-box default" id="password" name="password" type="password" placeholder="Password"/></div>
+            <div class="login-container"><span class="button-outer login-button"><a id="login" class="button" href="javascript:void(0);">LOGIN</a></span></div>
+            <div class="remember-me-container"><input class="checkbox" id="remember-me" name="remember_me" value="1" type="checkbox" /><a class="remember-me-label" href="javascript:void(0);">REMEMBER ME</a></div>
+            {% if current_user %}
+                <input type="checkbox" name="override_user" value="1">OVERRIDE USER...
+            {% endif %}
+            <div class="clear"></div>
+        </form>
+    </div>
+    </body>
+    </html>
