@@ -17,6 +17,8 @@ requires = [
     'transaction',
     'zope.sqlalchemy',
     'waitress',
+    'nose',
+    'webtest',
     ]
 
 setup(name='CyberRange',

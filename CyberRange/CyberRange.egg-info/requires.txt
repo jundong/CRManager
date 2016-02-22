@@ -6,3 +6,5 @@ SQLAlchemy
 transaction
 zope.sqlalchemy
 waitress
+nose
+webtest
