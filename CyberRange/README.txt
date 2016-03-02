@@ -10,5 +10,5 @@ Getting Started
 
 - $VENV/bin/initialize_CyberRange_db development.ini
 
-- $VENV/bin/pserve development.ini
+- $VENV/bin/pserve development.ini --reload
 

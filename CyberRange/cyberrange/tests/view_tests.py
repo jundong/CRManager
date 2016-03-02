@@ -3,7 +3,7 @@ import transaction
 
 from pyramid import testing
 
-from cyberrange.models.models import DBSession
+from cyberrange.models.core import DBSession
 
 class TestViews(unittest.TestCase):
     def setUp(self):

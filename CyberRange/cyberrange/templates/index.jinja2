@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="${request.locale_name}">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="stayyule">
+
+    <title>Cyber Range Control Panel</title>
+	<!-- Latest compiled and minified CSS -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/css/jquery-hotspotter-1.7.7.min.css" rel="stylesheet">
+    <link href="static/css/jquery-ui.css" rel="stylesheet">
+    <link href="static/css/dashboard.css" rel="stylesheet">
+	
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <!--<script src="static/lib/jquery-1.8.0.js"></script> -->
+    <script src="static/lib/jquery-1.11.3.min.js"></script>
+	<script src="static/lib/jquery-ui.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="static/lib/bootstrap.min.js"></script>
+	<script src="static/lib/jquery-hotspotter-1.7.7.min.js"></script>
+	<script type="text/javascript">
+        $(document).ready(function(){
+            $('.hs-area').hotspotter({ imgTopMargin: 50 });
+
+            $("#bps_link").on('click',function(){
+                window.open('http://{{ bps }}');
+            });
+            $("#BPS").on('click',function(){
+                window.open('http://{{ bps }}');
+            });
+            $('#bps_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#bps_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#atip_link").on('click',function(){
+                window.open('http://{{ atip }}');
+            });
+            $("#ATIP").on('click',function(){
+                window.open('http://{{ atip }}');
+            });
+            $('#atip_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#atip_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#splunk_link").on('click',function(){
+                window.open('http://{{ splunk }}:8000/en-US/app/launcher/home');
+            });
+            $("#Splunk").on('click',function(){
+                window.open('http://{{ splunk }}:8000/en-US/app/launcher/home');
+            });
+            $('#splunk_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#splunk_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#kali_link").on('click',function(){
+                window.open('ssh://{{ kali }}/');
+            });
+            $("#Kali").on('click',function(){
+                window.open('ssh://{{ kali }}/');
+            });
+            $('#kali_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#kali_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#metasploitable_link").on('click',function(){
+                window.open('ssh://{{ metasploitable }}/');
+            });
+            $("#AttackTarget").on('click',function(){
+                window.open('ssh://{{ metasploitable }}/');
+            });
+            $('#metasploitable_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#metasploitable_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#dlp_link").on('click',function(){
+                window.open('https://{{ dlp }}/');
+            });
+            $("#DLP").on('click',function(){
+                window.open('https://{{ dlp }}/');
+            });
+            $('#dlp_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#dlp_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#ips_link").on('click',function(){
+                window.open('https://{{ ips }}/');
+            });
+            $("#IPS").on('click',function(){
+                window.open('https://{{ ips }}/');
+            });
+            $('#ips_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#ips_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#ngfw_link").on('click',function(){
+                window.open('https://{{ ngfw }}/');
+            });
+            $("#NGFW").on('click',function(){
+                window.open('https://{{ ngfw }}/');
+            });
+            $('#ngfw_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#ngfw_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+
+            $("#windows_link").on('click',function(){
+                window.open('ssh://{{ windows }}/');
+            });
+            $("#Windows").on('click',function(){
+                window.open('ssh://{{ windows }}/');
+            });
+            $('#windows_link').bind('mouseover', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('trigger');
+                }
+            });
+            $('#windows_link').bind('mouseout', function (e) {
+                if (e.target.tagName == 'BUTTON') {
+                    $('#' + $(e.target).text()).hotspotter('untrigger');
+                }
+            });
+        });
+    </script>
+</head>
+
+  <body>
+    <!--?<nav class="navbar navbar-inverse navbar-fixed-top">-->
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <!--?<div class="container-fluid">-->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Cyber Range</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Dashboard</a>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Action1</a></li>
+                  <li><a href="#">Action2</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"> Setting</a>
+              <ul class="dropdown-menu">
+                  <li><a href="#">Action1</a></li>
+                  <li><a href="#">Action2</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Help</a></li>
+          </ul>
+          <form class="navbar-form navbar-right">
+            <input type="text" class="form-control" placeholder="Search...">
+          </form>
+        </div>
+      <!--?</div>-->
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><button id="bps_link" class="btn btn-info btn-block btn-lg btn-inverse" >BPS</button></li>
+            <li><button id="atip_link" class="btn btn-danger btn-block btn-lg btn-inverse" >ATIP</button></li>
+			<li><button id="splunk_link" class="btn btn-primary btn-block btn-lg btn-inverse" >Splunk</button></li>
+			<li><button id="kali_link" class="btn btn-warning btn-block btn-lg btn-inverse" >Kali</button></li>
+			<li><button id="metasploitable_link" class="btn btn-info btn-block btn-lg btn-inverse" >AttackTarget</button></li>
+			<li><button id="ips_link" class="btn btn-danger btn-block btn-lg btn-inverse" >IPS</button></li>
+			<li><button id="ngfw_link" class="btn btn-primary btn-block btn-lg btn-inverse" >NGFW</button></li>
+			<li><button id="dlp_link" class="btn btn-warning btn-block btn-lg btn-inverse" >DLP</button></li>
+			<li><button id="windows_link" class="btn btn-info btn-block btn-lg btn-inverse" >Windows</button></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header" id="panel_title">Overview</h1>
+			<div class="hs-area">
+				<img id="link" class="col-md-12" height="500" src="static/images/cyberrange.jpg" alt="Cyber Range" />
+				<div style="left: 265px; top: 325px; display: none;" class="hs-wrap">
+					<div style="width: 530px; height: 165px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="530,165,0" data-coord="265,325" class="invisible-spot" id="BPS"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 190px; top: 160px; display: none;" class="hs-wrap">
+					<div style="width: 535px; height: 64px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="535,64,0" data-coord="190,160" class="invisible-spot" id="ATIP"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 315px; top: 10px; display: none;" class="hs-wrap">
+					<div style="width: 150px; height: 54px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="150,54,0" data-coord="315,10" class="invisible-spot" id="Splunk"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 221px; top: 0px; display: none;" class="hs-wrap">
+					<div style="width: 110px; height: 54px; border-radius: 39px;" data-handler="Aim" data-activeon="hover" data-dim="110,54,39" data-coord="221,90" class="invisible-spot" id="Kali"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 338px; top: 90px; display: none;" class="hs-wrap">
+					<div style="width: 110px; height: 54px; border-radius: 16px;" data-handler="Aim" data-activeon="hover" data-dim="110,54,16" data-coord="338,90" class="invisible-spot" id="AttackTarget"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 470px; top: 75px; display: none;" class="hs-wrap">
+					<div style="width: 98px; height: 70px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="98,70,0" data-coord="470,75" class="invisible-spot" id="IPS"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 620px; top: 75px; display: none;" class="hs-wrap">
+					<div style="width: 118px; height: 70px; border-radius: 15px;" data-handler="Aim" data-activeon="hover" data-dim="118,70,15" data-coord="620,75" class="invisible-spot" id="NGFW"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 615px; top: 245px; display: none;" class="hs-wrap">
+					<div style="width: 178px; height: 70px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="178,70,0" data-coord="615,245" class="invisible-spot" id="DLP"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>
+				<div style="left: 225px; top: 243px; display: none;" class="hs-wrap">
+					<div style="width: 90px; height: 60px; border-radius: 3px;" data-handler="Aim" data-activeon="hover" data-dim="90,60,0" data-coord="225,243" class="invisible-spot" id="Windows"></div>
+					<div class="tt-wrap">
+						
+					</div>
+				</div>	
+			</div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

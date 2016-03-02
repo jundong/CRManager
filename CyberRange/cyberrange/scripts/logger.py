@@ -33,7 +33,7 @@ def init_logger():
 
     # Filename, LogLevel, modules to override log level
 
-    config.read('/home/judo/workspace/github/CRManager/CyberRange/crlogger.ini')
+    config.read('/home/judo/workspace/github/CRManager/CyberRange/logger.ini')
     level_str = config.get('cr', 'level')
 
     def get_log_level(level_str):
