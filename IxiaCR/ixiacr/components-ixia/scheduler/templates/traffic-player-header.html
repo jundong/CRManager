@@ -1,0 +1,99 @@
+<div class="header scheduler">
+    <div class="actions">
+        <h2 data-bind="text: vmConfiguration.name().substring(0,60)"></h2>
+        <h3 data-bind="text: vmConfiguration.categories()[0].name"></h3>
+
+        <div class="buttons">
+            <a href="javascript:void(0);" class="button dark save" data-bind="click: openSaveModal, clickBubble: false">
+                <span data-bind="text: strings.save">SAVE</span>
+            </a>
+            <a href="javascript:void(0);" class="button dark close" data-bind="click: closeTestEditor, clickBubble: false, text: strings.close">CLOSE</a>
+        </div>
+    </div>
+    <div class="body">
+
+        <div class="clear"></div>
+        <ul class="scheduler-fields">
+            <li class="test-name row">
+                <label>Scheduled test name</label>
+                <input type="text" class="dark-inverted-text-box" data-bind="value: testEventName"/>
+            </li>
+            <li class="calendar row">
+                <span data-bind="text: scheduleAtestToRunOnTranslation"></span>
+                <input class="date dark-inverted-text-box no-clear-button" type="text" data-bind="schedulerDatePicker: selectedScheduleDate, value: selectedScheduleDate"/>
+
+                <span class="at" data-bind="text: atTimeTranslation"></span>
+                <input id="timepicker1" type="text" class="input-small time" data-bind="value: selectedScheduleMeridian" placeholder="--:-- --">
+                <!--<input type="time" class="time" data-bind="value: selectedScheduleTime" />-->
+                <!--<span class="time light-select2" data-bind="attr: {'data-value': selectedScheduleTime }">-->
+                    <!--<select data-bind="options: availableScheduleTimes, value: selectedScheduleTime"></select>-->
+                <!--</span>-->
+                <!--<span class="timezone" data-bind="text: timezone"></span>-->
+
+                <!-- ko ifnot: indefinite -->
+                <span class="for" data-bind="text: forTimeTranslation"></span>
+
+                <!-- ko if: static_duration -->
+                <span data-bind="text: durationText()"></span>
+                <!-- /ko -->
+
+                <!-- ko ifnot: static_duration -->
+                <span class="duration light-select2" data-bind="attr: {'data-value': durationTranslation}">
+                    <select data-bind="options: availableDurations, optionsText: 'text', optionsValue: 'value', value: vmConfiguration.duration, disable: vmResults.status() == 'running', css: { 'disabled': vmResults.status() == 'running' }"></select>
+                </span>
+                <!-- /ko -->
+                <!-- /ko -->
+            </li>
+            <li class="repeat row">
+                <ul>
+                    <li class="row">
+                        <input type="checkbox" data-bind="checked: schedulerRepeat" id="repeat-toggle">
+                        <label for="repeat-toggle">Repeat <span data-bind="if: schedulerRepeat"><span data-bind="text: repeaterTitle"></span></span></label>
+                    </li>
+                    <li class="row" data-bind="css: { hidden : !schedulerRepeat() }">
+                        <label>Repeat every</label>
+                        <span class="repeat-interval light-select2" data-bind="attr: {'data-value': repeatInterval }">
+                            <select data-bind="options: availableRepeatIntervals, value: repeatInterval"></select>
+                        </span>
+                        <span class="repeat-type light-select2" data-bind="attr: {'data-value': repeatTypeTranslation }">
+                            <select data-bind="options: availableRepeaterDisplayTypes, optionsValue: 'value', optionsText: 'label', value: repeatType"></select>
+                        </span>
+                    </li>
+                    <li class="row" data-bind="css: { hidden : !schedulerRepeat() || repeatType() != 'WEEKLY'}">
+                        <div>Repeat on:</div>
+                        <div class="days-of-week">
+                            <ul data-bind="foreach: repeatWeekdays">
+                                <li style="display:inline;">
+                                    <label>
+                                        <input type="checkbox" name="selected-weekdays" data-bind="attr: { value: $data }, checked: $parent.selectedWeekdays" />
+                                        <span data-bind="text: $data"></span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="row" data-bind="css: { hidden : !schedulerRepeat() || repeatType() != 'MONTHLY'}">
+                        <div>Repeat by:</div>
+                        <div class="repeat-by">
+                            <input type="radio" name="repeat-by-type" value="NTH_DAY" data-bind="checked: selectedMonthlyRepeatByType"> day of the month
+                            <input type="radio" name="repeat-by-type" value="NTH_WEEKDAY" data-bind="checked: selectedMonthlyRepeatByType"> day of the week
+                        </div>
+                    </li>
+                    <li class="ends row" data-bind="visible: schedulerRepeat">
+                        <input type="radio" value="NEVER" id="repeat-forever" data-bind="checked: repeatEndsOnType">
+                        <label for="repeat-forever" data-bind="text: neverTranslation">Run indefinitely</label>
+
+                        <input type="radio" value="COUNT" id="repeat-for" data-bind="checked: repeatEndsOnType">
+                        <label for="repeat-for" data-bind="text: afterTranslation">Stop after</label>
+                        <input type="text" class="dark-inverted-text-box repeat-count" data-bind="value: repeatCount">
+                        <label for="repeat-for" data-bind="text: occurencesTranslation">tests</label>
+
+                        <input type="radio" value="ON" id="repeat-until" data-bind="checked: repeatEndsOnType">
+                        <label for="repeat-until" data-bind="text: onTranslation">Stop on</label>
+                        <input class="date dark-inverted-text-box no-clear-button" type="text" data-bind="schedulerDatePicker: repeatUntil, value: repeatUntil"/>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+{
+  "name": "bind-all",
+  "license": "MIT",
+  "version": "0.0.2",
+  "description": "Binds all functions to an object",
+  "keywords": [
+    "bind",
+    "bindAll",
+    "bind-all"
+  ],
+  "dependencies": {
+    "component/bind": "*",
+    "component/type": "*"
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "segmentio/bind-all"
+}

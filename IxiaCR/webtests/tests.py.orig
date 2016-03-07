@@ -1,0 +1,722 @@
+import unittest2 as unittest
+import json
+import time
+from axon.lib import axon_logger
+from axon.handlers.utils import ChassisUtils
+import os
+import urllib2
+
+log = axon_logger.AxonLogger(__name__)
+
+
+def _login(axonapp):
+    return axonapp.post('/login', {'username': 'admin', 'password': 'admin'})
+
+
+def _logout(axonapp):
+    return axonapp.post('/logout')
+
+
+class FunctionalTestsBase(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        from pyramid.paster import get_app
+        from webtest import TestApp
+        app = get_app('/local/web/Axon/development.ini')
+        cls.axonapp = TestApp(app, extra_environ=dict(REMOTE_USER='admin'))
+        _login(cls.axonapp)
+
+    @classmethod
+    def tearDownClass(cls):
+        _logout(cls.axonapp)
+
+
+class NavigationTest(FunctionalTestsBase):
+    def test_root(self):
+        """
+        Test login redirect for guest user.
+        """
+        _logout(self.axonapp)
+        res = self.axonapp.get('/')
+        self.assertTrue('303' in res.status)
+        self.assertTrue('login' in res.location)
+
+    def test_login(self):
+        """
+        Test the ability for a user to login to the system.
+        """
+        _logout(self.axonapp)
+        res = _login(self.axonapp)
+        self.assertFalse('Please check your login '
+                         'credentials and try again.' in res.body,
+                         'login failed')
+        self.assertTrue('302' in res.status)
+        _logout(self.axonapp)
+
+    def test_logout(self):
+        """
+        Test the ability for a user to logout of the system.
+        """
+        res = _logout(self.axonapp)
+        self.assertTrue('303' in res.status)
+        self.assertTrue('login' in res.location)
+
+
+class JSONTest(FunctionalTestsBase):
+    """
+    Test the JSON views and CRUD functionality for the application.
+    """
+    def test_save_playlist(self):
+        from json_data import playlist_json_good
+        res = self.axonapp.post('/spirent/save_playlist', playlist_json_good)
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+        from json_data import playlist_json_bad
+        res = self.axonapp.post('/spirent/save_playlist', playlist_json_bad)
+        self.assertTrue(res.json['result'] == 'FAILURE')
+        self.assertTrue(
+            res.json['messages'] == 'Cannot modify read-only playlists')
+
+    def test_save_track(self):
+        from json_data import save_track_json
+        track = json.loads(save_track_json)
+        track_json = json.dumps(track)
+        res = self.axonapp.post('/spirent/save_track', track_json)
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+    def test_save_device(self):
+        from json_data import device_json
+        res = self.axonapp.post('/spirent/save_device', device_json)
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+    def test_save_endpoint(self):
+        from json_data import endpoint_json
+        res = self.axonapp.post('/spirent/save_endpoint', endpoint_json)
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+    def test_save_test_template(self):
+        from json_data import test_template_json
+        res = self.axonapp.post('/spirent/save_test_template',
+                                test_template_json)
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+    def test_get_axon_tests(self):
+        res = self.axonapp.get('/spirent/get_axon_tests.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_test_templates(self):
+        res = self.axonapp.get('/spirent/get_test_templates.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_favorite_tests(self):
+        res = self.axonapp.get('/spirent/get_favorite_tests.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_tracks(self):
+        res = self.axonapp.get('/spirent/get_tracks.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_devices(self):
+        res = self.axonapp.get('/spirent/get_devices.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_endpoints(self):
+        res = self.axonapp.get('/spirent/get_endpoints.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_playlists(self):
+        res = self.axonapp.get('/spirent/get_playlists.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_users(self):
+        res = self.axonapp.get('/spirent/get_users.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_playlists_tracks(self):
+        res = self.axonapp.get('/spirent/get_playlist_tracks.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_user_defined_tags(self):
+        res = self.axonapp.get('/spirent/get_user_defined_tags.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_customer_tags(self):
+        res = self.axonapp.get('/spirent/get_customer_tags.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_location_tags(self):
+        res = self.axonapp.get('/spirent/get_location_tags.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_datapoints(self):
+        res = self.axonapp.get('/spirent/get_datapoints.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_result_types(self):
+        res = self.axonapp.get('/spirent/get_result_types.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_global_settings(self):
+        res = self.axonapp.get('/spirent/get_global_settings.json')
+        self.assertTrue('hostname' in res.json)
+
+    def test_get_display_messages(self):
+        res = self.axonapp.get('/spirent/get_display_messages.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_portlets(self):
+        res = self.axonapp.get('/spirent/get_portlets.json')
+        self.assertTrue('200' in res.status)
+
+    def test_get_result_history(self):
+        res = self.axonapp.get('/spirent/get_result_history.json')
+        self.assertTrue('200' in res.status)
+
+
+class WebAxonTestRunTest(FunctionalTestsBase):
+    def test_config_test(self):
+        from json_data import t3
+        res = self.axonapp.post('/spirent/config_test', t3)
+        if res.json['result'] != 'SUCCESS':
+            log.error(
+                'WebAxonTestRunTest::test_config_test: '
+                '/spirent/config_test call failed; response follows...')
+            log.error(json.dumps(res.json, indent=4, sort_keys=True))
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+        res = self.axonapp.post('/spirent/save_axon_test', t3)
+        if res.json['result'] != 'SUCCESS':
+            log.error(
+                'WebAxonTestRunTest::test_config_test: '
+                '/spirent/save_axon_test call failed; response follows...')
+            log.debug(json.dumps(res.json, indent=4, sort_keys=True))
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+        res = self.axonapp.post('/spirent/update_config', t3)
+        if res.json['result'] != 'SUCCESS':
+            log.error(
+                'WebAxonTestRunTest::test_config_test: '
+                '/spirent/update_config call failed; response follows...')
+            log.debug(json.dumps(res.json, indent=4, sort_keys=True))
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+    def test_run_test(self):
+        from json_data import t3
+
+        def get_result_series(tid):
+            _res = self.axonapp.get('/spirent/get_result_series/'+tid+'/1')
+            self.assertTrue('lastUpdated' in _res.json)
+            return _res.json
+
+        def get_istestready():
+            _res = self.axonapp.get('/spirent/get_istestready')
+            self.assertTrue(_res.json['is_valid'])
+            return _res.json
+
+        run_test_res = self.axonapp.post('/spirent/run_test', t3)
+        self.assertTrue(run_test_res.json['is_valid'])
+
+        log.debug("Test waiting to execute; please stand by.")
+        time.sleep(10)
+
+        countdown = 60
+        has_test_result = False
+        test_failed = False
+
+        # Test Validation event loop
+        while True and countdown > 0:
+            res = get_istestready()
+            try:
+                test_failed = False
+                log.debug("TYPE: {0}, VALUE: {1}".format(type(res['is_ready']),
+                                                         res['is_ready']))
+                if not res['is_ready'] and not has_test_result:
+                    raise Exception("Test not ready; retrying.")
+                else:
+                    time.sleep(5)
+                    has_test_result = True
+                    countdown = 60
+                    break
+            except Exception, e:
+                countdown -= 1
+                time.sleep(1)
+                log.exception("EXCEPTION RUNNING TEST EVENT LOOP: %s" % str(e))
+                test_failed = True
+                continue
+
+        self.assertFalse(test_failed)
+
+        # Test Result event loop
+        while True and countdown > 0:
+            try:
+                result = get_result_series('1')
+                if 10 < countdown < 50:
+                    point_y = None
+                    for point in result['data']:
+                        self.assertTrue('points' in point,
+                                        'points missing from result data set')
+                        self.assertTrue('label' in point,
+                                        'points missing from result data set')
+                        self.assertTrue(point['label'] in ['Tx',
+                                                           'Tx Bandwidth',
+                                                           'Rx',
+                                                           'Rx Bandwidth'],
+                                        'unknown label {0}'.format(
+                                            point['label']
+                                        ))
+                        if point['label'].startswith('Rx'):
+                            point_y = point['points'][0]['y']
+                        self.assertTrue(isinstance(point_y, float),
+                                        'Invalid Y coordinates')
+                    log.debug("RX VAL WAS: {0}".format(point_y))
+                    if not point_y > 0.800000 and countdown < 60:
+                        raise Exception("RX BANDWIDTH TOO LOW FOR TEST!")
+
+                countdown -= 1
+                time.sleep(1)
+                log.info("COUNTING DOWN IN EVENT LOOP: {0}".format(countdown))
+            except Exception, e:
+                log.exception("EXCEPTION IN RESULT EVENT LOOP: %s" % str(e))
+                test_failed = True
+                break
+
+        self.assertFalse(test_failed)
+
+    def test_z_cancel_test(self):
+        res = self.axonapp.post('/spirent/cancel_test')
+        self.assertTrue(res.json['result'] == 'SUCCESS')
+
+
+class AdminTest(FunctionalTestsBase):
+    """
+    Test the various admin section's functionality.
+    """
+    def test_save_global_settings(self):
+        #from json_data import global_settings_json
+        #res = self.axonapp.post('/spirent/save_global_settings',
+        #                        global_settings_json)
+        #self.assertTrue(res.json['result'] == 'SUCCESS')
+        pass
+
+    def test_verify_password(self):
+        pass
+
+    def test_set_admin_password(self):
+        pass
+
+    def test_get_updates(self):
+        pass
+
+    def test_get_axon_logs(self):
+        pass
+
+
+class HandlerChassisUtilsTest(FunctionalTestsBase):
+
+    def test_seconds_to_unit(self):
+        data = [(0, 0, 0),
+                (1, 1000, 1000000),
+                (.123456, 123.456, 123456),
+                (0.00001, 0.01, 10)]
+
+        for (sec, milli, micro) in data:
+            self.assertEqual(float(sec), ChassisUtils.seconds_to_unit(
+                sec, ChassisUtils.TimeUnits.Seconds))
+            self.assertEqual(float(milli), ChassisUtils.seconds_to_unit(
+                sec, ChassisUtils.TimeUnits.Milliseconds))
+            self.assertEqual(float(micro), ChassisUtils.seconds_to_unit(
+                sec, ChassisUtils.TimeUnits.Microseconds))
+
+        self.assertRaises(TypeError, ChassisUtils.seconds_to_unit, 1, 7)
+
+
+class ChassisApiTest(unittest.TestCase):
+
+    NTP_SERVER_LOCAL = 'rtp-timeserver.ad.spirentcom.com'
+    NTP_SERVER_INTERNET = '0.spirent.pool.ntp.org'
+
+    def setUp(self):
+        if 'chassis_api_test_host' not in os.environ:
+            self.chassis = '127.0.0.1'
+        else:
+            self.chassis = os.environ['chassis_api_test_host']
+
+    def test_version(self):
+        #{
+        #    result: {
+        #        version: <version>
+        #    }
+        #}
+
+        f = urllib2.urlopen('https://%s/status/version' % self.chassis)
+        buf = f.read()
+        result = json.loads(buf)
+        self.assertTrue('result' in result)
+        self.assertTrue('version' in result['result'])
+        self.assertTrue(float(result['result']['version']))
+
+    def test_chassis_status(self):
+        #{
+        #    result: {
+        #        serial: "7-1FFB8032",
+        #        num_slots: 1,
+        #        hostname: "169.254.0.3"
+        #     }
+        #}
+
+        f = urllib2.urlopen('https://%s/status/chassis' % self.chassis)
+        buf = f.read()
+        result = json.loads(buf)
+        self.assertTrue('result' in result)
+        self.assertTrue('num_slots' in result['result'],
+                        'Result was: {0}'.format(result['result']))
+        self.assertTrue(int(result['result']['num_slots']) > 0)
+
+    def test_module_status(self):
+        #{
+        #    result: {
+        #        is_reserved: false,
+        #        description: "4x1G INTERFACE, RJ-45",
+        #        supported_test_packages: [
+        #            "l2l3",
+        #            "stc",
+        #            "l4l7Vm"
+        #            ],
+        #        user: null,
+        #        current_test_package: "stc",
+        #        num_ports: "4",
+        #        model: "NIC-32",
+        #        firmware_version: "4.11.0176"
+        #    }
+        #}
+
+        # We should always have module #1
+        f = urllib2.urlopen('https://%s/status/module/1' % self.chassis)
+        buf = f.read()
+        result = json.loads(buf)
+        self.assertTrue('result' in result)
+
+        attrs = ['is_reserved',
+                 'description',
+                 'supported_test_packages',
+                 'user',
+                 'current_test_package',
+                 'num_ports',
+                 'model',
+                 'firmware_version']
+        for a in attrs:
+            self.assertTrue(a in result['result'],
+                            'Attr {0} missing from module status, '
+                            'result was:{1}'.format(a, result['result']))
+
+            if a == 'num_ports':
+                self.assertTrue(int(result['result'][a]),
+                            'Error num_ports, '
+                            'result was:{0}'.format(result['result']))
+
+            if a == 'firmware_version':
+                self.assertEqual(len(result['result'][a].split('.')), 3,
+                                 'Firmware version (%s) is malformed'
+                                 % result['result'][a])
+
+        # We should never have module #0 or #13
+        for i in [0, 13]:
+            f = urllib2.urlopen(
+                'https://%s/status/module/%d' % (self.chassis, i))
+            buf = f.read()
+            result = json.loads(buf)
+            self.assertTrue('result' in result)
+            self.assertTrue(result['result'] == 'FAILURE')
+            self.assertTrue('messages' in result)
+
+    def test_timing_status(self):
+        #{
+        #    result: {
+        #        object: {
+        #            peer: "12.34.567.89",
+        #            poll: "256",
+        #            offset: "-0.009606",
+        #            stratum: "2"
+        #        },
+        #        result: "SUCCESS"
+        #    }
+        #}
+
+        f = urllib2.urlopen('https://%s/status/timing' % self.chassis)
+        buf = f.read()
+        result = json.loads(buf)
+        self.assertTrue('result' in result)
+        self.assertTrue('object' in result['result'])
+        self.assertTrue('peer' in result['result']['object'])
+        self.assertTrue('poll' in result['result']['object'])
+        self.assertTrue('offset' in result['result']['object'])
+        self.assertTrue('stratum' in result['result']['object'])
+        self.assertTrue(result['result']['result'] == 'SUCCESS')
+
+    # XXX: This test requires the chassis to have access to the
+    # internal spirent network
+    '''def test_timing_delta(self):
+        #{
+        #    result: {
+        #        offset: <float>
+        #    }
+        #}
+
+        start = time.time()
+        f = urllib2.urlopen('http://%s/status/timing/offset/%s' %
+                            (self.chassis, self.NTP_SERVER_LOCAL))
+        buf = f.read()
+        result = json.loads(buf)
+        stop = time.time()
+
+        self.assertTrue('result' in result)
+        self.assertTrue('offset' in result['result'])
+        self.assertTrue(float(result['result']['offset']))
+
+        # XXX: This may or may not be a problem
+        self.assertTrue(stop - start < 5)'''
+
+    def test_port_map(self):
+        #{
+        #    "result": {
+        #        "1": {
+        #            "engine": "stc",
+        #            "logical_port": "//169.254.0.3/1/4",
+        #            "pci_addr": "01:00.3",
+        #            "engine_port_index": 4
+        #        },
+        #        "2": {
+        #            "engine": "stc",
+        #            "logical_port": "//169.254.0.3/1/3",
+        #            "pci_addr": "01:00.2",
+        #            "engine_port_index": 3
+        #        },
+        #        "3": {
+        #            "engine": "stc",
+        #            "logical_port": "//169.254.0.3/1/2",
+        #            "pci_addr": "01:00.1",
+        #            "engine_port_index": 2
+        #        },
+        #        "4": {
+        #            "engine": "stc",
+        #            "logical_port": "//169.254.0.3/1/1",
+        #            "pci_addr": "01:00.0",
+        #            "engine_port_index": 1
+        #        }
+        #    }
+        #}
+        f = urllib2.urlopen(
+            'https://{0}/status/port_map'.format(self.chassis))
+        buf = f.read()
+
+        result = json.loads(buf)
+
+        self.assertIn('result', result)
+        portmap = result['result']
+
+        for key, value in portmap.items():
+            # key is really the port index, so this shouldn't fail
+            port_idx = int(key)
+            self.assertIn(port_idx, range(1, 5))  # Axon has at most 4 ports
+            self.assertIn('engine', value)
+            self.assertIn('logical_port', value)
+            self.assertIn('pci_addr', value)
+            self.assertIn('engine_port_index', value)
+
+    def test_allocations(self):
+        #{
+        #    "result": {
+        #        "pci": {
+        #            "01:00.0": "stc",
+        #            "01:00.1": "stc",
+        #            "01:00.2": "stc",
+        #            "01:00.3": "stc"
+        #        },
+        #        "num_ports": 4,
+        #        "cpu": {
+        #            "1": "stc",
+        #            "3": "stc",
+        #            "2": "stc",
+        #            "5": "stc",
+        #            "7": "stc",
+        #            "6": "stc"
+        #        },
+        #        "memory": {
+        #            "stc": "8650752"
+        #        }
+        #    }
+        #}
+
+        f = urllib2.urlopen(
+            'https://{0}/status/allocations'.format(self.chassis))
+        buf = f.read()
+
+        result = json.loads(buf)
+
+        self.assertIn('result', result)
+        allocation = result['result']
+        self.assertIn('pci', allocation)
+        self.assertTrue(len(allocation['pci']) > 0)
+
+        self.assertIn('num_ports', allocation)
+        self.assertIsInstance(allocation['num_ports'], int)
+        self.assertTrue(allocation['num_ports'] > 0)
+
+        self.assertIn('cpu', allocation)
+        self.assertTrue(len(allocation['cpu']) >= 4)
+
+        self.assertIn('memory', allocation)
+
+
+class TrafficRecorderTest(FunctionalTestsBase):
+
+    def remove_recorder(self, recorder_id):
+        res = self.axonapp.delete('/spirent/traffic-recorder/recorders/{0}'.format(recorder_id))
+        self.assertTrue('200' in res.status)
+
+    def get_recorder_count(self):
+        res = self.axonapp.get('/spirent/traffic-recorder/recorders')
+        self.assertTrue('200' in res.status)
+        return len(res.json)
+
+    def test_list_recorders(self):
+        res = self.axonapp.get('/spirent/traffic-recorder/recorders')
+        self.assertTrue('200' in res.status)
+
+    def test_create_recorder(self):
+        recorders_before = self.get_recorder_count()
+
+        from json_data import recorder_config_good
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', recorder_config_good)
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['config']['title'] == 'Test Recorder')
+
+        recorder_id = res.json['id']
+        self.assertTrue(recorder_id > 0)
+
+        res = self.axonapp.get('/spirent/traffic-recorder/recorders/{0}'.format(recorder_id))
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['config']['title'] == 'Test Recorder')
+        self.assertTrue(res.json['id'] == recorder_id)
+
+        self.remove_recorder(recorder_id)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')
+
+    def test_create_with_missing_interfaces(self):
+        recorders_before = self.get_recorder_count()
+        from json_data import recorder_config_missing_interfaces
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', recorder_config_missing_interfaces, status=403)
+        self.assertTrue('403' in res.status)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')
+
+    def test_create_with_bad_stop_criteria(self):
+        recorders_before = self.get_recorder_count()
+        from json_data import recorder_config_bad_stop_criteria
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', recorder_config_bad_stop_criteria, status=403)
+        self.assertTrue('403' in res.status)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')
+
+    def test_capture(self):
+        recorders_before = self.get_recorder_count()
+
+        # Create a new test recorder
+        from json_data import recorder_config_short_test
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', recorder_config_short_test)
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['config']['title'] == 'Test Recorder')
+
+        recorder_id = res.json['id']
+        self.assertTrue(recorder_id > 0)
+
+        change_state_uri = res.json['change_state_uri']
+
+        # Start the recorder we just created
+        res = self.axonapp.post(str(change_state_uri), '{"action": "START"}')
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['status'] == 'STARTED')
+        capture_id = res.json['id']
+        self.assertTrue(res.json['title'] == 'Test Recorder')
+        self.assertTrue(res.json['recorder_id'] == recorder_id)
+
+        # Wait for the short capture to finish
+        time.sleep(90)
+        capture_uri = res.json['uri']
+
+        # Get the capture detail
+        res = self.axonapp.get(str(capture_uri))
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['time_in_secs'] >= 0)
+        self.assertTrue('packet_count' in res.json)
+        self.assertTrue('size_in_bytes' in res.json)
+        self.assertTrue('interfaces' in res.json)
+        self.assertTrue('title' in res.json)
+        self.assertTrue('uri' in res.json)
+        self.assertTrue('ended' in res.json)
+
+        # Delete the capture
+        delete_uri = res.json['uri']
+        res = self.axonapp.delete(str(delete_uri))
+
+        # Make sure we can't get it anymore
+        res = self.axonapp.get(str(capture_uri), status=404)
+        self.assertTrue('404' in res.status)
+
+        # Remove the recorder we created for this test
+        self.remove_recorder(recorder_id)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')
+
+    def test_list_captures(self):
+        res = self.axonapp.get('/spirent/traffic-recorder/captures')
+        self.assertTrue('200' in res.status)
+        capture_count = len(res.json)
+        self.assertTrue(capture_count >= 0)
+
+    def test_invalid_recorder_action(self):
+        recorders_before = self.get_recorder_count()
+
+        from json_data import recorder_config_short_test
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', recorder_config_short_test)
+        self.assertTrue('200' in res.status)
+        self.assertTrue(res.json['config']['title'] == 'Test Recorder')
+
+        recorder_id = res.json['id']
+        self.assertTrue(recorder_id > 0)
+
+        change_state_uri = res.json['change_state_uri']
+
+        # Attempt to use an invalid action
+        res = self.axonapp.post(str(change_state_uri), '{"action": "XXXXXXXX"}', status=403)
+        self.assertTrue('403' in res.status)
+
+        # Remove the recorder we created for this test
+        self.remove_recorder(recorder_id)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')
+
+    def test_invalid_get_capture(self):
+        res = self.axonapp.get('/spirent/traffic-recorder/captures/99999999', status=404)
+        self.assertTrue('404' in res.status)
+
+    def test_invalid_get_recorder(self):
+        res = self.axonapp.get('/spirent/traffic-recorder/recorders/99999999', status=404)
+        self.assertTrue('404' in res.status)
+
+    def test_invalid_delete_capture(self):
+        res = self.axonapp.delete('/spirent/traffic-recorder/captures/99999999', status=404)
+        self.assertTrue('404' in res.status)
+
+    def test_invalid_delete_recorder(self):
+        res = self.axonapp.delete('/spirent/traffic-recorder/recorders/99999999', status=404)
+        self.assertTrue('404' in res.status)
+
+    def test_invalid_create(self):
+        recorders_before = self.get_recorder_count()
+
+        res = self.axonapp.post('/spirent/traffic-recorder/recorders', '{}', status=403)
+        self.assertTrue('403' in res.status)
+        recorders_after = self.get_recorder_count()
+        self.assertEquals(recorders_before, recorders_after, 'Extra recorder')

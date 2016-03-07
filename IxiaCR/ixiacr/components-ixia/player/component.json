@@ -1,0 +1,24 @@
+{
+  "name": "player",
+  "repo": "components-spirent/player",
+  "description": "Traffic player",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "delegates/test-view-model.js",
+    "templates/header.js"
+  ],
+  "styles": [
+    "player.css"
+  ],
+  "local": [
+    "utility-functions"
+  ]
+}

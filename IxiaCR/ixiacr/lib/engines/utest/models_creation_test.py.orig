@@ -1,0 +1,67 @@
+#!/local/pythonenv/bin/python
+
+import pickle
+
+from axon.lib.engines.utest import utils
+
+import unittest2 as unittest
+
+
+class TestSequenceFunctions(unittest.TestCase):
+
+    port80_playlist = 'System/base_threats/BEAWeblogic_XSS.xml'
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_frames_creation(self):
+        test = utils.get_simple_frames_test()
+        self.assertTrue(test.is_valid)
+
+        # Make sure that the test object is picklable
+        pickle.dumps(test)
+
+    def test_protocol_creation(self):
+        test = utils.get_simple_protocol_test()
+        self.assertTrue(test.is_valid)
+
+        # Make sure that the test object is picklable
+        pickle.dumps(test)
+
+    def test_error_validation(self):
+        test = utils.get_protocols_test(utils.HTTP)
+        self.assertTrue(test.is_valid)
+
+        # Add a duplicate playlist; validation should fail
+        source = test.playlists[0].sources[0]
+        sink = test.playlists[0].sinks[0]
+        test.playlists.append(
+            utils.get_protocol_playlist(
+                source, sink, utils.HTTP, 100))
+
+        self.assertFalse(test.is_valid)
+
+        test.actionize(60)
+
+        self.assertFalse(test.is_valid)
+
+        # Pop duplicate playlist and add a playlist using the same port
+        test.playlists.pop()
+        self.assertTrue(test.is_valid)
+
+        test.playlists.append(
+            utils.get_protocol_playlist(
+                source, sink, utils.PLAYLIST, 100, [self.port80_playlist]))
+
+        self.assertFalse(test.is_valid)
+
+        test.actionize(60)
+
+        self.assertFalse(test.is_valid)
+
+
+if __name__ == "__main__":
+    unittest.main()

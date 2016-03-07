@@ -1,0 +1,166 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Get info on chassis and virtual machine disk space
+
+=head1 INPUT JSON
+
+  {
+  
+  }
+
+=head1 OUTPUT JSON
+
+ {	 
+  "result": "SUCCESS|FAILURE", 
+  "object" : { 
+     "chassis" : { "free" : bytes,
+		"usage" : {
+			"logs" : bytes,
+			"tmp" : bytes
+		},
+		"counts" : {
+			"logs" : count
+		}
+	 }, 
+	 "vm" : { "free" : bytes,
+		"usage" : {
+			"backups" : bytes,
+			"captures" : bytes,
+			"data" : bytes,
+			"db" : bytes,
+			"logs" : bytes,
+			"rabbit" : bytes,
+			"stc" : bytes,
+			"tmp" : bytes 
+		}, 
+		"counts" : {
+			"logs" : count,
+			"captures" : count,
+			"backups" : count
+		}
+	 }
+  } 
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init();
+
+$res->{result}                    = "SUCCESS";
+$res->{object}->{chassis}->{free} = &get_chassis_free();
+$res->{object}->{vm}->{free}      = &get_vm_free();
+
+my $vmu = {};
+$res->{object}->{vm}->{usage} = $vmu;
+
+my $vmc = {};
+$res->{object}->{vm}->{counts} = $vmc;
+
+my $cu = {};
+$res->{object}->{chassis}->{usage} = $cu;
+
+my $cc = {};
+$res->{object}->{chassis}->{counts} = $cc;
+
+my ( $line, $amt, $path );
+
+#
+#
+#
+opendir( my $cap, "/local/web/data/captures" );
+my @tmp = readdir($cap);
+closedir($cap);
+$vmc->{captures} = scalar(@tmp) - 2;
+
+my @tmp = &capture_cmd_merge( "find", "/var/log" );
+$vmc->{logs} = scalar(@tmp);
+
+my @tmp = &capture_cmd_merge( "ssh", "hypervisor", "find", "/var/log" );
+$cc->{logs} = scalar(@tmp);
+
+#
+# Get various bits of vm disk usage
+#
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/local/web/data/backups" );
+( $vmu->{backups}, $path ) = split( ' ', $line );
+
+$vmu->{diags} = 0;
+opendir( my $bkup, "/local/web/data/backups" );
+foreach my $file ( readdir($bkup) ) {
+    if ( $file =~ /-diag-/o ) {
+        my @ts = stat("/local/web/data/backups/$file");
+        $vmu->{diags} += $ts[7];
+        $vmc->{diags}++;
+
+        $vmu->{backups} -= $ts[7];
+    }
+}
+closedir($bkup);
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/var/log" );
+( $vmu->{logs}, $path ) = split( ' ', $line );
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/local/web/data/captures" );
+( $vmu->{captures}, $path ) = split( ' ', $line );
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/local/web/data" );
+( $vmu->{data}, $path ) = split( ' ', $line );
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/var/lib/pgsql/9.1/data" );
+( $vmu->{db}, $path ) = split( ' ', $line );
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/var/lib/rabbitmq" );
+( $vmu->{rabbit}, $path ) = split( ' ', $line );
+
+$vmu->{stc} = 0;
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/local/web/data/test" );
+( $amt, $path ) = split( ' ', $line );
+$vmu->{stc} += $amt;
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/local/web/Spirent" );
+( $amt, $path ) = split( ' ', $line );
+$vmu->{stc} += $amt;
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/root/Spirent" );
+( $amt, $path ) = split( ' ', $line );
+$vmu->{stc} += $amt;
+
+$vmu->{tmp} = 0;
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/tmp" );
+( $amt, $path ) = split( ' ', $line );
+$vmu->{tmp} += $amt;
+
+($line) = &capture_cmd_merge( "du", "--bytes", "-s", "/var/tmp" );
+( $amt, $path ) = split( ' ', $line );
+$vmu->{tmp} += $amt;
+
+$cu->{tmp} = 0;
+
+($line) = &capture_cmd_merge( "ssh", "hypervisor", "du", "--bytes", "-s", "/tmp" );
+( $amt, $path ) = split( ' ', $line );
+$cu->{tmp} += $amt;
+
+($line) = &capture_cmd_merge( "ssh", "hypervisor", "du", "--bytes", "-s", "/var/tmp" );
+( $amt, $path ) = split( ' ', $line );
+$cu->{tmp} += $amt;
+
+($line) = &capture_cmd_merge( "ssh", "hypervisor", "du", "--bytes", "-s", "/var/log" );
+( $cu->{logs}, $path ) = split( ' ', $line );
+
+# make sure all are integer
+foreach my $hash ( $vmu, $vmc, $cu, $cc ) {
+    foreach my $key ( keys(%$hash) ) {
+        $hash->{$key} = int( $hash->{$key} );
+    }
+}
+
+&finish();

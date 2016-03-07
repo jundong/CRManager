@@ -1,0 +1,23 @@
+{
+  "name": "paginator",
+  "repo": "components-spirent/paginator",
+  "description": "Pagination View",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/emitter": "1.0.1",
+    "component/domify": "1.3.1",
+    "component/classes": "1.2.3",
+    "component/event": "0.1.4"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "template.js"
+  ],
+  "styles": [
+    "style.css"
+  ]
+}

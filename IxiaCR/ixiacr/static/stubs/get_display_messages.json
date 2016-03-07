@@ -1,0 +1,11 @@
+[
+    "All tests can be run using either IPv4 packets or IPv6 packets. Just input your endpoint addresses in the appropriate format.",
+    "Your test is currently running, aggregate results are displayed during the test.",
+    "Detailed results are available when the test is complete.",
+    "Network performance tests send generic data traffic between the selected ports.",
+    "Application performance tests send application traffic between the selected ports.",
+    "You cannot mix generic data traffic and application traffic in the same player. If you want to run both generic data traffic and application traffic in the same test, you must put them in separate players.",
+    "Some tests have Pass/Fail criteria, while others just report data such as the maximum amount of traffic that you can send on your network without packet loss.",
+    "Connecting Axon at various points in your network and rerunning the same test can help you determine where you have issues.",
+    "Transmit and received traffic are always offset. You must wait until the test completes before you can determine if packets were lost."
+]

@@ -1,0 +1,3772 @@
+# Translations template for Axon.
+# Copyright (C) 2014 ORGANIZATION
+# This file is distributed under the same license as the Axon project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Axon 0.0\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2015-01-07 21:59+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: axon/handlers/admin.py:354
+msgid "Successfully saved track."
+msgstr ""
+
+#: axon/handlers/admin.py:404
+msgid "Successfully deleted track."
+msgstr ""
+
+#: axon/handlers/admin.py:412
+msgid "Track is read-only."
+msgstr ""
+
+#: axon/handlers/admin.py:506
+msgid "Successfully saved device."
+msgstr ""
+
+#: axon/handlers/admin.py:527
+msgid "Saving device failed. Perhaps this host already exists?"
+msgstr ""
+
+#: axon/handlers/admin.py:574
+msgid "Successfully deleted device."
+msgstr ""
+
+#: axon/handlers/admin.py:656
+msgid "Successfully saved endpoint."
+msgstr ""
+
+#: axon/handlers/admin.py:693
+msgid "Successfully deleted endpoint."
+msgstr ""
+
+#: axon/handlers/admin.py:722
+msgid "Successfully saved test template."
+msgstr ""
+
+#: axon/handlers/admin.py:752 axon/handlers/admin.py:867
+msgid "Successfully saved test."
+msgstr ""
+
+#: axon/handlers/admin.py:789
+msgid "Failed to apply DNS."
+msgstr ""
+
+#: axon/handlers/admin.py:795
+msgid "Failed to apply NTP servers."
+msgstr ""
+
+#: axon/handlers/admin.py:801
+msgid "Failed to apply Device Name."
+msgstr ""
+
+#: axon/handlers/admin.py:831
+msgid "Passwords do not match."
+msgstr ""
+
+#: axon/handlers/admin.py:837
+msgid "Password matches input."
+msgstr ""
+
+#: axon/handlers/admin.py:843
+msgid "Failed in verify passwords."
+msgstr ""
+
+#: axon/handlers/admin.py:868
+msgid "Failed to save admin password."
+msgstr ""
+
+#: axon/handlers/admin.py:1004
+msgid "Successfully set language."
+msgstr ""
+
+#: axon/handlers/admin.py:1044 axon/handlers/admin.py:1081
+#: axon/handlers/admin.py:1207
+msgid "Unable to complete request while device is reserved."
+msgstr ""
+
+#: axon/handlers/admin.py:1251
+msgid "Error saving wifi settings: ${err}."
+msgstr ""
+
+#: axon/handlers/admin.py:1260
+msgid "Successfully saved wifi settings."
+msgstr ""
+
+#: axon/handlers/admin.py:1287
+msgid "User Eulas were successfully reset."
+msgstr ""
+
+#: axon/handlers/admin.py:1332
+msgid "Successfully deleted EULAs and tests."
+msgstr ""
+
+#: axon/handlers/admin.py:1361
+msgid "Error deleting EULAs and tests."
+msgstr ""
+
+#: axon/handlers/admin.py:1520 axon/handlers/admin.py:1535
+msgid "Successfully saved global settings."
+msgstr ""
+
+#: axon/handlers/auth.py:45
+msgid "Please check your login credentials and try again."
+msgstr ""
+
+#: axon/handlers/auth.py:46
+msgid ""
+"User \"${user}\" is currently logged in from host address: \"${address}\" "
+"Please wait, or override this user to continue."
+msgstr ""
+
+#: axon/handlers/chassis.py:157
+msgid "Trying to get devices for current test, but no current test exists."
+msgstr ""
+
+#: axon/handlers/chassis.py:172
+msgid "Please try again."
+msgstr ""
+
+#: axon/handlers/chassis.py:311
+msgid "Operation timed out."
+msgstr ""
+
+#: axon/handlers/chassis.py:342
+msgid "Successfully authenticated remote device."
+msgstr ""
+
+#: axon/handlers/chassis.py:346
+msgid ""
+"We tried to authenticate on the remote device and failed. If you don't know "
+"the username and/or password, just leave them blank and you can authenticate "
+"the device when you run a test."
+msgstr ""
+
+#: axon/handlers/chassis.py:351 axon/templates/html/lightbox.tmpl.jinja2:525
+msgid "Warning"
+msgstr ""
+
+#: axon/handlers/chassis.py:424
+msgid "Successfully reserved ports on remote device."
+msgstr ""
+
+#: axon/handlers/chassis.py:427
+msgid ""
+"We tried to authenticate on the remote device and failed. Please check your "
+"username and/or password and try again."
+msgstr ""
+
+#: axon/handlers/chassis.py:485
+msgid "Successfully released ports on remote device."
+msgstr ""
+
+#: axon/handlers/chassis.py:487
+msgid "Failed to release ports on remote device."
+msgstr ""
+
+#: axon/handlers/chassis.py:489
+msgid "We tried to authenticate on the remote device and failed. "
+msgstr ""
+
+#: axon/handlers/playlist.py:79
+msgid "Successfully saved playlist."
+msgstr ""
+
+#: axon/handlers/playlist.py:141
+msgid "Successfully deleted playlist."
+msgstr ""
+
+#: axon/handlers/playlist.py:148
+msgid "Playlist is read-only."
+msgstr ""
+
+#: axon/handlers/tests.py:254
+msgid "Successfully saved Test: ${name}."
+msgstr ""
+
+#: axon/handlers/tests.py:467
+msgid "Starting Test"
+msgstr ""
+
+#: axon/handlers/tests.py:575
+msgid "message"
+msgstr ""
+
+#: axon/handlers/tests.py:588
+msgid ""
+"Your test completed successfully.  Click Summary to view the results of your "
+"players."
+msgstr ""
+
+#: axon/handlers/tests.py:657
+msgid "Missing"
+msgstr ""
+
+#: axon/handlers/tests.py:659
+msgid "No test currently configured"
+msgstr ""
+
+#: axon/handlers/tests.py:672
+msgid "The test engine is rewinding.  Please push play in about 15 seconds."
+msgstr ""
+
+#: axon/handlers/tests.py:685
+msgid "handlers.tests.download_pcap"
+msgstr ""
+
+#: axon/handlers/tests.py:880
+msgid "Test already running"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:200
+msgid "${message} on ${platform}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:259
+msgid "No PHY detected on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:260
+msgid "No physical link detected on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:261
+msgid ""
+"Aggregate traffic load exceeds current port PHY speed (${par_0} Mbps) on "
+"${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:263
+msgid "Unable to acquire ${par_0} addresses on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:264
+msgid ""
+"Destination MAC address learning for test traffic failed for ${par_0} of "
+"${par_1} tracks on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:266
+msgid ""
+"Gateway MAC address learning for test endpoints failed for ${par_0} of "
+"${par_1} ${par_2} on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:268
+msgid ""
+"Test traffic load will exceed current port PHY speed (${par_0} Mbps) "
+"${par_1} seconds into the test on ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:270
+msgid ""
+"Test traffic load will drop below 0 ${par_0} seconds into the test on "
+"${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:272
+msgid "Unable to attach to ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:273
+msgid ""
+"Address resolution (ARP) failed for address ${par_0}. This address is "
+"unreachable from ${chassis}, port ${port}."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:275
+msgid ""
+"Address resolution (ARP) failed for addresses ${par_0}. These addresses are "
+"unreachable from ${chassis}, port ${port}."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:277
+msgid ""
+"Neighbor discovery (NDP) failed for address ${par_0}. This address is "
+"unreachable from ${chassis}, port ${port}."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:279
+msgid ""
+"Neighbor discovery (NDP) failed for addresses ${par_0}. These addresses are "
+"unreachable from ${chassis}, port ${port}."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:281
+msgid ""
+"Port ${port} on ${chassis} is currently unavailable. Please try again later."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:283
+msgid ""
+"Port ${port} on ${chassis} is currently in use and cannot be reserved. "
+"Please try again later."
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:288
+msgid "File (${clip}) not found"
+msgstr ""
+
+#: axon/lib/engines/stc/exceptions.py:289
+msgid "Unable to upload ${clip} to ${chassis}, port ${port}"
+msgstr ""
+
+#: axon/models/results.py:107 axon/models/results.py:303
+#: axon/models/results.py:1943 axon/models/results.py:1975
+msgid "models.results.rx_bandwidth"
+msgstr ""
+
+#: axon/models/results.py:108 axon/models/results.py:304
+#: axon/models/results.py:1944 axon/models/results.py:1976
+msgid "models.results.tx_bandwidth"
+msgstr ""
+
+#: axon/models/results.py:155 axon/models/results.py:174
+msgid "models.results.port_results"
+msgstr ""
+
+#: axon/models/results.py:160
+msgid "models.results.fcs_errors"
+msgstr ""
+
+#: axon/models/results.py:164
+msgid "models.results.checksum_errors"
+msgstr ""
+
+#: axon/models/results.py:168
+msgid "models.results.prbs_errors"
+msgstr ""
+
+#: axon/models/results.py:306 axon/models/results.py:1985
+#: axon/models/results.py:2800 axon/models/results.py:2924
+msgid "models.results.cir"
+msgstr ""
+
+#: axon/models/results.py:308 axon/models/results.py:1987
+#: axon/models/results.py:2807 axon/models/results.py:2931
+msgid "models.results.burst"
+msgstr ""
+
+#: axon/models/results.py:332 axon/models/results.py:357
+#: axon/models/results.py:635 axon/models/results.py:651
+#: axon/models/results.py:822 axon/models/results.py:847
+#: axon/models/results.py:1118 axon/models/results.py:1134
+#: axon/models/results.py:1402 axon/models/results.py:1427
+#: axon/models/results.py:1708 axon/models/results.py:1724
+msgid "models.results.attempted"
+msgstr ""
+
+#: axon/models/results.py:333 axon/models/results.py:358
+#: axon/models/results.py:638 axon/models/results.py:654
+#: axon/models/results.py:823 axon/models/results.py:848
+#: axon/models/results.py:997 axon/models/results.py:1002
+#: axon/models/results.py:1016 axon/models/results.py:1021
+#: axon/models/results.py:1121 axon/models/results.py:1137
+#: axon/models/results.py:1403 axon/models/results.py:1428
+#: axon/models/results.py:1623 axon/models/results.py:1624
+#: axon/models/results.py:1711 axon/models/results.py:1727
+msgid "models.results.successful"
+msgstr ""
+
+#: axon/models/results.py:334 axon/models/results.py:359
+#: axon/models/results.py:641 axon/models/results.py:657
+#: axon/models/results.py:824 axon/models/results.py:849
+#: axon/models/results.py:1003 axon/models/results.py:1008
+#: axon/models/results.py:1022 axon/models/results.py:1027
+#: axon/models/results.py:1124 axon/models/results.py:1140
+#: axon/models/results.py:1404 axon/models/results.py:1429
+#: axon/models/results.py:1625 axon/models/results.py:1626
+#: axon/models/results.py:1714 axon/models/results.py:1730
+msgid "models.results.unsuccessful"
+msgstr ""
+
+#: axon/models/results.py:379 axon/models/results.py:521
+#: axon/models/results.py:522
+msgid "models.results.avg_response_time_ms"
+msgstr ""
+
+#: axon/models/results.py:505 axon/models/results.py:506
+#: axon/models/results.py:529
+msgid "models.results.goodput_bytes_rx"
+msgstr ""
+
+#: axon/models/results.py:507 axon/models/results.py:508
+msgid "models.results.goodput_bytes_tx"
+msgstr ""
+
+#: axon/models/results.py:509 axon/models/results.py:510
+#: axon/models/results.py:530 axon/models/results.py:990
+#: axon/models/results.py:995
+msgid "models.results.connections_attempted"
+msgstr ""
+
+#: axon/models/results.py:511 axon/models/results.py:512
+#: axon/models/results.py:531
+msgid "models.results.connections_successful"
+msgstr ""
+
+#: axon/models/results.py:513 axon/models/results.py:514
+#: axon/models/results.py:532
+msgid "models.results.connections_unsuccessful"
+msgstr ""
+
+#: axon/models/results.py:515 axon/models/results.py:516
+#: axon/models/results.py:533 axon/models/results.py:1009
+#: axon/models/results.py:1014
+msgid "models.results.transactions_attempted"
+msgstr ""
+
+#: axon/models/results.py:517 axon/models/results.py:518
+#: axon/models/results.py:534
+msgid "models.results.transactions_successful"
+msgstr ""
+
+#: axon/models/results.py:519 axon/models/results.py:520
+#: axon/models/results.py:535
+msgid "models.results.transactions_unsuccessful"
+msgstr ""
+
+#: axon/models/results.py:617 axon/models/results.py:2787
+#: axon/models/results.py:2907
+msgid "models.results.bandwidth"
+msgstr ""
+
+#: axon/models/results.py:622 axon/models/results.py:2791
+#: axon/models/results.py:2912
+msgid "models.results.received"
+msgstr ""
+
+#: axon/models/results.py:625 axon/models/results.py:2792
+#: axon/models/results.py:2915
+msgid "models.results.sent"
+msgstr ""
+
+#: axon/models/results.py:630
+msgid "models.results.connections"
+msgstr ""
+
+#: axon/models/results.py:646
+msgid "models.results.transactions"
+msgstr ""
+
+#: axon/models/results.py:662 axon/models/results.py:667
+msgid "models.results.response_time"
+msgstr ""
+
+#: axon/models/results.py:870 axon/models/results.py:1028
+#: axon/models/results.py:1150 axon/models/results.py:1454
+msgid "models.results.avg_mos_a"
+msgstr ""
+
+#: axon/models/results.py:872 axon/models/results.py:1032
+#: axon/models/results.py:1153 axon/models/results.py:1456
+msgid "models.results.avg_mos_v"
+msgstr ""
+
+#: axon/models/results.py:893 axon/models/results.py:1036
+#: axon/models/results.py:1041 axon/models/results.py:1163
+#: axon/models/results.py:1475
+msgid "models.results.audio_packet_loss"
+msgstr ""
+
+#: axon/models/results.py:895 axon/models/results.py:1042
+#: axon/models/results.py:1047 axon/models/results.py:1166
+msgid "models.results.video_packet_loss"
+msgstr ""
+
+#: axon/models/results.py:1031 axon/models/results.py:1637
+#: axon/models/results.py:1638 axon/models/results.py:1744
+msgid "models.results.audio_mos"
+msgstr ""
+
+#: axon/models/results.py:1035 axon/models/results.py:1641
+#: axon/models/results.py:1642 axon/models/results.py:1747
+msgid "models.results.video_mos"
+msgstr ""
+
+#: axon/models/results.py:1113
+msgid "models.results.video_connections"
+msgstr ""
+
+#: axon/models/results.py:1129
+msgid "models.results.video_transactions"
+msgstr ""
+
+#: axon/models/results.py:1145 axon/models/results.py:1736
+msgid "models.results.quality_mos_scores"
+msgstr ""
+
+#: axon/models/results.py:1158 axon/models/results.py:1753
+#: axon/models/results.py:1758
+msgid "models.results.rtp_packet_loss"
+msgstr ""
+
+#: axon/models/results.py:1452
+msgid "models.results.voip_mos_score"
+msgstr ""
+
+#: axon/models/results.py:1621 axon/models/results.py:1622
+#: axon/models/results.py:1628
+msgid "models.results.calls_attempted"
+msgstr ""
+
+#: axon/models/results.py:1627
+msgid "models.results.avg_calls_per_second_attempted"
+msgstr ""
+
+#: axon/models/results.py:1629
+msgid "models.results.avg_calls_per_second_successful"
+msgstr ""
+
+#: axon/models/results.py:1630
+msgid "models.results.calls_successful"
+msgstr ""
+
+#: axon/models/results.py:1631
+msgid "models.results.avg_calls_per_second_unsuccessful"
+msgstr ""
+
+#: axon/models/results.py:1632
+msgid "models.results.calls_unsuccessful"
+msgstr ""
+
+#: axon/models/results.py:1633 axon/models/results.py:1634
+msgid "models.results.caller_voice_loss"
+msgstr ""
+
+#: axon/models/results.py:1645 axon/models/results.py:1646
+msgid "models.results.caller_voip_mos"
+msgstr ""
+
+#: axon/models/results.py:1648 axon/models/results.py:1649
+msgid "models.results.callee_voice_loss"
+msgstr ""
+
+#: axon/models/results.py:1652 axon/models/results.py:1653
+msgid "models.results.callee_voip_mos"
+msgstr ""
+
+#: axon/models/results.py:1703
+msgid "models.results.calls_per_second"
+msgstr ""
+
+#: axon/models/results.py:1719
+msgid "models.results.total_calls"
+msgstr ""
+
+#: axon/models/results.py:1741
+msgid "models.results.voip_mos"
+msgstr ""
+
+#: axon/models/results.py:2006 axon/models/results.py:2038
+#: axon/models/results.py:2464 axon/models/results.py:2487
+#: axon/models/results.py:2695 axon/models/results.py:2814
+#: axon/models/results.py:2938
+msgid "models.results.packet_loss"
+msgstr ""
+
+#: axon/models/results.py:2065 axon/models/results.py:2096
+#: axon/models/results.py:2835 axon/models/results.py:2965
+msgid "models.results.latency"
+msgstr ""
+
+#: axon/models/results.py:2100
+msgid "models.results.sla_latency"
+msgstr ""
+
+#: axon/models/results.py:2124 axon/models/results.py:2156
+#: axon/models/results.py:2458 axon/models/results.py:2690
+msgid "models.results.avg_jitter_ms"
+msgstr ""
+
+#: axon/models/results.py:2450 axon/models/results.py:2485
+#: axon/models/results.py:2684
+msgid "models.results.packets_sent_tx"
+msgstr ""
+
+#: axon/models/results.py:2452 axon/models/results.py:2486
+#: axon/models/results.py:2686
+msgid "models.results.packets_received_rx"
+msgstr ""
+
+#: axon/models/results.py:2454 axon/models/results.py:2688
+msgid "models.results.avg_receive_rate_bps"
+msgstr ""
+
+#: axon/models/results.py:2455 axon/models/results.py:2457
+#: axon/models/results.py:2689
+msgid "models.results.mbps"
+msgstr ""
+
+#: axon/models/results.py:2456
+msgid "models.results.avg_transmit_rate_bps"
+msgstr ""
+
+#: axon/models/results.py:2460 axon/models/results.py:2692
+msgid "models.results.avg_latency_ms"
+msgstr ""
+
+#: axon/models/results.py:2683 axon/views/utils.py:143
+msgid "models.results.port"
+msgstr ""
+
+#: axon/views/axon_json.py:1173
+msgid ""
+"Your test aborted successfully.  Click Summary to view the results of your "
+"players."
+msgstr ""
+
+#: axon/models/results.py:2705
+#: axon/templates/html/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:271
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:245
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:265
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:279
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:261
+msgid "Timing Accuracy"
+msgstr ""
+
+#: axon/models/results.py:2818 axon/models/results.py:2944
+msgid "models.results.average_packet_loss"
+msgstr ""
+
+#: axon/models/results.py:2823 axon/models/results.py:2827
+#: axon/models/results.py:2950 axon/models/results.py:2956
+msgid "models.results.average_latency"
+msgstr ""
+
+#: axon/models/results.py:2843 axon/models/results.py:2847
+#: axon/models/results.py:2973 axon/models/results.py:2978
+msgid "models.results.average_jitter"
+msgstr ""
+
+#: axon/scripts/initializedb.py:109
+msgid "Regular user account."
+msgstr ""
+
+#: axon/scripts/initializedb.py:110
+msgid "Administrative user account."
+msgstr ""
+
+#: axon/scripts/initializedb.py:113
+msgid "License Update...."
+msgstr ""
+
+#: axon/scripts/initializedb.py:115
+msgid "This is the heading for the new Eula please check the checkbox."
+msgstr ""
+
+#: axon/scripts/initializedb.py:116
+msgid "eula_version_1"
+msgstr ""
+
+#: axon/scripts/initializedb.py:133
+msgid "localhost"
+msgstr ""
+
+#: axon/scripts/initializedb.py:134
+msgid "Our local Axon chassis."
+msgstr ""
+
+#: axon/scripts/initializedb.py:137
+msgid "Remote"
+msgstr ""
+
+#: axon/scripts/initializedb.py:138
+msgid "A remote Axon chassis."
+msgstr ""
+
+#: axon/scripts/initializedb.py:142
+msgid "Sent/Received"
+msgstr ""
+
+#: axon/scripts/initializedb.py:143
+msgid "Aggregate Sent/Received counts for all players"
+msgstr ""
+
+#: axon/scripts/initializedb.py:146
+msgid "Traffic Loss"
+msgstr ""
+
+#: axon/scripts/initializedb.py:147
+msgid "Traffic loss by player (playlist) and track (table)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:150
+#: axon/templates/html/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:65
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:65
+msgid "Latency"
+msgstr ""
+
+#: axon/scripts/initializedb.py:151
+msgid "Average Latency, in milliseconds, 1 histogram for each player"
+msgstr ""
+
+#: axon/scripts/initializedb.py:154 axon/scripts/initializedb.py:233
+#: axon/templates/html/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:66
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:66
+msgid "Jitter"
+msgstr ""
+
+#: axon/scripts/initializedb.py:155
+msgid "Average Jitter, in milliseconds, 1 histogram for each player"
+msgstr ""
+
+#: axon/scripts/initializedb.py:158
+msgid "Packet Loss vs Bandwidth"
+msgstr ""
+
+#: axon/scripts/initializedb.py:159
+msgid ""
+"Packet loss vs. Bandwidth table with the 0 packet loss entry highlighted by "
+"player"
+msgstr ""
+
+#: axon/scripts/initializedb.py:162
+#: axon/templates/html/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:74
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:74
+msgid "Response Time"
+msgstr ""
+
+#: axon/scripts/initializedb.py:163
+msgid "Average Response time per URL in milliseconds for each player"
+msgstr ""
+
+#: axon/scripts/initializedb.py:166
+#: axon/templates/html/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:72
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:72
+msgid "Connections"
+msgstr ""
+
+#: axon/scripts/initializedb.py:167
+msgid "Aggregate Connections (per second)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:170
+#: axon/templates/html/test.results.tmpl.jinja2:73
+#: axon/templates/html/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:97
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:73
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:97
+msgid "Transactions"
+msgstr ""
+
+#: axon/scripts/initializedb.py:171
+msgid "Aggregate Transactions (per second)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:174 axon/scripts/initializedb.py:235
+#: axon/templates/html/test.configuration.tmpl.jinja2:226
+#: axon/templates/html/test.results.tmpl.jinja2:63
+#: axon/templates/html/test.results.tmpl.jinja2:71
+#: axon/templates/html/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:227
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:241
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:241
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:248
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:227
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:206
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:79
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:217
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:63
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:71
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:79
+#: axon/views/results.py:270
+msgid "Bandwidth"
+msgstr ""
+
+#: axon/scripts/initializedb.py:175
+#: axon/templates/html/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:37
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:37
+msgid "Total Bandwidth"
+msgstr ""
+
+#: axon/scripts/initializedb.py:178
+msgid "RTP Calls (per second)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:179
+msgid "Attempted Calls vs. Successful and Failed plus RTP Packet Loss"
+msgstr ""
+
+#: axon/scripts/initializedb.py:182
+msgid "Video Connections (per second)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:183
+msgid "Attempted Video Connections vs. Successful and Failed."
+msgstr ""
+
+#: axon/scripts/initializedb.py:206
+msgid "Frames"
+msgstr ""
+
+#: axon/scripts/initializedb.py:207
+msgid "Layer 2 and/or Layer 3 traffic only."
+msgstr ""
+
+#: axon/scripts/initializedb.py:211
+msgid "Protocol"
+msgstr ""
+
+#: axon/scripts/initializedb.py:212
+msgid "Layer 4 through Layer 7 traffic only."
+msgstr ""
+
+#: axon/scripts/initializedb.py:217 axon/scripts/initializedb.py:218
+msgid "Network Infrastructure Test"
+msgstr ""
+
+#: axon/scripts/initializedb.py:222 axon/scripts/initializedb.py:223
+msgid "Applications Test"
+msgstr ""
+
+#: axon/scripts/initializedb.py:227 axon/scripts/initializedb.py:228
+msgid "Network Device Test"
+msgstr ""
+
+#: axon/scripts/initializedb.py:231
+msgid "Weakest Link"
+msgstr ""
+
+#: axon/scripts/initializedb.py:232
+msgid "Expected Latency (in milliseconds)"
+msgstr ""
+
+#: axon/scripts/initializedb.py:234
+msgid "WAN Circuit"
+msgstr ""
+
+#: axon/scripts/initializedb.py:236
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:145
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:145
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:148
+msgid "Clients"
+msgstr ""
+
+#: axon/scripts/initializedb.py:237
+msgid "Servers"
+msgstr ""
+
+#: axon/scripts/initializedb.py:238
+msgid "QoS"
+msgstr ""
+
+#: axon/scripts/initializedb.py:242
+msgid ""
+"All tests can be run using either IPv4 packets or IPv6 packets. Just input "
+"your endpoint addresses in the appropriate format."
+msgstr ""
+
+#: axon/scripts/initializedb.py:245
+msgid ""
+"Your test is currently running, aggregate results are displayed during the "
+"test."
+msgstr ""
+
+#: axon/scripts/initializedb.py:248
+msgid "Detailed results are available when the test is complete."
+msgstr ""
+
+#: axon/scripts/initializedb.py:251
+msgid ""
+"Network performance tests send generic data traffic between the selected "
+"ports."
+msgstr ""
+
+#: axon/scripts/initializedb.py:254
+msgid ""
+"Application performance tests send application traffic between the selected "
+"ports."
+msgstr ""
+
+#: axon/scripts/initializedb.py:257
+msgid ""
+"You cannot mix generic data traffic and application traffic in the same "
+"player. If you want to run both generic data traffic and application traffic "
+"in the same test, you must put them in separate players."
+msgstr ""
+
+#: axon/scripts/initializedb.py:260
+msgid ""
+"Some tests have Pass/Fail criteria, while others just report data such as "
+"the maximum amount of traffic that you can send on your network without "
+"packet loss."
+msgstr ""
+
+#: axon/scripts/initializedb.py:263
+msgid ""
+"Connecting Axon at various points in your network and rerunning the same "
+"test can help you determine where you have issues."
+msgstr ""
+
+#: axon/scripts/initializedb.py:266
+msgid ""
+"Transmit and received traffic are always offset. You must wait until the "
+"test completes before you can determine if packets were lost."
+msgstr ""
+
+#: axon/scripts/initializedb.py:269
+msgid ""
+"No packets were lost during this test. However, latency and jitter could "
+"indicate other network performance issues."
+msgstr ""
+
+#: axon/scripts/initializedb.py:272
+msgid ""
+"One or more packets were lost during this test. Look at the test results "
+"over time to determine if packets were lost at the beginning or end of the "
+"test. If packets are lost at the beginning of a test, your device or network "
+"might be slow in populating it's forwarding tables once it learns about MAC "
+"addresses. If packets are lost at the end of a test, your device or network "
+"might have buffers that are filling up and causing packets to drop. Run the "
+"same test again for different durations to determine if either of these "
+"behaviors are affecting your results."
+msgstr ""
+
+#: axon/scripts/initializedb.py:277
+msgid ""
+"You were able to achieve a bandwidth shown below before packet loss occurred "
+"using HTTP traffic. Response times are reported for the number of users you "
+"selected. You can also use the Application Response Time Modeling test to "
+"view the response times relative to the number of transactions. Typically, "
+"response time increases as the number of transactions increases."
+msgstr ""
+
+#: axon/scripts/initializedb.py:282
+msgid ""
+"This test is designed to drop packets. You want to ensure that when your "
+"network is over subscribed, the traffic you set as the lowest priority on "
+"your network is the traffic that is dropped by your network device or "
+"devices. Also, look at the rate of dropped packets for each type of traffic "
+"to ensure that network performance degrades gracefully, if the packet loss "
+"does not increase gracefully, the configuration of your network device can "
+"be changed and the test can be rerun."
+msgstr ""
+
+#: axon/scripts/initializedb.py:295
+msgid "Welcome"
+msgstr ""
+
+#: axon/scripts/initializedb.py:295
+msgid "portlet.welcome.content"
+msgstr ""
+
+#: axon/scripts/initializedb.py:296
+msgid "Recent Results"
+msgstr ""
+
+#: axon/scripts/initializedb.py:296
+msgid "portlet.recent_results.content"
+msgstr ""
+
+#: axon/scripts/initializedb.py:297
+msgid "Favorite Tests"
+msgstr ""
+
+#: axon/scripts/initializedb.py:297
+msgid "portlet.favorite_tests.content"
+msgstr ""
+
+#: axon/scripts/initializedb.py:298
+msgid "Test Library"
+msgstr ""
+
+#: axon/scripts/initializedb.py:298
+msgid "portlet.test_library.content"
+msgstr ""
+
+#: axon/tasks/port.py:192
+msgid "Reserving port {port_index} of {port_total} (Retry #{retry})..."
+msgstr ""
+
+#: axon/tasks/port.py:195
+msgid "Reserving port {port_index} of {port_total}..."
+msgstr ""
+
+#: axon/tasks/test.py:82
+msgid "Validating test configuration..."
+msgstr ""
+
+#: axon/tasks/test.py:90
+msgid ""
+"Validating network configuration on port {port_index} of {port_total}..."
+msgstr ""
+
+#: axon/tasks/test.py:100
+msgid "Validation completed successfully."
+msgstr ""
+
+#: axon/tasks/test_create.py:86
+msgid "Loading video clip{0}..."
+msgstr ""
+
+#: axon/tasks/test_create.py:389
+msgid "Creating playlist..."
+msgstr ""
+
+#: axon/tasks/test_create.py:391
+msgid "Creating playlist {playlist_index} of {playlist_total}..."
+msgstr ""
+
+#: axon/tasks/test_create.py:484
+msgid "Mixing playlist{0}..."
+msgstr ""
+
+#: axon/templates/error_page.jinja2:4
+msgid "Spirent Axon - Page Not Found"
+msgstr ""
+
+#: axon/templates/error_page.jinja2:16
+msgid "error:"
+msgstr ""
+
+#: axon/templates/error_page.jinja2:24
+msgid "Return to home page"
+msgstr ""
+
+#: axon/templates/eula.jinja2:4
+msgid "Spirent Axon - End User License Agreement"
+msgstr ""
+
+#: axon/templates/eula.jinja2:29
+msgid "I have read the EULA and accept its terms."
+msgstr ""
+
+#: axon/templates/eula.jinja2:33
+msgid "Accept"
+msgstr ""
+
+#: axon/templates/eula.jinja2:36
+msgid "Decline"
+msgstr ""
+
+#: axon/templates/index.jinja2:54
+msgid "Spirent"
+msgstr ""
+
+#: axon/templates/index.jinja2:60
+msgid "DASHBOARD"
+msgstr ""
+
+#: axon/templates/index.jinja2:62
+msgid "TEST LIBRARY"
+msgstr ""
+
+#: axon/templates/index.jinja2:64
+msgid "TRAFFIC PLAYER"
+msgstr ""
+
+#: axon/templates/index.jinja2:66
+msgid "CALENDAR"
+msgstr ""
+
+#: axon/templates/index.jinja2:68
+msgid "HISTORY"
+msgstr ""
+
+#: axon/templates/index.jinja2:70
+msgid "ADMINISTRATION"
+msgstr ""
+
+#: axon/templates/index.jinja2:76
+msgid "Help"
+msgstr ""
+
+#: axon/templates/index.jinja2:76
+msgid "Log Out"
+msgstr ""
+
+#: axon/templates/login.jinja2:101
+msgid "Error:"
+msgstr ""
+
+#: axon/templates/login.jinja2:103
+msgid "You are using an unsupported browser."
+msgstr ""
+
+#: axon/templates/login.jinja2:106
+msgid "You are using"
+msgstr ""
+
+#: axon/templates/login.jinja2:106
+msgid ""
+"Unfortunately, this browser is not supported by Axon.  Please download one "
+"of the browsers below to continue using Axon."
+msgstr ""
+
+#: axon/templates/login.jinja2:109
+msgid "Google Chrome"
+msgstr ""
+
+#: axon/templates/login.jinja2:110
+msgid "Mozilla Firefox"
+msgstr ""
+
+#: axon/templates/login.jinja2:117
+msgid "ERROR"
+msgstr ""
+
+#: axon/templates/login.jinja2:123
+#, python-format
+msgid "%(user)s is currently logged in to the system."
+msgstr ""
+
+#: axon/templates/login.jinja2:127
+msgid "Username:"
+msgstr ""
+
+#: axon/templates/login.jinja2:128
+msgid "Username"
+msgstr ""
+
+#: axon/templates/login.jinja2:132
+msgid "Password:"
+msgstr ""
+
+#: axon/templates/login.jinja2:133
+msgid "Password"
+msgstr ""
+
+#: axon/templates/login.jinja2:135
+msgid "LOGIN"
+msgstr ""
+
+#: axon/templates/login.jinja2:136
+msgid "REMEMBER ME"
+msgstr ""
+
+#: axon/templates/login.jinja2:138
+msgid "OVERRIDE USER"
+msgstr ""
+
+#: axon/templates/manufacturing.jinja2:14
+msgid ""
+"Warning, by clicking the button below, this Axon device will be reset to "
+"factory defaults. This reset includes\n"
+"            deleting all tests that have been run previously and resetting "
+"the EULA."
+msgstr ""
+
+#: axon/templates/manufacturing.jinja2:19
+msgid "By agreeing, you will lose all data. Are you sure?"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:2
+#: axon/templates/html/administration.tmpl.jinja2:197
+msgid "VLAN ID"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:4
+#: axon/templates/html/administration.tmpl.jinja2:319
+#: axon/templates/html/administration.tmpl.jinja2:374
+#: axon/templates/html/administration.tmpl.jinja2:551
+msgid "Save"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:8
+#: axon/templates/html/administration.tmpl.jinja2:471
+msgid "No DHCP"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:11
+msgid "DHCPv4"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:14
+msgid "DHCPv6"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:17
+msgid "Number of hosts"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:21
+msgid "test.configuration.tmpl.jinja2.Starting_IP"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:25
+msgid "test.configuration.tmpl.jinja2.Ending_IP"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:29
+#: axon/templates/html/administration.tmpl.jinja2:202
+msgid "Prefix"
+msgstr ""
+
+#: axon/templates/endpoint/fields.jinja2:33
+#: axon/templates/html/administration.tmpl.jinja2:203
+#: axon/templates/html/administration.tmpl.jinja2:481
+msgid "Gateway"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:4
+#: axon/templates/html/administration.tmpl.jinja2:28
+#: axon/templates/html/administration.tmpl.jinja2:123
+msgid "Devices"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:5
+#: axon/templates/html/administration.tmpl.jinja2:36
+#: axon/templates/html/administration.tmpl.jinja2:167
+#: axon/templates/html/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:5
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:5
+msgid "Endpoints"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:6
+#: axon/templates/html/administration.tmpl.jinja2:44
+#: axon/templates/html/administration.tmpl.jinja2:215
+#: axon/templates/html/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:7
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:7
+msgid "Playlists"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:7
+#: axon/templates/html/administration.tmpl.jinja2:52
+#: axon/templates/html/administration.tmpl.jinja2:258
+#: axon/templates/html/test.configuration.tmpl.jinja2:6
+#: axon/templates/html/test.results.tmpl.jinja2:119
+#: axon/templates/test_results/results.jinja2:297
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:119
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:6
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:119
+msgid "Tracks"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:8
+#: axon/templates/html/administration.tmpl.jinja2:60
+msgid "NetFlow"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:9
+#: axon/templates/html/administration.tmpl.jinja2:68
+msgid "Pulse"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:10
+#: axon/templates/html/administration.tmpl.jinja2:76
+msgid "Change Password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:12
+#: axon/templates/html/administration.tmpl.jinja2:85
+#: axon/templates/html/administration.tmpl.jinja2:324
+msgid "Update"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:14
+#: axon/templates/html/administration.tmpl.jinja2:93
+#: axon/templates/html/administration.tmpl.jinja2:360
+#: axon/templates/html/administration.tmpl.jinja2:363
+msgid "Language"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:15
+#: axon/templates/html/administration.tmpl.jinja2:101
+#: axon/templates/html/administration.tmpl.jinja2:379
+msgid "System Backup and Restore"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:16
+#: axon/templates/html/administration.tmpl.jinja2:109
+#: axon/templates/html/administration.tmpl.jinja2:422
+msgid "Wifi Administration"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:17
+#: axon/templates/html/administration.tmpl.jinja2:117
+msgid "System Settings"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:20
+msgid "Administration"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:25
+msgid "devices"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:33
+msgid "endpoints"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:41
+msgid "playlists"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:49
+msgid "tracks"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:57
+msgid "netflow"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:65
+msgid "pulse"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:73
+msgid "change password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:82
+msgid "update"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:90
+msgid "language"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:98
+msgid "system backup restore"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:106
+msgid "wifi admin"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:114
+msgid "system settings"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:140
+#: axon/templates/html/administration.tmpl.jinja2:188
+#: axon/templates/html/administration.tmpl.jinja2:233
+#: axon/templates/html/administration.tmpl.jinja2:276
+#: axon/templates/html/history.tmpl.jinja2:56
+#: axon/templates/html/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:14
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:14
+msgid "Search"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:141
+#: axon/templates/html/administration.tmpl.jinja2:189
+#: axon/templates/html/administration.tmpl.jinja2:234
+#: axon/templates/html/administration.tmpl.jinja2:277
+#: axon/templates/html/history.tmpl.jinja2:57
+#: axon/templates/html/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:15
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:15
+msgid "search"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:145
+msgid "+ Add Device"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:146
+msgid "+ Add Another Device"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:151
+#: axon/templates/html/administration.tmpl.jinja2:195
+#: axon/templates/html/administration.tmpl.jinja2:283
+msgid "Edit &raquo;"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:152
+msgid "Are you sure you want to delete this device?"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:152
+#: axon/templates/html/administration.tmpl.jinja2:204
+#: axon/templates/html/administration.tmpl.jinja2:286
+msgid "Delete &raquo;"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:154
+msgid "Host Address"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:157
+#: axon/templates/html/administration.tmpl.jinja2:207
+#: axon/templates/html/administration.tmpl.jinja2:289
+msgid "Tags"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:170
+msgid "+ Add Endpoint"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:171
+msgid "+ Add Another Endpoint"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:198
+#: axon/templates/html/administration.tmpl.jinja2:473
+msgid "DHCP"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:199
+msgid "Number of DHCP hosts"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:200
+msgid "Starting Ip"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:201
+msgid "Ending IP"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:204
+msgid "Are you sure you want to delete this endpoint?"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:284
+msgid "Clone &raquo;"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:286
+msgid "Are you sure you want to delete this track?"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:297
+msgid "Customers & Locations"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:298
+msgid "Customers and locations will save automatically as you type them."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:300
+msgid "Customers"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:301
+msgid "Locations"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:307
+msgid "Change system password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:309
+msgid "Old password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:311
+msgid "Your password is incorrect. Please try again."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:312
+msgid "Your old password is correct."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:313
+msgid "New password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:314
+msgid "Verify new password"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:315
+msgid "Your passwords do not match. Please try again."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:316
+msgid "Your passwords match. Click the \"Save\" button to save this password."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:326
+#: axon/templates/html/administration.tmpl.jinja2:343
+msgid "Update Axon"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:329
+#: axon/templates/html/administration.tmpl.jinja2:347
+msgid "Current Build:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:330
+msgid "Newest Build:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:333
+msgid ""
+"To update your Axon software to the latest revision, ensure that you have a "
+"working Internet connection and then click Begin update. Do not close the "
+"browser or turn off the Axon device until the update process is complete. "
+"The process can take as long as 15 minutes."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:337
+msgid "Begin update"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:346
+msgid "Axon is up to date."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:351
+msgid "Check for offline update"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:380
+msgid "CURRENT BUILD #:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:383
+msgid "Back up the system"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:384
+msgid ""
+"Click the button to save the current state of the system (system settings "
+"and test and report data) to a file (.axon file format). The system provides "
+"a link to the file so you can save it locally for future use."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:385
+msgid ""
+"This process can take up to 10 minutes.  Do not close your browser or turn "
+"off the Axon device during the backup process."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:387
+#: axon/templates/html/administration.tmpl.jinja2:399
+msgid "Tip:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:388
+msgid "Make sure to do backup regularly to avoid losing data."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:390
+msgid ""
+"This operation saves the current state of the system (system settings and "
+"test and report data) to a file in .axon file format."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:390
+msgid "BACK UP THE SYSTEM"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:393
+msgid "Restore the system"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:396
+msgid ""
+"Select a backup file from the drop down and click RESTORE to restore the "
+"system settings and all test and report data to the state that it was in "
+"that backup."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:397
+msgid ""
+"This process can take up to 30 minutes.  Do not close your browser or turn "
+"off the Axon device during the restore process."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:400
+msgid "Choose a file with .axon format to restore."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:402
+msgid "Choose a backup..."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:404
+msgid ""
+"<p>This operation restores the system settings and all test and report data "
+"to the state that it was when you created the backup. This operation can "
+"take up to 30 minutes.</p><p><strong>Caution:</strong><br>Be sure to back up "
+"the system before performing the Restore operation. If you have not "
+"previously backed up the system, then this operation will permanently delete "
+"all system settings, test, and report data from the selected backup to the "
+"current time.</p>"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:404
+msgid "RESTORE"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:412
+msgid ""
+"<p><strong>Caution:</strong><br>This operation permanently deletes the "
+"selected backup.</p>"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:412
+msgid "DELETE"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:421
+msgid ""
+"With this option, wifi will be enabled if no wired connection is available."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:424
+msgid "Wifi Mode"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:427
+msgid "Enable Wifi"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:433
+msgid "Disable Wifi"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:439
+msgid "Security Settings"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:441
+msgid "SSID"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:442
+msgid "WPA2 Key"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:447
+msgid ""
+"If you are connected to this Axon through wifi, changing the SSID or WPA2 "
+"Key will require you to re-establish a web management session with this Axon."
+"<br><br>Disabling wifi while connected to the wifi network will require you "
+"to use a wired network to re-establish a web management session with this "
+"Axon.<br><br>Are you sure you want to continue?"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:452
+msgid "AXON SYSTEM SETTINGS"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:455
+#: axon/templates/html/lightbox.tmpl.jinja2:320
+msgid "There are validation errors with your device configuration:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:462
+msgid "Basic Setting"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:464
+msgid "Device Name"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:468
+msgid "Axon Network Settings"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:476
+msgid "Hostname"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:479
+#: axon/templates/html/administration.tmpl.jinja2:480
+#: axon/templates/html/administration.tmpl.jinja2:481
+msgid "Chassis"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:479
+#: axon/templates/test_results/results.jinja2:86
+#: axon/templates/test_results/results.jinja2:233
+msgid "Host"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:480
+msgid "Netmask/Prefix"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:482
+msgid "MAC Address"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:486
+msgid "DNS Settings"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:488
+msgid "Primary DNS"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:489
+msgid "Secondary DNS"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:493
+msgid "Time Synchronization"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:495
+msgid "NTP Server Address 1"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:496
+msgid "NTP Server Address 2"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:497
+msgid "NTP Server Address 3"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:498
+msgid "NTP Server Address 4"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:499
+msgid "NTP Server Address 5"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:503
+msgid "Licensing Info"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:505
+msgid "Chassis ID:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:506
+msgid "License status:"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:511
+msgid "System Logs"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:513
+msgid "Download system logs"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:517
+msgid "Reboot Axon"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:520
+msgid ""
+"This will physically reboot your Axon box. The process can take as long as "
+"15 minutes."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:523
+msgid ""
+"Are you sure you want to reboot Axon?<br><br> This could take up to 15 "
+"minutes."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:524
+msgid "Reboot"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:530
+msgid "Shutdown Axon"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:533
+msgid "This will physically shutdown your Axon box."
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:536
+msgid "Are you sure you want to shutdown Axon?"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:537
+msgid "Shutdown"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:543
+msgid "SSL"
+msgstr ""
+
+#: axon/templates/html/administration.tmpl.jinja2:546
+msgid "Download SSL certificate"
+msgstr ""
+
+#: axon/templates/html/dashboard.tmpl.jinja2:58
+msgid ""
+"You have no favorite tests.  You can add a test to your favorites by "
+"clicking on the \"Favorite\" checkbox when you save a test."
+msgstr ""
+
+#: axon/templates/html/dashboard.tmpl.jinja2:89
+#: axon/templates/html/history.tmpl.jinja2:69
+#: axon/templates/test_results/results.jinja2:155
+msgid "Name"
+msgstr ""
+
+#: axon/templates/html/dashboard.tmpl.jinja2:90
+#: axon/templates/html/history.tmpl.jinja2:70
+msgid "Date"
+msgstr ""
+
+#: axon/templates/html/dashboard.tmpl.jinja2:113
+msgid "You haven't run any tests yet.  Why don't you get started?"
+msgstr ""
+
+#: axon/templates/html/dashboard.tmpl.jinja2:113
+msgid "Click here to run a test."
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:11
+msgid "Start..."
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:16
+msgid "End..."
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:20
+msgid "Date Range:"
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:76
+msgid "pass"
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:77
+msgid "unrated"
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:78
+#: axon/templates/html/lightbox.tmpl.jinja2:400
+#: axon/templates/html/lightbox.tmpl.jinja2:516
+msgid "fail"
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:79
+msgid "error"
+msgstr ""
+
+#: axon/templates/html/history.tmpl.jinja2:80
+msgid "aborted"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:8
+msgid "Run a Test"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:9
+#: axon/templates/html/lightbox.tmpl.jinja2:462
+#: axon/templates/html/lightbox.tmpl.jinja2:475
+#: axon/templates/html/lightbox.tmpl.jinja2:488
+#: axon/templates/html/lightbox.tmpl.jinja2:552
+msgid "Cancel"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:21
+#: axon/templates/html/lightbox.tmpl.jinja2:60
+msgid "Select"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:30
+msgid "Standard"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:31
+msgid "My Tests"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:35
+msgid "ONLY SHOW FAVORITES"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:72
+#: axon/templates/html/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:13
+#: axon/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:13
+msgid "Test Type:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:73
+#: axon/templates/html/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:14
+#: axon/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:14
+msgid "Performance"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:76
+#: axon/templates/html/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:17
+#: axon/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:17
+msgid "Traffic Type:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:77
+#: axon/templates/html/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:18
+#: axon/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:18
+msgid "Application"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:100
+#: axon/templates/html/lightbox.tmpl.jinja2:164
+#: axon/templates/html/lightbox.tmpl.jinja2:198
+#: axon/templates/html/lightbox.tmpl.jinja2:282
+#: axon/templates/html/lightbox.tmpl.jinja2:313
+#: axon/templates/html/lightbox.tmpl.jinja2:579
+msgid "FAVORITE"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:101
+#: axon/templates/html/lightbox.tmpl.jinja2:137
+#: axon/templates/html/lightbox.tmpl.jinja2:165
+#: axon/templates/html/lightbox.tmpl.jinja2:199
+#: axon/templates/html/lightbox.tmpl.jinja2:283
+#: axon/templates/html/lightbox.tmpl.jinja2:314
+msgid "lightbox.tmpl.jinja2.CANCEL"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:102
+#: axon/templates/html/lightbox.tmpl.jinja2:138
+#: axon/templates/html/lightbox.tmpl.jinja2:166
+#: axon/templates/html/lightbox.tmpl.jinja2:200
+#: axon/templates/html/lightbox.tmpl.jinja2:284
+#: axon/templates/html/lightbox.tmpl.jinja2:315
+#: axon/templates/html/lightbox.tmpl.jinja2:580
+msgid "lightbox.tmpl.jinja2.SAVE"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:107
+msgid "There are validation errors with your test configuration:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:126
+#: axon/templates/html/lightbox.tmpl.jinja2:154
+#: axon/templates/html/lightbox.tmpl.jinja2:188
+#: axon/templates/html/lightbox.tmpl.jinja2:303
+#: axon/templates/html/lightbox.tmpl.jinja2:347
+#: axon/templates/html/lightbox.tmpl.jinja2:609
+msgid "TAGS:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:170
+msgid "Playlist name is required."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:205
+msgid "There are validation errors with your track configuration:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:327
+msgid "HOST ADDRESS:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:328
+msgid "Authentication"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:329
+msgid ""
+"To authenticate, you must provide the same username and password used when "
+"logging into the UI of the remote box."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:331
+msgid "AUTH ID:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:332
+msgid "PASSWORD:"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:356
+msgid "Help concerning the header while configuring a test"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:361
+#: axon/templates/html/lightbox.tmpl.jinja2:374
+msgid "This is where the help stuff will go."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:369
+msgid "Help for configuring a test"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:381
+msgid "How to fix your time sync."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:386
+msgid ""
+"If your Axon says that it does not have time sync for one (or more) of your "
+"endpoints in a test, your timing results (latency and jitter) will not be "
+"accurate.  The clocks on the machines will be too far apart to provide any "
+"real measurments.  In this situation, you should connect your Axon(s) to an "
+"NTP server in the \"System Settings\" tab of the Administration section.  "
+"Each Axon will need to be connected to the NTP server in its own GUI, this "
+"cannot be done remotely. If possible, it is best if all Axons that you will "
+"be running site-to-site tests between are connected to the same NTP server."
+"<br><br>If you are connected to an NTP server but are still receiving a "
+"large range for your timing accuracy, the internal clocks may not have been "
+"synced to the NTP server for a long enough time.  Please wait another 30 "
+"minutes while your clocks synchronize."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:394
+msgid "Test Validation"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:395
+msgid "Return to Test"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:396
+#: axon/templates/html/lightbox.tmpl.jinja2:472
+msgid "OK to continue?"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:405
+msgid "There was an error validating your test configuration"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:408
+msgid "There were errors validating your test configuration"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:423
+msgid "There was a warning validating your test configuration"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:426
+msgid "There were warnings validating your test configuration"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:442
+#: axon/templates/html/lightbox.tmpl.jinja2:451
+#: axon/templates/html/lightbox.tmpl.jinja2:463
+#: axon/templates/html/lightbox.tmpl.jinja2:476
+#: axon/templates/html/lightbox.tmpl.jinja2:513
+#: axon/templates/html/lightbox.tmpl.jinja2:526
+#: axon/templates/html/lightbox.tmpl.jinja2:539
+msgid "Ok"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:504
+msgid "Close"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:512
+#: axon/templates/html/lightbox.tmpl.jinja2:551
+msgid "Error"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:538
+msgid "Alert"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:561
+msgid "Save device with new authentication details?"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:562
+msgid "Authenticate"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:581
+msgid "lightbox.tmpl.jinja2.DELETE"
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:586
+msgid ""
+"To save your results, please name the test and click SAVE, or click delete "
+"to abort and lose your results."
+msgstr ""
+
+#: axon/templates/html/lightbox.tmpl.jinja2:590
+msgid "There are validation errors with your test results:"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:8
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:8
+msgid "Tests"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:18
+#: axon/templates/html/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:24
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:18
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:24
+msgid "ALL ITEMS"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:19
+#: axon/templates/html/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:26
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:19
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:26
+msgid "FAVORITES"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:20
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:20
+msgid "RECOMMENDED"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:33
+#: axon/templates/html/test.configuration.tmpl.jinja2:41
+#: axon/templates/html/test.configuration.tmpl.jinja2:55
+#: axon/templates/html/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:299
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:301
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:318
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:317
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:322
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:301
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:304
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:301
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:278
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:312
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:33
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:41
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:55
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:290
+msgid "Configure"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:71
+#: axon/templates/html/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:163
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:178
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:178
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:184
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:163
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:142
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:71
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:155
+msgid "Traffic Player"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:74
+#: axon/templates/html/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:166
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:181
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:181
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:187
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:166
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:145
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:165
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:74
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:158
+msgid "Delete"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:106
+#: axon/templates/html/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:181
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:196
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:196
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:202
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:105
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:181
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:96
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:160
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:180
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:106
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:173
+msgid "Playlist"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:117
+#: axon/templates/html/test.configuration.tmpl.jinja2:225
+#: axon/templates/html/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:118
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:240
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:240
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:226
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:107
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:205
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:117
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:225
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:10
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:216
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:10
+msgid "Traffic"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:198
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:198
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:204
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:162
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:182
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:175
+msgid "open"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:184
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:199
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:199
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:205
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:184
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:163
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:183
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:176
+msgid "save"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:232
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:246
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:246
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:253
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:232
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:211
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:231
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:222
+msgid "Mbps"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:267
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:269
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:269
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:272
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:269
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:246
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:266
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:280
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:262
+msgid "How do I fix my Time Sync?"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:269
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:271
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:271
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:274
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:271
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:248
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:268
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:282
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:264
+msgid "ms"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:285
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:287
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:306
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:303
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:287
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:290
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:287
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:264
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:284
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:298
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:278
+msgid "+ Add another traffic player"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:310
+#: axon/templates/html/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:311
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:345
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:313
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:347
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:330
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:364
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:329
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:363
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:334
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:368
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:313
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:347
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:316
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:350
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:313
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:347
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:290
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:324
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:310
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:344
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:324
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:358
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:302
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:336
+msgid "remove"
+msgstr ""
+
+#: axon/templates/html/test.configuration.tmpl.jinja2:314
+#: axon/templates/html/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:315
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:356
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:317
+#: axon/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:358
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:334
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.configuration.tmpl.jinja2:375
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:333
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.configuration.tmpl.jinja2:374
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:338
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:379
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:317
+#: axon/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:358
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:320
+#: axon/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:361
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:317
+#: axon/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:358
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:294
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:335
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:314
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:355
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:328
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:369
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:306
+#: axon/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:347
+msgid "Track Options"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:6
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:6
+msgid "Current Status"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:18
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:18
+msgid "(You must first <a>pause</a> the test to apply a new traffic setting)"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:27
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:27
+msgid "Chart"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:28
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:28
+msgid "Summary"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:40
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:40
+msgid "Transport Data"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:44
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:44
+msgid "Application Data"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:48
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:48
+msgid "Voice Quality Data"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:52
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:52
+msgid "Video Quality Data"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:64
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:64
+msgid "Packet Loss"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:80
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:80
+msgid "Calls"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:81
+#: axon/templates/html/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:96
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:81
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:96
+msgid "Video Connections"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:82
+#: axon/templates/html/test.results.tmpl.jinja2:90
+#: axon/templates/html/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:98
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:82
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:90
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:98
+msgid "Quality MOS Scores"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:83
+#: axon/templates/html/test.results.tmpl.jinja2:91
+#: axon/templates/html/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:99
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:83
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:91
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:99
+msgid "RTP Packet Loss"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:88
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:88
+msgid "Calls per Second"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:89
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:89
+msgid "Total Calls"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:107
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:107
+msgid "Results Details"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:181
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:181
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:192
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:155
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:155
+msgid "Download Results"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:182
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:182
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:193
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:156
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:156
+msgid "print"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:183
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:183
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:194
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:157
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:157
+msgid "csv"
+msgstr ""
+
+#: axon/templates/html/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/multicast_aggregated_throughput/templates/test.results.tmpl.jinja2:193
+#: axon/testcases/spirent/multicast_forwarding_latency/templates/test.results.tmpl.jinja2:193
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.results.tmpl.jinja2:204
+#: axon/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:167
+#: axon/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:167
+msgid "You must first configure and run your test."
+msgstr ""
+
+#: axon/templates/html/test.tmpl.jinja2:10
+msgid "Configuration"
+msgstr ""
+
+#: axon/templates/html/test.tmpl.jinja2:10
+msgid "Results"
+msgstr ""
+
+#: axon/templates/html/test.tmpl.jinja2:10
+msgid "Test Description"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:25
+msgid "Axon Test Name:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:27
+msgid "Executed by:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:28
+msgid "Date:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:31
+msgid "Categories:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:32
+msgid "Description:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:35
+msgid "Test Configuration"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:39
+msgid "Duration (minutes):"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:49
+msgid "Favorite"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:58
+msgid "User Defined Tags"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:66
+#, python-format
+msgid "There was %(count)s Traffic Player in this test."
+msgid_plural "There were %(count)s Traffic Players in this test."
+msgstr[0] ""
+msgstr[1] ""
+
+#: axon/templates/test_results/results.jinja2:70
+msgid "Player"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:74
+msgid "Server"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:76
+msgid "Source (Tx)"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:82
+#: axon/templates/test_results/results.jinja2:229
+msgid "Device"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:94
+#: axon/templates/test_results/results.jinja2:241
+msgid "Port"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:98
+#: axon/templates/test_results/results.jinja2:245
+msgid "Name:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:102
+#: axon/templates/test_results/results.jinja2:249
+msgid "IP:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:106
+#: axon/templates/test_results/results.jinja2:253
+msgid "Prefix:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:110
+#: axon/templates/test_results/results.jinja2:257
+msgid "End IP:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:114
+#: axon/templates/test_results/results.jinja2:261
+msgid "Gateway:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:119
+#: axon/templates/test_results/results.jinja2:266
+msgid "Use DHCP?:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:124
+#: axon/templates/test_results/results.jinja2:271
+msgid "VLAN Id:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:137
+msgid "Playlist:"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:139
+msgid "Test Traffic Settings"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:147
+msgid "Track"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:159
+msgid "Percentage"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:169
+msgid "Track Traffic Settings"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:179
+msgid "Track Properties"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:210
+msgid "Multicast group settings"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:222
+#: axon/templates/test_results/results.jinja2:325
+msgid "Client(s)"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:224
+msgid "Destination (Rx)"
+msgstr ""
+
+#: axon/templates/test_results/results.jinja2:288
+msgid "Test Data"
+msgstr ""
+
+#: axon/testcases/spirent/multicast_join_leave_latency/templates/test.configuration.tmpl.jinja2:247
+msgid "Multicast Traffic"
+msgstr ""
+
+#: axon/views/results.py:135
+msgid "Time, ms"
+msgstr ""
+
+#: axon/views/utils.py:149
+msgid "models.results.group"
+msgstr ""
+
+#: axon/views/utils.py:155
+msgid "models.results.avg_join_latency"
+msgstr ""
+
+#: axon/views/utils.py:162
+msgid "models.results.avg_leave_latency"
+msgstr ""
+
+#: axon/views/utils.py:304
+msgid "views.utils.cir_mbps"
+msgstr ""
+
+#: axon/views/utils.py:304 axon/views/utils.py:306 axon/views/utils.py:308
+msgid "views.utils.na"
+msgstr ""
+
+#: axon/views/utils.py:306
+msgid "views.utils.burst_mbps"
+msgstr ""
+
+#: axon/views/utils.py:308
+msgid "views.utils.latency_ms"
+msgstr ""
+
+#: axon/views/utils.py:317
+msgid "views.utils.summary"
+msgstr ""
+
+#: axon/views/utils.py:521
+msgid "views.utils.player_n"
+msgstr ""
+
+#: axon/views/utils.py:579
+msgid "views.utils.total_bandwidth"
+msgstr ""
+
+#: axon/views/utils.py:584
+msgid "views.utils.received"
+msgstr ""
+
+#: axon/views/utils.py:587
+msgid "views.utils.sent"
+msgstr ""

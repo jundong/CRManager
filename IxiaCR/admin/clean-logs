@@ -1,0 +1,150 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Clean log files/backups/temporary test files based on set retention.
+
+Currently purges anything older than 5 days.
+
+=head1 INPUT JSON
+
+  {
+  	"OPTIONAL:age" : 5
+  }
+
+=head1 OUTPUT JSON
+
+ {
+  "result": "SUCCESS|FAILURE",
+  "object" : { "log" : [ "line1", "line2", "..." ] }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init( install_safe => 1 );
+
+my @log = ();
+
+my $age = 5;
+if ( $in_data && $in_data->{age} ) {
+    $age = int( $in_data->{age} );
+}
+
+my $logbase = "/var/log/messages";
+my $retain  = 30;
+
+for ( my $i = $retain; $i > 0; $i-- ) {
+    my $j = $i - 1;
+
+    my $from = $logbase . "." . $j;
+    my $to   = $logbase . "." . $i;
+
+    if ( $j == 0 ) {
+        $from = $logbase;
+    }
+
+    unlink($to);
+    if ( -e $from ) {
+        &detail("rotating $from to $to");
+        rename( $from, $to );
+    }
+}
+
+&run_cmd_silent( "service", "rsyslog", "restart" );
+
+foreach my $spdir ( "/local/web/Spirent", "/root/Spirent" ) {
+    if ( -e $spdir ) {
+        &detail("Cleaning $spdir dir.");
+        chdir($spdir) || &fail("failed to chdir to $spdir");
+
+        my $in = &open_cmd_merge(
+            "find"   => $spdir,
+            "-type"  => "f",
+            "-name"  => "*.log*",
+            "-mtime" => "+${age}",
+            "-exec"  => "rm" => "-f" => "{}" => ";",
+            "-ls"
+        );
+        while ( defined( my $line = <$in> ) ) {
+            chomp($line);
+            push( @log, $line );
+
+            &detail("clean spirent dir: $line");
+        }
+        close($in);
+
+        &run_cmd_silent( "find" => $spdir, "-type" => "d", "-depth", "-exec" => "rmdir" => "{}" => ";" );
+    }
+    else {
+        &detail("No $spdir dir.");
+    }
+}
+
+&detail("Cleaning /local/web/data/backups dir.");
+my $in = &open_cmd_merge(
+    "find"   => "/local/web/data/backups",
+    "-type"  => "f",
+    "-name"  => "axon-diag*",
+    "-mtime" => "+${age}",
+    "-exec"  => "rm" => "-f" => "{}" => ";",
+    "-ls"
+);
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    push( @log, $line );
+
+    &detail("clean backups: $line");
+}
+close($in);
+
+if ( -e "/local/web/data/test" ) {
+    &detail("Cleaning /local/web/data/test dir.");
+
+    my $in = &open_cmd_merge(
+        "find", "/local/web/data/test",
+        "-type"  => "f",
+        "-mtime" => "+${age}",
+        "-exec"  => "rm" => "-f" => "{}" => ";",
+        "-ls"
+    );
+    while ( defined( my $line = <$in> ) ) {
+        chomp($line);
+        push( @log, $line );
+
+        &detail("clean test data dir: $line");
+    }
+    close($in);
+}
+
+my $in = &open_cmd_merge(
+    "find", "/tmp",
+    "-type"  => "f",
+    "-name"  => "yum_save_tx*",
+    "-mtime" => "+1",
+    "-exec"  => "rm" => "-f" => "{}" => ";",
+    "-ls"
+);
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    push( @log, $line );
+
+    &detail("clean yum temporary transactions: $line");
+}
+close($in);
+
+#
+# These need to be rewritten, but use as is for now
+#
+&run_cmd_silent( "/local/admin/tools/clean-testcenter-logs", "/local/web/Spirent", "${age}" );
+
+&run_cmd_silent( "/local/admin/tools/clean-testcenter-logs", "/local/testcenter/Spirent", "${age}" );
+
+$res->{result} = "SUCCESS";
+$res->{object} = { "log" => \@log };
+
+&finish();

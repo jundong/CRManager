@@ -1,0 +1,293 @@
+from axon.lib.engines.models import gramatically_correct_list_join
+from axon.lib.engines.stc import utils
+from axon.lib.engines.stc.exceptions import FatalTestCenterException
+from axon.lib.engines.stc.hacks import TestState
+from axon.lib.engines.results import ResultPacket
+
+from axon.lib import axon_logger
+
+from axon.tasks import core
+from axon.tasks import test_create
+from axon.tasks.celery import AxonCelery
+
+import datetime
+import itertools
+import json
+import os
+import re
+import select
+
+axonlogger = axon_logger.AxonLogger(__name__)
+
+
+# ##
+# Celery Test API
+# ##
+
+
+# Basic create command
+@AxonCelery.task(base=test_create.TestCenterCreateTestTask)
+def create(test, offline=None, drop_results=None, save_as=None):
+    return create.create(test, save_as, offline, drop_results)
+
+
+#
+# Helper create commands for debug purposes
+# celery tasks only take args, so named parameters get unwieldy, quickly
+#
+@AxonCelery.task(base=test_create.TestCenterCreateTestTask)
+def create_debug(test):
+    return create_debug.create(test=test, drop_results=True)
+
+
+@AxonCelery.task(base=test_create.TestCenterCreateTestTask)
+def create_offline(test):
+    return create_offline.create(test=test, offline=True)
+
+
+@AxonCelery.task(base=test_create.TestCenterCreateTestTask)
+def create_and_save(test, save_as):
+    return create_and_save.create(test=test, save_as=save_as)
+
+
+@AxonCelery.task(base=test_create.TestCenterCreateTestTask)
+def create_and_save_offline(test, save_as):
+    return create_and_save_offline.create(test=test,
+                                          save_as=save_as,
+                                          offline=True)
+
+
+@AxonCelery.task(base=core.TestCenterTestTask)
+def validate(token):
+    """
+    Verify that the BLL is in a proper state to start
+    a test.  If it isn't, then raise an exception.
+    """
+    # Load our sequence x port data, if we have it
+    sbp = None
+    if hasattr(token, 'sequence_by_ports'):
+        sbp = json.loads(token.sequence_by_ports)
+
+    # Let the manager know we're about to start validating
+    validate.TrafficManager.validate_initialize()
+
+    # Validate the high level config
+    validate.update_state_message('Validating test configuration...')
+    validate.TrafficManager.validate_config()
+
+    # Now, validate each port
+    for index, port in enumerate(validate.TrafficManager.active_ports):
+        sequence = None
+        if port in sbp:
+            sequence = sbp[port]
+        msg = ('Validating network configuration on port {port_index} '
+               'of {port_total}...')
+        kwargs = {'port_index': index + 1,
+                  'port_total': len(validate.TrafficManager.active_ports)}
+        validate.update_state_message(msg, kwargs)
+        validate.TrafficManager.validate_port(port, sequence)
+
+    # Validation is finished
+    validate.TrafficManager.validate_finalize()
+
+    # We only get here if validation succeeds
+    validate.update_state_message('Validation completed successfully.')
+    token.validated = True
+    return token
+
+
+@AxonCelery.task(base=core.TestCenterAbortableTestTask)
+def execute(token):
+    RESULT_LOOP_POLL_PERIOD = 1  # in seconds
+    assert token.validated, 'Cannot execute unvalidated test'
+
+    # Generate a list of the chassis used for this test
+    chassis = set(
+        map(lambda src: re.match(r"//(.+)/.+/.+", src.location).groups()[0],
+            itertools.chain.from_iterable([pl.sources for pl in token.test.playlists])))
+    csc = utils.ChassisStateChecker(execute.stc, chassis)
+
+    # Regenerate our adapters
+    tracks = dict()
+    for track, init_args in token.tracks.items():
+        tracks[track] = execute.TrackAdapterFactory.make_adapter(
+            track, init_args['load'])
+
+    results = dict()
+    for (source, sink, track), init_args in token.results.items():
+        # XXX: 'track' has been overloaded.
+        # 'None' means we have an all ports aggregate results
+        # 'string' indicates we have port results
+        # an object that functions as a key in the tracks dictionary is
+        # user configured test traffic
+        if track is None:
+            track_obj = None
+        elif isinstance(track, str):
+            track_obj = track
+        elif track in tracks:
+            track_obj = tracks[track]
+        else:
+            assert False, 'Unrecognzied track: %s' % track
+
+        for args in init_args:
+            result = (
+                execute.ResultAdapterFactory.make_adapter(
+                    track_obj,
+                    execute.stc,
+                    args['source_dataset'],
+                    args['sink_dataset']))
+
+            if (source, sink, track) in results:
+                results[source, sink, track].append(result)
+            else:
+                results[source, sink, track] = [result]
+
+    # Setup the test environment
+    execute.TrafficManager.initialize()
+    execute.do_bll_apply('Beginning test')
+
+    # Save the test for debugging purposes
+    execute.stc.perform('SaveAsXml',
+                        filename=os.path.join(TestState().log_dir,
+                                              'config.xml'))
+
+    # Start Sequencer
+    execute.SequencerManager.start()
+
+    # Register that our test has started for poor souls that can't
+    # learn that info on their own, e.g. voice
+    TestState().start()
+    execute.ResultWriter.write(
+        ResultPacket(test_id=token.test.id,
+                     resulttype=ResultPacket.ResultType.TestStart))
+
+    # While sequencer is running, poll results and send them out
+    while execute.SequencerManager.is_running:
+
+        # Log the current cmd for debug purposes
+        cur_cmd = execute.SequencerManager.current_command
+        if cur_cmd:
+            msg = 'Sequencer is running {0}'.format(cur_cmd)
+        else:
+            msg = 'Sequencer is not running any command'
+        axonlogger.info(msg)
+
+        # Update time keeping variables
+        elapsedTime = execute.SequencerManager.elapsed_time / 1000
+        datetimeNow = datetime.datetime.now()
+        nextLoopTime = datetimeNow + datetime.timedelta(
+            seconds=RESULT_LOOP_POLL_PERIOD)
+
+        if token.expected_duration is not None:
+            remainingTime = max(0, token.expected_duration - elapsedTime)
+        else:
+            remainingTime = None
+
+        # Periodically check our connection to the chassis.  If any are down, bail.
+        if (elapsedTime % 5 == 0 and csc.down):
+            down_chassis = csc.get_down_chassis()
+            msg = 'Aborting test; Axon chassis {0} {1} unreachable.'.format(
+                gramatically_correct_list_join(down_chassis),
+                "is" if len(down_chassis) == 1 else "are")
+            axonlogger.error(msg)
+            raise FatalTestCenterException(msg)
+
+        # Note: The is_aborted method is just checking the task state, so
+        # any custom states MUST be set after this check!
+        if execute.is_aborted() and not execute.SequencerManager.is_stopping:
+            axonlogger.info('Test has been aborted and is being stopped...')
+            execute.SequencerManager.stop()
+        elif execute.SequencerManager.is_stopping:
+            TestState().stop()
+            execute.update_state(state='STOPPING',
+                                 meta={'time elapsed': elapsedTime,
+                                       'time remaining': remainingTime})
+        else:
+            execute.update_state(state='EXECUTING',
+                                 meta={'time elapsed': elapsedTime,
+                                       'time remaining': remainingTime})
+
+        # All of the results that are collected during this loop constitute a
+        # result 'set'.
+        execute.ResultWriter.write(
+            ResultPacket(test_id=token.test.id,
+                         resulttype=ResultPacket.ResultType.ResultSetStart))
+
+        for (source, sink, track), result_handles in results.items():
+            # Handle grouped results below
+
+            # Grab result packet for this track
+            resultPacket = token.result_packets[source, sink, track]
+            # Update result timestamps
+            resultPacket.seconds = elapsedTime
+            resultPacket.timestamp = datetimeNow
+            aggregate_results = None
+            for result in result_handles:
+                if result.update():
+                    aggregate_results = result.make_results(aggregate_results)
+
+                    if token.drop_results:
+                        # Just print out some basics for debugging purposes
+                        utils.ResultPropertyPrinter.write(source, sink, result)
+                        utils.ResultPropertyPrinter.write_flat_results(source, sink, aggregate_results)
+
+            # Only write the results when we update results successfully
+            if aggregate_results:
+                if not token.drop_results:
+                    # Copy properties from result object to result packet
+                    for key, value in aggregate_results.items():
+                        setattr(resultPacket, key, value)
+                    # Send results packet to consumer
+                    execute.ResultWriter.write(resultPacket)
+
+        execute.ResultWriter.write(
+            ResultPacket(test_id=token.test.id,
+                         resulttype=ResultPacket.ResultType.ResultSetStop))
+
+        # Figure out how long to sleep
+        td = (nextLoopTime - datetime.datetime.now())
+
+        # Convert timedelta to seconds.  (Mostly) equivalent to
+        # timedelta.total_seconds(), which was added in python 2.7
+        sleepTime = (td.microseconds +
+                     (td.seconds + td.days * 24 * 3600) * 10 ** 6) / 10.0 ** 6
+
+        if sleepTime < 0:
+            # Eek!  No time to sleep.
+            axonlogger.warn('Polling loop is behind by {0} '
+                            'seconds!'.format(sleepTime))
+        else:
+            axonlogger.debug('Next result poll occurs in {0} '
+                             'seconds'.format(sleepTime))
+            select.select([], [], [], sleepTime)
+
+    # Test is over
+    TestState().stop()
+    execute.ResultWriter.write(
+        ResultPacket(test_id=token.test.id,
+                     resulttype=ResultPacket.ResultType.TestStop))
+
+    # Perform clean up
+    # execute.TrafficManager.finalize()
+    elapsedTime = execute.SequencerManager.elapsed_time / 1000
+    failed = execute.SequencerManager.failed
+    axonlogger.info('Test completed %s in %d seconds' %
+                    ('unsuccessfully' if failed else 'successfully',
+                     elapsedTime))
+
+    if failed:
+        raise RuntimeError(execute.SequencerManager.get_stop_reason())
+
+    return token
+
+
+@AxonCelery.task(base=core.TestCenterDestroy)
+def destroy(token=None):
+    destroy._do_bll_clean_up()
+    return None
+
+
+@AxonCelery.task(base=core.TestCenterAbortableTestTask)
+def reset():
+    reset._do_bll_reset()
+    return None

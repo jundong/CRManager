@@ -1,0 +1,23 @@
+{
+  "name": "device-model",
+  "repo": "components-spirent/device-model",
+  "description": "Axon device model",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "johntron/model": "703274a10f27b50f3433a728c8c0c4fce556ee12",
+    "segmentio/model-defaults": "1.0.6",
+    "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+    "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a"
+  },
+  "local": [
+    "utility-functions"
+  ],
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "error.js"
+  ]
+}

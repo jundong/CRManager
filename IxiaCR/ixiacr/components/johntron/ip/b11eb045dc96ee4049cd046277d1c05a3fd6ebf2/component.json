@@ -1,0 +1,19 @@
+{
+  "name": "ip",
+  "description": "Tools for working with IP addresses",
+  "version": "0.0.1",
+  "keywords": [
+    "ip",
+    "address",
+    "v4",
+    "v6"
+  ],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "johntron/ip"
+}

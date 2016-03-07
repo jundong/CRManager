@@ -1,0 +1,18 @@
+{
+  "name": "underscore",
+  "description": "JavaScript's functional programming helper library.",
+  "keywords": [
+    "util",
+    "functional",
+    "server",
+    "client",
+    "browser"
+  ],
+  "main": "underscore.js",
+  "scripts": [
+    "underscore.js"
+  ],
+  "version": "1.8.2",
+  "license": "MIT",
+  "repository": "jashkenas/underscore"
+}

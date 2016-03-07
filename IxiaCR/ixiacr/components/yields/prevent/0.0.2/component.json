@@ -1,0 +1,13 @@
+{
+  "name": "prevent",
+  "description": "Cross-browser preventDefault",
+  "version": "0.0.2",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "yields/prevent"
+}

@@ -1,0 +1,34 @@
+[
+    {
+		"id": 1,
+        "name": "Welcome",
+        "content_type": 1,
+		"portlet_content": "<div class='get-started-image'><img src='images/get-started-spirent.jpg' alt='Get Started!' title='Get Started!' /></div><div class='get-started-content'><h3>Let's Get Started!</h3><p>Welcome to Axon!</p><p class='get-started-button-container'><span class='button-outer'><a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();' class='button'>RUN A TEST</a></p></div>",
+		"default_column": ".l-portlet-column",
+		"div_id_name": "welcome"
+    },
+    {
+		"id": 2,
+        "name": "Recent Results",
+        "content_type": 4,
+		"portlet_content": "recent_tests",
+		"default_column": ".l-portlet-column",
+		"div_id_name": "recent-tests-template"
+    },
+    {
+		"id": 3,
+        "name": "Favorite Tests",
+        "content_type": 4,
+		"portlet_content": "favorite_tests",
+		"default_column": ".r-portlet-column",
+		"div_id_name": "favorite-tests-template"
+    },
+    {
+        "id": 5,
+        "name": "Spirent Library",
+        "content_type": 4,
+        "portlet_content": "all_tests",
+        "default_column": ".r-portlet-column",
+        "div_id_name": "favorite-tests-template"
+    }
+]

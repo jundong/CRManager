@@ -1,0 +1,8 @@
+.player-contents .footer {
+    text-align: right;
+    color: #ddd;
+}
+
+.player-contents .footer .paginator {
+    margin: 8px;
+}

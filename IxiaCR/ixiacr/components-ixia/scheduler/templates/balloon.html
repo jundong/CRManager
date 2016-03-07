@@ -1,0 +1,23 @@
+<div class="event-balloon">
+    <a href="#" class="close-btn" data-bind="click: onClose"></a>
+    <h3 class="title" data-bind="text: title"></span>
+    </h3>
+    <div class="datetime" data-bind="text: datetime"></div>
+    <div class="status" data-bind="if: status, text: status_message, attr: {class: 'status ' + status()}"></div>
+    <div class="devices">
+        <label data-bind="text: labelDevices"></label>
+        <span data-bind="text: devices"></span>
+    </div>
+    <div class="actions">
+        <div data-bind="visible: leftButtonVisisble">
+            <a href="#" class="button dark delete-btn"
+               data-bind="text: leftLabel, click: leftButtonClick"></a>
+       </div>
+        <div data-bind="visible: rightButtonVisisble">
+            <a href="#" class="button dark edit-btn"
+               data-bind="text: rightLabel, click: rightButtonClick"></a>
+        </div>
+    </div>
+    <div class="tail-shaddow"></div>
+    <div class="tail"></div>
+</div>

@@ -1,0 +1,282 @@
+#!/local/pythonenv/bin/python
+#
+import sys
+import argparse
+import subprocess
+from operator import itemgetter
+
+import os
+import logging
+from logging.handlers import RotatingFileHandler
+
+from sqlalchemy import engine_from_config, create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from pyramid.paster import get_appsettings, setup_logging
+
+from ixiacr.scripts.initializedb import ixiacr_version
+from ixiacr.lib import IxiaLogger
+from ixiacr.handlers.utils import generate_file_object
+
+LOGGING_FILENAME = os.path.join(os.getenv('IXIACR'), 'upgrade_db.log')
+LOGGING_MAX_BYTES = 10485760
+LOGGING_MAX_FILES = 5
+
+ixiacrlogger = IxiaLogger(__name__)
+sys.path.append(os.path.join(os.getenv('IXIACR'), 'system/database_revisions/versions'))
+
+def get_revision_list():
+    '''Get a list of the current revisions to upgrade from the database
+    revisions directory.
+
+    '''
+    revision_list = []
+    filenames = generate_file_object("versions",
+                                     os.path.join(os.getenv('IXIACR'), "system/database_revisions/"))
+
+    for filename in filenames['children']:
+        # import the modules for each the revisions
+        if (type(filename) is str and
+                    not filename.startswith("__init__") and
+                    filename.endswith(".py")):
+
+            # Unapologetic python hackery for dynamic module importing.
+            module = filename.split(".")[0]
+            __import__(module)
+            module = sys.modules[module]
+
+            # Get the revision and down revision values for each module.  And
+            # make a list to give back to the upgrade function.
+            revision = getattr(module, 'revision')
+            down_revision = getattr(module, 'down_revision')
+
+            ixiacrlogger.debug('found revision=%s' % revision)
+
+            revision_list.append({'revision': revision,
+                                  'down_revision': down_revision})
+
+    return revision_list
+
+def upgrade_to_head(rev_list, id, engine=None, cmd=None, override=None):
+    '''This function takes a revision list from the files in the versions
+    dir and upgrades to the current head.
+
+    '''
+    global current_revision
+
+    number_of_upgrades = 0
+    current_upgrade = id
+    still_adding = True
+    revisions = []
+
+    try:
+        # Get the available upgrades by determining which revisions
+        # are upgrades from this one
+        while still_adding:
+            for i,rev in enumerate(rev_list):
+                still_adding = False
+                if (rev['down_revision'] == id or
+                            rev['down_revision'] == current_upgrade):
+                    number_of_upgrades += 1
+                    current_upgrade = rev['revision']
+                    revisions.append(dict({'id': number_of_upgrades,
+                                           'revision': current_upgrade}))
+                    still_adding = True
+                    rev_list.pop(i)
+                    break
+            if not rev_list:
+                break
+
+        # Sort the upgrades by the id created as we added them to our upgrade
+        # list.
+        upgrades = sorted(revisions, key=itemgetter('id'))
+
+        ixiacrlogger.info("There are {0} revisions; revisions={1}.".format(len(upgrades), upgrades))
+        if len(upgrades) == 0:
+            return False
+
+        for x in range(len(upgrades)):
+            # Set the current revision
+            current_revision = upgrades[x]['revision']
+
+            try:
+                ixiacrlogger.info("Applying revision='{0}' ({1} of {2})".format(
+                    current_revision, x+1, number_of_upgrades))
+                apply_revision(cmd, current_revision, override)
+
+                db_sess.execute("UPDATE ixiacr_version SET version = :version, build = :build, "
+                                "last_updated = NOW()", {'version': current_revision,
+                                                         'build': get_build_number()})
+
+                db_sess.commit()
+                ixiacrlogger.info("Revision is now: %s" % current_revision)
+
+            except Exception as e:
+                ixiacrlogger.exception("Excepted: upgrade_to_head: {0}".format(str(e)))
+                print "Excepted: upgrade_to_head: {0}".format(str(e))
+                sys.exit(1)
+
+        return True
+
+    except Exception, e:
+        ixiacrlogger.exception("Excepted: In upgrade_to_head.main: %s" % e)
+        print "Exception: {0}".format(e)
+        return False
+
+def apply_revision(cmd, revision, override):
+    from subprocess import Popen, PIPE, STDOUT
+    args = [os.path.join(os.getenv('VENV'), 'bin/python'), os.path.join(os.getenv('IXIACR'), 'system/database_revisions/apply_revision.py'), cmd, revision]
+    if override:
+        args.append(override)
+
+    p = Popen(tuple(args), stdout=PIPE, stderr=STDOUT)
+    stdout = p.communicate()[0]
+
+    lines = stdout.splitlines()
+    for line in lines:
+        ixiacrlogger.debug('-- %s' % line)
+
+    if p.returncode:
+        raise Exception('Failed executing: %s' % args[0])
+
+
+def check_version(cmd, version):
+    ''' Check to see if the specified version is known by the current version of CyberRange.
+
+        :param cmd: environment settings (production or development.ini)
+        :param version: string version to check against known versions
+        :return: True if version known
+    '''
+
+    global db_sess
+
+    config_uri = cmd
+    setup_logging(config_uri)
+    settings = get_appsettings(config_uri)
+
+    engine = engine_from_config(settings, 'sqlalchemy.')
+    db_sess = scoped_session(sessionmaker())
+    db_sess.configure(bind=engine)
+
+    rev_list = get_revision_list()
+
+    for rev in rev_list:
+        if version == rev['revision']:
+            return True
+
+    return False
+
+def get_build_number():
+    return "1.00.0000"
+
+
+def upgrade(cmd, override=None):
+    '''This upgrade the database schema to the current revision.
+
+    '''
+    global db_sess
+
+    config_uri = cmd
+    settings = get_appsettings(config_uri)
+
+    if not override:
+        engine = engine_from_config(settings, 'sqlalchemy.')
+    else:
+        msg = 'Using SQL engine override: %s' % override
+        print msg
+        ixiacrlogger.debug(msg)
+
+        engine = create_engine(override)
+
+    db_sess = scoped_session(sessionmaker())
+    db_sess.configure(bind=engine)
+
+    logging.getLogger().setLevel(logging.DEBUG)
+
+    try:
+        try:
+            rev = db_sess.execute("SELECT version FROM ixiacr_version").fetchone()
+            # Should have failed by now, but just in case
+            if not rev:
+                raise Exception("No revision!")
+        except Exception as e: # Only way to get here is a new/fresh DB
+            ixiacrlogger.exception("Excepted: In upgrade.main: %s" % e)
+            db_sess.close()
+            sp = subprocess.Popen([os.path.join(os.getenv('VENV'), 'bin/initialize_CyberRange_db '),
+                                   os.path.join(os.getenv('IXIACR'), 'development.ini')],
+                                  shell=True, stdout=subprocess.PIPE)
+            sp.communicate()
+            sys.exit(1)
+
+        rev_list = get_revision_list()
+        rev_id = rev.version if rev is not None else None
+
+        msg = "Current DB revision={0}; build={1}".format(rev.version, get_build_number())
+        ixiacrlogger.info(msg)
+
+        if (rev_id == 'f014860b8849' or
+                    rev_id == '1'):
+            rev_id = 'a9316f0b365b'
+
+        if upgrade_to_head(rev_list, rev_id, engine, cmd, override):
+
+            # Determine what version is current in the database
+            db_version = None
+            try:
+                rev = db_sess.execute("SELECT version FROM ixiacr_version").fetchone()
+                db_version = rev.version
+            except:
+                pass
+
+            if ixiacr_version == db_version:
+                ixiacrlogger.info("Successfully upgraded to: %s" % ixiacr_version)
+            else:
+                ixiacrlogger.warn("Finished upgrading; version mismatch; db_version={0}; ixiacr_version={1}".format(
+                    db_version, ixiacr_version))
+
+        db_sess.close()
+
+    except Exception, e:
+        ixiacrlogger.exception("Excepted: In upgrade getting version: %s" % e)
+        print ("Exception: {0}".format(e))
+
+def setup_upgrade_logging():
+    """ Configure the root logger for logging to a backup log file.
+    """
+    try:
+        rootLogger = logging.getLogger()
+        rootLogger.setLevel(logging.DEBUG)
+        fh = RotatingFileHandler(LOGGING_FILENAME, maxBytes=LOGGING_MAX_BYTES, backupCount=LOGGING_MAX_FILES)
+        fh.setFormatter(logging.Formatter('[%(asctime)s %(levelname)s %(name)s - %(threadName)s] %(message)s'))
+        rootLogger.addHandler(fh)
+    except:
+        pass
+
+if __name__ == "__main__":
+
+    try:
+        parser = argparse.ArgumentParser(description='CyberRange Database Upgrade')
+        parser.add_argument('cmd', help='config_uri; for example: development.ini')
+        parser.add_argument('-e', '--engine', required=False, help='sql alchemy engine override')
+        parser.add_argument('-c', '--check-version', required=False, help='check to see if version is known without upgrading db')
+
+        setup_upgrade_logging()
+
+        args = parser.parse_args()
+
+        if not args.check_version:
+            upgrade(args.cmd, args.engine)
+
+        else:
+            found = check_version(args.cmd, args.check_version)
+            if found:
+                print "Version '%s' found in current revision list." % args.check_version
+                sys.exit(0)
+            else:
+                print "Version '%s' NOT found in current revision list." % args.check_version
+                sys.exit(1)
+
+    except Exception, e:
+        ixiacrlogger.exception(e)
+        print "Excepted upgrading db: %s" % e
+        sys.exit(1)
+

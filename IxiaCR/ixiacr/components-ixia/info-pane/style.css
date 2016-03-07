@@ -1,0 +1,35 @@
+.info-pane {
+    transition: max-height 2s;
+    background-color: #1F99C6;
+    color: #EEE;
+    font-family: "open sans light", arial, sans-serif;
+    max-height: 500px;
+    overflow: hidden;
+}
+
+.info-pane.collapsed {
+    max-height: 0;
+}
+
+
+.info-pane .message {
+    width: 1024px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0.5em 14px;
+    box-sizing: border-box;
+    font-size: 14px;
+    padding-left: 35px;
+}
+
+.info-pane .message a {
+    color: #EEE;
+}
+
+.info-pane .running,
+.info-pane .reserved {
+    background-image: url(/images/play-white.png);
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: left 14px center;
+}

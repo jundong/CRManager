@@ -1,0 +1,33 @@
+<div class="recorder single-pane edit">
+    <div><input type="text" class="title" /></div>
+    <div>
+        <div class="body">
+            <ul>
+                <li>
+                    <label>Select a port</label>
+                    <div class="selector"></div>
+                </li>
+                <li class="stop-criteria"><label>Stop after (whichever comes first)</label>
+                    <ul>
+                        <li class="time-in-secs"><label><input type="checkbox" /> Seconds</label> <input type="text" /></li>
+                        <li class="stop-at-bytes"><label><input type="checkbox" disabled /> Bytes</label> <input type="text" />(required)</li>
+                        <li class="packet-count"><label><input type="checkbox" /> Packets</label> <input type="text" /></li>
+                    </ul>
+                </li>
+                <li class="filter"><label class="for-input">Capture filter</label> <input type="text" class="with-label" /> <span  class="show">Presets</span></li>
+                <li class="truncate-packets"><label><input type="checkbox" /> Truncate packets at</label> <input type="text"/> bytes</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer">
+        <ul class="padding">
+            <li class="action">
+                <a class="delete" href="#">Delete</a>
+            </li><li>
+            </li><li>
+            </li><li>
+                <button class="toggle button dark save"><span>Save</span></button>
+            </li>
+        </ul>
+    </div>
+</div>

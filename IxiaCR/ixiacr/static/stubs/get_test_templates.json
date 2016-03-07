@@ -1,0 +1,338 @@
+[
+    {
+        "engine":"STCTest",
+        "datapoint_ids":[],
+        "description":"This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities between sites on your IPv4 or IPv6 network. Typically, the traffic is stepped up until the maximum traffic that you have set is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video packets. Voice and video quality measures are also reported.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "is_user_save":false,
+        "module":"axon.testcases.spirent.qos_site_to_site",
+        "id":1,
+        "diagram":{
+            "traffic_type_display_name":"QoS",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Quality of Service",
+            "traffic_type":"qos"
+        },
+        "playlist_ids":[1],
+        "is_template":true,
+        "supplemental_configuration":{
+            "playlist_settings":[
+                {
+                    "layers":[3],
+                    "fields":[
+                        {
+                            "type":"select",
+                            "options":[
+                                {
+                                    "value":0,
+                                    "key":"0 - Best Effort"
+                                },
+                                {
+                                    "value":10,
+                                    "key":"10 - AF11"
+                                },
+                                {
+                                    "value":12,
+                                    "key":"12 - AF12"
+                                },
+                                {
+                                    "value":13,
+                                    "key":"14 - AF13"
+                                },
+                                {
+                                    "value":18,
+                                    "key":"18 - AF21"
+                                },
+                                {
+                                    "value":20,
+                                    "key":"20 - AF22"
+                                },
+                                {
+                                    "value":22,
+                                    "key":"22 - AF23"
+                                },
+                                {
+                                    "value":26,
+                                    "key":"26 - AF31"
+                                },
+                                {
+                                    "value":28,
+                                    "key":"28 - AF32"
+                                },
+                                {
+                                    "value":30,
+                                    "key":"30 - AF33"
+                                },
+                                {
+                                    "value":34,
+                                    "key":"34 - AF41"
+                                },
+                                {
+                                    "value":36,
+                                    "key":"36 - AF42"
+                                },
+                                {
+                                    "value":38,
+                                    "key":"38 - AF43"
+                                }
+                            ],
+                            "label":"DSCP"
+                        }
+                    ],
+                    "title":"QoS Settings"
+                }
+            ]
+        },
+        "result_types":[],
+        "categories":["Network Infrastructure Test", "Network Device Test"],
+        "name":"QoS Site to Site"
+    },
+    {
+        "engine":"STCTest",
+        "datapoint_ids":[],
+        "description":"This test measures the QoS performance for voice, video, and HTTP packets each defined using different DSCP priorities from one side of a device to the other. The QoS performance test oversubscribes traffic by setting the traffic to 150% of normal using two transmit ports and one receive port. Typically, the traffic is stepped up until the maximum traffic level is reached. QoS performance is defined by how much voice and video quality degrades as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video traffic. Voice and video quality measures are also reported.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "is_user_save":false,
+        "module":"axon.testcases.spirent.device_qos",
+        "id":2,
+        "diagram":{
+            "traffic_type_display_name":"QoS",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Quality of Service",
+            "traffic_type":"qos"
+        },
+        "playlist_ids":[1],
+        "is_template":true,
+        "supplemental_configuration":{
+            "playlist_settings":[
+                {
+                    "layers":[3],
+                    "fields":[
+                        {
+                            "type":"select",
+                            "options":[
+                                {
+                                    "value":0,
+                                    "key":"0 - Best Effort"
+                                },
+                                {
+                                    "value":10,
+                                    "key":"10 - AF11"
+                                },
+                                {
+                                    "value":12,
+                                    "key":"12 - AF12"
+                                },
+                                {
+                                    "value":13,
+                                    "key":"14 - AF13"
+                                },
+                                {
+                                    "value":18,
+                                    "key":"18 - AF21"
+                                },
+                                {
+                                    "value":20,
+                                    "key":"20 - AF22"
+                                },
+                                {
+                                    "value":22,
+                                    "key":"22 - AF23"
+                                },
+                                {
+                                    "value":26,
+                                    "key":"26 - AF31"
+                                },
+                                {
+                                    "value":28,
+                                    "key":"28 - AF32"
+                                },
+                                {
+                                    "value":30,
+                                    "key":"30 - AF33"
+                                },
+                                {
+                                    "value":34,
+                                    "key":"34 - AF41"
+                                },
+                                {
+                                    "value":36,
+                                    "key":"36 - AF42"
+                                },
+                                {
+                                    "value":38,
+                                    "key":"38 - AF43"
+                                }
+                            ],
+                            "label":"DSCP"
+                        }
+                    ],
+                    "title":"QoS Settings"
+                }
+            ]
+        },
+        "result_types":[],
+        "categories":["Network Infrastructure Test"],
+        "name":"Device QoS Test"
+    },
+    {
+        "engine":"STCTest",
+        "datapoint_ids":[],
+        "description":"This test measures the end to end performance and connectivity of your IPv4 or IPv6 network infrastructure at Layer 2 and Layer 3, using the guidelines of well-established standards. This test is designed to transmit traffic of various sizes from one test port to another test port within your data center, when you define the amount of traffic you want to send and duration of the test. Network performance is defined by the maximum bandwidth, where no packet loss occurs, and the corresponding latency and jitter measurements, such that any loss indicates a failed test.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "is_user_save":false,
+        "module":"axon.testcases.spirent.network_performance_modeling",
+        "id":3,
+        "diagram":{
+            "traffic_type_display_name":"Packet",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Performance Test",
+            "traffic_type":"packet"
+        },
+        "playlist_ids":[1],
+        "is_template":true,
+        "supplemental_configuration":null,
+        "result_types":[],
+        "categories":["Network Infrastructure Test", "Network Device Test"],
+        "name":"Network Performance Modeling"
+    },
+    {
+        "engine":"STCTest",
+        "datapoint_ids":[],
+        "description":"This test measures the end to end performance and connectivity of your IPv4 or IPv6 network infrastructure at layer 4-7. The test generates HTTP traffic based on the number of users you specify. Application performance is defined by the maximum bandwidth possible before there are any unsuccessful transactions. The highest possible bandwidth, the average HTTP response time, the number of successful TCP connections per second,  and the number of successful HTTP transactions are also reported.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "is_user_save":false,
+        "module":"axon.testcases.spirent.application_performance_modeling",
+        "id":4,
+        "diagram":{
+            "traffic_type_display_name":"App",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Application Performance",
+            "traffic_type":"app"
+        },
+        "playlist_ids":[3],
+        "is_template":true,
+        "supplemental_configuration":null,
+        "result_types":[],
+        "categories":["Applications Test"],
+        "name":"Application Performance Modeling (HTTP)"
+    },
+    {
+        "engine":"STCTest",
+        "datapoint_ids":[],
+        "description":"This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities across your IPv4 or IPv6 network. The QoS performance test oversubscribes traffic by setting the traffic to 150% of normal using two transmit ports and one receive port. Typically, the traffic is stepped up until the maximum traffic level is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video traffic. Voice and video quality measures including, MOS-LQ, MOS-V and MOS-A, are also reported.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "is_user_save":false,
+        "module":"axon.testcases.spirent.network_qos_performance",
+        "id":5,
+        "diagram":{
+            "traffic_type_display_name":"QoS",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Quality of Service",
+            "traffic_type":"qos"
+        },
+        "playlist_ids":[1],
+        "is_template":true,
+        "supplemental_configuration":{
+            "playlist_settings":[
+                {
+                    "layers":[3],
+                    "fields":[
+                        {
+                            "type":"select",
+                            "options":[
+                                {
+                                    "value":0,
+                                    "key":"0 - Best Effort"
+                                },
+                                {
+                                    "value":10,
+                                    "key":"10 - AF11"
+                                },
+                                {
+                                    "value":12,
+                                    "key":"12 - AF12"
+                                },
+                                {
+                                    "value":13,
+                                    "key":"14 - AF13"
+                                },
+                                {
+                                    "value":18,
+                                    "key":"18 - AF21"
+                                },
+                                {
+                                    "value":20,
+                                    "key":"20 - AF22"
+                                },
+                                {
+                                    "value":22,
+                                    "key":"22 - AF23"
+                                },
+                                {
+                                    "value":26,
+                                    "key":"26 - AF31"
+                                },
+                                {
+                                    "value":28,
+                                    "key":"28 - AF32"
+                                },
+                                {
+                                    "value":30,
+                                    "key":"30 - AF33"
+                                },
+                                {
+                                    "value":34,
+                                    "key":"34 - AF41"
+                                },
+                                {
+                                    "value":36,
+                                    "key":"36 - AF42"
+                                },
+                                {
+                                    "value":38,
+                                    "key":"38 - AF43"
+                                }
+                            ],
+                            "label":"DSCP"
+                        }
+                    ],
+                    "title":"QoS Settings"
+                }
+            ]
+        },
+        "result_types":[],
+        "categories":["Network Infrastructure Test"],
+        "name":"Network QoS Performance"
+    }
+]

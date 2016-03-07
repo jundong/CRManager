@@ -1,0 +1,236 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Returns structured system data such as chassis id, rpm versions, etc.
+
+=head1 INPUT JSON
+
+  {
+  
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { 
+    "available_firmware": [
+      "4.15"
+    ],
+    "chassis_install_time": 1360871945,
+    "ipv4": {
+      "ether": "00:22:4d:88:fb:06",
+      "ip": "192.168.125.40",
+      "gateway": "192.168.125.254",
+      "netmask": "255.255.255.0"
+    },
+    "chassis_id": "VDH=7-35B603C4",
+    "hostname": "none",
+    "build": "757",
+    "uptime": 11621,
+    "rpms": [
+      "spirent-axon-media-1.0-7.noarch",
+      "spirent-axon-pythonenv-1.0-22.noarch",
+      "spirent-testcenter4.15-1396-125.i686",
+      "spirent-testcenter4.15-firmware-1396-125.i686",
+      "spirent-testcenter4.15-python-1396-125.i686",
+      "spirent-axon-admin-1.0.1361039134-757.noarch",
+      "spirent-axon-common-1.0.1361039134-757.noarch",
+      "spirent-axon-cron-1.0.1361039134-757.noarch",
+      "spirent-axon-frontend-1.0.1361039134-757.noarch",
+      "spirent-axon-supervisor-1.0.1361039134-757.noarch",
+      "spirent-axon-web-1.0.1361039134-757.noarch",
+      "spirent-axon-yum-axonupdates-1.0.1361039134-757.noarch",
+      "spirent-axon-yum-internal-1.0.1361039134-757.noarch"
+    ]
+    ... a bunch more attributes ...
+  } 
+ }
+
+=head1 NOTES
+
+Above output is not current, check the code/actual output for latest attributes.
+
+=cut
+
+# Using directly here, so need the module
+use JSON;
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&silence_json_trace();
+&init( install_safe => 0 );
+
+&detail("retrieving system data");
+
+alarm(60);
+
+my %data = ();
+my $line;
+my $in;
+my $tmpjson;
+
+# This needs reviewed in future for validity with multi branches/etc
+&detail("fetching build number");
+open( my $in_buildnum, "/build-info/build-number-axon-common" );
+chomp( $line = <$in_buildnum> );
+close($in_buildnum);
+
+if ($line) {
+    $data{build} = int($line);
+}
+
+$trace && print STDERR "fetching uptime\n";
+open( my $in, "/proc/uptime" );
+chomp( $line = <$in> );
+close($in);
+if ( $line =~ /^\s*([\d\.]+)\s+/o ) {
+    $data{uptime} = int($1);
+}
+
+$trace && print STDERR "fetching rpm list\n";
+my $in = &open_cmd_merge( "/usr/bin/sudo", "/bin/rpm", "-q", "-a" );
+my @pkgs = ();
+while ( defined( $line = <$in> ) ) {
+    next if ( $line !~ /^spirent-/o );
+    chomp($line);
+    push( @pkgs, $line );
+}
+$data{rpms} = [ sort @pkgs ];
+close($in);
+
+$data{timestamp} = time;
+
+&detail("fetching stc serial");
+$data{chassis_id} = &get_chassis_id();
+
+&detail("fetching install timestamp");
+my $in = &open_cmd_merge(
+    "/usr/bin/ssh",
+    "-F" => "/local/admin/files/ssh_config",
+    "hypervisor", "/bin/stat",
+    "-c" => "%Z",
+    "/root/post_install.log"
+);
+chomp( $line = <$in> );
+$data{chassis_install_time} = int($line);
+close($in);
+
+&detail("fetching serial number");
+my $in = &open_cmd_merge(
+    "/usr/bin/ssh",
+    "-F" => "/local/admin/files/ssh_config",
+    "hypervisor", "/usr/sbin/dmidecode", "-s", "baseboard-serial-number"
+);
+chomp( $line = <$in> );
+$data{chassis_serial_number} = $line;
+close($in);
+
+&detail("fetching chassis build info");
+my $in = &open_cmd_merge(
+    "/usr/bin/ssh",
+    "-F" => "/local/admin/files/ssh_config",
+    "hypervisor", "/bin/cat", "/chassis-build-info.txt"
+);
+while ( defined( $line = <$in> ) ) {
+    chomp($line);
+    if ( $line =~ /^(.*BUILD.*)=(.*)/o ) {
+        $data{chassis_build_info}->{$1} = $2;
+    }
+}
+close($in);
+
+&detail("fetching meminfo from chassis");
+my $in = &open_cmd_merge(
+    "/usr/bin/ssh",
+    "-F" => "/local/admin/files/ssh_config",
+    "hypervisor", "/bin/cat", "/proc/meminfo"
+);
+while ( defined( $line = <$in> ) ) {
+    chomp($line);
+    if ( $line =~ /^MemTotal\s*:\s*(\d+)\s*kB/o ) {
+        $data{chassis_memory} = $1;
+    }
+}
+close($in);
+
+&detail("fetching cpuinfo from chassis");
+my $in = &open_cmd_merge(
+    "/usr/bin/ssh",
+    "-F" => "/local/admin/files/ssh_config",
+    "hypervisor", "/bin/cat", "/proc/cpuinfo"
+);
+while ( defined( $line = <$in> ) ) {
+    chomp($line);
+    if ( $line =~ /^model name\s*:\s*(.*?)\s*$/o ) {
+        $data{chassis_cpu} = $1;
+    }
+}
+close($in);
+
+&detail("fetching pci info");
+my $in = &open_cmd_merge( "/usr/bin/ssh", "-F" => "/local/admin/files/ssh_config", "hypervisor", "/sbin/lspci", "-nn" );
+my @lspci;
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+
+    # 07:00.0 USB Controller [0c03]: NEC Corporation uPD720200 USB 3.0 Host Controller [1033:0194] (rev 03)
+    # 03:00.0 Memory controller [0580]: Device [174a:0901]
+    if ( $line =~ /^(..:..\..) (.*?) \[(.*?)\]: (.*?) \[(....:....)\] \(rev (.*)\)/o ) {
+        push(
+            @lspci,
+            {   slot        => $1,
+                type        => $2,
+                typecode    => $3,
+                description => $4,
+                id          => $5,
+                rev         => $6
+            }
+        );
+    }
+    elsif ( $line =~ /^(..:..\..) (.*?) \[(.*?)\]: (.*?) \[(....:....)\]/o ) {
+        push(
+            @lspci,
+            {   slot        => $1,
+                type        => $2,
+                typecode    => $3,
+                description => $4,
+                id          => $5,
+            }
+        );
+    }
+    else {
+        push( @lspci, raw => $line );
+    }
+}
+$data{chassis_lspci} = \@lspci;
+close($in);
+
+#
+# Populate data from a series of helpers
+#
+foreach my $helper (
+    qw(get-network-status get-network-config get-hardware-info get-hardware-allocation
+    get-axon-license-status get-chassis-build get-chassis-id get-chassis-smart-data get-dns-config
+    get-flowmon-license-status get-ntp-config get-stc-bll get-stc-firmware get-disk-info)
+    )
+{
+    my $subinfo = &run_helper( ["/local/admin/$helper"], {} );
+    if ( $subinfo && $subinfo->{object} ) {
+        $data{helpers}->{$helper} = $subinfo->{object};
+    }
+    else {
+        $data{helpers}->{$helper} = {};
+    }
+}
+
+# Fill in some info to match old field structure
+eval { $data{hostname} = $data{helpers}->{"get-network-status"}->{hostname}; };
+
+$res->{result} = "SUCCESS";
+$res->{object} = \%data;
+
+&finish();

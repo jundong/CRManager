@@ -1,0 +1,88 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Retrieve the current network config.
+
+=head1 INPUT JSON
+
+  {
+  
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { 
+     "hostname": "...",
+       "ipv4": {
+         "mode": "static|dhcp",
+         "address": "",
+         "netmask": "...",
+         "gateway": "...."
+       },
+       "ipv6": {
+         "mode": ""
+       } 
+    } 
+ }
+
+=head1 NOTES
+
+No ipv6 data returned at this time, to be investigated later after manual configuration and validation of supporting network infrastructure.
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init();
+
+my ( $in, $hn, $gw );
+
+$in = &open_cmd_hide( "/usr/bin/ssh", "-F", "/local/admin/files/ssh_config",
+    "hypervisor", "cat", "/etc/sysconfig/network" );
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    if ( $line =~ /^HOSTNAME=(.*?)$/sgmo ) {
+        $hn = &strip($1);
+    }
+    elsif ( $line =~ /^GATEWAY=(.*?)$/sgmo ) {
+        $gw = &strip($1);
+    }
+}
+close($in);
+
+my ( $mode, $addr, $netmask );
+$in = &open_cmd_hide( "/usr/bin/ssh", "-F", "/local/admin/files/ssh_config",
+    "hypervisor", "cat", "/etc/sysconfig/network-scripts/ifcfg-em1" );
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    if ( $line =~ /^BOOTPROTO=(.*?)$/sgmo ) {
+        my $bp = &strip($1);
+        if ( $bp eq "dhcp" ) {
+            $mode = "dhcp";
+        }
+        else {
+            $mode = "static";
+        }
+    }
+    elsif ( $line =~ /^IPADDR=(.*?)$/sgmo ) {
+        $addr = &strip($1);
+    }
+    elsif ( $line =~ /^GATEWAY=(.*?)$/sgmo ) {
+        $gateway = &strip($1);
+    }
+    elsif ( $line =~ /^NETMASK=(.*?)$/sgmo ) {
+        $netmask = &strip($1);
+    }
+}
+close($in);
+
+$res->{result} = "SUCCESS";
+$res->{object}
+    = { "hostname" => $hn, ipv4 => { mode => $mode, address => $addr, netmask => $netmask, gateway => $gw } };
+
+&finish();

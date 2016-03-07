@@ -1,0 +1,46 @@
+.info-pane .diskfull {
+    background-image: url(/images/disk-white.png);
+    background-repeat: no-repeat;
+    background-size: 1em;
+    background-position: left 14px center;
+}
+
+.administration .nav .disk:before {
+    content: url(/images/disk-white.png);
+    position: absolute;
+    top: 14px;
+    left: 12px;
+}
+
+.disk .updating {
+    display: inline-block;
+    background-image: url(/images/loading.gif);
+    width: 15px;
+    height: 15px;
+}
+
+.disk li {
+    line-height: 2em;
+    min-height: 0 !important; /* awesone... */
+}
+
+.disk .visualization {
+    height: 2em;
+    margin-bottom: 1em;
+}
+
+.disk .visualization > div {
+    float: left;
+    height: 2em;
+}
+
+.disk .legend {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.1em;
+}
+
+.disk li:last-child {
+    min-height: auto;
+}

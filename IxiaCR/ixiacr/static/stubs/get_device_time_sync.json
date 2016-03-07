@@ -1,0 +1,25 @@
+{
+	"messages" : [
+		{
+			"header" : "Success",
+			"is_error" : false
+		}
+	],
+	"data" : [ 
+		{
+			"device_id" : 1, 
+			"has_time_sync_capability" : true, 
+			"resolution" : 2.990224724635482
+		}, 
+		{
+			"device_id" : 2, 
+			"has_time_sync_capability" : false, 
+			"resolution" : null
+		},
+		{
+			"device_id" : 3, 
+			"has_time_sync_capability" : true, 
+			"resolution" : 2.990224724635482
+		} 
+	]
+}

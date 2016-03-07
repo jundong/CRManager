@@ -1,0 +1,37 @@
+<div class="device transmit-receive-container box">
+    <ul class="transmit-receive">
+        <li class="device-header">
+            <h1 class="tx-rx-label" data-bind="text: label"></h1>
+        </li>
+        <li class="device-container">
+            <div class="aluminum-select">
+                <span data-bind="text: deviceName"></span>
+                <select data-bind="options: rootVm.availableDevices, value: device, optionsText: 'name'"></select>
+            </div>
+        </li>
+
+        <li class="timing">
+            <p data-bind="attr: { 'class' : 'sync ' + device().timeSyncClass() }, text: device().displayTimeSyncResolution"></p>
+        </li>
+
+        <li class="port-container">
+            <span data-bind="visible: device().updating_port_status" class="loading">Checking port status ...</span>
+            <ul data-bind="foreach: device().ports()" class="ports">
+                <li class="port-and-status">
+                    <div class="port-status" data-bind="attr: { 'data-title': portLightTooltips }, tooltip: portLightTooltips">
+                        <span class="tooltip" style="display: none;" data-bind="text: portLightTooltips"></span>
+                        <div data-bind="attr: { 'class': portLight1StatusClass }"></div>
+                        <div data-bind="attr: { 'class': portLight2StatusClass }"></div>
+                    </div>
+                    <div data-bind="visible: $parent.isPortSelected(id())" class="selected-port"></div>
+
+                    <div data-bind="visible: $parent.isPortAvailable($data), click: function(data, event) { $parent.selectPort(id()); }" class="available-port"></div>
+
+                    <div data-bind="visible: $parent.isPortUnavailable($data), attr: {'class': allocated_to}, css: {'unavailable-port': true}" class="unavailable-port"></div>
+                </li>
+            </ul>
+            <div class="clear"></div>
+        </li>
+        <li class="endpoint-container" data-bind="visible: showEndpointConfiguration"></li>
+    </ul>
+</div>

@@ -1,0 +1,20 @@
+{
+  "name": "is-hsl-color",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "Loosely check whether a string is an HSL(A) color string.",
+  "keywords": [
+    "validate",
+    "hsl",
+    "color"
+  ],
+  "development": {
+    "dependencies": {
+      "component/assert": "*"
+    }
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "segmentio/is-hsl-color"
+}

@@ -1,0 +1,44 @@
+.test .multicast .destination {
+    float: right;
+}
+
+.test .multicast .devices {
+    display: block;
+}
+
+.multicast .device-collection .delete-button {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 10px;
+    display: inline-block;
+
+}
+.delete-button:before {
+    content: url(/images/delete_link.png);
+    margin-right: 0.6em;
+    vertical-align: -2px;
+}
+
+.multicast .device-collection .add-button {
+    display: block;
+    width: 284px;
+    margin-top: 16px;
+    clear: both;
+}
+
+.multicast .device-collection .add-button[disabled] {
+    padding: 12px 15px;
+    border: solid 1px #C2C2C2;
+    box-shadow: 0 1px 0 0 #F5F5F5;
+    text-decoration: none;
+    background-color: #D5D5D5;
+    background: #F2F2F2;
+    background: -moz-linear-gradient(top, #f2f2f2 0%, #dadada 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #F2F2F2), color-stop(100%, #DADADA));
+    background: -webkit-linear-gradient(top, #F2F2F2 0%, #DADADA 100%);
+    background: -o-linear-gradient(top, #f2f2f2 0%, #dadada 100%);
+    background: -ms-linear-gradient(top, #f2f2f2 0%, #dadada 100%);
+    background: linear-gradient(to bottom, #F2F2F2 0%, #DADADA 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f2f2f2', endColorstr='#dadada', GradientType=0);
+    text-shadow: none;
+}

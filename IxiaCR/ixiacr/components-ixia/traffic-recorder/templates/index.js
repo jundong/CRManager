@@ -1,0 +1,1 @@
+module.exports = '<div class="traffic-recorder">\n    <div class="recorders container"></div>\n    <div>\n        <button class="add"><span>+ Add new traffic recorder</span></button>\n    </div>\n</div>';

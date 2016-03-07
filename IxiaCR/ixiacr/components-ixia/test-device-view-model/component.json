@@ -1,0 +1,16 @@
+{
+  "name": "test-device-view-model",
+  "repo": "components-spirent/test-device-view-model",
+  "description": "View model for devices",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+      "johntron/is-host": "9f441b6f34440e715b31f06157611292e67565a5"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

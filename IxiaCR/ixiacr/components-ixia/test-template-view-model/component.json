@@ -1,0 +1,17 @@
+{
+    "name": "test-template-view-model",
+    "repo": "components-spirent/test-template-view-model",
+    "description": "Manages data for (library) test templates",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {},
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js"
+    ],
+    "local": [
+        "multicast-settings"
+    ]
+}

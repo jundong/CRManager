@@ -1,0 +1,14 @@
+{
+  "name": "form-validation",
+  "repo": "components-spirent/form-validation",
+  "description": "Form validation",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "scripts": [],
+  "styles": [
+    "form-validation.css"
+  ]
+}

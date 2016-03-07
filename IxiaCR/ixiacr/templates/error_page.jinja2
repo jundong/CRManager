@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% trans %}Spirent Axon - Page Not Found{% endtrans %}</title>
+		<link rel="stylesheet" type="text/css" href="https://{{url}}/css/error.css" media="all"/>
+        <!--[if lte IE 9]>
+        <link rel="stylesheet" type="text/css" href="https://{{url}}/css/login-ie.css" media="all"/>
+        <!-- <![endif] -->
+	</head>
+	<body id="http-error">
+		<div class="logo">
+ 	       <img src="images/spirent_axon_logo_black_large.png"/>
+		</div>
+		<div class="box">
+			<h1>
+				<div class="error-label">{% trans %}error:{% endtrans %}</div>
+				<span class="error-code">{{code}}</span>
+				<span class="error-type">{{title}}</span>
+			</h1>
+			<p>
+				{{message}}
+			</p>
+			<span class="button-outer login-button">
+				<a class="button" href="https://{{url}}">{% trans %}Return to home page{% endtrans %}</a>
+			</span>
+		</div>
+    </body>
+</html>

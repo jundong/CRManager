@@ -1,0 +1,30 @@
+{
+  "name": "sinon",
+  "description": "JavaScript test spies, stubs and mocks.",
+  "version": "1.7.3",
+  "homepage": "http://cjohansen.no/sinon/",
+  "author": "Christian Johansen",
+  "main": "lib/sinon.js",
+  "scripts": [
+    "lib/sinon.js",
+    "lib/sinon/spy.js",
+    "lib/sinon/call.js",
+    "lib/sinon/stub.js",
+    "lib/sinon/mock.js",
+    "lib/sinon/collection.js",
+    "lib/sinon/assert.js",
+    "lib/sinon/sandbox.js",
+    "lib/sinon/test.js",
+    "lib/sinon/test_case.js",
+    "lib/sinon/assert.js",
+    "lib/sinon/match.js",
+    "lib/sinon/util/event.js",
+    "lib/sinon/util/fake_server.js",
+    "lib/sinon/util/fake_server_with_clock.js",
+    "lib/sinon/util/fake_timers.js",
+    "lib/sinon/util/fake_xml_http_request.js",
+    "lib/sinon/util/timers_ie.js",
+    "lib/sinon/util/xhr_ie.js"
+  ],
+  "repository": "http://github.com/cjohansen/Sinon.JS.git"
+}

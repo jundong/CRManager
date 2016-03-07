@@ -1,0 +1,1 @@
+module.exports = '<ul>\n    <li><h2>Last capture</h2></li>\n    <li class="none">No completed captures</li>\n    <li class="started"></li>\n    <li class="duration"></li>\n    <li class="size"></li>\n    <li class="packets"></li>\n    <li class="download"><a href="#">Download</a></li>\n</ul>';

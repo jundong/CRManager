@@ -1,0 +1,517 @@
+import cPickle
+import StringIO
+import csv
+import re
+
+import time
+from json import loads
+
+from collections import defaultdict
+from pyramid.httpexceptions import HTTPNotFound
+from pyramid.i18n import get_localizer, TranslationStringFactory
+
+from axon.models import *
+from axon.views.utils import ResultUtils
+from axon.lib.utils import admin_helper
+from axon.lib import axon_logger
+from itertools import izip_longest
+from sqlalchemy.sql import func, and_
+from axon.testcases.endpoints import EndpointReaderFactory
+from axon.views.utils import get_dscp
+
+axonlogger = axon_logger.AxonLogger(__name__)
+
+_ = TranslationStringFactory('messages')
+
+
+def view_includes(config):
+    config.add_route('printable_results', '/print')
+    config.add_view(printable_results, route_name='printable_results',
+                    renderer='test_results/results.jinja2')
+    config.add_route('downloadable_results', '/csv')
+    config.add_view(downloadable_results, route_name='downloadable_results')
+
+def get_local_host_ip():
+    (result, obj, err) = admin_helper('get-network-status', {})
+    network_status = obj
+    if result != 'SUCCESS':
+        address = '169.254.0.3'
+    else:
+        address = network_status['ipv4']['address']
+    return address
+
+def render_results_as_csv(value, localizer):
+    fout = StringIO.StringIO()
+    writer = csv.writer(fout, dialect='excel')
+    local_host_ip = get_local_host_ip()
+
+    def write_row(row):
+        writer.writerow([v.encode('utf-8') for v in row])
+
+    # Header information block
+    write_row(['AxonCore Name:', value.get('device_name', 'Local Chassis')])
+    write_row(['Test Date:', value['test_date']])
+    write_row(['Test Name:', value['test'].name])
+    write_row(['AxonCore Build Number:', unicode(value['build_number'])])
+
+    def write_results(track_row):
+        for idx, result in enumerate(value['results']):
+            if result['name'] != 'Port Summary' and idx+1 == result['id'] if 'id' in result else True:
+                for track_result in result['tracks']:
+                    if track['name'] == track_result['name']:
+                        for cell in track_result['cells']:
+                            result_row = track_row + \
+                                [cell['name'], cell['data_type'], cell['value']]
+
+                            # Using external host ip to replace the internal one
+                            if 'Local Chassis' in result_row:                                
+                                index = result_row.index('169.254.0.3')
+                                result_row[index] = local_host_ip
+
+                            write_row([unicode(x) for x in result_row])
+
+    def get_endpoint_info(source_type):
+        if source_type == 'TX':
+            endpoint_type = 'source'
+        else:
+            endpoint_type = 'destination'
+
+        endpoint = player[endpoint_type]
+        if isinstance(endpoint, list):
+            endpoint = endpoint[0]
+
+        endpoint_info = [player['playlist']['name'],
+                         player['player_num'], source_type,
+                         endpoint['port'],
+                         endpoint['device']['name'],
+                         endpoint['device']['host'],
+                         endpoint['endpoint']['name'],
+                         endpoint['endpoint']['ip'],
+                         endpoint['endpoint']['prefix'],
+                         endpoint['endpoint']['end_ip'],
+                         endpoint['endpoint']['use_dhcp'],
+                         endpoint['endpoint']['gateway'],
+                         endpoint['endpoint']['vlan_id']]
+
+        return endpoint_info
+
+    def get_track_info():
+        return [track['name'], track['id'], track['track_object'],
+                track['percentage']]
+
+    def get_property_value(options, value):
+        for idx, option in enumerate(options):
+            if idx + 1 == value:
+                return option['name']
+
+
+    def get_track_properties(track_row_traffic_settings):
+        if 'track_properties' in track:
+            for track_properties in track['track_properties']:
+                if 'options' in track_properties:
+                    track_row = track_row_traffic_settings + [
+                        track_properties['name'],
+                        get_property_value(track_properties['options'],
+                                           track_properties['value'])]
+                else:
+                    track_row = track_row_traffic_settings + [
+                        track_properties['name'], track_properties['value']]
+                write_results(track_row)
+        else:
+            track_row = track_row_traffic_settings + ['N/A', 'N/A']
+            write_results(track_row)
+
+    test_results = sorted(value['test_results'], key=lambda e: e['tab_id'])
+    header1 = ['']
+    header2 = [localizer.translate(_('Time, ms'))]
+    all_series_list = []
+    for test_result in test_results:
+        if test_result['tab_id'] in [1, 2, 3, 4, 5]:
+            series_list = test_result['series_list']
+
+            # Only include results if at least one subseries is not empty
+            if sum(map(lambda x: len(x['points']), series_list)) > 0:
+                for series in series_list:
+                    header1.append(test_result['name'])
+                    header2.append(series['label'])
+                    all_series_list.append(series['points'])
+
+    # ---- Extract result series from summary results ---
+    for result in value['results']:
+        if result['type'] == 'player':
+            player_idx = result['id'] - 1
+            dscp = get_dscp(value['players'], player_idx)
+            for track in result['tracks']:
+                name = track['name']
+                for cell in track['cells']:
+                    field_name = cell['name']
+                    cell_chart_data = cell.get('chart_data', None)
+                    if cell_chart_data:
+                        for chart_name, chart_data in cell_chart_data.items():
+                            if dscp is not None:
+                                header1.append('{0} (DSCP {1})'.format(name, dscp))
+                            else:
+                                header1.append(name)
+
+                            header2.append(field_name)
+                            all_series_list.append(chart_data)
+    # ---- End ----
+
+
+    write_row([])
+    write_row(header1)
+    write_row(header2)
+
+    # Handle SLA constants -- XXX HACKFIX: Should really modify the results to fill in the
+    # result series, but too high a risk to change during RC without knowing implications.
+    max_series_len = max(map(lambda x: len(x), all_series_list))
+    for i, series in enumerate(all_series_list):
+        cur_len = len(series)
+        if cur_len != max_series_len and cur_len == 2 and series[0]['y'] == series[1]['y']:
+            all_series_list[i] = [series[0]] * max_series_len
+
+    # Ensure that any empty series are handled by filling missing cells with a default
+    point_rows = list(izip_longest(*all_series_list, fillvalue={'x': 0, 'y': 0}))
+    for point_row in point_rows:
+        write_row([unicode(point_row[0]['x'])] +
+                  [unicode(p['y']) for p in point_row])
+
+    track_detail_results_header = False
+    for idx, player in enumerate(value['players']):
+        if 'track_detail_results' in player:
+            dscp = get_dscp(value['players'], idx)
+
+            if not track_detail_results_header and len(
+                    player['track_detail_results']):
+                write_row([])
+                header = ['Player', 'Tx Device', 'Tx Port(s)', 'Rx Device',
+                           'Rx Port', 'Destination', 'Track', 'Tx Packets',
+                           'Rx Packets', 'Avg. Rx Bandwidth',
+                           'Avg. Rx Latency', 'Avg Rx Jitter', 'Packet Loss']
+                if dscp:
+                    header.append('DSCP')
+                write_row(header)
+                track_detail_results_header = True
+
+            for result in player['track_detail_results']:
+                cols = [
+                    unicode(idx+1),
+                    unicode(result['tx_device']),
+                    unicode(result['tx_ports']),
+                    unicode(result['rx_device']),
+                    unicode(result['rx_port']),
+                    unicode(result['destination_addresses']),
+                    unicode(result['track']),
+                    unicode(result['tx_frame_count']),
+                    unicode(result['rx_frame_count']),
+                    unicode(result['rx_bandwidth']),
+                    unicode(result['average_latency']),
+                    unicode(result['average_jitter']),
+                    unicode(result['rx_drop_count'])
+                ]
+                if dscp:
+                    cols.append(unicode(dscp))
+                write_row(cols)
+
+    return fout.getvalue()
+
+
+def get_devices(profiles):
+    devices = []
+
+    for profile in profiles:
+        device = Device.query.filter_by(id=profile.device_id).first()
+        devices.append(dict({'id': device.id, 'name': device.name, 'host': device.host}))
+
+    return devices
+
+
+def get_endpoint(endpoint, as_list=False):
+    if 'endpoint' in endpoint:
+        endpoint_name = endpoint['endpoint'].get('name', 'Unspecified')
+        if endpoint_name[-9:].upper() == ' - CUSTOM':
+            endpoint['endpoint'].update({'name': (endpoint_name[:-9])})
+        else:
+            endpoint['endpoint']['name'] = endpoint_name
+
+        return [endpoint] if as_list else endpoint
+
+    # Multiple endpoints
+    endpoints = []
+    for device in endpoint['devices']:
+        for ep in device['endpoints']:
+            if ep['enabled']:
+                endpoints.append({
+                    'device': device['device'],
+                    'devicePorts': device['devicePorts'],
+                    'networks': device['networks'],
+                    'port': ep['port'],
+                    'endpoint': ep
+                })
+
+    return endpoints
+
+
+def get_traffic_settings(player_config, moduleName, localizer):
+    if moduleName.find("network_stress") != -1 or moduleName.find("sla") != -1 or moduleName.find("throughput_test") != -1:
+        return None
+    elif player_config['playlist']['tracks'][0]['layer'] >= 4:
+        return None
+    else:
+        type_name = localizer.translate(_("Bandwidth"))
+        player_config['traffic_settings'][0].update({
+            'Name': type_name
+        })
+        return player_config['traffic_settings']
+
+
+def get_track_detail_player_results(player_config, devices, result_id, tpr_id):
+    def upside_down_port_index(port, chassis):
+        for device in player_config['destination']['devices']:
+            if chassis == device['device']['host']:
+                if device['endpoints'][port - 1]['enabled']:
+                    return port
+                elif device['endpoints'][port * (-1)]['enabled']:
+                    # Port index not matched, so the Card is installed upside down
+                    return device['endpoints'][port * (-1)]['port']
+
+        return port
+
+    track_id_name_map = dict((track['id'], track['name']) \
+                             for track in player_config['playlist']['tracks'])
+
+    terms = [DataTestResult.test_result_id == result_id]
+    q = db.query(
+            DataTestResult.track_id.label('track_id'),
+            DataTestResult.destination_addresses.label('destination_addresses'),
+            func.max(DataTestResult.rx_frame_count).label('tx_frame_count')). \
+            filter(and_(*terms)). \
+            join(TestResult).filter_by(id=result_id). \
+            join(tests_players_results).filter_by(test_player_result_id=tpr_id). \
+            join(data_tests_players_results).filter_by(test_player_result_id=tpr_id). \
+            group_by(DataTestResult.track_id).\
+            group_by(DataTestResult.destination_addresses)
+
+    tx_frame_counts_per_track = {}
+    for result in q.all():
+        tx_frame_counts_per_track[(result.track_id,
+                                   result.destination_addresses)] = \
+            result.tx_frame_count
+
+    terms = [DataTestResult.test_result_id == result_id,
+             DataTestResult.receive_ports != '']
+    q = db.query(
+            DataTestResult.destination_addresses.label('destination_addresses'),
+            DataTestResult.receive_ports.label('receive_ports'),
+            DataTestResult.track_id.label('track_id'),
+            func.max(DataTestResult.total_latency).label('total_latency'),
+            func.max(DataTestResult.total_jitter).label('total_jitter'),
+            func.max(DataTestResult.rx_frame_count).label('rx_frame_count'),
+            func.max(DataTestResult.rx_drop_count).label('rx_drop_count'),
+            func.avg(DataTestResult.rx_bandwidth).label('rx_bandwidth')). \
+            filter(and_(*terms)). \
+            join(TestResult).filter_by(id=result_id). \
+            join(tests_players_results).filter_by(test_player_result_id=tpr_id). \
+            join(data_tests_players_results).filter_by(test_player_result_id=tpr_id). \
+            group_by(DataTestResult.destination_addresses). \
+            group_by(DataTestResult.receive_ports). \
+            group_by(DataTestResult.track_id).\
+            group_by(DataTestResult.test_result_id).\
+            order_by(DataTestResult.track_id).\
+            order_by(DataTestResult.receive_ports).\
+            order_by(DataTestResult.destination_addresses)
+
+    rows = []
+    for result in q.all():
+        (chassis, slot, port) = re.match(r"//(.+)/(.+)/(.+)", result.receive_ports).groups()
+        port = upside_down_port_index(int(port), chassis)
+        for device in devices:
+            if chassis in device['host']:
+                chassis = device['name']
+                break
+
+        if 'devices' in player_config['source']:
+            # Multi-port devices - we only support a single Tx device for now
+            source_device = player_config['source']['devices'][0]['device']['name']
+            source_ports = [endpoint['port'] for endpoint in player_config['source']['devices'][0]['endpoints'] if endpoint['enabled']]
+        else:
+            # Old single-port format
+            source_device = player_config['source']['device']['name']
+            source_ports = [player_config['source']['port']]
+
+        if result.total_latency and result.rx_frame_count:
+            average_latency = round(float(float(result.total_latency)/result.rx_frame_count)/1000.0, 3)
+        else:
+            average_latency = float(0.0)
+
+        if result.total_jitter and result.rx_frame_count:
+            average_jitter = round(float(float(result.total_jitter)/result.rx_frame_count)/1000.0, 3)
+        else:
+            average_jitter = float(0.0)
+
+        rows.append({
+            'rx_device': chassis,
+            'rx_port': port,
+            'tx_device': source_device,
+            'tx_ports': ', '.join([str(x) for x in source_ports]),
+            'destination_addresses': result.destination_addresses,
+            'track': track_id_name_map[result.track_id],
+            'tx_frame_count': tx_frame_counts_per_track[(result.track_id,
+                result.destination_addresses)],
+            'rx_frame_count': result.rx_frame_count,
+            'rx_drop_count': result.rx_drop_count,
+            'average_latency': average_latency,
+            'average_jitter': average_jitter,
+            'rx_bandwidth': result.rx_bandwidth
+        })
+
+    return rows
+
+def get_results(test_result_id, test_date_utc_offset, localizer, options=None):
+    players = []
+
+    test_result = TestResult.query.filter_by(id=test_result_id).join(AxonTest).first()
+    if test_result is None:
+        return None
+
+    config_json = loads(test_result.config_json)
+    if config_json['module'].find("throughput_test") != -1:
+        config_json['duration'] = None
+
+    from axon.testcases.config import TestCaseConfig
+    test, used_fallback = TestCaseConfig.deserialize_object(
+            test_result.config_object, config_json, test_result_id)
+    if used_fallback:
+        test_result.config_object = test.config_object
+        db.flush()
+
+    user = User.query.filter_by(id=test_result.created_by).first()
+
+    test_results, player_results = ResultUtils.get_results(localizer, test_result_id)
+
+    for i, player in enumerate(test.traffic_players):
+        player_config = config_json['traffic_players'][i]
+        devices = get_devices(player.profiles)
+
+        result = {
+            'id': test_result_id,
+            'player_num': i + 1,
+            'devices': devices,
+            'source': get_endpoint(player_config['source']),
+            'destination': get_endpoint(player_config['destination'], True),
+            'traffic_settings': get_traffic_settings(player_config, config_json['module'], localizer),
+            'playlist': player_config['playlist'],
+            'supplemental_configuration': player_config.get(
+                'supplemental_configuration', {})
+        }
+
+        if options and options.get('include_track_detail_results', False):
+            result['track_detail_results'] = get_track_detail_player_results(
+                player_config,
+                devices,
+                test_result_id,
+                test.traffic_players[i].playlist.result_id)
+
+        players.append(result)
+
+    device_name = db.query(Device.name).order_by(Device.id).first().name
+
+    test_date = int(test_result.created.strftime('%s')) - \
+        float(test_date_utc_offset) * 3600
+    return {
+        'id': test_result.id,
+        'name': test_result.name,
+        'software_revision': test_result.software_revision,
+        'build_number': test_result.build_number,
+        'description': test_result.description,
+        'test': test,
+        'test_date': time.strftime('%m/%d/%Y %I:%M:%S %p',
+                                   time.localtime(test_date)),
+        'test_categories': ', '.join(category['name'] for category in
+                                     config_json['categories']),
+        'test_result': test_result,
+        'test_json': config_json,
+        'player_count': len(test.traffic_players),
+        'players': players,
+        'results': player_results,
+        'test_results': test_results,
+        'device_name': device_name,
+        'user': user
+    }
+
+
+def printable_results(request):
+    test_result_id = extract_test_result_id(request)
+    if test_result_id is None:
+        return HTTPNotFound()
+
+    test_date_utc_offset = extract_test_date_utc_offset(request)
+    localizer = get_localizer(request)
+    results = get_results(test_result_id, test_date_utc_offset, localizer)
+    if results is None:
+        return HTTPNotFound()
+
+    # Using external host ip to replace the internal one
+    local_host_ip = get_local_host_ip()
+    for result in results['players']:
+        source_device_groups = defaultdict(list)
+        result['source_device_groups'] = source_device_groups
+
+        if isinstance(result['source'], list):
+            for src in result['source']:
+                if src['device']['id'] == 1:
+                    src['device']['host'] = local_host_ip
+                source_device_groups[src['device']['name']].append(src)
+        else:
+            if result['source']['device']['id'] == 1:
+                result['source']['device']['host'] = local_host_ip
+            source_device_groups[result['source']['device']['name']].append(result['source'])
+
+        destination_device_groups = defaultdict(list)
+        result['destination_device_groups'] = destination_device_groups
+
+        if isinstance(result['destination'], list):
+            for dest in result['destination']:
+                if dest['device']['id'] == 1:
+                    dest['device']['host'] = local_host_ip
+                destination_device_groups[dest['device']['name']].append(dest)
+        else:
+            # if result['destination']['device']['name'] == 'Local Chassis':
+            if result['destination']['device']['id'] == 1:
+                result['destination']['device']['host'] = local_host_ip
+            destination_device_groups[result['destination']['device']['name']].append(result['destination'])
+
+    return results
+
+
+def downloadable_results(request):
+    test_result_id = extract_test_result_id(request)
+    if test_result_id is None:
+        return HTTPNotFound()
+
+    test_date_utc_offset = extract_test_date_utc_offset(request)
+    localizer = get_localizer(request)
+    results = get_results(test_result_id, test_date_utc_offset, localizer,
+                          {'include_track_detail_results': True})
+    if results is None:
+        return HTTPNotFound()
+
+    response = request.response
+    response.content_type = 'text/csv'
+    response.content_disposition = 'attachment;filename="{0}.csv"'. \
+        format(results['name'].encode('utf-8'))
+    response.body = render_results_as_csv(results, localizer)
+
+    return response
+
+
+def extract_test_result_id(request):
+    test_result_id = request.params.get('result-id', None)
+    if test_result_id is None or not test_result_id.isdigit():
+        return None
+
+    return test_result_id
+
+
+def extract_test_date_utc_offset(request):
+    return request.params.get('offset', u'0')

@@ -1,0 +1,167 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Update engine access
+
+=head1 INPUT JSON
+
+  {
+      "mode": "open|close",
+      "engine": "engine name/type - i.e. stc",
+      "client": {
+          "type": "IPv4",
+          "address": "1.2.3.4"
+      }
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { } 
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init();
+
+my @actions = ();
+
+# Before we do anything, even if no arguments, initialize chassis firewall in case it hasn't been yet
+my @cmds = (
+    [ "/sbin/iptables", "-t", "filter", "-N", "STC_CONTROL_BLOCK" ],
+    [ "/sbin/iptables", "-t", "filter", "-F", "FORWARD" ],
+    [   "/sbin/iptables", "-t",      "filter", "-A", "FORWARD",       "-p",
+        "tcp",            "--dport", "40004",  "-s", "169.254.10.10", "-j",
+        "ACCEPT"
+    ],
+    [ "/sbin/iptables", "-t", "filter", "-A", "FORWARD", "-p", "tcp", "--dport", "40004", "-j", "STC_CONTROL_BLOCK" ],
+    [ "/sbin/iptables", "-t", "filter", "-A", "FORWARD", "-p", "tcp", "--dport", "40004", "-j", "REJECT" ],
+);
+foreach my $cmd (@cmds) {
+    my @cmd = @$cmd;
+    &run_cmd_silent( "/usr/bin/ssh", "-F" => "/local/admin/files/ssh_config", "hypervisor", @cmd );
+}
+push( @actions, "refreshed filter FORWARD" );
+
+my $mode;
+my $engine;
+
+eval { $mode   = $in_data->{mode} };
+eval { $engine = $in_data->{engine} };
+
+if ( !$mode && !$engine ) {
+    $mode   = "init";
+    $engine = "stc";
+}
+
+if ( $mode ne "open" && $mode ne "close" && $mode ne "init" ) {
+    &fail("unknown mode ($mode)");
+}
+
+if ( $engine ne "stc" ) {
+    &fail("unknown engine ($engine)");
+}
+
+my $client;
+eval { $client = $in_data->{client} };
+my $have_client = $client;
+
+my $ctype;
+eval { $ctype = $client->{type} };
+
+my $address;
+eval { $address = $client->{address} };
+
+if ( $have_client && $ctype ne "IPv4" ) {
+    &fail("Client specified, but not IPv4 ($ctype)");
+}
+
+if ( $have_client && !$address ) {
+    &fail("Client specified, but no address");
+}
+
+if ( $address && $ctype eq "IPv4" ) {
+
+    # quick check, not thorough
+    if ( $address !~ /^\d+\.\d+\.\d+\.\d+$/o ) {
+        &fail("invalid ipv4 address ($address)");
+    }
+}
+
+# No client, and mode specified as "open"
+if ( !$have_client && $mode eq "open" ) {
+    &run_cmd_silent(
+        "/usr/bin/ssh",
+        "-F" => "/local/admin/files/ssh_config",
+        "hypervisor", "/sbin/iptables", "-t", "filter", "-F",
+        "STC_CONTROL_BLOCK"
+    );
+    &run_cmd_silent(
+        "/usr/bin/ssh",
+        "-F" => "/local/admin/files/ssh_config",
+        "hypervisor", "/sbin/iptables", "-t",
+        "filter", "-A", "STC_CONTROL_BLOCK", "-j", "ACCEPT"
+    );
+    push( @actions, "opened to all hosts" );
+}
+elsif ( !$have_client && $mode eq "close" ) {
+    &run_cmd_silent(
+        "/usr/bin/ssh",
+        "-F" => "/local/admin/files/ssh_config",
+        "hypervisor", "/sbin/iptables", "-t", "filter", "-F",
+        "STC_CONTROL_BLOCK"
+    );
+    push( @actions, "clear to block all hosts" );
+
+    # Default is to block, so just clear the chain
+}
+
+if ( $have_client && $mode eq "close" ) {
+    my @deletes = ();
+
+    my $in = &open_cmd_merge(
+        "/usr/bin/ssh",   "-l",                "root",   "hypervisor",
+        "/sbin/iptables", "-t",                "filter", "--line-numbers",
+        "-L",             "STC_CONTROL_BLOCK", "-n"
+    );
+    while ( defined( my $line = <$in> ) ) {
+        my @tmp = split( ' ', $line );
+        if ( $tmp[4] eq $address ) {
+            push( @actions, "found existing rule for $address: $line" );
+            push( @deletes, $tmp[0] );
+        }
+    }
+    close($in);
+
+    foreach my $rid ( reverse(@deletes) ) {
+        &run_cmd_silent(
+            "/usr/bin/ssh",
+            "-F" => "/local/admin/files/ssh_config",
+            "hypervisor", "/sbin/iptables", "-t",
+            "filter", "-D", "STC_CONTROL_BLOCK", $rid
+        );
+        push( @actions, "deleted rule id $rid from STC_CONTROL_BLOCK" );
+    }
+}
+
+if ( $have_client && $mode eq "open" ) {
+    &run_cmd_silent(
+        "/usr/bin/ssh",
+        "-F" => "/local/admin/files/ssh_config",
+        "hypervisor",        "/sbin/iptables", "-t",     "filter", "-I",
+        "STC_CONTROL_BLOCK", "-s",             $address, "-j",     "ACCEPT"
+    );
+    push( @actions, "inserted accept rule for $address" );
+}
+
+# Do nothing for now, if no client specified, means all
+
+$res->{result}  = "SUCCESS";
+$res->{actions} = \@actions;
+&finish();

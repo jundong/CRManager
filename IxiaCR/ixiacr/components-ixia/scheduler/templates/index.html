@@ -1,0 +1,60 @@
+<div>
+    <div data-bind="if: schedulingTestVisible" class="test">
+        <div class="scheduler-configure">
+            <div class="container"></div>
+        </div>
+        <div data-bind="template: { name: schedulerTest.testTemplateName(), data: schedulerTest, afterRender: schedulerTest.afterRender }"></div>
+    </div>
+
+    <div data-bind="visible: schedulingCalendarVisible" class="scheduler container">
+        <a class="scheduler-test-button gray-button" href="javascript:void(0);">Schedule
+            a Test</a>
+
+        <div class="scheduler-search box">
+            <input type="text"
+                   data-bind="value: searchText, valueUpdate: 'input'" class="shaded search" placeholder="Search">
+            <img class="search" src="images/magnify-gray.png" alt="search" title="search">
+            <!--<a class="scheduler-search-button button dark"-->
+               <!--data-bind="click: filterItems">Search</a>-->
+        </div>
+        <div class="calendar-sidebar">
+            <div data-bind="foreach: devices" class="devices">
+                <a data-bind="click: $parent.toggleBoxChecker.bind($parent)">
+                    <span data-bind="style: {border: '2px solid ' + color}" class="device-toggle">
+                        <span class="device-icon" data-bind="style: {backgroundColor: boxCheckerColor}"></span>
+                    </span>
+                    <span class="device-name" data-bind="text: name"></span>
+                </a>
+            </div>
+        </div>
+        <div class="scheduler-container">
+            <div id="scheduler_here" class="dhx_cal_container">
+                <div class="dhx_cal_navline">
+                    <div class="dhx_cal_today_button"></div>
+                    <div class="dhx_cal_prev_button"><div class="icon"></div></div>
+                    <div class="dhx_cal_next_button"><div class="icon"></div></div>
+                    <div class="dhx_cal_date"></div>
+                    <div class="tab_agenda">Agenda</div>
+                    <div class="dhx_cal_tab day" name="day_tab"></div>
+                    <div class="dhx_cal_tab week" name="week_tab"></div>
+                    <div class="dhx_cal_tab month" name="month_tab"></div>
+                    <!--<span id="as-list-checkbox-container">-->
+                        <!--<input type="checkbox" id="as-list-checkbox"-->
+                             <!--data-bind="checked: eventList.listViewVisible">-->
+                        <!--<label for="as-list-checkbox">As List</label>-->
+                    <!--</span>-->
+                </div>
+                <div class="calendar-body" data-bind="visible: !eventList.listViewVisible()">
+                    <div class="header-wrapper"><div class="dhx_cal_header"></div></div>
+                    <div class="dhx_cal_data"></div>
+                </div>
+                <div data-bind="visible: eventList.listViewVisible">
+                    <div id="event-list-container"></div>
+                </div>
+            </div>
+            <div class="calendar-agenda-container"></div>
+        </div>
+    </div>
+    <br/>
+    <br/>
+</div>

@@ -1,0 +1,25 @@
+ixiacr:
+    options:
+        system:
+            - name      : string-option-null-default
+              desc      : description of string-option-null-default
+              type      : str
+              default   : null
+            - name      : string-option-non-null-default
+              desc      : description of string-option-non-null-default
+              type      : str
+              default   : default value multiple words
+            - name      : int-option-non-null-default
+              desc      : description of int-option-non-null-default
+              type      : int
+              default   : 999991
+
+        features:
+            - name      : feature-flag1
+              desc      : description of feature-flag1
+              type      : bool
+              default   : false
+            - name      : feature-flag2
+              desc      : description of feature-flag2
+              type      : bool
+              default   : true

@@ -1,0 +1,41 @@
+.paginator .ellipses,
+.paginator .pages,
+.paginator .pages > li {
+    display: inline-block;
+}
+
+.paginator .pages > li {
+    border: 1px solid gray;
+    font-family: open sans light, arial, sans-serif;
+    margin-right: 0.5em;
+    font-weight: bold;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    font-size: 10px;
+    line-height: 20px;
+    text-align: center;
+    padding: 0px;
+    color: white;
+}
+
+/*.paginator .pages > li:last-child {
+    border-right: 1px solid gray;
+}*/
+
+.paginator .pages .current {
+    background: white;
+    color: black;
+}
+
+.paginator .pages > li > a {
+    color: #717171;
+    display: block;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+}
+
+.paginator .pages > li.current > a {
+    color: inherit;
+    cursor: default;
+}

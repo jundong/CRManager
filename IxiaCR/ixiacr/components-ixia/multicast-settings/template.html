@@ -1,0 +1,18 @@
+<div>
+    <div class="header">
+        <span class="label">Multicast group settings</span>
+    </div>
+    <div class="additional-settings">
+        <div class="container">
+            <ul>
+                <li><label>IP</label><input class="dark-inverted-text-box multicast_ip" type="text" name="ip" data-bind="value: ip, attr: {placeholder: strings['IPv4 or v6']}" /></li>
+                <li><label>Ending IP</label><input class="dark-inverted-text-box multicast_end_ip" type="text" name="end_ip" data-bind="value: end_ip, attr: {placeholder: strings['IPv4 or v6']}" /></li>
+                <li>
+                    <label>Protocol</label><div class="light-select option-wrapper multicast_protocol" data-bind="attr: {'data-value': available_protocols[protocol()] || strings['Select one'] }">
+                    <select name="protocol" data-bind="options: protocolOptions, optionsValue: 'value', optionsText: 'text', value: protocol, optionsCaption: strings['Select one']"></select>
+                </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

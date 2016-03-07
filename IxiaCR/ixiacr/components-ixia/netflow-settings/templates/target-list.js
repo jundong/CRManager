@@ -1,0 +1,1 @@
+module.exports = '<ul class="target-list">\n    <li class="add"><button>Add target</button></li>\n</ul>';

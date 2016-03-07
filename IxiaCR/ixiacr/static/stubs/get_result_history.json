@@ -1,0 +1,11 @@
+[
+    {
+        "name":"My QoS Site to Site",
+        "end_result":"pass",
+        "date":"2013-02-13 14:02:48",
+        "test_id":2,
+        "result_id":1,
+        "categories":["My QoS Site to Site"],
+        "description":"This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities between sites on your IPv4 or IPv6 network. Typically, the traffic is stepped up until the maximum traffic that you have set is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video packets. Voice and video quality measures are also reported."
+    }
+]

@@ -1,0 +1,564 @@
+<script id="administration-template" type="text/html">
+    <div class="container">
+        <ul class="nav box">
+            <li class="devices" data-bind="attr: {'class': devicesTabClass}, click: function () { refreshDevices(); }">{% trans %}Devices{% endtrans %}</li>
+            <li class="endpoints" data-bind="attr: {'class': endpointsTabClass}, click: function () { selectTab('endpoints'); }">{% trans %}Endpoints{% endtrans %}</li>
+            <li class="playlists" data-bind="attr: {'class': playlistsTabClass}, click: function () { selectTab('playlists'); }">{% trans %}Playlists{% endtrans %}</li>
+            <li class="tracks" data-bind="attr: {'class': tracksTabClass}, click: function () { selectTab('tracks'); }">{% trans %}Tracks{% endtrans %}</li>
+            <li class="netflow" data-bind="attr: {'class': netflowTabClass}, click: function () { selectTab('netflow'); }">{% trans %}NetFlow{% endtrans %}</li>
+            <li class="pulse" data-bind="attr: {'class': pulseTabClass}, click: function () { selectTab('pulse'); }">{% trans %}Pulse{% endtrans %}</li>
+            <li class="change-password" data-bind="attr: {'class': changePasswordTabClass}, click: function () { selectTab('change password'); }">{% trans %}Change Password{% endtrans %}</li>
+            <li class="update" data-bind="attr: {'class': upgradeLocationTabClass}, click: function () { selectTab('upgrade location'); }">
+                <div class="admin_update_notification" data-bind="visible: globalSettingsVm.admin_notifier() != 0, text: globalSettingsVm.admin_notifier()"></div>{% trans %}Update{% endtrans %}
+            </li>
+            <li class="language" data-bind="attr: {'class': languageTabClass}, click: function () { selectTab('language'); }">{% trans %}Language{% endtrans %}</li>
+            <li class="backup-restore" data-bind="attr: {'class': systemBackupRestoreTabClass}, click: function () { selectTab('system backup restore'); }">{% trans %}System Backup and Restore{% endtrans %}</li>
+            <li class="wifi" data-bind="attr: {'class': wifiAdminTabClass}, click: function () { selectTab('wifi admin'); }">{% trans %}Wifi Administration{% endtrans %}</li>
+            <li class="disk" data-bind="attr: {'class': diskTabClass}, click: function () { selectTab('disk'); }">{% trans %}Disk Management{% endtrans %}</li>
+            <li class="system" data-bind="attr: {'class': systemSettingsTabClass}, click: function () { selectTab('system settings'); }">{% trans %}System Settings{% endtrans %}</li>
+        </ul>
+        <div class="main landing" data-bind="visible: noTabSelected">
+            <h3>{% trans %}Administration{% endtrans %}</h3>
+            <ul>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () {refreshDevices();}">
+                            <img src="images/table.png" alt="{% trans %}devices{% endtrans %}" title="{% trans %}devices{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Devices{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('endpoints'); }">
+                            <img src="images/endpoint-large.png" alt="{% trans %}endpoints{% endtrans %}" title="{% trans %}endpoints{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Endpoints{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('playlists'); }">
+                            <img src="images/list-large.png" alt="{% trans %}playlists{% endtrans %}" title="{% trans %}playlists{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Playlists{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('tracks'); }">
+                            <img src="images/gray-grid-large.png" alt="{% trans %}tracks{% endtrans %}" title="{% trans %}tracks{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Tracks{% endtrans %}</h4>
+                </li>
+                <li data-bind="attr: {'class': netflowTabClass}">
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('netflow'); }">
+                            <img src="images/monitoring-large.png" alt="{% trans %}netflow{% endtrans %}" title="{% trans %}netflow{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}NetFlow{% endtrans %}</h4>
+                </li>
+                <li data-bind="attr: {'class': pulseTabClass}">
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('pulse'); }">
+                            <img src="images/pulse-large.png" alt="{% trans %}pulse{% endtrans %}" title="{% trans %}pulse{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Pulse{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('change password'); }">
+                            <img src="images/lock-large.png" alt="{% trans %}change password{% endtrans %}" title="{% trans %}change password{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Change Password{% endtrans %}</h4>
+                </li>
+                <li>
+                    <div class="admin_update_notification" data-bind="visible: globalSettingsVm.admin_notifier() != 0, text: globalSettingsVm.admin_notifier()"></div>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('upgrade location'); }">
+                            <img src="images/globe.png" alt="{% trans %}update{% endtrans %}" title="{% trans %}update{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Update{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('language'); }">
+                            <img src="images/lang-large.png" alt="{% trans %}language{% endtrans %}" title="{% trans %}language{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Language{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('system backup restore'); }">
+                            <img src="images/system-backup-restore-large.png" alt="{% trans %}system backup restore{% endtrans %}" title="{% trans %}system backup restore{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}System Backup and Restore{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('wifi admin'); }">
+                            <img src="images/wifi-large.png" alt="{% trans %}wifi admin{% endtrans %}" title="{% trans %}wifi admin{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Wifi Administration{% endtrans %}</h4>
+                </li>
+                <li data-bind="attr: {'class': diskTabClass}">
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('disk'); }">
+                            <img src="images/disk-large.png" alt="{% trans %}disk{% endtrans %}" title="{% trans %}disk management{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Disk Management{% endtrans %}</h4>
+                </li>
+                <li>
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('system settings'); }">
+                            <img src="images/cog-large.png" alt="{% trans %}system settings{% endtrans %}" title="{% trans %}system settings{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}System Settings{% endtrans %}</h4>
+                </li>
+            </ul>
+        </div>
+        <div class="main" id="devicesMain" data-bind="visible: devicesTabSelected">
+            <div class="item-list" data-bind="visible: deviceListVisible">
+                <h3>{% trans %}Devices{% endtrans %}</h3>
+                <h4 data-bind="text: availableDevicesSummary"></h4>
+                <div class="filters box">
+                    <!--<div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedCustomer"></span>
+                            <select data-bind="options: filterCustomers, value: selectedCustomer"></select>
+                        </div>
+                    </div>
+                    <div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedLocation"></span>
+                            <select data-bind="options: filterLocations, value: selectedLocation"></select>
+                        </div>
+                    </div>
+                    <input class="shaded" type="text" data-bind="value: displaySelectedTags" placeholder="Tags..." />-->
+                    <div class="searchContainer">
+                        <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
+                        <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+                    </div>
+                </div>
+                <a class="add-button" href="javascript:void(0);" data-bind="click: function () { addDevice(); }, clickBubble: false">
+                    <!-- ko if: rootVm.availableDevices().length == 1 -->{% trans %}+ Add Device{% endtrans %}<!-- /ko -->
+                    <!-- ko if: rootVm.availableDevices().length > 1 -->{% trans %}+ Add Another Device{% endtrans %}<!-- /ko -->
+                </a>
+                <ul data-bind="foreach: availableDevices">
+                    <li class="item" data-bind="attr: { 'id': displayNameCssId }, css: { hidden: id() == 1}">
+                        <ul>
+                            <li class="edit-link"><a data-bind="click: openSaveModal, clickBubble: false">{% trans %}Edit &raquo;{% endtrans %}</a></li>
+                            <li class="delete-link"><a data-bind="click: util.warningLightbox.bind(spirentEnterpriseVm.vmAdministration, '{% trans %}Are you sure you want to delete this device?{% endtrans %}', deleteDevice.bind($data)), clickBubble : false">{% trans %}Delete &raquo;{% endtrans %}</a></li>
+                            <li><h5 data-bind="attr: { 'class': favorite() ? 'favorite' : null }, text: name"></h5></li>
+                            <li><label>{% trans %}Host Address{% endtrans %}</label><span data-bind="text: host"></span></li>
+                            <!--<li><label>Customer</label><span data-bind="text: customer"></span></li>
+                            <li><label>Location</label><span data-bind="text: location"></span></li>-->
+                            <li><label>{% trans %}Tags{% endtrans %}</label><span data-bind="text: displayTags"></span></li>
+                            <li><label data-bind="text: timeSyncLabel"></label><span data-bind="text: timeSyncValue"></span></li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+        <div class="main" id="endpointsMain" data-bind="visible: endpointsTabSelected">
+            <div class="item-list" data-bind="visible: endpointListVisible">
+                <h3>{% trans %}Endpoints{% endtrans %}</h3>
+                <h4 data-bind="text: availableEndpointsSummary"></h4>
+                <a class="add-button" href="javascript:void(0);" data-bind="click: function () { addEndpoint(); }, clickBubble: false">
+                    <!-- ko if: rootVm.availableEndpoints().length == 0 -->{% trans %}+ Add Endpoint{% endtrans %}<!-- /ko -->
+                    <!-- ko if: rootVm.availableEndpoints().length > 0 -->{% trans %}+ Add Another Endpoint{% endtrans %}<!-- /ko -->
+                </a>
+                <div class="filters box">
+                    <!--<div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedCustomer"></span>
+                            <select data-bind="options: filterCustomers, value: selectedCustomer"></select>
+                        </div>
+                    </div>
+                    <div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedLocation"></span>
+                            <select data-bind="options: filterLocations, value: selectedLocation"></select>
+                        </div>
+                    </div>
+                    <input class="shaded" type="text" data-bind="value: displaySelectedTags" placeholder="Tags..." />-->
+                    <div class="searchContainer">
+                        <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
+                        <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+                    </div>
+                </div>
+                <ul data-bind="foreach: availableEndpoints">
+                    <li class="item">
+                        <ul>
+                            <li class="edit-link"><a href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false">{% trans %}Edit &raquo;{% endtrans %}</a></li>
+                            <li><h5 data-bind="attr: { 'class': favorite() ? 'favorite' : null }, text: name"></h5></li>
+                            <li><label>{% trans %}VLAN ID{% endtrans %}</label><span data-bind="text: vlan_id"></span></li>
+                            <li><label>{% trans %}DHCP{% endtrans %}</label><span data-bind="text: useDhcpOrDhcpV6Text"></span></li>
+                            <li data-bind="visible: use_dhcp"><label>{% trans %}Number of DHCP hosts{% endtrans %}</label><span data-bind="text: dhcp_hosts"></span></li>
+                            <li data-bind="visible: !use_dhcp()"><label>{% trans %}Starting Ip{% endtrans %}</label><span data-bind="text: ip"></span></li>
+                            <li data-bind="visible: !use_dhcp()"><label>{% trans %}Ending IP{% endtrans %}</label><span data-bind="text: end_ip"></span></li>
+                            <li data-bind="visible: !use_dhcp()"><label>{% trans %}Prefix{% endtrans %}</label><span data-bind="text: prefix"></span></li>
+                            <li data-bind="visible: !use_dhcp()"><label>{% trans %}Gateway{% endtrans %}</label><span data-bind="text: gateway"></span></li>
+                            <li class="delete-link"><a data-bind="click: util.warningLightbox.bind(spirentEnterpriseVm.vmAdministration, '{% trans %}Are you sure you want to delete this endpoint?{% endtrans %}', deleteEndpoint.bind($data)), clickBubble : false">{% trans %}Delete &raquo;{% endtrans %}</a></li>
+                            <!--<li><label>Customer</label><span data-bind="text: customer"></span></li>
+                            <li><label>Location</label><span data-bind="text: location"></span></li>-->
+                            <li><label>{% trans %}Tags{% endtrans %}</label><span data-bind="text: displayTags"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main" id="playlistsMain" data-bind="visible: playlistsTabSelected">
+            <div class="item-list" data-bind="visible: playlistListVisible">
+                <h3>{% trans %}Playlists{% endtrans %}</h3>
+                <h4 data-bind="text: availablePlaylistsSummary"></h4>
+                <!--<a class="add-button" href="javascript:void(0);" data-bind="click: function () { addPlaylist(); }, clickBubble: false">+ Add Another Playlist</a>-->
+                <div class="filters box">
+                    <!--<div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedCustomer"></span>
+                            <select data-bind="options: filterCustomers, value: selectedCustomer"></select>
+                        </div>
+                    </div>
+                    <div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedLocation"></span>
+                            <select data-bind="options: filterLocations, value: selectedLocation"></select>
+                        </div>
+                    </div>
+                    <input class="shaded" type="text" data-bind="value: displaySelectedTags" placeholder="Tags..." />-->
+                    <div class="searchContainer">
+                        <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
+                        <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+                    </div>
+                </div>
+                <ul data-bind="foreach: availablePlaylists">
+                    <li class="playlist item">
+                        <ul>
+                            <!--<li class="edit-link"><a href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false">Edit &raquo;</a></li>
+                            <li class="clone-link"><a href="javascript:void(0);" data-bind="click: openCloneModal, clickBubble: false">Clone &raquo;</a></li>-->
+                            <li class="playlist-title"><h5 data-bind="attr: { 'class': favorite() ? 'favorite' : null }, text: name"></h5></li>
+                            <li class="delete-link" data-bind="visible: !isReadOnly"><a data-bind="click: util.warningLightbox.bind(spirentEnterpriseVm.vmAdministration, 'Are you sure you want to delete this playlist?', deletePlaylist.bind($data)), clickBubble : false">Delete &raquo;</a></li>
+                            <h4><label>Tracks</label><label>Percentage</label></h4>
+                            <!-- ko foreach: tracks -->
+                                <li><div class="trackDetails"><div data-bind="text: name()"></div><div data-bind="text: percentage()"><span>%</span></div></div></li>
+                            <!-- /ko -->
+                            <!--<li><label>Customer</label><span data-bind="text: customer"></span></li>
+                            <li><label>Location</label><span data-bind="text: location"></span></li>-->
+                            <li><label>Tags</label><span data-bind="text: displayTags"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main" id="tracksMain" data-bind="visible: tracksTabSelected">
+            <div class="item-list" data-bind="visible: trackListVisible">
+                <h3>{% trans %}Tracks{% endtrans %}</h3>
+                <h4 data-bind="text: availableTracksSummary"></h4>
+                <!--<a class="add-button" href="javascript:void(0);" data-bind="click: function () { addTrack(); }, clickBubble: false">+ Add Another Track</a>-->
+                <div class="filters box">
+                    <!--<div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedCustomer"></span>
+                            <select data-bind="options: filterCustomers, value: selectedCustomer"></select>
+                        </div>
+                    </div>
+                    <div class="button-select-outer">
+                        <div class="button-select">
+                            <span data-bind="text: selectedLocation"></span>
+                            <select data-bind="options: filterLocations, value: selectedLocation"></select>
+                        </div>
+                    </div>
+                    <input class="shaded" type="text" data-bind="value: displaySelectedTags" placeholder="Tags..." />-->
+                    <div class="searchContainer">
+                        <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
+                        <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+                    </div>
+                </div>
+                <ul data-bind="foreach: availableTracks">
+                    <li class="track item">
+                        <ul>
+                            <li class="edit-link"><a href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false">{% trans %}Edit &raquo;{% endtrans %}</a></li>
+                            <li class="clone-link"><a href="javascript:void(0);" data-bind="click: openCloneModal, clickBubble: false">{% trans %}Clone &raquo;{% endtrans %}</a></li>
+                            <li class="track-title"><h5 data-bind="attr: { 'class': favorite() ? 'favorite' : null }, text: name"></h5></li>
+                            <li class="delete-link" data-bind="visible: !isReadOnly"><a data-bind="click: util.warningLightbox.bind(spirentEnterpriseVm.vmAdministration, '{% trans %}Are you sure you want to delete this track?{% endtrans %}', deleteTrack.bind($data)), clickBubble : false">{% trans %}Delete &raquo;{% endtrans %}</a></li>
+                            <!--<li><label>Customer</label><span data-bind="text: customer"></span></li>
+                            <li><label>Location</label><span data-bind="text: location"></span></li>-->
+                            <li><label>{% trans %}Tags{% endtrans %}</label><span data-bind="text: displayTags"></span></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="main" data-bind="visible: customersAndLocationsTabSelected">
+            <div>
+                <h3>{% trans %}Customers & Locations{% endtrans %}</h3>
+                <h5>{% trans %}Customers and locations will save automatically as you type them.{% endtrans %}</h5>
+                <ul class="single-pane">
+                    <li><label>{% trans %}Customers{% endtrans %}</label><input class="long" type="text" data-bind="value: displayCustomers" /></li>
+                    <li><label>{% trans %}Locations{% endtrans %}</label><input class="long" type="text" data-bind="value: displayLocations" /></li>
+                </ul>
+            </div>
+        </div>
+        <div class="main" id="changePasswordMain" data-bind="visible: changePasswordTabSelected">
+            <div>
+                <h3>{% trans %}Change system password{% endtrans %}</h3>
+                <ul class="single-pane change-password">
+                    <li id="oldPasswordList"><label>{% trans %}Old password{% endtrans %}</label>
+                        <input class="long" type="password" id="oldPassword" data-bind="validateOldPassword: $data"/>
+                        <span class="error" data-bind="visible: validateOldPassword()==='FAILURE'">X&nbsp;&nbsp;{% trans %}Your password is incorrect. Please try again.{% endtrans %}</span>
+                        <span class="validated" data-bind="visible: validateOldPassword()==='SUCCESS'">✔&nbsp;&nbsp;{% trans %}Your old password is correct.{% endtrans %}</span></li>
+                    <li><label>{% trans %}New password{% endtrans %}</label><input id="newPassword" class="long" type="password" data-bind="validateNewPassword: $data" /></li>
+                    <li id="newPasswordList"><label>{% trans %}Verify new password{% endtrans %}</label><input id="newPasswordVerify" class="long" type="password" data-bind="validateNewPassword: $data" />
+                        <span class="error" data-bind="visible: validateNewPassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
+                        <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
+                    </li>
+                </ul>
+                <a class="save-button" href="javascript:void(0);" data-bind="click: changePassword, clickBubble: false">{% trans %}Save{% endtrans %}</a>
+            </div>
+        </div>
+        <div class="main" id="upgradeLocationMain" data-bind="visible: upgradeLocationTabSelected, blockUpdatesUI: {}">
+            <div>
+                <h3>{% trans %}Update{% endtrans %}</h3>
+                <div class="single-pane no-padding" data-bind="visible: globalSettingsVm.availableUpdate().newest_build != null">
+                    <h4>{% trans %}Update Axon{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p>{% trans %}Current Build:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></p>
+                            <p>{% trans %}Newest Build:{% endtrans %} <span data-bind="text:globalSettingsVm.availableUpdate().newest_build"></span></p>
+                        </li>
+                        <!--<li>-->
+                            <!--<p>{% trans %}To update your Axon software to the latest revision, ensure that you have a working Internet connection and then click Begin update. Do not close the browser or turn off the Axon device until the update process is complete. The process can take as long as 15 minutes.{% endtrans %}</p>-->
+                        <!--</li>-->
+                        <li style="width:98%">
+                            <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, 'Warning:<br /><br />Updating can take up to 45 minutes. After the update begins you will be logged out. During this time, please avoid shutting down the Axon. You will be able to log in again after the update has completed.<br /><br />If you have problems, please <a href=\'http://support.spirentforbusiness.com\' target=\'_blank\'>contact support</a>.<br />', beginUpgrade.bind($data)), clickBubble: false">
+                                <span>{% trans %}Begin update{% endtrans %}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding" data-bind="visible: globalSettingsVm.availableUpdate().newest_build == null">
+                    <h4>{% trans %}Update Axon{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p>{% trans %}Axon is up to date.{% endtrans %}</p>
+                            <p>{% trans %}Current Build:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></p>
+                        </li>
+                        <li style="width:98%">
+                            <div class="admin-button check-offline">
+                                <span>{% trans %}Check for offline update{% endtrans %}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main" id="languageMain" data-bind="visible: languageTabSelected">
+            <div>
+                <h3>{% trans %}Language{% endtrans %}</h3>
+                <ul class="single-pane set-language">
+                    <li>
+                        <label>{% trans %}Language{% endtrans %}</label>
+                        <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': languageDisplay }">
+                            <select id="lanuage" data-bind="value: language">
+                                <option value="en">English</option>
+                                <option value="ru">Русский</option>
+                                <option value="ja">日本語</option>
+                                <option value="zh">中文</option>
+                            </select>
+                        </div>
+                    </li>
+                </ul>
+                <a class="save-button" href="javascript:void(0);" data-bind="click: setLanguage, clickBubble: false">{% trans %}Save{% endtrans %}</a>
+            </div>
+        </div>
+       <div class="main" id="systemBackupRestoreMain" data-bind="visible: systemBackupRestoreTabSelected">
+            <div>
+                <h3>{% trans %}System Backup and Restore{% endtrans %}</h3>
+                <div class="subheader">{% trans %}CURRENT BUILD #:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></div>
+
+                <div class="single-pane no-padding half-width">
+                    <h4>{% trans %}Back up the system{% endtrans %}</h4>
+                    <ul><li><p>{% trans %}Click the button to save the current state of the system (system settings and test and report data) to a file (.axon file format). The system provides a link to the file so you can save it locally for future use.{% endtrans %}</p>
+                    <p>{% trans %}This process can take up to 10 minutes.  Do not close your browser or turn off the Axon device during the backup process.{% endtrans %}</p>
+                    <blockquote>
+                        <strong>{% trans %}Tip:{% endtrans %}</strong>
+                        {% trans %}Make sure to do backup regularly to avoid losing data.{% endtrans %}
+                    </blockquote>
+                    <li style="width:98%"><div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}This operation saves the current state of the system (system settings and test and report data) to a file in .axon file format.{% endtrans %}', beginBackupSystem), clickBubble: false"><span>{% trans %}BACK UP THE SYSTEM{% endtrans %}</span></div></li></ul>
+                </div>
+                <div class="single-pane no-padding half-width last">
+                    <h4>{% trans %}Restore the system{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p>{% trans %}Select a backup file from the drop down and click RESTORE to restore the system settings and all test and report data to the state that it was in that backup.{% endtrans %}</p>
+                            <p>{% trans %}This process can take up to 30 minutes.  Do not close your browser or turn off the Axon device during the restore process.{% endtrans %}
+                            <blockquote>
+                                <strong>{% trans %}Tip:{% endtrans %}</strong>
+                                {% trans %}Choose a file with .axon format to restore.{% endtrans %}
+                            </blockquote>
+                            <select id="backup-list" style="width:100%;" data-bind="options: globalSettingsVm.axonBackups, optionsText: 'displayName', value: selectedBackup, optionsCaption: '{% trans %}Choose a backup...{% endtrans %}'"></select>
+                        </li>
+                        <li data-bind="visible: selectedBackup" style="width:98%"><div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}<p>This operation restores the system settings and all test and report data to the state that it was when you created the backup. This operation can take up to 30 minutes.</p><p><strong>Caution:</strong><br>Be sure to back up the system before performing the Restore operation. If you have not previously backed up the system, then this operation will permanently delete all system settings, test, and report data from the selected backup to the current time.</p>{% endtrans %}', beginRestoreSystem), clickBubble: false"><span>{% trans %}RESTORE{% endtrans %}</span></div>
+                        </li>
+                        {# JCZ 12/7/2013 - Hidden for now pending ENT-2910
+                        <li data-bind="visible: selectedBackupExternal() ==  'False'" style="width:98%"><div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}This operation archives the selected copy to the first available external drive.</p>{% endtrans %}', archiveSystemBackup), clickBubble: false"><span>{% trans %}ARCHIVE TO EXTERNAL DRIVE{% endtrans %}</span></div>
+                        </li>
+                        <li data-bind="visible: selectedBackupExternal() ==  'True'" style="width:98%"><div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}This operation imports a Axon backup and unarchives a copy to reside on the chassis.</p>{% endtrans %}', importSystemBackup), clickBubble: false"><span>{% trans %}IMPORT FROM EXTERNAL DRIVE{% endtrans %}</span></div>
+                        </li>
+                        #}
+                        <li data-bind="visible: selectedBackup" style="width:98%"><div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}<p><strong>Caution:</strong><br>This operation permanently deletes the selected backup.</p>{% endtrans %}', deleteSystemBackup), clickBubble: false"><span>{% trans %}DELETE{% endtrans %}</span></div>
+                        </li>
+                        <li class="floatNone" style="width:98%"><div id="backup-uploader" data-bind="backupFileUpload: $data"></div></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="main wifi" id="wifiAdminMain" data-bind="visible: wifiAdminTabSelected">
+            <div>
+                <span class="tooltip" id="wifiFallbackTooltip" style="display: none;">{% trans %}With this option, wifi will be enabled if no wired connection is available.{% endtrans %}</span>
+                <h3>{% trans %}Wifi Administration{% endtrans %}</h3>
+                <div  class="single-pane no-padding">
+                    <h4>{% trans %}Wifi Mode{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <label for="wifi_enabled_true">{% trans %}Enable Wifi{% endtrans %}</label>
+                            <input type="radio" id="wifi_enabled_true" value="on" data-bind="checked: globalSettingsVm.wifiEnabled" name="wifi_enabled">
+                            <!--<span data-tooltip="wifiFallbackTooltip" data-bind="adminTooltip: self">
+                                <label for="wifi_enabled_fallback">Wifi fallback</label>
+                                <input type="radio" id="wifi_enabled_fallback" value="fallback" data-bind="checked: globalSettingsVm.wifiEnabled" name="wifi_enabled">
+                            </span>-->
+                            <label for="wifi_enabled_false">{% trans %}Disable Wifi{% endtrans %}</label>
+                            <input type="radio" id="wifi_enabled_false" value="off" data-bind="checked: globalSettingsVm.wifiEnabled" name="wifi_enabled">
+                        </li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding">
+                    <h4>{% trans %}Security Settings{% endtrans %}</h4>
+                    <ul>
+                        <li><label>{% trans %}SSID{% endtrans %}</label><input type="text" class="long" name="ssid" data-bind="value: globalSettingsVm.ssid, attr: { 'disabled': globalSettingsVm.wifiEnabled() == 'off' ? 'disabled' : null }" /></li>
+                        <li><label>{% trans %}WPA2 Key{% endtrans %}</label><input type="text" name="key" class="long" data-bind="value: globalSettingsVm.wpaKey, attr: { 'disabled': globalSettingsVm.wifiEnabled() == 'off' ? 'disabled' : null }"/>
+                        </li>
+                    </ul>
+                </div>
+                <button class="save-button">Save</button>
+				<div class="confirmation-message hidden">{% trans %}If you are connected to this Axon through wifi, changing the SSID or WPA2 Key will require you to re-establish a web management session with this Axon.<br><br>Disabling wifi while connected to the wifi network will require you to use a wired network to re-establish a web management session with this Axon.<br><br>Are you sure you want to continue?{% endtrans %}</div>
+            </div>
+        </div>
+        <div class="main" id="systemSettingsMain" data-bind="visible: systemSettingsTabSelected">
+            <div>
+                <h3>{% trans %}AXON SYSTEM SETTINGS{% endtrans %}</h3>
+                <div class="error section" data-bind="visible: globalSettingsVm.validationResult() && !globalSettingsVm.validationResult().is_valid">
+                    <div class="container" data-bind="foreach: globalSettingsVm.validationResult() ? globalSettingsVm.validationResult().messages : []">
+                        <h2>{% trans %}There are validation errors with your device configuration:{% endtrans %}</h2>
+                        <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
+                            <li data-bind="text: $data"></li>
+                        </ul>
+                    </div>
+                </div>
+                <div  class="single-pane no-padding">
+                    <h4>{% trans %}Basic Setting{% endtrans %}</h4>
+                    <ul>
+                        <li><label>{% trans %}Device Name{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.device_name" /></li>
+                    </ul>
+                </div>
+                <div  class="single-pane no-padding">
+                    <h4>{% trans %}Axon Network Settings{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <label class="dhcp" for="dhcp_value_false_lightbox">{% trans %}No DHCP{% endtrans %}</label>
+                            <input type="radio" id="dhcp_value_false_lightbox" value="false" data-bind="refreshDhcpSettings: globalSettingsVm.dhcp, checked: globalSettingsVm.dhcp" name="dhcp_value_lightbox">
+                            <label class="dhcp normalCase" for="dhcp_value_v4_lightbox">{% trans %}DHCP{% endtrans %}</label>
+                            <input type="radio" id="dhcp_value_v4_lightbox" value="v4" data-bind="refreshDhcpSettings: globalSettingsVm.dhcp, checked: globalSettingsVm.dhcp" name="dhcp_value_lightbox">
+                        </li>
+                        <li><label>{% trans %}Hostname{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.hostname" /></li>
+                        </ul>
+                        <ul>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
+                        <li><label>{% trans %}MAC Address{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.mac_address, attr: { 'disabled': 'disabled' }" /></li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding">
+                    <h4>{% trans %}DNS Settings{% endtrans %}</h4>
+                    <ul>
+                        <li><label>{% trans %}Primary DNS{% endtrans %}</label><input type="text" name="primary_dns" data-bind="value: globalSettingsVm.primaryDns" /></li>
+                        <li><label>{% trans %}Secondary DNS{% endtrans %}</label><input type="text" name="secondary_dns" data-bind="value: globalSettingsVm.secondaryDns" /></li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding">
+                    <h4>{% trans %}Time Synchronization{% endtrans %}</h4>
+                    <ul>
+                        <li><label>{% trans %}NTP Server Address 1{% endtrans %}</label><input class="long" type="text" name="ntp1" data-bind="value: globalSettingsVm.ntpServer1" /></li>
+                        <li><label>{% trans %}NTP Server Address 2{% endtrans %}</label><input class="long" type="text" name="ntp2" data-bind="value: globalSettingsVm.ntpServer2" /></li>
+                        <li><label>{% trans %}NTP Server Address 3{% endtrans %}</label><input class="long" type="text" name="ntp3" data-bind="value: globalSettingsVm.ntpServer3" /></li>
+                        <li><label>{% trans %}NTP Server Address 4{% endtrans %}</label><input class="long" type="text" name="ntp4" data-bind="value: globalSettingsVm.ntpServer4" /></li>
+                        <li><label>{% trans %}NTP Server Address 5{% endtrans %}</label><input class="long" type="text" name="ntp5" data-bind="value: globalSettingsVm.ntpServer5" /></li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding half-width no-top-margin">
+                    <h4>{% trans %}Licensing Info{% endtrans %}</h4>
+                    <ul>
+                        <li class="floatNone"><div class="subheader">{% trans %}Chassis ID:{% endtrans %} <span data-bind="text:globalSettingsVm.chassisId()"></span></div>
+                        <li class="floatNone"><div id="licenseStatus" data-bind="css:{validated:globalSettingsVm.licenseStatus().valid == 1, error:globalSettingsVm.licenseStatus().valid != 1}">{% trans %}License status:{% endtrans %} <span data-bind="html: globalSettingsVm.licenseStatus().valid == 1 ? 'Valid<br>Expires: ' + globalSettingsVm.licenseExpiration(): 'Invalid<br>Expired: ' + globalSettingsVm.licenseExpiration()">Unknown</span></div></li>
+                        <li class="floatNone"><div id="fine-uploader" data-bind="stcLicenseFileUpload: $data"></div></li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding half-width last no-top-margin">
+                    <h4>{% trans %}System Logs{% endtrans %}</h4>
+                    <ul>
+                        <li class="floatNone"><div id="systemLogs" data-bind="click:getSystemLogs" class="admin-button">{% trans %}Download system logs{% endtrans %}</div></li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding">
+                    <h4>{% trans %}Reboot Axon{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p>{% trans %}This will physically reboot your Axon box. The process can take as long as 15 minutes.{% endtrans %}</p>
+                        </li>
+                        <li style="width:98%">
+                            <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}Are you sure you want to reboot Axon?<br><br> This could take up to 15 minutes.{% endtrans %}', rebootChassis.bind($data)), clickBubble: false">
+                                <span>{% trans %}Reboot{% endtrans %}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="single-pane no-padding">
+                    <h4>{% trans %}Shutdown Axon{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p>{% trans %}This will physically shutdown your Axon box.{% endtrans %}</p>
+                        </li>
+                        <li style="width:98%">
+                            <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, '{% trans %}Are you sure you want to shutdown Axon?{% endtrans %}', shutdownChassis.bind($data)), clickBubble: false">
+                                <span>{% trans %}Shutdown{% endtrans %}</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+				<div class="single-pane no-padding ssl">
+                    <h4>{% trans %}SSL{% endtrans %}</h4>
+                    <ul>
+                        <li>
+                            <p><a href="/ssl.crt">{% trans %}Download SSL certificate{% endtrans %}</a></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <a class="save-button" href="javascript:void(0);" data-bind="click: saveGlobalSettings, clickBubble: false">{% trans %}Save{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+</script>

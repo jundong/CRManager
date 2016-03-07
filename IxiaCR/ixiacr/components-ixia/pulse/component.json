@@ -1,0 +1,35 @@
+{
+  "name": "pulse",
+  "repo": "components-spirent/pulse",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1",
+    "component/classes": "1.2.3",
+    "johntron/model": "*",
+    "component/event": "0.1.4",
+    "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+    "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "templates/index.js",
+    "models/pulse.js",
+    "models/interface.js",
+    "templates/license.js"
+  ],
+  "styles": [
+    "pulse.css"
+  ],
+  "local": [
+    "async-poller",
+    "loading-state",
+    "network-settings-view",
+    "interface-model",
+    "interface-selector"
+  ]
+}

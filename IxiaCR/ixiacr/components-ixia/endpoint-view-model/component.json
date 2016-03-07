@@ -1,0 +1,30 @@
+{
+  "name": "endpoint-view-model",
+  "repo": "components-spirent/endpoint-view-model",
+  "description": "View Model for endpoints",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1",
+    "component/event": "0.1.4",
+    "johntron/validate-form": "6005cddc781064389ea0053f3f4bad47e2f1a2d2",
+    "component/classes": "1.2.3",
+    "johntron/is-ip-address": "39a0715c025a0be4d5956e1b891682d6d0f18e18"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "validator.js",
+    "unicast/view-model.js",
+    "multicast/view-model.js",
+    "multicast/templates/template.js"
+  ],
+  "styles": [
+    "style.css"
+  ],
+  "local": [
+    "utility-functions"
+  ]
+}

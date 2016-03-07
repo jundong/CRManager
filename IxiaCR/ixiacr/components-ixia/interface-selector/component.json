@@ -1,0 +1,27 @@
+{
+  "name": "interface-selector",
+  "repo": "components-spirent/interface-selector",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1",
+    "component/emitter": "1.0.1",
+    "component/classes": "1.2.3",
+    "component/event": "0.1.4"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "templates/interface.js",
+    "templates/template.js"
+  ],
+  "styles": [
+    "interface-selector.css"
+  ],
+  "local": [
+    "interface-model"
+  ]
+}

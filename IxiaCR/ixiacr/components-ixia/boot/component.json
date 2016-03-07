@@ -1,0 +1,49 @@
+{
+  "private": true,
+  "name": "boot",
+  "repo": "spirent/boot",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "then/promise": "d0bab8d4e8a704bb71d83d48eabebacc360651c7",
+    "visionmedia/page.js": "1.6.1",
+    "browserstate/history.js": "1.8.0",
+    "component/event": "0.1.4",
+    "component/classes": "1.2.3"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "styles": [],
+  "local": [
+      "logger",
+      "logger-jquery-ajax",
+      "asset-manager",
+      "utility-functions",
+      "translator",
+      "dictionary-provider",
+      "spirent-view-model",
+      "device-model",
+      "capture-filter-chooser",
+      "netflow-settings",
+      "scheduler",
+      "traffic-recorder",
+      "dashboard-view-model",
+      "test-history-view-model",
+      "test-view-model",
+      "test-results-final-table-view-model",
+      "test-template-view-model",
+      "configured-test-view-model",
+      "administration-view-model",
+      "traffic-player-view-model",
+      "test-device-view-model",
+      "line-rate-message-view-model",
+      "pulse",
+      "info-pane",
+      "disk-management"
+  ]
+}

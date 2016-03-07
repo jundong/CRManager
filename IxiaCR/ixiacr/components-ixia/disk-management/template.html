@@ -1,0 +1,16 @@
+<div class="disk main">
+    <div>
+        <h3>Disk Management <span class="updating" data-bind="visible: updating() > 0"></span></h3>
+    </div>
+    <div class="single-pane no-padding usage">
+        <h4>Usage</h4>
+        <ul>
+            <li class="visualization">&nbsp;</li>
+            <li><label><span class="legend" data-bind="style: {backgroundColor: colors[0]}"></span> System</label><span data-bind="text: get_filesize('system')"></span> <span data-bind="text: '(' + get_percentage('system')() + ')'"></span></li>
+            <li><label><span class="legend" data-bind="style: {backgroundColor: colors[1]}"></span> Backup</label><span data-bind="text: get_filesize('backups')"></span> <span data-bind="text: '(' + get_percentage('backups')() + ')'"></span> <a href="" data-bind="click: delete_all_backups">Delete all</a> | <a href="" data-bind="click: go_to_backup">View</a></li>
+            <li><label><span class="legend" data-bind="style: {backgroundColor: colors[2]}"></span> Diagnostic</label><span data-bind="text: get_filesize('diags')"></span> <span data-bind="text: '(' + get_percentage('diags')() + ')'"></span> <a href="" data-bind="click: delete_all_diags">Delete all</a></li>
+            <li><label><span class="legend" data-bind="style: {backgroundColor: colors[3]}"></span> Capture</label><span data-bind="text: get_filesize('captures')"></span> <span data-bind="text: '(' + get_percentage('captures')() + ')'"></span> <a href="" data-bind="click: delete_all_captures">Delete all</a> |<a href="" data-bind="click: go_to_recorder">View</a></li>
+            <li><label><span class="legend" data-bind="style: {backgroundColor: colors[4]}"></span> Free</label><span data-bind="text: get_filesize('free')"></span> <span data-bind="text: '(' + get_percentage('free')() + ')'"></span></li>
+        </ul>
+    </div>
+</div>

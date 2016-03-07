@@ -1,0 +1,16 @@
+{
+    "name": "test-history-view-model",
+    "repo": "components-spirent/test-history-view-model",
+    "description": "View Model for previously-run tests",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {
+        "johntron/moment": "3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68"
+    },
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js"
+    ]
+}

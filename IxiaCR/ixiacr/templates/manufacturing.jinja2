@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/css/eula.css" media="all"/>
+</head>
+<body>
+<div class="logo">
+    <img src="images/spirent_axon_logo_black_large.png"/>
+</div>
+<div class="box" id="manuContainer">
+    <form id="manufacturing-reset-form" class="container" method="post" action="/spirent/manufacturing_reset">
+        <h1>
+            {% trans %}Warning, by clicking the button below, this Axon device will be reset to factory defaults. This reset includes
+            deleting all tests that have been run previously and resetting the EULA.{% endtrans %}
+        </h1>
+        <br /> <br />
+        <div style="text-align: center; width: 100%;">
+            <input type="submit" name="reset_axon" value="Reset Device" style="padding: 10px" onclick="if(confirm('{% trans %}By agreeing, you will lose all data. Are you sure?{% endtrans %}')); else return false;"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>

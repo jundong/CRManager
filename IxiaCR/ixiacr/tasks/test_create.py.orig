@@ -1,0 +1,578 @@
+from __future__ import absolute_import
+
+import collections
+import itertools
+import json
+
+from axon.tasks import core
+from axon.tasks import token
+
+from axon.lib.engines import models
+from axon.lib.engines.utils import SubclassManager
+from axon.lib.engines import results
+from axon.lib.engines.stc import managers
+from axon.lib.engines.stc import sequence
+from axon.lib.engines.stc.hacks import TestState
+from axon.lib import axon_logger
+
+from celery import current_task
+
+axonlogger = axon_logger.AxonLogger(__name__)
+
+
+class TestCenterCreateTestTask(core.TestCenterTestTask):
+    abstract = True
+    ENFORCE_SFPGA_TX_LIMIT = False
+    SFPGA_HIGH_SPEED_THRESHOLD = 1000  # Set the threshold for toggling config
+                                       # options to maximize performance on
+                                       # SFPGA platforms
+
+    def validate(self, test):
+        # Make sure we actually have a test
+        assert test is not None, 'Missing test object'
+
+        # Assuming we have a test, check for errors.  No point in trying
+        # to build an invalid test
+        if not test.is_valid:
+            raise RuntimeError('\n'.join(test.errors))
+
+    def setup(self, test):
+        '''Perform any necessary prep work to run test on real hardware'''
+        self.validate(test)
+        self.upload_videos(test)
+        self.do_sfpga_fixups(test)
+
+    def upload_videos(self, test):
+        """Upload any video tracks we need to complete the test"""
+        clip_map = dict()
+
+        # Build a map of ports/videos
+        for playlist in test.playlists:
+            locations = list()
+            clips = list()
+
+            for track in playlist.tracks:
+                if hasattr(track, 'video_file'):
+                    if track.video_file not in clips:
+                        clips.append(track.video_file)
+
+            # No clips, so nothing to do for this playlist
+            if not len(clips):
+                continue
+
+            for source in playlist.sources:
+                if source.location not in locations:
+                    locations.append(source.location)
+
+            # We now have a list of sources and the clips they need;
+            # merge the info into our map
+            for location in locations:
+                if location not in clip_map.keys():
+                    clip_map[location] = list()
+                for clip in clips:
+                    if clip not in clip_map[location]:
+                        clip_map[location].append(clip)
+
+        # At this point, we should have a nice map of clips for each
+        # location that needs them
+        for location in clip_map.keys():
+
+            self.update_state_message(
+                'Loading video clip{0}...'.
+                format('s' if len(clip_map.keys()) > 1 else ''))
+
+            clipManager = managers.PortVideoClipManager(self.stc, location)
+            clipManager.add_videoclips(clip_map[location])
+
+        return
+
+    def _get_action_load_attributes(self, action):
+        attributes = list()
+        if isinstance(action, models.SetPlaylistLoadAction):
+            attributes.append('load')
+        if isinstance(action, models.AdjustPlaylistLoadAction):
+            attributes.append('adjustment')
+        if isinstance(action, models.CustomTestAction):
+            if (hasattr(action, 'packagename') and
+                    action.packagename == 'throughput_test'):
+                attributes += ['initialload',
+                               'loadlowerlimit',
+                               'loadupperlimit',
+                               'loadstep',
+                               'resolution']
+
+        return attributes
+
+    def _adjust_action_load(self, action, load_attr, load_scaler, load_max):
+        """
+        Adjust the load attribute of a test action based on the specified
+        modifiers
+        """
+        old_value = new_value = getattr(action, load_attr)
+
+        if load_scaler != 1:
+            new_value = float(old_value) / load_scaler
+
+        new_value = min(new_value, load_max)
+
+        if old_value != new_value:
+            axonlogger.info('Adjusting %s (%.3f --> %.3f) on action %s'
+                            % (load_attr, old_value, new_value, action))
+            setattr(action, load_attr, new_value)
+
+    def _get_base_playlist(self, playlist):
+        """
+        Our playlists may or may not have decorators on them. This method
+        returns the actual base playlist object
+        """
+        base = playlist
+        while hasattr(base, '_playlist'):
+            base = getattr(base, '_playlist')
+        return base
+
+    def _disable_prbs_payload(self, test):
+        for index, playlist in enumerate(
+                map(self._get_base_playlist, test.playlists),
+                start=1):
+            # Only affects frames playlists
+            if not isinstance(playlist, models.FramesPlaylist):
+                continue
+
+        axonlogger.info('Disabling PRBS payloads on playlist {0}'
+                        .format(index))
+
+        map(lambda track: setattr(
+            track, 'payload', models.FrameLength.Payload.ALL_ZEROS),
+            playlist.tracks)
+
+    def _disable_udp_checksums(self, test):
+        for index, playlist in enumerate(
+                map(self._get_base_playlist, test.playlists),
+                start=1):
+            # Only affects frames playlists
+            if not isinstance(playlist, models.FramesPlaylist):
+                continue
+
+        axonlogger.info('Disabling UDP checksums on playlist {0}'
+                        .format(index))
+
+        map(lambda track: setattr(track, 'checksum', False),
+            filter(lambda track: track.protocol == 'UDP', playlist.tracks))
+
+    def _do_sfpga_high_speed_fixup(self, test):
+        """
+        PRBS payloads take more CPU to generate and analyze that constant
+        payloads.  If we're on a SFPGA platform and are trying to generate a
+        large load, then switch to a constant payload so we have a better
+        chance of hitting it.
+        """
+
+        data = collections.defaultdict(int)
+
+        # Retreive the maximum load in a playlist
+        def get_max_playlist_load(playlist):
+            max_load = 0
+            for action in playlist.actions:
+                if isinstance(action, models.SetPlaylistLoadAction):
+                    max_load = max(action.load, max_load)
+                if isinstance(action, models.AdjustPlaylistLoadAction):
+                    max_load = max(action.adjustment, max_load)
+                if isinstance(action, models.CustomTestAction):
+                    if (hasattr(action, 'packagename') and
+                            action.packagename == 'throughput_test'):
+                        max_load = max(action.loadupperlimit, max_load)
+
+            return max_load
+
+        # Check out our playlists and guesstimate the maximum load from
+        # each chassis
+        for playlist in map(self._get_base_playlist, test.playlists):
+            # Only affects frames playlists
+            if not isinstance(playlist, models.FramesPlaylist):
+                continue
+
+            chassis = set(map(lambda src: self.csp(src.location)[0],
+                              playlist.sources))
+            load = get_max_playlist_load(playlist) / len(chassis)
+
+            for c in chassis:
+                data[c] += load
+
+        # Now, check to see if any chassis is over our threshold.
+        if len(filter(lambda load: load > self.SFPGA_HIGH_SPEED_THRESHOLD,
+                      data.itervalues())):
+            self._disable_prbs_payload(test)
+            self._disable_udp_checksums(test)
+
+    def _do_sfpga_load_fixup(self, test):
+        """
+        Adjust L2L3 playlist/action loads to work around SFPGA limitations.
+        SFPGA ports are designed to generate traffic at their nominal
+        port speed.  If the port has negotiatiated a different speed,
+        then we have to scale the traffic to match.
+        """
+        for playlist in map(self._get_base_playlist, test.playlists):
+
+            if not isinstance(playlist, models.FramesPlaylist):
+                continue
+
+            # Check if any transmitters are SFPGA based
+            load_scaler = 1
+            tx_load_limit = 0
+            speeds = list()
+
+            tx_ports = set(map(lambda src: self.port_by_location(src.location),
+                               playlist.sources))
+
+            for port in tx_ports:
+                if not self.CardUtils.is_sfpga(port):
+                    continue
+
+                speed = self.CardUtils.get_phy_speed_in_mbps(port)
+                if speed == 0:
+                    axonlogger.error(
+                        'Could not get phy speed for port at {0}!'.
+                        format(port))
+                    continue
+
+                if speed not in speeds:
+                    speeds.append(speed)
+
+                # SFPGA based ports can have clocking issues at 100% load.
+                # Enforce a load limit if configured to do so.
+                if self.ENFORCE_SFPGA_TX_LIMIT:
+                    tx_load_limit += (
+                        self.CardUtils.get_tx_speed_limit_in_mbps(port))
+                else:
+                    tx_load_limit += speed
+
+                if self.CardUtils.is_nic_26(port):
+                    load_scaler = 10000 / speed
+                elif self.CardUtils.is_nic_32(port):
+                    load_scaler = 1000 / speed
+                else:
+                    raise RuntimeError('%s is not a recgonized '
+                                       'SFPGA port' % port)
+
+            if load_scaler != 1:
+                if len(speeds) == 1:
+                    axonlogger.info('Scaling load by 1/%s for L2L3 '
+                                    'playlist on %s due to SFPGA phy '
+                                    'speed of %d Mbps'
+                                    % (load_scaler, port, speed))
+                else:
+                    axonlogger.error('No code to handle mixed speed '
+                                     'SFPGA transmitters.  Expect '
+                                     'generated traffic loads to be wrong '
+                                     'on ports: %s' % ', '.join(tx_ports))
+                    load_scaler = 1
+
+            if load_scaler == 1:
+                return  # nothing to do
+
+            # Update playlist load, though it's probably too late for that
+            raw_load = min(playlist.load.value, tx_load_limit)
+            playlist.load.value = float(raw_load) / load_scaler
+
+            # Update load related actions
+            for action in playlist.actions:
+                if isinstance(action, models.SetPlaylistLoadAction):
+                    self._adjust_action_load(
+                        action, 'load', load_scaler, tx_load_limit)
+                if isinstance(action, models.AdjustPlaylistLoadAction):
+                    self._adjust_action_load(
+                        action, 'adjustment', load_scaler,
+                        tx_load_limit)
+                if isinstance(action, models.CustomTestAction):
+                    if (hasattr(action, 'packagename') and
+                            action.packagename == 'throughput_test'):
+                        attrs = ['initialload',
+                                 'loadlowerlimit',
+                                 'loadupperlimit',
+                                 'loadstep',
+                                 'resolution']
+                        for attr in attrs:
+                            self._adjust_action_load(
+                                action, attr, load_scaler, tx_load_limit)
+
+                        # Update loadscaler in optional parameters so the
+                        # middle-tier gets the correct intended load
+                        action.optionalparameters.update(
+                            {'loadscaler': load_scaler})
+
+        return
+
+    def do_sfpga_fixups(self, test):
+        """
+        Perform all the tweaks necessary for running with minimal issues on
+        SFPGA based platforms
+        """
+
+        def is_sfpga_test(test):
+            # Grab all the ports and check
+            ports = set(map(lambda src: self.port_by_location(src.location),
+                            itertools.chain.from_iterable(
+                                [pl.sources for pl in test.playlists])))
+
+            return (len(filter(self.CardUtils.is_sfpga, ports)) > 0)
+
+        if is_sfpga_test(test):
+            # We have SFPGA ports; do fixups
+            self._do_sfpga_high_speed_fixup(test)
+            self._do_sfpga_load_fixup(test)
+
+    def order_protocol_tuples(self, tuples):
+        # Due to BLL speed issues, we need to build video tracks before
+        # anything else, so check for video tracks and order them first
+        # if we find them
+        video_track_idx = None
+        track_count = len(tuples)
+        for i, (track, load) in enumerate(tuples):
+            if hasattr(track, 'protocol'):
+                if track.protocol.lower() == 'video':
+                    video_track_idx = i
+                else:
+                    continue
+            else:
+                # No protocol attribute means we have a frames track; abort
+                break
+
+        if video_track_idx is None:
+            axonlogger.debug('returning original tuples list')
+            return tuples
+        else:
+            # Is there a better way to do this?
+            tuple_idxs = [x for x in range(track_count)]
+            tuple_idxs.remove(video_track_idx)
+            tuple_idxs.insert(0, video_track_idx)
+            axonlogger.debug('reordered tuples list: video track index = %s, '
+                             'order = %s' % (video_track_idx, tuple_idxs))
+            return [tuples[i] for i in tuple_idxs]
+
+    def do_protocol_setup(self, protocolmanager, device, endpoint, playlist, track=None):
+        # Build Endpoint type
+        protocolmanager.build(device,endpoint, track)
+
+        # Build other Endpoint type, such as MulticastEndpoint
+        for subclass in SubclassManager.get_subclasses_for(models.BaseEndpoint):
+            for attr in dir(playlist):
+                if attr.startswith('_') or isinstance(endpoint, subclass):
+                    continue
+                else:
+                    attr = getattr(playlist, attr)
+                    if isinstance(attr, subclass):
+                        protocolmanager.build(device, attr, track)
+
+
+    def create(self, test, save_as=None, offline=None, drop_results=None):
+        '''Convert lib.engine.model test object into BLL configuration'''
+        self.validate(test)
+
+        # XXX: I don't particularly like this, but it works for now.
+        # Set the task id so that all log/results from this test will
+        # appear in a common location
+        TestState().initialize(current_task.request.id)
+
+        testtoken = token.TestToken(test=test)
+        if drop_results:
+            testtoken.drop_results = True
+
+        # Perform any chassis hardware setup if we're running with
+        # real hardware
+        if not offline:
+            self.setup(test)
+
+        sequences = list()  # list of all sequences generated by this test
+        # This object manages device creation and record keeping
+        devicemanager = managers.EmulatedDeviceManager(self.stc)
+        protocolmanager = managers.ProtocolBuilderManager(self.stc)
+        protocoltrafficmanager = managers.ProtocolTrafficBuilderManager(self.stc)
+        frametrafficmanager = managers.FrameTrafficBuilderManager(self.stc)
+
+        for i, playlist in enumerate(test.playlists):
+            sources = list()  # source endpoint handles for this playlist
+            sinks = list()    # sink endpoint handles for this playlist
+            handles = list()  # handles used by the sequence generator
+            layer = None      # Used to verify all tracks are of compatible types
+
+            # If the playlist doesn't already have an explicit name,
+            # give it one.
+            if playlist.name is None:
+                playlist.name = 'Playlist %d' % (i + 1)  # Use 1's based index
+
+            if len(test.playlists) == 1:
+                self.update_state_message('Creating playlist...')
+            else:
+                msg = ('Creating playlist {playlist_index} of '
+                       '{playlist_total}...')
+                kwargs = {'playlist_index': i + 1,
+                          'playlist_total': len(test.playlists)}
+                self.update_state_message(msg, kwargs)
+
+            # Create src/sink endpoints for this playlist.
+            # Note that we reuse duplicates, if they exist
+            for source in playlist.sources:
+                port = self.port_by_location(source.location, offline)
+                assert port, 'No port at location %s' % source.location
+                device = devicemanager.build_device(port, source)
+                sources.append(device)
+
+                # Build protocols
+                self.do_protocol_setup(protocolmanager, device, source, playlist)
+
+            for sink in playlist.sinks:
+                port = self.port_by_location(sink.location, offline)
+                assert port, 'No port at location %s' % sink.location
+                device = devicemanager.build_device(port, sink)
+                sinks.append(device)
+
+                # Build protocols
+                self.do_protocol_setup(protocolmanager, device, sink, playlist)
+
+            # Round robin through source/sink pairs
+            sourceCount = len(sources)
+            sinkCount = len(sinks)
+            loopCount = max(sourceCount, sinkCount)
+
+            for idx in range(loopCount):
+                source = sources[idx % sourceCount]
+                sink = sinks[idx % sinkCount]
+
+                for track, load in self.order_protocol_tuples(
+                        playlist.get_track_load_tuplelist()):
+                    # load adjustment due to loopcount
+                    adj_load = load / loopCount
+                    adapted_track = self.TrackAdapterFactory.make_adapter(
+                        track, adj_load, playlist)
+
+                    testtoken.tracks[track] = adapted_track.init_args
+
+                    # Make sure track layer is sensible
+                    if layer is None:
+                        layer = track.layer
+                    else:
+                        assert layer == track.layer, (
+                            'Cannot mix protocol layers in a playlist')
+
+                    result = None
+                    is_group_results = False
+                    if track.layer <= 3:
+                        if protocolmanager.groups_mapping:
+                            is_group_results = True
+                            for endpoint in protocolmanager.groups_mapping:
+                                for group in protocolmanager.groups_mapping[endpoint]:
+                                    result = frametrafficmanager.build(
+                                        source, group, adapted_track)
+
+                                    assert result is not None, (
+                                        'No result for %s,%s,%s' %
+                                        (source, group, adapted_track))
+
+                                    # Our result adpater object is too complex to pickle,
+                                    # so we save off the init args so we can recreate our
+                                    # adapters when we need them.
+                                    testtoken.results[source, group, track] = result.init_args
+
+                                    # To properly tag results, we need to store some of the
+                                    # original object model for this result.  Save it off
+                                    # here so that we can reference it easily later
+                                    source_endpoint_id = devicemanager.get_endpoint_id_by_handle(source)
+                                    sink_endpoint_id = endpoint.id
+                                    resultpacket = results.ResultPacket(test_id=test.id,
+                                                                        playlist_id=playlist.id,
+                                                                        track_id=track.id,
+                                                                        source_id=source_endpoint_id,
+                                                                        sink_id=sink_endpoint_id,
+                                                                        group_id=group)
+                                    testtoken.result_packets[source, group, track] = resultpacket
+
+                                    handles += result.handles
+
+                        else:
+                            result = frametrafficmanager.build(
+                                source, sink, adapted_track)
+                    elif track.layer > 3:
+                        result = protocoltrafficmanager.build(
+                            source, sink, adapted_track)
+                    else:
+                        raise TypeError('Unsupported track layer for track %s'
+                                        % track)
+
+                    if not is_group_results:
+                        assert result is not None, (
+                            'No result for %s,%s,%s' %
+                            (source, sink, adapted_track))
+
+                        # Our result adpater object is too complex to pickle,
+                        # so we save off the init args so we can recreate our
+                        # adapters when we need them.
+                        testtoken.results[source, sink, track] = result.init_args
+
+                        # To properly tag results, we need to store some of the
+                        # original object model for this result.  Save it off
+                        # here so that we can reference it easily later
+                        source_endpoint_id = devicemanager.get_endpoint_id_by_handle(source)
+                        sink_endpoint_id = devicemanager.get_endpoint_id_by_handle(sink)
+                        resultpacket = results.ResultPacket(test_id=test.id,
+                                                            playlist_id=playlist.id,
+                                                            track_id=track.id,
+                                                            source_id=source_endpoint_id,
+                                                            sink_id=sink_endpoint_id)
+                        testtoken.result_packets[source, sink, track] = resultpacket
+
+                        handles += result.handles
+
+            # Now generate the test sequence from this playlist's actionlist
+            if len(playlist.actions) > 0:
+                seq = [x for x in sequence.ActionsToSequenceGenerator(self.stc, handles, playlist.actions)]
+                sequences.append(seq)
+            else:
+                axonlogger.debug('No actions for playlist %s' % playlist.name)
+                assert False, 'Playlist must have actions'
+
+        # Setup generator/analyzer port results for this test
+        # XXX: Temporary variable for integration purposes only.
+        if hasattr(test, 'per_port_results') and test.per_port_results:
+            # Provide per port results
+            for i, port in enumerate(self.ports):
+                port_results = self.TrafficManager.get_port_results(port)
+                testtoken.results[None, None, port] = port_results.init_args
+                testtoken.result_packets[None, None, port] = results.ResultPacket(test_id=test.id,
+                                                                                  port_id=i)
+        else:
+            # Provide aggregate port results
+            port_results = self.TrafficManager.get_port_results()
+            testtoken.results[None, None, None] = port_results.init_args
+            testtoken.result_packets[None, None, None] = results.ResultPacket(test_id=test.id)
+
+        # Build out commands to run test...
+        if len(sequences) > 0:
+            self.update_state_message(
+                'Mixing playlist{0}...'.
+                format('s' if len(test.playlists) > 1 else ''))
+
+            sg = self.SequenceGeneratorFactory.make_sequence_generator(
+                *sequences)
+            testtoken.expected_duration = sg.duration
+            # XXX: Not yet.
+            testtoken.sequence_by_ports = json.dumps(sg.sequence_by_ports)
+
+            # Iterate through the generator.  This actually builds the commands
+            # in the BLL
+            try:
+                while True:
+                    sg.next()
+            except StopIteration:
+                pass
+        else:
+            axonlogger.debug('No actions for test %s' % test.name)
+            assert False, 'Test must have actions'
+
+        if save_as is not None:
+            assert isinstance(save_as, str), 'save_as should be a string specifying a filename'
+            if not save_as.endswith('.xml'):
+                save_as += '.xml'
+            self.stc.perform('SaveAsXml', filename=save_as)
+
+        # Finished!
+        return testtoken

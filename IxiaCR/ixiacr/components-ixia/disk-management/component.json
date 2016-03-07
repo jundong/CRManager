@@ -1,0 +1,28 @@
+{
+    "name": "disk-management",
+    "repo": "components-spirent/disk-management",
+    "description": "components-spirent/disk-management",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {
+        "component/domify": "1.3.1",
+        "component/classes": "1.2.3",
+        "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+        "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a",
+        "houzhenyu1117/humanize": "component",
+        "johntron/color-slicer": "66cbde8b409f975015b69d4ebc5a2b65ea8461f0"
+    },
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js",
+        "visualization.js"
+    ],
+    "templates": [
+        "template.html"
+    ],
+    "styles": [
+        "disk-management.css"
+    ]
+}

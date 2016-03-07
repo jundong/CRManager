@@ -1,0 +1,9 @@
+[
+    {"id": 1, "name": "Weakest Link"},
+    {"id": 2, "name": "Expected Latency (in milliseconds)"},
+    {"id": 3, "name": "Jitter"},
+    {"id": 4, "name": "WAN Circuit"},
+    {"id": 5, "name": "Bandwidth"},
+    {"id": 6, "name": "Clients"},
+    {"id": 7, "name": "Servers"}
+]

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<title>Spirent Axon</title>
+	<link rel="shortcut icon" href="/static/images/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="css/default.css" />
+	<link rel="stylesheet" type="text/css" href="js/build.css" />
+    <!--[if lte IE 10]>
+    <link rel="stylesheet" type="text/css" href="css/ie.css" media="all"/>
+    <![endif]-->
+    <!--[if lte IE 9]>
+    <style type="text/css">
+        .small-round-button,
+        .small-round-button:hover,
+        .light-round-button,
+        .light-round-button:hover
+        { filter: none; }
+    </style>
+    <![endif]-->
+
+    <link rel="stylesheet" type="text/css" href="css/autoSuggest.css" media="all"/>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+
+</head>
+<body>
+	<div id="main">
+		<div id="header">
+			<!--<div class="filters">-->
+			<!--<ul>-->
+			<!--<li>-->
+			<!--<select class="grey-3d-select">-->
+			<!--<option>All Companies</option>-->
+			<!--</select>-->
+			<!--</li>-->
+			<!--<li>-->
+			<!--<select class="grey-3d-select">-->
+			<!--<option>All Locations</option>-->
+			<!--</select>-->
+			<!--</li>-->
+			<!--<li>-->
+			<!--<input type="text" class="dark-text" value="Data, Voice, Spirent, Cisco" />-->
+			<!--</li>-->
+			<!--<li>-->
+			<!--<button class="flat-grey-button">APPLY FILTERS</button>-->
+			<!--</li>-->
+			<!--</ul>-->
+			<!--</div>-->
+			<div class="navigation">
+				<div class="container">
+					<div class="bar">
+						<div class="spirent-logo" data-bind="click: showDashboard">
+                            <img src="images/spirent_axon_logo_white_gradient.png" title="{% trans %}Spirent{% endtrans %}" alt="{% trans %}Spirent{% endtrans %}" />
+                            <div class="model">Core {{ model | safe }}</div>
+                        </div>
+						<ul class="tabs">
+							<!-- this has to be on one line in order to not have an annoying space between elements -->
+							<li data-bind="attr: { 'class': dashboardTabClass }, click: showDashboard">
+                                {% trans %}DASHBOARD{% endtrans %}
+                            </li><li data-bind="attr: { 'class': testLibraryTabClass }, click: openTestCreationLightbox, clickBubble: false">
+                                {% trans %}TEST LIBRARY{% endtrans %}
+	                        </li><li data-bind="attr: { 'class': testTabClass }, click: openTestCreationLightboxUnlessLoaded, clickBubble: false">
+	                            {% trans %}TRAFFIC PLAYER{% endtrans %}
+	                        </li>{% if 'scheduler' in global_vars.features %}<li data-bind="attr: { 'class': calendarTabClass }, click:  showCalendar">
+	                            {% trans %}CALENDAR{% endtrans %}
+	                        </li>{% else %}<li data-bind="attr: { 'class': historyTabClass }, click: showHistory">
+	                            {% trans %}HISTORY{% endtrans %}
+	                        </li>{% endif %}<li data-bind="attr: { 'class': administrationTabClass }, click: showAdministration">
+	                            {% trans %}ADMINISTRATION{% endtrans %}
+	                        </li>
+						</ul>
+						<div class="admin_notification" data-bind="visible: vmGlobalSettings.admin_notifier() != 0, text: vmGlobalSettings.admin_notifier()"></div>
+						<ul class="account">
+							<li><span data-bind="text: user"></span></li>
+							<li><a href="https://spirentforbusiness.freshdesk.com" id="support">{% trans %}Help{% endtrans %}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/logout" class="logout">{% trans %}Log Out{% endtrans %}</a></li>
+						</ul>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dashboard" data-bind="visible: selectedTab() == 'dashboard', template: {name: dashboardTemplateName(), data: vmDashboard, templateEngine: new ko.nativeTemplateEngine }"></div>
+		<div class="test" data-bind="visible: selectedTab() == 'test', template: {name: testTemplateName(), templateEngine: new ko.nativeTemplateEngine, data: vmTest, afterRender: vmTest.afterRender}"></div>
+		<div class="calendar" data-bind="visible: selectedTab() == 'calendar'"></div>
+		<div class="history" data-bind="visible: selectedTab() == 'history', template: {name: historyTemplateName(), templateEngine: new ko.nativeTemplateEngine, data: vmHistory }"></div>
+		<div class="administration" data-bind="visible: selectedTab() == 'administration'"></div>
+	</div>
+	<div class="ie-initialization" style="display: none;">
+		<div class="box"></div>
+	</div>
+	<script id="placeholder-template" type="text/html"></script>
+
+    <script type="text/javascript">
+        Axon = {
+            build_number: "{{global_vars.build_number}}",
+            log_level: "{{global_vars.ui_log_level}}",
+            language: '{{ language }}',
+            debug: {{ 'true' if request.registry.settings.debug else 'false' }},
+            features: [{{ global_vars.features|safe }}],
+            model: "{{ model|safe }}"
+        };
+    </script>
+    <script type="text/javascript" src="lib/jquery-1.7.2.js"></script>
+	<script type="text/javascript" src="lib/jquery-ui-1.8.21.full.min.js"></script>
+    <script type="text/javascript" src="lib/jquery.tmpl.js"></script>
+	<script type="text/javascript" src="lib/jquery.blockui.js"></script>
+	<script type="text/javascript" src="lib/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="lib/knockout-2.1.0.debug.js"></script>
+	<script type="text/javascript" src="lib/ko.observableDictionary.js"></script>
+	<script type="text/javascript" src="lib/fileuploader.js"></script>
+	<script type="text/javascript" src="lib/jquery.cookie.js"></script>
+	<script type="text/javascript" src="lib/jquery.tweet.js"></script>
+	<script type="text/javascript" src="lib/jquery.autoSuggest.js"></script>
+	<script type="text/javascript" src="lib/jstz.min.js"></script>
+	<script type="text/javascript" src="js/history.js"></script>
+	<script type="text/javascript" src="js/textBox.js"></script>
+	<script type="text/javascript" src="js/scratch.js"></script>
+	<script type="text/javascript" src="js/slider.js"></script>
+	<script type="text/javascript" src="js/chart-poller.js"></script>
+	<script type="text/javascript" src="js/jquery.scroller.js"></script>
+	<script type="text/javascript" src="js/jquery.timer.js"></script>
+	<script type="text/javascript" src="js/functions.js"></script>
+
+	<script type="text/javascript" src="js/view-models/history-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/global-settings-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/lightbox-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/lightbox-error-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/validation-results-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-playlist-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-track-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-device-port-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-sidebar-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-traffic-setting-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-results-view-model.js"></script>
+	<script type="text/javascript" src="js/view-models/test-documentation-view-model.js"></script>
+	<script type="text/javascript" src="js/custom-binding-handlers/custom-binding-handlers.js"></script>
+
+	<script type="text/javascript" src="lib/jquery.flot.custom.js"></script>
+	<script type="text/javascript" src="lib/jquery.flot.navigate.js"></script>
+	<script type="text/javascript" src="js/chart.flot.js"></script>
+	<script type="text/javascript" src="js/results-table.js"></script>
+
+    <script class="loader">
+        var $this = document.querySelector('script.loader');
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = window.location.search.match(/debug$/) ? 'js/build.js' : 'js/build.min.js';
+        s.onload = function () {
+	        window.util = require('./components-spirent/utility-functions');
+	        require('./components-spirent/boot')(Axon);
+        };
+        $this.parentNode.insertBefore(s, $this.nextSibling);
+	</script>
+
+    <!-- Keep this at the bottom! - JS -->
+    <script type="text/javascript"
+            src="//s3.amazonaws.com/assets.freshdesk.com/widget/freshwidget.js"></script>
+    <script type="text/javascript">
+        FreshWidget.init("", {
+            "queryString": "&widgetType=popup&helpdesk_ticket[custom_field][build_number_89418]=" + build_number + "",
+            "widgetType": "popup",
+            "buttonType": "text",
+            "buttonText": "Help",
+            "buttonColor": "white",
+            "buttonBg": "#3b3b3b",
+            "alignment": "3",
+            "offset": "-10000px",
+            "formHeight": "500px",
+            "screenshot": false,
+            "url": "https://spirentforbusiness.freshdesk.com"
+        });
+
+        document.querySelector('#support').onclick = function (e) {
+            e.preventDefault();
+            FreshWidget.show();
+            return false;
+        };
+    </script>
+</body>
+</html>

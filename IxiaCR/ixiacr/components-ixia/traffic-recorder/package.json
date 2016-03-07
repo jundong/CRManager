@@ -1,0 +1,19 @@
+{
+  "name": "traffic-recorder",
+  "version": "0.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "yadda": "~0.9.7",
+    "mocha": "~1.17.0",
+    "jquery": "~2.1.0-rc1"
+  }
+}

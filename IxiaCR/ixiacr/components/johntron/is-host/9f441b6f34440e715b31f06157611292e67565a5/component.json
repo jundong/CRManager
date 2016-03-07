@@ -1,0 +1,21 @@
+{
+  "name": "is-host",
+  "description": "Validate a string is a network host address",
+  "version": "0.0.2",
+  "keywords": [
+    "validate",
+    "host",
+    "address",
+    "regexp",
+    "regex"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "johntron/is-ip-address": "*"
+  },
+  "scripts": [
+    "index.js",
+    "tlds.js"
+  ],
+  "repository": "johntron/is-host"
+}

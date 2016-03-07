@@ -1,0 +1,1 @@
+module.exports = '<div class="loading-more">Loading more ...</div>';

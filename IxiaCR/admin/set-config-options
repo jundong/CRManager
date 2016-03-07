@@ -1,0 +1,131 @@
+#!/local/pythonenv/bin/python
+"""
+=head1 DESCRIPTION
+
+ Set or unset one or more config options. Specifying a value will set the value, omitting the value will unset it
+ and go back to the default value.
+
+=head1 INPUT JSON
+
+  {
+      "object": [
+          {
+              "category": "system",
+              "name": "update-kb-rate-limit",
+              "value": "50"
+          }
+      ]
+  }
+
+=head1 OUTPUT JSON
+
+ {
+  "result": "SUCCESS|FAILURE",
+  "object" : {}
+ }
+"""
+import os
+import sys
+import argparse
+import logging
+import json
+
+from sqlalchemy import create_engine
+
+LOGGER = logging.getLogger(__name__)
+
+class NullHandler(logging.Handler):
+    def emit(self, record):
+        pass
+
+class capture_std_io(object):
+    """ Capture stdout/stderr as a context manager
+    """
+    def __init__(self, enabled):
+        self.enabled = enabled
+
+    def __enter__(self):
+        if not self.enabled:
+            return
+
+        from cStringIO import StringIO
+
+        self.old_stdout = sys.stdout
+        self.old_stderr = sys.stderr
+        sys.stdout = StringIO()
+        sys.stderr = StringIO()
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        if not self.enabled:
+            return
+
+        sys.stdout.close()
+        sys.stderr.close()
+        sys.stdout = self.old_stdout
+        sys.stderr = self.old_stderr
+
+if __name__ == '__main__':
+        parser = argparse.ArgumentParser(description='set-config-options')
+
+        parser.add_argument('-e', '--example', help='Print example usage', action='store_true')
+        parser.add_argument('-d', '--default', help='Use default input. JSON input not required', action='store_true')
+        parser.add_argument('-p', '--pretty', help='Print print the JSON output', action='store_true')
+
+        args = parser.parse_args()
+
+        indent = 3 if args.pretty else None
+
+        # Need to silence the log handlers created in AxonLogger to make sure only JSON is written to stdout
+        rootLogger = logging.getLogger()
+        rootLogger.setLevel(logging.DEBUG)
+        rootLogger.handlers = []
+        rootLogger.addHandler(NullHandler())
+
+        # We need to capture stdio that might come from anywhere while we are calling into axon libraries
+        # or SQLalchemy to prevent stray messages from corrupting the expected JSON output.
+        with capture_std_io(True):
+            from axon.lib.config import get_global_config_options
+            from axon.models import db
+
+            CONNECT_STRING = 'postgresql://spirent:spirent@127.0.0.1/spirent'
+            engine = create_engine(CONNECT_STRING)
+            db.configure(bind=engine)
+
+            result = {}
+            try:
+                if not args.default:
+                    data = json.load(sys.stdin)
+                else:
+                    data = {}
+
+                config_options = get_global_config_options()
+
+                options = data['object']
+                for option in options:
+                    if 'value' in option:
+                        config_options.set_option_value(option['category'], option['name'], option['value'])
+                    else:
+                        config_options.unset_option_value(option['category'], option['name'])
+
+                result = {
+                    'result': 'SUCCESS',
+                    'object': {}
+                }
+
+            except Exception as e:
+                rootLogger.exception(e)
+                result = {
+                    'result': 'FAILURE',
+                    'message': str(e)
+                }
+
+
+        json_out = json.dumps(result, indent=indent)
+        sys.stdout.writelines(json_out)
+
+        # Utility expects this trailing newline
+        sys.stdout.write('\n')
+        sys.stdout.flush()
+
+        # Ensure no system exceptions propagate back to stdout
+        os._exit(0)

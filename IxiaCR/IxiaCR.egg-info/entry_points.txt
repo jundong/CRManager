@@ -1,0 +1,5 @@
+      [paste.app_factory]
+      main = ixiacr:main
+      [console_scripts]
+      initialize_IxiaCR_db = ixiacr.scripts.initializedb:main
+      

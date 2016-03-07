@@ -1,0 +1,876 @@
+import cPickle
+import time
+from json import loads, dumps
+
+from pyramid.i18n import TranslationStringFactory
+import transaction
+from pyramid_handlers import action
+from celery.result import AsyncResult
+from celery.contrib.abortable import AbortableAsyncResult
+from axon.lib.engines.stc.exceptions import (PortValidationError,
+                                             ClipManagerError)
+
+from axon.handlers import base
+from axon.models.core import (AxonTest,
+                              SpirentCurrentTest,
+                              User)
+from axon.models.results import TestResult
+from axon.testcases.config import ConfigFactory
+from axon.handlers.utils import (ChassisUtils,
+                                 ChassisSession,
+                                 update_timing_accuracies)
+from axon.lib import axon_logger
+from axon.lib.engines.stc.exceptions import FatalTestCenterException
+
+import axon.tasks.port
+import axon.tasks.test
+from axon.views.downloads import add_file_for_download
+from axon.tasks.utils import (dump_task_chain_status,
+                              get_running_task_result,
+                              get_task_from_chain,
+                              task_chain_is_running,
+                              task_chain_has_failed,
+                              task_chain_has_passed)
+from axon.lib.session_key_value import SessionKeyValueStore
+from axon.models import db
+
+axonlogger = axon_logger.AxonLogger(__name__)
+
+_ = TranslationStringFactory('messages')
+
+
+def view_includes(config):
+    config.add_handler('config_test', '/spirent/config_test',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='config_test')
+    config.add_handler('run_test', '/spirent/run_test',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='run_test')
+    config.add_handler('update_config', '/spirent/update_config',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='update_config')
+    config.add_handler('release_config', '/spirent/release_config',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='release_config')
+    config.add_handler('get_istestready', '/spirent/get_istestready',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='get_istestready')
+    config.add_handler('cancel_test', '/spirent/cancel_test',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='cancel_test')
+    config.add_handler('debug', '/spirent/debug',
+                       'axon.handlers.tests:SpirentTestHandler',
+                       action='debug')
+
+
+def check_result_chain(result):
+    '''Check a celery result chain.  Return true if all results succeed.
+    Return false if tasks are still running.  Throw exception if any tasks
+    fail.
+
+    '''
+    resultCount = 0
+    successCount = 0
+
+    curResult = result
+    while curResult is not None:
+        resultCount += 1
+
+        if curResult.ready():
+            # Check for failure
+            if curResult.status in ['FAILURE', 'REVOKED']:
+                if isinstance(curResult.result, Exception):
+                    # Pass on existing exception
+                    raise curResult.result
+                else:
+                    # Raise a new one
+                    raise RuntimeError(curResult.result)
+            elif curResult.status == 'SUCCESS':
+                successCount += 1
+
+        # Get next result in the chain
+        curResult = curResult.parent
+
+    if resultCount == successCount:
+        return True
+    else:
+        return False
+
+
+def get_tasks_from_results(result):
+    """
+    Given a result chain, generate an ordered list of tasks
+    """
+    tasks = list()
+    while result:
+        tasks.append({'id': result.id,
+                      'backend': result.backend,
+                      'task_name': result.task_name,
+                      'app': result.app,
+                      'parent': result.parent})
+        result = result.parent
+    return list(reversed(tasks))  # return a list, not an iterator
+
+
+def get_results_from_tasks(tasks):
+    """
+    Generate a result chain from a list of tasks.  The tasks should be
+    in order, e.g. parent --> child --> grandchild, etc.
+    """
+    result = None
+    for task in tasks:
+        result = AsyncResult(**task)
+    return result
+
+
+def is_valid_config(user_id, config, errors):
+    """ Determine if a test config passes test validation. Blocks while waiting for task to complete.
+    """
+    try:
+        axonlogger.debug("Entering is_valid_config")
+
+        config.save_axon_test(user_id)
+
+        axonlogger.debug('Creating test validation chain; for temporary axon_test_id={0}'.format(
+            config.axon_test_id))
+
+        def link_error():
+            return [axon.tasks.reservations.handle_test_error.s(),
+                    axon.tasks.cleanup.cleanup_temporary_test_error.subtask((config.axon_test_id, ))]
+
+        test = config.make_test()
+        chain = (axon.tasks.reservations.create.subtask(link_error=link_error()) |
+                 axon.tasks.port.attach_from_test.subtask(link_error=link_error()) |
+                 axon.tasks.test.create.subtask(link_error=link_error()) |
+                 axon.tasks.test.validate.subtask(link_error=link_error()) |
+                 axon.tasks.test.destroy.subtask(link_error=link_error()) |
+                 axon.tasks.port.detach_ports.subtask(link_error=link_error()) |
+                 axon.tasks.reservations.destroy.subtask(immutable=True) |
+                 axon.tasks.cleanup.cleanup_temporary_test.subtask((config.axon_test_id, ), immutable=True))
+
+        result = chain(test)
+
+        validate_result = get_task_from_chain(result, 'axon.tasks.test.validate')
+
+        axonlogger.debug('is_valid_config: starting poll for task_id={0}'.format(validate_result.task_id))
+        while True:
+            time.sleep(1)
+            if check_result_chain(validate_result):
+                axonlogger.info('is_valid_config: task_id={0} succeeded'.format(validate_result.task_id))
+                return True
+
+            axonlogger.debug('is_valid_config: task_id={0} still pending'.format(validate_result.task_id))
+    except Exception, e:
+        axonlogger.exception('Exception: is_valid_config: {0}'.format(str(e)))
+        errors.append(str(e))
+        return False
+
+
+def get_spirent_current_test():
+    return SpirentCurrentTest.query.first()
+
+
+def clear_test_results():
+    sct = get_spirent_current_test()
+    if sct:
+        with transaction.manager:
+            TestResult.query.filter(
+                TestResult.id == int(sct.result_id)).delete()
+
+
+class SpirentTestHandler(base.Handler):
+    '''The main handler for the testing. This will be broken off into a more
+    modular test-specific package at some point.
+
+    '''
+    messages = []
+    _config_factory = None
+
+    @property
+    def config_factory(self):
+        if 'config_factory' not in self.session:
+            self.session['config_factory'] = ConfigFactory()
+        return self.session['config_factory']
+
+    @action(renderer='json')
+    def save_axon_test(self):
+        '''Save a user UI configured test JSON object.
+
+        '''
+        try:
+            data = self.request.json_body
+
+            config = self.config_factory.get_config(data, self.user_id)
+            config.save_axon_test(self.user_id)
+            self.session['axon_test_id'] = config.axon_test_id
+
+            messages = [{
+                'is_error': False,
+                'header': 'User Test Saved',
+                'content': self.localizer.translate(_(
+                    'Successfully saved Test: ${name}.'), mapping={'name': config.name})
+            }]
+
+            return self.success(messages)
+        except KeyError, e:
+            transaction.abort()
+            self.messages.append(dict({'header': 'Failed', 'content': str(e)}))
+            return self.fail(self.messages)
+
+        except Exception, e:
+            transaction.abort()
+            self.messages.append(dict({'header': 'Failed', 'content': str(e)}))
+            return self.fail(self.messages)
+
+    @action(renderer='json')
+    def config_test(self):
+        '''Set the data for the current test.
+
+        '''
+        axonlogger.debug('Entering: config_test')
+
+        try:
+            data = self.request.json_body
+            config = self.config_factory.get_config(data, self.user_id)
+
+            # Time sync
+            time_sync_capabilities = []
+            for device in config.devices:
+                ts_capable = (
+                    ChassisUtils.has_time_sync_capability(device['id']))
+                dev_ts_caps = {'device_id': device['id'],
+                               'has_time_sync_capability': ts_capable}
+                if ts_capable:
+                    # Resolution is determined by your offset, so... yeah...
+                    offset = ChassisUtils.get_clock_offset(
+                        1, device['id'], ChassisUtils.TimeUnits.Milliseconds)
+                    dev_ts_caps.update({'resolution': abs(offset)})
+
+                time_sync_capabilities.append(dev_ts_caps)
+
+            # Timing accuracy
+            timing_accuracies = []
+            for i, player in enumerate(data['traffic_players']):
+                if ('id' in player['source']['device'] and
+                        'id' in player['destination']['device']):
+                    src_id = player['source']['device']['id']
+                    dst_id = player['destination']['device']['id']
+                    timing_accuracies.append({"source": src_id,
+                                              "destination": dst_id})
+            timing_accuracies = update_timing_accuracies(timing_accuracies)
+
+            # Remote reservations
+            user = User.query.filter_by(id=self.user_id).first().todict()
+            reserve_result = ChassisSession.reserve_remote_device(config, user)
+            axonlogger.debug("RSVP: config_test; Reserve Result: {0}"
+                             .format(reserve_result))
+            if reserve_result['result'] == 'SUCCESS':
+                release_result = ChassisSession.release_config_devices(config)
+                axonlogger.debug("RSVP: config_test; reserve/release; "
+                                 "Release Result: {0}".format(release_result))
+
+            if 'is_dirty' in data:
+                config.module = data['module']
+                config.save_axon_test(self.user_id)
+                self.session['axon_test_id'] = config.axon_test_id
+
+            timing_kwargs = {
+                'timing_accuracies': timing_accuracies,
+                'device_time_sync_capabilities': time_sync_capabilities}
+
+            reserve_result.update(timing_kwargs)
+            transaction.commit()
+            return reserve_result
+
+        except Exception, e:
+            transaction.abort()
+            axonlogger.exception('Exception in config_test: {0}'.format(e))
+            self.messages.append({'header': 'Failed', 'content': str(e)})
+            return self.fail(self.messages)
+        finally:
+            axonlogger.debug('Exiting: config_test')
+
+    @action(renderer='json')
+    def run_test(self):
+        '''
+        Create a test task chain and hand it off to the task engine.
+        Make sure that the first task succeeds before returning
+        '''
+        axon_test_id = None
+        messages = list()
+        items = list()
+        is_ready = is_valid = False
+        rsvp_result = None
+
+        # Clear out all of the old test data in this session
+        def clear_session_test_data():
+            if 'global_settings' in self.request.session:
+                del self.request.session['global_settings']
+
+            # Clear cached results
+            for k, v in self.request.session.items():
+                if (k.endswith("_track_count")
+                        or k.startswith('resultType_')
+                        or k.startswith('result_types')):
+                    axonlogger.debug(
+                        'Clearing {0} from request.session'.format(k)
+                    )
+                    del self.request.session[k]
+
+            # XXX Bust flowmon cache to give it a chance to update its
+            # ports available.  Hopefully we can come to a more elegant
+            # solution once we use memcache
+            if 'flowmon' in self.session:
+                del self.session['flowmon']
+
+            # Clear out previous test start time
+            if 'test_start' in self.session:
+                del self.session['test_start']
+
+        # Check if the exception has message headers we can use
+        # to specify the error to the UI
+        def parse_exception(exc):
+            # Setup some defaults in case we can't find anything better
+            msg_header = 'Failed'
+            msg_content = str(exc)
+
+            try:
+                error = None
+                if isinstance(exc.args[0], dict):
+                    error = exc.args[0]
+                elif isinstance(exc.args[0], list):
+                    error = exc.args[0][0]
+
+                if (error and 'header' in error and 'content' in error):
+                    msg_header = error['header']
+                    msg_content = error['content']
+
+            except:
+                axonlogger.exception('parse_exception: {0}'.format(exc))
+
+            finally:
+                return msg_header, msg_content
+
+        try:
+            data = self.request.json_body
+            config = self.config_factory.get_config(data, self.user_id)
+
+            if ('is_dirty' in data or
+                'id' not in data or
+               ('id' in data and data['id'] < 0)):
+                # If the test configuration is 'dirty', then we cleary
+                # need to save it.
+                # If the incoming data doesn't have an 'id', then we
+                # clearly can't complete the else branch.
+                # If the incoming data isn't marked dirty, but has
+                # an id of -1, then the config.make_test() call below
+                # will fail.
+
+                # XXX: Should we always just save here?  The UI doesn't
+                # appear to actually set the id.  Did it ever? -- tcp
+                config.save_axon_test(self.user_id)
+                axonlogger.warn('run_test: saving axon test; axon_test_id={0}'.
+                                format(config.axon_test_id))
+            else:
+                config.axon_test_id = data['id']
+                axonlogger.warn('run_test: not saving axon test; '
+                                'axon_test_id={0}'.format(config.axon_test_id))
+
+            clear_session_test_data()
+
+            axon_test_id = config.axon_test_id
+
+            # Kick off the test
+            result = start_run_test(config, axon_test_id,
+                                    remove_failed_test=True)
+
+            # Retreive some specific task results necessary for test
+            # monitoring.  A separte function generates the chain, and
+            # hence these names, so assert them to make sure we're in
+            # sync with our dependencies.
+            rsvp_result = get_task_from_chain(
+                result, 'axon.tasks.reservations.create')
+            assert rsvp_result, 'No reservation task result!'
+
+            validate_result = get_task_from_chain(
+                result, 'axon.tasks.test.validate')
+            assert validate_result, 'No validate task result!'
+
+            test_result = get_task_from_chain(
+                result, 'axon.tasks.test.execute')
+            assert test_result, 'No execute task result!'
+
+            # Set/update test related session variables
+            with transaction.manager:
+                kv_store = SessionKeyValueStore(db, self.session._session().id)
+                kv_store.set_value('validate_task_ids', cPickle.dumps(get_tasks_from_results(validate_result)))
+                kv_store.set_value('test_task_id', test_result.task_id)
+
+            while True:
+                msg = ('run_test: rsvp_result state = {0}, '
+                       'axon_test_id={1}'.format(rsvp_result.state,
+                                                 axon_test_id))
+                axonlogger.debug(msg)
+
+                if not check_result_chain(rsvp_result):
+                    time.sleep(0.1)
+                    continue
+
+                items.append({'id': config.axon_test_id})
+                ready_msg = self.localizer.translate(_('Starting Test'))
+                is_valid = True
+
+                messages.append({
+                    'header': ready_msg,
+                    'content': None,
+                    'is_error': False})
+
+                break
+
+        except Exception, e:
+            msg = ('run_test: axon_test_id={0}; e={1}'
+                   .format(axon_test_id, str(e)))
+            axonlogger.exception(msg)
+
+            msg_header, msg_content = parse_exception(e)
+
+            messages.append({
+                'header': self.localizer.translate(_(msg_header)),
+                'content': self.localizer.translate(_(msg_content)),
+                'is_error': True})
+
+            # Not sure if this is really needed here, but better safe
+            # than sorry, I guess...
+            clear_test_results()
+
+        finally:
+            return {'is_ready': is_ready,
+                    'is_valid': is_valid,
+                    'task_id': rsvp_result.id if rsvp_result else None,
+                    'items': items,
+                    'messages': messages}
+
+    @action(renderer='json')
+    def update_config(self):
+        '''Update a test config with UI changes.
+
+        '''
+
+        axonlogger.debug("Entering update_config")
+
+        devices_changed = False
+
+        try:
+            data = self.request.json_body
+            sct = SpirentCurrentTest.query.first()
+            if sct:
+                current_config = loads(sct.config_json)
+
+            config = self.config_factory.get_config(data, self.user_id)
+
+            if sct:
+                # Check if reserved devices have changed if it hasn't no
+                # point in releasing and reserving same devices again.
+                conf_devices = [device['id'] for device in config.devices]
+
+                cur_devices = set()
+                for i, player in enumerate(current_config['traffic_players']):
+                    for sd in ['source', 'destination']:
+                        if 'id' in player[sd]['device']:
+                            cur_devices.add(player[sd]['device']['id'])
+                axonlogger.info(
+                    "Current device IDs: {0}. "
+                    "Configured device IDs: {1}".format(list(cur_devices),
+                                                        conf_devices))
+                devices_changed = list(cur_devices) != conf_devices
+
+            # Time sync
+            time_sync_capabilities = []
+            for device in config.devices:
+                ts_capable = ChassisUtils.has_time_sync_capability(
+                    device['id'])
+                time_sync_capabilities.append({
+                    'device_id': device['id'],
+                    'has_time_sync_capability': ts_capable})
+
+            # Timing
+            timing_accuracies = []
+            for i, player in enumerate(data['traffic_players']):
+                if ('id' in player['source']['device'] and
+                        'id' in player['destination']['device']):
+                    src_id = player['source']['device']['id']
+                    dst_id = player['destination']['device']['id']
+                    timing_accuracies.append({"source": src_id,
+                                              "destination": dst_id})
+            timing_accuracies = update_timing_accuracies(timing_accuracies)
+
+            if 'is_dirty' in data:
+                config.save_axon_test(self.user_id)
+
+            # Remote reservation
+            if devices_changed:
+                user = User.query.filter_by(id=self.user_id).first().todict()
+                reserve_result = (
+                    ChassisSession.reserve_remote_device(config, user))
+                if reserve_result['result'] == 'SUCCESS':
+                    # Immediately release the device in case user abandons page
+                    release_result = (
+                        ChassisSession.release_config_devices(config))
+                    axonlogger.info('RSVP: reserve/release Release result: '
+                                    '{0}'.format(str(release_result)))
+                transaction.commit()
+            else:
+                reserve_result = {'result': 'SUCCESS', 'message': ''}
+
+            timing_kwargs = {
+                'timing_accuracies': timing_accuracies,
+                'device_time_sync_capabilities': time_sync_capabilities}
+            reserve_result.update(timing_kwargs)
+
+            return reserve_result
+
+        except KeyError, e:
+            transaction.abort()
+            axonlogger.exception('Exception: config_test: {0}'.format(str(e)))
+            self.messages.append(dict({'header': 'Failed', 'content': str(e),
+                                       'is_error': True}))
+            return self.fail(self.messages, {'is_error': True})
+        except Exception, e:
+            transaction.abort()
+            axonlogger.exception('Exception: config_test: {0}'.format(str(e)))
+            self.messages.append(dict({'header': 'Failed', 'content': str(e),
+                                       'is_error': True}))
+            return self.fail(self.messages, {'is_error': True})
+        finally:
+            transaction.commit()
+            axonlogger.debug("Exiting update_config")
+
+    @action(renderer='json')
+    def get_istestready(self):
+        '''
+        Check the test task chain for it's current status, wrap it in a
+        json blob, and return it.
+        Do this until the task chain gets to the 'execute' task, at which
+        point the test 'is ready'...
+        '''
+        messages = list()
+        is_ready = is_valid = False
+        result = None
+
+        def get_header(result):
+            header_by_task = {
+                'axon.tasks.reservations.create': 'Reserving Test Resources',
+                'axon.tasks.port.attach_from_test': 'Reserving Test Ports',
+                'axon.tasks.test.create': 'Creating Test Configuration',
+                'axon.tasks.test.validate': 'Validating Test Configuration'}
+
+            task_name = result.task_name
+            if task_name in header_by_task:
+                return self.localizer.translate(_(header_by_task[task_name]))
+
+            return '{0} needs a header'.format(task_name)
+
+        def get_content(result):
+            state = result.result
+            if isinstance(state, dict) and 'message' in state:
+                raw_msg = self.localizer.translate(_(state['message']))
+                if 'format_kwargs' in state:
+                    msg = raw_msg.format(**state['format_kwargs'])
+                else:
+                    msg = raw_msg
+            else:
+                msg = str()
+            return msg
+
+        def prognosticate_test_success(sct):
+            # XXX: This info is pulled back out of the database in
+            # axon.views.axon_json.request_final_table at the end
+            # of the test.
+            message_content = self.localizer.translate(_(
+                'Your test completed successfully.  '
+                'Click Summary to view the results of your players.'))
+
+            # Update database state preemptively?
+            try:
+                sct.state_json = dumps({'is_ready': False,
+                                        'is_valid': True,
+                                        'messages': [{
+                                            'header': 'Completed',
+                                            'content': message_content,
+                                            'is_error': False}]})
+                transaction.commit()
+            except:
+                transaction.abort()
+                raise
+
+        try:
+            sct = get_spirent_current_test()
+
+            kv_store = SessionKeyValueStore(db, self.session._session().id)
+            validate_task_ids = kv_store.get_value('validate_task_ids')
+
+            if sct is not None and validate_task_ids is not None:
+                while True:
+                    result = get_results_from_tasks(cPickle.loads(str(validate_task_ids)))
+                    dump_task_chain_status(result)
+
+                    if task_chain_has_passed(result):
+                        # Validation has completed and the test is now running!
+                        self.session['test_start'] = time.time()
+                        self.session['current_result_id'] = sct.result_id
+                        self.session.changed()
+
+                        # Optimistically update db state ?
+                        prognosticate_test_success(sct)
+
+                        is_ready = True
+
+                    elif task_chain_has_failed(result):
+                        # task failed; surface the exception
+                        dump_task_chain_status(result)
+                        check_result_chain(result)
+                        assert False, 'Logic error'
+
+                    elif task_chain_is_running(result):
+                        # Task chain is still running.  Find the currently
+                        # executing task and return its status
+                        result = get_running_task_result(result)
+                        if not result:
+                            # Must have caught a transition, try again
+                            continue
+
+                    else:
+                        # chain is still processing; take a short break
+                        time.sleep(0.1)
+                        continue
+
+                    is_valid = True
+
+                    messages.append({
+                        'header': get_header(result),
+                        'content': get_content(result),
+                        'is_error': False})
+
+                    break  # We're done; end loop
+            else:
+                is_valid = True
+                is_ready = False
+                header = self.localizer.translate(_('Missing'))
+                content = self.localizer.translate(
+                    _('No test currently configured'))
+
+                axonlogger.error('get_istestready: {0}'.format(content))
+
+                messages.append({
+                    'header': header,
+                    'content': content,
+                    'is_error': True})
+
+        # Lots of possible exceptions here, and like Pokemon
+        # we gotta catch 'em all!
+        except FatalTestCenterException, e:
+            axonlogger.exception('get_istestready: {0}'.format(e))
+            message_content = self.localizer.translate(_(
+                'The test engine is rewinding.  '
+                'Please push play in about 15 seconds.'))
+            messages.append({
+                'header': 'Failed',
+                'content': message_content,
+                'is_error': True})
+
+        except PortValidationError, e:
+            axonlogger.exception('get_istestready: {0}'.format(e))
+            download_url = add_file_for_download(self.request, e.pcap)
+            message_content = [
+                e.get_localized_message(self.localizer),
+                self.localizer.translate(_('handlers.tests.download_pcap'),
+                                         mapping={"pcap_url": download_url})
+            ]
+            messages.append({
+                'header': 'Failed',
+                'content': message_content,
+                'is_error': True
+            })
+
+        except ClipManagerError, e:
+            axonlogger.exception('get_istestready: {0}'.format(e))
+            messages.append({
+                'header': 'Failed',
+                'content': e.get_localized_message(self.localizer),
+                'is_error': True
+            })
+
+        except Exception, e:
+            axonlogger.exception('get_istestready: {0}'.format(e))
+            messages.append({
+                'header': 'Failed',
+                'content': str(e),
+                'is_error': True
+            })
+
+        finally:
+            try:
+                if not is_valid:
+                    clear_test_results()
+
+            except:
+                pass  # ignore errors here
+
+            finally:
+                return {'is_ready': is_ready,
+                        'is_valid': is_valid,
+                        'task_id': result.task_id if result else None,
+                        'messages': messages}
+
+    @action(renderer='json')
+    def cancel_test(self):
+        '''Cancel the test.  Will abort a currently running test task
+
+        '''
+        try:
+            axonlogger.debug('cancel_test: self.session = %s' % self.session)
+
+            kv_store = SessionKeyValueStore(db, self.session._session().id)
+            test_task_id = kv_store.get_value('test_task_id')
+
+            if test_task_id is not None:
+                result = AbortableAsyncResult(test_task_id)
+
+                if not result:
+                    raise RuntimeError('No task to abort!')
+
+                # If the test is currently executing, notify it that it should abort, and
+                # wait for confirmation that it has aborted
+                wait_count = 30
+                while result.status == 'EXECUTING' and wait_count > 0:
+                    axonlogger.debug('cancel_test: aborting task %s' % result.id)
+                    result.abort()
+                    wait_count -= 1
+                    time.sleep(1)
+
+                # Wait for the test to react...
+                while result.status == 'ABORTED' and wait_count > 0:
+                    axonlogger.debug('cancel_test: task %s is aborting...' %
+                                     result.id)
+                    wait_count -= 1
+                    time.sleep(1)
+
+                # Wait for the task engine to cleanly stop
+                while result.status == 'STOPPING' and wait_count > 0:
+                    axonlogger.debug('SpirentMainHandler.cancel_test: '
+                                     'task %s is stopping...' % result.id)
+                    wait_count -= 1
+                    time.sleep(1)
+
+                sct = SpirentCurrentTest.query.first()
+                if sct:
+                    current_config = loads(sct.config_json)
+                    release_result = ChassisSession.release_config_devices(current_config)
+                    axonlogger.info("Release Result: {0}".format(release_result))
+
+                    test_result = TestResult.query. \
+                        filter_by(id=sct.result_id).first()
+                    if test_result:
+                        test_result.end_result = u'aborted'
+                    else:
+                        # If axon test is not started by exception, we'll delete the saved test
+                        if result.status == 'PENDING':
+                            AxonTest.query.filter_by(id=sct.axon_test_id).delete()
+
+                    transaction.commit()
+
+                # We've either exhausted our wait or successfully aborted.
+                # Let the caller know.
+                if result.status == 'SUCCESS':
+                    axonlogger.debug('cancel_test: task %s has completed' %
+                                     result.id)
+                    return self.success()
+                else:
+                    axonlogger.error('cancel_test: unable to abort task %s' %
+                                     result.id)
+                    return self.fail()
+
+            else:
+                raise RuntimeError('missing \'test_task_id\' in session data')
+
+        except KeyError as e:
+            transaction.abort()
+            return self.success()
+        except Exception as e:
+            transaction.abort()
+            return self.fail()
+
+        finally:
+            # XXX Bust flowmon cache to give it a chance to update its ports available
+            # Hopefully we can come to a more elegant solution once we use memcache
+            if 'flowmon' in self.session:
+                del self.session['flowmon']
+
+
+def start_run_test(config, axon_test_id, remove_failed_test):
+    """ Start the test chain, returns result
+    """
+    axonlogger.debug('Creating test chain; axon_test_id={0}; remove_failed_test={1}'.format(axon_test_id,
+                                                                                            remove_failed_test))
+
+    validation_link_error = [axon.tasks.reservations.handle_test_error.s()]
+    if remove_failed_test:
+        validation_link_error.append(axon.tasks.cleanup.remove_current_test_results_error.s())
+
+    test = config.make_test()
+    chain = (axon.tasks.reservations.create.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.port.attach_from_test.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.test.create.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.test.validate.subtask(link_error=validation_link_error) |
+             axon.tasks.test.execute.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.test.destroy.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.port.detach_ports.subtask(link_error=axon.tasks.reservations.handle_test_error.s()) |
+             axon.tasks.reservations.destroy.subtask(immutable=True))
+
+    result = chain(test)
+    axonlogger.debug("Test chain task_id = {0}; axon_test_id={1}".format(result.task_id, axon_test_id))
+    return result
+
+
+def run_test(axon_test_id):
+    try:
+        axonlogger.debug('run_test: creating ConfigFactory')
+        config_factory = ConfigFactory()
+
+        axonlogger.debug('run_test: loading AxonTest; axon_test_id={0}'.format(axon_test_id))
+        axon_test = AxonTest.query.filter_by(id=axon_test_id).one()
+
+        axonlogger.debug('run_test: axon_test_id={0} loaded; getting config'.format(axon_test_id))
+        test_case_config = config_factory.get_config(
+            loads(axon_test.config_json),
+            axon_test.created_by)
+        test_case_config.axon_test_id = axon_test_id
+
+        axonlogger.debug('run_test: starting axon_test_id={0} task chain'.format(axon_test_id))
+        result = start_run_test(test_case_config, axon_test_id, remove_failed_test=False)
+
+        axonlogger.debug('run_test: started axon_test_id={0} task chain; task_id={1}'.format(
+            axon_test_id, result.task_id))
+
+        test_result = get_task_from_chain(result, 'axon.tasks.test.execute')
+
+        while True:
+            axonlogger.debug('run_test: polling axon_test_id={0} task chain; test task_id={1}'.format(
+                axon_test_id, test_result.task_id))
+
+            time.sleep(5)
+            if check_result_chain(test_result):
+                axonlogger.debug('run_test: axon_test_id={0} task chain completed; test task_id={1}'.format(
+                    axon_test_id, test_result.task_id))
+                break
+
+    except Exception as e:
+        axonlogger.exception('run_test: exception handling axon_test_id={0}'.format(axon_test_id))
+
+        try:
+            test_result = TestResult.query.filter(TestResult.axon_test_id == axon_test_id).one()
+            test_result.end_result = 'error'
+            test_result.error_reason = str(e)
+            transaction.commit()
+        except Exception as dbe:
+            axonlogger.exception(dbe)

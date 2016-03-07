@@ -1,0 +1,14 @@
+{
+  "name": "logger-jquery-ajax",
+  "repo": "components-spirent/logger-jquery-ajax",
+  "description": "Logs jQuery.ajax() errors",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

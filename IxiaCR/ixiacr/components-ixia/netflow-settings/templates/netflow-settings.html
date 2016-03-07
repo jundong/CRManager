@@ -1,0 +1,31 @@
+<form class="netflow-settings main">
+    <div>
+        <h3>NetFlow</h3>
+        <button class="save-button save">Save</button>
+    </div>
+    <div class="single-pane no-padding global">
+        <h4>Global settings</h4>
+        <ul>
+            <li class="mode">
+                <label for="netflow-on">Enable</label>
+                <input type="radio" class="enable" id="netflow-on" name="mode">
+                <label for="netflow-off">Disable</label>
+                <input type="radio" class="disable" id="netflow-off" name="mode">
+            </li>
+        </ul>
+    </div>
+    <div class="single-pane no-padding tip">
+        <h4>Need a collector?</h4>
+        <div>
+            <p>
+                FlowNBA Cloud is a Netflow collector service. Send your Netflow
+                data to FlowNBA, then configure the collector's monitoring and
+                anomaly detection with your browser.
+            </p>
+            <p>
+                Check out <a id="flownba" href="https://www.flownba.com/?utm_source=axon" target="_blank">FlowNBA.com</a>
+                for more information.
+            </p>
+        </div>
+    </div>
+</form>

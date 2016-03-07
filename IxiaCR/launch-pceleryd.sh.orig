@@ -1,0 +1,11 @@
+#!/bin/sh
+
+if [ -e /local/pythonenv/bin/activate ]; then
+    . /local/pythonenv/bin/activate
+fi
+
+# Use this environment variable to enable STAK feature before STC version 4.40
+export STC_SESSION_LOOPBACK=true
+
+cd /local/web/Axon
+exec pceleryd ./production.ini -E "$@"

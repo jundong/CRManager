@@ -1,0 +1,52 @@
+from datetime import timedelta
+from kombu import Exchange, Queue
+
+CELERY_RESULT_BACKEND = "database"
+CELERY_RESULT_DBURI = "postgresql://spirent:spirent@127.0.0.1/spirent"
+
+#JCZ 4/30/14 - Re-enable connection pools with new eventlet model
+#BROKER_POOL_LIMIT = 0  # disable connection pools as they are not
+                       # thread safe and we use concurrency
+                       # this creates a new connection for every transaction
+BROKER_TRANSPORT_OPTIONS = {'visibility_timeout': 3600}
+BROKER_URL = "amqp://guest:guest@localhost:5672//"
+
+CELERY_IMPORTS = ('axon.tasks',
+                  'axon.tasks.capture.api',
+                  'axon.tasks.mgmt',
+                  'axon.tasks.port',
+                  'axon.tasks.test')
+
+CELERY_ROUTES = ('axon.tasks.router.AxonTaskRouter', )
+
+# Define our exchanges
+default_exchange = Exchange('axon', type='direct')
+engine_exchange = Exchange('engine', type='direct')
+
+CELERY_QUEUES = (
+    Queue('axon', default_exchange, routing_key='axon'),
+    Queue('mgmt', default_exchange, routing_key='mgmt'),
+    Queue('stc', engine_exchange, routing_key='engine.stc'),
+    Queue('flowmon', engine_exchange, routing_key='engine.flowmon'),
+)
+
+CELERY_DEFAULT_QUEUE = 'axon'
+CELERY_DEFAULT_EXCHANGE = 'axon'
+CELERY_DEFAULT_ROUTING_KEY = 'axon'
+
+CELERYBEAT_SCHEDULE = dict(update_device_offsets={
+    'task': 'axon.tasks.mgmt.update_device_offsets',
+    'schedule': timedelta(seconds=300),
+    'args': ()
+}, auto_updater_task={
+    'task': 'axon.tasks.auto_updater_task',
+    'schedule': timedelta(hours=1),
+    'args': ()
+})
+
+CELERY_TIMEZONE = 'UTC'
+
+CELERYD_LOG_FORMAT = (
+    '[%(asctime)s %(levelname)s %(name)s - %(threadName)s] %(message)s')
+
+CELERYD_PREFETCH_MULTIPLIER = 1  # disable prefetching

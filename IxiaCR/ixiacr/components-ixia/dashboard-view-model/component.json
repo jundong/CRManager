@@ -1,0 +1,17 @@
+{
+    "name": "dashboard-view-model",
+    "repo": "components-spirent/dashboard-view-model",
+    "description": "Dashboard View Model",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {},
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js"
+    ],
+    "local": [
+        "paginator"
+    ]
+}

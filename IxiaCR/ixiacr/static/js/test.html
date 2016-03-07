@@ -1,0 +1,53 @@
+<html>
+<head>
+    <link rel="stylesheet" href="build.css" />
+	<title></title>
+	<meta charset="utf-8">
+</head>
+<body>
+<script src="../lib/jquery-1.7.2.min.js"></script><!-- remove this dependency! -->
+<script src="build.js"></script>
+<script>
+	require('mocha');
+	var p = './components-spirent/';
+	var canonical = [
+		'netflow-settings/views/global-settings.js',
+		'netflow-settings/views/interface-settings.js',
+		'netflow-settings/views/interfaces.js',
+		'netflow-settings/views/collector-list.js',
+		'netflow-settings/models/netflow-settings.js',
+		'netflow-settings/models/collector.js',
+		'netflow-settings/views/collector.js'
+	];
+	canonical.forEach(function (path) {
+		require.modules[path] = require.modules[p + path];
+	});
+    mocha.setup('bdd');
+</script>
+
+<!-- insert tests here -->
+<script src="test/logger/test.js"></script>
+<script src="test/interface-selector/index.js"></script>
+<script src="test/capture-filter-chooser/test.js"></script>
+<script src="test/netflow-settings/views/netflow-settings.js"></script>
+<script src="test/netflow-settings/views/global-settings.js"></script>
+<script src="test/netflow-settings/views/interfaces.js"></script>
+<script src="test/netflow-settings/views/interface-settings.js"></script>
+<script src="test/netflow-settings/views/collector-list.js"></script>
+<script src="test/netflow-settings/views/collector.js"></script>
+<script src="test/lightbox/test.js"></script>
+<script src="test/asset-manager/test.js"></script>
+<script src="test/dictionary-provider/test.js"></script>
+<script src="test/translator/test.js"></script>
+<script src="test/scheduler/index.js"></script>
+<!-- -->
+
+<div id="mocha"></div>
+<style type="text/css">
+    .hidden { display: none; }
+</style>
+<script>
+    mocha.run();
+</script>
+</body>
+</html>

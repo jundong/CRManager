@@ -1,0 +1,455 @@
+-----------------------------
+check-services:
+-----------------------------
+DESCRIPTION
+    Check to make sure services are running, restart if needed
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { "log" : [ "...", "..." ] }
+     }
+
+
+-----------------------------
+clean-files:
+-----------------------------
+DESCRIPTION
+    Clean diag bundles, and/or backups
+
+    Optionally keeps a certain number of the "most recent" of each item. For
+    example to purge all but the last two backups, specify keep_recent of 1.
+
+    Specify dry_run to just note which items would be removed.
+
+INPUT JSON
+      {
+            "items" : [ "backups", "diagnostics" ],
+            "OPTIONAL:dry_run" : "0|1",
+            "OPTIONAL:keep_recent" : 2
+      }
+
+OUTPUT JSON
+     {
+      "result": "SUCCESS|FAILURE",
+      "object" : { "diagnostics" : [ "file1" ], "backups" : [ "file1" ] }
+     }
+
+
+-----------------------------
+clean-logs:
+-----------------------------
+DESCRIPTION
+    Clean log files/backups/temporary test files based on set retention.
+
+    Currently purges anything older than 5 days.
+
+INPUT JSON
+      {
+            "OPTIONAL:age" : 5
+      }
+
+OUTPUT JSON
+     {
+      "result": "SUCCESS|FAILURE",
+      "object" : { "log" : [ "line1", "line2", "..." ] }
+     }
+
+-----------------------------
+get-disk-info:
+-----------------------------
+DESCRIPTION
+    Get info on chassis and virtual machine disk space
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {       
+      "result": "SUCCESS|FAILURE", 
+      "object" : { 
+         "chassis" : { "free" : bytes,
+                    "usage" : {
+                            "logs" : bytes,
+                            "tmp" : bytes
+                    },
+                    "counts" : {
+                            "logs" : count
+                    }
+             }, 
+             "vm" : { "free" : bytes,
+                    "usage" : {
+                            "backups" : bytes,
+                            "captures" : bytes,
+                            "data" : bytes,
+                            "db" : bytes,
+                            "logs" : bytes,
+                            "rabbit" : bytes,
+                            "stc" : bytes,
+                            "tmp" : bytes 
+                    }, 
+                    "counts" : {
+                            "logs" : count,
+                            "captures" : count,
+                            "backups" : count
+                    }
+             }
+      } 
+     }
+
+-----------------------------
+get-network-config:
+-----------------------------
+DESCRIPTION
+    Retrieve the current network config.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { 
+         "hostname": "...",
+           "ipv4": {
+             "mode": "static|dhcp",
+             "address": "",
+             "netmask": "...",
+             "gateway": "...."
+           },
+           "ipv6": {
+             "mode": ""
+           } 
+        } 
+     }
+
+NOTES
+    No ipv6 data returned at this time, to be investigated later after
+    manual configuration and validation of supporting network
+    infrastructure.
+
+
+-----------------------------
+get-network-status:
+-----------------------------
+DESCRIPTION
+    Retrieve the current network status. This will return the current state
+    of the networking at this point in time, which may be different than
+    what is configured.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+      {
+        "result": "SUCCESS|FAILURE",
+        "object": {
+            "hostname": "...",
+            "ipv4": {
+                "address": "...",
+                "netmask": "...",
+                "gateway": "..."
+            },
+            "status": {
+                "duplex": "full",
+                "link": 1,
+                "rx": {
+                    "dropped": "1",
+                    "errors": "0",
+                    "frame": "0",
+                    "overruns": "0"
+                },
+                "speed": "1000",
+                "tx": {
+                    "carrier": "0",
+                    "collisions": "0",
+                    "dropped": "0",
+                    "errors": "0",
+                    "overruns": "0"
+                }
+            }
+        }
+      }
+
+-----------------------------
+get-system-data:
+-----------------------------
+DESCRIPTION
+    Returns structured system data such as chassis id, rpm versions, etc.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { 
+        "available_firmware": [
+          "4.15"
+        ],
+        "chassis_install_time": 1360871945,
+        "ipv4": {
+          "ether": "00:22:4d:88:fb:06",
+          "ip": "192.168.125.40",
+          "gateway": "192.168.125.254",
+          "netmask": "255.255.255.0"
+        },
+        "chassis_id": "VDH=7-35B603C4",
+        "hostname": "none",
+        "build": "757",
+        "uptime": 11621,
+        "rpms": [
+          "spirent-axon-media-1.0-7.noarch",
+          "spirent-axon-pythonenv-1.0-22.noarch",
+          "spirent-testcenter4.15-1396-125.i686",
+          "spirent-testcenter4.15-firmware-1396-125.i686",
+          "spirent-testcenter4.15-python-1396-125.i686",
+          "spirent-axon-admin-1.0.1361039134-757.noarch",
+          "spirent-axon-common-1.0.1361039134-757.noarch",
+          "spirent-axon-cron-1.0.1361039134-757.noarch",
+          "spirent-axon-frontend-1.0.1361039134-757.noarch",
+          "spirent-axon-supervisor-1.0.1361039134-757.noarch",
+          "spirent-axon-web-1.0.1361039134-757.noarch",
+          "spirent-axon-yum-axonupdates-1.0.1361039134-757.noarch",
+          "spirent-axon-yum-internal-1.0.1361039134-757.noarch"
+        ]
+        ... a bunch more attributes ...
+      } 
+     }
+
+NOTES
+    Above output is not current, check the code/actual output for latest
+    attributes.
+
+-----------------------------
+restart-network:
+-----------------------------
+DESCRIPTION
+    Restart current network.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { } 
+     }
+
+
+-----------------------------
+restart-system:
+-----------------------------
+DESCRIPTION
+    Shutdown VM and restart chassis.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { } 
+     }
+
+-----------------------------
+set-log-level:
+-----------------------------
+DESCRIPTION
+    Sets the logging level of all running middle-tier components.
+
+INPUT JSON
+      {
+          "level": "log level -- DEBUG|INFO|WARNING|ERROR|CRITICAL|NOTSET",
+          "name": "OPTIONAL name of logger component to change log level otherwise root logger"
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { } 
+     }
+
+
+-----------------------------
+set-network-config:
+-----------------------------
+DESCRIPTION
+    Set the current network config.
+
+INPUT JSON
+      {
+          "apply": "0|1",
+          "hostname": "...",
+          "ipv4": {
+              "mode": "static|dhcp",
+              "address": "",
+              "netmask": "...",
+              "OPTIONAL:gateway": "...."
+          }
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : {
+            "hostname": "...",
+                "ipv4": {
+                    "mode": "static|dhcp",
+                    "address": "...",
+                    "netmask": "...",
+                    "gateway": "...."
+                }
+      }
+     }
+
+NOTES
+    If 'apply' is nonzero, it will refresh networking, if not, will just
+    update configuration, but not actually trigger the changes until next
+    reboot (or next apply). No IPv6 support at this time.
+
+-----------------------------
+shutdown-system:
+-----------------------------
+DESCRIPTION
+    Shutdown VM and shutdown chassis.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { } 
+     }
+
+-----------------------------
+start-service:
+-----------------------------
+DESCRIPTION
+    Start a single supervisord based service
+
+INPUT JSON
+      {
+        "service" : "servicename"
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { }
+     }
+
+
+-----------------------------
+start-services:
+-----------------------------
+DESCRIPTION
+    Start all supervisord controlled services
+
+INPUT JSON
+      {
+        "OPTIONAL:services_only" : "0|1"
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { }
+     }
+
+-----------------------------
+stop-service:
+-----------------------------
+DESCRIPTION
+    Stop a single supervisord based service
+
+INPUT JSON
+      {
+        "service" : "servicename"
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { }
+     }
+
+
+-----------------------------
+stop-services:
+-----------------------------
+DESCRIPTION
+    Stop all supervisord controlled services
+
+INPUT JSON
+      {
+        "OPTIONAL:services_only" : "0|1"
+      }
+
+OUTPUT JSON
+     {
+      "result": "SUCCESS|FAILURE",
+      "object" : { }
+     }
+
+-----------------------------
+test-helper:
+-----------------------------
+DESCRIPTION
+    Dummy test helper for testing message handling
+
+INPUT JSON
+      {
+          "fail": "0|1",
+          "progress": "0|1",
+          "details": "0|1",
+          "duration": 10
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { "log" : "log of updates" } 
+     }
+
+NOTES
+    Output will change based on various parameters passed in.
+
+-----------------------------
+write-usb-keys:
+-----------------------------
+DESCRIPTION
+    Update any attached USB key with chassis installer image.
+
+INPUT JSON
+      {
+  
+      }
+
+OUTPUT JSON
+     {   
+      "result": "SUCCESS|FAILURE", 
+      "object" : { "devicepath" : { "log" : "output log of key generation - large" } } 
+     }
+
+

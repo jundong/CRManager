@@ -1,0 +1,140 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Check to make sure services are running, restart if needed
+
+=head1 INPUT JSON
+
+  {
+  
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { "log" : [ "...", "..." ] }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&silence_json_trace();
+&init();
+&root();
+
+my ($in);
+
+my @log;
+my $saw_updates     = 0;
+my $saw_supervisord = 0;
+my $saw_pg          = 0;
+my $saw_epmd        = 0;
+my $saw_beam        = 0;
+
+my @ps_listing  = ();
+my $saw_problem = 0;
+
+open( my $in, "/proc/uptime" );
+chomp( my $uptime = <$in> );
+close($in);
+$uptime =~ s/\s.*//go;
+if ( int($uptime) < 120 ) {
+    $res->{result} = "SUCCESS";
+    $res->{object} = { log => ["Ignoring service check, too close to system startup."] };
+    &finish();
+    exit(0);
+}
+
+my $in = &open_cmd_merge( "/bin/ps", "auxwww" );
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    push( @ps_listing, $line );
+
+    if ( $line =~ /post-update/ || $line =~ /get-updates/ || $line =~ /restore.py/ ) {
+        $saw_updates++;
+    }
+    elsif ( $line =~ m|/local/pythonenv/bin/python /usr/bin/supervisord|o ) {
+        $saw_supervisord++;
+    }
+    elsif ( $line =~ m|postgres.*writer|o ) {
+        $saw_pg++;
+    }
+    elsif ( $line =~ m|/usr/lib/erlang/.*/bin/beam.*rabbit|o ) {
+        $saw_beam++;
+    }
+    elsif ( $line =~ m|/usr/lib/erlang/.*/bin/epmd|o ) {
+        $saw_epmd++;
+    }
+}
+close($in);
+
+if ( !$saw_supervisord ) {
+    &unsilence_json_trace();
+    $saw_problem++;
+
+    if ($saw_updates) {
+        &detail("supervisord not running, but during updates, skipping restart");
+    }
+    else {
+        &detail("supervisord not running, restarting");
+        my $in = &open_cmd_merge( "/etc/init.d/supervisord", "restart" );
+        while ( defined( my $line = <$in> ) ) {
+            chomp($line);
+            &detail("supervisord restart: $line");
+            push( @log, $line );
+        }
+        close($in);
+    }
+}
+
+if ( !$saw_pg ) {
+    &unsilence_json_trace();
+    $saw_problem++;
+
+    if ($saw_updates) {
+        &detail("postgres not running, but during updates, skipping restart");
+    }
+    else {
+        &detail("postgres not running, restarting");
+        my $in = &open_cmd_merge( "/etc/init.d/postgresql-9.1", "restart" );
+        while ( defined( my $line = <$in> ) ) {
+            chomp($line);
+            &detail("postgresql restart: $line");
+            push( @log, $line );
+        }
+        close($in);
+    }
+}
+
+if ( !$saw_beam || !$saw_epmd ) {
+    &unsilence_json_trace();
+    $saw_problem++;
+
+    if ($saw_updates) {
+        &detail("rabbitmq not running, but during updates, skipping restart");
+    }
+    else {
+        &detail("rabbitmq not running, restarting");
+        my $in = &open_cmd_merge( "/etc/init.d/rabbitmq-server", "restart" );
+        while ( defined( my $line = <$in> ) ) {
+            chomp($line);
+            &detail("rabbitmq restart: $line");
+            push( @log, $line );
+        }
+        close($in);
+    }
+}
+
+$res->{result} = "SUCCESS";
+$res->{object} = { log => \@log };
+
+if ($saw_problem) {
+    $res->{object}->{processes} = \@ps_listing;
+}
+
+&finish();

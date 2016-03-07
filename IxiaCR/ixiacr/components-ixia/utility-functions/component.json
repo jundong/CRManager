@@ -1,0 +1,22 @@
+{
+  "name": "utility-functions",
+  "repo": "spirent/utility-functions",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/classes": "1.2.3",
+    "ianstormtaylor/next-sibling": "0.0.1",
+    "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+    "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "local": [
+    "lightbox"
+  ]
+}

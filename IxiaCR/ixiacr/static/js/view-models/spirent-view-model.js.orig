@@ -1,0 +1,1034 @@
+"use strict";
+
+/**
+ * Created with JetBrains PhpStorm.
+ * User: David
+ * Date: 6/26/12
+ * Time: 10:06 AM
+ * To change this template use File | Settings | File Templates.
+ */
+/*
+
+ Root VM
+
+ ********************************************/
+function SpirentEnterpriseViewModel() {
+    var self = this;
+    var $ = jQuery;
+
+    self.user = ko.observable();
+
+    self.availableTracks = ko.observableArray();
+    self.availablePlaylists = ko.observableArray();
+    self.availableDevices = ko.observableArray();
+    self.availableEndpoints = ko.observableArray();
+    self.availableTests = ko.observableArray();
+    self.availableTestsByCategory = ko.observableDictionary({});
+    self.availableTracksMap = null;
+    self.availableDatapointsMap = ko.observableArray();
+    self.availableResultTypes = new Array();
+    self.availableDisplayMessages = new Array();
+    self.availableCustomers = ko.observableArray();
+    self.availableLocations = ko.observableArray();
+    self.language = ko.observable();
+    self.availableTags = ko.observableArray();
+    self.testResultsHistory = ko.observableArray();
+
+    self.allTests = [];
+
+    self.startingTab = 'dashboard';
+
+    self.defaultThrottleDuration = 1;
+
+    self.selectedTab = ko.observable();
+
+    self.testTemplateName = ko.observable('placeholder-template');
+    self.dashboardTemplateName = ko.observable('placeholder-template');
+    self.administrationTemplateName = ko.observable('placeholder-template');
+    self.historyTemplateName = ko.observable('placeholder-template');
+    self.helpcenterTemplateName = ko.observable('placeholder-template');
+
+    self.dashboardTabClass = ko.computed(function () {
+        return self.getTabClassFor('dashboard');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.testLibraryTabClass = ko.computed(function () {
+        return self.getTabClassFor('testLibrary');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.testTabClass = ko.computed(function () {
+        return 'player ' + self.getTabClassFor('test');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.calendarTabClass = ko.computed(function () {
+        return 'calendar-tab ' + self.getTabClassFor('calendar');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.historyTabClass = ko.computed(function () {
+        return 'history ' + self.getTabClassFor('history');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.administrationTabClass = ko.computed(function () {
+        return 'administration ' + self.getTabClassFor('administration');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.vmGlobalSettings = new GlobalSettingsViewModel(self);
+
+    self.vmDashboard = new DashboardViewModel(self);
+    self.vmTest = new TestViewModel(self);
+    self.vmHistory = new HistoryViewModel(self);
+    self.vmAdministration = new AdministrationViewModel(self);
+
+    self.completionPercent = 40;
+    self.completionMessage = "";
+    self.ajaxModels = new Array(translate("Global Settings"),
+                                translate("Tracks"),
+                                translate("Devices"),
+                                translate("Endpoints"),
+                                translate("Tests"),
+                                translate("Datapoints"),
+                                translate("Result Types"),
+                                translate("Customers"),
+                                translate("Locations"),
+                                translate("Languages"),
+                                translate("Tags"),
+                                translate("Display Messages"),
+                                translate("Playlists"),
+                                translate("Test Library"),
+                                translate("Favorite Tests"));
+    self.ajaxModelsToComplete = self.ajaxModels.slice(0);
+    self.failedAjaxModels = new Array();
+};
+
+SpirentEnterpriseViewModel.typesafe = function (that) {
+    if (!(that instanceof SpirentEnterpriseViewModel)) {
+        throw 'This method must be executed on a SpirentEnterpriseViewModel';
+    }
+
+    return that;
+};
+
+SpirentEnterpriseViewModel.prototype.updateAppLoadMessage = function (model, failed) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.ajaxModelsToComplete.splice($.inArray(model, self.ajaxModelsToComplete), 1);
+    if (failed) {
+        self.failedAjaxModels.push(model);
+        logger.error('Get ' + model + ' Failed');
+    }
+
+    if (self.ajaxModelsToComplete.length > 1) {
+        if (failed) {
+            self.completionMessage = translate('Failed to load {name}...', {
+                name: model
+            });
+        } else {
+            self.completionMessage = translate('Loaded {name}...', {
+                name: model
+            });
+        }
+    } else {
+        if (self.failedAjaxModels.length == 0) {
+            self.completionMessage = translate('Loading {name}...', {
+                name: model
+            });
+        } else {
+            self.header = translate('App Loading Error');
+            self.message = translate('The following failed to load:<br>{failed}<br><br>Please contact Spirent support at {link}', {
+                failed: self.failedAjaxModels.join('<br>'),
+                link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
+            });
+            util.lightbox.open({
+                url: 'html/lightbox_tmpl',
+                selector: '#lightbox-error-template',
+                cancelSelector: '.ok-button',
+                onOpenComplete: function () {
+                    ko.applyBindings(self, document.getElementById('lightbox-error'));
+                }
+            });
+            return;
+        }
+    }
+
+    var completion = self.ajaxModels.length - self.ajaxModelsToComplete.length;
+    completion /= self.ajaxModels.length; // 0 to 1
+    completion *= 60; // Entire process should take 60% of total completion
+
+    util.lightbox.working(new LightboxWorkingViewModel("Loading", self.completionMessage, self.completionPercent + completion));
+};
+
+SpirentEnterpriseViewModel.prototype.init = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var settingsAjax = self.getGlobalSettings()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[0]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[0], true);
+        });
+
+    var tracksAjax = self.getAvailableTracks()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[1]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[1], true);
+        });
+
+    var devicesAjax = self.getAvailableDevices()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[2]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[2], true);
+        });
+
+    var endpointAjax = self.getAvailableEndpoints()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[3]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[3]);
+        });
+
+    var testsAjax = self.getAvailableTests()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[4]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[4], true);
+        });
+
+    var tmplsTestsAjax = self.getTmplTests()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[13]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[13], true);
+        });
+
+    var favoriteTestsAjax = self.getFavoriteTests()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[14]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[14], true);
+        });
+
+    var dataPointsAjax = self.getAvailableDatapoints()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[5]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[5], true);
+        });
+
+    var resultTypesAjax = self.getResultTypes()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[6]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[6], true);
+        });
+
+    var customersAjax = self.getAvailableCustomers()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[7]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[7], true);
+        });
+
+    var locationsAjax = self.getAvailableLocations()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[8]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[8], true);
+        });
+
+    var languageAjax = self.getLanguage()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[9]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[9], true);
+        });
+
+    var tagsAjax = self.getAvailableTags()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[10]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[10], true);
+        });
+
+    var messageAjax = self.getAvailableDisplayMessages()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[11]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[11], true);
+        });
+
+    var playlistAjax = self.getAvailablePlaylists()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[12]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[12], true);
+        });
+
+
+    self.selectTab(self.startingTab);
+
+    self.initStart = (new Date()).getTime();
+
+    return $.when(
+        settingsAjax,
+        tracksAjax,
+        playlistAjax,
+        devicesAjax,
+        endpointAjax,
+        testsAjax,
+        dataPointsAjax,
+        resultTypesAjax,
+        customersAjax,
+        locationsAjax,
+        languageAjax,
+        tagsAjax,
+        messageAjax
+    );
+};
+
+SpirentEnterpriseViewModel.prototype.setUser = function (user) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.user = user;
+};
+
+SpirentEnterpriseViewModel.prototype.refreshTestDraggables = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.vmTest.refreshTestDraggables();
+};
+
+SpirentEnterpriseViewModel.prototype.loadTest = function (test) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.vmTest.loadTest(test);
+};
+
+SpirentEnterpriseViewModel.prototype.loadRecentTest = function (historyItem) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.vmTest.loadRecentTest(historyItem);
+};
+
+SpirentEnterpriseViewModel.prototype.getTabClassFor = function (tabName) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    if (self.selectedTab() == tabName) {
+        return 'selected';
+    }
+
+    return '';
+};
+
+SpirentEnterpriseViewModel.prototype.showTest = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.selectTab('test');
+};
+
+SpirentEnterpriseViewModel.prototype.showDashboard = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.selectTab('dashboard');
+};
+
+SpirentEnterpriseViewModel.prototype.showCalendar = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.selectTab('calendar');
+};
+
+SpirentEnterpriseViewModel.prototype.showHistory = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.selectTab('history');
+};
+
+SpirentEnterpriseViewModel.prototype.showAdministration = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.selectTab('administration');
+};
+
+SpirentEnterpriseViewModel.prototype.selectTab = function (tabName) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    function showTab () {
+        if($('#' + tabName + '-template').length == 0){
+            util.getTemplate('html/' + tabName + '_tmpl', '#' + tabName + '-template', function(template){
+                self[tabName + 'TemplateName'](tabName + '-template');
+                self.selectedTab(tabName);
+            });
+        } else {
+            // added this here, because when template was already loaded somewhere - tab content will never show
+            self[tabName + 'TemplateName'](tabName + '-template');
+            self.selectedTab(tabName);
+        }
+    }
+
+    switch (tabName) {
+        case 'dashboard':
+        case 'test':
+        case 'history':
+            showTab();
+            break;
+        case 'administration':
+            if ($('#administration-template').length == 0) {
+                util.getTemplate('html/administration_tmpl', '#administration-template', function (template) {
+                    var $parent = document.querySelector('#main > .administration'),
+                        template = template.get(0).innerHTML;
+                    if(!$parent.innerHTML.length > 0)
+                        self.vmAdministration.render($parent, template);
+                    self.administrationTemplateName('administration-template');
+
+                    self.selectedTab('administration');
+                });
+            } else {
+                self.selectedTab('administration');
+            }
+            break;
+        case 'calendar':
+            self.selectedTab(tabName);
+            break;
+        case 'testLibrary':
+            break;
+    }
+
+    appHistory.push(self);
+};
+
+SpirentEnterpriseViewModel.prototype.getGlobalSettings = function (callback, reload) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var url = util.getConfigSetting('get_global_settings');
+    if (reload)
+        url += '?reload=1'
+
+    var ajax = $.ajax({
+        type: 'POST',
+        url: url,
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.vmGlobalSettings.axonBackups.removeAll();
+            self.vmGlobalSettings.currentIp = data.host;
+            self.vmGlobalSettings.currentSsid = data.ssid;
+            self.vmGlobalSettings.currentWpaKey = data.wpa_key;
+            self.vmGlobalSettings.inflate(data);
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableCustomers = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableCustomers.removeAll();
+
+    var ajax = $.ajax({
+        type: 'GET',
+        url: util.getConfigSetting('get_customers'),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableCustomers = data;
+
+            //self.availableCustomers.push("select one");
+            for (var i = 0; i < availableCustomers.length; i++) {
+                self.availableCustomers.push(availableCustomers[i]);
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableLocations = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableLocations.removeAll();
+
+    var ajax = $.ajax({
+        type: 'GET',
+        url: util.getConfigSetting('get_locations'),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableLocations = data;
+
+            //self.availableLocations.push("select one");
+            for (var i = 0; i < availableLocations.length; i++) {
+                self.availableLocations.push(availableLocations[i]);
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getLanguage = function() {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var ajax = $.ajax({
+        type: 'GET',
+        url: util.getConfigSetting('get_language'),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.language(data.language);
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableTags = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableTags.removeAll();
+
+    var ajax = $.ajax({
+        type: 'GET',
+        url: util.getConfigSetting('get_tags'),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableTags = data;
+
+            for (var i = 0; i < availableTags.length; i++) {
+                self.availableTags.push(availableTags[i]);
+            }
+        }
+    });
+
+    return ajax
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    var tags = self.availableTags();
+
+    var data = new Array();
+
+    for (var i = 0; i < tags.length; i++) {
+        data.push({"value": tags[i]});
+    }
+
+    return data;
+};
+
+SpirentEnterpriseViewModel.prototype.getTmplTests = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.vmDashboard.tmplTests.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_test_templates"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.fillAvailableTestsWithResults(data, true);
+
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getFavoriteTests = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.vmDashboard.favoriteTests.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_favorite_tests"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.fillAvailableTestsWithResults(data, false);
+
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableTests = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableTests.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_axon_tests"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.fillAvailableTestsWithResults(data, false);
+            self.availableTests.sort(util.sortArrayByObjectKeyKoObservable("name", true));
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactoryTest){
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    var availableTests = data;
+    var matchedTest = null;
+
+    for (var i = 0; i < availableTests.length; i++) {
+        var test = new TestTemplateViewModel(self);
+        test.inflate(availableTests[i]);
+        test.isFactoryTest(isFactoryTest);
+        test.isTemplate(isFactoryTest);
+
+        if (isFactoryTest) {
+            // Update template tests list
+            matchedTest = ko.utils.arrayFirst(self.vmDashboard.tmplTests, function (item) {
+                        return (item.id() === test.id() && item.isFactoryTest() && item.isTemplate());
+            });
+            if (matchedTest === null) {
+                self.vmDashboard.tmplTests.push(test);
+            }
+            self.addToCategoryView(test);
+        } else if (test.isUserSave) {
+            self.addToCategoryView(test);
+        }
+        // Update available tests list
+        matchedTest = ko.utils.arrayFirst(self.availableTests, function (item) {
+                    return (item.id() === test.id() && item.isUserSave);
+        });
+        if (matchedTest === null) {
+            self.availableTests.push(test);
+        } else {
+            self.availableTests.remove(test);
+            self.availableTests.push(test);
+        }
+
+        // Update favorite tests list
+        if (test.favorite()) {
+            matchedTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests, function (item) {
+                return item.id() === test.id();
+            });
+            if (matchedTest === null) {
+                self.vmDashboard.favoriteTests.push(test);
+            } else {
+                self.vmDashboard.favoriteTests.remove(matchedTest);
+                self.vmDashboard.favoriteTests.push(test);
+            }
+        } else {
+            matchedTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests, function (item) {
+                return item.id() === test.id();
+            });
+            if (matchedTest) {
+                self.vmDashboard.favoriteTests.remove(matchedTest);
+            }
+        }
+
+        // Update all tests list
+        matchedTest = ko.utils.arrayFirst(self.allTests, function (item) {
+                    return ((item.id() === test.id()) && (item.isUserSave === test.isUserSave));
+        });
+        if (matchedTest === null) {
+            self.allTests.push(test);
+        }
+    }
+
+    if (self.vmTest.startingTab == 'tests') {
+        self.vmTest.initializeAvailableTestsDraggable();
+    }
+};
+
+SpirentEnterpriseViewModel.prototype.insertUserTest = function (userTest){
+    var self = SpirentEnterpriseViewModel.typesafe(this),
+        flatUserTest;
+
+    self.removeUserTest(userTest)
+    self.updateTestNameInRecentTests(userTest);
+
+    flatUserTest = userTest.toFlatObject();
+    self.fillAvailableTestsWithResults([flatUserTest], false);
+};
+
+SpirentEnterpriseViewModel.prototype.removeUserTest = function (userTest){
+    var self = SpirentEnterpriseViewModel.typesafe(this),
+        existingUserTest;
+
+    existingUserTest = ko.utils.arrayFirst(self.availableTests, function (item) {
+        return (userTest.id() === item.id()) && (item.isUserSave === userTest.isUserSave);
+    });
+
+    if (existingUserTest !== null) {
+        self.availableTests.remove(existingUserTest);
+    }
+
+    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests, function (item) {
+        return (userTest.id() === item.id()) && userTest.isUserSave && userTest.favorite();
+    });
+
+    if (existingUserTest !== null) {
+        self.vmDashboard.favoriteTests.remove(existingUserTest);
+    }
+};
+
+SpirentEnterpriseViewModel.prototype.updateTestNameInRecentTests = function (userTest){
+    var self = SpirentEnterpriseViewModel.typesafe(this),
+        userTestId,
+        userTestName,
+        testResultsHistory,
+        i;
+
+    userTestId = userTest.id();
+    userTestName = userTest.name();
+
+    testResultsHistory = self.testResultsHistory();
+
+    for (i = 0; i < testResultsHistory.length; i += 1) {
+        if (testResultsHistory[i].test_id == userTestId) {
+            testResultsHistory[i].categories.unshift(userTestName);
+        }
+    }
+};
+
+SpirentEnterpriseViewModel.prototype.refreshResultsHistory = function (){
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.testResultsHistory.removeAll();
+    self.vmDashboard.getResultHistory();
+    //self.refreshAllTests();
+};
+
+SpirentEnterpriseViewModel.prototype.refreshAllTests = function (){
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_axon_tests"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.addTestsToAllTestsWhereMissing(data);
+        }
+    });
+};
+
+SpirentEnterpriseViewModel.prototype.addTestsToAllTestsWhereMissing = function (tests){
+    var self = SpirentEnterpriseViewModel.typesafe(this),
+        test,
+        matchedTest;
+
+    for (var i = 0; i < tests.length; i++) {
+        matchedTest = ko.utils.arrayFirst(self.allTests, function (item) {
+            return (item.id() === tests[i].test_id && !item.isFactoryTest());
+        });
+
+        if (matchedTest === null) {
+            test = new TestTemplateViewModel(self);
+            test.inflate(tests[i]);
+            test.isFactoryTest(false);
+            test.isTemplate(false);
+
+            self.allTests.push(test);
+        }
+    }
+    self.vmHistory.applyFilters();
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableDatapoints = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableDatapointsMap.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_datapoints"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableDatapoints = data;
+
+            for (var i = 0; i < availableDatapoints.length; i++) {
+                var datapoint = availableDatapoints[i];
+                self.availableDatapointsMap()[datapoint.id] = datapoint;
+            }
+        }
+    });
+
+    return ajax;
+};
+SpirentEnterpriseViewModel.prototype.getAvailableTracks = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_tracks"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableTracks = data;
+
+            self.availableTracks.removeAll();
+
+            self.availableTracksMap = new Array();
+
+            for (var i = 0; i < availableTracks.length; i++) {
+                var availableTrack = new TestTrackViewModel(self);
+                if (!availableTracks[i].js_bw_compute || availableTracks[i].js_bw_compute ==""){
+                    availableTracks[i].js_bw_compute="var computeFunction=function(){var trafficSettings = self.trafficSettings();if (trafficSettings == null || trafficSettings == undefined) {return;}var trackProperties = self.trackProperties();if (trackProperties.length == 0) {return;}var totalPropertiesBandwidth = 0;for (var i = 0; i < trackProperties.length; i++) {totalPropertiesBandwidth += trackProperties[i].bandwidth();}return (trafficSettings.value() * totalPropertiesBandwidth);};";
+                }
+                availableTrack.inflate(availableTracks[i]);
+                self.availableTracks.push(availableTrack);
+
+                self.availableTracksMap[availableTracks[i].id] = availableTrack;
+            }
+
+            var availablePlaylists = self.availablePlaylists();
+            if (availablePlaylists.length > 0) {
+                for (i = 0; i < availablePlaylists.length; i++) {
+                    var tracks = availablePlaylists[i].tracks();
+                    for (var j = 0; j < tracks.length; j++) {
+                        var track = tracks[j]();
+                        var trackId = track.id();
+                        track.name = self.availableTracksMap[trackId].name;
+                        track.trackProperties = self.availableTracksMap[trackId].trackProperties;
+                        track.layer = self.availableTracksMap[trackId].layer;
+                    }
+                }
+            }
+            self.availableTracks.sort(util.sortArrayByObjectKeyKoObservable("name", true));
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+SpirentEnterpriseViewModel.prototype.getAvailablePlaylists = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availablePlaylists.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_playlist_tracks"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availablePlaylists = data;
+
+            for (var i = 0; i < availablePlaylists.length; i++) {
+                var playlist = new TestPlaylistViewModel(self);
+
+                playlist.inflate(availablePlaylists[i]);
+
+                self.availablePlaylists.push(playlist);
+            }
+
+            var availableTracks = self.availableTracks();
+            if (availableTracks.length > 0) {
+                for (i = 0; i < availablePlaylists.length; i++) {
+                    var playlistTracks = self.availablePlaylists()[i].tracks();
+                    for (var j = 0; j < playlistTracks.length; j++) {
+                        var thisTrack = playlistTracks[j]();
+                        var foundTrack = self.availableTracksMap[thisTrack.id()];
+                        thisTrack.name = foundTrack.name;
+                        thisTrack.trackProperties = foundTrack.trackProperties;
+                        thisTrack.layer = foundTrack.layer;
+                    }
+
+                    self.availablePlaylists()[i].setMinTrackLayer();
+                    self.availablePlaylists()[i].calculatePercentagesForApplicationLayerTracks();
+                }
+            }
+            self.availablePlaylists.sort(util.sortArrayByObjectKeyKoObservable("name", true));
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+SpirentEnterpriseViewModel.prototype.getAvailableDevices = function (callback, responseData) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableDevices.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_devices"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableDevices = data;
+            if (availableDevices.length > 1){
+                availableDevices = util.sort_devices(availableDevices);
+            }
+
+            for (var i = 0; i < availableDevices.length; i++) {
+                var device = new TestDeviceViewModel(self);
+                device.inflate(availableDevices[i]);
+
+                self.availableDevices.push(device);
+            }
+            if (callback){
+                callback(responseData);
+            }
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableDevices().forEach(function(device) {
+        device.updateTimeSyncCapability(data); // Handles mapping of devices
+    });
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableEndpoints = function (callback) {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableEndpoints.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_endpoints"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableEndpoints = data;
+
+            for (var i = 0; i < availableEndpoints.length; i++) {
+                var endpoint = new EndpointViewModel(self);
+                endpoint.inflate(availableEndpoints[i]);
+                self.availableEndpoints.push(endpoint);
+            }
+
+            self.availableEndpoints.sort(util.sortArrayByObjectKeyKoObservable("name", true));
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
+};
+SpirentEnterpriseViewModel.prototype.getResultTypes = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.availableResultTypes = new Array();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_result_types"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availableResultTypes = data;
+
+            for (var i = 0; i < availableResultTypes.length; i++) {
+                self.availableResultTypes.push(new ResultTypeViewModel(availableResultTypes[i]));
+            }
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            util.logData(textStatus);
+        }
+    });
+
+    return ajax;
+};
+
+SpirentEnterpriseViewModel.prototype.getAvailableDisplayMessages = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_display_messages"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.availableDisplayMessages = data;
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            util.logData(textStatus);
+        }
+    });
+
+    return ajax;
+};
+SpirentEnterpriseViewModel.prototype.addToCategoryView = function (newTest) {
+    var self = SpirentEnterpriseViewModel.typesafe(this)
+    var categories = newTest.categories();
+
+    for (var i = 0; i < categories.length; i += 1) {
+        var category = categories[i];
+        if (self.availableTestsByCategory.indexOf(category.type) === -1) {
+            self.availableTestsByCategory.set(category.type, {
+                categoryName: category.name,
+                tests: [newTest]
+            });
+        } else {
+            var testsByCategory = self.availableTestsByCategory.get(category.type)().tests;
+
+            var existingTest = ko.utils.arrayFirst(testsByCategory, function (item) {
+                return newTest.id() === item.id() && newTest.isUserSave === item.isUserSave;
+            });
+
+            if (existingTest !== null) {
+                testsByCategory.splice(testsByCategory.indexOf(existingTest), 1);
+            }
+
+            testsByCategory.push(newTest);
+        }
+    }
+};
+SpirentEnterpriseViewModel.prototype.deleteTest = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    logger.info("removeFromCategoryView unimplemented");
+    //find test
+    //remove from array
+    //removeFromCategoryView();
+};
+SpirentEnterpriseViewModel.prototype.openTestCreationLightbox = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    self.vmTest.openTestCreationLightbox();
+};
+SpirentEnterpriseViewModel.prototype.openTestCreationLightboxUnlessLoaded = function () {
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+    if(!self.vmTest.vmConfiguration.isLoaded())
+        self.vmTest.openTestCreationLightbox();
+    else
+        self.showTest();
+};
+
+SpirentEnterpriseViewModel.prototype.getState = function(){
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    var stateViewModel = {};
+
+    stateViewModel.mainTab = self.selectedTab();
+    stateViewModel.testTab = self.vmTest.selectedTab();
+    stateViewModel.adminTab = self.vmAdministration.selectedTab();
+    stateViewModel.resultsTab = self.vmTest.vmResults.selectedTab();
+
+    return stateViewModel;
+};
+
+SpirentEnterpriseViewModel.prototype.restoreState = function(stateViewModel){
+    var self = SpirentEnterpriseViewModel.typesafe(this);
+
+    self.selectedTab(stateViewModel.mainTab);
+    self.vmTest.selectedTab(stateViewModel.testTab);
+    self.vmAdministration.selectedTab(stateViewModel.adminTab);
+    self.vmTest.vmResults.selectTab(stateViewModel.resultsTab);
+};

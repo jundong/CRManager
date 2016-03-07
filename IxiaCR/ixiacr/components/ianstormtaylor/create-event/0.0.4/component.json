@@ -1,0 +1,26 @@
+{
+  "name": "create-event",
+  "description": "Create an event object cross browser. Useful for unit testing mostly.",
+  "version": "0.0.4",
+  "license": "MIT",
+  "keywords": [
+    "event",
+    "create",
+    "dispatch",
+    "testing",
+    "test"
+  ],
+  "dependencies": {
+    "timoxley/keycode": "*",
+    "segmentio/extend": "*"
+  },
+  "development": {
+    "dependencies": {
+      "component/assert": "*"
+    }
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "ianstormtaylor/create-event"
+}

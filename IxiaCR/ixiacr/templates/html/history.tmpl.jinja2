@@ -1,0 +1,95 @@
+<script id="history-template" type="text/html">
+
+<div class="container">
+
+<div class="box">
+
+    <div class="filter-container">
+        <ul class="filters">
+            <li data-bind="visible: showDateFilters()">
+                <div>
+                    <input class="shaded date" type="text" data-bind="datePicker: selectedStartDate, value: selectedStartDate" placeholder="{% trans %}Start...{% endtrans %}" />
+                </div>
+            </li>
+            <li data-bind="visible: showDateFilters()">
+                <div>
+                    <input class="shaded date" type="text" data-bind="datePicker: selectedEndDate, value: selectedEndDate" placeholder="{% trans %}End...{% endtrans %}" />
+                </div>
+            </li>
+            <li style="margin-right: 10px;">
+            {% trans %}Date Range:{% endtrans %}
+                <div class="button-select-outer">
+                    <div class="button-select">
+                        <span data-bind="text: selectedDateFilterDisplay"></span>
+                        <select data-bind="options: availableDateFilters, optionsText: 'text', optionsValue: 'value', value: selectedDateFilter"></select>
+                    </div>
+                </div>
+            </li>
+            <!--<li>
+                <div class="button-select-outer">
+                    <div class="button-select">
+                        <span data-bind="text: selectedStatus"></span>
+                        <select data-bind="options: availableStatuses, optionsText: 'text', optionsValue: 'value', value: selectedStatus"></select>
+                    </div>
+                </div>
+            </li>
+            <li data-bind="visible: !showSearch()">
+                <div class="button-select-outer">
+                    <div class="button-select">
+                        <span data-bind="text: selectedCustomer"></span>
+                        <select data-bind="options: filterCustomers, value: selectedCustomer"></select>
+                    </div>
+                </div>
+            </li>
+            <li data-bind="visible: !showSearch()">
+                <div class="button-select-outer">
+                    <div class="button-select">
+                        <span data-bind="text: selectedLocation"></span>
+                        <select data-bind="options: filterLocations, value: selectedLocation"></select>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <input class="shaded tags" type="text" data-bind="click: onSelectedTagsClick, value: displaySelectedTags" placeholder="Tags..." />
+            </li>-->
+            <li >
+                <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
+                <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+            </li>
+
+        </ul>
+    </div>
+    <div class="clear"></div>
+    <div class="portlet-content">
+        <div class="test-list">
+            <table>
+                <thead>
+                <tr>
+                    <td></td>
+                    <td>{% trans %}Name{% endtrans %}</td>
+                    <td>{% trans %}Date{% endtrans %}</td>
+                </tr>
+                </thead>
+                <tbody data-bind="foreach: filteredHistoryItems">
+                <tr data-bind="click: function () { loadRecentTest(); }">
+                    <td>
+                        <img data-bind="visible: endResult() == 'pass'" src="images/pass-light.png" title="{% trans %}pass{% endtrans %}" alt="{% trans %}pass{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'unrated'" src="images/unrated-light.png" title="{% trans %}unrated{% endtrans %}" alt="{% trans %}unrated{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'fail'" src="images/fail-light.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'error'" src="images/fail-light.png" title="{% trans %}error{% endtrans %}" alt="{% trans %}error{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'aborted'" src="images/no-light.png" title="{% trans %}aborted{% endtrans %}" alt="{% trans %}aborted{% endtrans %}" />
+                    </td>
+                    <td>
+                        <h4 data-bind="text: name" class="name"></h4>
+                        <p data-bind="text: template_name" class="category"></p>
+                    </td>
+                    <td data-bind="text: Date.parseString(date()).format('MM-dd-yyyy HH:mm')"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+</div>
+</script>

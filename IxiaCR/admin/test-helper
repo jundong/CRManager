@@ -1,0 +1,81 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Dummy test helper for testing message handling
+
+=head1 INPUT JSON
+
+  {
+      "fail": "0|1",
+      "progress": "0|1",
+      "details": "0|1",
+      "duration": 10
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { "log" : "log of updates" } 
+ }
+
+=head1 NOTES
+
+Output will change based on various parameters passed in.
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init( install_safe => 1 );
+
+my @log;
+my ( $in, @pkgs, $errors );
+
+my $duration = int( $in_data->{duration} ) || 10;
+
+&helper_lock( key => "test-helper" );
+
+my $stime = time;
+my $etime = $stime + $duration;
+
+if ( $in_data->{progress} ) {
+    &progress(0);
+}
+
+sleep 2;
+
+&progress(5);
+
+while ( time < $etime ) {
+    if ( $in_data->{details} ) {
+        &message( "detail message output at time: " . scalar( localtime(time) ) );
+    }
+
+    my $pct = ( ( time - $stime ) / ( $etime - $stime ) ) * 100;
+    if ( $in_data->{progress} ) {
+        &subprogress( 5, 80, $pct );
+    }
+
+    sleep(1);
+}
+
+&progress(80);
+
+sleep(2);
+
+&progress(100);
+
+if ( $in_data->{fail} ) {
+    &fail( "errors occurred", {} );
+}
+else {
+
+    $res->{result} = "SUCCESS";
+    $res->{object} = {};
+}
+
+&finish();

@@ -1,0 +1,2 @@
+.batch-operator li { display: inline-block; }
+.batch-operator li.operation:before { content: '|'; }

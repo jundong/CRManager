@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Stop a single supervisord based service
+
+=head1 INPUT JSON
+
+  {
+    "service" : "servicename"
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init();
+
+my ($svc);
+eval { $svc = $in_data->{service}; };
+
+if ( !$svc ) {
+    &fail("must specify service");
+}
+
+&detail("stopping $svc");
+
+my $sctl_res = &run_helper( [ "/local/admin/tools/sctl", "-a", "stop", "-p", $svc ] );
+
+# If stop fails due to not running, consider it a success
+# This allows calling more than once
+if ( $sctl_res->{result} ne "SUCCESS" && $sctl_res->{message} !~ /NOT_RUNNING/ ) {
+    &fail("failed to stop service $svc");
+}
+
+$res->{result} = "SUCCESS";
+$res->{object} = {};
+
+&finish();

@@ -1,0 +1,4 @@
+h1 { font-size: 18px; font-family: "arial"; color: black; font-weight: normal; }
+#graph { height: 720px; width: 1280px; }
+td.legendLabel { color: #000000; }
+div.tickLabel { font-family: "arial"; font-size: 12px; font-weight: normal }

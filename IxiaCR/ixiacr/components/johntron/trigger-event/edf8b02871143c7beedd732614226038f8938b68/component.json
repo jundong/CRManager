@@ -1,0 +1,22 @@
+{
+  "name": "trigger-event",
+  "description": "Trigger native DOM events",
+  "version": "0.0.2",
+  "keywords": [
+    "event",
+    "events",
+    "dom",
+    "trigger"
+  ],
+  "dependencies": {},
+  "development": {
+    "dependencies": {
+      "component/event": "*",
+      "component/assert": "*"
+    }
+  },
+  "scripts": [
+    "index.js"
+  ],
+  "repository": "adamsanderson/trigger-event"
+}

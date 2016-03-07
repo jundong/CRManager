@@ -1,0 +1,64 @@
+.event-list {
+    font: 13px arial;
+    margin-top: 10px;
+}
+
+.event-list .clear {
+    clear: both;
+}
+
+.event-list .item {
+    float: left;
+    cursor: pointer;
+}
+
+.event-list .item .cell {
+    float: left;
+    height: 25px;
+    padding: 5px 0 0 10px;
+}
+
+.event-list .item .date {
+    width: 81px;
+    background-color: black;
+    color: white;
+}
+
+.event-list .item .time {
+    width: 69px;
+}
+
+.event-list .item .duration {
+    width: 46px;
+    font-style: italic;
+}
+
+.event-devices {
+    width: 73px;
+}
+
+.event-devices .icon {
+    width: 8px;
+    height: 8px;
+    border-radius: 5px;
+    border: 1px solid #CCC;
+    margin: 3px 9px 0 0;
+    background-color: #CCC;
+    display: inline-block;
+    vertical-align: -1px;
+}
+
+.event-devices .name {
+    float: left;
+}
+
+.event-list .item .name {
+    width: 374px;
+    font-weight: bold;
+}
+
+.event-list .item .status {
+    width: 53px;
+    border-left: 1px solid #b2b2b2;
+    font-weight: bold;
+}

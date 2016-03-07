@@ -1,0 +1,47 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Start all supervisord controlled services
+
+=head1 INPUT JSON
+
+  {
+    "OPTIONAL:services_only" : "0|1"
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init();
+
+my ($svc_only);
+eval { $svc_only = $in_data->{services_only}; };
+
+if ( !$svc_only ) {
+    my $in = &open_cmd_merge( "/etc/rc.d/init.d/supervisord", "start" );
+    while ( defined( my $line = <$in> ) ) {
+        &detail("supervisor restart output: $line");
+    }
+    close($in);
+
+    sleep(1);
+}
+
+my $sctl_res = &run_helper( [ "/local/admin/tools/sctl", "-a", "start" ] );
+
+$res->{result} = "SUCCESS";
+$res->{object} = {};
+
+&finish();

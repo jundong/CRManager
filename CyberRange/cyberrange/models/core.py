@@ -60,6 +60,7 @@ class TestCases(Base):
     __tablename__ = 'test_cases'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
+    name = Column(Unicode(128), unique=True, nullable=False)
 
 
 class CRACLFactory(object):

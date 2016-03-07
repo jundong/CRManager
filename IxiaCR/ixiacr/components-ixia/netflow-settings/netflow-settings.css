@@ -1,0 +1,83 @@
+@charset "UTF-8";
+
+.italic { font-style: italic; }
+
+.netflow-settings #lightbox-working { margin-top: 40px; }
+.netflow-settings #lightbox-working .loading { margin-right: 1em; }
+
+.netflow-settings li { clear: both !important; }
+.netflow-settings a { color: #dbdbdb; }
+.netflow-settings input { float: none !important; display: inline !important; }
+.netflow-settings.main .single-pane .export label {
+    color: #dbdbdb;
+    text-transform: none;
+}
+
+.netflow-settings.main a { color: #5691A1; }
+.netflow-settings.main .single-pane { display: inline-block; vertical-align: top; }
+.netflow-settings.main .global { width: 454px; margin-right: 20px; }
+.netflow-settings.main .tip { width: 254px; }
+.netflow-settings .tip p { margin: 10px; font-size: 12px; }
+
+.netflow-settings.main .single-pane .export label:after { content: ''; }
+.netflow-settings label:not(.validator-message) { float: none !important; display: inline !important; }
+.netflow-settings .global-settings,
+.netflow-settings .interfaces {
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    -webkit-transition: all 200ms;
+    -moz-transition: all 200ms;
+    -ms-transition: all 200ms;
+    -o-transition: all 200ms;
+    transition: all 200ms;
+}
+.netflow-settings .global-settings { max-height: 20em; }
+.netflow-settings .interfaces { max-height: 190em; }/*support displaying max 20 collectors, then hide Add Collector button*/
+.netflow-settings .hidden {
+    display: block !important;
+    overflow-y: hidden;
+    max-height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-width: 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+.netflow-settings .hidden.no-transition { display: none !important; }
+
+.netflow-settings .interfaces > ul > li:first-child { text-align: center; }
+.netflow-settings .interface-selector { display: inline-block; }
+.netflow-settings .interface-selector .player:not(.available),
+.interface-selector .available.flowmon, .port-container .unavailable-port.flowmon { margin: 0; width: 48px; height: 40px; background-image: url("/images/port-flowmon.png"); }
+.netflow-settings .interface-selector .player:not(.available) { background-image: url("/images/port-player.png"); }
+.netflow-settings .interfaces.single-pane .endpoint-container { float: none; color: #b8b8b8; }
+.netflow-settings .interfaces .endpoint-container p { width: 60%; margin: 1em auto; }
+
+.netflow-settings .interfaces .settings .form { padding: 0; }
+.netflow-settings .interfaces .settings > ul > li {
+    padding-left: 1em;
+    padding-right: 1em;
+    line-height: 4em;
+}
+.netflow-settings .interfaces .actions { float: right; }
+.netflow-settings .collectors,
+.netflow-settings .add-collector { border-top: 1px solid black; }
+.netflow-settings .add-collector { margin-top: 1em; text-align: right; }
+
+.netflow-settings .interfaces .collector-editor { position: relative; margin-top: 1em; }
+.netflow-settings .interfaces .collector-editor li { position: relative; }
+.netflow-settings .interfaces .collector-editor li:last-child { width: 31.975em; text-align: right; }
+.netflow-settings .interfaces .collector-editor label:first-child {
+    position: absolute;
+    left: 1em;
+    line-height: 42px;
+    text-transform: none;
+    color: black;
+}
+.netflow-settings .interfaces .collector-editor input[type="text"] { width: 17em; text-align: right; padding-left: 10em; padding-right: 2em; }
+.netflow-settings .interfaces .collector-editor .save { margin-left: 1em; }
+.netflow-settings .interfaces .collector-editor .validator-message:after { content: ''; }
+
+.netflow-settings.main {
+    min-height: 336px;
+}

@@ -1,0 +1,1 @@
+module.exports = '<div class="interfaces transmit-receive-container single-pane box">\n    <ul>\n        <li class="selector"></li>\n        <li class="settings endpoint-container">Select an interface above</li>\n    </ul>\n</div>';

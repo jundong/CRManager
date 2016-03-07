@@ -1,0 +1,21 @@
+ul, li { list-style: none; margin: 0; padding: 0; }
+
+.scroll-panel { height: 400px; width: 100px; border: 1px solid black; margin: auto; position: relative; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; margin-bottom: 50px; }
+.scroll-panel .scroller { height: 100%; position: absolute; left: -22px; top: -1px; width: 20px; border: 1px solid #999; z-index: 2; }
+.scroll-panel .scroll-track { height: 100%; background: white;}
+.scroll-panel .scroll-handle { display: block; width: 18px; height: 18px; background: #777; position: absolute; left: 1px; }
+.scroll-container { overflow: hidden; height: 100%; }
+.scroll-container .items { padding: 0px 5px; }
+.scroll-container .items li { height: 88px; width: 88px; border: 1px solid black; background: #ccc; cursor: pointer; }
+
+.scroll-panel.horizontal { width: 400px; height: 100px; border: 1px solid black; margin: auto; position: relative; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; margin-bottom: 50px; }
+.scroll-panel.horizontal .scroller { width: 100%; position: absolute; bottom: -22px; left: -1px; height: 20px; border: 1px solid #999; }
+.scroll-panel.horizontal .scroll-track { width: 100%; }
+.scroll-panel.horizontal .scroll-handle { display: block; width: 18px; height: 18px; background: #777; position: absolute; top: 1px; }
+.scroll-panel.horizontal .scroll-container { overflow: hidden; height: 100%; }
+.scroll-panel.horizontal .scroll-container .items { padding: 0px 0px; }
+.scroll-panel.horizontal .scroll-container .items li { height: 88px; width: 88px; border: 1px solid black; background: #ccc; cursor: pointer; margin-left: -4px; }
+
+.scroll-panel.touch-preferred .scroller { display: none; }
+
+.text { width: 120px }

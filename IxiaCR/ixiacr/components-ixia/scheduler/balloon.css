@@ -1,0 +1,98 @@
+.event-balloon {
+    display: none;
+    position: absolute;
+    z-index: 2;
+    min-width: 300px;
+    min-height: 100px;
+    background-color: #FFF;
+    margin: 25px 25px 5px 0;
+    padding: 0.75em 1em;
+    border-radius: 3px;
+    box-shadow: 0 1px 1px 1px rgba(0,0,0, 0.2);
+}
+
+.event-balloon .title {
+    font-weight: bold;
+    margin-right: 1.5em;
+}
+
+.event-balloon .close-btn {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    display: block;
+    width: 13px;
+    height: 13px;
+    background: url("/images/close-icon.png");
+}
+
+.event-balloon .datetime,
+.event-balloon .status,
+.event-balloon .devices,
+.event-balloon .actions {
+    line-height: 2em;
+    font-size: 12px;
+    font-family: open sans light, Arial, sans-serif;
+}
+
+.event-balloon .status.pass,
+.event-balloon .status.fail,
+.event-balloon .status.incomplete,
+.event-balloon .status.scheduled {
+    background-size: 12px;
+    background-repeat: no-repeat;
+    background-position: left center;
+    padding-left: 15px;
+}
+
+.event-balloon .status.pass { background-image: url(/images/pass.png); }
+.event-balloon .status.fail { background-image: url(/images/fail.png); }
+.event-balloon .status.incomplete { background-image: url(/images/incomplete.png); }
+.event-balloon .status.scheduled { font-style: italic; background-image: url(/images/clock-small-black.png);}
+
+.event-balloon .status.error,
+.event-balloon .status.fail { color: red; }
+.event-balloon .status.pass { color: green; }
+.event-balloon .status.aborted { color: orange; }
+
+.event-balloon .devices label:after {
+    content: ': ';
+}
+
+.event-balloon .actions {
+}
+
+.event-balloon a {
+}
+
+.event-balloon .delete-btn {
+    float: left;
+}
+
+.event-balloon .edit-btn {
+    float: right;
+    font-weight: bold;
+}
+
+.event-balloon .tail {
+    display: block;
+    position: absolute;
+    bottom: -18px;
+    left: 50%;
+    margin-left: -10px;
+    width:0; height:0;
+    border-color: white transparent transparent transparent;
+    border-width: 10px;
+    border-style: solid;
+}
+
+.event-balloon .tail-shaddow {
+    position:absolute;
+    bottom: -20px;
+    left: 50%;
+    margin-left: -10px;
+    width:0;height:0;
+    border-color: rgba(0,0,0,0.2) transparent transparent transparent;
+    border-width: 10px;
+    border-style: solid;
+}

@@ -1,0 +1,964 @@
+[
+    {
+        "engine":"STCTest",
+        "description":"This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities between sites on your IPv4 or IPv6 network. Typically, the traffic is stepped up until the maximum traffic that you have set is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video packets. Voice and video quality measures are also reported.",
+        "traffic_players":[
+            {
+                "playlist":{
+                    "id":1,
+                    "tracks":[
+                        {
+                            "layer":2,
+                            "name":"Frame: 128 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":60,
+                            "id":4,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":128
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "layer":2,
+                            "name":"Frame: 512 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":24,
+                            "id":3,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":512
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "layer":2,
+                            "name":"Frame: 1518 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":16,
+                            "id":16,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":1518
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "name":"End to End",
+                    "tags":{
+                        "user_defined":[]
+                    }
+                },
+                "destination":{
+                    "device":{
+                        "name":"Local Chassis",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ports":4,
+                        "host":"169.254.0.3",
+                        "device_type_id":2,
+                        "id":1
+                    },
+                    "endpoint":{
+                        "dhcp_hosts":"",
+                        "name":"Default v4 Rx - Custom",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ip":"192.168.85.2",
+                        "id":-1,
+                        "prefix":"24",
+                        "end_ip":"",
+                        "use_dhcp":"false",
+                        "gateway":"192.168.85.1",
+                        "vlan_id":""
+                    },
+                    "port":1,
+                    "devicePorts":[0, 1, 2, 3],
+                    "networks":[]
+                },
+                "traffic_settings":[
+                    {
+                        "value":"1",
+                        "unit":"Mbps",
+                        "type_id":1
+                    }
+                ],
+                "source":{
+                    "device":{
+                        "name":"Local Chassis",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ports":4,
+                        "host":"169.254.0.3",
+                        "device_type_id":2,
+                        "id":1
+                    },
+                    "endpoint":{
+                        "dhcp_hosts":"",
+                        "name":"Default v4 Tx - Custom",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ip":"192.168.85.1",
+                        "id":-1,
+                        "prefix":"24",
+                        "end_ip":"",
+                        "use_dhcp":"false",
+                        "gateway":"192.168.85.2",
+                        "vlan_id":""
+                    },
+                    "port":0,
+                    "devicePorts":[0, 1, 2, 3],
+                    "networks":[]
+                },
+                "datapoints":[],
+                "supplemental_configuration":{
+                    "playlist_settings":[
+                        {
+                            "layers":[3],
+                            "fields":[
+                                {
+                                    "type":"select",
+                                    "options":[
+                                        {
+                                            "value":0,
+                                            "key":"0 - Best Effort"
+                                        },
+                                        {
+                                            "value":10,
+                                            "key":"10 - AF11"
+                                        },
+                                        {
+                                            "value":12,
+                                            "key":"12 - AF12"
+                                        },
+                                        {
+                                            "value":13,
+                                            "key":"14 - AF13"
+                                        },
+                                        {
+                                            "value":18,
+                                            "key":"18 - AF21"
+                                        },
+                                        {
+                                            "value":20,
+                                            "key":"20 - AF22"
+                                        },
+                                        {
+                                            "value":22,
+                                            "key":"22 - AF23"
+                                        },
+                                        {
+                                            "value":26,
+                                            "key":"26 - AF31"
+                                        },
+                                        {
+                                            "value":28,
+                                            "key":"28 - AF32"
+                                        },
+                                        {
+                                            "value":30,
+                                            "key":"30 - AF33"
+                                        },
+                                        {
+                                            "value":34,
+                                            "key":"34 - AF41"
+                                        },
+                                        {
+                                            "value":36,
+                                            "key":"36 - AF42"
+                                        },
+                                        {
+                                            "value":38,
+                                            "key":"38 - AF43"
+                                        }
+                                    ],
+                                    "value":{
+                                        "value":0,
+                                        "key":"0 - Best Effort"
+                                    },
+                                    "label":"DSCP"
+                                }
+                            ],
+                            "title":"QoS Settings"
+                        }
+                    ]
+                }
+            }
+        ],
+        "module":"axon.testcases.spirent.qos_site_to_site",
+        "diagram":{
+            "traffic_type_display_name":"QoS",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Quality of Service",
+            "traffic_type":"qos"
+        },
+        "playlist_ids":[1],
+        "duration":1,
+        "supplemental_configuration":{
+            "playlist_settings":[
+                {
+                    "layers":[3],
+                    "fields":[
+                        {
+                            "type":"select",
+                            "options":[
+                                {
+                                    "value":0,
+                                    "key":"0 - Best Effort"
+                                },
+                                {
+                                    "value":10,
+                                    "key":"10 - AF11"
+                                },
+                                {
+                                    "value":12,
+                                    "key":"12 - AF12"
+                                },
+                                {
+                                    "value":13,
+                                    "key":"14 - AF13"
+                                },
+                                {
+                                    "value":18,
+                                    "key":"18 - AF21"
+                                },
+                                {
+                                    "value":20,
+                                    "key":"20 - AF22"
+                                },
+                                {
+                                    "value":22,
+                                    "key":"22 - AF23"
+                                },
+                                {
+                                    "value":26,
+                                    "key":"26 - AF31"
+                                },
+                                {
+                                    "value":28,
+                                    "key":"28 - AF32"
+                                },
+                                {
+                                    "value":30,
+                                    "key":"30 - AF33"
+                                },
+                                {
+                                    "value":34,
+                                    "key":"34 - AF41"
+                                },
+                                {
+                                    "value":36,
+                                    "key":"36 - AF42"
+                                },
+                                {
+                                    "value":38,
+                                    "key":"38 - AF43"
+                                }
+                            ],
+                            "label":"DSCP"
+                        }
+                    ],
+                    "title":"QoS Settings"
+                }
+            ]
+        },
+        "id":2,
+        "categories":["Network Infrastructure Test", "Network Device Test"],
+        "datapoint_ids":[],
+        "name":"My QoS Site to Site",
+        "is_dirty":false,
+        "is_user_save":false,
+        "tags":{
+            "company":null,
+            "favorite":"true",
+            "location":null,
+            "user_defined":[]
+        },
+        "favorite":true,
+        "is_template":false
+    },
+    {
+        "engine":"STCTest",
+        "description":"This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities between sites on your IPv4 or IPv6 network. Typically, the traffic is stepped up until the maximum traffic that you have set is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video packets. Voice and video quality measures are also reported.",
+        "traffic_players":[
+            {
+                "playlist":{
+                    "id":1,
+                    "tracks":[
+                        {
+                            "layer":2,
+                            "name":"Frame: 128 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":60,
+                            "id":4,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":128
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "layer":2,
+                            "name":"Frame: 512 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":24,
+                            "id":3,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":512
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "layer":2,
+                            "name":"Frame: 1518 Bytes",
+                            "track_object":"FixedFrameLengthTrack",
+                            "percentage":16,
+                            "id":16,
+                            "result_object":"DataTestResult",
+                            "track_properties":[
+                                {
+                                    "type":"read_only",
+                                    "name":"Frame Size",
+                                    "value":1518
+                                },
+                                {
+                                    "engine_model":{
+                                        "default":7,
+                                        "type":"attribute",
+                                        "name":"Port",
+                                        "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                                    },
+                                    "type":"select",
+                                    "name":"UDP Port",
+                                    "value":1,
+                                    "options":[
+                                        {
+                                            "bandwidth":1,
+                                            "id":1,
+                                            "name":"7 - Echo"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":2,
+                                            "name":"67 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":3,
+                                            "name":"68 - BOOTP / DHCP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":4,
+                                            "name":"69 - TFTP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":5,
+                                            "name":"161 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":6,
+                                            "name":"162 - SNMP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":7,
+                                            "name":"1494 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":8,
+                                            "name":"1604 - MS Term Server / Citrix"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":9,
+                                            "name":"1701 - L2TP"
+                                        },
+                                        {
+                                            "bandwidth":1,
+                                            "id":10,
+                                            "name":"2049 - NFS"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "name":"End to End",
+                    "tags":{
+                        "user_defined":[]
+                    }
+                },
+                "destination":{
+                    "device":{
+                        "name":"Local Chassis",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ports":4,
+                        "host":"169.254.0.3",
+                        "device_type_id":2,
+                        "id":1
+                    },
+                    "endpoint":{
+                        "dhcp_hosts":"",
+                        "name":"Default v4 Rx - Custom",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ip":"192.168.85.2",
+                        "id":-1,
+                        "prefix":"24",
+                        "end_ip":"",
+                        "use_dhcp":"false",
+                        "gateway":"192.168.85.1",
+                        "vlan_id":""
+                    },
+                    "port":1,
+                    "devicePorts":[0, 1, 2, 3],
+                    "networks":[]
+                },
+                "traffic_settings":[
+                    {
+                        "value":"1",
+                        "unit":"Mbps",
+                        "type_id":1
+                    }
+                ],
+                "source":{
+                    "device":{
+                        "name":"Local Chassis",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ports":4,
+                        "host":"169.254.0.3",
+                        "device_type_id":2,
+                        "id":1
+                    },
+                    "endpoint":{
+                        "dhcp_hosts":"",
+                        "name":"Default v4 Tx - Custom",
+                        "tags":{
+                            "user_defined":[]
+                        },
+                        "ip":"192.168.85.1",
+                        "id":-1,
+                        "prefix":"24",
+                        "end_ip":"",
+                        "use_dhcp":"false",
+                        "gateway":"192.168.85.2",
+                        "vlan_id":""
+                    },
+                    "port":0,
+                    "devicePorts":[0, 1, 2, 3],
+                    "networks":[]
+                },
+                "datapoints":[],
+                "supplemental_configuration":{
+                    "playlist_settings":[
+                        {
+                            "layers":[3],
+                            "fields":[
+                                {
+                                    "type":"select",
+                                    "options":[
+                                        {
+                                            "value":0,
+                                            "key":"0 - Best Effort"
+                                        },
+                                        {
+                                            "value":10,
+                                            "key":"10 - AF11"
+                                        },
+                                        {
+                                            "value":12,
+                                            "key":"12 - AF12"
+                                        },
+                                        {
+                                            "value":13,
+                                            "key":"14 - AF13"
+                                        },
+                                        {
+                                            "value":18,
+                                            "key":"18 - AF21"
+                                        },
+                                        {
+                                            "value":20,
+                                            "key":"20 - AF22"
+                                        },
+                                        {
+                                            "value":22,
+                                            "key":"22 - AF23"
+                                        },
+                                        {
+                                            "value":26,
+                                            "key":"26 - AF31"
+                                        },
+                                        {
+                                            "value":28,
+                                            "key":"28 - AF32"
+                                        },
+                                        {
+                                            "value":30,
+                                            "key":"30 - AF33"
+                                        },
+                                        {
+                                            "value":34,
+                                            "key":"34 - AF41"
+                                        },
+                                        {
+                                            "value":36,
+                                            "key":"36 - AF42"
+                                        },
+                                        {
+                                            "value":38,
+                                            "key":"38 - AF43"
+                                        }
+                                    ],
+                                    "value":{
+                                        "value":0,
+                                        "key":"0 - Best Effort"
+                                    },
+                                    "label":"DSCP"
+                                }
+                            ],
+                            "title":"QoS Settings"
+                        }
+                    ]
+                }
+            }
+        ],
+        "module":"axon.testcases.spirent.qos_site_to_site",
+        "diagram":{
+            "traffic_type_display_name":"QoS",
+            "traffic_direction":"two-way",
+            "test_type":"performance",
+            "test_type_display_name":"Quality of Service",
+            "traffic_type":"qos"
+        },
+        "playlist_ids":[1],
+        "duration":1,
+        "supplemental_configuration":{
+            "playlist_settings":[
+                {
+                    "layers":[3],
+                    "fields":[
+                        {
+                            "type":"select",
+                            "options":[
+                                {
+                                    "value":0,
+                                    "key":"0 - Best Effort"
+                                },
+                                {
+                                    "value":10,
+                                    "key":"10 - AF11"
+                                },
+                                {
+                                    "value":12,
+                                    "key":"12 - AF12"
+                                },
+                                {
+                                    "value":13,
+                                    "key":"14 - AF13"
+                                },
+                                {
+                                    "value":18,
+                                    "key":"18 - AF21"
+                                },
+                                {
+                                    "value":20,
+                                    "key":"20 - AF22"
+                                },
+                                {
+                                    "value":22,
+                                    "key":"22 - AF23"
+                                },
+                                {
+                                    "value":26,
+                                    "key":"26 - AF31"
+                                },
+                                {
+                                    "value":28,
+                                    "key":"28 - AF32"
+                                },
+                                {
+                                    "value":30,
+                                    "key":"30 - AF33"
+                                },
+                                {
+                                    "value":34,
+                                    "key":"34 - AF41"
+                                },
+                                {
+                                    "value":36,
+                                    "key":"36 - AF42"
+                                },
+                                {
+                                    "value":38,
+                                    "key":"38 - AF43"
+                                }
+                            ],
+                            "label":"DSCP"
+                        }
+                    ],
+                    "title":"QoS Settings"
+                }
+            ]
+        },
+        "id":1,
+        "categories":["Network Infrastructure Test", "Network Device Test"],
+        "datapoint_ids":[],
+        "name":"My QoS Site to Site",
+        "is_dirty":false,
+        "is_user_save":true,
+        "tags":{
+            "company":null,
+            "favorite":"true",
+            "location":null,
+            "user_defined":[]
+        },
+        "favorite":true,
+        "is_template":false
+    }
+]

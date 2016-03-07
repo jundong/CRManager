@@ -1,0 +1,1 @@
+module.exports = '<div class="target">\n    <span class="address"></span>:<span class="port"></span>\n    <button class="edit">edit</button>\n    <button class="delete">delete</button>\n</div>';

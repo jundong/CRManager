@@ -1,0 +1,5 @@
+{
+    "is_ready": false,
+    "is_valid": true,
+    "messages": [{ "header": "randomize", "content": "something went wrong", "is_error": true }]
+}

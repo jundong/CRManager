@@ -1,0 +1,607 @@
+#!/local/pythonenv/bin/python
+
+###
+# XXX: Need the real BLL for this
+###
+import re
+import pickle
+
+import axon.tasks.port
+import axon.tasks.meta
+import axon.tasks.test
+import axon.tasks.token
+
+from axon.lib.engines.utest import utils
+
+from StcPython import StcPython
+
+import unittest2 as unittest
+
+
+class TestSequenceFunctions(unittest.TestCase):
+
+    location1 = '//169.254.0.3/1/1'
+    location2 = '//169.254.0.3/1/1'
+    duration = 120
+
+    playlist_attack = 'System/base_threats/BEAWeblogic_XSS.xml'
+    playlist_single = 'System/LDAP/LDAP.xml'
+    playlist_multi = ['System/Exchange/Exchange.xml',
+                      'System/Remote_Desktop/Remote_desktop.xml',
+                      'System/mysql/mysql.xml']
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        self.do_bll_clean_up()
+
+    def do_bll_clean_up(self):
+        # Clean up the BLL as best we can
+        try:
+            stc = StcPython()
+            project = stc.get('system1', 'children-project')
+
+            print 'Cleaning up BLL...'
+            # 1. Release any attached ports
+            for port in stc.get(project, 'children-port').split():
+                if stc.get(port, 'Online').lower() == 'true':
+                    location = stc.get(port, 'Location')
+                    stc.release(location)
+
+            # 2. Disconnect from any connected chassis
+            psm = stc.get('system1', 'children-physicalchassismanager')
+            for chassis in stc.get(psm, 'children-physicalchassis').split():
+                hostname = stc.get(chassis, 'Hostname')
+                if stc.get(chassis, 'IsConnected').lower() == 'true':
+                    stc.disconnect(hostname)
+
+                stc.delete(chassis)
+
+            # 3. Delete all sequencer commands
+            sequencer = stc.get('system1', 'children-sequencer')
+
+            # Remove proper commands
+            cmds = list()
+            for childCmd in stc.get(sequencer, 'children-command').split():
+                cmds.append(childCmd)
+
+            # Remove cleanup commands
+            cleanupCmd = stc.get(sequencer, 'CleanupCommand')
+            for childCmd in stc.get(cleanupCmd, 'children-command').split():
+                cmds.append(childCmd)
+
+            args = {'CommandList': cmds,
+                    'DoDestroy': 'TRUE'}
+            stc.perform('SequencerRemoveCommand', **args)
+
+            # 4. Delete the current project
+            stc.delete(project)
+
+        except RuntimeError:
+            pass
+
+    def port_by_location(self, location):
+        stc = StcPython()
+        project = stc.get('system1', 'children-project')
+        handle = None
+        for port in stc.get(project, 'children-port').split():
+            if stc.get(port, 'Location') == location:
+                handle = port
+
+        return handle
+
+    def create_ports(self, test):
+        stc = StcPython()
+        project = stc.get('system1', 'children-project')
+        for playlist in test.playlists:
+            for source in playlist.sources:
+                port = self.port_by_location(source.location)
+                if port is None:
+                    args= {'under': project,
+                           'Location': source.location}
+                    handle = stc.create('Port', **args)
+
+            for sink in playlist.sinks:
+                port = self.port_by_location(sink.location)
+                if port is None:
+                    args= {'under': project,
+                           'Location': sink.location}
+                    handle = stc.create('Port', **args)
+
+    def apply(self):
+        """ Call the BLL apply function.  This triggers internal BLL validation """
+        stc = StcPython()
+        stc.apply()
+
+    def get_bll_count(self, handlename):
+        """ Walk the BLL and count the number of objects that match 'handlename'"""
+        stc = StcPython()
+        nodes = list()
+        nodes.append('system1')
+        count = 0
+        matches = list()
+
+        while len(nodes) > 0:
+            curNode = nodes.pop(0)
+            for child in stc.get(curNode, 'children').split():
+                nodes.append(child)
+            if re.match(r"%s[0-9]+" % handlename, curNode) is not None:
+                matches.append(curNode)
+                count += 1
+
+        return count
+
+    def get_streamblock_load(self):
+        """ Walk the BLL and add up the total streamblock load """
+        stc = StcPython()
+        load = 0.0
+        loadUnit = None
+
+        for lp in stc.get('project1', 'children-streamblockloadprofile').split():
+            if loadUnit is None:
+                loadUnit = stc.get(lp, 'LoadUnit')
+            else:
+                self.assertEqual(loadUnit, stc.get(lp, 'LoadUnit'),
+                                 'LoadUnit on %s not not match previous units' % lp)
+
+            load += float(stc.get(lp, 'Load'))
+
+        return load
+
+    def test_create_frames_ipv4(self):
+        load = 933
+
+        test = utils.get_simple_frames_test_ipv4()
+        self.assertIsNotNone(test)
+
+        test.playlists[0].load.value = load
+
+        # Check auto port creation
+        #self.create_ports(test)
+
+        # Create test config
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertIsNotNone(testToken)
+        pickle.dumps(testToken)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check for proper BLL object count
+        self.assertEqual(len(test.playlists[0].tracks),
+                         self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+        # 2 default + 2 test
+        self.assertEqual(4, self.get_bll_count('ipv4if'))
+        # 4 default + 0 test
+        self.assertEqual(4, self.get_bll_count('ipv6if'))
+        # 2 default + 2 test
+        self.assertEqual(4, self.get_bll_count('ethiiif'))
+        self.assertEqual(0, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('ftpclientprotocolconfig'))
+
+        self.assertEqual(1, self.get_bll_count('generatorstartcommand'))
+        self.assertEqual(1, self.get_bll_count('generatorstopcommand'))
+
+        # Check for (nearly) correct aggregate load
+        self.assertAlmostEqual(load, self.get_streamblock_load(), delta=5)
+
+    def test_create_frames_ipv6(self):
+        test = utils.get_simple_frames_test_ipv6()
+        self.assertIsNotNone(test)
+
+        # Check auto port creation
+        #self.create_ports(test)
+
+        # Create test config
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertIsNotNone(testToken)
+        pickle.dumps(testToken)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check for proper BLL object count
+        self.assertEqual(len(test.playlists[0].tracks),
+                         self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+        # 2 default + 0 test
+        self.assertEqual(2, self.get_bll_count('ipv4if'))
+        # 4 default + 4 test
+        self.assertEqual(8, self.get_bll_count('ipv6if'))
+        # 2 default + 2 test
+        self.assertEqual(4, self.get_bll_count('ethiiif'))
+        self.assertEqual(0, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('ftpclientprotocolconfig'))
+
+        self.assertEqual(1, self.get_bll_count('generatorstartcommand'))
+        self.assertEqual(1, self.get_bll_count('generatorstopcommand'))
+
+    def test_create_protocol_ipv4(self):
+        test = utils.get_simple_protocol_test_ipv4()
+        self.assertIsNotNone(test)
+
+        # Create ports, but don't actually connect to anthing
+        self.create_ports(test)
+
+        # Create test config
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertIsNotNone(testToken)
+        pickle.dumps(testToken)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check for proper BLL object count
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+        # 2 default + 2 test
+        self.assertEqual(4, self.get_bll_count('ipv4if'))
+        # 4 default + 0 test
+        self.assertEqual(4, self.get_bll_count('ipv6if'))
+        # 2 default + 2 test
+        self.assertEqual(1, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('ftpclientprotocolconfig'))
+
+        self.assertEqual(1, self.get_bll_count('devicesstartallcommand'))
+        # 2 server + 2 client
+        self.assertEqual(4, self.get_bll_count('protocolstopcommand'))
+
+    def test_create_protocol_ipv6(self):
+        test = utils.get_simple_protocol_test_ipv6()
+        self.assertIsNotNone(test)
+
+        # Create ports, but don't actually connect to anthing
+        self.create_ports(test)
+
+        # Create test config
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertIsNotNone(testToken)
+        pickle.dumps(testToken)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check for proper BLL object count
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+        # 2 default + 0 test
+        self.assertEqual(2, self.get_bll_count('ipv4if'))
+        # 4 default + 4 test
+        self.assertEqual(8, self.get_bll_count('ipv6if'))
+        # 2 default + 2 test
+        self.assertEqual(4, self.get_bll_count('ethiiif'))
+        self.assertEqual(1, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('ftpclientprotocolconfig'))
+
+        self.assertEqual(1, self.get_bll_count('devicesstartallcommand'))
+        # 2 server + 2 client
+        self.assertEqual(4, self.get_bll_count('protocolstopcommand'))
+
+    def test_create_mixed_ipv4(self):
+        test = utils.get_simple_mixed_test_ipv4()
+        self.assertIsNotNone(test)
+
+        # Create ports, but don't actually connect to anthing
+        self.create_ports(test)
+
+        # Create test config
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertIsNotNone(testToken)
+        pickle.dumps(testToken)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check config object counts
+        self.assertEqual(4, self.get_bll_count('streamblock'))
+        self.assertEqual(1, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('ftpclientprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(1, self.get_bll_count('devicesstartallcommand'))
+        # 2 server + 2 client
+        self.assertEqual(4, self.get_bll_count('protocolstopcommand'))
+        self.assertEqual(1, self.get_bll_count('generatorstartcommand'))
+        self.assertEqual(1, self.get_bll_count('generatorstopcommand'))
+
+    def test_create_token_duration_check(self):
+        test = utils.get_simple_mixed_test_ipv4()
+        self.assertIsNotNone(test)
+
+        test.actionize(self.duration)
+        self.create_ports(test)
+        testToken = axon.tasks.test.create(test=test, offline=True)
+        self.assertEqual(self.duration, testToken.expected_duration)
+
+    def test_create_token_result_check(self):
+        test = utils.get_simple_mixed_test_ipv4()
+        self.assertIsNotNone(test)
+
+        test.actionize(self.duration)
+        self.create_ports(test)
+        testToken = axon.tasks.test.create(test=test, offline=True, drop_results=True)
+        self.assertTrue(testToken.drop_results)
+
+    def test_asymmetric_frames_config(self):
+        load = 466
+        duration = self.duration
+
+        test = utils.get_asymmetric_frames_test_ipv4()
+        self.assertIsNotNone(test)
+        test.playlists[0].load.value = load
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Make sure it's really an asymmetric config
+        self.assertEqual(2, len(test.playlists[0].sources))
+        self.assertEqual(1, len(test.playlists[0].sinks))
+
+        self.assertEqual(6, self.get_bll_count('streamblock'))
+        self.assertEqual(3, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+
+        # Check for (nearly) corect aggregate load
+        self.assertAlmostEqual(load, self.get_streamblock_load(), delta=5)
+
+    def test_asymmetric_protocol_config(self):
+        test = utils.get_asymmetric_protocol_test_ipv4()
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Make sure it's really an asymmetric config
+        self.assertEqual(2, len(test.playlists[0].sources))
+        self.assertEqual(1, len(test.playlists[0].sinks))
+
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('httpserverprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('ftpclientprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('ftpserverprotocolconfig'))
+        self.assertEqual(3, self.get_bll_count('emulateddevice'))
+        self.assertEqual(2, self.get_bll_count('port'))
+
+    def test_video_config(self):
+        test = utils.get_protocols_test(utils.VIDEO)
+        self.assertIsNotNone(test)
+
+        # This is the default, but let's be sure
+        test.playlists[0].load.value = 100
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(1, self.get_bll_count('videoclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('videoserverprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('probe'))
+        self.assertEqual(1, self.get_bll_count('vqprobechannelblock'))
+
+        self.assertEqual(0, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('ftpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('rawtcpclientprotocolconfig'))
+
+    def test_video_equal(self):
+        test = utils.get_protocols_test(utils.VIDEO)
+        self.assertIsNotNone(test)
+
+        # Update endpoints so that we have 50 clients/servers
+        test.playlists[0].sources[0].ip = '192.85.1.1'
+        test.playlists[0].sources[0].end_ip = '192.85.1.50'
+        test.playlists[0].sinks[0].ip = '192.85.1.101'
+        test.playlists[0].sinks[0].end_ip = '192.85.1.150'
+
+        test.playlists[0].load.value = 50
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        self.assertEqual(2, self.get_bll_count('emulateddevice'))
+        self.assertEqual(1, self.get_bll_count('videoclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('videoserverprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('probe'))
+        self.assertEqual(1, self.get_bll_count('vqprobechannelblock'))
+
+    def test_video_many(self):
+        test = utils.get_protocols_test(utils.VIDEO)
+        self.assertIsNotNone(test)
+
+        # Update endpoints so that we have 50 clients/servers
+        test.playlists[0].sources[0].ip = '192.85.1.1'
+        test.playlists[0].sources[0].end_ip = '192.85.1.50'
+        test.playlists[0].sinks[0].ip = '192.85.1.101'
+        test.playlists[0].sinks[0].end_ip = '192.85.1.150'
+
+        # But only need a load of 10 video users.  This forces
+        # the builder to create seperate devices for the
+        # video clients
+        test.playlists[0].load.value = 10
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        self.assertEqual(3, self.get_bll_count('emulateddevice'))
+        self.assertEqual(1, self.get_bll_count('videoclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('videoserverprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('probe'))
+        self.assertEqual(1, self.get_bll_count('vqprobechannelblock'))
+
+    def test_voice_config(self):
+        test = utils.get_protocols_test(utils.VOICE)
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('sipuaprotocolconfig'))
+        # XXX: The BLL has schizophrenia on this issue; disable for now
+        #self.assertEqual(3, self.get_bll_count('sipuaprotocolprofile'))
+
+        self.assertEqual(0, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('ftpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('rawtcpclientprotocolconfig'))
+
+    def test_rawtcp_config(self):
+        test = utils.get_protocols_test(utils.RAW_TCP)
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(0, self.get_bll_count('streamblock'))
+        self.assertEqual(1, self.get_bll_count('rawtcpclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('rawtcpserverprotocolconfig'))
+
+        self.assertEqual(0, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('ftpclientprotocolconfig'))
+        self.assertEqual(0, self.get_bll_count('videoclientprotocolconfig'))
+
+
+    def test_playlist_single(self):
+        test = utils.get_playlist_test([self.playlist_single])
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(1, self.get_bll_count('dpgclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('dpgserverprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('dpgstreamplaylist'))
+        self.assertEqual(2, self.get_bll_count('dpgserverprotocolprofile'))
+
+    def test_playlist_multi(self):
+        test = utils.get_playlist_test(self.playlist_multi)
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(len(self.playlist_multi), self.get_bll_count('dpgclientprotocolconfig'))
+        self.assertEqual(len(self.playlist_multi), self.get_bll_count('dpgserverprotocolconfig'))
+        self.assertEqual(len(self.playlist_multi) + 1, self.get_bll_count('dpgstreamplaylist'))
+        self.assertEqual(len(self.playlist_multi) + 1, self.get_bll_count('dpgserverprotocolprofile'))
+
+    def test_playlist_attack(self):
+        playlist = self.playlist_attack
+        test = utils.get_playlist_test([playlist])
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(1, self.get_bll_count('dpgclientprotocolconfig'))
+        self.assertEqual(1, self.get_bll_count('dpgserverprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('dpgserverprotocolprofile'))
+        self.assertEqual(1, self.get_bll_count('dpgattackplaylist'))
+
+    def test_dhcpv4_endpoints(self):
+        test = utils.get_protocols_test(utils.HTTP)
+        self.assertIsNotNone(test)
+
+        # Enable dhcp endpoints
+        test.playlists[0].sources[0].use_dhcp = True
+        test.playlists[0].sources[0].version = 4
+        test.playlists[0].sinks[0].use_dhcp = True
+        test.playlists[0].sinks[0].version = 4
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(2, self.get_bll_count('dhcpv4blockconfig'))
+        self.assertEqual(1, self.get_bll_count('dhcpv4bindcommand'))
+        self.assertEqual(1, self.get_bll_count('dhcpv4releasecommand'))
+
+    def test_dhcpv6_endpoints(self):
+        test = utils.get_simple_frames_test()
+        self.assertIsNotNone(test)
+
+        # Enable dhcp endpoints
+        test.playlists[0].sources[0].use_dhcp = True
+        test.playlists[0].sources[0].version = 6
+        test.playlists[0].sinks[0].use_dhcp = True
+        test.playlists[0].sinks[0].version = 6
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        self.assertEqual(2, self.get_bll_count('dhcpv6blockconfig'))
+        self.assertEqual(1, self.get_bll_count('dhcpv6bindcommand'))
+        self.assertEqual(1, self.get_bll_count('dhcpv6releasecommand'))
+
+    def test_mixed_ip_mixed_playlist(self):
+        test = utils.get_mixed_ip_mixed_playlist_test()
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Check the BLL for proper object count
+        # 4 configured endpoints + 2 spliced off video hosts
+        self.assertEqual(6, self.get_bll_count('emulateddevice'))
+        self.assertEqual(8, self.get_bll_count('streamblock'))
+        self.assertEqual(2, self.get_bll_count('httpclientprotocolconfig'))
+        self.assertEqual(2, self.get_bll_count('httpserverprotocolconfig'))
+
+    def test_mixed_ip_mixed_playlist_dhcp(self):
+        test = utils.get_mixed_ip_mixed_playlist_test(dhcp=True)
+        self.assertIsNotNone(test)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Trigger internal BLL validation
+        self.apply()
+
+        # Make sure we have both dhcpv4 and dhcpv6 configs and commands
+        # in the sequencer
+        # 2 configured + 1 spliced off video host
+        self.assertEqual(3, self.get_bll_count('dhcpv4blockconfig'))
+        self.assertEqual(1, self.get_bll_count('dhcpv4bindcommand'))
+        self.assertEqual(1, self.get_bll_count('dhcpv4releasecommand'))
+
+        # 2 configured + 1 spliced off video host
+        self.assertEqual(3, self.get_bll_count('dhcpv6blockconfig'))
+        self.assertEqual(1, self.get_bll_count('dhcpv6bindcommand'))
+        self.assertEqual(1, self.get_bll_count('dhcpv6releasecommand'))
+
+    def test_minimal_frame_size(self):
+        test = utils.get_minimal_frame_size_test()
+        self.assertIsNotNone(test)
+
+        self.assertEqual(len(test.errors), 0)
+
+        testToken = axon.tasks.test.create_offline(test)
+
+        # Internal BLL validation
+        self.apply()
+
+
+if __name__ == "__main__":
+    unittest.main()

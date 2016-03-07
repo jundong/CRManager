@@ -1,0 +1,49 @@
+[
+    {"id": 1,
+        "name": "Sent/Recieved",
+        "description": "Aggregate Sent/Recieved counts for all players",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 2,
+        "name": "Traffic Loss",
+        "description": "Traffic loss by player (playlist) and track (table)",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 3,
+        "name": "Latency",
+        "description": "Average Latency, in milliseconds, 1 histogram for each player",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 4,
+        "name": "Jitter",
+        "description": "Average Jitter, in milliseconds, 1 histogram for each player",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 5,
+        "name": "Packet Loss vs Bandwidth",
+        "description": "Packet loss vs. Bandwidth table with the 0 packet loss entry highlighted by player",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 6,
+        "name": "Response Time",
+        "description": "Average Response time per URL in milliseconds for each player",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 7,
+        "name": "Connections",
+        "description": "Aggregate Connections (per second)",
+        "url": "",
+        "frequency": 1000},
+
+    {"id": 8,
+        "name": "Transactions",
+        "description": "Aggregate Transactions (per second)",
+        "url": "",
+        "frequency": 1000}
+]

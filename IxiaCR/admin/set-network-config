@@ -1,0 +1,178 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Set the current network config.
+
+=head1 INPUT JSON
+
+  {
+      "apply": "0|1",
+      "hostname": "...",
+      "ipv4": {
+          "mode": "static|dhcp",
+          "address": "",
+          "netmask": "...",
+          "OPTIONAL:gateway": "...."
+      }
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : {
+        "hostname": "...",
+            "ipv4": {
+                "mode": "static|dhcp",
+                "address": "...",
+                "netmask": "...",
+                "gateway": "...."
+            }
+  }
+ }
+
+=head1 NOTES
+
+If 'apply' is nonzero, it will refresh networking, if not, will just update configuration, but not actually trigger the changes until next reboot (or next apply). No IPv6 support at this time. 
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init();
+
+my ( $in, $out, $hn, $gw );
+my $status = "SUCCESS";
+
+my $log = "";
+
+# ipv4 only right now
+my ( $mode, $addr, $netmask, $gateway, $hostname, $apply );
+eval {
+    $hostname = $in_data->{hostname};
+    $apply    = $in_data->{apply};
+
+    $mode = $in_data->{ipv4}->{mode};
+    $addr = $in_data->{ipv4}->{address};
+    $nm   = $in_data->{ipv4}->{netmask};
+    $gw   = $in_data->{ipv4}->{gateway};
+};
+
+if ( $mode eq "static" ) {
+    if ( !$addr || !$nm ) {
+        &fail("missing parameters for static network configuration");
+    }
+}
+
+umask(022);
+my $tf = "/tmp/cfg-network-" . $$ . "." . time;
+
+open( $in, "/usr/bin/ssh -F /local/admin/files/ssh_config hypervisor cat /etc/sysconfig/network 2>/dev/null |" );
+
+unlink($tf);
+open( $out, ">$tf" );
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    next if ( $line =~ /^HOSTNAME=/o );
+    next if ( $line =~ /^GATEWAY=/o );
+    next if ( $line =~ /^PEERNTP=/o );
+    next if ( $line =~ /^\s*$/o );
+    print $out $line, "\n";
+}
+close($in);
+if ($hostname) {
+    print $out "HOSTNAME=$hostname\n";
+}
+if ($gw) {
+    print $out "GATEWAY=$gw\n";
+}
+print $out "PEERNTP=no\n";
+close($out);
+
+# copy that file to target host
+open( $in, "/usr/bin/scp -F /local/admin/files/ssh_config $tf hypervisor:/etc/sysconfig/network >/dev/null 2>&1 |" );
+while ( defined( $line = <$in> ) ) {
+    $log .= $line;
+}
+close($in);
+
+unlink($tf);
+open( $out, ">$tf" );
+open( $in,
+    "/usr/bin/ssh -F /local/admin/files/ssh_config hypervisor cat /etc/sysconfig/network-scripts/ifcfg-em1 2>/dev/null |"
+);
+print $out "DEVICE=em1\n";
+while ( defined( my $line = <$in> ) ) {
+    chomp($line);
+    next if ( $line =~ /^DEVICE=/o );
+    next if ( $line =~ /^BOOTPROTO=/o );
+    next if ( $line =~ /^PERSISTENT_DHCLIENT=/o );
+    next if ( $line =~ /^IPADDR=/o );
+    next if ( $line =~ /^GATEWAY=/o );
+    next if ( $line =~ /^NETMASK=/o );
+    next if ( $line =~ /^ONBOOT=/o );
+    next if ( $line =~ /^\s*$/o );
+    print $out $line, "\n";
+}
+close($in);
+if ($gw) {
+    print $out "GATEWAY=$gw\n";
+}
+if ($nm) {
+    print $out "NETMASK=$nm\n";
+}
+if ($addr) {
+    print $out "IPADDR=$addr\n";
+}
+if ( $mode eq "static" ) {
+    print $out "BOOTPROTO=static\n";
+}
+else {
+    print $out "BOOTPROTO=dhcp\n";
+    print $out "PERSISTENT_DHCLIENT=yes\n";
+}
+print $out "ONBOOT=yes\n";
+close($out);
+
+# copy that file to target host
+open( $in,
+    "/usr/bin/scp -F/local/admin/files/ssh_config $tf hypervisor:/etc/sysconfig/network-scripts/ifcfg-em1 >/dev/null 2>&1 |"
+);
+while ( defined( $line = <$in> ) ) {
+    $log .= $line;
+}
+close($in);
+
+unlink($tf);
+
+# If we're set to apply, reconfigure network
+if ($apply) {
+
+    &detail("restarting network");
+    my $in = &open_cmd_merge(
+        "/usr/bin/ssh",
+        "-F" => "/local/admin/files/ssh_config",
+        "hypervisor", "/mnt/chassis-helpers/restart-network"
+    );
+    while ( defined( my $line = <$in> ) ) {
+        chomp($line);
+        &detail($line);
+
+        if ( $line =~ /FAILED/ ) {
+            $status = "FAILURE";
+        }
+    }
+    close($in);
+    &detail("network restart completed");
+
+    my $res = &run_helper( ["/local/admin/refresh-latest-license"], {} );
+}
+
+$res->{result} = $status;
+$res->{object}
+    = { "hostname" => $hostname, ipv4 => { mode => $mode, address => $addr, netmask => $nm, gateway => $gw } };
+
+&finish();

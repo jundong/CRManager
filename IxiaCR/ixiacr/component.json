@@ -1,0 +1,26 @@
+{
+  "private": true,
+  "name": "ixiacr",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "visionmedia/mocha": "2.1.0",
+    "mochajs/mocha": "2.1.0"
+  },
+  "development": {
+    "dependencies": {
+      "mochajs/mocha": "*",
+      "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+      "chaijs/chai": "*",
+      "johntron/sinon": "f6c79fdb53d73ff7e2ad06f096b16eaf4add68eb"
+    }
+  },
+  "license": "MIT",
+  "paths": [
+    "components-ixia"
+  ],
+  "local": [
+    "boot"
+  ]
+}

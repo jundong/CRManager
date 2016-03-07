@@ -1,0 +1,1368 @@
+[
+    {
+        "tracks":[
+            {
+                "name":"Frame: 128 Bytes",
+                "is_readonly":true,
+                "track_object":"FixedFrameLengthTrack",
+                "traffic_settings":null,
+                "id":9,
+                "js_bw_compute":"",
+                "percentage":60,
+                "result_object":"DataTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"frame_length",
+                            "value":[128]
+                        },
+                        "type":"select",
+                        "name":"Frame Size",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Frame: 128 Bytes"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"dst_port",
+                            "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                        },
+                        "type":"select",
+                        "name":"UDP Port",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"7 - Echo"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"67 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":3,
+                                "name":"68 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":4,
+                                "name":"69 - TFTP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":5,
+                                "name":"161 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":6,
+                                "name":"162 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":7,
+                                "name":"1494 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":8,
+                                "name":"1604 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":9,
+                                "name":"1701 - L2TP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":10,
+                                "name":"2049 - NFS"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"Frame: 512 Bytes",
+                "is_readonly":true,
+                "track_object":"FixedFrameLengthTrack",
+                "traffic_settings":null,
+                "id":11,
+                "js_bw_compute":"",
+                "percentage":24,
+                "result_object":"DataTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"frame_length",
+                            "value":[512]
+                        },
+                        "type":"select",
+                        "name":"Frame Size",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Frame: 512 Bytes"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"dst_port",
+                            "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                        },
+                        "type":"select",
+                        "name":"UDP Port",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"7 - Echo"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"67 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":3,
+                                "name":"68 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":4,
+                                "name":"69 - TFTP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":5,
+                                "name":"161 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":6,
+                                "name":"162 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":7,
+                                "name":"1494 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":8,
+                                "name":"1604 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":9,
+                                "name":"1701 - L2TP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":10,
+                                "name":"2049 - NFS"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"Frame: 1518 Bytes",
+                "is_readonly":true,
+                "track_object":"FixedFrameLengthTrack",
+                "traffic_settings":null,
+                "id":14,
+                "js_bw_compute":"",
+                "percentage":16,
+                "result_object":"DataTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"frame_length",
+                            "value":[1518]
+                        },
+                        "type":"select",
+                        "name":"Frame Size",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Frame: 1518 Bytes"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"dst_port",
+                            "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                        },
+                        "type":"select",
+                        "name":"UDP Port",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"7 - Echo"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"67 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":3,
+                                "name":"68 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":4,
+                                "name":"69 - TFTP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":5,
+                                "name":"161 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":6,
+                                "name":"162 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":7,
+                                "name":"1494 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":8,
+                                "name":"1604 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":9,
+                                "name":"1701 - L2TP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":10,
+                                "name":"2049 - NFS"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"End to end playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":1,
+        "name":"End to End"
+    },
+    {
+        "tracks":[
+            {
+                "name":"Voice Call",
+                "is_readonly":true,
+                "track_object":"VoiceProtocolTrack",
+                "traffic_settings":{
+                    "max":200,
+                    "unit":"Users",
+                    "value":50,
+                    "min":1
+                },
+                "id":2,
+                "js_bw_compute":"",
+                "percentage":25,
+                "result_object":"VoiceTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"audio_codec",
+                            "value":["VoiceProtocolTrack.AudioCodec.G_711_MU_LAW", "VoiceProtocolTrack.AudioCodec.G_711_A_LAW", "VoiceProtocolTrack.AudioCodec.G_711_1_MU_LAW", "VoiceProtocolTrack.AudioCodec.G_711_1_A_LAW", "VoiceProtocolTrack.AudioCodec.G_729_A", "VoiceProtocolTrack.AudioCodec.G_726"]
+                        },
+                        "type":"select",
+                        "name":"Audio Codec",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":64000,
+                                "id":1,
+                                "name":"G.711 (mu-law)"
+                            },
+                            {
+                                "bandwidth":64000,
+                                "id":2,
+                                "name":"G.711 (A-law)"
+                            },
+                            {
+                                "bandwidth":96000,
+                                "id":3,
+                                "name":"G.711.1 (mu-law)"
+                            },
+                            {
+                                "bandwidth":96000,
+                                "id":4,
+                                "name":"G.711.1 (A-law)"
+                            },
+                            {
+                                "bandwidth":8000,
+                                "id":5,
+                                "name":"G.729A"
+                            },
+                            {
+                                "bandwidth":32000,
+                                "id":6,
+                                "name":"G.726"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"call_length",
+                            "value":[30, 60, 120, 300]
+                        },
+                        "type":"select",
+                        "name":"Call Length",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"30 sec"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"1 min"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":3,
+                                "name":"2 min"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":4,
+                                "name":"5 min"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"call_type",
+                            "value":["VoiceProtocolTrack.CallType.AUDIO"]
+                        },
+                        "type":"select",
+                        "name":"Call Type",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"Voice Call"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"Video",
+                "is_readonly":true,
+                "track_object":"VideoProtocolTrack",
+                "traffic_settings":{
+                    "max":20,
+                    "unit":"Users",
+                    "value":1,
+                    "min":1
+                },
+                "id":3,
+                "js_bw_compute":"",
+                "percentage":25,
+                "result_object":"VideoTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"video_file",
+                            "value":["/local/media/files/Spirent_HDTV_Aspen_H264_8Mbps.mp4", "/local/media/files/Spirent_HDTV_Aspen_H264_5Mbps.mp4", "/local/media/files/Spirent_HDTV_GoFootball_H264_8Mbps.mp4", "/local/media/files/Spirent_HDTV_GoFootball_H264_5Mbps.mp4", "/local/media/files/Spirent_HDTV_RedKayak_H264_8Mbps.mp4", "/local/media/files/Spirent_HDTV_RedKayak_H264_5Mbps.mp4", "/local/media/files/Spirent_SDTV_Maps_H264_3Mbps.mp4", "/local/media/files/Spirent_SDTV_Maps_H264_1_5Mbps.mp4", "/local/media/files/Spirent_SDTV_Football_H264_3Mbps.mp4", "/local/media/files/Spirent_SDTV_Football_H264_1_5Mbps.mp4", "/local/media/files/Spirent_SDTV_ColorChart_H264_3Mbps.mp4", "/local/media/files/Spirent_SDTV_ColorChart_H264_1_5Mbps.mp4"]
+                        },
+                        "type":"select",
+                        "name":"Video Clip",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":8000000,
+                                "id":1,
+                                "name":"Aspen - HD - H.264 - 8 Mbps"
+                            },
+                            {
+                                "bandwidth":5000000,
+                                "id":2,
+                                "name":"Aspen - HD - H.264 - 5 Mbps"
+                            },
+                            {
+                                "bandwidth":8000000,
+                                "id":3,
+                                "name":"(American) Football - HD - H.264 - 8 Mbps"
+                            },
+                            {
+                                "bandwidth":5000000,
+                                "id":4,
+                                "name":"(American) Football - HD - H.264 - 5 Mbps"
+                            },
+                            {
+                                "bandwidth":8000000,
+                                "id":5,
+                                "name":"Red Kayak - HD - H.264 - 8 Mbps"
+                            },
+                            {
+                                "bandwidth":5000000,
+                                "id":6,
+                                "name":"Red Kayak - HD - H.264 - 5 Mbps"
+                            },
+                            {
+                                "bandwidth":3000000,
+                                "id":7,
+                                "name":"Maps - SD - H.264 - 3 Mbps"
+                            },
+                            {
+                                "bandwidth":1500000,
+                                "id":8,
+                                "name":"Maps - SD - H.264 - 1.5 Mbps"
+                            },
+                            {
+                                "bandwidth":3000000,
+                                "id":9,
+                                "name":"(American) Football - SD - H.264 - 3 Mbps"
+                            },
+                            {
+                                "bandwidth":1500000,
+                                "id":10,
+                                "name":"(American) Football - SD - H.264 - 1.5 Mbps"
+                            },
+                            {
+                                "bandwidth":3000000,
+                                "id":11,
+                                "name":"Color Chart - SD - H.264 - 3 Mbps"
+                            },
+                            {
+                                "bandwidth":1500000,
+                                "id":12,
+                                "name":"Color Chart - SD - H.264 - 1.5 Mbps"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"HTTP",
+                "is_readonly":true,
+                "track_object":"HttpProtocolTrack",
+                "traffic_settings":{
+                    "max":1000,
+                    "unit":"Users",
+                    "value":100,
+                    "min":1
+                },
+                "id":5,
+                "js_bw_compute":"var computeFunction=function(){var delay = self.trackProperties()[1].value();var size_in_bits = self.trackProperties()[0].value() * 8;var user_tps_rate = self.trafficSettings().value() * 1000 / delay;var raw_rate = ((size_in_bits * user_tps_rate) * 10);return raw_rate;};",
+                "percentage":50,
+                "result_object":"ALPTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_size",
+                            "value":[1000, 10000, 100000, 1000000]
+                        },
+                        "type":"select",
+                        "name":"Response Size",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Small (1kB)"
+                            },
+                            {
+                                "bandwidth":10,
+                                "id":2,
+                                "name":"Medium (10kB)"
+                            },
+                            {
+                                "bandwidth":100,
+                                "id":3,
+                                "name":"Large (100kB)"
+                            },
+                            {
+                                "bandwidth":1000,
+                                "id":4,
+                                "name":"X-Large (1MB)"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_delay",
+                            "value":[0, 100, 1000, 10000]
+                        },
+                        "type":"select",
+                        "name":"Response Delay",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"None"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"100 ms"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":3,
+                                "name":"1 s"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":4,
+                                "name":"10 s"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"response_content_type",
+                            "value":["HttpProtocolTrack.ResponseContent.ASCII", "HttpProtocolTrack.ResponseContent.BINARY"]
+                        },
+                        "type":"select",
+                        "name":"Response Content",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"ASCII"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"Binary"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"http_version",
+                            "value":["HttpProtocolTrack.Version.HTTP_1_0", "HttpProtocolTrack.Version.HTTP_1_1"]
+                        },
+                        "type":"select",
+                        "name":"HTTP Version",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"1.0"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"1.1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"Voice Call, Video, and HTTP playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":2,
+        "name":"Voice, Video, and HTTP"
+    },
+    {
+        "tracks":[
+            {
+                "name":"HTTP",
+                "is_readonly":true,
+                "track_object":"HttpProtocolTrack",
+                "traffic_settings":{
+                    "max":1000,
+                    "unit":"Users",
+                    "value":100,
+                    "min":1
+                },
+                "id":5,
+                "js_bw_compute":"var computeFunction=function(){var delay = self.trackProperties()[1].value();var size_in_bits = self.trackProperties()[0].value() * 8;var user_tps_rate = self.trafficSettings().value() * 1000 / delay;var raw_rate = ((size_in_bits * user_tps_rate) * 10);return raw_rate;};",
+                "percentage":100,
+                "result_object":"ALPTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_size",
+                            "value":[1000, 10000, 100000, 1000000]
+                        },
+                        "type":"select",
+                        "name":"Response Size",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Small (1kB)"
+                            },
+                            {
+                                "bandwidth":10,
+                                "id":2,
+                                "name":"Medium (10kB)"
+                            },
+                            {
+                                "bandwidth":100,
+                                "id":3,
+                                "name":"Large (100kB)"
+                            },
+                            {
+                                "bandwidth":1000,
+                                "id":4,
+                                "name":"X-Large (1MB)"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_delay",
+                            "value":[0, 100, 1000, 10000]
+                        },
+                        "type":"select",
+                        "name":"Response Delay",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"None"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"100 ms"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":3,
+                                "name":"1 s"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":4,
+                                "name":"10 s"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"response_content_type",
+                            "value":["HttpProtocolTrack.ResponseContent.ASCII", "HttpProtocolTrack.ResponseContent.BINARY"]
+                        },
+                        "type":"select",
+                        "name":"Response Content",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"ASCII"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"Binary"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"http_version",
+                            "value":["HttpProtocolTrack.Version.HTTP_1_0", "HttpProtocolTrack.Version.HTTP_1_1"]
+                        },
+                        "type":"select",
+                        "name":"HTTP Version",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"1.0"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"1.1"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"HTTP only playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":3,
+        "name":"HTTP Only"
+    },
+    {
+        "tracks":[
+            {
+                "name":"HTTP",
+                "is_readonly":true,
+                "track_object":"HttpProtocolTrack",
+                "traffic_settings":{
+                    "max":1000,
+                    "unit":"Users",
+                    "value":100,
+                    "min":1
+                },
+                "id":5,
+                "js_bw_compute":"var computeFunction=function(){var delay = self.trackProperties()[1].value();var size_in_bits = self.trackProperties()[0].value() * 8;var user_tps_rate = self.trafficSettings().value() * 1000 / delay;var raw_rate = ((size_in_bits * user_tps_rate) * 10);return raw_rate;};",
+                "percentage":90,
+                "result_object":"ALPTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_size",
+                            "value":[1000, 10000, 100000, 1000000]
+                        },
+                        "type":"select",
+                        "name":"Response Size",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Small (1kB)"
+                            },
+                            {
+                                "bandwidth":10,
+                                "id":2,
+                                "name":"Medium (10kB)"
+                            },
+                            {
+                                "bandwidth":100,
+                                "id":3,
+                                "name":"Large (100kB)"
+                            },
+                            {
+                                "bandwidth":1000,
+                                "id":4,
+                                "name":"X-Large (1MB)"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_delay",
+                            "value":[0, 100, 1000, 10000]
+                        },
+                        "type":"select",
+                        "name":"Response Delay",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"None"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"100 ms"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":3,
+                                "name":"1 s"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":4,
+                                "name":"10 s"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"response_content_type",
+                            "value":["HttpProtocolTrack.ResponseContent.ASCII", "HttpProtocolTrack.ResponseContent.BINARY"]
+                        },
+                        "type":"select",
+                        "name":"Response Content",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"ASCII"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"Binary"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"http_version",
+                            "value":["HttpProtocolTrack.Version.HTTP_1_0", "HttpProtocolTrack.Version.HTTP_1_1"]
+                        },
+                        "type":"select",
+                        "name":"HTTP Version",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"1.0"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"1.1"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"FTP",
+                "is_readonly":true,
+                "track_object":"FtpProtocolTrack",
+                "traffic_settings":{
+                    "max":1000,
+                    "unit":"Users",
+                    "value":100,
+                    "min":1
+                },
+                "id":7,
+                "js_bw_compute":"var computeFunction=function(){var file_requests = 10;var transactions_per_connection = 5 + 2 * file_requests;var delay = self.trackProperties()[1].value();var size_in_bits = self.trackProperties()[0].value() * 8;var user_tps_rate = self.trafficSettings().value() * 1000/delay * file_requests / transactions_per_connection;var raw_rate = ((size_in_bits * user_tps_rate) * 10);return raw_rate;};",
+                "percentage":5,
+                "result_object":"ALPTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_size",
+                            "value":[1000, 10000, 100000, 1000000]
+                        },
+                        "type":"select",
+                        "name":"Response Size",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Small (1kB)"
+                            },
+                            {
+                                "bandwidth":10,
+                                "id":2,
+                                "name":"Medium (10kB)"
+                            },
+                            {
+                                "bandwidth":100,
+                                "id":3,
+                                "name":"Large (100kB)"
+                            },
+                            {
+                                "bandwidth":1000,
+                                "id":4,
+                                "name":"X-Large (1MB)"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"response_delay",
+                            "value":[0, 100, 1000, 10000]
+                        },
+                        "type":"select",
+                        "name":"Response Delay",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"None"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"100 ms"
+                            },
+                            {
+                                "bandwidth":10,
+                                "id":3,
+                                "name":"1 s"
+                            },
+                            {
+                                "bandwidth":100,
+                                "id":4,
+                                "name":"10 s"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"response_content_type",
+                            "value":["FtpProtocolTrack.ResponseContent.ASCII", "FtpProtocolTrack.ResponseContent.BINARY"]
+                        },
+                        "type":"select",
+                        "name":"Response Content",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"ASCII"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"Binary"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"action",
+                            "value":["FtpProtocolTrack.Action.GET", "FtpProtocolTrack.Action.PUT"]
+                        },
+                        "type":"select",
+                        "name":"Command Type",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"GET"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"PUT"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"bool",
+                            "name":"is_passive",
+                            "value":["TRUE", "FALSE"]
+                        },
+                        "type":"select",
+                        "name":"Passive Connection",
+                        "value":2,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"Yes"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"No"
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name":"Voice Call",
+                "is_readonly":true,
+                "track_object":"VoiceProtocolTrack",
+                "traffic_settings":{
+                    "max":200,
+                    "unit":"Users",
+                    "value":50,
+                    "min":1
+                },
+                "id":2,
+                "js_bw_compute":"",
+                "percentage":5,
+                "result_object":"VoiceTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"audio_codec",
+                            "value":["VoiceProtocolTrack.AudioCodec.G_711_MU_LAW", "VoiceProtocolTrack.AudioCodec.G_711_A_LAW", "VoiceProtocolTrack.AudioCodec.G_711_1_MU_LAW", "VoiceProtocolTrack.AudioCodec.G_711_1_A_LAW", "VoiceProtocolTrack.AudioCodec.G_729_A", "VoiceProtocolTrack.AudioCodec.G_726"]
+                        },
+                        "type":"select",
+                        "name":"Audio Codec",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":64000,
+                                "id":1,
+                                "name":"G.711 (mu-law)"
+                            },
+                            {
+                                "bandwidth":64000,
+                                "id":2,
+                                "name":"G.711 (A-law)"
+                            },
+                            {
+                                "bandwidth":96000,
+                                "id":3,
+                                "name":"G.711.1 (mu-law)"
+                            },
+                            {
+                                "bandwidth":96000,
+                                "id":4,
+                                "name":"G.711.1 (A-law)"
+                            },
+                            {
+                                "bandwidth":8000,
+                                "id":5,
+                                "name":"G.729A"
+                            },
+                            {
+                                "bandwidth":32000,
+                                "id":6,
+                                "name":"G.726"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"call_length",
+                            "value":[30, 60, 120, 300]
+                        },
+                        "type":"select",
+                        "name":"Call Length",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"30 sec"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":2,
+                                "name":"1 min"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":3,
+                                "name":"2 min"
+                            },
+                            {
+                                "bandwidth":0,
+                                "id":4,
+                                "name":"5 min"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"enum",
+                            "name":"call_type",
+                            "value":["VoiceProtocolTrack.CallType.AUDIO"]
+                        },
+                        "type":"select",
+                        "name":"Call Type",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":0,
+                                "id":1,
+                                "name":"Voice Call"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"Enterprise Application playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":4,
+        "name":"Enterprise Mix"
+    },
+    {
+        "tracks":[
+            {
+                "name":"Frame: 256 Bytes",
+                "is_readonly":true,
+                "track_object":"FixedFrameLengthTrack",
+                "traffic_settings":null,
+                "id":10,
+                "js_bw_compute":"",
+                "percentage":100,
+                "result_object":"DataTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"frame_length",
+                            "value":[256]
+                        },
+                        "type":"select",
+                        "name":"Frame Size",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Frame: 256 Bytes"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"dst_port",
+                            "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                        },
+                        "type":"select",
+                        "name":"UDP Port",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"7 - Echo"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"67 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":3,
+                                "name":"68 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":4,
+                                "name":"69 - TFTP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":5,
+                                "name":"161 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":6,
+                                "name":"162 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":7,
+                                "name":"1494 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":8,
+                                "name":"1604 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":9,
+                                "name":"1701 - L2TP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":10,
+                                "name":"2049 - NFS"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"256 byte L2/L3 frames only playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":5,
+        "name":"256 Byte Frames"
+    },
+    {
+        "tracks":[
+            {
+                "name":"Frame: 128 Bytes",
+                "is_readonly":true,
+                "track_object":"FixedFrameLengthTrack",
+                "traffic_settings":null,
+                "id":9,
+                "js_bw_compute":"",
+                "percentage":100,
+                "result_object":"DataTestResult",
+                "track_properties":[
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"frame_length",
+                            "value":[128]
+                        },
+                        "type":"select",
+                        "name":"Frame Size",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"Frame: 128 Bytes"
+                            }
+                        ]
+                    },
+                    {
+                        "engine_model":{
+                            "type":"attribute",
+                            "name":"dst_port",
+                            "value":[7, 67, 68, 69, 160, 162, 1494, 1604, 1701, 2049]
+                        },
+                        "type":"select",
+                        "name":"UDP Port",
+                        "value":1,
+                        "options":[
+                            {
+                                "bandwidth":1,
+                                "id":1,
+                                "name":"7 - Echo"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":2,
+                                "name":"67 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":3,
+                                "name":"68 - BOOTP / DHCP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":4,
+                                "name":"69 - TFTP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":5,
+                                "name":"161 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":6,
+                                "name":"162 - SNMP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":7,
+                                "name":"1494 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":8,
+                                "name":"1604 - MS Term Server / Citrix"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":9,
+                                "name":"1701 - L2TP"
+                            },
+                            {
+                                "bandwidth":1,
+                                "id":10,
+                                "name":"2049 - NFS"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "description":"128 byte L2/L3 frames only playlist.",
+        "settings":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "id":6,
+        "name":"128 Byte Frames"
+    }
+]

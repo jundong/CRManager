@@ -1,0 +1,14 @@
+{
+  "name": "line-rate-message-view-model",
+  "repo": "components-spirent/line-rate-message-view-model",
+  "description": "Shows an icon and tooltip when user configures test near line-rate",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

@@ -1,0 +1,54 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Shutdown VM and shutdown chassis.
+
+=head1 INPUT JSON
+
+  {
+  
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { } 
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init();
+
+system("sync");
+if ($?) {
+    &fail("failure running sync");
+}
+
+$res->{result} = "SUCCESS";
+&log_and_print_json($res);
+
+syslog( "info", "finished - spawning background restart" );
+
+# Run shutdowns blind
+close(STDIN);
+close(STDOUT);
+close(STDERR);
+
+if (fork) {
+    exit(0);
+}
+
+# Run shutdowns in background
+open( my $chassis,
+    "/usr/bin/ssh -F /local/admin/files/ssh_config hypervisor /mnt/chassis-helpers/shutdown-chassis 30 2>&1 |" );
+open( my $vm, "/usr/bin/sudo /sbin/shutdown -h now 2>&1 |" );
+close($vm);
+close($chassis);
+
+exit(0);

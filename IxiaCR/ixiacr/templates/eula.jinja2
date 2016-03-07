@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>{% trans %}Spirent Axon - End User License Agreement{% endtrans %}</title>
+		<link rel="stylesheet" type="text/css" href="/css/eula.css" media="all"/>
+		<script type="text/javascript" src="lib/jquery-1.7.2.js"></script>
+		<script>
+		$('document').ready(function(){
+			$('input#eula_accepted').change(function(){
+				if ($(this).attr('checked')==='checked'){
+					$('a#acceptButton').addClass('button').removeClass('buttonDisabled');
+				} else {
+					$('a#acceptButton').addClass('buttonDisabled').removeClass('button');
+				}
+			});
+			$('span.button-outer').on('click', 'a#acceptButton.button', function(e){
+				$('form#eulaForm').submit();
+			});
+		});
+		</script>
+	</head>
+	<body id="http-error">
+		<div class="logo">
+        	<img src="images/spirent_axon_logo_black_large.png"/>
+		</div>
+		<div class="box">
+            {{ eula_content|safe }}
+			<form id="eulaForm" action="/" method="post">
+			    <div class="eula-confirm"><label><input id="eula_accepted" type="checkbox" name="eula_accepted" value="true" /> {% trans %}I have read the EULA and accept its terms.{% endtrans %}</label></div>
+			</form>
+
+			<span class="button-outer login-button">
+				<a class="buttonDisabled" id="acceptButton">{% trans %}Accept{% endtrans %}</a>
+			</span>
+			<span class="button-outer login-button">
+				<a class="button" href="/login">{% trans %}Decline{% endtrans %}</a>
+			</span>
+		</div>
+    </body>
+</html>

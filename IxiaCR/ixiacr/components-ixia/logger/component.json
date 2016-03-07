@@ -1,0 +1,17 @@
+{
+  "name": "logger",
+  "repo": "components-spirent/logger",
+  "description": "Logs messages to a server via AJAX",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+      "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+      "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

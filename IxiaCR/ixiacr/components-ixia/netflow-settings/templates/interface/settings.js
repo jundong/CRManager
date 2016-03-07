@@ -1,0 +1,1 @@
+module.exports = '<ul class="form">\n    <li class="export">\n        <label><input type="checkbox"> Export this interface\'s traffic</label>\n    </li>\n    <li class="collectors"></li>\n    <li class="add-collector">\n        <button>Add collector</button>\n    </li>\n</ul>';

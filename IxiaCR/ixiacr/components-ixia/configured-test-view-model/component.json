@@ -1,0 +1,21 @@
+{
+  "name": "configured-test-view-model",
+  "repo": "components-spirent/configured-test-view-model",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/emitter": "1.0.1",
+    "johntron/moment-timezone": "0f4b9df99d9f6212c2036f5ae6f74b240f289381"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ],
+  "local": [
+    "utility-functions",
+    "async-poller"
+  ]
+}

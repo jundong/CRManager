@@ -1,0 +1,15 @@
+.multicast .transmit-receive-container {
+    clear: both;
+}
+
+.multicast .device .expand-collapse {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    background-size: 30px;
+    background-image: url(/images/up-expander-dark.png);
+}
+
+.multicast .device .expand-collapse.collapsed {
+    background-image: url(/images/down-expander-dark.png);
+}

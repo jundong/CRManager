@@ -1,0 +1,23 @@
+<script id="test-template" type="text/html">
+<div class="test-header">
+    <div class="container">
+        <div data-bind="testDropTarget: $data" class="test-controller">
+            <!-- Rendered by TestViewModel.afterRender() -->
+        </div>
+        <div class="test-navigation">
+            <ul>
+                <!-- this has to be on one line in order to not have an annoying space between elements -->
+                <li data-bind="attr: { 'class': configurationTabClass }, click: showConfiguration">{% trans %}Configuration{% endtrans %}</li><li data-bind="attr: { 'class': resultsTabClass }, click: showResults">{% trans %}Results{% endtrans %}</li><li data-bind="attr: { 'class': documentationTabClass }, click: showDocumentation">{% trans %}Test Description{% endtrans %}</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="configuration" data-bind="visible: isShowConfiguration, template: {name: testConfigurationTemplateName(), templateEngine: new ko.nativeTemplateEngine }, blockUI: vmResults.status">
+</div>
+
+<div class="results" data-bind="visible: isShowResults, template: { name: testResultsTemplateName(), templateEngine: new ko.nativeTemplateEngine }">
+</div>
+
+<div class="documentation" data-bind="visible: isShowDocumentation, template: { name: testDocumentationTemplateName(), templateEngine: new ko.nativeTemplateEngine }">
+</div>
+</script>

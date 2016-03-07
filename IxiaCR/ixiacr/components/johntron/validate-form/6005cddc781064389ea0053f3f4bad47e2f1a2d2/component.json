@@ -1,0 +1,52 @@
+{
+  "name": "validate-form",
+  "description": "Easily validate a form element against a set of rules.",
+  "version": "0.9.2",
+  "license": "MIT",
+  "keywords": [
+    "validate",
+    "validator",
+    "form",
+    "input",
+    "required",
+    "regexp",
+    "email",
+    "url"
+  ],
+  "dependencies": {
+    "component/classes": "1.1.4",
+    "component/clone": "*",
+    "component/domify": "1.1.1",
+    "component/each": "0.1.0",
+    "component/event": "0.1.2",
+    "component/trim": "0.0.1",
+    "component/type": "1.0.0",
+    "component/value": "1.1.0",
+    "ianstormtaylor/bind": "0.0.2",
+    "ianstormtaylor/next-sibling": "0.0.1",
+    "segmentio/is-email": "0.1.1",
+    "segmentio/is-hex-color": "0.0.1",
+    "segmentio/is-hsl-color": "0.0.1",
+    "segmentio/is-rgb-color": "0.0.1",
+    "segmentio/is-url": "0.1.0",
+    "segmentio/is-domain": "0.0.1",
+    "segmentio/submit-form": "0.0.1",
+    "segmentio/validator": "0.0.13",
+    "yields/prevent": "0.0.2",
+    "yields/stop": "0.0.2"
+  },
+  "development": {
+    "dependencies": {
+      "component/assert": "*",
+      "timoxley/next-tick": "*"
+    }
+  },
+  "scripts": [
+    "lib/adapter.js",
+    "lib/field.js",
+    "lib/index.js",
+    "lib/validators.js"
+  ],
+  "main": "lib/index.js",
+  "repository": "segmentio/validate-form"
+}

@@ -1,0 +1,613 @@
+<script id="lightbox-create-test-tmpl" type="text/html">
+    <div id="lightbox" class="create-test" data-bind="template : { name : 'lightbox-category-view', data : $data, templateEngine: new ko.nativeTemplateEngine }">
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-category-view">
+<div class="header">
+    <h2>{% trans %}Run a Test{% endtrans %}</h2>
+    <button class="cancel-button" data-bind="click: closeTestSelection"><img src="images/light-close-icon.png" alt="x" title="x" /> {% trans %}Cancel{% endtrans %}</button>
+</div>
+<!--<div class="search">-->
+    <!--<input type="text" />-->
+<!--</div>-->
+<div class="lightbox-view category-view" data-bind="visible: view() == 'category'">
+    <div>
+        <ul class="categories" data-bind="foreach: categories.items">
+            <li class="category">
+                <img data-bind="attr: { 'src' : 'images/' + key() + '.png', 'alt':value().categoryName, 'title':value().categoryName }" />
+                <p data-bind="text: value().categoryName"></p>
+                <div class="button-container">
+                    <button data-bind="click: $parent.showCategory.bind($parent)">{% trans %}Select{% endtrans %}</button>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="lightbox-view test-view" data-bind="visible: view() == 'test'">
+    <div class="category-sidebar">
+        <ul class="tabs">
+            <li class="tab standard selected" data-bind="click: sidebarTabClick.bind($data, 'standard')"><span>{% trans %}Standard{% endtrans %}</span></li>
+            <li class="tab saved" data-bind="click: sidebarTabClick.bind($data, 'saved')"><span>{% trans %}My Tests{% endtrans %}</span></li>
+        </ul>
+        <!--<div class="clear"></div>-->
+        <div class="favorites clear" data-bind="visible: sidebarTab().indexOf('standard') == -1 ">
+            <input class="dark-checkbox" type="checkbox" data-bind="checked: showFavorites" /><a href="javascript:void(0);" data-bind="click: function () { showFavorites(!showFavorites()) }">{% trans %}ONLY SHOW FAVORITES{% endtrans %}</a>
+        </div>
+        <div data-bind="attr: {'class': 'test-list-container'}">
+            <ul class="test-list standard" data-bind="foreach: factorySelectedCategory, scrollPanel: {}">
+                <li class="sidebar-category" data-bind="click: $parent.showTest.bind($parent), attr: {'class': 'sidebar-category' + ($parent.selectedTest() == $data ? ' selected' : '') }">
+                    <h3 data-bind="text: name"></h3>
+                    <!--<p data-bind="text: description"></p>-->
+                </li>
+            </ul>
+            <ul class="test-list saved" data-bind="foreach: userSelectedCategory, scrollPanel: { settings: { hidden : true } }">
+                <li class="sidebar-category" data-bind="click: $parent.showTest.bind($parent), attr: {'class': 'sidebar-category' + ($parent.selectedTest() == $data ? ' selected' : '') }">
+                    <h3 data-bind="text: name"></h3>
+                    <!--<p data-bind="text: description"></p>-->
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="test-content" data-bind="with: selectedTest">
+        <div class="breadcrumb" data-bind="with: $parent.breadcrumb()">
+            <a data-bind="text: testTypes, click: lightboxVM.showType.bind(lightboxVM)"></a> &raquo;
+            <a data-bind="text: category, click: lightboxVM.categoryBreadCrumbClick.bind(lightboxVM)"></a> &raquo;
+            <span data-bind="text: test"></span>
+        </div>
+        <div class="title">
+            <h2 data-bind="text: name"></h2><button data-bind="click: $parent.loadTest.bind($parent)">{% trans %}Select{% endtrans %}</button>
+            <div class="hr"></div>
+        </div>
+        <div class="description-container">
+            <div class="description" data-bind="scrollPanel : {}">
+                <div class="image-container">
+                    <!-- ko if: !diagram -->
+                    <img data-bind="attr: { 'src':'images/testdiagrams/'+id()+'.gif', 'alt':name(), 'title':name() }">
+                    <!-- /ko -->
+                    <!-- ko if: diagram -->
+                    <div class="test-info">
+                        <div class="test-type">
+                            <span class="label">{% trans %}Test Type:{% endtrans %}</span>
+                            <span class="value" data-bind='attr : { class : diagram.test_type + " value" }, text : diagram.test_type_display_name'>{% trans %}Performance{% endtrans %}</span>
+                        </div>
+                        <div class="traffic-type">
+                            <span class="label">{% trans %}Traffic Type:{% endtrans %}</span>
+                            <span class="value" data-bind='attr : { class : diagram.traffic_type + " value" }, text : diagram.traffic_type_display_name'>{% trans %}Application{% endtrans %}</span>
+                        </div>
+                    </div>
+                    <div class="diagram">
+                        <div class="tx"></div>
+                        <div class="direction" data-bind='attr : { class : diagram.traffic_direction + " direction" }'></div>
+                        <div class="test-traffic" data-bind='attr : { class : diagram.test_type + " " + diagram.traffic_type + " test-traffic" }'></div>
+                        <div class="direction" data-bind='attr : { class : diagram.traffic_direction + " direction" }'></div>
+                        <div class="rx"></div>
+                    </div>
+                    <!-- /ko -->
+                </div>
+                <p data-bind="html: description"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</script>
+
+<script type="text/html" id="lightbox-save-test-template">
+    <div id="lightbox-save-test" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: vmConfiguration.favorite" /><a href="javascript:void(0);" data-bind="click: function () { vmConfiguration.favorite(!vmConfiguration.favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="error section" data-bind="visible: preValidationResult() && !preValidationResult().is_valid">
+            <div class="container" data-bind="foreach: preValidationResult() ? preValidationResult().messages : []">
+                <h2>{% trans %}There are validation errors with your test configuration:{% endtrans %}</h2>
+                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
+                    <li data-bind="text: $data"></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': vmConfiguration.customer() || 'select one'  }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: vmConfiguration.customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': vmConfiguration.location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: vmConfiguration.location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input class="light-text-box2" type="text" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-save-test-alternate-template">
+    <div id="lightbox-save-test-alternate" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name, valueUpdate: 'input', disable: isFactoryTest" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">FAVORITE</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="clear"></div>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-save-playlist-template">
+    <div id="lightbox-save-playlist" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="error section" data-bind="visible: (nameError() || noTrack())">
+            <div class="container" style="margin-bottom: 20px;">
+                <h2 data-bind="visible: nameError()">{% trans %}Playlist name is required.{% endtrans %}</h2>
+                <h2 data-bind="text: strings['Playlist requires at least one track'], visible: noTrack()"></h2>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-save-track-template">
+    <div id="lightbox-save-track" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
+            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
+                <h2>{% trans %}There are validation errors with your track configuration:{% endtrans %}</h2>
+                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
+                    <li data-bind="text: $data"></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="no-track-property" data-bind="visible: !shouldShowTrackProperties()">
+            <li>
+                <label data-bind="text: strings['There is no track property']"></label>
+            </li>
+        </ul>
+        <ul class="save-middle" data-bind="visible: (editable() && shouldShowTrackProperties())">
+            <!-- ko foreach: trackProperties -->
+
+            <!-- ko if: (type() == 'text') -->
+            <li class="text"><label data-bind="text: name"></label><input class="light-text-box2" type="text" data-bind="value: value, valueUpdate: 'input'"/></li>
+            <!-- /ko -->
+            <!-- ko if: (type() == 'radio') -->
+            <li class="radio">
+                <label data-bind="text: name"></label>
+                <div data-bind="foreach: options">
+                    <div>
+                        <input type="radio" data-bind="value: $data, checked: $parent.value" /><label data-bind="text: $data, click: function () { $parent.value($data); }"></label>
+                    </div>
+                </div>
+            </li>
+            <!-- /ko -->
+            <!-- ko if: (type() == 'checkbox') -->
+            <li class="checkbox">
+                <label data-bind="text: name"></label>
+                <div>
+                    <input type="checkbox" data-bind="checked: value" /><label data-bind="text: name, click: function () { value(!value()); }"></label>
+                </div>
+            </li>
+            <!-- /ko -->
+            <!-- ko if: (type() == 'select') -->
+            <li class="select">
+                <!-- ko if: (name().toLowerCase() != 'playlist') -->
+                <label data-bind="text: name"></label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': optionValue }">
+                    <select data-bind="options: options, value: selectedOption, optionsText: function (item) { return item.name; }"></select>
+                </div>
+                <!-- /ko -->
+            </li>
+            <!-- /ko -->
+            <!-- ko if: (type() == 'read_only') -->
+            <li class="read-only">
+                <label data-bind="text: name"></label><span data-bind="text: value"></span>
+            </li>
+            <!-- /ko -->
+
+            <!-- /ko -->
+        </ul>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>TAGS:</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+
+<script type="text/html" id="lightbox-save-endpoint-template">
+    <div id="lightbox-save-endpoint" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" name="name" data-bind="value: name" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="clear"></div>
+        <ul class="save-middle">
+            {% include 'endpoint/fields.jinja2' %}
+        </ul>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-save-device-template">
+    <div id="lightbox-save-device" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
+            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
+            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
+                <h2>{% trans %}There are validation errors with your device configuration:{% endtrans %}</h2>
+                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
+                    <li data-bind="text: $data"></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="save-middle">
+            <li><label>{% trans %}HOST ADDRESS:{% endtrans %}</label><input class="address light-text-box2" type="text" data-bind="value: host, valueUpdate: 'input'" /></li>
+            <li>{% trans %}Authentication{% endtrans %}
+                <div class="smallText blueVioletText">{% trans %}To authenticate, you must provide the same username and password used when logging into the UI of the remote box.{% endtrans %}</div>
+            </li>
+            <li><label>{% trans %}AUTH ID:{% endtrans %}</label><input class="username light-text-box2" type="text" data-bind="value: username, valueUpdate: 'input'" /></li>
+            <li><label>{% trans %}PASSWORD:{% endtrans %}</label><input class="password light-text-box2" type="password" data-bind="value: password, valueUpdate: 'input'" /></li>
+        </ul>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: spirentEnterpriseVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-test-header-help-template">
+    <div id="lightbox-test-header-help" class="save-lightbox">
+        <ul class="save-header">
+            <li>{% trans %}Help concerning the header while configuring a test{% endtrans %}</li>
+            <li class="cancel"><a class="cancel-button cancel-icon"></a></li>
+        </ul>
+        <div class="clear"></div>
+        <ul class="save-footer">
+            <li>{% trans %}This is where the help stuff will go.{% endtrans %}</li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-test-configuration-help-template">
+    <div id="lightbox-test-configuration-help" class="save-lightbox">
+        <ul class="save-header">
+            <li>{% trans %}Help for configuring a test{% endtrans %}</li>
+            <li class="cancel"><a class="cancel-button cancel-icon"></a></li>
+        </ul>
+        <div class="clear"></div>
+        <ul class="save-footer">
+            <li>{% trans %}This is where the help stuff will go.{% endtrans %}</li>
+        </ul>
+    </div>
+</script>
+<script type="text/html" id="lightbox-timing-help-template">
+    <div id="lightbox-timing-help" class="save-lightbox">
+        <ul class="save-header">
+            <li>{% trans %}How to fix your time sync.{% endtrans %}</li>
+            <li class="cancel"><a class="cancel-button cancel-icon"></a></li>
+        </ul>
+        <div class="clear"></div>
+        <ul class="save-footer">
+            <li>{% trans %}If your Axon says that it does not have time sync for one (or more) of your endpoints in a test, your timing results (latency and jitter) will not be accurate.  The clocks on the machines will be too far apart to provide any real measurments.  In this situation, you should connect your Axon(s) to an NTP server in the "System Settings" tab of the Administration section.  Each Axon will need to be connected to the NTP server in its own GUI, this cannot be done remotely. If possible, it is best if all Axons that you will be running site-to-site tests between are connected to the same NTP server.<br><br>If you are connected to an NTP server but are still receiving a large range for your timing accuracy, the internal clocks may not have been synced to the NTP server for a long enough time.  Please wait another 30 minutes while your clocks synchronize.{% endtrans %}</li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-run-test-validation-template">
+    <div id="lightbox-run-test-validation" class="validation-lightbox">
+        <ul class="validation-header">
+            <li class="title">{% trans %}Test Validation{% endtrans %}</li>
+            <li class="return-button-container"><button class="cancel-button" data-bind="click: returnToTest, visible: !is_valid || warnings.length > 0">{% trans %}Return to Test{% endtrans %}</button></li>
+            <li class="continue-button-container"><button class="ok-button" data-bind="click: function () { ignore_warning = true; $('.cancel-button').click(); }, visible: is_valid && warnings.length > 0">{% trans %}OK to continue?{% endtrans %}</button></li>
+        </ul>
+        <ul class="validation-footer" data-bind="visible: messages.length > 0, foreach: messages">
+            <li>
+                <span data-bind="attr: { 'class': 'light-small-round-button-outer success-'+!is_error }"><span class="light-small-round-button"><img data-bind="visible: !is_error" src="images/blue-check.png" title="pass" alt="pass" /><img data-bind="visible: is_error" src="images/red-exclamation.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" /></span></span>
+                <span class="label" data-bind="text: header"></span>
+                <div class="error section" data-bind="visible: is_error">
+                    <p>
+                        <!-- ko if: content != undefined && content.length == 1 -->
+                            {% trans %}There was an error validating your test configuration{% endtrans %}
+                        <!-- /ko -->
+                        <!-- ko if: content != undefined && content.length > 1 -->
+                            {% trans %}There were errors validating your test configuration{% endtrans %}
+                        <!-- /ko -->
+                    </p>
+                    <ul data-bind="foreach: content">
+                        <li data-bind="html: $data.charAt(0).toUpperCase()+ $data.slice(1)"></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+        <ul class="validation-footer" data-bind="visible: warnings.length > 0 && is_valid, foreach: warnings">
+            <li>
+                <span class="label" data-bind="text: header"></span>
+                <div class="error section">
+                    <p>
+                        <!-- ko if: content != undefined && content.length == 1 -->
+                            {% trans %}There was a warning validating your test configuration{% endtrans %}
+                        <!-- /ko -->
+                        <!-- ko if: content != undefined && content.length > 1 -->
+                            {% trans %}There were warnings validating your test configuration{% endtrans %}
+                        <!-- /ko -->
+                    </p>
+                    <ul data-bind="foreach: content">
+                        <li data-bind="text: $data.charAt(0).toUpperCase()+ $data.slice(1)"></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-message-template">
+    <div id="lightbox-message" class="save-lightbox" data-bind="clickBubble : false">
+        <div class="success">
+            <h3 data-bind="html: lightboxText" style="text-align:left;"></h3>
+            <button class="ok-button">{% trans %}Ok{% endtrans %}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-reserved-template">
+    <div id="lightbox-message" class="save-lightbox" data-bind="clickBubble : false">
+        <div class="success">
+            <h3 data-bind="html: lightboxText" style="text-align:left;"></h3>
+            <button class="ok-button">{% trans %}Ok{% endtrans %}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-confirmation-template">
+    <div id="lightbox-confirmation" class="lightbox-chrome" data-bind="clickBubble : false">
+        <div class="success">
+            <div style="text-align:left;">
+                <h3 style="float:none;" data-bind="html: lightboxText"></h3>
+            </div>
+            <button class="cancel-button">{% trans %}Cancel{% endtrans %}</button>
+            <button class="ok-button" data-bind="click: okFunction.bind($data)">{% trans %}Ok{% endtrans %}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-warning-template">
+    <div id="lightbox-warning" class="save-lightbox" data-bind="clickBubble : false">
+        <div class="error">
+            <div style="text-align:left;">
+                <h3 style="float:none;" data-bind="html: lightboxText"></h3><br><br><h3>{% trans %}OK to continue?{% endtrans %}</h3>
+            </div>
+        	<div style="clear:both; margin-bottom: 20px;"></div>
+            <button class="cancel-button">{% trans %}Cancel{% endtrans %}</button>
+            <button class="ok-button" data-bind="click: okFunction.bind($data)">{% trans %}Ok{% endtrans %}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-logout-warning-template">
+    <div id="lightbox-warning" class="save-lightbox" data-bind="clickBubble : false">
+        <div class="error">
+            <div style="text-align:left;">
+                <h3 style="float:none;" data-bind="html: lightboxText"></h3>
+            </div>
+        	<div style="clear:both; margin-bottom: 20px;"></div>
+            <button class="cancel-button">{% trans %}Cancel{% endtrans %}</button>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-working-template">
+    <div id="lightbox-working" class="save-lightbox" data-bind="clickBubble : false">
+        <div data-bind="attr: { 'class': status }">
+            <img src='images/spinner.gif' data-bind="attr: { 'alt': actionText }, visible: status() == 'working'" />
+            <div class="content">
+	            <h3 data-bind="text: actionText"></h3>
+	            <h5 data-bind="visible: subText, text: subText"></h5>
+            </div>
+            <div class="progressbar" data-bind="visible: progress != undefined">
+                <div data-bind="attr: { 'style': 'width: '+progress+'%' }" style="width: 0%"></div>
+            </div>
+            <button class="cancel-button" data-bind="visible: showClose, click: close()">{% trans %}Close{% endtrans %}</button>
+            <div class="clear"></div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="lightbox-error-template">
+    <div id="lightbox-error" class="error-lightbox">
+        <ul class="header">
+            <li class="title">{% trans %}Error{% endtrans %}</li>
+            <li><button class="ok-button">{% trans %}Ok{% endtrans %}</button></li>
+        </ul>
+        <div class="footer">
+            <span class="light-small-round-button-outer fail"><span class="light-small-round-button"><img src="images/red-exclamation.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" /></span></span>
+            <h4 data-bind="text: header"></h4>
+            <p class="clear" data-bind="html: message"></p>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="lightbox-error-warning-template">
+    <div id="lightbox-error-warning" class="warning-lightbox">
+        <ul class="header">
+            <li class="title">{% trans %}Warning{% endtrans %}</li>
+            <li><button class="ok-button">{% trans %}Ok{% endtrans %}</button></li>
+        </ul>
+        <div class="footer">
+            <span class="light-small-round-button-outer fail"><span class="light-small-round-button"><img src="images/warning.png" title="warning" alt="warning" /></span></span>
+            <h4 data-bind="text: header"></h4>
+            <p class="clear" data-bind="text: message"></p>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="lightbox-alert-template">
+    <div id="lightbox-alert" class="alert-lightbox">
+        <ul class="header">
+            <li class="title">{% trans %}Alert{% endtrans %}</li>
+            <li><button class="ok-button">{% trans %}Ok{% endtrans %}</button></li>
+        </ul>
+        <div class="footer">
+            <h4 data-bind="text: header"></h4>
+            <p class="clear" data-bind="text: message"></p>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-device-auth-error-template">
+    <div id="lightbox-device-auth-error" class="error-lightbox">
+        <ul class="header">
+            <li class="title">{% trans %}Error{% endtrans %}</li>
+            <li><button class="ok-button cancel">{% trans %}Cancel{% endtrans %}</button></li>
+        </ul>
+        <div class="footer">
+            <span class="light-small-round-button-outer fail"><span class="light-small-round-button"><img src="images/red-exclamation.png" title="fail" alt="fail" /></span></span>
+            <h4 data-bind="text: header"></h4>
+            <p class="clear" data-bind="text: message"></p>
+            <div>
+                <label>Username:</label> <input type="text" data-bind="value: device.username" />
+                <label>Password:</label> <input type="text" data-bind="value: device.password" /><br />
+                <label for="lightbox-device-auth-error-save-details">{% trans %}Save device with new authentication details?{% endtrans %}</label> <input id="lightbox-device-auth-error-save-details" type="checkbox" data-bind="value: saveDetails" />
+                <button class="ok-button" data-bind="click: onAuthenticate">{% trans %}Authenticate{% endtrans %}</button>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-table-cell-chart-template">
+    <div id="lightbox-table-cell-chart" class="popin-chart">
+        <a class="cancel-button cancel-icon"></a>
+        <div data-bind="template : { name: 'chart-tmpl-' + moduleName, templateEngine: new ko.nativeTemplateEngine, data: $data }"></div>
+    </div>
+</script>
+
+<script type="text/html" id="lightbox-save-results-template">
+    <div id="lightbox-save-results" class="save-lightbox">
+        <ul class="save-header">
+            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
+            <li><input id="lightbox-save-results-favorite-check" class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><label for="lightbox-save-results-favorite-check">{% trans %}FAVORITE{% endtrans %}</label></li>
+            <li><button data-bind="click: $data.save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+            <li><a class="delete-results" data-bind="click: $data.delete">{% trans %}lightbox.tmpl.jinja2.DELETE{% endtrans %}</a></li>
+        </ul>
+        <div class="clear"></div>
+        <div class="save-middle">
+            <h3 data-bind="text: endResult, attr: { 'class': endResult }"></h3>
+            <p>{% trans %}To save your results, please name the test and click SAVE, or click delete to abort and lose your results.{% endtrans %}</p>
+        </div>
+        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
+            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
+                <h2>{% trans %}There are validation errors with your test results:{% endtrans %}</h2>
+                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
+                    <li data-bind="text: $data"></li>
+                </ul>
+            </div>
+        </div>
+        <ul class="save-footer">
+            <!--<li>
+                <label>CUSTOMER:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one'  }">
+                    <select data-bind="options: rootVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
+                </div>
+            </li>
+            <li>
+                <label>LOCATION:</label>
+                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
+                    <select data-bind="options: rootVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
+                </div>
+            </li>-->
+            <li><label>{% trans %}TAGS:{% endtrans %}</label><input class="light-text-box2" type="text" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
+            <!--<li><label>TAGS:</label><input type="text" class="text-tags" data-bind="autoSuggest: {data: rootVm.getAvailableTagsAsAutoSuggestData(), value: displayTags}" /></li>-->
+        </ul>
+    </div>
+</script>

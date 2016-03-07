@@ -1,0 +1,123 @@
+<script id="dashboard-template" type="text/html">
+    <div class="container">
+        <div class="l-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: leftPortlets, templateEngine: new ko.nativeTemplateEngine }">
+        </div>
+
+        <div class="r-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: rightPortlets, templateEngine: new ko.nativeTemplateEngine }">
+        </div>
+
+        <div class="clear"></div>
+        <div id="preloadImages"></div>
+    </div>
+</script>
+
+<script id="portlet-column-template" type="text/html">
+    <!-- ko if: contentType() == 1 -->
+    <div class="portlet box" data-bind="template: {name: 'basic-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
+    </div>
+    <!-- /ko -->
+    <!-- ko if: contentType() == 4 -->
+    <!-- ko if: templateId() == 'recent-tests-template' -->
+    <div class="portlet box" data-bind="template: {name: 'recent-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
+    </div>
+    <!-- /ko -->
+    <!-- ko if: templateId() == 'favorite-tests-template' -->
+    <div class="portlet box" data-bind="template: {name: 'favorite-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.showFavoriteTestsPaginator(); }}">
+    </div>
+    <!-- /ko -->
+    <!-- ko if: templateId() == 'all-tests-template' -->
+    <div class="portlet box" data-bind="template: {name: 'all-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
+    </div>
+    <!-- /ko -->
+    <!-- /ko -->
+    <!-- ko if: contentType() == 5 -->
+    <div class="portlet box" data-bind="template: {name: 'twitter-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.initializeTwitterPortlets(); }}">
+    </div>
+    <!-- /ko -->
+</script>
+
+<script id="basic-portlet-template" type="text/html">
+    <h2 data-bind="text: name"></h2>
+    <div class="portlet-content" data-bind="html: portletContent"></div>
+    <div class="clear"></div>
+</script>
+
+<script id="favorite-tests-portlet-template" type="text/html">
+    <h2>
+        <span data-bind="text: name"></span>
+    </h2>
+    <div class="portlet-content">
+        <ul class="favorite-tests" data-bind="visible: dashboardVm.favoriteTests().length > 0, foreach: dashboardVm.favoriteTests">
+            <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
+                <h3 data-bind="text: name"></h3>
+                <p data-bind="text: template_name"></p>
+            </li>
+        </ul>
+        <div class="favorite-tests-paginator" data-bind="visible: dashboardVm.totalFavoriteTests > dashboardVm.favoriteTestsPerPage"></div>
+        <div class="favorite-tests" data-bind="visible: dashboardVm.favoriteTests().length <= 0">
+            {% trans %}You have no favorite tests.  You can add a test to your favorites by clicking on the "Favorite" checkbox when you save a test.{% endtrans %}
+        </div>
+    </div>
+</script>
+
+<script id="all-tests-portlet-template" type="text/html">
+    <h2>
+        <span data-bind="text: name"></span>
+    </h2>
+    <div class="portlet-content">
+        <ul class="favorite-tests" data-bind="foreach: dashboardVm.tmplTests">
+            <!-- ko if: $index() < 10 -->
+            <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
+                <h3 data-bind="text: name"></h3>
+                <p data-bind="text: categories()[0].name"></p>
+            </li>
+            <!-- /ko -->
+        </ul>
+    </div>
+</script>
+
+<script id="recent-tests-portlet-template" type="text/html">
+    <h2>
+        <span data-bind="text: name"></span>
+    </h2>
+    <div class="portlet-content">
+        <div class="recent-tests" data-bind="visible: $root.testResultsHistory().length > 0">
+        <table>
+            <thead>
+                <tr>
+                    <td></td>
+                    <td>{% trans %}Name{% endtrans %}</td>
+                    <td>{% trans %}Date{% endtrans %}</td>
+                </tr>
+            </thead>
+            <tbody data-bind="foreach: testResultsHistory">
+                <!-- ko if: $index() < 10 -->
+                <tr data-bind="click: function () { loadRecentTest(); }, clickBubble: false, attr: {class: endResult() == 'error' ? 'fail' : endResult}">
+                    <td>
+                        <img data-bind="visible: endResult() == 'pass', attr: {alt: endResult}" src="images/pass-light.png" />
+                        <img data-bind="visible: endResult() == 'completed', attr: {alt: endResult}" src="images/unrated-light.png" />
+                        <img data-bind="visible: endResult() == 'fail' || endResult() == 'error', attr: {alt: endResult}" src="images/fail-light.png" />
+                        <img data-bind="visible: endResult() == 'aborted' || endResult() == 'incomplete', attr: {alt: endResult}" src="images/no-light.png" />
+                    </td>
+                    <td>
+                        <h4 data-bind="text: name" class="name"></h4>
+                        <p data-bind="text: template_name" class="category"></p>
+                    </td>
+                    <td data-bind="text: dateFormatted" class="date"></td>
+                </tr>
+                <!-- /ko -->
+            </tbody>
+        </table>
+        </div>
+        <div data-bind="visible: $root.testResultsHistory().length <= 0">
+            {% trans %}You haven't run any tests yet.  Why don't you get started?{% endtrans %}  <a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();'>{% trans %}Click here to run a test.{% endtrans %}</a>
+        </div>
+    </div>
+</script>
+
+<script id="twitter-portlet-template" type="text/html">
+    <h2>
+        <span data-bind="text: name"></span>
+    </h2>
+    <div class="portlet-content tweet" data-bind="attr: {'data-twitter-username': portletContent}"></div>
+</script>

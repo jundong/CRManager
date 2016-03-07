@@ -1,0 +1,14 @@
+CHANGES.txt
+MANIFEST.in
+README.rst
+setup.cfg
+setup.py
+pyramid_celery/__init__.py
+pyramid_celery/loaders.py
+pyramid_celery.egg-info/PKG-INFO
+pyramid_celery.egg-info/SOURCES.txt
+pyramid_celery.egg-info/dependency_links.txt
+pyramid_celery.egg-info/not-zip-safe
+pyramid_celery.egg-info/pbr.json
+pyramid_celery.egg-info/requires.txt
+pyramid_celery.egg-info/top_level.txt

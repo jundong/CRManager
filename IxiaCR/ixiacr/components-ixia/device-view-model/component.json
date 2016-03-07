@@ -1,0 +1,30 @@
+{
+  "name": "device-view-model",
+  "repo": "components-spirent/device-view-model",
+  "description": "Device view model",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1",
+    "component/emitter": "1.0.1",
+    "component/classes": "1.2.3"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js",
+    "multiple-port/view-model.js",
+    "multiple-port/templates/template.js",
+    "single-port/view-model.js",
+    "single-port/templates/template.js"
+  ],
+  "styles": [
+    "style.css",
+    "multiple-port/style.css"
+  ],
+  "local": [
+    "utility-functions",
+    "endpoint-view-model"
+  ]
+}

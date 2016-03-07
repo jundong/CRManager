@@ -1,0 +1,10 @@
+.box {
+    /* move this to IE only css*/
+    behavior: url("lib/PIE.htc");
+
+    border-image: url("images/gray-box.png") 10 10 10 10 stretch;
+}
+
+::-ms-clear {
+  display: none;
+}

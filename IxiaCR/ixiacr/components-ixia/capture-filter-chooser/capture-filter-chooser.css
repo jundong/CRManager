@@ -1,0 +1,45 @@
+@charset "UTF-8";
+
+.capture-filter-chooser {
+    position: absolute;
+    top: 0;
+    background-color: #3c3c3d;
+    height: 100%;
+}
+
+.capture-filter-chooser select {
+    font-size: 12px;
+    height: 15em;
+    display: block;
+    -webkit-appearance: textfield;
+    padding: 1px;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    -webkit-user-select: text;
+    cursor: auto;
+    border-radius: 3px;
+    margin-bottom: 1em;
+}
+
+.capture-filter-chooser select,
+.capture-filter-chooser > div > div {
+    width: 100%;
+    position: relative;
+    margin-bottom: 12px;
+}
+.capture-filter-chooser h1 {
+    line-height: 36px;
+    color: white;
+}
+
+.capture-filter-chooser .cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.capture-filter-chooser .done {
+    position: absolute;
+    top: 0;
+    right: 90px;
+}

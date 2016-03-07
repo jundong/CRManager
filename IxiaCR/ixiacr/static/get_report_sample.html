@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="css/report.css">
+</head>
+<body class="">
+
+<!-- Container -->
+<div id="container">
+
+<img class="screen-logo" src="./images/spirent_axon_logo_large.png" alt="Spirent" title="Spirent" />
+<img class="print-logo" src="./images/spirent_axon_logo_grey.png" alt="Spirent" title="Spirent" />
+<hr />
+<h1>Axon Test Name: My QoS Site to Site </h1>
+<ul>
+    <li><label>Executed by:</label> <span>Admin User (admin)</span></li>
+    <li><label>Date:</label> <span>02/13/2013 02:02:48 PM</span></li>
+</ul>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <label>Build</label>
+            <span>662</span>
+        </td>
+        <td>
+            <label>Software Revision</label>
+            <span>4.15 Error</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<ul>
+    <li><label>Categories:</label> <span>Network Infrastructure Test, Network Device Test</span></li>
+    <li><label>Description:</label> <span>This test measures the QoS performance for voice, video, and data packets each defined using different DSCP priorities between sites on your IPv4 or IPv6 network. Typically, the traffic is stepped up until the maximum traffic that you have set is reached. QoS performance is defined by how much voice and video quality degrade as the congestion on the network increases. The test measures latency, jitter, and packet loss for each application, with the expectation that data packets are lost before voice and video packets. Voice and video quality measures are also reported.</span></li>
+</ul>
+
+<h2>Test Configuration</h2>
+<table>
+    <tbody>
+    <tr>
+        <td>
+            <label>Engine</label>
+            <span>STCTest</span>
+        </td>
+        <td>
+            <label>Module</label>
+            <span>axon.testcases.spirent.qos_site_to_site</span>
+        </td>
+
+        <td>
+            <label>Duration (minutes)</label>
+            <span>1</span>
+        </td>
+
+    </tr>
+    </tbody>
+</table>
+
+
+<table>
+    <caption><h5>Tags</h5></caption>
+    <tbody>
+    <tr>
+        <td>
+            <label>Company</label>
+            <span></span>
+        </td>
+        <td>
+            <label>Favorite</label>
+            <span>true</span>
+        </td>
+        <td>
+            <label>Location</label>
+            <span></span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+
+
+<h3>There were 1 Traffic Players in this test.</h3>
+<ul class="traffic-players">
+
+<li>
+<h4>Player 1</h4>
+<ul class="player">
+<li class="source">
+    <h4>Source (TX)</h4>
+    <label>Port:</label> <span>0</span>
+    <table>
+        <caption><h5>Device</h5></caption>
+        <tbody>
+        <tr>
+            <td>
+                <label>Name</label>
+                <span>Local Chassis</span>
+            </td>
+            <td>
+                <label>Host</label>
+                <span>169.254.0.3</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h5>Endpoint</h5>
+    <ul>
+        <li>
+            <label>Name:</label>
+            <span>Default v4 Tx - Custom</span>
+        </li>
+        <li>
+            <label>IP:</label>
+            <span>192.168.85.1</span>
+        </li>
+        <li>
+            <label>Prefix:</label>
+            <span>24</span>
+        </li>
+        <li>
+            <label>End IP:</label>
+            <span></span>
+        </li>
+        <li>
+            <label>Use DHCP?:</label>
+            <span>false</span>
+        </li>
+        <li>
+            <label>Gateway:</label>
+            <span>192.168.85.2</span>
+        </li>
+        <li>
+            <label>VLAN Id:</label>
+            <span></span>
+        </li>
+    </ul>
+</li>
+
+<li class="playlist">
+    <h4>Playlist: End to End</h4>
+
+
+    <h5>Tracks</h5>
+
+    <ul class="tracks">
+        <li>
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <label>Name</label>
+                        <span>Frame: 128 Bytes</span>
+                    </td>
+                    <td>
+                        <label>Track Id</label>
+                        <span>9</span>
+                    </td>
+                    <td>
+                        <label>Track Object</label>
+                        <span>FixedFrameLengthTrack</span>
+                    </td>
+                    <td>
+                        <label>Percentage</label>
+                        <span>60</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </li>
+
+
+
+        <li>
+            <h5>Track Properties</h5>
+            <ul class="track-properties">
+
+
+                <li><label>Frame Size:</label> <span>128</span></li>
+
+
+
+                <li><label>UDP Port:</label> <span>
+
+            7 - Echo
+
+
+
+
+
+
+
+
+
+        </span></li>
+
+
+            </ul>
+        </li>
+
+    </ul>
+
+    <ul class="tracks">
+        <li>
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <label>Name</label>
+                        <span>Frame: 512 Bytes</span>
+                    </td>
+                    <td>
+                        <label>Track Id</label>
+                        <span>1</span>
+                    </td>
+                    <td>
+                        <label>Track Object</label>
+                        <span>FixedFrameLengthTrack</span>
+                    </td>
+                    <td>
+                        <label>Percentage</label>
+                        <span>24</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </li>
+
+
+
+        <li>
+            <h5>Track Properties</h5>
+            <ul class="track-properties">
+
+
+                <li><label>Frame Size:</label> <span>512</span></li>
+
+
+
+                <li><label>UDP Port:</label> <span>
+
+            7 - Echo
+
+
+
+
+
+
+
+
+
+        </span></li>
+
+
+            </ul>
+        </li>
+
+    </ul>
+
+    <ul class="tracks">
+        <li>
+            <table>
+                <tbody>
+                <tr>
+                    <td>
+                        <label>Name</label>
+                        <span>Frame: 1518 Bytes</span>
+                    </td>
+                    <td>
+                        <label>Track Id</label>
+                        <span>12</span>
+                    </td>
+                    <td>
+                        <label>Track Object</label>
+                        <span>FixedFrameLengthTrack</span>
+                    </td>
+                    <td>
+                        <label>Percentage</label>
+                        <span>16</span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </li>
+
+
+
+        <li>
+            <h5>Track Properties</h5>
+            <ul class="track-properties">
+
+
+                <li><label>Frame Size:</label> <span>1518</span></li>
+
+
+
+                <li><label>UDP Port:</label> <span>
+
+            7 - Echo
+
+
+
+
+
+
+
+
+
+        </span></li>
+
+
+            </ul>
+        </li>
+
+    </ul>
+
+</li>
+
+<li class="destination">
+    <h4>Destination (RX)</h4>
+    <label>Port:</label> <span>1</span>
+    <table>
+        <caption><h5>Device</h5></caption>
+        <tbody>
+        <tr>
+            <td>
+                <label>Name</label>
+                <span>Local Chassis</span>
+            </td>
+            <td>
+                <label>Host</label>
+                <span>169.254.0.3</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <h5>Endpoint</h5>
+    <ul>
+        <li>
+            <label>Name:</label>
+            <span>Default v4 Rx - Custom</span>
+        </li>
+        <li>
+            <label>IP:</label>
+            <span>192.168.85.2</span>
+        </li>
+        <li>
+            <label>Prefix:</label>
+            <span>24</span>
+        </li>
+        <li>
+            <label>End IP:</label>
+            <span></span>
+        </li>
+        <li>
+            <label>Use DHCP?:</label>
+            <span>false</span>
+        </li>
+        <li>
+            <label>Gateway:</label>
+            <span>192.168.85.1</span>
+        </li>
+        <li>
+            <label>VLAN Id:</label>
+            <span></span>
+        </li>
+    </ul>
+</li>
+</ul>
+</li>
+
+</ul>
+
+<h2>Test Data</h2>
+
+<div class="data">
+    <h3>Player 1</h3>
+    <table>
+        <caption><h5>Tracks</h5></caption>
+        <tbody>
+
+        <tr>
+            <td>
+                <span>Frame: 128 Bytes</span>
+            </td>
+
+            <td>
+                <label>Packets Sent (Tx)</label>
+                <span class="positive">28891</span>
+            </td>
+
+            <td>
+                <label>Packets Received (Rx)</label>
+                <span class="positive">28891</span>
+            </td>
+
+            <td>
+                <label>Avg. Receive Rate (bps)</label>
+                <span class="positive">595785</span>
+            </td>
+
+            <td>
+                <label>Avg. Jitter (ms)</label>
+                <span class="positive">0.005</span>
+            </td>
+
+            <td>
+                <label>Avg. Latency (ms)</label>
+                <span class="positive">0.0</span>
+            </td>
+
+            <td>
+                <label>Packet Loss</label>
+                <span class="positive">0</span>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <span>Frame: 512 Bytes</span>
+            </td>
+
+            <td>
+                <label>Packets Sent (Tx)</label>
+                <span class="positive">3198</span>
+            </td>
+
+            <td>
+                <label>Packets Received (Rx)</label>
+                <span class="positive">3198</span>
+            </td>
+
+            <td>
+                <label>Avg. Receive Rate (bps)</label>
+                <span class="positive">237099</span>
+            </td>
+
+            <td>
+                <label>Avg. Jitter (ms)</label>
+                <span class="positive">0.01</span>
+            </td>
+
+            <td>
+                <label>Avg. Latency (ms)</label>
+                <span class="positive">0.0</span>
+            </td>
+
+            <td>
+                <label>Packet Loss</label>
+                <span class="positive">0</span>
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>
+                <span>Frame: 1518 Bytes</span>
+            </td>
+
+            <td>
+                <label>Packets Sent (Tx)</label>
+                <span class="positive">743</span>
+            </td>
+
+            <td>
+                <label>Packets Received (Rx)</label>
+                <span class="positive">743</span>
+            </td>
+
+            <td>
+                <label>Avg. Receive Rate (bps)</label>
+                <span class="positive">159179</span>
+            </td>
+
+            <td>
+                <label>Avg. Jitter (ms)</label>
+                <span class="positive">0.004</span>
+            </td>
+
+            <td>
+                <label>Avg. Latency (ms)</label>
+                <span class="positive">0.0</span>
+            </td>
+
+            <td>
+                <label>Packet Loss</label>
+                <span class="positive">0</span>
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
+</div>
+
+
+
+</div>
+<!-- END Container -->
+
+</body>
+</html>

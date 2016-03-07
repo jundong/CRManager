@@ -1,0 +1,31 @@
+<form action="">
+    <ul class="network-settings">
+        <li class="vlan">
+            <label>VLAN ID</label>
+            <input type="text" name="vlan" placeholder="1 to 4096"/>
+        </li>
+        <li class="dhcp">
+            <label>
+                No DHCP
+                <input type="radio" name="dhcp" value="false"/>
+            </label>
+
+            <label>
+                DHCP
+                <input type="radio" name="dhcp" value="true"/>
+            </label>
+        </li>
+        <li class="ip static">
+            <label>IP</label>
+            <input type="text" name="ip" placeholder="IPv4"/>
+        </li>
+        <li class="netmask static">
+            <label>Netmask</label>
+            <input type="text" name="netmask" placeholder="IPv4"/>
+        </li>
+        <li class="gateway static">
+            <label>Gateway</label>
+            <input type="text" name="gateway" placeholder="IPv4"/>
+        </li>
+    </ul>
+</form>

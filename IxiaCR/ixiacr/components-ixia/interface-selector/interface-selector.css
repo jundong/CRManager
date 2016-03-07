@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.interface-selector .interface { display: inline-block; margin: 5px; }
+
+.port-container .selected-port,
+.interface-selector .interface.selected {
+    background-image: url("/images/port-selected.png") !important;
+    width: 48px;
+    height: 40px;
+    margin: 0;
+}

@@ -1,0 +1,52 @@
+{
+  "name": "netflow-settings",
+  "repo": "axon/netflow-settings",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "component/domify": "1.3.1",
+    "component/event": "0.1.4",
+    "johntron/trigger-event": "edf8b02871143c7beedd732614226038f8938b68",
+    "component/classes": "1.2.3",
+    "component/emitter": "1.0.1",
+    "johntron/model": "703274a10f27b50f3433a728c8c0c4fce556ee12",
+    "segmentio/model-defaults": "1.0.6",
+    "MatthewMueller/debounce": "0.0.1",
+    "johntron/validate-form": "6005cddc781064389ea0053f3f4bad47e2f1a2d2",
+    "johntron/is-host": "9f441b6f34440e715b31f06157611292e67565a5",
+    "johntron/superagent": "cbe473394b773f764bafb0aec075a285fd6ea026",
+    "johntron/superagent-no-cache": "e81c9b82be613a9e418045bdce4699f72c804e7a"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "views/netflow-settings.js",
+  "scripts": [
+    "views/netflow-settings.js",
+    "models/netflow-settings.js",
+    "templates/netflow-settings.js",
+    "views/global-settings.js",
+    "templates/global-settings.js",
+    "views/interfaces.js",
+    "templates/interfaces.js",
+    "views/interface-settings.js",
+    "templates/interface/settings.js",
+    "views/collector-list.js",
+    "templates/collector-list.js",
+    "views/collector.js",
+    "models/collector.js",
+    "templates/collector.js",
+    "templates/collector-editor.js"
+  ],
+  "styles": [
+    "netflow-settings.css"
+  ],
+  "local": [
+    "translator",
+    "utility-functions",
+    "form-validation",
+    "interface-selector",
+    "interface-model",
+    "loading-state"
+  ]
+}

@@ -1,0 +1,121 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Clean diag bundles, and/or backups
+
+Optionally keeps a certain number of the "most recent" of each item. For example
+to purge all but the last two backups, specify keep_recent of 1. 
+
+Specify dry_run to just note which items would be removed.
+
+=head1 INPUT JSON
+
+  {
+	"items" : [ "backups", "diagnostics" ],
+	"OPTIONAL:dry_run" : "0|1",
+  	"OPTIONAL:keep_recent" : 2
+  }
+
+=head1 OUTPUT JSON
+
+ {
+  "result": "SUCCESS|FAILURE",
+  "object" : { "diagnostics" : [ "file1" ], "backups" : [ "file1" ] }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init( install_safe => 1 );
+
+my $keep_recent = 0;
+if ( $in_data && $in_data->{keep_recent} ) {
+    $keep_recent = int( $in_data->{keep_recent} );
+}
+
+my $dry_run = 0;
+if ( $in_data && $in_data->{dry_run} ) {
+    $dry_run = 1;
+}
+
+my $obj = { "backups" => [], "diagnostics" => [] };
+
+my %purge = ();
+if ( $in_data && ref( $in_data->{items} ) eq "ARRAY" ) {
+    foreach my $item ( @{ $in_data->{items} } ) {
+        $purge{$item} = 1;
+    }
+}
+
+if ( $purge{backups} ) {
+    &detail("cleaning backups, retaining last $keep_recent");
+
+    my $base  = "/local/web/data/backups";
+    my %files = ();
+    opendir( my $dir, "/local/web/data/backups" );
+    while ( my $file = readdir($dir) ) {
+        if ( $file =~ /backup.*\.axon/ ) {
+            &detail("found backup file: $file");
+            my @ts = stat("$base/$file");
+            $files{$file} = $ts[9];
+        }
+    }
+    closedir($dir);
+
+    my @files = sort { $files{$b} <=> $files{$a} } keys(%files);
+
+    foreach my $file ( @files[ $keep_recent .. $#files ] ) {
+        if ($dry_run) {
+            &detail("should purge $file");
+        }
+        else {
+            &detail("purging $file");
+            unlink("$base/$file");
+        }
+        push( @{ $obj->{backups} }, $file );
+    }
+
+    &detail("done cleaning backups");
+}
+
+if ( $purge{diagnostics} ) {
+    &detail("cleaning diagnostics, retaining last $keep_recent");
+
+    my $base  = "/local/web/data/backups";
+    my %files = ();
+    opendir( my $dir, "/local/web/data/backups" );
+    while ( my $file = readdir($dir) ) {
+        if ( $file =~ /-diag-/ ) {
+            &detail("found diagnostic bundle: $file");
+            my @ts = stat("$base/$file");
+            $files{$file} = $ts[9];
+        }
+    }
+    closedir($dir);
+
+    my @files = sort { $files{$b} <=> $files{$a} } keys(%files);
+
+    foreach my $file ( @files[ $keep_recent .. $#files ] ) {
+        if ($dry_run) {
+            &detail("should purge $file");
+        }
+        else {
+            &detail("purging $file");
+            unlink("$base/$file");
+        }
+        push( @{ $obj->{diagnostics} }, $file );
+    }
+
+    &detail("done cleaning diagnostics");
+}
+
+$res->{result} = "SUCCESS";
+$res->{object} = $obj;
+
+&finish();
+

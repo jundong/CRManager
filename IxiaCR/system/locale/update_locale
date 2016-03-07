@@ -1,0 +1,75 @@
+#!/local/pythonenv/bin/python
+#
+import os
+import sys
+from ixiacr.models import Translation, TranslatableString
+from ixiacr.scripts.initializedb import create_translations_registry, locale_dir
+from pyramid.paster import get_appsettings, setup_logging
+from sqlalchemy import engine_from_config
+from sqlalchemy.orm import scoped_session, sessionmaker
+from ixiacr.lib import IxiaLogger
+
+ixiacrlogger = IxiaLogger(__name__)
+
+
+def update_locale(cmd):
+    """
+    This updates the locale as new languages are added...
+    """
+    config_uri = cmd
+    setup_logging(config_uri)
+    settings = get_appsettings(config_uri)
+    engine = engine_from_config(settings, 'sqlalchemy.')
+    db_sess = scoped_session(sessionmaker())
+    db_sess.configure(bind=engine)
+
+    try:
+        language_list = list(lang.language for lang in db_sess.query(Translation).distinct(Translation.language).all())
+        ixiacrlogger.debug(str(language_list))
+        translation_registry = create_translations_registry(locale_dir, 'messages')
+        registry_list = list(registry[0] for registry in translation_registry)
+        missing_entries = list(set(registry_list) - set(language_list))
+        if missing_entries:
+            en_strings = db_sess.query(Translation).filter(Translation.language == 'en').all()
+            for lang, tr in translation_registry:
+                if lang in missing_entries:
+                    for string in en_strings:
+                        db_sess.execute("INSERT INTO translations "
+                                        "VALUES(:string_id, :language, :value)",
+                                        {'string_id': string.string_id,
+                                         'language': lang,
+                                         'value': tr.ugettext(string.value)})
+                else:
+                    # Update otherwise...
+                    for string in en_strings:
+                        db_sess.execute("UPDATE translations "
+                                        "SET value = :value WHERE string_id = "
+                                        ":string_id and language = :language",
+                                        {'value': tr.ugettext(string.value),
+                                         'string_id': string.string_id,
+                                         'language': lang})
+                db_sess.commit()
+        db_sess.close()
+
+    except Exception, e:
+        print ("Exception: {0}".format(e))
+        ixiacrlogger.error("Excepted: In updating locale: %s" % e)
+
+
+def usage(argv):
+    cmd = os.path.basename(argv[0])
+    print('usage: %s <config_uri>\n'
+          '(example: "%s development.ini")' % (cmd, cmd))
+    sys.exit(1)
+
+if __name__ == "__main__":
+    argv = sys.argv
+    if len(argv) != 2:
+        usage(argv)
+    try:
+        cmd = argv[1]
+        update_locale(cmd)
+    except Exception, e:
+        print "Excepted in updating locale: %s" % e
+        sys.exit(1)
+

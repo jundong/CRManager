@@ -1,0 +1,23 @@
+{
+    "name": "traffic-player-view-model",
+    "repo": "components-spirent/traffic-player-view-model",
+    "description": "View-model for the traffic player",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {
+        "then/promise": "d0bab8d4e8a704bb71d83d48eabebacc360651c7"
+    },
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js",
+        "delegates/unicast.js",
+        "delegates/multicast.js"
+    ],
+    "local": [
+        "device-collection-view-model",
+        "multicast-settings",
+        "device-view-model"
+    ]
+}

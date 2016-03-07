@@ -1,0 +1,14 @@
+<div class="event-list" data-bind="foreach: items">
+    <div class="item" data-bind="click: onClick">
+        <div class="cell date" data-bind="text: date"></div>
+        <div class="cell time" data-bind="text: time"></div>
+        <div class="cell duration" data-bind="text: duration"></div>
+        <div class="cell event-devices" data-bind="foreach: devices">
+            <div class="icon" data-bind="style: {'background-color': color}, attr: {title: name}"></div>
+        </div>
+        <div class="cell name" data-bind="text: name"></div>
+        <div class="cell status" data-bind="text: status"></div>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>

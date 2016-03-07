@@ -1,0 +1,9 @@
+QUnit.testSuites([
+	"component-tests/asset-manager/asset-manager-test.html",
+	"component-tests/bootloader/bootloader-test.html",
+	"component-tests/utilities/utilities-test.html",
+	"component-tests/history/history-test.html",
+	"component-tests/chart-poller/chart-poller-test.html",
+	"component-tests/jquery.scroller/jquery.scroller-test.html",
+	"component-tests/chart.flot/chart.flot-test.html"
+]);

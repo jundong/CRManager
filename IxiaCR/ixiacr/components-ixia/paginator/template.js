@@ -1,0 +1,1 @@
+module.exports = '<div class="paginator">\n    <div class="ellipses prev">&hellip;</div>\n    <ul class="pages"></ul>\n    <div class="ellipses next">&hellip;</div>\n</div>';

@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Stop all supervisord controlled services
+
+=head1 INPUT JSON
+
+  {
+    "OPTIONAL:services_only" : "0|1"
+  }
+
+=head1 OUTPUT JSON
+
+ {
+  "result": "SUCCESS|FAILURE",
+  "object" : { }
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&root();
+&init();
+
+my ($svc_only);
+eval { $svc_only = $in_data->{services_only}; };
+
+my $sctl_res = &run_helper( [ "/local/admin/tools/sctl", "-a", "stop" ] );
+
+if ( !$svc_only ) {
+    my $in = &open_cmd_merge( "/etc/rc.d/init.d/supervisord", "stop" );
+    while ( defined( my $line = <$in> ) ) {
+        &detail("supervisord stop: $line");
+    }
+    close($in);
+
+    sleep(1);
+}
+
+# Brute force make sure they are stopped
+foreach my $proc ( "pserve", "pceleryd", "nginx",
+                   "results_consumer.py", "vm_manager.py",
+                   "TestCenter" ) {
+    my $in = &open_cmd_merge( "/usr/bin/pkill", "-KILL", "-f", $proc );
+    while ( defined( my $line = <$in> ) ) {
+        &detail("proc kill: $line");
+    }
+    close($in);
+}
+
+$res->{result} = "SUCCESS";
+$res->{object} = {};
+
+&finish();

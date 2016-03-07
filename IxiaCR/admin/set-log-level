@@ -1,0 +1,52 @@
+#!/usr/bin/perl
+
+=pod
+
+=head1 DESCRIPTION
+
+Sets the logging level of all running middle-tier components.
+
+=head1 INPUT JSON
+
+  {
+      "level": "log level -- DEBUG|INFO|WARNING|ERROR|CRITICAL|NOTSET",
+      "name": "OPTIONAL name of logger component to change log level otherwise root logger"
+  }
+
+=head1 OUTPUT JSON
+
+ {   
+  "result": "SUCCESS|FAILURE", 
+  "object" : { } 
+ }
+
+=cut
+
+# Use require, keep in same namespace
+require "/local/admin/common.pl";
+&init();
+
+system("/local/admin/tools/phone-home >/dev/null 2>&1");
+
+my $level;
+my $name;
+eval { $level = $in_data->{level}; };
+eval { $name  = $in_data->{name}; };
+
+my $result;
+my $line;
+my $in = open_cmd_merge( "/usr/bin/sudo", "/local/web/Axon/axon/scripts/set_log_level.py", $level, "--name", $name );
+while ( defined( $line = <$in> ) ) {
+    $result .= $line;
+}
+close($in);
+
+if ($?) {
+    $res->{result} = "FAILURE";
+}
+else {
+    $res->{result} = "SUCCESS";
+}
+$res->{object} = { "output" => $result };
+
+&finish();

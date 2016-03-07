@@ -1,0 +1,50 @@
+[
+    {
+        "slot":1,
+        "status":"online",
+        "is_reserved":false,
+        "description":"The local machine hardware.",
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "device_type_id":2,
+        "id":1,
+        "host":"169.254.0.3",
+        "chassis":"169.254.0.3",
+        "supported_test_packages":["l2l3", "stc", "l4l7Vm"],
+        "user":null,
+        "current_test_package":"stc",
+        "num_ports":4,
+        "model":"NIC-32",
+        "firmware_version":"4.30.4223",
+        "name":"Local Chassis"
+    },
+    {
+        "slot":1,
+        "status":"online",
+        "is_reserved":true,
+        "description":null,
+        "tags":{
+            "company":null,
+            "favorite":false,
+            "location":null,
+            "user_defined":[]
+        },
+        "device_type_id":2,
+        "id":2,
+        "host":"c1-ent-dev2.spirenteng.com",
+        "chassis":"169.254.0.3",
+        "supported_test_packages":["l2l3", "stc", "l4l7Vm"],
+        "user":"web@tomahawk",
+        "current_test_package":"stc",
+        "num_ports":4,
+        "model":"NIC-32",
+        "firmware_version":"4.30.3903",
+        "name":"Derek's box",
+        "auth_id":"Administrator",
+        "password":"password"
+    }
+]

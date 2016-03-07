@@ -1,0 +1,82 @@
+[
+    {
+        "id": 1,
+        "ports": [
+            {
+                "link_status": "UP",
+                "line_speed": 100,
+                "carrier": true
+            },
+            {
+                "link_status": "DOWN",
+                "line_speed": null,
+                "carrier": false
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 1000,
+                "carrier": true
+            },
+            {
+                "link_status": "DOWN",
+                "line_speed": null,
+                "carrier": false
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "ports": [
+            {
+                "link_status": "DOWN",
+                "line_speed": null,
+                "carrier": false
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 1000,
+                "carrier": true
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "ports": [
+            {
+                "link_status": "DOWN",
+                "line_speed": null,
+                "carrier": false
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 1000,
+                "carrier": true
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 1000,
+                "carrier": true
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 100,
+                "carrier": true
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "ports": [
+            {
+                "link_status": "UP",
+                "line_speed": 100,
+                "carrier": true
+            },
+            {
+                "link_status": "UP",
+                "line_speed": 1000,
+                "carrier": true
+            }
+        ]
+    }
+]

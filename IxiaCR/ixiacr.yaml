@@ -1,0 +1,7 @@
+ixiacr:
+    options:
+        system:
+            - name      : Ixia Cyber Range
+              desc      : Ixia Cyber Range Solution
+              type      : str
+              default   : Ixia Cyber Range

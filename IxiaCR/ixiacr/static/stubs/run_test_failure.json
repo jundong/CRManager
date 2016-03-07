@@ -1,0 +1,9 @@
+{
+    "is_ready": false,
+    "is_valid": false,
+    "messages": [
+        { "header": "Link is up", "content": "something went wrong", "is_error": true },
+        { "header": "Connection to remote site verified", "content": "something went wrong", "is_error": true },
+        { "header": "Test packets sent", "content": "something went wrong", "is_error": true }
+    ]
+}

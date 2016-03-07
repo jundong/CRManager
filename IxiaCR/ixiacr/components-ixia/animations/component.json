@@ -1,0 +1,14 @@
+{
+  "name": "animations",
+  "repo": "components-spirent/animations",
+  "description": "CSS animations",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {},
+  "license": "MIT",
+  "styles": [
+    "scale.css",
+    "flip.css"
+  ]
+}

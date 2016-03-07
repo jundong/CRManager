@@ -1,0 +1,46 @@
+<div class="header player" data-bind="css: {running: isTestRunning, indefinite: indefinite, 'static_duration': static_duration}">
+    <div class="container" data-bind="rentalBlockUI: {}">
+        <div class="test-player">
+            <div class="progress">
+                <div class="top-dots">
+                    <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
+                </div>
+                <div class="top-middle-dots">
+                    <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
+                </div>
+                <div class="bar-segments">
+                    <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
+                </div>
+                <div class="bottom-middle-dots">
+                    <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
+                </div>
+                <div class="bottom-dots">
+                    <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
+                </div>
+            </div>
+            <div class="run" data-bind="click: runTest, clickBubble: false"><img src="images/test-player-play-button.png" class="test-play-button" data-bind="visible: vmResults.status() != 'running'"><img src="images/test-player-stop-button.png" class="test-stop-button" data-bind="visible: vmResults.status() == 'running'"></div>
+            <div class="duration">
+                <p class="duration-header" data-bind="text: strings.Duration + ':'">Duration:</p>
+                <p data-bind="text: vmConfiguration.formattedDuration" class="duration-text"></p>
+                <select data-bind="options: availableDurations, optionsText: 'text', optionsValue: 'value', value: vmConfiguration.duration, disable: vmResults.status() == 'running', css: { 'disabled': vmResults.status() == 'running' }"></select>
+            </div>
+            <div class="duration indefinite">
+                <p class="duration-header" data-bind="text: strings['Duration is based on configuration']">Duration is based on configuration</p>
+            </div>
+            <div class="duration static">
+                <p class="duration-header" data-bind="text: durationText()">5 MIN</p>
+            </div>
+        </div>
+        <div class="test-detail">
+            <ul>
+                <li><h2 data-bind="text: vmConfiguration.name"></h2></li>
+                <li><h3 data-bind="text: vmConfiguration.categories()[0].name"></h3></li>
+                <li>
+                    <span class="round-button-outer" data-bind="visible: vmResults.status() != 'running'"><a class="round-button" href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false"><span class="round-button-text" data-bind="text: strings.save">SAVE</span><img src="images/save.png" /></a></span>
+                    <!--<span class="round-button-outer"><a class="round-button" href="javascript:void(0);" data-bind="click: openHelpModal, clickBubble: false"><img class="question_mark_button" src="images/question-mark.png" /></a></span>-->
+                </li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

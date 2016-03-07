@@ -1,0 +1,18 @@
+@charset "UTF-8";
+
+input[type="text"].invalid,
+input[type="password"].invalid
+{
+    border-color: red;
+    color: red;
+}
+
+.validator-message {
+    display: block;
+    text-indent: 1em;
+    line-height: 2em;
+    color: #F45;
+    margin-bottom: 1em;
+    text-transform: none;
+    clear: both;
+}

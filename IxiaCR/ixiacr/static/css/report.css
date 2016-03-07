@@ -1,0 +1,317 @@
+/*
+Fonts
+*/
+
+@font-face {
+    font-family: 'open sans';
+    src: url('../fonts/open_sans.woff') format('woff'),
+    local('?');
+}
+
+@font-face {
+    font-family: 'open sans light';
+    src: url('../fonts/open_sans_light.woff') format('woff'),
+    local('?');
+}
+
+@font-face {
+    font-family: 'open sans lighter';
+    src: url('../fonts/open_sans_lighter.woff') format('woff'),
+    local('?');
+}
+
+@font-face {
+    font-family: 'open sans bold';
+    src: url('../fonts/open_sans_bold.woff') format('woff'),
+    local('?');
+}
+
+@font-face {
+    font-family: 'open sans bolder';
+    src: url('../fonts/open_sans_bolder.woff') format('woff'),
+    local('?');
+}
+
+/*
+yahoo reset: http://developer.yahoo.com/yui/reset/#code
+*/
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,textarea,p,blockquote,th,td {
+    margin:0;
+    padding:0;
+}
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+fieldset,img {
+    border:0;
+}
+address,caption,cite,code,dfn,em,strong,th,var {
+    font-style:normal;
+    font-weight:normal;
+}
+ol,ul {
+    list-style:none;
+}
+caption,th {
+    text-align:left;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-size:100%;
+    font-weight:normal;
+}
+q:before,q:after {
+    content:'';
+}
+abbr,acronym { border:0;
+}
+
+/*
+yahoo base: http://developer.yahoo.com/yui/base/#code
+*/
+h1 {
+    /*18px via YUI Fonts CSS foundation*/
+    font-size:180%;
+}
+h2 {
+    /*16px via YUI Fonts CSS foundation*/
+    font-size:150%;
+}
+h3 {
+    /*14px via YUI Fonts CSS foundation*/
+    font-size:108%;
+}
+h1,h2,h3 {
+    /* top & bottom margin based on font size */
+    margin:1em 0;
+}
+h1,h2,h3,h4,h5,h6,strong {
+    /*bringing boldness back to headers and the strong element*/
+    font-weight:bold;
+}
+abbr,acronym {
+    /*indicating to users that more info is available */
+    border-bottom:1px dotted #000;
+    cursor:help;
+}
+em {
+    /*bringing italics back to the em element*/
+    font-style:italic;
+}
+blockquote,ul,ol,dl {
+    /*giving blockquotes and lists room to breath*/
+    /*margin:1em;*/
+}
+ol,ul,dl {
+    /*bringing lists on to the page with breathing room */
+    /*margin-left:2em;*/
+}
+ol li {
+    /*giving OL's LIs generated numbers*/
+    list-style: decimal outside;
+}
+ul li {
+    /*giving UL's LIs generated disc markers*/
+    /*list-style: disc outside;*/
+}
+dl dd {
+    /*giving UL's LIs generated numbers*/
+    margin-left:1em;
+}
+th,td {
+    /*borders and padding to make the table readable*/
+    border:1px solid #000;
+    padding:.5em;
+}
+th {
+    /*distinguishing table headers from data cells*/
+    font-weight:bold;
+    text-align:center;
+}
+caption {
+    /*coordinated marking to match cell's padding*/
+    padding:.5em;
+    /*centered so it doesn't blend in to other content*/
+    text-align: left;
+    border: solid 1px #000000;
+}
+p,fieldset,table {
+    /*so things don't run into each other*/
+    margin-bottom:1em;
+}
+
+/*
+report.css
+*/
+@media print {
+    body {
+        font-size: 10px;
+    }
+}
+
+@media screen {
+    body {
+        font-size: 12px;
+    }
+
+    #container {
+        width: 1000px;
+        margin: 10px auto;
+    }
+}
+
+
+div,li,h1,h2,h3,h4,h5,h6,p,td {
+    font-family: "open sans", arial, sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    font-family: "open sans bold";
+}
+
+h2 {
+    margin-bottom: 0;
+}
+
+h3 {
+    border-bottom: dashed 1px gray;
+}
+
+h4 {
+    border-bottom: dotted 1px gray;
+    margin-bottom: 5px;
+}
+
+.clear { clear: both; }
+
+.summary, .configuration, .data {
+    padding: 5px;
+    border: 1px solid gray;
+}
+
+table {
+    page-break-inside: avoid;
+}
+
+td > label,
+th > label {
+    display: block;
+    text-align: center;
+    font-size: 80%;
+}
+
+td > span,
+th > span {
+    display: block;
+    text-align: center;
+}
+
+.host .address {
+    font-style: italic;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+li label {
+    text-transform: capitalize;
+    font-size: 80%;
+}
+
+li span {
+}
+
+.traffic-players > li {
+    margin: 5px auto;
+    padding: 5px;
+    border: solid 1px gray;
+}
+
+table span.negative,
+table span.negative + .cell-detail { color: red; }
+.cell-detail {
+    font-style: italic;
+    font-size: smaller;
+}
+
+.tracks {
+    margin: 5px 0;
+    padding: 5px;
+    border: solid 1px gray;
+}
+
+.track-properties{
+    float: none;
+    clear: both;
+    overflow: hidden;
+}
+
+.track-properties li {
+    margin-right: 10px;
+    float: left;
+}
+
+.track-properties li:after {
+    content: ";";
+}
+
+.track-properties li:last-of-type:after {
+    content: "";
+}
+
+.source, .playlist, .destination {
+    float: left;
+    display: block;
+    overflow: hidden;
+}
+
+.player>li:nth-of-type(odd){
+    width: 18%;
+}
+
+.player .source {
+    margin-right: 10px;
+}
+
+.player .destination {
+    margin-left: 10px;
+}
+
+.source table, .destination table {
+    width: 100%;
+    word-break: break-all;
+}
+
+.playlist {
+    width:60%;
+}
+.player {
+    float: none;
+    overflow: hidden;
+    clear: both;
+}
+
+hr {
+    border: 1px solid #cccccc;
+}
+
+@media print {
+    .screen-logo {
+        display: none;
+    }
+
+    .print-logo {
+        display: inline-block;
+    }
+}
+
+@media screen {
+    .screen-logo {
+        display: inline-block;
+    }
+
+    .print-logo {
+        display: none;
+    }
+}

@@ -1,0 +1,46 @@
+var server 			= require("./server");
+var router 			= require("./router.js");
+var requestHandlers = require("./requestHandlers.js");
+
+var handle = {}
+handle["/"] = requestHandlers.index;
+handle["/static/images/favicon.ico"] = requestHandlers.favicon;
+handle["/favicon.ico"] = requestHandlers.favicon;
+handle["/start"] = requestHandlers.start;
+handle["/upload"] = requestHandlers.upload;
+handle["unknown"] = requestHandlers.unknown;
+handle["/get-report"] = requestHandlers.getReport;
+handle["/spirent/save_device"] = requestHandlers.saveItem;
+handle["/spirent/save_endpoint"] = requestHandlers.saveItem;
+handle["/spirent/save_track"] = requestHandlers.saveItem;
+handle["/spirent/save_playlist"] = requestHandlers.saveItem;
+handle["/spirent/save_test_template"] = requestHandlers.saveItem;
+handle["/spirent/save_axon_test"] = requestHandlers.saveItem;
+handle["/spirent/update_config"] = requestHandlers.updateConfig;
+handle["/spirent/config_test"] = requestHandlers.configTest;
+handle["/spirent/cancel_test"] = requestHandlers.cancelTest;
+handle["/spirent/run_test"] = requestHandlers.runTest;
+handle["/spirent/delete_device"] = requestHandlers.deleteDevice;
+handle["/spirent/get_axon_tests.json"] = requestHandlers.getAxonTests;
+handle["/spirent/get_favorite_tests.json"] = requestHandlers.getAxonFavoriteTests;
+handle["/spirent/get_datapoints.json"] = requestHandlers.getDatapoints;
+handle["/spirent/get_device_time_sync"] = requestHandlers.getDeviceTimeSync;
+handle["/spirent/get_devices_status.json"] = requestHandlers.getDevicesStatus;
+handle["/spirent/get_devices.json"] = requestHandlers.getDevices;
+handle["/spirent/get_endpoints.json"] = requestHandlers.getEndpoints;
+handle["/spirent/get_global_settings.json"] = requestHandlers.getGlobalSettings;
+handle["/spirent/get_images"] = requestHandlers.getImages;
+handle["/spirent/get_istestready"] = requestHandlers.getIsTestReady;
+handle["/spirent/get_playlist_tracks.json"] = requestHandlers.getPlaylistTracks;
+handle["/spirent/get_portlets.json"] = requestHandlers.getPortlets;
+handle["/spirent/get-report-data"] = requestHandlers.getReportData;
+handle["/spirent/get_result_series"] = requestHandlers.getResultSeries;
+handle["/spirent/get_result_types.json"] = requestHandlers.getResultTypes;
+handle["/spirent/get_results"] = requestHandlers.getResults;
+handle["/spirent/get_result_history"] = requestHandlers.getResultHistory;
+handle["/spirent/get_test_templates.json"] = requestHandlers.getTestTemplates;
+handle["/spirent/get_tracks.json"] = requestHandlers.getTracks;
+handle["/spirent/save_user_test"] = requestHandlers.responseOk;
+handle["/spirent/request_final_table"] = requestHandlers.requestFinalTable;
+
+server.start(router.route, handle);

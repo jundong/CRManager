@@ -1,0 +1,17 @@
+{
+  "name": "interface-model",
+  "repo": "components-spirent/interface-model",
+  "description": "Model for a physical interface",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "johntron/model": "703274a10f27b50f3433a728c8c0c4fce556ee12",
+    "segmentio/model-defaults": "1.0.6"
+  },
+  "development": {},
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

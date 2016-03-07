@@ -1,0 +1,220 @@
+.transmit-receive-container {
+    background-color: #333333;
+    background-image: url("/images/texture-small.png");
+    float: left;
+    position: relative;
+    width: 264px;
+    margin-bottom: 12px;
+    padding-bottom: 15px;
+}
+
+.source .transmit-receive-container {
+    margin-right: 40px;
+}
+
+.transmit-receive-container .device-container,
+.transmit-receive-container .timing,
+.transmit-receive-container .port-container,
+.transmit-receive-container .endpoint-container,
+.transmit-receive-container .delete,
+.transmit-receive-container .details {
+    margin-top: 12px;
+    margin-left: 22px;
+    margin-right: 22px;
+}
+
+.transmit-receive-container .device-header {
+    padding: 7px 22px;
+    margin-bottom: 16px;
+    height: 33px;
+    background-color: #1B1B1C;
+}
+
+.transmit-receive-container .collapsed .device-header {
+    background-color: transparent;
+}
+
+.transmit-receive-container .tx-rx-label {
+    color: #DDD;
+    width: 185px;
+    display: inline-block;
+    font-family: "open sans light", arial, sans-serif;
+    text-shadow: 0 2px 1px #191919;
+    font-size: 14px;
+    line-height: 2em;
+    vertical-align: 8px;
+}
+
+.tx-rx-label:first-letter {
+    text-transform: capitalize;
+}
+
+.test .device .collapsed .device-header h1:before {
+    vertical-align: -6px;
+    margin-right: 10px;
+}
+
+.test .network-map.expanded .transmit-receive-container .device-container,
+.transmit-receive .timing {
+    position: relative;
+    color: #b8b8b8;
+    font-family: "open sans light", arial, sans-serif;
+    font-size: 11px;
+    background-color: #1d1d1e;
+    border-bottom: solid 1px #414142;
+    border-radius: 3px;
+    box-shadow: inset 0px 7px 7px #161616;
+}
+
+.transmit-receive .timing {
+    padding: 5px 10px;
+}
+
+.transmit-receive .timing .sync,
+.transmit-receive .timing .accuracy {
+    background-size: 16px 16px;
+    padding-left: 20px;
+    line-height: 20px;
+    background-repeat: no-repeat;
+    background-position: 0 50%;
+}
+
+.transmit-receive .timing .sync {
+    background-image: url("/images/clock-small.png");
+}
+.transmit-receive .timing .sync.unavailable {
+    background-image: url("/images/clock-small-red.png");
+    color: #DD0000;
+}
+
+.transmit-receive .timing .accuracy {
+    /*background-image: url("/images/clock-small-red.png");*/
+    background-image: url("/images/reticle-small.png");
+}
+
+.port-container {
+    position: relative;
+    padding: 5px 10px 10px 10px;
+    background-color: #1c1c1d;
+    border-radius: 3px;
+    border-bottom: solid 1px #414142;
+    box-shadow:         inset 0px 7px 7px #161616;
+    min-height: 1em;
+}
+
+.port-container .loading {
+    display: inline-block;
+    width: 90%;
+    position: absolute;
+    padding: 4px 2px;
+    z-index: 1;
+    background-color: #1c1c1d;
+    text-indent: 0.1em;
+    color: #b8b8b8;
+    font-family: "open sans bold", arial, sans-serif;
+    font-size: 10px;
+    background-image: url(/images/loading-dark-bg.gif);
+    background-position: 99% 50%;
+    background-repeat: no-repeat;
+}
+
+.port-container .port-and-status {
+    float: left;
+    display: block;
+    width: 44px;
+    height: 60px;
+    margin-right: 7px;
+}
+
+.port-container .port-and-status:last-of-type {
+    margin-right: 0;
+}
+
+.port-container .port-status {
+    position: relative;
+    height: 22px;
+}
+
+.port-container .port-status div {
+    background-image: url("/images/link-light-unlit.png");
+    position: absolute;
+    top: 5px;
+    width: 22px;
+    height: 21px;
+}
+
+.port-container .port-status div:nth-child(1) {
+    left: 4px;
+}
+.port-container .port-status div:nth-child(2) {
+    left: 25px;
+}
+.port-container .tooltip {
+    position: absolute;
+    padding: 10px;
+    font-size: 10px;
+    top: 10px;
+    background-color: #eeffff;
+    border: solid 1px #666666;
+    border-radius: 3px;
+    white-space: nowrap;
+    color: #000000;
+    font-family: "open sans";
+    z-index: 3;
+}
+.port-container .port-status .l1000 {
+    background-image: url("/images/link-light-orange.png");
+}
+.port-container .port-status .UP,
+.port-container .port-status .l100,
+.port-container .port-status .l10000 {
+    background-image: url("/images/link-light-green.png");
+}
+.port-container .port-status .ERROR {
+    background-image: url("/images/link-light-red.png");
+}
+
+.port-container .available-port,
+.port-container .unavailable-port,
+.port-container .selected-port,
+.port-container .interface {
+    background-repeat: no-repeat;
+}
+
+.available-port,
+.unavailable-port,
+.port-container .interface {
+    width: 44px;
+    height: 36px;
+    margin: 2px;
+}
+
+.port-container .available-port {
+    cursor: pointer;
+}
+
+.port-container .available-port:not(.enable),
+.port-container .available:not(.enable) {
+    background-image: url("/images/port-available.png");
+}
+
+.port-container .enable {
+    background-image: url("/images/port-player.png");
+    margin: 0;
+    width: 48px;
+    height: 40px;
+}
+
+.port-container .unavailable-port,
+.port-container .interface:not(.available) {
+    background-image: url("/images/port-in-use.png");
+}
+.port-container .interface.flowmon:not(.available) {
+    background-image: url("/images/port-flowmon.png");
+}
+
+.transmit-receive-container .delete {
+    text-align: right;
+    margin-top: 16px;
+}
+

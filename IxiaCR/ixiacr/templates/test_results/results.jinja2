@@ -1,0 +1,363 @@
+{% extends "/test_results/base.jinja2" %}
+{% macro get_property_value(options, value) -%}
+    {%- for option in options %}
+        {% if loop.index == value %}
+            {{ option['name'] }}
+        {% endif %}
+    {%- endfor %}
+{%- endmacro %}
+{% block title %}Axon Test{% endblock %}
+{% block extrastyle %}
+    <style>
+        .topology-container {width: 700px; margin: 0 auto;}
+        .topology-profile-l {float: left; padding-right: 40px; margin-top: 0px}
+        .topology-profile-r {float: right; margin-top: 0px}
+    </style>
+{% endblock %}
+{% block content %}
+    {% if error_message %}
+        <h2 style="color:red; text-align: center;">{{ error_message }}</h2>
+    {% else %}
+        <img class="screen-logo" src="./images/spirent_axon_logo_large.png" alt="Spirent" title="Spirent" />
+        <img class="print-logo" src="./images/spirent_axon_logo_grey.png" alt="Spirent" title="Spirent" />
+        <hr />
+
+        <h1>{% trans %}Axon Test Name:{% endtrans %} {{ test.name }} </h1>
+        <ul>
+            <li><label>{% trans %}Executed by:{% endtrans %}</label> <span>{{ user.full_name }} ({{ user.username }})</span></li>
+            <li><label>{% trans %}Date:{% endtrans %}</label> <span>{{ test_date }}</span></li>
+        </ul>
+        <ul>
+            <li><label>{% trans %}Categories:{% endtrans %}</label> <span>{{ test_categories }}</span></li>
+            <li><label>{% trans %}Description:{% endtrans %}</label> <span>{{ test.description|striptags }}</span></li>
+        </ul>
+
+        <h2>{% trans %}Test Configuration{% endtrans %}</h2>
+
+        {% if 'duration' in test_json and test_json['duration'] != None %}
+        <ul>
+            <li><label>{% trans %}Duration (minutes):{% endtrans %}</label> <span>{{ test_json['duration'] }}</span></li>
+        </ul>
+		{% endif %}
+
+        {% if test_json['tags']['favorite'] %}
+        <table>
+            <caption><h5>Tags</h5></caption>
+            <tbody>
+                <tr>
+                    <td>
+                        <label>{% trans %}Favorite{% endtrans %}</label>
+                        <span>{{ test_json['tags']['favorite'] }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+
+        {% if test_json['tags']['user_defined'] %}
+        <h4>{% trans %}User Defined Tags{% endtrans %}</h4>
+        <ul>
+        {% for tags in test_json['tags']['user_defined'] %}
+            <li>{{ tags }}</li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
+        <h3>{% trans count=player_count %}There was {{ count }} Traffic Player in this test.{% pluralize %}There were {{ count }} Traffic Players in this test.{% endtrans %}</h3>
+        <ul class="traffic-players">
+        {% for player in players %}
+            <li>
+                <h4>{% trans %}Player{% endtrans %} {{ player['player_num'] }}</h4>
+                <ul class="player">
+                    <li class="source">
+                        {% if player and 'multicast_settings' in player['supplemental_configuration'] %}
+                        <h4>{% trans %}Server{% endtrans %}</h4>
+                        {% else %}
+                        <h4>{% trans %}Source (Tx){% endtrans %}</h4>
+                        {% endif %}
+
+
+                        {% for src in player['source_device_groups'].values() %}
+                            <table>
+                                <caption><h5>{% trans %}Device{% endtrans %}</h5></caption>
+                                <tbody>
+                                <tr>
+                                    <td class="host">
+                                        <label>{% trans %}Host{% endtrans %}</label>
+                                        <span class="name">{{ src[0]['device']['name'] }}</span>
+                                        <span class="address">{{ src[0]['device']['host'] }}</span>
+                                    </td>
+                                </tr>
+                                {% for endpoint in src %}
+                                <tr>
+                                    <td>
+                                            <label>{% trans %}Port{% endtrans %} {{ endpoint['port'] }}</label>
+                                            <ul>
+                                                {% if not endpoint['endpoint']['use_dhcp'] or endpoint['endpoint']['use_dhcp'] == 'false' %}
+                                                    <li>
+                                                        <label>{% trans %}Name:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['name'] }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label>{% trans %}IP:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['ip'] }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label>{% trans %}Prefix:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['prefix'] }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label>{% trans %}End IP:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['end_ip'] }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label>{% trans %}Gateway:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['gateway'] }}</span>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <label>{% trans %}Use DHCP?:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['use_dhcp'] }}</span>
+                                                    </li>
+                                                    <li>
+                                                        <label>{% trans %}Number of hosts:{% endtrans %}</label>
+                                                        <span>{{ endpoint['endpoint']['dhcp_hosts'] }}</span>
+                                                    </li>
+                                                {% endif %}
+                                                <li>
+                                                    <label>{% trans %}VLAN Id:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['vlan_id'] }}</span>
+                                                </li>
+                                            </ul>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endfor %}
+                    </li>
+                    
+                    <li class="playlist">
+                        <h4>{% trans %}Playlist:{% endtrans %} {{ player['playlist']['name'] }}</h4>
+                        {% if 'traffic_settings' in player and player['traffic_settings'] != None %}
+                        <h5>{% trans %}Test Traffic Settings{% endtrans %}</h5>
+                        <ul class="traffic-settings">
+                            {% for setting in player['traffic_settings'] %}
+                            	<li><label>{{ setting['Name']|capitalize }}:</label> <span>{{ setting['value'] }}</span> <span>{{ setting['unit'] }}</span></li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+
+                        <h5>{% trans %}Track{% endtrans %}</h5>
+                        {% for track in player['playlist']['tracks'] %}
+                        <ul class="tracks">
+                            <li>
+                                 <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <label>{% trans %}Name{% endtrans %}</label>
+                                                <span>{{ track['name'] }}</span>
+                                            </td>
+                                            <td>
+                                                <label>{% trans %}Percentage{% endtrans %}</label>
+                                                <span>{{ track['percentage'] }}</span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+
+                            {% if 'traffic_settings' in track %}
+                            <li>
+                                <h5>{% trans %}Track Traffic Settings{% endtrans %}</h5>
+                                <ul class="traffic-settings">
+                                    {% for k,v in track['traffic_settings'].items() %}
+                                        <li><label>{{ k|capitalize }}:</label> <span>{{ v }}</span></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                            {% if 'track_properties' in track %}
+                            <li>
+                                <h5>{% trans %}Track Properties{% endtrans %}</h5>
+                                <ul class="track-properties">
+                                    {% for property in track['track_properties'] %}
+                                    {% if 'options' in property %}
+                                    <li><label>{{ property['name'] }}:</label> <span>{{ get_property_value(property['options'], property['value']) }}</span></li>
+                                    {% else %}
+                                        <li><label>{{ property['name'] }}:</label> <span>{{ property['value'] }}</span></li>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            {% endif %}
+                        </ul>
+                        {% endfor %}
+                        {% if 'supplemental_configuration' in player and player['supplemental_configuration'] != None %}
+                            {% if 'playlist_settings' in player['supplemental_configuration'] %}
+                            {% set playlist_settings = player['supplemental_configuration']['playlist_settings'][0] %}
+                            <h5>{{ playlist_settings['title'] }}</h5>
+                            <ul class="playlist-settings">
+                                {% for fields in playlist_settings['fields'] %}
+                                    {% if fields['type'] == 'select' %}
+                                        <li><label>{{ fields['label'] }}:</label> <span>{{ fields['value']['key'] }}</span></li>
+                                    {% else %}
+                                        <li><label>{{ fields['label'] }}:</label> <span>{{ fields['value'] }}</span></li>
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+
+                            {% if 'multicast_settings' in player['supplemental_configuration'] %}
+                            {% set multicast_settings = player['supplemental_configuration']['multicast_settings'] %}
+                            <h4>{% trans %}Multicast group settings{% endtrans %}</h4>
+                            <ul class="playlist-settings">
+                                <li><label>IP:</label> <span>{{ multicast_settings['ip'] }}</span></li>
+                                <li><label>End IP:</label> <span>{{ multicast_settings['end_ip'] }}</span></li>
+                                <li><label>Protocol:</label> <span>{{ multicast_settings['protocol'] }}</span></li>
+                            </ul>
+                            {% endif %}
+                        {% endif %}
+                    </li>
+
+                    <li class="destination">
+                        {% if 'multicast_settings' in player['supplemental_configuration'] %}
+                        <h4>{% trans %}Client(s){% endtrans %}</h4>
+                        {% else %}
+                        <h4>{% trans %}Destination (Rx){% endtrans %}</h4>
+                        {% endif %}
+
+                        {% for dest in player['destination_device_groups'].values() %}
+                        <table>
+                            <caption><h5>{% trans %}Device{% endtrans %}</h5></caption>
+                            <tbody>
+                            <tr>
+                                <td class="host">
+                                    <label>{% trans %}Host{% endtrans %}</label>
+                                    <span class="name">{{ dest[0]['device']['name'] }}</span>
+                                    <span class="address">{{ dest[0]['device']['host'] }}</span>
+                                </td>
+                            </tr>
+                            {% for endpoint in dest %}
+                            <tr>
+                                <td>
+                                        <label>{% trans %}Port{% endtrans %} {{ endpoint['port'] }}</label>
+                                        <ul>
+                                            {% if not endpoint['endpoint']['use_dhcp'] or endpoint['endpoint']['use_dhcp'] == 'false' %}
+                                                <li>
+                                                    <label>{% trans %}Name:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['name'] }}</span>
+                                                </li>
+                                                <li>
+                                                    <label>{% trans %}IP:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['ip'] }}</span>
+                                                </li>
+                                                <li>
+                                                    <label>{% trans %}Prefix:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['prefix'] }}</span>
+                                                </li>
+                                                <li>
+                                                    <label>{% trans %}End IP:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['end_ip'] }}</span>
+                                                </li>
+                                                <li>
+                                                    <label>{% trans %}Gateway:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['gateway'] }}</span>
+                                                </li>
+                                            {% else %}
+                                                <li>
+                                                    <label>{% trans %}Use DHCP?:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['use_dhcp'] }}</span>
+                                                </li>
+                                                <li>
+                                                    <label>{% trans %}Number of hosts:{% endtrans %}</label>
+                                                    <span>{{ endpoint['endpoint']['dhcp_hosts'] }}</span>
+                                                </li>
+                                            {% endif %}
+                                            <li>
+                                                <label>{% trans %}VLAN Id:{% endtrans %}</label>
+                                                <span>{{ endpoint['endpoint']['vlan_id'] }}</span>
+                                            </li>
+                                        </ul>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </li>
+                </ul>
+                <div class="clear"></div>
+            </li>
+        {% endfor %}
+        </ul>
+
+        <h2>{% trans %}Test Data{% endtrans %}</h2>
+        {% for result in results %}
+        <div class="data">
+            <h3>{{ result['name'] }}</h3>
+            {% if test.module != 'axon.testcases.spirent.multicast_join_leave_latency' or result['type'] == 'port_results' %}
+			{# tracks aren't relevant for join/leave latency tests #}
+			{# the table below is used for both tracks and port results #}
+            <table>
+                {% if result['type'] == 'player' %}
+                <caption><h5>{% trans %}Tracks{% endtrans %}</h5></caption>
+                {% endif %}
+                <tbody>
+                {% for track in result['tracks'] %}
+                    <tr>
+                        <td>
+                            <span>{{ track['name'] }}</span>
+                        </td>
+                        {% for cell in track['cells'] %}
+                        <td>
+                            <label>{{ cell['name'] }}</label>
+                            {% set value = cell['value'] %}
+                            {% if value is number and value is not divisibleby 1 %}
+                                {% set value = value|round(3) %}
+                            {% endif %}
+                            <span class="{{ cell['data_type'] }}">{{ value }}</span>
+                            {% if 'detail' in cell %}
+                                <span class="cell-detail">{{ cell['detail']|safe }}</span>
+                            {% endif %}
+                        </td>
+                        {% endfor %}
+                    </tr>
+               {% endfor %}
+               </tbody>
+            </table>
+            {% endif %}
+            {% if result['clients'] is defined %}
+            <table>
+                <caption><h5>{% trans %}Client(s){% endtrans %}</h5></caption>
+                <tbody>
+               {% for client in result['clients'] %}
+                   <tr>
+                        <td>
+                            <span>{{ client['name'] }}</span>
+                        </td>
+	                   {% for cell in client['cells'] %}
+	                       <td>
+	                           <label>{{ cell['name'] }}</label>
+	                           {% set value = cell['value'] %}
+	                           {% if value is number and value is not divisibleby 1 %}
+	                               {% set value = value|round(3) %}
+	                           {% endif %}
+	                           <span class="{{ cell['data_type'] }}">{{ value }}</span>
+                               {% if 'detail' in cell %}
+                                   <span class="cell-detail">{{ cell['detail']|safe }}</span>
+                               {% endif %}
+	                       </td>
+	                   {% endfor %}
+                   </tr>
+               {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
+</body>
+</html>
