@@ -1447,7 +1447,7 @@ msgstr "欢迎"
 
 #: axon/scripts/initializedb.py:1018
 msgid "portlet.welcome.content"
-msgstr "<div class='get-started-image'><img src='static/images/get-started-spirent.jpg' alt='开始！' title='开始！' /></div><div class='get-started-content'><h3>让我们开始吧！</h3><p>欢迎使用Axon！</p><p class='get-started-button-container'><span class='button-outer'><a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();' class='button'>运行测试</a></p></div>"
+msgstr "<div class='get-started-image'><img src='static/images/get-started-ixia.jpg' alt='开始！' title='开始！' />"
 
 #: axon/scripts/initializedb.py:1019
 msgid "Recent Results"
