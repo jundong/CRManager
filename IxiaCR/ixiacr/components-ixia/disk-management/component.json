@@ -1,7 +1,7 @@
 {
     "name": "disk-management",
-    "repo": "components-spirent/disk-management",
-    "description": "components-spirent/disk-management",
+    "repo": "components-ixia/disk-management",
+    "description": "components-ixia/disk-management",
     "version": "0.0.1",
     "keywords": [],
     "dependencies": {

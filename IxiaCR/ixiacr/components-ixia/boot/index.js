@@ -25,7 +25,7 @@ function translatorInitializer(language) {
 
 function openLoadingLightbox() {
     return promise(function (resolve) {
-        manager.queueDownload("images/spinner.gif");
+        manager.queueDownload("static/images/spinner.gif");
         manager.downloadAll(function () {
             lightbox.open({
                 url: 'html/lightbox_tmpl',
@@ -49,7 +49,7 @@ function getImageUrls() {
     return promise(function (resolve, reject) {
         $.ajax({
             type: "get",
-            url: "/spirent/get_images",
+            url: "/ixia/get_images",
             dataType: 'json',
             success: resolve,
             error: function (jqXhr, textStatus, errorThrown) {
@@ -72,10 +72,10 @@ function queueImages(build_number, data) {
             if (imageFiles[i].directory === true) {
                 subfolderImages = imageFiles[i].children;
                 for (x = 0; x < subfolderImages.length; x += 1) {
-                    manager.queueDownload("/images/" + imageFiles[i].name + "/" + subfolderImages[x] + '?' + build_number);
+                    manager.queueDownload("static/images/" + imageFiles[i].name + "/" + subfolderImages[x] + '?' + build_number);
                 }
             } else {
-                manager.queueDownload("/images/" + imageFiles[i].name + '?' + build_number);
+                manager.queueDownload("static/images/" + imageFiles[i].name + '?' + build_number);
             }
         }
         manager.downloadAll(resolve);
@@ -85,7 +85,7 @@ function queueImages(build_number, data) {
 function loadGlobals() {
     // Load modules that will be available to plain-JS scripts (non-component)
     window.DeviceModel = require('device-model');
-    window.SpirentViewModel = require('spirent-view-model');
+    window.IxiaViewModel = require('ixia-view-model');
     window.TestHistoryViewModel = require('test-history-view-model');
     window.DashboardViewModel = require('dashboard-view-model');
     window.TestViewModel = require('test-view-model');
@@ -95,17 +95,15 @@ function loadGlobals() {
     window.TrafficPlayerViewModel = require('traffic-player-view-model');
     window.TestDeviceViewModel = require('test-device-view-model');
     window.LineRateMessageViewModel = require('line-rate-message-view-model');
-    window.TrafficRecorder = require('traffic-recorder');
     window.TestResultsFinalTableViewModel = require('test-results-final-table-view-model');
     window.InfoPane = require('info-pane');
-    window.DiskManagement = require('disk-management');
 }
 
 function loadRootViewModel(settings) {
     return promise(function (resolve) {
         var model = new LightboxWorkingViewModel(translate("Loading"), translate('Loading data...'), 30);
         lightbox.working(model);
-        var root_vm = new SpirentViewModel(settings);
+        var root_vm = new IxiaViewModel(settings);
         root_vm.setUser('Administrator');
         root_vm.init().done(resolve.bind(this, root_vm)).fail(function(e) { window.logger.error(e + ' trace: ' + e.stack); });
         ko.applyBindings(root_vm, document.getElementById('main'));
@@ -124,112 +122,6 @@ function closeLoadingLightbox(spirentEnterpriseVm) {
     });
 }
 
-function showTrafficRecorder(spirentEnterpriseVm) {
-    return promise(function (resolve) {
-        var $main = document.querySelector('#main'),
-            $player_body = $main.querySelector('.test'),
-            $tabs = document.querySelector('.navigation .tabs'),
-            $player_tab = $tabs.querySelector('.player'),
-            $recorder_tab = document.createElement('li'),
-            chassis = spirentEnterpriseVm.availableDevices()[0],
-            recorder,
-            show = function () {
-                if (!recorder) {
-                    recorder = TrafficRecorder.factory(chassis.ports);
-                    $main.insertBefore(recorder.$el, $player_body.nextSibling);
-                }
-
-//                spirentEnterpriseVm.selectedTab('recorder');
-                classes($recorder_tab).add('selected');
-                recorder.show();
-            };
-
-        // Inject main navigation tab
-        $recorder_tab.innerHTML = translate('RECORDER');
-        $recorder_tab.className = 'recorder';
-        $tabs.insertBefore($recorder_tab, $player_tab.nextSibling);
-
-        spirentEnterpriseVm.selectedTab.subscribe(function (tab) {
-            if (tab !== 'recorder') {
-                return; // Short-circuit
-            }
-
-            show();
-        });
-
-        //Bind tab click handler
-        event.bind($recorder_tab, 'click', function() {
-            spirentEnterpriseVm.selectedTab('recorder');
-        });
-
-        // Hide recorder when another tab is selected
-        spirentEnterpriseVm.selectedTab.subscribe(function (tab) {
-            if (recorder && 'recorder' !== tab) {
-                classes($recorder_tab).remove('selected');
-                recorder.hide();
-            }
-        });
-
-        resolve(spirentEnterpriseVm);
-    });
-}
-
-function bindNetflowSettingsHandler(spirentEnterpriseVm) {
-    return promise(function (resolve) {
-        var admin = spirentEnterpriseVm.vmAdministration,
-            admin_tab = admin.selectedTab,
-            view,
-            chassis = spirentEnterpriseVm.availableDevices()[0];
-
-        admin.flowmonEnabled(true);
-
-        if (!chassis.supports_flowmon) {
-            resolve(spirentEnterpriseVm);
-        }
-
-        admin_tab.subscribe(function (name) {
-            if ('netflow' !== name) {
-                return; // Short-circuit
-            }
-
-            if (view) {
-                if(view.$el.parentNode){
-                    view.$el.parentNode.removeChild(view.$el);
-                }
-                view = undefined;
-                //view.show();
-                //return; // Short-circuit
-            }
-
-            // Create new Netflow view
-            var Settings = require('netflow-settings'),
-                $admin = document.querySelector('.administration .container');
-
-            view = Settings.factory(function (err) {
-                if (err) {
-                    window.logger.error('Could not load netflow', err);
-                    view.hide();
-                    lightbox.openError(window.translate('Error'), window.translate('Unable to load Netflow'));
-                    return; // Short-circuit
-                }
-
-                view.render();
-            });
-
-            // Append to administration section
-            $admin.appendChild(view.$el);
-        });
-
-        admin_tab.subscribe(function (prev) {
-            if ('netflow' === prev && view) {
-                view.hide();
-            }
-        }, null, "beforeChange");
-
-        resolve(spirentEnterpriseVm);
-    });
-}
-
 function bindScheduler(spirentEnterpriseVm) {
     return promise(function(resolve) {
         try {
@@ -242,84 +134,6 @@ function bindScheduler(spirentEnterpriseVm) {
             });
             resolve(spirentEnterpriseVm);
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }
-    });
-}
-
-function bindPulse(spirentEnterpriseVm) {
-    return promise(function (resolve) {
-        var view,
-            selected_tab = spirentEnterpriseVm.vmAdministration.selectedTab;
-
-        spirentEnterpriseVm.vmAdministration.pulseEnabled(true);
-
-        selected_tab.subscribe(function (tab) {
-            if (tab !== 'pulse') {
-                return; // Short-circuit
-            }
-
-            if (view) {
-                if(view.$el.parentNode) {
-                    view.$el.parentNode.removeChild(view.$el);
-                }
-                view = undefined;
-                //view.show();
-                //return; // Short-circuit
-            }
-
-            var $admin = document.querySelector('.administration .container'),
-                PulseViewModel = require('pulse');
-
-            view = PulseViewModel.factory(function (err) {
-                if (err) {
-                    window.logger.error('Could not load Pulse', err);
-                    view.hide();
-                    lightbox.openError(window.translate('Error'), window.translate('Unable to load Pulse'));
-                }
-            });
-            view.render();
-            $admin.appendChild(view.$el);
-        });
-
-        selected_tab.subscribe(function (prev) {
-            if ('pulse' === prev && view) {
-                view.hide();
-            }
-        }, null, "beforeChange");
-
-        resolve(spirentEnterpriseVm);
-    });
-}
-
-function bindDiskManagement(spirentEnterpriseVm) {
-    return promise(function (resolve) {
-        var view,
-            selected_tab = spirentEnterpriseVm.vmAdministration.selectedTab;
-
-        view = window.DiskManagement.factory(spirentEnterpriseVm);
-        view.update();
-
-        selected_tab.subscribe(function (tab) {
-            if (tab !== 'disk') {
-                return; // Short-circuit
-            }
-
-            if (!view.$el.parentNode) {
-                var $admin = document.querySelector('.administration .container');
-                $admin.appendChild(view.$el);
-            } else {
-                view.show();
-            }
-
-            view.update(view.render.bind(view));
-        });
-
-        selected_tab.subscribe(function (prev) {
-            if ('disk' === prev && view) {
-                view.hide();
-            }
-        }, null, "beforeChange");
-
-        resolve(spirentEnterpriseVm);
     });
 }
 
@@ -344,7 +158,7 @@ module.exports = function (settings, callback) {
         push : function (vm) {
             var state = vm.getState();
             if (history.pushState) {
-                history.pushState(state, "Axon");
+                history.pushState(state, "CyberRange");
             }
         }
     };
@@ -352,7 +166,7 @@ module.exports = function (settings, callback) {
     // Setup logging
 
     level = Logger.levels[level];
-    logger = new Logger(level, settings, '/spirent/log_js.json');
+    logger = new Logger(level, settings, '/ixia/log_js.json');
 
     if (window) {
         window.logger = logger;
@@ -373,23 +187,13 @@ module.exports = function (settings, callback) {
         .then(getImageUrls)
         .then(queueImages.bind(this, settings.build_number))
         .then(loadGlobals)
-        .then(loadRootViewModel.bind(this, settings))
-        .then(bindNetflowSettingsHandler);
-
-    if (-1 !== settings.features.indexOf('traffic-recorder')) {
-        load.then(showTrafficRecorder);
-    }
+        .then(loadRootViewModel.bind(this, settings));
 
     if (-1 !== settings.features.indexOf('scheduler')) {
         load.then(bindScheduler);
     }
 
-    if (-1 !== settings.features.indexOf('pulse')) {
-        load.then(bindPulse);
-    }
-
-    load.then(bindDiskManagement)
-        .then(closeLoadingLightbox)
+    load.then(closeLoadingLightbox)
         .then(loadInfoPane)
         .then(callback, function (err) {
             logger.error(err);

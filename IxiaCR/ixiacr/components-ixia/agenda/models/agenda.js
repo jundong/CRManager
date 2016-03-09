@@ -51,7 +51,7 @@ AgendaModel.prototype.load_event_by_datetime = function(callback){
     var self = this;
 
     request
-        .get('/spirent/agenda')
+        .get('/ixia/agenda')
         .use(no_cache)
         .query('date_time=' + self.focused_datetime.format("YYYY-MM-DD HH:mm"))
         .query('qty=' + self.qty)
@@ -140,7 +140,7 @@ AgendaModel.prototype.load_consecutive_events = function(direction, callback) {
     }
 
     request
-        .get('/spirent/agenda/' + direction)
+        .get('/ixia/agenda/' + direction)
         .use(no_cache)
         .query('date_time=' + date_time.format("YYYY-MM-DD HH:mm"))
         .query('qty=' + self.qty)

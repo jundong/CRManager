@@ -83,6 +83,8 @@ InfoPane.prototype.get_reservation_status = function (callback) {
     var self = this;
 
     function handle_response(data, error) {
+        return
+
         if (error) {
             util.lightbox.openError(window.translate('Error'), window.translate('Unable to get reservation status.'));
             window.logger.error(error);

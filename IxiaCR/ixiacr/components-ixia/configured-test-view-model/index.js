@@ -717,7 +717,7 @@ ConfiguredTestViewModel.prototype.check_for_conflicts_with_upcoming = function(f
     var self = this;
     $.ajax({
         type: 'POST',
-        url: '/spirent/check_for_conflicts_with_upcoming',
+        url: '/ixia/check_for_conflicts_with_upcoming',
         data: formatRequestData,
         dataType: 'json'
     }).success(function(data, textStatus, jqXhr){

@@ -1,7 +1,7 @@
 {
   "name": "device-model",
-  "repo": "components-spirent/device-model",
-  "description": "Axon device model",
+  "repo": "components-ixia/device-model",
+  "description": "Cyber Range device model",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {

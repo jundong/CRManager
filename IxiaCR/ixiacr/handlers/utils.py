@@ -48,7 +48,7 @@ class IxiaUtilHandler(base.Handler):
     '''
     @action(renderer='json')
     def get_images(self):
-        path = '/local/web/Ixia/ixiacr/static/images'
+        path = os.path.join(os.getenv('IXIACR'), 'ixiacr/static/images')
         files = []
 
         try:

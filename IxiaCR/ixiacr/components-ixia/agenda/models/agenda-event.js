@@ -27,7 +27,7 @@ AgendaEventModel.prototype.set_view = function(view){
 AgendaEventModel.prototype.cancelTestEvent = function(done){
     var id = this.event_info().id;
     request
-        .post('/spirent/schedule/test-events/' + id + '/cancel')
+        .post('/ixia/schedule/test-events/' + id + '/cancel')
         .send('')
         .set('Accept', 'application/json')
         .end(function (err, res) {

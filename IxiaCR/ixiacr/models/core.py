@@ -13,7 +13,6 @@ from pyramid.security import Allow, Everyone, Authenticated, ALL_PERMISSIONS
 
 from ixiacr.lib import IxiaLogger
 
-
 ixiacrlogger = IxiaLogger(__name__)
 db = scoped_session(sessionmaker(extension=ZopeTransactionExtension()))
 
@@ -99,6 +98,29 @@ metadata = Base.metadata
 from mappings import group_permissions
 
 
+class Eula(Base):
+    """ End User-level Agreements
+    """
+    __tablename__ = 'eulas'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    build = Column(Integer, default=0)
+    heading_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    content_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    issued = Column(DateTime, default=datetime.now)
+
+    name = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==Eula.name_id')
+    heading = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==Eula.heading_id')
+    content = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==Eula.content_id')
+
+    def __unicode__(self):
+        return self.name
+
+
 class Group(Base):
     """
     Groups for the ACL, but will eventually have permissions tied to them.
@@ -155,6 +177,103 @@ class Permission(Base):
 
     def __repr__(self):
         return '%s' % self.name
+
+
+class DeviceType(Base):
+    """
+    Loose coupling to the devices
+    """
+    __tablename__ = 'device_types'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    name_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    description_id = Column(Integer, ForeignKey('translatable_strings.id'))
+
+    name = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==DeviceType.name_id')
+    description = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==DeviceType.description_id')
+
+    def __unicode__(self):
+        return self.name
+
+
+class Device(Base):
+    """Devices are in Cyber Range system
+
+    """
+    __tablename__ = 'devices'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    type = Column(Unicode(64), nullable=False, unique=True)
+    device_type_id = Column(Integer, ForeignKey('device_types.id',
+                                                onupdate="CASCADE",
+                                                ondelete="CASCADE"))
+    name = Column(Unicode(64), unique=True, nullable=True)
+    description = Column(UnicodeText, nullable=True)
+    host = Column(Unicode(64), nullable=False, unique=True)
+    active = Column(Boolean, default=True)
+
+    @property
+    def type(self):
+        return self.type
+
+    def __unicode__(self):
+        return self.name
+
+
+class DeviceHistory(Base):
+    """Device history
+
+    """
+    __tablename__ = 'device_history'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    device_type_id = Column(Integer, ForeignKey('device_types.id',
+                                                onupdate="CASCADE",
+                                                ondelete="CASCADE"))
+    name = Column(Unicode(64), nullable=True)
+    description = Column(UnicodeText, nullable=True)
+    host = Column(Unicode(64), nullable=True)
+    created = Column(DateTime, default=datetime.now)
+    device_id = Column(Integer, ForeignKey('devices.id',
+                                           onupdate="CASCADE",
+                                           ondelete="CASCADE"))
+
+    def __unicode__(self):
+        return self.name
+
+
+class Portlet(Base):
+    """
+    But the class name is so descriptive.
+    """
+    __tablename__ = 'portlets'
+
+    PORTLET_TYPES = (
+        (1, u'HTML'),
+        (2, u'RSS'),
+        (3, u'Atom'),
+        (4, u'JavaScript'),
+        (5, u'Twitter'),
+    )
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id', onupdate="CASCADE",
+                                         ondelete="CASCADE"))
+    name_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    portlet_content_id = Column(Integer, ForeignKey('translatable_strings.id'))
+
+    name = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==Portlet.name_id')
+    content_type = Column(Integer)
+    portlet_content = relationship('TranslatableString',
+                                   primaryjoin='TranslatableString.id==Portlet.portlet_content_id')
+    default_column = Column(Unicode(64), nullable=True)
+    div_id_name = Column(Unicode(64), nullable=True)
+
+    def __unicode__(self):
+        return self.name
 
 
 class Configs(Base):
@@ -235,6 +354,7 @@ class User(Base):
     email = Column(Unicode(128), nullable=True)
     show_intro = Column(Boolean, default=True)
     session_id = Column(Unicode(255), nullable=True)
+    remote_addr = Column(Unicode(15), nullable=True)
     last_login = Column(DateTime, default=datetime.now)
     language = Column(Unicode(2), nullable=True)
 
@@ -292,9 +412,8 @@ class User(Base):
     def __repr__(self):
         return "<User({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}," \
                "{12})>" \
-            .format(self.id, self.first_name, self.last_name,
-                    self.username, self.password, self.active,
-                    self.email, self.show_intro, self.session_id, self.last_login)
+            .format(self.id, self.first_name, self.last_name, self.username, self.password, self.active,
+                    self.email, self.show_intro, self.session_id, self.remote_addr, self.last_login)
 
 
 class UIMessage(Base):
@@ -348,6 +467,7 @@ class IxiaTest(Base):
     description = Column(UnicodeText, nullable=True)
     module = Column(Unicode(255), nullable=False)
     duration = Column(Integer, default=1)
+    active = Column(Boolean, default=True)
 
     def __unicode__(self):
         return self.name
@@ -390,6 +510,7 @@ class Translation(Base):
         return '<Translation: string_id={0}, language={1}>'.format(
             self.string_id,
             self.language)
+
 
 if __name__ == "__main__":
     pass

@@ -92,7 +92,7 @@ DiskManagementViewModel.prototype.update = function (done) {
 
     self.updating(self.updating() + 1);
 
-    request.get('/spirent/get_disk_info')
+    request.get('/ixia/get_disk_info')
         .use(no_cache)
         .end(function (error, response) {
             var data;
@@ -168,7 +168,7 @@ DiskManagementViewModel.prototype.delete_all_captures = function() {
     var self = this,
         confirm_action = function() {
             self.updating(self.updating() + 1);
-            request.del('/spirent/traffic-recorder/captures')
+            request.del('/ixia/traffic-recorder/captures')
                 .use(no_cache)
                 .end(function (error, response) {
                     self.updating(self.updating() - 1);
@@ -183,7 +183,7 @@ DiskManagementViewModel.prototype.delete_all_diags = function() {
     var self = this,
         confirm_action = function() {
             self.updating(self.updating() + 1);
-            request.del('/spirent/delete_all_diags')
+            request.del('/ixia/delete_all_diags')
                 .use(no_cache)
                 .end(function (error, response) {
                     self.updating(self.updating() - 1);

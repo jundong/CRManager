@@ -87,7 +87,7 @@ asyncTest("Preloads Images From Server", function(){
 	};
 
 	$.mockjax({
-		url : "/spirent/get_images",
+		url : "/ixia/get_images",
 		responseText: response
 	});
 

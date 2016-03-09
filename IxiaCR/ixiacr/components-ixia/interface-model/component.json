@@ -1,6 +1,6 @@
 {
   "name": "interface-model",
-  "repo": "components-spirent/interface-model",
+  "repo": "components-ixia/interface-model",
   "description": "Model for a physical interface",
   "version": "0.0.1",
   "keywords": [],

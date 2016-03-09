@@ -1511,7 +1511,7 @@ AdministrationViewModel.prototype.deleteAllSystemBackups = function (callback) {
         }, true);
     };
     $.ajax({
-        url: '/spirent/delete_all_backups',
+        url: '/ixia/delete_all_backups',
         cache: false,
         contentType: false,
         dataType: 'json',
@@ -1616,12 +1616,12 @@ AdministrationViewModel.prototype.getSystemLogs = function () {
     util.lightbox.close();
     util.lightbox.working(new LightboxWorkingViewModel(translate("Starting log compression..."), translate("Starting log compression...")));
     $.ajax({
-        url: util.getConfigSetting('get_axon_logs'),
+        url: util.getConfigSetting('get_ixia_logs'),
         cache: false,
         contentType: false,
         dataType: 'json',
         processData: false,
-        type: util.getRequestMethod('get_axon_logs'),
+        type: util.getRequestMethod('get_ixia_logs'),
         success: function (data) {
             if (data.result === 'SUCCESS') {
                 util.lightbox.close();

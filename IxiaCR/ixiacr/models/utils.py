@@ -36,6 +36,7 @@ class Update(Base):
     download_finished = Column(DateTime, nullable=True)
     applied_date = Column(DateTime, nullable=True)
 
+
 class ConfigOption(Base):
     __tablename__ = 'options'
 
@@ -47,6 +48,7 @@ class ConfigOption(Base):
 
     name = Column(UnicodeText)
     value = Column(UnicodeText)
+
 
 class SessionKeyValue(Base):
     __tablename__ = 'session_key_values'

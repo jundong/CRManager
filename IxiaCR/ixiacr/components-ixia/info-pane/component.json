@@ -1,6 +1,6 @@
 {
   "name": "info-pane",
-  "repo": "components-spirent/info-pane",
+  "repo": "components-ixia/info-pane",
   "description": "Shows an informational pane globally",
   "version": "0.0.1",
   "keywords": [],

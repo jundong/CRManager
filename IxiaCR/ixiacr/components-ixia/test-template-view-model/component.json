@@ -1,6 +1,6 @@
 {
     "name": "test-template-view-model",
-    "repo": "components-spirent/test-template-view-model",
+    "repo": "components-ixia/test-template-view-model",
     "description": "Manages data for (library) test templates",
     "version": "0.0.1",
     "keywords": [],

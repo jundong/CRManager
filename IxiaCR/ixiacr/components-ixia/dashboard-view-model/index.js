@@ -93,6 +93,7 @@ function DashboardViewModel(rootVm) {
 
     self.getPortlets = function () {
         self.portlets.removeAll();
+
         $.ajax({
             type: "GET",
             url: util.getConfigSetting("get_portlets"),

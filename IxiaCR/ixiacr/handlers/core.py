@@ -21,9 +21,6 @@ _ = TranslationStringFactory('messages')
 
 
 def view_includes(config):
-    config.add_handler('eula', '/eula',
-                       'ixiacr.handlers.core:IxiaCoreHandler',
-                       action='eula')
     config.add_handler('main', '/', 'ixiacr.handlers.core:IxiaCoreHandler',
                        action='index',
                        path_info=r'/(?!favicon\.ico|robots\.txt|w3c)')
@@ -77,66 +74,22 @@ class IxiaCoreHandler(base.Handler):
         full_name = user.full_name
         language = get_locale_name(self.request)
 
-        if 'eula_accepted' in self.request.params:
-            if self.request.params.get('eula_accepted') == 'true':
-                #  They accepted
-                latest_eula = Eula.query.order_by(asc(Eula.id)).first()
-                # Add it to the session object
-                user.eulas.append(latest_eula)
-                # Append it to the current DB session
-                db.add(user)
-                # Commit the transaction
-                transaction.commit()
-            else:
-                # Or just ixiacrlogger them out because this is weird
-                # and should not ever happen...
-                headers = forget(self.request)
-                login_url = route_url('login', self.request, _scheme='https')
-                return HTTPFound(location=login_url, headers=headers)
-        else:
-            # Get the current EULA
-            latest_eula = Eula.query.order_by(asc(Eula.id)).first()
-            # Now check to see if they have accepted it
-            accepted_eula = Eula.query.join(user_eulas).\
-                filter_by(user_id=user.id,
-                          eula_id=latest_eula.id).\
-                order_by(asc(Eula.id)).first()
+        session_expired = False
+        if user.session_id and user.last_login:
+            elapsed_time = datetime.now() - user.last_login
+            if elapsed_time >= timedelta(minutes=31):
+                session_expired = True
 
-            session_expired = False
-            if user.session_id and user.last_login:
-                elapsed_time = datetime.now() - user.last_login
-                if elapsed_time >= timedelta(minutes=31):
-                    session_expired = True
-
-            if (latest_eula is not None and accepted_eula is None) or session_expired:
-                login_url = route_url('logout', self.request, _scheme='https')
-                headers = forget(self.request)
-                return HTTPFound(location=login_url, headers=headers)
-
-        model = None
-        res = ChassisUtils.get_local_allocation_data()
-        device_model_map = {
-            "174a:0401": "10F-HP",
-            "174a:0301": "10F-HP",
-            "8086:150e": "1C",
-            "174a:0901": "1C",
-            "8086:10fb": "110CF"
-        }
-        if 'result' in res:
-            id = res['result']['device_pci_id']
-            model = device_model_map[id]
+        if session_expired:
+            login_url = route_url('logout', self.request)
+            headers = forget(self.request)
+            return HTTPFound(location=login_url, headers=headers)
 
         return {'username': username,
                 'name': full_name,
                 'language': language,
-                'model': model,
+                'model': None,
                 'global_vars': get_global_vars()}
-
-    @action(renderer='eula.jinja2', permission='all_access')
-    def eula(self):
-        lang = get_locale_name(self.request)
-        latest_eula = Eula.query.order_by(asc(Eula.id)).first()
-        return {'eula_content': latest_eula.content.get_translation(lang)}
 
     @action(renderer='manufacturing.jinja2', permission='all_access')
     def manufacturing(self):

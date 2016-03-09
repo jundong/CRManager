@@ -4,7 +4,7 @@ var model = require('model'),
     PulseInterfaceModel = require('./interface.js');
 
 var PulseModel = model('PulseModel')
-    .route('/spirent/pulse')
+    .route('/ixia/pulse')
     .attr("status")
     .attr("license_status")
     .attr("interfaces");

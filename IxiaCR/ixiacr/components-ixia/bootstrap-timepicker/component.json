@@ -1,7 +1,7 @@
 {
   "name": "bootstrap-timepicker",
-  "repo": "components-spirent/bootstrap-timepicker",
-  "description": "components-spirent/bootstrap-timepicker",
+  "repo": "components-ixia/bootstrap-timepicker",
+  "description": "components-ixia/bootstrap-timepicker",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {},

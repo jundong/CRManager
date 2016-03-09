@@ -108,7 +108,7 @@ SchedulerHeaderDelegate.prototype.loadTest = function(testConfiguration, testEve
         }
     }
 
-    // XXX code mostly COPIED from test-view-model and spirent-view-model, DRY!
+    // XXX code mostly COPIED from test-view-model and ixia-view-model, DRY!
     parent.ensureUnreservedOrFail(function() {
         parent.hasResults(false);
         parent.vmResults.percentComplete(null);

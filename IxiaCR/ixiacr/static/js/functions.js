@@ -620,7 +620,7 @@ $(document).ready(function(){
 
         window.update_user_session = function () {
             window.logout_timer.reset();
-            $.post('/spirent/update_user_timestamp', function (response) {
+            $.post('/ixia/update_user_timestamp', function (response) {
                 if (response.result == 'FAILURE') {
                     window.location = '/login';
                 }

@@ -50513,7 +50513,7 @@ require.modules["johntron~color-slicer"] = require.modules["johntron~color-slice
 require.modules["color-slicer"] = require.modules["johntron~color-slicer@66cbde8b409f975015b69d4ebc5a2b65ea8461f0"];
 
 
-require.register("./components-spirent/logger", Function("exports, module",
+require.register("./components-ixia/logger", Function("exports, module",
 "/*global $:true, navigator:true */\n\
 \n\
 var window = window || {},\n\
@@ -50712,13 +50712,13 @@ Logger.prototype.attachWindowErrorHandler = function () {\n\
 \n\
 module.exports = Logger;\n\
 \n\
-//# sourceURL=components-spirent/logger/index.js"
+//# sourceURL=components-ixia/logger/index.js"
 ));
 
-require.modules["logger"] = require.modules["./components-spirent/logger"];
+require.modules["logger"] = require.modules["./components-ixia/logger"];
 
 
-require.register("./components-spirent/logger-jquery-ajax", Function("exports, module",
+require.register("./components-ixia/logger-jquery-ajax", Function("exports, module",
 "/*global $:true */\n\
 \n\
 function handler(jqXhr, textStatus, e) {\n\
@@ -50733,13 +50733,13 @@ module.exports = function (logger) {\n\
     $(document).ajaxError(handler.bind(logger));\n\
 };\n\
 \n\
-//# sourceURL=components-spirent/logger-jquery-ajax/index.js"
+//# sourceURL=components-ixia/logger-jquery-ajax/index.js"
 ));
 
-require.modules["logger-jquery-ajax"] = require.modules["./components-spirent/logger-jquery-ajax"];
+require.modules["logger-jquery-ajax"] = require.modules["./components-ixia/logger-jquery-ajax"];
 
 
-require.register("./components-spirent/asset-manager", Function("exports, module",
+require.register("./components-ixia/asset-manager", Function("exports, module",
 "//http://www.html5rocks.com/en/tutorials/games/assetmanager/\n\
 \n\
 function AssetManager() {\n\
@@ -50806,13 +50806,13 @@ AssetManager.typesafe = function (that) {\n\
 \n\
     return that;\n\
 };\n\
-//# sourceURL=components-spirent/asset-manager/index.js"
+//# sourceURL=components-ixia/asset-manager/index.js"
 ));
 
-require.modules["asset-manager"] = require.modules["./components-spirent/asset-manager"];
+require.modules["asset-manager"] = require.modules["./components-ixia/asset-manager"];
 
 
-require.register("./components-spirent/lightbox", Function("exports, module",
+require.register("./components-ixia/lightbox", Function("exports, module",
 "/*global $: true */\n\
 \n\
 var emitter = require('component~emitter@1.0.1'),\n\
@@ -51054,16 +51054,16 @@ Lightbox.prototype.confirmation_dialog = function (invoker, text, okFunction) {\
     });\n\
 };\n\
 \n\
-//# sourceURL=components-spirent/lightbox/index.js"
+//# sourceURL=components-ixia/lightbox/index.js"
 ));
 
-require.modules["lightbox"] = require.modules["./components-spirent/lightbox"];
+require.modules["lightbox"] = require.modules["./components-ixia/lightbox"];
 
 
-require.register("./components-spirent/utility-functions", Function("exports, module",
+require.register("./components-ixia/utility-functions", Function("exports, module",
 "/*global logger:true */\n\
 \n\
-var Lightbox = require('./components-spirent/lightbox'),\n\
+var Lightbox = require('./components-ixia/lightbox'),\n\
     classes = require('component~classes@1.2.3'),\n\
     next = require('ianstormtaylor~next-sibling@0.0.1'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
@@ -51096,7 +51096,6 @@ function getTemplate(url, template_selector, callback, reload, log) {\n\
                 // Warning: $template is a <script> element with string\n\
                 // content - we need to call $.tmpl() on this to convert its\n\
                 // contents to DOM elements. See\n\
-                // axon/components-spirent/lightbox/index.js:openWithElement()\n\
                 // for an example of how to do this.\n\
                 callback($template);\n\
             }\n\
@@ -51177,7 +51176,7 @@ function formatRequestData(key, data) {\n\
 }\n\
 \n\
 function getConfigSetting(key) {\n\
-    var rootPath = \"/spirent/\";\n\
+    var rootPath = \"/ixia/\";\n\
     var stubsPath = \"stubs/\";\n\
 \n\
     var config = {\n\
@@ -51539,6 +51538,8 @@ function clear_all_validation_messages (el) {\n\
 }\n\
 \n\
 function get_chassis_reservationa_status (callback) {\n\
+    return\n\
+\n\
     request\n\
         .get('/spirent/get_reservation_status')\n\
         .use(no_cache)\n\
@@ -51634,13 +51635,13 @@ var util = module.exports = {\n\
     decimal_format:decimal_format,\n\
     array_to_string: array_to_string\n\
 };\n\
-//# sourceURL=components-spirent/utility-functions/index.js"
+//# sourceURL=components-ixia/utility-functions/index.js"
 ));
 
-require.modules["utility-functions"] = require.modules["./components-spirent/utility-functions"];
+require.modules["utility-functions"] = require.modules["./components-ixia/utility-functions"];
 
 
-require.register("./components-spirent/translator", Function("exports, module",
+require.register("./components-ixia/translator", Function("exports, module",
 "function resolvePluralFormId(dictionary, pluralIndicator) {\n\
     var n = pluralIndicator;\n\
     // TODO replace eval with a better alternative\n\
@@ -51724,13 +51725,13 @@ function Translator(dictionary) {\n\
 }\n\
 \n\
 module.exports = Translator;\n\
-//# sourceURL=components-spirent/translator/index.js"
+//# sourceURL=components-ixia/translator/index.js"
 ));
 
-require.modules["translator"] = require.modules["./components-spirent/translator"];
+require.modules["translator"] = require.modules["./components-ixia/translator"];
 
 
-require.register("./components-spirent/dictionary-provider", Function("exports, module",
+require.register("./components-ixia/dictionary-provider", Function("exports, module",
 "var request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     dictionaries = {};\n\
@@ -51764,21 +51765,21 @@ DictionaryProvider.load = function (language, callback) {\n\
             callback(DictionaryProvider.get(language));\n\
         });\n\
 };\n\
-//# sourceURL=components-spirent/dictionary-provider/index.js"
+//# sourceURL=components-ixia/dictionary-provider/index.js"
 ));
 
-require.modules["dictionary-provider"] = require.modules["./components-spirent/dictionary-provider"];
+require.modules["dictionary-provider"] = require.modules["./components-ixia/dictionary-provider"];
 
 
-require.register("./components-spirent/endpoint-view-model", Function("exports, module",
+require.register("./components-ixia/endpoint-view-model", Function("exports, module",
 "module.exports = {\n\
-    UnicastViewModel: require('./components-spirent/endpoint-view-model/unicast/view-model.js'),\n\
-    MulticastViewModel: require('./components-spirent/endpoint-view-model/multicast/view-model.js')\n\
+    UnicastViewModel: require('./components-ixia/endpoint-view-model/unicast/view-model.js'),\n\
+    MulticastViewModel: require('./components-ixia/endpoint-view-model/multicast/view-model.js')\n\
 };\n\
-//# sourceURL=components-spirent/endpoint-view-model/index.js"
+//# sourceURL=components-ixia/endpoint-view-model/index.js"
 ));
 
-require.register("./components-spirent/endpoint-view-model/validator.js", Function("exports, module",
+require.register("./components-ixia/endpoint-view-model/validator.js", Function("exports, module",
 "var validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18');\n\
 \n\
@@ -51891,18 +51892,18 @@ EndpointValidator.prototype.validate = function (result, targetName) {\n\
 \n\
 \n\
 module.exports = EndpointValidator;\n\
-//# sourceURL=components-spirent/endpoint-view-model/validator.js"
+//# sourceURL=components-ixia/endpoint-view-model/validator.js"
 ));
 
-require.register("./components-spirent/endpoint-view-model/unicast/view-model.js", Function("exports, module",
+require.register("./components-ixia/endpoint-view-model/unicast/view-model.js", Function("exports, module",
 "/*global ko:true, translate:true */\n\
 \n\
 var noop = function () {},\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     domify = require('component~domify@1.3.1'),\n\
     event = require('component~event@0.1.4'),\n\
     classes = require('component~classes@1.2.3'),\n\
-    EndpointValidator = require('./components-spirent/endpoint-view-model/validator.js'),\n\
+    EndpointValidator = require('./components-ixia/endpoint-view-model/validator.js'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2');\n\
 \n\
 function UnicastEndpointViewModel(rootVm) {\n\
@@ -52467,18 +52468,18 @@ UnicastEndpointViewModel.prototype.is_dhcp = function (scheme) {\n\
     // Only DHCP has schemes\n\
     return scheme === 'v4' || scheme === 'v6';\n\
 };\n\
-//# sourceURL=components-spirent/endpoint-view-model/unicast/view-model.js"
+//# sourceURL=components-ixia/endpoint-view-model/unicast/view-model.js"
 ));
 
-require.register("./components-spirent/endpoint-view-model/multicast/view-model.js", Function("exports, module",
+require.register("./components-ixia/endpoint-view-model/multicast/view-model.js", Function("exports, module",
 "/*global ko:true */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/endpoint-view-model/multicast/templates/template.js')),\n\
-    EndpointValidator = require('./components-spirent/endpoint-view-model/validator.js'),\n\
+    $template = domify(require('./components-ixia/endpoint-view-model/multicast/templates/template.js')),\n\
+    EndpointValidator = require('./components-ixia/endpoint-view-model/validator.js'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
-    UnicastEndpointVm  =  require('./components-spirent/endpoint-view-model/unicast/view-model.js');\n\
+    UnicastEndpointVm  =  require('./components-ixia/endpoint-view-model/unicast/view-model.js');\n\
 \n\
 function MulticastEndpointViewModel(port) {\n\
     var self = this;\n\
@@ -52719,10 +52720,10 @@ MulticastEndpointViewModel.prototype.show_save_dialog = function () {\n\
 \n\
 \n\
 module.exports = MulticastEndpointViewModel;\n\
-//# sourceURL=components-spirent/endpoint-view-model/multicast/view-model.js"
+//# sourceURL=components-ixia/endpoint-view-model/multicast/view-model.js"
 ));
 
-require.register("./components-spirent/endpoint-view-model/multicast/templates/template.js", Function("exports, module",
+require.register("./components-ixia/endpoint-view-model/multicast/templates/template.js", Function("exports, module",
 "module.exports = '<div class=\"endpoint-pane\" data-bind=\"visible: is_selected\">\\n\
     <section>\\n\
         <ul class=\"form\">\\n\
@@ -52730,7 +52731,7 @@ require.register("./components-spirent/endpoint-view-model/multicast/templates/t
             <li>\\n\
                 <label class=\"vlan\">VLAN ID</label>\\n\
                 <input type=\"text\" name=\"vlan_id\" class=\"vlan\" data-bind=\"value: vlan_id\" placeholder=\"1 to 4096\">\\n\
-                <span class=\"save small-round-button-outer\"><a class=\"small-round-button\"><img src=\"images/save.png\" title=\"Save\" alt=\"Save\"></a></span>\\n\
+                <span class=\"save small-round-button-outer\"><a class=\"small-round-button\"><img src=\"static/images/save.png\" title=\"Save\" alt=\"Save\"></a></span>\\n\
             </li>\\n\
             <li class=\"selector dhcpContainer\">\\n\
                 <input type=\"radio\" value=\"false\" data-bind=\"checked: use_dhcp\">\\n\
@@ -52771,17 +52772,17 @@ require.register("./components-spirent/endpoint-view-model/multicast/templates/t
         </ul>\\n\
     </section>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/endpoint-view-model/multicast/templates/template.js"
+//# sourceURL=components-ixia/endpoint-view-model/multicast/templates/template.js"
 ));
 
-require.modules["endpoint-view-model"] = require.modules["./components-spirent/endpoint-view-model"];
+require.modules["endpoint-view-model"] = require.modules["./components-ixia/endpoint-view-model"];
 
 
-require.register("./components-spirent/spirent-view-model", Function("exports, module",
-"var translate_tests_configurations = require('./components-spirent/spirent-view-model/test-configurations-adapter.js'),\n\
-    EndpointViewModel = require('./components-spirent/endpoint-view-model').UnicastViewModel;\n\
+require.register("./components-ixia/ixia-view-model", Function("exports, module",
+"var translate_tests_configurations = require('./components-ixia/ixia-view-model/test-configurations-adapter.js'),\n\
+    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel;\n\
 \n\
-function SpirentViewModel() {\n\
+function IxiaViewModel() {\n\
     var self = this;\n\
     var $ = jQuery;\n\
 \n\
@@ -52877,16 +52878,16 @@ function SpirentViewModel() {\n\
     self.failedAjaxModels = new Array();\n\
 };\n\
 \n\
-SpirentViewModel.typesafe = function (that) {\n\
-    if (!(that instanceof SpirentViewModel)) {\n\
-        throw 'This method must be executed on a SpirentViewModel';\n\
+IxiaViewModel.typesafe = function (that) {\n\
+    if (!(that instanceof IxiaViewModel)) {\n\
+        throw 'This method must be executed on a IxiaViewModel';\n\
     }\n\
 \n\
     return that;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.updateAppLoadMessage = function (model, failed) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.updateAppLoadMessage = function (model, failed) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.ajaxModelsToComplete.splice($.inArray(model, self.ajaxModelsToComplete), 1);\n\
     if (failed) {\n\
@@ -52934,8 +52935,8 @@ SpirentViewModel.prototype.updateAppLoadMessage = function (model, failed) {\n\
     util.lightbox.working(new LightboxWorkingViewModel(\"Loading\", self.completionMessage, self.completionPercent + completion));\n\
 };\n\
 \n\
-SpirentViewModel.prototype.init = function (callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.init = function (callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     var settingsAjax = self.getGlobalSettings()\n\
         .done(function () {\n\
@@ -52945,93 +52946,93 @@ SpirentViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[0], true);\n\
         });\n\
 \n\
-    var tracksAjax = self.getAvailableTracks()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[1]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[1], true);\n\
-        });\n\
-\n\
-    var devicesAjax = self.getAvailableDevices()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[2]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
-        });\n\
-\n\
-    var endpointAjax = self.getAvailableEndpoints()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
-        });\n\
-\n\
-    //    var testsAjax = self.getAvailableTests()\n\
-    //        .done(function () {\n\
-    //            //self.updateAppLoadMessage(self.ajaxModels[4]);\n\
-    //        })\n\
-    //        .fail(function () {\n\
-    //            self.updateAppLoadMessage(self.ajaxModels[4], true);\n\
-    //        });\n\
-\n\
-    var tmplsTestsAjax = self.getTmplTests()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[13]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[13], true);\n\
-        });\n\
-\n\
-    var favoriteTestsAjax = self.getFavoriteTests()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[14]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[14], true);\n\
-        });\n\
-\n\
-    var historyResults = self.getResultHistory()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[15]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[15], true);\n\
-        });\n\
-\n\
-    var dataPointsAjax = self.getAvailableDatapoints()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[5]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[5], true);\n\
-        });\n\
-\n\
-    var resultTypesAjax = self.getResultTypes()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[6]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[6], true);\n\
-        });\n\
-\n\
-    var customersAjax = self.getAvailableCustomers()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[7]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[7], true);\n\
-        });\n\
-\n\
-    var locationsAjax = self.getAvailableLocations()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[8]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[8], true);\n\
-        });\n\
+//    var tracksAjax = self.getAvailableTracks()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[1]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[1], true);\n\
+//        });\n\
+//\n\
+//    var devicesAjax = self.getAvailableDevices()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[2]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
+//        });\n\
+//\n\
+//    var endpointAjax = self.getAvailableEndpoints()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
+//        });\n\
+//\n\
+//    //    var testsAjax = self.getAvailableTests()\n\
+//    //        .done(function () {\n\
+//    //            //self.updateAppLoadMessage(self.ajaxModels[4]);\n\
+//    //        })\n\
+//    //        .fail(function () {\n\
+//    //            self.updateAppLoadMessage(self.ajaxModels[4], true);\n\
+//    //        });\n\
+//\n\
+//    var tmplsTestsAjax = self.getTmplTests()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[13]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[13], true);\n\
+//        });\n\
+//\n\
+//    var favoriteTestsAjax = self.getFavoriteTests()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[14]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[14], true);\n\
+//        });\n\
+//\n\
+//    var historyResults = self.getResultHistory()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[15]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[15], true);\n\
+//        });\n\
+//\n\
+//    var dataPointsAjax = self.getAvailableDatapoints()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[5]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[5], true);\n\
+//        });\n\
+//\n\
+//    var resultTypesAjax = self.getResultTypes()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[6]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[6], true);\n\
+//        });\n\
+//\n\
+//    var customersAjax = self.getAvailableCustomers()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[7]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[7], true);\n\
+//        });\n\
+//\n\
+//    var locationsAjax = self.getAvailableLocations()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[8]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[8], true);\n\
+//        });\n\
 \n\
     var languageAjax = self.getLanguage()\n\
         .done(function () {\n\
@@ -53041,75 +53042,80 @@ SpirentViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[9], true);\n\
         });\n\
 \n\
-    var tagsAjax = self.getAvailableTags()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[10]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[10], true);\n\
-        });\n\
+//    var tagsAjax = self.getAvailableTags()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[10]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[10], true);\n\
+//        });\n\
 \n\
-    var messageAjax = self.getAvailableDisplayMessages()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[11]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[11], true);\n\
-        });\n\
+//    var messageAjax = self.getAvailableDisplayMessages()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[11]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[11], true);\n\
+//        });\n\
 \n\
-    var playlistAjax = self.getAvailablePlaylists()\n\
-        .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[12]);\n\
-        })\n\
-        .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[12], true);\n\
-        });\n\
+//    var playlistAjax = self.getAvailablePlaylists()\n\
+//        .done(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[12]);\n\
+//        })\n\
+//        .fail(function () {\n\
+//            self.updateAppLoadMessage(self.ajaxModels[12], true);\n\
+//        });\n\
 \n\
 \n\
     self.selectTab(self.startingTab);\n\
 \n\
     self.initStart = (new Date()).getTime();\n\
 \n\
-    return $.when(\n\
+//    return $.when(\n\
+//        settingsAjax,\n\
+//        tracksAjax,\n\
+//        playlistAjax,\n\
+//        devicesAjax,\n\
+//        endpointAjax,\n\
+//        tmplsTestsAjax,\n\
+//        favoriteTestsAjax,\n\
+//        historyResults,\n\
+//        dataPointsAjax,\n\
+//        resultTypesAjax,\n\
+//        customersAjax,\n\
+//        locationsAjax,\n\
+//        languageAjax,\n\
+//        tagsAjax,\n\
+//        messageAjax\n\
+//    );\n\
+\n\
+      return $.when(\n\
         settingsAjax,\n\
-        tracksAjax,\n\
-        playlistAjax,\n\
-        devicesAjax,\n\
-        endpointAjax,\n\
-        tmplsTestsAjax,\n\
-        favoriteTestsAjax,\n\
-        historyResults,\n\
-        dataPointsAjax,\n\
-        resultTypesAjax,\n\
-        customersAjax,\n\
-        locationsAjax,\n\
-        languageAjax,\n\
-        tagsAjax,\n\
-        messageAjax\n\
+        languageAjax\n\
     );\n\
 };\n\
 \n\
-SpirentViewModel.prototype.setUser = function (user) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.setUser = function (user) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.user = user;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.refreshTestDraggables = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.refreshTestDraggables = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.refreshTestDraggables();\n\
 };\n\
 \n\
-SpirentViewModel.prototype.loadTest = function (test) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.loadTest = function (test) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.loadTest(test);\n\
 };\n\
-SpirentViewModel.prototype.loadRecentTest = function (historyItem) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.loadRecentTest = function (historyItem) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.loadRecentTest(historyItem);\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getTabClassFor = function (tabName) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getTabClassFor = function (tabName) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     if (self.selectedTab() == tabName) {\n\
         return 'selected';\n\
     }\n\
@@ -53117,35 +53123,35 @@ SpirentViewModel.prototype.getTabClassFor = function (tabName) {\n\
     return '';\n\
 };\n\
 \n\
-SpirentViewModel.prototype.showTest = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.showTest = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('test');\n\
 };\n\
 \n\
-SpirentViewModel.prototype.showDashboard = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.showDashboard = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('dashboard');\n\
 };\n\
 \n\
-SpirentViewModel.prototype.showCalendar = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.showCalendar = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('calendar');\n\
 };\n\
 \n\
-SpirentViewModel.prototype.showHistory = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.showHistory = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('history');\n\
 };\n\
 \n\
-SpirentViewModel.prototype.showAdministration = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.showAdministration = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('administration');\n\
 };\n\
 \n\
-SpirentViewModel.prototype.selectTab = function (tabName, done) {\n\
+IxiaViewModel.prototype.selectTab = function (tabName, done) {\n\
     done = done || function () {};\n\
 \n\
-    var self = SpirentViewModel.typesafe(this);\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     function showTab (cb) {\n\
         if($('#' + tabName + '-template').length == 0){\n\
@@ -53210,8 +53216,8 @@ SpirentViewModel.prototype.selectTab = function (tabName, done) {\n\
     }\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getGlobalSettings = function (callback, reload) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getGlobalSettings = function (callback, reload) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     var url = util.getConfigSetting('get_global_settings');\n\
     if (reload)\n\
@@ -53222,12 +53228,7 @@ SpirentViewModel.prototype.getGlobalSettings = function (callback, reload) {\n\
         url: url,\n\
         dataType: 'json',\n\
         success: function (data, textStatus, jqXhr) {\n\
-            self.vmGlobalSettings.axonBackups.removeAll();\n\
-            self.vmGlobalSettings.currentDHCP = data.dhcp;\n\
-            self.vmGlobalSettings.currentIp = data.host;\n\
-            self.vmGlobalSettings.currentSsid = data.ssid;\n\
-            self.vmGlobalSettings.currentWpaKey = data.wpa_key;\n\
-            self.vmGlobalSettings.inflate(data);\n\
+            //self.vmGlobalSettings.inflate(data);\n\
             if (callback){\n\
                 callback();\n\
             }\n\
@@ -53237,8 +53238,8 @@ SpirentViewModel.prototype.getGlobalSettings = function (callback, reload) {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableCustomers = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableCustomers = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableCustomers.removeAll();\n\
 \n\
@@ -53259,8 +53260,8 @@ SpirentViewModel.prototype.getAvailableCustomers = function () {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableLocations = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableLocations = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableLocations.removeAll();\n\
 \n\
@@ -53281,8 +53282,8 @@ SpirentViewModel.prototype.getAvailableLocations = function () {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getLanguage = function() {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getLanguage = function() {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     var ajax = $.ajax({\n\
         type: 'GET',\n\
@@ -53296,8 +53297,8 @@ SpirentViewModel.prototype.getLanguage = function() {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableTags = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableTags = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableTags.removeAll();\n\
 \n\
@@ -53317,8 +53318,8 @@ SpirentViewModel.prototype.getAvailableTags = function () {\n\
     return ajax\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var tags = self.availableTags();\n\
 \n\
     var data = new Array();\n\
@@ -53330,8 +53331,8 @@ SpirentViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {\n\
     return data;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getTmplTests = function (callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getTmplTests = function (callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.vmDashboard.tmplTests.removeAll();\n\
 \n\
@@ -53350,8 +53351,8 @@ SpirentViewModel.prototype.getTmplTests = function (callback) {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getFavoriteTests = function (params, callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getFavoriteTests = function (params, callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var offset = 0;\n\
     var url = util.getConfigSetting(\"get_favorite_tests\");\n\
     if (params) {\n\
@@ -53390,8 +53391,8 @@ SpirentViewModel.prototype.getFavoriteTests = function (params, callback) {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableTests = function (params, callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableTests = function (params, callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var url = util.getConfigSetting(\"get_axon_tests\");\n\
     if (params) {\n\
         if (params['test_id']) {\n\
@@ -53436,8 +53437,8 @@ SpirentViewModel.prototype.getAvailableTests = function (params, callback) {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactoryTest){\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactoryTest){\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var availableTests = data = translate_tests_configurations(data);\n\
     var existingTest;\n\
 \n\
@@ -53515,8 +53516,8 @@ SpirentViewModel.prototype.fillAvailableTestsWithResults = function (data, isFac
     }\n\
 };\n\
 \n\
-SpirentViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var favoriteTests = data = translate_tests_configurations(data);\n\
     var existingTest;\n\
 \n\
@@ -53649,8 +53650,8 @@ SpirentViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
     }\n\
 };\n\
 \n\
-SpirentViewModel.prototype.insertUserTest = function (userTest){\n\
-    var self = SpirentViewModel.typesafe(this),\n\
+IxiaViewModel.prototype.insertUserTest = function (userTest){\n\
+    var self = IxiaViewModel.typesafe(this),\n\
         existingUserTest,\n\
         userTestId,\n\
         flatUserTest;\n\
@@ -53672,8 +53673,8 @@ SpirentViewModel.prototype.insertUserTest = function (userTest){\n\
     self.userTests().push(flatUserTest);\n\
 };\n\
 \n\
-SpirentViewModel.prototype.removeUserTest = function (userTest){\n\
-    var self = SpirentViewModel.typesafe(this),\n\
+IxiaViewModel.prototype.removeUserTest = function (userTest){\n\
+    var self = IxiaViewModel.typesafe(this),\n\
         existingUserTest;\n\
 \n\
     existingUserTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
@@ -53709,8 +53710,8 @@ SpirentViewModel.prototype.removeUserTest = function (userTest){\n\
     }\n\
 };\n\
 \n\
-SpirentViewModel.prototype.updateTestNameInRecentTests = function (userTest){\n\
-    var self = SpirentViewModel.typesafe(this),\n\
+IxiaViewModel.prototype.updateTestNameInRecentTests = function (userTest){\n\
+    var self = IxiaViewModel.typesafe(this),\n\
         userTestId,\n\
         userTestName,\n\
         testResultsHistory,\n\
@@ -53728,8 +53729,8 @@ SpirentViewModel.prototype.updateTestNameInRecentTests = function (userTest){\n\
     }\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getResultHistory = function (params, callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getResultHistory = function (params, callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var url = util.getConfigSetting(\"get_result_history\");\n\
     var isRefreshDashboard = true;\n\
     if (params) {\n\
@@ -53772,8 +53773,8 @@ SpirentViewModel.prototype.getResultHistory = function (params, callback) {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashboard){\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashboard){\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     var recentTests = data;\n\
     var existingHistoryResult;\n\
     if (isRefreshDashboard) {\n\
@@ -53806,8 +53807,8 @@ SpirentViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDa
     self.testResultsHistory.sort(function(pre, next) {return (pre.result_id() > next.result_id() ? -1 : 1)});\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableDatapoints = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableDatapoints = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableDatapointsMap.removeAll();\n\
 \n\
@@ -53827,8 +53828,8 @@ SpirentViewModel.prototype.getAvailableDatapoints = function () {\n\
 \n\
     return ajax;\n\
 };\n\
-SpirentViewModel.prototype.getAvailableTracks = function (callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableTracks = function (callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.availableTracks.removeAll();\n\
     var ajax = $.ajax({\n\
         type: \"GET\",\n\
@@ -53872,8 +53873,8 @@ SpirentViewModel.prototype.getAvailableTracks = function (callback) {\n\
 \n\
     return ajax;\n\
 };\n\
-SpirentViewModel.prototype.getAvailablePlaylists = function (callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailablePlaylists = function (callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availablePlaylists.removeAll();\n\
 \n\
@@ -53918,8 +53919,8 @@ SpirentViewModel.prototype.getAvailablePlaylists = function (callback) {\n\
 \n\
     return ajax;\n\
 };\n\
-SpirentViewModel.prototype.getAvailableDevices = function (callback, responseData) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableDevices = function (callback, responseData) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableDevices.removeAll();\n\
 \n\
@@ -53948,16 +53949,16 @@ SpirentViewModel.prototype.getAvailableDevices = function (callback, responseDat
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableDevices().forEach(function(device) {\n\
         device.updateTimeSyncCapability(data); // Handles mapping of devices\n\
     });\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableEndpoints = function (callback) {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableEndpoints = function (callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableEndpoints.removeAll();\n\
 \n\
@@ -53983,8 +53984,8 @@ SpirentViewModel.prototype.getAvailableEndpoints = function (callback) {\n\
 \n\
     return ajax;\n\
 };\n\
-SpirentViewModel.prototype.getResultTypes = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getResultTypes = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.availableResultTypes = new Array();\n\
 \n\
@@ -54007,8 +54008,8 @@ SpirentViewModel.prototype.getResultTypes = function () {\n\
     return ajax;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getAvailableDisplayMessages = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getAvailableDisplayMessages = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     var ajax = $.ajax({\n\
         type: \"GET\",\n\
@@ -54024,8 +54025,8 @@ SpirentViewModel.prototype.getAvailableDisplayMessages = function () {\n\
 \n\
     return ajax;\n\
 };\n\
-SpirentViewModel.prototype.addToCategoryView = function (newTest) {\n\
-    var self = SpirentViewModel.typesafe(this)\n\
+IxiaViewModel.prototype.addToCategoryView = function (newTest) {\n\
+    var self = IxiaViewModel.typesafe(this)\n\
     var categories = newTest.categories();\n\
 \n\
     for (var i = 0; i < categories.length; i += 1) {\n\
@@ -54063,27 +54064,27 @@ SpirentViewModel.prototype.addToCategoryView = function (newTest) {\n\
         }\n\
     }\n\
 };\n\
-SpirentViewModel.prototype.deleteTest = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.deleteTest = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     logger.info(\"removeFromCategoryView unimplemented\");\n\
     //find test\n\
     //remove from array\n\
     //removeFromCategoryView();\n\
 };\n\
-SpirentViewModel.prototype.openTestCreationLightbox = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.openTestCreationLightbox = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.openTestCreationLightbox();\n\
 };\n\
-SpirentViewModel.prototype.openTestCreationLightboxUnlessLoaded = function () {\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.openTestCreationLightboxUnlessLoaded = function () {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
     if(!self.vmTest.vmConfiguration.isLoaded())\n\
         self.vmTest.openTestCreationLightbox();\n\
     else\n\
         self.showTest();\n\
 };\n\
 \n\
-SpirentViewModel.prototype.getState = function(){\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.getState = function(){\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     var stateViewModel = {};\n\
 \n\
@@ -54095,8 +54096,8 @@ SpirentViewModel.prototype.getState = function(){\n\
     return stateViewModel;\n\
 };\n\
 \n\
-SpirentViewModel.prototype.restoreState = function(stateViewModel){\n\
-    var self = SpirentViewModel.typesafe(this);\n\
+IxiaViewModel.prototype.restoreState = function(stateViewModel){\n\
+    var self = IxiaViewModel.typesafe(this);\n\
 \n\
     self.selectedTab(stateViewModel.mainTab);\n\
     self.vmTest.selectedTab(stateViewModel.testTab);\n\
@@ -54104,11 +54105,11 @@ SpirentViewModel.prototype.restoreState = function(stateViewModel){\n\
     self.vmTest.vmResults.selectTab(stateViewModel.resultsTab);\n\
 };\n\
 \n\
-module.exports = SpirentViewModel;\n\
-//# sourceURL=components-spirent/spirent-view-model/index.js"
+module.exports = IxiaViewModel;\n\
+//# sourceURL=components-ixia/ixia-view-model/index.js"
 ));
 
-require.register("./components-spirent/spirent-view-model/test-configurations-adapter.js", Function("exports, module",
+require.register("./components-ixia/ixia-view-model/test-configurations-adapter.js", Function("exports, module",
 "/**\n\
  * Translates JSON objects from REST endpoint into something UI code can use.\n\
  * Provides an abstraction layer between REST API and UI code.\n\
@@ -54144,18 +54145,18 @@ module.exports = function (config) {\n\
         return test;\n\
     });\n\
 };\n\
-//# sourceURL=components-spirent/spirent-view-model/test-configurations-adapter.js"
+//# sourceURL=components-ixia/ixia-view-model/test-configurations-adapter.js"
 ));
 
-require.modules["spirent-view-model"] = require.modules["./components-spirent/spirent-view-model"];
+require.modules["ixia-view-model"] = require.modules["./components-ixia/ixia-view-model"];
 
 
-require.register("./components-spirent/device-model", Function("exports, module",
+require.register("./components-ixia/device-model", Function("exports, module",
 "var noop = function () {},\n\
-    DeviceModelError = require('./components-spirent/device-model/error.js'),\n\
+    DeviceModelError = require('./components-ixia/device-model/error.js'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    status_url = require('./components-spirent/utility-functions').getConfigSetting(\"devices_status\"),\n\
+    status_url = require('./components-ixia/utility-functions').getConfigSetting(\"devices_status\"),\n\
     model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     defaults = require('segmentio~model-defaults@1.0.6'),\n\
     devices = [],\n\
@@ -54224,10 +54225,10 @@ module.exports = {\n\
     factory: factory\n\
 };\n\
 \n\
-//# sourceURL=components-spirent/device-model/index.js"
+//# sourceURL=components-ixia/device-model/index.js"
 ));
 
-require.register("./components-spirent/device-model/error.js", Function("exports, module",
+require.register("./components-ixia/device-model/error.js", Function("exports, module",
 "function DeviceModelError(message) {\n\
     this.name = 'DeviceModelError';\n\
     this.message = message;\n\
@@ -54237,15 +54238,15 @@ DeviceModelError.prototype = new Error();\n\
 \n\
 module.exports = DeviceModelError;\n\
 \n\
-//# sourceURL=components-spirent/device-model/error.js"
+//# sourceURL=components-ixia/device-model/error.js"
 ));
 
-require.modules["device-model"] = require.modules["./components-spirent/device-model"];
+require.modules["device-model"] = require.modules["./components-ixia/device-model"];
 
 
-require.register("./components-spirent/capture-filter-chooser", Function("exports, module",
+require.register("./components-ixia/capture-filter-chooser", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/capture-filter-chooser/template.js'),\n\
+    template = require('./components-ixia/capture-filter-chooser/template.js'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     classes = require('component~classes@1.2.3');\n\
@@ -54345,10 +54346,10 @@ CaptureFilterChooser.prototype.remove = function () {\n\
 };\n\
 \n\
 module.exports = CaptureFilterChooser;\n\
-//# sourceURL=components-spirent/capture-filter-chooser/index.js"
+//# sourceURL=components-ixia/capture-filter-chooser/index.js"
 ));
 
-require.register("./components-spirent/capture-filter-chooser/template.js", Function("exports, module",
+require.register("./components-ixia/capture-filter-chooser/template.js", Function("exports, module",
 "module.exports = '<div class=\"capture-filter-chooser\">\\n\
     <div>\\n\
         <div>\\n\
@@ -54359,13 +54360,13 @@ require.register("./components-spirent/capture-filter-chooser/template.js", Func
         <select multiple class=\"presets\"></select>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/capture-filter-chooser/template.js"
+//# sourceURL=components-ixia/capture-filter-chooser/template.js"
 ));
 
-require.modules["capture-filter-chooser"] = require.modules["./components-spirent/capture-filter-chooser"];
+require.modules["capture-filter-chooser"] = require.modules["./components-ixia/capture-filter-chooser"];
 
 
-require.register("./components-spirent/interface-model", Function("exports, module",
+require.register("./components-ixia/interface-model", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     defaults = require('segmentio~model-defaults@1.0.6');\n\
 \n\
@@ -54384,17 +54385,17 @@ Interface.from_device_view_model = function (view_model) {\n\
 };\n\
 \n\
 module.exports = Interface;\n\
-//# sourceURL=components-spirent/interface-model/index.js"
+//# sourceURL=components-ixia/interface-model/index.js"
 ));
 
-require.modules["interface-model"] = require.modules["./components-spirent/interface-model"];
+require.modules["interface-model"] = require.modules["./components-ixia/interface-model"];
 
 
-require.register("./components-spirent/interface-selector", Function("exports, module",
+require.register("./components-ixia/interface-selector", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/interface-selector/templates/template.js'),\n\
-    interface_template = require('./components-spirent/interface-selector/templates/interface.js'),\n\
-    Interface = require('./components-spirent/interface-model'),\n\
+    template = require('./components-ixia/interface-selector/templates/template.js'),\n\
+    interface_template = require('./components-ixia/interface-selector/templates/interface.js'),\n\
+    Interface = require('./components-ixia/interface-model'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4');\n\
@@ -54566,27 +54567,27 @@ InterfaceSelector.prototype.update_interfaces = function (interfaces) {\n\
 \n\
 module.exports = InterfaceSelector;\n\
 \n\
-//# sourceURL=components-spirent/interface-selector/index.js"
+//# sourceURL=components-ixia/interface-selector/index.js"
 ));
 
-require.register("./components-spirent/interface-selector/templates/interface.js", Function("exports, module",
+require.register("./components-ixia/interface-selector/templates/interface.js", Function("exports, module",
 "module.exports = '<div class=\"interface\"></div>\\n\
 ';\n\
-//# sourceURL=components-spirent/interface-selector/templates/interface.js"
+//# sourceURL=components-ixia/interface-selector/templates/interface.js"
 ));
 
-require.register("./components-spirent/interface-selector/templates/template.js", Function("exports, module",
+require.register("./components-ixia/interface-selector/templates/template.js", Function("exports, module",
 "module.exports = '<div class=\"interface-selector port-container\"></div>\\n\
 ';\n\
-//# sourceURL=components-spirent/interface-selector/templates/template.js"
+//# sourceURL=components-ixia/interface-selector/templates/template.js"
 ));
 
-require.modules["interface-selector"] = require.modules["./components-spirent/interface-selector"];
+require.modules["interface-selector"] = require.modules["./components-ixia/interface-selector"];
 
 
-require.register("./components-spirent/loading-state", Function("exports, module",
+require.register("./components-ixia/loading-state", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/loading-state/template.js'));\n\
+    $template = domify(require('./components-ixia/loading-state/template.js'));\n\
 \n\
 function LoadingState($el) {\n\
     this.$template = $template.cloneNode(true);\n\
@@ -54619,33 +54620,33 @@ LoadingState.prototype.set_el = function ($el) {\n\
 \n\
 \n\
 module.exports = LoadingState;\n\
-//# sourceURL=components-spirent/loading-state/index.js"
+//# sourceURL=components-ixia/loading-state/index.js"
 ));
 
-require.register("./components-spirent/loading-state/template.js", Function("exports, module",
+require.register("./components-ixia/loading-state/template.js", Function("exports, module",
 "module.exports = '<div id=\"lightbox-working\">\\n\
-    <div class=\"working\"><img src=\"/images/spinner.gif\" class=\"loading\"/>\\n\
+    <div class=\"working\"><img src=\"static/images/spinner.gif\" class=\"loading\"/>\\n\
         <div class=\"content\"><h3></h3></div>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/loading-state/template.js"
+//# sourceURL=components-ixia/loading-state/template.js"
 ));
 
-require.modules["loading-state"] = require.modules["./components-spirent/loading-state"];
+require.modules["loading-state"] = require.modules["./components-ixia/loading-state"];
 
 
-require.register("./components-spirent/netflow-settings", Function("exports, module",
+require.register("./components-ixia/netflow-settings", Function("exports, module",
 "/*global translate: true */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/netflow-settings/templates/netflow-settings.js'),\n\
+    template = require('./components-ixia/netflow-settings/templates/netflow-settings.js'),\n\
     event = require('component~event@0.1.4'),\n\
-    GlobalSettings = require('./components-spirent/netflow-settings/views/global-settings.js'),\n\
-    Interfaces = require('./components-spirent/netflow-settings/views/interfaces.js'),\n\
-    Model = require('./components-spirent/netflow-settings/models/netflow-settings.js'),\n\
-    InterfaceModel = require('./components-spirent/interface-model'),\n\
+    GlobalSettings = require('./components-ixia/netflow-settings/views/global-settings.js'),\n\
+    Interfaces = require('./components-ixia/netflow-settings/views/interfaces.js'),\n\
+    Model = require('./components-ixia/netflow-settings/models/netflow-settings.js'),\n\
+    InterfaceModel = require('./components-ixia/interface-model'),\n\
     classes = require('component~classes@1.2.3'),\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     lightbox = util.lightbox,\n\
     task_status_url = util.getConfigSetting('get_task_status'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
@@ -54653,7 +54654,7 @@ var domify = require('component~domify@1.3.1'),\n\
     noop = function() {},\n\
     spirentEnterpriseVm = window.spirentEnterpriseVm,\n\
     results_status_observable = window.spirentEnterpriseVm.vmTest.vmResults.status,\n\
-    LoadingState = require('./components-spirent/loading-state');\n\
+    LoadingState = require('./components-ixia/loading-state');\n\
 \n\
 // Extend interface model\n\
 InterfaceModel.attr('collectors', {default: []});\n\
@@ -55036,16 +55037,16 @@ NetflowSettings.prototype.updateAllocations = function () {\n\
 };\n\
 \n\
 module.exports = NetflowSettings;\n\
-//# sourceURL=components-spirent/netflow-settings/views/netflow-settings.js"
+//# sourceURL=components-ixia/netflow-settings/views/netflow-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/models/netflow-settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/models/netflow-settings.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     defaults = require('segmentio~model-defaults@1.0.6');\n\
 \n\
 var NetflowSettings = model('NetflowSettings')\n\
 //    .route('http://johntron.apiary.io/flowmon')\n\
-    .route('/spirent/flowmon')\n\
+    .route('/ixia/flowmon')\n\
     .use(defaults)\n\
     .attr('status')\n\
     .attr('license_status')\n\
@@ -55075,10 +55076,10 @@ NetflowSettings.prototype.is_exporting = function () {\n\
 };\n\
 \n\
 module.exports = NetflowSettings;\n\
-//# sourceURL=components-spirent/netflow-settings/models/netflow-settings.js"
+//# sourceURL=components-ixia/netflow-settings/models/netflow-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/netflow-settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/netflow-settings.js", Function("exports, module",
 "module.exports = '<form class=\"netflow-settings main\">\\n\
     <div>\\n\
         <h3>NetFlow</h3>\\n\
@@ -55110,12 +55111,12 @@ require.register("./components-spirent/netflow-settings/templates/netflow-settin
         </div>\\n\
     </div>\\n\
 </form>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/netflow-settings.js"
+//# sourceURL=components-ixia/netflow-settings/templates/netflow-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/views/global-settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/views/global-settings.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/netflow-settings/templates/global-settings.js'),\n\
+    template = require('./components-ixia/netflow-settings/templates/global-settings.js'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     event = require('component~event@0.1.4'),\n\
     classes = require('component~classes@1.2.3'),\n\
@@ -55251,10 +55252,10 @@ GlobalSettings.prototype.inactiveTimeoutChanged = function () {\n\
 };\n\
 \n\
 module.exports = GlobalSettings;\n\
-//# sourceURL=components-spirent/netflow-settings/views/global-settings.js"
+//# sourceURL=components-ixia/netflow-settings/views/global-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/global-settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/global-settings.js", Function("exports, module",
 "module.exports = '<ul class=\"global-settings\">\\n\
     <li>\\n\
         <label>Use</label>\\n\
@@ -55271,14 +55272,14 @@ require.register("./components-spirent/netflow-settings/templates/global-setting
         <input type=\"text\" name=\"inactive_timeout\" id=\"inactive_timeout\" /> seconds\\n\
     </li>\\n\
 </ul>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/global-settings.js"
+//# sourceURL=components-ixia/netflow-settings/templates/global-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/views/interfaces.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/views/interfaces.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    Selector = require('./components-spirent/interface-selector'),\n\
-    Settings = require('./components-spirent/netflow-settings/views/interface-settings.js'),\n\
-    template = domify(require('./components-spirent/netflow-settings/templates/interfaces.js')),\n\
+    Selector = require('./components-ixia/interface-selector'),\n\
+    Settings = require('./components-ixia/netflow-settings/views/interface-settings.js'),\n\
+    template = domify(require('./components-ixia/netflow-settings/templates/interfaces.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
@@ -55424,24 +55425,24 @@ Interfaces.prototype.reset_interfaces = function (interfaces) {\n\
 }\n\
 \n\
 module.exports = Interfaces;\n\
-//# sourceURL=components-spirent/netflow-settings/views/interfaces.js"
+//# sourceURL=components-ixia/netflow-settings/views/interfaces.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/interfaces.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/interfaces.js", Function("exports, module",
 "module.exports = '<div class=\"interfaces transmit-receive-container single-pane box\">\\n\
     <ul>\\n\
         <li class=\"selector\"></li>\\n\
         <li class=\"settings endpoint-container\">Select an interface above</li>\\n\
     </ul>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/interfaces.js"
+//# sourceURL=components-ixia/netflow-settings/templates/interfaces.js"
 ));
 
-require.register("./components-spirent/netflow-settings/views/interface-settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/views/interface-settings.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/netflow-settings/templates/interface/settings.js'),\n\
-    CollectorModel = require('./components-spirent/netflow-settings/models/collector.js'),\n\
-    List = require('./components-spirent/netflow-settings/views/collector-list.js'),\n\
+    template = require('./components-ixia/netflow-settings/templates/interface/settings.js'),\n\
+    CollectorModel = require('./components-ixia/netflow-settings/models/collector.js'),\n\
+    List = require('./components-ixia/netflow-settings/views/collector-list.js'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1');\n\
@@ -55539,10 +55540,10 @@ InterfaceSettings.prototype.enable = function (enabled) {\n\
 };\n\
 \n\
 module.exports = InterfaceSettings;\n\
-//# sourceURL=components-spirent/netflow-settings/views/interface-settings.js"
+//# sourceURL=components-ixia/netflow-settings/views/interface-settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/interface/settings.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/interface/settings.js", Function("exports, module",
 "module.exports = '<ul class=\"form\">\\n\
     <li class=\"export\">\\n\
         <label><input type=\"checkbox\"> Export this interface\\'s traffic</label>\\n\
@@ -55552,14 +55553,14 @@ require.register("./components-spirent/netflow-settings/templates/interface/sett
         <button>Add collector</button>\\n\
     </li>\\n\
 </ul>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/interface/settings.js"
+//# sourceURL=components-ixia/netflow-settings/templates/interface/settings.js"
 ));
 
-require.register("./components-spirent/netflow-settings/views/collector-list.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/views/collector-list.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-spirent/netflow-settings/templates/collector-list.js'),\n\
-    Model = require('./components-spirent/netflow-settings/models/collector.js'),\n\
-    Subview = require('./components-spirent/netflow-settings/views/collector.js'),\n\
+    template = require('./components-ixia/netflow-settings/templates/collector-list.js'),\n\
+    Model = require('./components-ixia/netflow-settings/models/collector.js'),\n\
+    Subview = require('./components-ixia/netflow-settings/views/collector.js'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     classes = require('component~classes@1.2.3');\n\
@@ -55684,18 +55685,18 @@ CollectorList.prototype.addEmptyMessage = function () {\n\
 };\n\
 \n\
 module.exports = CollectorList;\n\
-//# sourceURL=components-spirent/netflow-settings/views/collector-list.js"
+//# sourceURL=components-ixia/netflow-settings/views/collector-list.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/collector-list.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/collector-list.js", Function("exports, module",
 "module.exports = '<ul class=\"collector-list\"></ul>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/collector-list.js"
+//# sourceURL=components-ixia/netflow-settings/templates/collector-list.js"
 ));
 
-require.register("./components-spirent/netflow-settings/views/collector.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/views/collector.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    view_template = require('./components-spirent/netflow-settings/templates/collector.js'),\n\
-    edit_template = require('./components-spirent/netflow-settings/templates/collector-editor.js'),\n\
+    view_template = require('./components-ixia/netflow-settings/templates/collector.js'),\n\
+    edit_template = require('./components-ixia/netflow-settings/templates/collector-editor.js'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
@@ -55854,10 +55855,10 @@ Collector.prototype.validate = function (success, fail, e) {\n\
 };\n\
 \n\
 module.exports = Collector;\n\
-//# sourceURL=components-spirent/netflow-settings/views/collector.js"
+//# sourceURL=components-ixia/netflow-settings/views/collector.js"
 ));
 
-require.register("./components-spirent/netflow-settings/models/collector.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/models/collector.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     defaults = require('segmentio~model-defaults@1.0.6');\n\
 \n\
@@ -55880,10 +55881,10 @@ Collector.prototype.destroy = function () {\n\
 };\n\
 \n\
 module.exports = Collector;\n\
-//# sourceURL=components-spirent/netflow-settings/models/collector.js"
+//# sourceURL=components-ixia/netflow-settings/models/collector.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/collector.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/collector.js", Function("exports, module",
 "module.exports = '<div class=\"collector\">\\n\
     <span class=\"address\"></span>:<span class=\"port\"></span>\\n\
     <div class=\"actions\">\\n\
@@ -55891,10 +55892,10 @@ require.register("./components-spirent/netflow-settings/templates/collector.js",
         <button class=\"delete\">delete</button>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/collector.js"
+//# sourceURL=components-ixia/netflow-settings/templates/collector.js"
 ));
 
-require.register("./components-spirent/netflow-settings/templates/collector-editor.js", Function("exports, module",
+require.register("./components-ixia/netflow-settings/templates/collector-editor.js", Function("exports, module",
 "module.exports = '<div class=\"collector-editor\">\\n\
     <ul>\\n\
         <li><label>Address</label> <input type=\"text\" name=\"address\" class=\"address\" /></li>\\n\
@@ -55902,31 +55903,31 @@ require.register("./components-spirent/netflow-settings/templates/collector-edit
         <li><button class=\"cancel button-cancel cancel-button\">cancel</button> <button class=\"save\">Save</button></li>\\n\
     </ul>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/netflow-settings/templates/collector-editor.js"
+//# sourceURL=components-ixia/netflow-settings/templates/collector-editor.js"
 ));
 
-require.modules["netflow-settings"] = require.modules["./components-spirent/netflow-settings"];
+require.modules["netflow-settings"] = require.modules["./components-ixia/netflow-settings"];
 
 
-require.register("./components-spirent/player", Function("exports, module",
+require.register("./components-ixia/player", Function("exports, module",
 "module.exports = {\n\
     delegates: {\n\
-        \"test-view-model\": require('./components-spirent/player/delegates/test-view-model.js')\n\
+        \"test-view-model\": require('./components-ixia/player/delegates/test-view-model.js')\n\
     }\n\
 };\n\
-//# sourceURL=components-spirent/player/index.js"
+//# sourceURL=components-ixia/player/index.js"
 ));
 
-require.register("./components-spirent/player/delegates/test-view-model.js", Function("exports, module",
+require.register("./components-ixia/player/delegates/test-view-model.js", Function("exports, module",
 "/**\n\
  * Implements the delegated behavior of the traffic player.\n\
  * See parent, TestViewModel.\n\
  */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/player/templates/header.js')),\n\
+    template = domify(require('./components-ixia/player/templates/header.js')),\n\
     ko = window.ko,\n\
-    util = require('./components-spirent/utility-functions');\n\
+    util = require('./components-ixia/utility-functions');\n\
 \n\
 function PlayerTestViewModelDelegate() {\n\
     this.parent = undefined;\n\
@@ -56048,10 +56049,10 @@ PlayerTestViewModelDelegate.prototype.afterRender = function () {\n\
 }\n\
 \n\
 module.exports = PlayerTestViewModelDelegate;\n\
-//# sourceURL=components-spirent/player/delegates/test-view-model.js"
+//# sourceURL=components-ixia/player/delegates/test-view-model.js"
 ));
 
-require.register("./components-spirent/player/templates/header.js", Function("exports, module",
+require.register("./components-ixia/player/templates/header.js", Function("exports, module",
 "module.exports = '<div class=\"header player\" data-bind=\"css: {running: isTestRunning, indefinite: indefinite, \\'static_duration\\': static_duration}\">\\n\
     <div class=\"container\" data-bind=\"rentalBlockUI: {}\">\\n\
         <div class=\"test-player\">\\n\
@@ -56072,7 +56073,7 @@ require.register("./components-spirent/player/templates/header.js", Function("ex
                     <div class=\"fill\" data-bind=\"attr: { \\'style\\': \\'width: \\'+vmResults.percentComplete()+\\'%\\' }\"></div>\\n\
                 </div>\\n\
             </div>\\n\
-            <div class=\"run\" data-bind=\"click: runTest, clickBubble: false\"><img src=\"images/test-player-play-button.png\" class=\"test-play-button\" data-bind=\"visible: vmResults.status() != \\'running\\'\"><img src=\"images/test-player-stop-button.png\" class=\"test-stop-button\" data-bind=\"visible: vmResults.status() == \\'running\\'\"></div>\\n\
+            <div class=\"run\" data-bind=\"click: runTest, clickBubble: false\"><img src=\"static/images/test-player-play-button.png\" class=\"test-play-button\" data-bind=\"visible: vmResults.status() != \\'running\\'\"><img src=\"static/images/test-player-stop-button.png\" class=\"test-stop-button\" data-bind=\"visible: vmResults.status() == \\'running\\'\"></div>\\n\
             <div class=\"duration\">\\n\
                 <p class=\"duration-header\" data-bind=\"text: strings.Duration + \\':\\'\">Duration:</p>\\n\
                 <p data-bind=\"text: vmConfiguration.formattedDuration\" class=\"duration-text\"></p>\\n\
@@ -56090,7 +56091,7 @@ require.register("./components-spirent/player/templates/header.js", Function("ex
                 <li><h2 data-bind=\"text: vmConfiguration.name\"></h2></li>\\n\
                 <li><h3 data-bind=\"text: vmConfiguration.categories()[0].name\"></h3></li>\\n\
                 <li>\\n\
-                    <span class=\"round-button-outer\" data-bind=\"visible: vmResults.status() != \\'running\\'\"><a class=\"round-button\" href=\"javascript:void(0);\" data-bind=\"click: openSaveModal, clickBubble: false\"><span class=\"round-button-text\" data-bind=\"text: strings.save\">SAVE</span><img src=\"images/save.png\" /></a></span>\\n\
+                    <span class=\"round-button-outer\" data-bind=\"visible: vmResults.status() != \\'running\\'\"><a class=\"round-button\" href=\"javascript:void(0);\" data-bind=\"click: openSaveModal, clickBubble: false\"><span class=\"round-button-text\" data-bind=\"text: strings.save\">SAVE</span><img src=\"static/images/save.png\" /></a></span>\\n\
                     <!--<span class=\"round-button-outer\"><a class=\"round-button\" href=\"javascript:void(0);\" data-bind=\"click: openHelpModal, clickBubble: false\"><img class=\"question_mark_button\" src=\"images/question-mark.png\" /></a></span>-->\\n\
                 </li>\\n\
             </ul>\\n\
@@ -56098,14 +56099,14 @@ require.register("./components-spirent/player/templates/header.js", Function("ex
         <div class=\"clear\"></div>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/player/templates/header.js"
+//# sourceURL=components-ixia/player/templates/header.js"
 ));
 
-require.modules["player"] = require.modules["./components-spirent/player"];
+require.modules["player"] = require.modules["./components-ixia/player"];
 
 
-require.register("./components-spirent/test-view-model", Function("exports, module",
-"var DefaultHeaderDelegate = require('./components-spirent/player').delegates[\"test-view-model\"],\n\
+require.register("./components-ixia/test-view-model", Function("exports, module",
+"var DefaultHeaderDelegate = require('./components-ixia/player').delegates[\"test-view-model\"],\n\
     indefinite_modules = [\n\
         \"axon.testcases.spirent.throughput_test\",\n\
         \"axon.testcases.spirent.multicast_aggregated_throughput\"\n\
@@ -56113,7 +56114,7 @@ require.register("./components-spirent/test-view-model", Function("exports, modu
     static_duration_modules = {\n\
         \"axon.testcases.spirent.multicast_join_leave_latency\": 5 // Always runs for ~5 minutes\n\
     },\n\
-    util = require('./components-spirent/utility-functions');\n\
+    util = require('./components-ixia/utility-functions');\n\
 \n\
 /**\n\
  * Test configuration page - manages ConfiguredTestViewModel internally\n\
@@ -56794,7 +56795,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 1,\n\
             name: translate('Total Bandwidth'),\n\
             description: translate('Total Bandwidth'),\n\
-            url: '/spirent/get_result_series/1/1',\n\
+            url: '/ixia/get_result_series/1/1',\n\
             frequency: 1000,\n\
             yAxisLabel: \"Mbps\",\n\
             duration: durationInMilliseconds\n\
@@ -56803,7 +56804,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 2,\n\
             name: translate('Bandwidth'),\n\
             description: translate('Bandwidth for Transport Data'),\n\
-            url: '/spirent/get_result_series/2/1',\n\
+            url: '/ixia/ixiat_result_series/2/1',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Mbps\"),\n\
             duration: durationInMilliseconds\n\
@@ -56812,7 +56813,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 3,\n\
             name: translate('Packet Loss'),\n\
             description: translate('Packet Loss for Transport Data'),\n\
-            url: '/spirent/get_result_series/2/2',\n\
+            url: '/ixia/get_result_series/2/2',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Packets\"),\n\
             duration: durationInMilliseconds\n\
@@ -56821,7 +56822,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 4,\n\
             name: translate('Latency'),\n\
             description: translate('Latency for Transport Data'),\n\
-            url: '/spirent/get_result_series/2/3',\n\
+            url: '/ixia/get_result_series/2/3',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Latency\"),\n\
             duration: durationInMilliseconds\n\
@@ -56830,7 +56831,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 5,\n\
             name: translate('Jitter'),\n\
             description: translate('Jitter for Transport Data'),\n\
-            url: '/spirent/get_result_series/2/4',\n\
+            url: '/ixia/get_result_series/2/4',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Jitter\"),\n\
             duration: durationInMilliseconds\n\
@@ -56848,7 +56849,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 7,\n\
             name: translate('Connections'),\n\
             description: translate('Connections for Application Data'),\n\
-            url: '/spirent/get_result_series/3/2',\n\
+            url: '/ixia/get_result_series/3/2',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Connections per second\"),\n\
             duration: durationInMilliseconds\n\
@@ -56857,7 +56858,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){\n\
             id: 8,\n\
             name: translate('Transactions'),\n\
             description: translate('Transactions for Application Data'),\n\
-            url: '/spirent/get_result_series/3/3',\n\
+            url: '/ixia/get_result_series/3/3',\n\
             frequency: 1000,\n\
             yAxisLabel: translate(\"Transactions per second\"),\n\
             duration: durationInMilliseconds\n\
@@ -57100,13 +57101,13 @@ TestViewModel.prototype.getJsonConfiguration = function () {\n\
 };\n\
 \n\
 module.exports = TestViewModel;\n\
-//# sourceURL=components-spirent/test-view-model/index.js"
+//# sourceURL=components-ixia/test-view-model/index.js"
 ));
 
-require.modules["test-view-model"] = require.modules["./components-spirent/test-view-model"];
+require.modules["test-view-model"] = require.modules["./components-ixia/test-view-model"];
 
 
-require.register("./components-spirent/async-poller", Function("exports, module",
+require.register("./components-ixia/async-poller", Function("exports, module",
 "function AsyncPoller(fn, delay) {\n\
     this.fn = fn;\n\
     this.delay = delay || 10000;\n\
@@ -57133,15 +57134,15 @@ AsyncPoller.prototype.callback = function () {\n\
 \n\
 module.exports = AsyncPoller;\n\
 \n\
-//# sourceURL=components-spirent/async-poller/index.js"
+//# sourceURL=components-ixia/async-poller/index.js"
 ));
 
-require.modules["async-poller"] = require.modules["./components-spirent/async-poller"];
+require.modules["async-poller"] = require.modules["./components-ixia/async-poller"];
 
 
-require.register("./components-spirent/network-settings-view", Function("exports, module",
+require.register("./components-ixia/network-settings-view", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/network-settings-view/template.js')),\n\
+    $template = domify(require('./components-ixia/network-settings-view/template.js')),\n\
     events = require('component~event@0.1.4'),\n\
     classes = require('component~classes@1.2.3'),\n\
     validate_form = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
@@ -57309,10 +57310,10 @@ NetworkSettings.prototype.validate = function (done) {\n\
 };\n\
 \n\
 module.exports = NetworkSettings;\n\
-//# sourceURL=components-spirent/network-settings-view/index.js"
+//# sourceURL=components-ixia/network-settings-view/index.js"
 ));
 
-require.register("./components-spirent/network-settings-view/template.js", Function("exports, module",
+require.register("./components-ixia/network-settings-view/template.js", Function("exports, module",
 "module.exports = '<form action=\"\">\\n\
     <ul class=\"network-settings\">\\n\
         <li class=\"vlan\">\\n\
@@ -57344,27 +57345,27 @@ require.register("./components-spirent/network-settings-view/template.js", Funct
         </li>\\n\
     </ul>\\n\
 </form>';\n\
-//# sourceURL=components-spirent/network-settings-view/template.js"
+//# sourceURL=components-ixia/network-settings-view/template.js"
 ));
 
-require.modules["network-settings-view"] = require.modules["./components-spirent/network-settings-view"];
+require.modules["network-settings-view"] = require.modules["./components-ixia/network-settings-view"];
 
 
-require.register("./components-spirent/agenda", Function("exports, module",
+require.register("./components-ixia/agenda", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/agenda/templates/index.js')),\n\
-    $loading_more = domify(require('./components-spirent/agenda/templates/loading-more.js')),\n\
+    $template = domify(require('./components-ixia/agenda/templates/index.js')),\n\
+    $loading_more = domify(require('./components-ixia/agenda/templates/loading-more.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
-    Model = require('./components-spirent/agenda/models/agenda.js'),\n\
-    AsyncPoller = require('./components-spirent/async-poller'),\n\
-    LoadingState = require('./components-spirent/loading-state'),\n\
+    Model = require('./components-ixia/agenda/models/agenda.js'),\n\
+    AsyncPoller = require('./components-ixia/async-poller'),\n\
+    LoadingState = require('./components-ixia/loading-state'),\n\
     events = require('component~event@0.1.4'),\n\
     lightbox = window.util.lightbox,\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
-    AgendaEvent = require('./components-spirent/agenda/views/agenda-event.js'),\n\
-    AgendaDate = require('./components-spirent/agenda/views/agenda-date.js');\n\
+    AgendaEvent = require('./components-ixia/agenda/views/agenda-event.js'),\n\
+    AgendaDate = require('./components-ixia/agenda/views/agenda-date.js');\n\
 \n\
 function AgendaViewModel(){\n\
     this.$el = $template.cloneNode(true);\n\
@@ -57735,12 +57736,12 @@ AgendaViewModel.prototype.render_loading = function () {\n\
 \n\
 \n\
 module.exports = AgendaViewModel;\n\
-//# sourceURL=components-spirent/agenda/index.js"
+//# sourceURL=components-ixia/agenda/index.js"
 ));
 
-require.register("./components-spirent/agenda/views/agenda-event.js", Function("exports, module",
+require.register("./components-ixia/agenda/views/agenda-event.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/agenda/templates/agenda-event.js')),\n\
+    $template = domify(require('./components-ixia/agenda/templates/agenda-event.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     events = require('component~event@0.1.4');\n\
@@ -57803,12 +57804,12 @@ AgendaEventViewModel.prototype.destroy = function () {\n\
 \n\
 \n\
 module.exports = AgendaEventViewModel;\n\
-//# sourceURL=components-spirent/agenda/views/agenda-event.js"
+//# sourceURL=components-ixia/agenda/views/agenda-event.js"
 ));
 
-require.register("./components-spirent/agenda/views/agenda-date.js", Function("exports, module",
+require.register("./components-ixia/agenda/views/agenda-date.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/agenda/templates/agenda-date.js')),\n\
+    $template = domify(require('./components-ixia/agenda/templates/agenda-date.js')),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     classes = require('component~classes@1.2.3');\n\
 \n\
@@ -57878,13 +57879,13 @@ AgendaDateModelView.prototype.prepend_event = function(agenda_event_view){\n\
 }\n\
 \n\
 module.exports = AgendaDateModelView;\n\
-//# sourceURL=components-spirent/agenda/views/agenda-date.js"
+//# sourceURL=components-ixia/agenda/views/agenda-date.js"
 ));
 
-require.register("./components-spirent/agenda/models/agenda.js", Function("exports, module",
+require.register("./components-ixia/agenda/models/agenda.js", Function("exports, module",
 "var request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    AgendaEventModel = require('./components-spirent/agenda/models/agenda-event.js'),\n\
+    AgendaEventModel = require('./components-ixia/agenda/models/agenda-event.js'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     tz = window.jstz.determine();\n\
 \n\
@@ -57935,7 +57936,7 @@ AgendaModel.prototype.load_event_by_datetime = function(callback){\n\
     var self = this;\n\
 \n\
     request\n\
-        .get('/spirent/agenda')\n\
+        .get('/ixia/agenda')\n\
         .use(no_cache)\n\
         .query('date_time=' + self.focused_datetime.format(\"YYYY-MM-DD HH:mm\"))\n\
         .query('qty=' + self.qty)\n\
@@ -58024,7 +58025,7 @@ AgendaModel.prototype.load_consecutive_events = function(direction, callback) {\
     }\n\
 \n\
     request\n\
-        .get('/spirent/agenda/' + direction)\n\
+        .get('/ixia/agenda/' + direction)\n\
         .use(no_cache)\n\
         .query('date_time=' + date_time.format(\"YYYY-MM-DD HH:mm\"))\n\
         .query('qty=' + self.qty)\n\
@@ -58069,10 +58070,10 @@ AgendaModel.prototype.shift_focused_date = function(days){\n\
 }\n\
 \n\
 module.exports = AgendaModel;\n\
-//# sourceURL=components-spirent/agenda/models/agenda.js"
+//# sourceURL=components-ixia/agenda/models/agenda.js"
 ));
 
-require.register("./components-spirent/agenda/models/agenda-event.js", Function("exports, module",
+require.register("./components-ixia/agenda/models/agenda-event.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026');\n\
 \n\
@@ -58102,7 +58103,7 @@ AgendaEventModel.prototype.set_view = function(view){\n\
 AgendaEventModel.prototype.cancelTestEvent = function(done){\n\
     var id = this.event_info().id;\n\
     request\n\
-        .post('/spirent/schedule/test-events/' + id + '/cancel')\n\
+        .post('/ixia/schedule/test-events/' + id + '/cancel')\n\
         .send('')\n\
         .set('Accept', 'application/json')\n\
         .end(function (err, res) {\n\
@@ -58117,15 +58118,15 @@ AgendaEventModel.prototype.cancelTestEvent = function(done){\n\
 }\n\
 \n\
 module.exports = AgendaEventModel;\n\
-//# sourceURL=components-spirent/agenda/models/agenda-event.js"
+//# sourceURL=components-ixia/agenda/models/agenda-event.js"
 ));
 
-require.register("./components-spirent/agenda/templates/index.js", Function("exports, module",
+require.register("./components-ixia/agenda/templates/index.js", Function("exports, module",
 "module.exports = '<div class=\"agenda\"></div>';\n\
-//# sourceURL=components-spirent/agenda/templates/index.js"
+//# sourceURL=components-ixia/agenda/templates/index.js"
 ));
 
-require.register("./components-spirent/agenda/templates/agenda-event.js", Function("exports, module",
+require.register("./components-ixia/agenda/templates/agenda-event.js", Function("exports, module",
 "module.exports = '<div class=\"agenda-event\">\\n\
     <div class=\"time\"></div>\\n\
     <div class=\"status\"></div>\\n\
@@ -58136,31 +58137,31 @@ require.register("./components-spirent/agenda/templates/agenda-event.js", Functi
     <div class=\"duration\"></div>\\n\
     <div class=\"clear\"></div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/agenda/templates/agenda-event.js"
+//# sourceURL=components-ixia/agenda/templates/agenda-event.js"
 ));
 
-require.register("./components-spirent/agenda/templates/agenda-date.js", Function("exports, module",
+require.register("./components-ixia/agenda/templates/agenda-date.js", Function("exports, module",
 "module.exports = '<div class=\"agenda-day\">\\n\
     <h2 class=\"title\"></h2>\\n\
     <div class=\"events\"></div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/agenda/templates/agenda-date.js"
+//# sourceURL=components-ixia/agenda/templates/agenda-date.js"
 ));
 
-require.register("./components-spirent/agenda/templates/loading-more.js", Function("exports, module",
+require.register("./components-ixia/agenda/templates/loading-more.js", Function("exports, module",
 "module.exports = '<div class=\"loading-more\">Loading more ...</div>';\n\
-//# sourceURL=components-spirent/agenda/templates/loading-more.js"
+//# sourceURL=components-ixia/agenda/templates/loading-more.js"
 ));
 
-require.modules["agenda"] = require.modules["./components-spirent/agenda"];
+require.modules["agenda"] = require.modules["./components-ixia/agenda"];
 
 
-require.register("./components-spirent/bootstrap-timepicker", Function("exports, module",
-"require(\"./components-spirent/bootstrap-timepicker/js/bootstrap-timepicker.min.js\");\n\
-//# sourceURL=components-spirent/bootstrap-timepicker/index.js"
+require.register("./components-ixia/bootstrap-timepicker", Function("exports, module",
+"require(\"./components-ixia/bootstrap-timepicker/js/bootstrap-timepicker.min.js\");\n\
+//# sourceURL=components-ixia/bootstrap-timepicker/index.js"
 ));
 
-require.register("./components-spirent/bootstrap-timepicker/js/bootstrap-timepicker.min.js", Function("exports, module",
+require.register("./components-ixia/bootstrap-timepicker/js/bootstrap-timepicker.min.js", Function("exports, module",
 "//TODO: move arrow styles and button click code into configurable items, with defaults matching the existing code\n\
 \n\
 /*!\n\
@@ -59063,21 +59064,21 @@ require.register("./components-spirent/bootstrap-timepicker/js/bootstrap-timepic
   $.fn.timepicker.Constructor = Timepicker;\n\
 \n\
 })(jQuery, window, document);\n\
-//# sourceURL=components-spirent/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
+//# sourceURL=components-ixia/bootstrap-timepicker/js/bootstrap-timepicker.min.js"
 ));
 
-require.modules["bootstrap-timepicker"] = require.modules["./components-spirent/bootstrap-timepicker"];
+require.modules["bootstrap-timepicker"] = require.modules["./components-ixia/bootstrap-timepicker"];
 
 
-require.register("./components-spirent/scheduler/tz.js", Function("exports, module",
+require.register("./components-ixia/scheduler/tz.js", Function("exports, module",
 "var jstz = window.jstz.determine()\n\
 \n\
 module.exports = jstz\n\
 \n\
-//# sourceURL=components-spirent/scheduler/tz.js"
+//# sourceURL=components-ixia/scheduler/tz.js"
 ));
 
-require.register("./components-spirent/scheduler/dhtmlxscheduler.js", Function("exports, module",
+require.register("./components-ixia/scheduler/dhtmlxscheduler.js", Function("exports, module",
 "/*\n\
 This software is allowed to use under GPL or you need to obtain Commercial or Enterise License\n\
 to use it in non-GPL project. Please contact sales@dhtmlx.com for details\n\
@@ -64851,10 +64852,10 @@ if (window.jQuery) {\n\
 }\n\
 \n\
 module.exports = scheduler\n\
-//# sourceURL=components-spirent/scheduler/dhtmlxscheduler.js"
+//# sourceURL=components-ixia/scheduler/dhtmlxscheduler.js"
 ));
 
-require.register("./components-spirent/scheduler/dhtmlxscheduler_container_autoresize.js", Function("exports, module",
+require.register("./components-ixia/scheduler/dhtmlxscheduler_container_autoresize.js", Function("exports, module",
 "/*\n\
 This software is allowed to use under GPL or you need to obtain Commercial or Enterise License\n\
 to use it in non-GPL project. Please contact sales@dhtmlx.com for details\n\
@@ -64958,26 +64959,26 @@ to use it in non-GPL project. Please contact sales@dhtmlx.com for details\n\
     scheduler.attachEvent(\"onAfterSchedulerResize\", c);\n\
     scheduler.attachEvent(\"onClearAll\", c);\n\
 })();\n\
-//# sourceURL=components-spirent/scheduler/dhtmlxscheduler_container_autoresize.js"
+//# sourceURL=components-ixia/scheduler/dhtmlxscheduler_container_autoresize.js"
 ));
 
-require.register("./components-spirent/scheduler", Function("exports, module",
-"var template = require('./components-spirent/scheduler/templates/index.js'),\n\
+require.register("./components-ixia/scheduler", Function("exports, module",
+"var template = require('./components-ixia/scheduler/templates/index.js'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     domify = require('component~domify@1.3.1'),\n\
     _      = require('jashkenas~underscore@1.8.2'),\n\
-    dhtmlxScheduler = require('./components-spirent/scheduler/dhtmlxscheduler.js'),\n\
-    autoresize = require('./components-spirent/scheduler/dhtmlxscheduler_container_autoresize.js'),\n\
+    dhtmlxScheduler = require('./components-ixia/scheduler/dhtmlxscheduler.js'),\n\
+    autoresize = require('./components-ixia/scheduler/dhtmlxscheduler_container_autoresize.js'),\n\
     event = require('component~event@0.1.4'),\n\
-    TestEvent = require('./components-spirent/scheduler/test-event.js'),\n\
-    CalendarItem = require('./components-spirent/scheduler/calendar-item.js'),\n\
-    EventList = require('./components-spirent/scheduler/event-list.js'),\n\
-    TestViewModel = require('./components-spirent/test-view-model'),\n\
-    TestViewModelDelegate = require('./components-spirent/scheduler/delegates/test-view-model.js'),\n\
+    TestEvent = require('./components-ixia/scheduler/test-event.js'),\n\
+    CalendarItem = require('./components-ixia/scheduler/calendar-item.js'),\n\
+    EventList = require('./components-ixia/scheduler/event-list.js'),\n\
+    TestViewModel = require('./components-ixia/test-view-model'),\n\
+    TestViewModelDelegate = require('./components-ixia/scheduler/delegates/test-view-model.js'),\n\
     instance,\n\
-    AgendaViewModel = require('./components-spirent/agenda'),\n\
+    AgendaViewModel = require('./components-ixia/agenda'),\n\
     classes = require('component~classes@1.2.3'),\n\
-    showEventBalloon = require('./components-spirent/scheduler/balloon.js');\n\
+    showEventBalloon = require('./components-ixia/scheduler/balloon.js');\n\
 \n\
 var $ = window.jQuery,\n\
     translate = window.translate,\n\
@@ -65597,23 +65598,23 @@ Scheduler.prototype.toggleBoxChecker = function(device) {\n\
 \n\
 module.exports = Scheduler;\n\
 \n\
-//# sourceURL=components-spirent/scheduler/index.js"
+//# sourceURL=components-ixia/scheduler/index.js"
 ));
 
-require.register("./components-spirent/scheduler/test-event.js", Function("exports, module",
+require.register("./components-ixia/scheduler/test-event.js", Function("exports, module",
 "/*global ko:true, ValidationResultsViewModel:true, LightboxWorkingViewModel:true */\n\
 \n\
 var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     moment = require('johntron~moment-timezone@0f4b9df99d9f6212c2036f5ae6f74b240f289381'),\n\
-    tz = require('./components-spirent/scheduler/tz.js'),\n\
+    tz = require('./components-ixia/scheduler/tz.js'),\n\
     repeater_types_map = {\n\
         \"DAILY\": \"day(s)\",\n\
         \"WEEKLY\": \"week(s)\",\n\
         \"MONTHLY\": \"month(s)\"\n\
     },\n\
-    AsyncPoller = require('./components-spirent/async-poller');\n\
+    AsyncPoller = require('./components-ixia/async-poller');\n\
 \n\
 var handled_failure_reasons = [\n\
     'event_is_in_past',\n\
@@ -65772,7 +65773,7 @@ TestEvent.createOrUpdateTestEvent = function (testConfig, eventConfig, callback)
 \n\
 TestEvent.cancelTestEvent = function (id, callback) {\n\
     request\n\
-        .post('/spirent/schedule/test-events/' + id + '/cancel')\n\
+        .post('/ixia/schedule/test-events/' + id + '/cancel')\n\
         .use(no_cache)\n\
         .send('')\n\
         .set('Accept', 'application/json')\n\
@@ -65793,7 +65794,7 @@ TestEvent.cancelTestEvent = function (id, callback) {\n\
 TestEvent.reserve_and_begin_validation = function (test_config, event_config, success) {\n\
     var status = window.translate('Validating schedule'),\n\
         lb = new LightboxWorkingViewModel('working', status),\n\
-        url = '/spirent/schedule/pending-events',\n\
+        url = '/sp/ixiahedule/pending-events',\n\
         data = {\n\
             'test_config': test_config,\n\
             'event_config': event_config\n\
@@ -65838,7 +65839,7 @@ TestEvent.poll_for_validation = function (success) {\n\
         poll = function (next) {\n\
             again = next;\n\
 \n\
-            request.get('/spirent/get_istestready')\n\
+            request.get('/spire/ixiastestready')\n\
                 .use(no_cache)\n\
                 .set('Accept', 'application/json')\n\
                 .end(handle_response);\n\
@@ -65854,7 +65855,7 @@ TestEvent.poll_for_validation = function (success) {\n\
 TestEvent.create = function (test_config, event_config, success) {\n\
     var status = window.translate('Saving scheduled test'),\n\
         lb = new LightboxWorkingViewModel('working', status),\n\
-        url = '/spirent/schedule/test-events',\n\
+        url = '/spirent//ixia/test-events',\n\
         data = {\n\
             'test_config': test_config,\n\
             'event_config': event_config\n\
@@ -66137,19 +66138,19 @@ TestEvent.generateAvailableScheduleTimes = function() {\n\
 module.exports = TestEvent;\n\
 \n\
 \n\
-//# sourceURL=components-spirent/scheduler/test-event.js"
+//# sourceURL=components-ixia/scheduler/test-event.js"
 ));
 
-require.register("./components-spirent/scheduler/calendar-item.js", Function("exports, module",
+require.register("./components-ixia/scheduler/calendar-item.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     _ = require('jashkenas~underscore@1.8.2');\n\
 \n\
-var showEventBalloon = require('./components-spirent/scheduler/balloon.js'),\n\
-    TestEvent = require('./components-spirent/scheduler/test-event.js'),\n\
-    tz = require('./components-spirent/scheduler/tz.js');\n\
+var showEventBalloon = require('./components-ixia/scheduler/balloon.js'),\n\
+    TestEvent = require('./components-ixia/scheduler/test-event.js'),\n\
+    tz = require('./components-ixia/scheduler/tz.js');\n\
 \n\
 var translate = window.translate,\n\
     ko = window.ko;\n\
@@ -66170,7 +66171,7 @@ CalendarItem.loadByRange = function(startDate, endDate, callback) {\n\
     var self = this;\n\
 \n\
     request\n\
-        .get('/spirent/schedule/calendar-items')\n\
+        .get('/ixia/schedule/calendar-items')\n\
         .use(no_cache)\n\
         .query('start_date=' + moment(startDate).format(\"YYYY-MM-DD\"))\n\
         .query('end_date=' + moment(endDate).format(\"YYYY-MM-DD\"))\n\
@@ -66188,7 +66189,7 @@ CalendarItem.loadByResultId = function(result_id, callback) {\n\
     var self = this;\n\
 \n\
     request\n\
-        .get('/spirent/schedule/calendar-items')\n\
+        .get('/ixia/schedule/calendar-items')\n\
         .use(no_cache)\n\
         .query('result_id=' + result_id)\n\
         .query('timezone=' + tz.name())\n\
@@ -66356,11 +66357,11 @@ CalendarItem.prototype.createDeviceViewModel = function(device) {\n\
 \n\
 module.exports = CalendarItem;\n\
 \n\
-//# sourceURL=components-spirent/scheduler/calendar-item.js"
+//# sourceURL=components-ixia/scheduler/calendar-item.js"
 ));
 
-require.register("./components-spirent/scheduler/balloon.js", Function("exports, module",
-"var template = require(\"./components-spirent/scheduler/templates/balloon.js\"),\n\
+require.register("./components-ixia/scheduler/balloon.js", Function("exports, module",
+"var template = require(\"./components-ixia/scheduler/templates/balloon.js\"),\n\
     domify = require(\"component~domify@1.3.1\")\n\
 \n\
 var $ = window.jQuery,\n\
@@ -66503,11 +66504,11 @@ function marginToInt(margin) {\n\
 \n\
 module.exports = showEventBalloon\n\
 \n\
-//# sourceURL=components-spirent/scheduler/balloon.js"
+//# sourceURL=components-ixia/scheduler/balloon.js"
 ));
 
-require.register("./components-spirent/scheduler/event-list.js", Function("exports, module",
-"var template = require(\"./components-spirent/scheduler/templates/event-list.js\"),\n\
+require.register("./components-ixia/scheduler/event-list.js", Function("exports, module",
+"var template = require(\"./components-ixia/scheduler/templates/event-list.js\"),\n\
     domify = require(\"component~domify@1.3.1\")\n\
 \n\
 var document = window.document,\n\
@@ -66538,10 +66539,10 @@ EventList.prototype.render = function(items) {\n\
 \n\
 module.exports = EventList\n\
 \n\
-//# sourceURL=components-spirent/scheduler/event-list.js"
+//# sourceURL=components-ixia/scheduler/event-list.js"
 ));
 
-require.register("./components-spirent/scheduler/templates/index.js", Function("exports, module",
+require.register("./components-ixia/scheduler/templates/index.js", Function("exports, module",
 "module.exports = '<div>\\n\
     <div data-bind=\"if: schedulingTestVisible\" class=\"test\">\\n\
         <div class=\"scheduler-configure\">\\n\
@@ -66602,10 +66603,10 @@ require.register("./components-spirent/scheduler/templates/index.js", Function("
     <br/>\\n\
     <br/>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/scheduler/templates/index.js"
+//# sourceURL=components-ixia/scheduler/templates/index.js"
 ));
 
-require.register("./components-spirent/scheduler/templates/balloon.js", Function("exports, module",
+require.register("./components-ixia/scheduler/templates/balloon.js", Function("exports, module",
 "module.exports = '<div class=\"event-balloon\">\\n\
     <a href=\"#\" class=\"close-btn\" data-bind=\"click: onClose\"></a>\\n\
     <h3 class=\"title\" data-bind=\"text: title\"></span>\\n\
@@ -66630,10 +66631,10 @@ require.register("./components-spirent/scheduler/templates/balloon.js", Function
     <div class=\"tail\"></div>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/scheduler/templates/balloon.js"
+//# sourceURL=components-ixia/scheduler/templates/balloon.js"
 ));
 
-require.register("./components-spirent/scheduler/templates/event-list.js", Function("exports, module",
+require.register("./components-ixia/scheduler/templates/event-list.js", Function("exports, module",
 "module.exports = '<div class=\"event-list\" data-bind=\"foreach: items\">\\n\
     <div class=\"item\" data-bind=\"click: onClick\">\\n\
         <div class=\"cell date\" data-bind=\"text: date\"></div>\\n\
@@ -66649,10 +66650,10 @@ require.register("./components-spirent/scheduler/templates/event-list.js", Funct
     <div class=\"clear\"></div>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/scheduler/templates/event-list.js"
+//# sourceURL=components-ixia/scheduler/templates/event-list.js"
 ));
 
-require.register("./components-spirent/scheduler/templates/traffic-player-header.js", Function("exports, module",
+require.register("./components-ixia/scheduler/templates/traffic-player-header.js", Function("exports, module",
 "module.exports = '<div class=\"header scheduler\">\\n\
     <div class=\"actions\">\\n\
         <h2 data-bind=\"text: vmConfiguration.name().substring(0,60)\"></h2>\\n\
@@ -66752,10 +66753,10 @@ require.register("./components-spirent/scheduler/templates/traffic-player-header
         </ul>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/scheduler/templates/traffic-player-header.js"
+//# sourceURL=components-ixia/scheduler/templates/traffic-player-header.js"
 ));
 
-require.register("./components-spirent/scheduler/delegates/test-view-model.js", Function("exports, module",
+require.register("./components-ixia/scheduler/delegates/test-view-model.js", Function("exports, module",
 "/**\n\
  * Implements the delegated behavior of the traffic player\n\
  * when loaded from the Calendar or a scheduled test.\n\
@@ -66763,17 +66764,17 @@ require.register("./components-spirent/scheduler/delegates/test-view-model.js", 
  */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/scheduler/templates/traffic-player-header.js')),\n\
+    template = domify(require('./components-ixia/scheduler/templates/traffic-player-header.js')),\n\
     ko = window.ko,\n\
-    TestEvent = require('./components-spirent/scheduler/test-event.js'),\n\
-    tz = require('./components-spirent/scheduler/tz.js'),\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    TestEvent = require('./components-ixia/scheduler/test-event.js'),\n\
+    tz = require('./components-ixia/scheduler/tz.js'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     classes = require('component~classes@1.2.3'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
     event = require('component~event@0.1.4');\n\
 \n\
-require('./components-spirent/bootstrap-timepicker'); //bootstrap-timepicker\n\
+require('./components-ixia/bootstrap-timepicker'); //bootstrap-timepicker\n\
 \n\
 function SchedulerHeaderDelegate(calendar) {\n\
     this.calendar = calendar;\n\
@@ -66866,7 +66867,7 @@ SchedulerHeaderDelegate.prototype.loadTest = function(testConfiguration, testEve
         }\n\
     }\n\
 \n\
-    // XXX code mostly COPIED from test-view-model and spirent-view-model, DRY!\n\
+    // XXX code mostly COPIED from test-view-model and ixia-view-model, DRY!\n\
     parent.ensureUnreservedOrFail(function() {\n\
         parent.hasResults(false);\n\
         parent.vmResults.percentComplete(null);\n\
@@ -67172,18 +67173,18 @@ SchedulerHeaderDelegate.prototype.parseValidationFailureResults = function (resu
 };\n\
 \n\
 module.exports = SchedulerHeaderDelegate;\n\
-//# sourceURL=components-spirent/scheduler/delegates/test-view-model.js"
+//# sourceURL=components-ixia/scheduler/delegates/test-view-model.js"
 ));
 
-require.modules["scheduler"] = require.modules["./components-spirent/scheduler"];
+require.modules["scheduler"] = require.modules["./components-ixia/scheduler"];
 
 
-require.register("./components-spirent/batch-operator", Function("exports, module",
+require.register("./components-ixia/batch-operator", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
     domify = require('component~domify@1.3.1'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
-    template = domify(require('./components-spirent/batch-operator/template.js'));\n\
+    template = domify(require('./components-ixia/batch-operator/template.js'));\n\
 \n\
 function BatchOperator() {\n\
     this.$el = undefined;\n\
@@ -67400,10 +67401,10 @@ BatchOperator.prototype.toggle = function (key, value) {\n\
 \n\
 module.exports = BatchOperator;\n\
 \n\
-//# sourceURL=components-spirent/batch-operator/index.js"
+//# sourceURL=components-ixia/batch-operator/index.js"
 ));
 
-require.register("./components-spirent/batch-operator/template.js", Function("exports, module",
+require.register("./components-ixia/batch-operator/template.js", Function("exports, module",
 "module.exports = '<div class=\"batch-operator\">\\n\
     <ul class=\"actions\">\\n\
         <li class=\"select-all\">\\n\
@@ -67414,18 +67415,18 @@ require.register("./components-spirent/batch-operator/template.js", Function("ex
     </ul>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/batch-operator/template.js"
+//# sourceURL=components-ixia/batch-operator/template.js"
 ));
 
-require.modules["batch-operator"] = require.modules["./components-spirent/batch-operator"];
+require.modules["batch-operator"] = require.modules["./components-ixia/batch-operator"];
 
 
-require.register("./components-spirent/paginator", Function("exports, module",
+require.register("./components-ixia/paginator", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
     domify = require('component~domify@1.3.1'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
-    template = domify(require('./components-spirent/paginator/template.js')),\n\
+    template = domify(require('./components-ixia/paginator/template.js')),\n\
     previous_pages = 2,\n\
     pages_visible = 5;\n\
 \n\
@@ -67520,27 +67521,27 @@ Paginator.prototype.goto = function (page, e) {\n\
 };\n\
 \n\
 module.exports = Paginator;\n\
-//# sourceURL=components-spirent/paginator/index.js"
+//# sourceURL=components-ixia/paginator/index.js"
 ));
 
-require.register("./components-spirent/paginator/template.js", Function("exports, module",
+require.register("./components-ixia/paginator/template.js", Function("exports, module",
 "module.exports = '<div class=\"paginator\">\\n\
     <div class=\"ellipses prev\">&hellip;</div>\\n\
     <ul class=\"pages\"></ul>\\n\
     <div class=\"ellipses next\">&hellip;</div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/paginator/template.js"
+//# sourceURL=components-ixia/paginator/template.js"
 ));
 
-require.modules["paginator"] = require.modules["./components-spirent/paginator"];
+require.modules["paginator"] = require.modules["./components-ixia/paginator"];
 
 
-require.register("./components-spirent/traffic-recorder", Function("exports, module",
+require.register("./components-ixia/traffic-recorder", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/traffic-recorder/templates/index.js')),\n\
-    Collection = require('./components-spirent/traffic-recorder/models/recorder-collection.js'),\n\
-    Model = require('./components-spirent/traffic-recorder/models/recorder.js'),\n\
-    View = require('./components-spirent/traffic-recorder/views/recorder.js'),\n\
+    template = domify(require('./components-ixia/traffic-recorder/templates/index.js')),\n\
+    Collection = require('./components-ixia/traffic-recorder/models/recorder-collection.js'),\n\
+    Model = require('./components-ixia/traffic-recorder/models/recorder.js'),\n\
+    View = require('./components-ixia/traffic-recorder/views/recorder.js'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4');\n\
 \n\
@@ -67628,18 +67629,18 @@ TrafficRecorder.prototype.bind = function () {\n\
 };\n\
 \n\
 module.exports = TrafficRecorder;\n\
-//# sourceURL=components-spirent/traffic-recorder/index.js"
+//# sourceURL=components-ixia/traffic-recorder/index.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/recorder.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/views/recorder.js", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
     event = require('component~event@0.1.4'),\n\
     classes = require('component~classes@1.2.3'),\n\
-    InterfaceSelector = require('./components-spirent/interface-selector'),\n\
-    FilterChooser = require('./components-spirent/capture-filter-chooser'),\n\
-    ViewDelegate = require('./components-spirent/traffic-recorder/views/delegates/recorder-view.js'),\n\
-    EditDelegate = require('./components-spirent/traffic-recorder/views/delegates/recorder-edit.js'),\n\
-    HistoryDelegate = require('./components-spirent/traffic-recorder/views/delegates/recorder-history.js');\n\
+    InterfaceSelector = require('./components-ixia/interface-selector'),\n\
+    FilterChooser = require('./components-ixia/capture-filter-chooser'),\n\
+    ViewDelegate = require('./components-ixia/traffic-recorder/views/delegates/recorder-view.js'),\n\
+    EditDelegate = require('./components-ixia/traffic-recorder/views/delegates/recorder-edit.js'),\n\
+    HistoryDelegate = require('./components-ixia/traffic-recorder/views/delegates/recorder-history.js');\n\
 \n\
 function render_interface(selected_models, model, $interface) {\n\
     var classed = classes($interface);\n\
@@ -67765,10 +67766,10 @@ Recorder.prototype.replace_in_parent = function ($new) {\n\
 };\n\
 \n\
 module.exports = Recorder;\n\
-//# sourceURL=components-spirent/traffic-recorder/views/recorder.js"
+//# sourceURL=components-ixia/traffic-recorder/views/recorder.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/capture.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/views/capture.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
@@ -67844,12 +67845,12 @@ CaptureView.prototype.bind = function () {\n\
 };\n\
 \n\
 module.exports = CaptureView;\n\
-//# sourceURL=components-spirent/traffic-recorder/views/capture.js"
+//# sourceURL=components-ixia/traffic-recorder/views/capture.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/capture-progress.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/views/capture-progress.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/traffic-recorder/templates/capture-progress.js')),\n\
+    template = domify(require('./components-ixia/traffic-recorder/templates/capture-progress.js')),\n\
     recorder_to_capture_progress_map = {\n\
         'stop_at_bytes': 'size_in_bytes',\n\
         'packet_count': 'packet_count',\n\
@@ -67964,18 +67965,18 @@ CaptureProgress.prototype.unbind = function () {\n\
 \n\
 module.exports = CaptureProgress;\n\
 \n\
-//# sourceURL=components-spirent/traffic-recorder/views/capture-progress.js"
+//# sourceURL=components-ixia/traffic-recorder/views/capture-progress.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/delegates/recorder-view.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/views/delegates/recorder-view.js", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/traffic-recorder/templates/recorder-view.js')),\n\
+    template = domify(require('./components-ixia/traffic-recorder/templates/recorder-view.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
-    CaptureView = require('./components-spirent/traffic-recorder/views/capture.js'),\n\
-    last_capture_template = domify(require('./components-spirent/traffic-recorder/templates/last-capture.js')),\n\
-    CaptureProgress = require('./components-spirent/traffic-recorder/views/capture-progress.js'),\n\
+    CaptureView = require('./components-ixia/traffic-recorder/views/capture.js'),\n\
+    last_capture_template = domify(require('./components-ixia/traffic-recorder/templates/last-capture.js')),\n\
+    CaptureProgress = require('./components-ixia/traffic-recorder/views/capture-progress.js'),\n\
     strings = {\n\
         \"seconds\": window.translate(\"seconds\"),\n\
         \"bytes\": window.translate(\"bytes\"),\n\
@@ -68211,14 +68212,14 @@ RecorderViewDelegate.prototype.toggle_actions = function (visible) {\n\
 };\n\
 \n\
 module.exports = RecorderViewDelegate;\n\
-//# sourceURL=components-spirent/traffic-recorder/views/delegates/recorder-view.js"
+//# sourceURL=components-ixia/traffic-recorder/views/delegates/recorder-view.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/delegates/recorder-edit.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/views/delegates/recorder-edit.js", Function("exports, module",
 "var classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
     domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/traffic-recorder/templates/recorder-edit.js')),\n\
+    template = domify(require('./components-ixia/traffic-recorder/templates/recorder-edit.js')),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     strings = {\n\
@@ -68467,21 +68468,21 @@ RecorderEditDelegate.prototype.get_form_value = function (default_getter, $el) {
 };\n\
 \n\
 module.exports = RecorderEditDelegate;\n\
-//# sourceURL=components-spirent/traffic-recorder/views/delegates/recorder-edit.js"
+//# sourceURL=components-ixia/traffic-recorder/views/delegates/recorder-edit.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/views/delegates/recorder-history.js", Function("exports, module",
-"var BatchOperator = require('./components-spirent/batch-operator'),\n\
-    Paginator = require('./components-spirent/paginator'),\n\
+require.register("./components-ixia/traffic-recorder/views/delegates/recorder-history.js", Function("exports, module",
+"var BatchOperator = require('./components-ixia/batch-operator'),\n\
+    Paginator = require('./components-ixia/paginator'),\n\
     domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/traffic-recorder/templates/recorder-history.js')),\n\
+    template = domify(require('./components-ixia/traffic-recorder/templates/recorder-history.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68'),\n\
-    CaptureCollection = require('./components-spirent/traffic-recorder/models/capture-collection.js'),\n\
-    CaptureView = require('./components-spirent/traffic-recorder/views/capture.js'),\n\
-    historical_capture_template = domify(require('./components-spirent/traffic-recorder/templates/historical-capture.js')),\n\
+    CaptureCollection = require('./components-ixia/traffic-recorder/models/capture-collection.js'),\n\
+    CaptureView = require('./components-ixia/traffic-recorder/views/capture.js'),\n\
+    historical_capture_template = domify(require('./components-ixia/traffic-recorder/templates/historical-capture.js')),\n\
     strings = {\n\
         \"seconds\": window.translate(\"seconds\"),\n\
         \"bytes\": window.translate(\"bytes\"),\n\
@@ -68680,15 +68681,15 @@ RecorderHistoryDelegate.prototype.delete = function (captures) {\n\
 };\n\
 \n\
 module.exports = RecorderHistoryDelegate;\n\
-//# sourceURL=components-spirent/traffic-recorder/views/delegates/recorder-history.js"
+//# sourceURL=components-ixia/traffic-recorder/views/delegates/recorder-history.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/models/recorder.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/models/recorder.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     defaults = require('segmentio~model-defaults@1.0.6'),\n\
-    Interface = require('./components-spirent/interface-model'),\n\
-    Capture = require('./components-spirent/traffic-recorder/models/capture.js'),\n\
-    CaptureCollection = require('./components-spirent/traffic-recorder/models/capture-collection.js'),\n\
+    Interface = require('./components-ixia/interface-model'),\n\
+    Capture = require('./components-ixia/traffic-recorder/models/capture.js'),\n\
+    CaptureCollection = require('./components-ixia/traffic-recorder/models/capture-collection.js'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     strings = {\n\
@@ -68871,13 +68872,13 @@ Recorder.prototype.bind_capture_status = function (capture) {\n\
 Recorder.primaryKey = 'id';\n\
 \n\
 module.exports = Recorder;\n\
-//# sourceURL=components-spirent/traffic-recorder/models/recorder.js"
+//# sourceURL=components-ixia/traffic-recorder/models/recorder.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/models/recorder-collection.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/models/recorder-collection.js", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
-    Recorder = require('./components-spirent/traffic-recorder/models/recorder.js'),\n\
-    Interface = require('./components-spirent/interface-model');\n\
+    Recorder = require('./components-ixia/traffic-recorder/models/recorder.js'),\n\
+    Interface = require('./components-ixia/interface-model');\n\
 \n\
 function Collection() {}\n\
 Collection.prototype = Object.create(Array.prototype);\n\
@@ -68925,17 +68926,17 @@ Collection.prototype.indexOf = function (item) {\n\
 \n\
 \n\
 module.exports = Collection;\n\
-//# sourceURL=components-spirent/traffic-recorder/models/recorder-collection.js"
+//# sourceURL=components-ixia/traffic-recorder/models/recorder-collection.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/models/capture.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/models/capture.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
     noop = function () {},\n\
     logger = window.logger,\n\
-    Poller = require('./components-spirent/async-poller');\n\
+    Poller = require('./components-ixia/async-poller');\n\
 \n\
 // Read-only\n\
 var Capture = model('Capture')\n\
@@ -69007,12 +69008,12 @@ Capture.prototype.poll = function (success, error) {\n\
 };\n\
 \n\
 module.exports = Capture;\n\
-//# sourceURL=components-spirent/traffic-recorder/models/capture.js"
+//# sourceURL=components-ixia/traffic-recorder/models/capture.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/models/capture-collection.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/models/capture-collection.js", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
-    Capture = require('./components-spirent/traffic-recorder/models/capture.js'),\n\
+    Capture = require('./components-ixia/traffic-recorder/models/capture.js'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a');\n\
 \n\
@@ -69156,28 +69157,28 @@ Collection.prototype.slice = function (begin, end) {\n\
 };\n\
 \n\
 module.exports = Collection;\n\
-//# sourceURL=components-spirent/traffic-recorder/models/capture-collection.js"
+//# sourceURL=components-ixia/traffic-recorder/models/capture-collection.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/index.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/index.js", Function("exports, module",
 "module.exports = '<div class=\"traffic-recorder\">\\n\
     <div class=\"recorders container\"></div>\\n\
     <div>\\n\
         <button class=\"add\"><span>+ Add new traffic recorder</span></button>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/index.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/index.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/capture-progress.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/capture-progress.js", Function("exports, module",
 "module.exports = '<div class=\"capture-progress\">\\n\
     <div class=\"bar\">&nbsp;</div>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/capture-progress.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/capture-progress.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/recorder-view.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/recorder-view.js", Function("exports, module",
 "module.exports = '<div class=\"recorder single-pane view\">\\n\
     <div><h1 class=\"title\"></h1></div>\\n\
     <div>\\n\
@@ -69206,10 +69207,10 @@ require.register("./components-spirent/traffic-recorder/templates/recorder-view.
         </ul>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/recorder-view.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/recorder-view.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/recorder-edit.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/recorder-edit.js", Function("exports, module",
 "module.exports = '<div class=\"recorder single-pane edit\">\\n\
     <div><input type=\"text\" class=\"title\" /></div>\\n\
     <div>\\n\
@@ -69244,10 +69245,10 @@ require.register("./components-spirent/traffic-recorder/templates/recorder-edit.
     </div>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/recorder-edit.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/recorder-edit.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/recorder-history.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/recorder-history.js", Function("exports, module",
 "module.exports = '<div class=\"recorder single-pane history\">\\n\
     <div><h1 class=\"title\"></h1></div>\\n\
     <div>\\n\
@@ -69272,10 +69273,10 @@ require.register("./components-spirent/traffic-recorder/templates/recorder-histo
         </ul>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/recorder-history.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/recorder-history.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/last-capture.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/last-capture.js", Function("exports, module",
 "module.exports = '<ul>\\n\
     <li><h2>Last capture</h2></li>\\n\
     <li class=\"none\">No completed captures</li>\\n\
@@ -69285,10 +69286,10 @@ require.register("./components-spirent/traffic-recorder/templates/last-capture.j
     <li class=\"packets\"></li>\\n\
     <li class=\"download\"><a href=\"#\">Download</a></li>\\n\
 </ul>';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/last-capture.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/last-capture.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/templates/historical-capture.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/templates/historical-capture.js", Function("exports, module",
 "module.exports = '<li class=\"historical-capture\">\\n\
     <input type=\"checkbox\" />\\n\
     <ul>\\n\
@@ -69301,10 +69302,10 @@ require.register("./components-spirent/traffic-recorder/templates/historical-cap
     </ul>\\n\
     <div class=\"download\"><a href=\"#\">Download</a></div>\\n\
 </li>';\n\
-//# sourceURL=components-spirent/traffic-recorder/templates/historical-capture.js"
+//# sourceURL=components-ixia/traffic-recorder/templates/historical-capture.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/test/features.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/test/features.js", Function("exports, module",
 "//(function() {\n\
 //var Yadda = require('yadda'),\n\
 //    English = Yadda.localisation.English,\n\
@@ -69324,10 +69325,10 @@ require.register("./components-spirent/traffic-recorder/test/features.js", Funct
 //    });\n\
 //});\n\
 //})();\n\
-//# sourceURL=components-spirent/traffic-recorder/test/features.js"
+//# sourceURL=components-ixia/traffic-recorder/test/features.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/features/recorder.feature.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/features/recorder.feature.js", Function("exports, module",
 "module.exports = 'Feature: A single traffic recorder\\n\
 \\n\
   Scenario: Initial state\\n\
@@ -69369,13 +69370,13 @@ require.register("./components-spirent/traffic-recorder/features/recorder.featur
     And an option to change packet size should exist\\n\
     And packet truncation at the default value should appear in the configuration\\n\
 ';\n\
-//# sourceURL=components-spirent/traffic-recorder/features/recorder.feature.js"
+//# sourceURL=components-ixia/traffic-recorder/features/recorder.feature.js"
 ));
 
-require.register("./components-spirent/traffic-recorder/features/steps/recorder.js", Function("exports, module",
+require.register("./components-ixia/traffic-recorder/features/steps/recorder.js", Function("exports, module",
 "var assert = require('chaijs~chai@2.1.0').assert,\n\
     English = require('johntron~yadda@5e9e59e67b97272c395c9d85f8cf75b8e459cc33').localisation.English,\n\
-    View = require('./components-spirent/traffic-recorder/views/recorder.js'),\n\
+    View = require('./components-ixia/traffic-recorder/views/recorder.js'),\n\
     recorder,\n\
     devices = [{id: 1, name: \"Default\"}];\n\
 \n\
@@ -69400,14 +69401,14 @@ module.exports = English.library()\n\
     .then('the option to truncate packets is not selected')\n\
     .then('none of the stop criteria are selected')\n\
     .then('the capture filter is blank')\n\
-//# sourceURL=components-spirent/traffic-recorder/features/steps/recorder.js"
+//# sourceURL=components-ixia/traffic-recorder/features/steps/recorder.js"
 ));
 
-require.modules["traffic-recorder"] = require.modules["./components-spirent/traffic-recorder"];
+require.modules["traffic-recorder"] = require.modules["./components-ixia/traffic-recorder"];
 
 
-require.register("./components-spirent/dashboard-view-model", Function("exports, module",
-"var Paginator = require('./components-spirent/paginator');\n\
+require.register("./components-ixia/dashboard-view-model", Function("exports, module",
+"var Paginator = require('./components-ixia/paginator');\n\
 \n\
 function DashboardViewModel(rootVm) {\n\
     var self = this;\n\
@@ -69502,6 +69503,7 @@ function DashboardViewModel(rootVm) {\n\
 \n\
     self.getPortlets = function () {\n\
         self.portlets.removeAll();\n\
+\n\
         $.ajax({\n\
             type: \"GET\",\n\
             url: util.getConfigSetting(\"get_portlets\"),\n\
@@ -69599,13 +69601,13 @@ function PortletViewModel(dashboardVm) {\n\
 }\n\
 \n\
 module.exports = DashboardViewModel;\n\
-//# sourceURL=components-spirent/dashboard-view-model/index.js"
+//# sourceURL=components-ixia/dashboard-view-model/index.js"
 ));
 
-require.modules["dashboard-view-model"] = require.modules["./components-spirent/dashboard-view-model"];
+require.modules["dashboard-view-model"] = require.modules["./components-ixia/dashboard-view-model"];
 
 
-require.register("./components-spirent/test-history-view-model", Function("exports, module",
+require.register("./components-ixia/test-history-view-model", Function("exports, module",
 "var moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68');\n\
 \n\
 function TestHistoryViewModel(dashboardVm) {\n\
@@ -69876,14 +69878,14 @@ TestHistoryViewModel.prototype.displayTagsWrite = function (value) {\n\
 };\n\
 \n\
 module.exports = TestHistoryViewModel;\n\
-//# sourceURL=components-spirent/test-history-view-model/index.js"
+//# sourceURL=components-ixia/test-history-view-model/index.js"
 ));
 
-require.modules["test-history-view-model"] = require.modules["./components-spirent/test-history-view-model"];
+require.modules["test-history-view-model"] = require.modules["./components-ixia/test-history-view-model"];
 
 
-require.register("./components-spirent/test-results-final-table-view-model", Function("exports, module",
-"var Paginator = require('./components-spirent/paginator'),\n\
+require.register("./components-ixia/test-results-final-table-view-model", Function("exports, module",
+"var Paginator = require('./components-ixia/paginator'),\n\
     clients_per_page = 50;\n\
 \n\
 function TestResultsFinalTableViewModel(resultsVm) {\n\
@@ -70142,17 +70144,17 @@ function prepareGraphData(cellData) {\n\
 }\n\
 \n\
 module.exports = TestResultsFinalTableViewModel;\n\
-//# sourceURL=components-spirent/test-results-final-table-view-model/index.js"
+//# sourceURL=components-ixia/test-results-final-table-view-model/index.js"
 ));
 
-require.modules["test-results-final-table-view-model"] = require.modules["./components-spirent/test-results-final-table-view-model"];
+require.modules["test-results-final-table-view-model"] = require.modules["./components-ixia/test-results-final-table-view-model"];
 
 
-require.register("./components-spirent/multicast-settings", Function("exports, module",
+require.register("./components-ixia/multicast-settings", Function("exports, module",
 "/*global ko:true */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/multicast-settings/template.js')),\n\
+    template = domify(require('./components-ixia/multicast-settings/template.js')),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18'),\n\
     classes = require('component~classes@1.2.3'),\n\
@@ -70329,10 +70331,10 @@ MulticastSettingsViewModel.prototype.toFlatObject = function () {\n\
 };\n\
 \n\
 module.exports = MulticastSettingsViewModel;\n\
-//# sourceURL=components-spirent/multicast-settings/view-model.js"
+//# sourceURL=components-ixia/multicast-settings/view-model.js"
 ));
 
-require.register("./components-spirent/multicast-settings/template.js", Function("exports, module",
+require.register("./components-ixia/multicast-settings/template.js", Function("exports, module",
 "module.exports = '<div>\\n\
     <div class=\"header\">\\n\
         <span class=\"label\">Multicast group settings</span>\\n\
@@ -70351,14 +70353,14 @@ require.register("./components-spirent/multicast-settings/template.js", Function
         </div>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/multicast-settings/template.js"
+//# sourceURL=components-ixia/multicast-settings/template.js"
 ));
 
-require.modules["multicast-settings"] = require.modules["./components-spirent/multicast-settings"];
+require.modules["multicast-settings"] = require.modules["./components-ixia/multicast-settings"];
 
 
-require.register("./components-spirent/test-template-view-model", Function("exports, module",
-"var MulticastSettingsViewModel = require('./components-spirent/multicast-settings');\n\
+require.register("./components-ixia/test-template-view-model", Function("exports, module",
+"var MulticastSettingsViewModel = require('./components-ixia/multicast-settings');\n\
 \n\
 /**\n\
  * Saved configuration for a single test\n\
@@ -70808,16 +70810,16 @@ TestTemplateViewModel.prototype.resetDevices = function() {\n\
 };\n\
 \n\
 module.exports = TestTemplateViewModel;\n\
-//# sourceURL=components-spirent/test-template-view-model/index.js"
+//# sourceURL=components-ixia/test-template-view-model/index.js"
 ));
 
-require.modules["test-template-view-model"] = require.modules["./components-spirent/test-template-view-model"];
+require.modules["test-template-view-model"] = require.modules["./components-ixia/test-template-view-model"];
 
 
-require.register("./components-spirent/configured-test-view-model", Function("exports, module",
+require.register("./components-ixia/configured-test-view-model", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\r\n\
-    debounce = require('./components-spirent/utility-functions').debounce,\r\n\
-    AsyncPoller = require('./components-spirent/async-poller'),\r\n\
+    debounce = require('./components-ixia/utility-functions').debounce,\r\n\
+    AsyncPoller = require('./components-ixia/async-poller'),\r\n\
     moment = require('johntron~moment-timezone@0f4b9df99d9f6212c2036f5ae6f74b240f289381'),\r\n\
     tz = window.jstz.determine();\r\n\
 \r\n\
@@ -71534,7 +71536,7 @@ ConfiguredTestViewModel.prototype.check_for_conflicts_with_upcoming = function(f
     var self = this;\r\n\
     $.ajax({\r\n\
         type: 'POST',\r\n\
-        url: '/spirent/check_for_conflicts_with_upcoming',\r\n\
+        url: '/ixia/check_for_conflicts_with_upcoming',\r\n\
         data: formatRequestData,\r\n\
         dataType: 'json'\r\n\
     }).success(function(data, textStatus, jqXhr){\r\n\
@@ -71895,24 +71897,24 @@ ConfiguredTestViewModelException.prototype = new Error();\r\n\
 ConfiguredTestViewModelException.constructor = ConfiguredTestViewModelException;\r\n\
 \r\n\
 module.exports = ConfiguredTestViewModel;\n\
-//# sourceURL=components-spirent/configured-test-view-model/index.js"
+//# sourceURL=components-ixia/configured-test-view-model/index.js"
 ));
 
-require.modules["configured-test-view-model"] = require.modules["./components-spirent/configured-test-view-model"];
+require.modules["configured-test-view-model"] = require.modules["./components-ixia/configured-test-view-model"];
 
 
-require.register("./components-spirent/administration-view-model", Function("exports, module",
+require.register("./components-ixia/administration-view-model", Function("exports, module",
 "/*global ko:true, translate:true, $:true, appHistory:true, spirentEnterpriseVm:true, TestDeviceViewModel:true, TestPlaylistViewModel:true, TestTrackViewModel:true, LightboxWorkingViewModel:true */\n\
 \n\
 var noop = function () {},\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     domify = require('component~domify@1.3.1'),\n\
     event = require('component~event@0.1.4'),\n\
     classes = require('component~classes@1.2.3'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     is_host = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5'),\n\
     is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18'),\n\
-    EndpointViewModel = require('./components-spirent/endpoint-view-model').UnicastViewModel; // This should be a generic model\n\
+    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel; // This should be a generic model\n\
 \n\
 function AdministrationViewModel(rootVm) {\n\
     var self = this;\n\
@@ -73415,7 +73417,7 @@ AdministrationViewModel.prototype.deleteAllSystemBackups = function (callback) {
         }, true);\n\
     };\n\
     $.ajax({\n\
-        url: '/spirent/delete_all_backups',\n\
+        url: '/ixia/delete_all_backups',\n\
         cache: false,\n\
         contentType: false,\n\
         dataType: 'json',\n\
@@ -73520,12 +73522,12 @@ AdministrationViewModel.prototype.getSystemLogs = function () {\n\
     util.lightbox.close();\n\
     util.lightbox.working(new LightboxWorkingViewModel(translate(\"Starting log compression...\"), translate(\"Starting log compression...\")));\n\
     $.ajax({\n\
-        url: util.getConfigSetting('get_axon_logs'),\n\
+        url: util.getConfigSetting('get_ixia_logs'),\n\
         cache: false,\n\
         contentType: false,\n\
         dataType: 'json',\n\
         processData: false,\n\
-        type: util.getRequestMethod('get_axon_logs'),\n\
+        type: util.getRequestMethod('get_ixia_logs'),\n\
         success: function (data) {\n\
             if (data.result === 'SUCCESS') {\n\
                 util.lightbox.close();\n\
@@ -73552,28 +73554,28 @@ function show_DHCP_enabled_message() {\n\
 \n\
     util.lightbox.openMessage(to_dhcp_message);\n\
 }\n\
-//# sourceURL=components-spirent/administration-view-model/index.js"
+//# sourceURL=components-ixia/administration-view-model/index.js"
 ));
 
-require.modules["administration-view-model"] = require.modules["./components-spirent/administration-view-model"];
+require.modules["administration-view-model"] = require.modules["./components-ixia/administration-view-model"];
 
 
-require.register("./components-spirent/device-view-model", Function("exports, module",
+require.register("./components-ixia/device-view-model", Function("exports, module",
 "module.exports = {\n\
-    SinglePortDeviceViewModel: require('./components-spirent/device-view-model/single-port/view-model.js'),\n\
-    MultiplePortDeviceViewModel: require('./components-spirent/device-view-model/multiple-port/view-model.js')\n\
+    SinglePortDeviceViewModel: require('./components-ixia/device-view-model/single-port/view-model.js'),\n\
+    MultiplePortDeviceViewModel: require('./components-ixia/device-view-model/multiple-port/view-model.js')\n\
 };\n\
-//# sourceURL=components-spirent/device-view-model/index.js"
+//# sourceURL=components-ixia/device-view-model/index.js"
 ));
 
-require.register("./components-spirent/device-view-model/multiple-port/view-model.js", Function("exports, module",
+require.register("./components-ixia/device-view-model/multiple-port/view-model.js", Function("exports, module",
 "/*global ko:true */\n\
 \n\
 var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/device-view-model/multiple-port/templates/template.js')),\n\
+    $template = domify(require('./components-ixia/device-view-model/multiple-port/templates/template.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
-    EndpointVm = require('./components-spirent/endpoint-view-model').MulticastViewModel;\n\
+    EndpointVm = require('./components-ixia/endpoint-view-model').MulticastViewModel;\n\
 \n\
 /**\n\
  * Manages Tx or Rx configuration for a traffic player when multiple ports can\n\
@@ -74056,10 +74058,10 @@ MultiplePortDeviceViewModel.prototype.enabled_endpoints = function () {\n\
 };\n\
 \n\
 module.exports = MultiplePortDeviceViewModel;\n\
-//# sourceURL=components-spirent/device-view-model/multiple-port/view-model.js"
+//# sourceURL=components-ixia/device-view-model/multiple-port/view-model.js"
 ));
 
-require.register("./components-spirent/device-view-model/multiple-port/templates/template.js", Function("exports, module",
+require.register("./components-ixia/device-view-model/multiple-port/templates/template.js", Function("exports, module",
 "module.exports = '<li class=\"device transmit-receive-container box\">\\n\
     <div class=\"transmit-receive\">\\n\
         <div data-bind=\"visible: expended\" class=\"expanded\">\\n\
@@ -74129,7 +74131,7 @@ require.register("./components-spirent/device-view-model/multiple-port/templates
                             <td data-bind=\"text: vlanLabel\"></td>\\n\
                             <!-- /ko -->\\n\
                             <td data-bind=\"attr: {colspan: vlan_id() ? 1 : 2}\">\\n\
-                                <span data-bind=\"text: strings[\\'IP details\\']\"></span> <img src=\"images/info.png\" data-bind=\"tooltip: ipDetails, attr: { \\'title\\': ipDetails, \\'alt\\': ipDetails, \\'data-title\\': ipDetails}\"/><div class=\"tooltip\" style=\"display: none;\" data-bind=\"text: ipDetails\"></div>\\n\
+                                <span data-bind=\"text: strings[\\'IP details\\']\"></span> <img src=\"static/images/info.png\" data-bind=\"tooltip: ipDetails, attr: { \\'title\\': ipDetails, \\'alt\\': ipDetails, \\'data-title\\': ipDetails}\"/><div class=\"tooltip\" style=\"display: none;\" data-bind=\"text: ipDetails\"></div>\\n\
                             </td>\\n\
                         </tr>\\n\
                         <!-- /ko -->\\n\
@@ -74144,17 +74146,17 @@ require.register("./components-spirent/device-view-model/multiple-port/templates
     </div>\\n\
 </li>\\n\
 ';\n\
-//# sourceURL=components-spirent/device-view-model/multiple-port/templates/template.js"
+//# sourceURL=components-ixia/device-view-model/multiple-port/templates/template.js"
 ));
 
-require.register("./components-spirent/device-view-model/single-port/view-model.js", Function("exports, module",
+require.register("./components-ixia/device-view-model/single-port/view-model.js", Function("exports, module",
 "/*global ko:true, EndpointViewModel:true */\n\
 \n\
 var noop = function () {},\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/device-view-model/single-port/templates/template.js')),\n\
-    EndpointViewModel = require('./components-spirent/endpoint-view-model').UnicastViewModel,\n\
+    template = domify(require('./components-ixia/device-view-model/single-port/templates/template.js')),\n\
+    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel,\n\
     mobile = {\n\
         isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|windows phone/i.test(navigator.userAgent)\n\
     },\n\
@@ -74668,10 +74670,10 @@ SinglePortDeviceViewModel.prototype.toFlatObject = function(){\n\
     }\n\
     return flatConfig;\n\
 };\n\
-//# sourceURL=components-spirent/device-view-model/single-port/view-model.js"
+//# sourceURL=components-ixia/device-view-model/single-port/view-model.js"
 ));
 
-require.register("./components-spirent/device-view-model/single-port/templates/template.js", Function("exports, module",
+require.register("./components-ixia/device-view-model/single-port/templates/template.js", Function("exports, module",
 "module.exports = '<div class=\"device transmit-receive-container box\">\\n\
     <ul class=\"transmit-receive\">\\n\
         <li class=\"device-header\">\\n\
@@ -74710,18 +74712,18 @@ require.register("./components-spirent/device-view-model/single-port/templates/t
     </ul>\\n\
 </div>\\n\
 ';\n\
-//# sourceURL=components-spirent/device-view-model/single-port/templates/template.js"
+//# sourceURL=components-ixia/device-view-model/single-port/templates/template.js"
 ));
 
-require.modules["device-view-model"] = require.modules["./components-spirent/device-view-model"];
+require.modules["device-view-model"] = require.modules["./components-ixia/device-view-model"];
 
 
-require.register("./components-spirent/device-collection-view-model", Function("exports, module",
+require.register("./components-ixia/device-collection-view-model", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
     emitter = require('component~emitter@1.0.1'),\n\
-    $template = domify(require('./components-spirent/device-collection-view-model/templates/index.js')),\n\
+    $template = domify(require('./components-ixia/device-collection-view-model/templates/index.js')),\n\
     events = require('component~event@0.1.4'),\n\
-    DeviceVm = require('./components-spirent/device-view-model').MultiplePortDeviceViewModel;\n\
+    DeviceVm = require('./components-ixia/device-view-model').MultiplePortDeviceViewModel;\n\
 \n\
 /**\n\
  * Manages a collection of device view models - used on test configuration pane.\n\
@@ -75027,24 +75029,24 @@ DeviceCollectionViewModel.prototype.enabled_endpoints = function () {\n\
 };\n\
 \n\
 module.exports = DeviceCollectionViewModel;\n\
-//# sourceURL=components-spirent/device-collection-view-model/index.js"
+//# sourceURL=components-ixia/device-collection-view-model/index.js"
 ));
 
-require.register("./components-spirent/device-collection-view-model/templates/index.js", Function("exports, module",
+require.register("./components-ixia/device-collection-view-model/templates/index.js", Function("exports, module",
 "module.exports = '<div class=\"device-collection\">\\n\
     <ul class=\"devices\"></ul>\\n\
     <button class=\"add-button button dark\" type=\"button\" data-bind=\"click: add_device_handler, enable: another_device_available\">+ Add another device</button>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/device-collection-view-model/templates/index.js"
+//# sourceURL=components-ixia/device-collection-view-model/templates/index.js"
 ));
 
-require.modules["device-collection-view-model"] = require.modules["./components-spirent/device-collection-view-model"];
+require.modules["device-collection-view-model"] = require.modules["./components-ixia/device-collection-view-model"];
 
 
-require.register("./components-spirent/traffic-player-view-model", Function("exports, module",
+require.register("./components-ixia/traffic-player-view-model", Function("exports, module",
 "/*global ko:true, TestPlaylistViewModel:true, TestTrafficSettingViewModel:true, DatapointViewModel:true, TestSupplementalConfigurationViewModel:true */\n\
-var UnicastDelegate = require('./components-spirent/traffic-player-view-model/delegates/unicast.js'),\n\
-    MulticastDelegate = require('./components-spirent/traffic-player-view-model/delegates/multicast.js');\n\
+var UnicastDelegate = require('./components-ixia/traffic-player-view-model/delegates/unicast.js'),\n\
+    MulticastDelegate = require('./components-ixia/traffic-player-view-model/delegates/multicast.js');\n\
 \n\
 /**\n\
  * Manages data for unicast and multicast traffic player views - uses delegates.\n\
@@ -75596,11 +75598,11 @@ TrafficPlayerViewModel.prototype.get_destination_endpoints = function () {\n\
 \n\
     return this.destination().enabled_endpoints();\n\
 };\n\
-//# sourceURL=components-spirent/traffic-player-view-model/index.js"
+//# sourceURL=components-ixia/traffic-player-view-model/index.js"
 ));
 
-require.register("./components-spirent/traffic-player-view-model/delegates/unicast.js", Function("exports, module",
-"var MultiplePortDeviceViewModel = require('./components-spirent/device-view-model').MultiplePortDeviceViewModel;\n\
+require.register("./components-ixia/traffic-player-view-model/delegates/unicast.js", Function("exports, module",
+"var MultiplePortDeviceViewModel = require('./components-ixia/device-view-model').MultiplePortDeviceViewModel;\n\
 \n\
 function UnicastTrafficPlayerDelegate(parent) {\n\
     this.parent = parent;\n\
@@ -75751,13 +75753,13 @@ UnicastTrafficPlayerDelegate.prototype.setTimingAccuracies = function (accuracie
 };\n\
 \n\
 module.exports = UnicastTrafficPlayerDelegate;\n\
-//# sourceURL=components-spirent/traffic-player-view-model/delegates/unicast.js"
+//# sourceURL=components-ixia/traffic-player-view-model/delegates/unicast.js"
 ));
 
-require.register("./components-spirent/traffic-player-view-model/delegates/multicast.js", Function("exports, module",
-"var MultiplePortDeviceViewModel = require('./components-spirent/device-view-model').MultiplePortDeviceViewModel,\n\
-    DeviceCollectionViewModel = require('./components-spirent/device-collection-view-model'),\n\
-    MulticastSettingsViewModel = require('./components-spirent/multicast-settings');\n\
+require.register("./components-ixia/traffic-player-view-model/delegates/multicast.js", Function("exports, module",
+"var MultiplePortDeviceViewModel = require('./components-ixia/device-view-model').MultiplePortDeviceViewModel,\n\
+    DeviceCollectionViewModel = require('./components-ixia/device-collection-view-model'),\n\
+    MulticastSettingsViewModel = require('./components-ixia/multicast-settings');\n\
 \n\
 function MulticastTrafficPlayerDelegate(parent) {\n\
     this.parent = parent;\n\
@@ -75935,13 +75937,13 @@ MulticastTrafficPlayerDelegate.prototype.setTimingAccuracies = function (accurac
 };\n\
 \n\
 module.exports = MulticastTrafficPlayerDelegate;\n\
-//# sourceURL=components-spirent/traffic-player-view-model/delegates/multicast.js"
+//# sourceURL=components-ixia/traffic-player-view-model/delegates/multicast.js"
 ));
 
-require.modules["traffic-player-view-model"] = require.modules["./components-spirent/traffic-player-view-model"];
+require.modules["traffic-player-view-model"] = require.modules["./components-ixia/traffic-player-view-model"];
 
 
-require.register("./components-spirent/test-device-view-model", Function("exports, module",
+require.register("./components-ixia/test-device-view-model", Function("exports, module",
 "/**\r\n\
  * CAUTION: This module's name is misleading - it's used as a model not a view model\r\n\
  */\r\n\
@@ -76464,13 +76466,13 @@ TestDeviceViewModel.prototype.deleteDevice = function(){\r\n\
 \t});\r\n\
 };\r\n\
 \n\
-//# sourceURL=components-spirent/test-device-view-model/index.js"
+//# sourceURL=components-ixia/test-device-view-model/index.js"
 ));
 
-require.modules["test-device-view-model"] = require.modules["./components-spirent/test-device-view-model"];
+require.modules["test-device-view-model"] = require.modules["./components-ixia/test-device-view-model"];
 
 
-require.register("./components-spirent/line-rate-message-view-model", Function("exports, module",
+require.register("./components-ixia/line-rate-message-view-model", Function("exports, module",
 "/*global ko:true */\n\
 \n\
 /**\n\
@@ -76525,27 +76527,27 @@ LineRateMessageViewModel.prototype.toggle = function (data, e) {\n\
 \n\
 module.exports = LineRateMessageViewModel;\n\
 \n\
-//# sourceURL=components-spirent/line-rate-message-view-model/index.js"
+//# sourceURL=components-ixia/line-rate-message-view-model/index.js"
 ));
 
-require.modules["line-rate-message-view-model"] = require.modules["./components-spirent/line-rate-message-view-model"];
+require.modules["line-rate-message-view-model"] = require.modules["./components-ixia/line-rate-message-view-model"];
 
 
-require.register("./components-spirent/pulse", Function("exports, module",
+require.register("./components-ixia/pulse", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/pulse/templates/index.js')),\n\
+    $template = domify(require('./components-ixia/pulse/templates/index.js')),\n\
     classes = require('component~classes@1.2.3'),\n\
-    Model = require('./components-spirent/pulse/models/pulse.js'),\n\
-    AsyncPoller = require('./components-spirent/async-poller'),\n\
-    LoadingState = require('./components-spirent/loading-state'),\n\
-    InterfaceSelector = require('./components-spirent/interface-selector'),\n\
-    NetworkSettingsView = require('./components-spirent/network-settings-view'),\n\
+    Model = require('./components-ixia/pulse/models/pulse.js'),\n\
+    AsyncPoller = require('./components-ixia/async-poller'),\n\
+    LoadingState = require('./components-ixia/loading-state'),\n\
+    InterfaceSelector = require('./components-ixia/interface-selector'),\n\
+    NetworkSettingsView = require('./components-ixia/network-settings-view'),\n\
     events = require('component~event@0.1.4'),\n\
     task_status_url = util.getConfigSetting('get_task_status'),\n\
     lightbox = window.util.lightbox,\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    $license = domify(require('./components-spirent/pulse/templates/license.js')),\n\
+    $license = domify(require('./components-ixia/pulse/templates/license.js')),\n\
     results_status_observable = window.spirentEnterpriseVm.vmTest.vmResults.status;\n\
 \n\
 \n\
@@ -76962,10 +76964,10 @@ PulseViewModel.prototype.blockForTesting = function () {\n\
 };\n\
 \n\
 module.exports = PulseViewModel;\n\
-//# sourceURL=components-spirent/pulse/index.js"
+//# sourceURL=components-ixia/pulse/index.js"
 ));
 
-require.register("./components-spirent/pulse/templates/index.js", Function("exports, module",
+require.register("./components-ixia/pulse/templates/index.js", Function("exports, module",
 "module.exports = '<div class=\"pulse main\">\\n\
     <div>\\n\
         <h3>Pulse</h3>\\n\
@@ -76991,17 +76993,17 @@ require.register("./components-spirent/pulse/templates/index.js", Function("expo
         </ul>\\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/pulse/templates/index.js"
+//# sourceURL=components-ixia/pulse/templates/index.js"
 ));
 
-require.register("./components-spirent/pulse/models/pulse.js", Function("exports, module",
+require.register("./components-ixia/pulse/models/pulse.js", Function("exports, module",
 "var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    PulseInterfaceModel = require('./components-spirent/pulse/models/interface.js');\n\
+    PulseInterfaceModel = require('./components-ixia/pulse/models/interface.js');\n\
 \n\
 var PulseModel = model('PulseModel')\n\
-    .route('/spirent/pulse')\n\
+    .route('/ixia/pulse')\n\
     .attr(\"status\")\n\
     .attr(\"license_status\")\n\
     .attr(\"interfaces\");\n\
@@ -77047,11 +77049,11 @@ PulseModel.prototype.disabled = function() {\n\
 };\n\
 \n\
 module.exports = PulseModel;\n\
-//# sourceURL=components-spirent/pulse/models/pulse.js"
+//# sourceURL=components-ixia/pulse/models/pulse.js"
 ));
 
-require.register("./components-spirent/pulse/models/interface.js", Function("exports, module",
-"var InterfaceModel = require('./components-spirent/interface-model'),\n\
+require.register("./components-ixia/pulse/models/interface.js", Function("exports, module",
+"var InterfaceModel = require('./components-ixia/interface-model'),\n\
     PulseInterfaceModel = InterfaceModel;\n\
 \n\
 PulseInterfaceModel\n\
@@ -77063,10 +77065,10 @@ PulseInterfaceModel\n\
     .attr('gateway');\n\
 \n\
 module.exports = PulseInterfaceModel;\n\
-//# sourceURL=components-spirent/pulse/models/interface.js"
+//# sourceURL=components-ixia/pulse/models/interface.js"
 ));
 
-require.register("./components-spirent/pulse/templates/license.js", Function("exports, module",
+require.register("./components-ixia/pulse/templates/license.js", Function("exports, module",
 "module.exports = '<div class=\"pulse main license\">\\n\
     <div>\\n\
         <h3>Pulse</h3>\\n\
@@ -77082,20 +77084,20 @@ require.register("./components-spirent/pulse/templates/license.js", Function("ex
 \\n\
     </div>\\n\
 </div>';\n\
-//# sourceURL=components-spirent/pulse/templates/license.js"
+//# sourceURL=components-ixia/pulse/templates/license.js"
 ));
 
-require.modules["pulse"] = require.modules["./components-spirent/pulse"];
+require.modules["pulse"] = require.modules["./components-ixia/pulse"];
 
 
-require.register("./components-spirent/info-pane", Function("exports, module",
+require.register("./components-ixia/info-pane", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
-    util = require('./components-spirent/utility-functions'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
     classes = require('component~classes@1.2.3'),\n\
     event = require('component~event@0.1.4'),\n\
-    Poller = require('./components-spirent/async-poller'),\n\
+    Poller = require('./components-ixia/async-poller'),\n\
     domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-spirent/info-pane/template.html')),\n\
+    template = domify(require('./components-ixia/info-pane/template.html')),\n\
     moment = require('johntron~moment-timezone@0f4b9df99d9f6212c2036f5ae6f74b240f289381');\n\
 \n\
 function InfoPane($parent, spirentEnterpriseVm) {\n\
@@ -77174,6 +77176,8 @@ InfoPane.prototype.get_reservation_status = function (callback) {\n\
     var self = this;\n\
 \n\
     function handle_response(data, error) {\n\
+        return\n\
+\n\
         if (error) {\n\
             util.lightbox.openError(window.translate('Error'), window.translate('Unable to get reservation status.'));\n\
             window.logger.error(error);\n\
@@ -77235,22 +77239,22 @@ InfoPane.prototype.show = function () {\n\
 \n\
 \n\
 module.exports = InfoPane;\n\
-//# sourceURL=components-spirent/info-pane/index.js"
+//# sourceURL=components-ixia/info-pane/index.js"
 ));
 
-require.define("./components-spirent/info-pane/template.html", "<div class=\"info-pane collapsed\"></div>");
+require.define("./components-ixia/info-pane/template.html", "<div class=\"info-pane collapsed\"></div>");
 
-require.modules["info-pane"] = require.modules["./components-spirent/info-pane"];
+require.modules["info-pane"] = require.modules["./components-ixia/info-pane"];
 
 
-require.register("./components-spirent/disk-management", Function("exports, module",
+require.register("./components-ixia/disk-management", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-spirent/disk-management/template.html')),\n\
+    $template = domify(require('./components-ixia/disk-management/template.html')),\n\
     classes = require('component~classes@1.2.3'),\n\
     request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
     no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
     humanize = require('houzhenyu1117~humanize@component'),\n\
-    Visualization = require('./components-spirent/disk-management/visualization.js'),\n\
+    Visualization = require('./components-ixia/disk-management/visualization.js'),\n\
     lightbox = window.util.lightbox;\n\
 \n\
 function DiskManagementViewModel() {\n\
@@ -77338,7 +77342,7 @@ DiskManagementViewModel.prototype.update = function (done) {\n\
 \n\
     self.updating(self.updating() + 1);\n\
 \n\
-    request.get('/spirent/get_disk_info')\n\
+    request.get('/ixia/get_disk_info')\n\
         .use(no_cache)\n\
         .end(function (error, response) {\n\
             var data;\n\
@@ -77414,7 +77418,7 @@ DiskManagementViewModel.prototype.delete_all_captures = function() {\n\
     var self = this,\n\
         confirm_action = function() {\n\
             self.updating(self.updating() + 1);\n\
-            request.del('/spirent/traffic-recorder/captures')\n\
+            request.del('/ixia/traffic-recorder/captures')\n\
                 .use(no_cache)\n\
                 .end(function (error, response) {\n\
                     self.updating(self.updating() - 1);\n\
@@ -77429,7 +77433,7 @@ DiskManagementViewModel.prototype.delete_all_diags = function() {\n\
     var self = this,\n\
         confirm_action = function() {\n\
             self.updating(self.updating() + 1);\n\
-            request.del('/spirent/delete_all_diags')\n\
+            request.del('/ixia/delete_all_diags')\n\
                 .use(no_cache)\n\
                 .end(function (error, response) {\n\
                     self.updating(self.updating() - 1);\n\
@@ -77449,10 +77453,10 @@ DiskManagementViewModel.prototype.hide = function() {\n\
 };\n\
 \n\
 module.exports = DiskManagementViewModel;\n\
-//# sourceURL=components-spirent/disk-management/index.js"
+//# sourceURL=components-ixia/disk-management/index.js"
 ));
 
-require.register("./components-spirent/disk-management/visualization.js", Function("exports, module",
+require.register("./components-ixia/disk-management/visualization.js", Function("exports, module",
 "var classes = require('component~classes@1.2.3'),\n\
     slicer = require('johntron~color-slicer@66cbde8b409f975015b69d4ebc5a2b65ea8461f0');\n\
 \n\
@@ -77514,24 +77518,24 @@ DiskManagementVisualization.prototype.render = function () {\n\
 };\n\
 \n\
 module.exports = DiskManagementVisualization;\n\
-//# sourceURL=components-spirent/disk-management/visualization.js"
+//# sourceURL=components-ixia/disk-management/visualization.js"
 ));
 
-require.define("./components-spirent/disk-management/template.html", "<div class=\"disk main\">\n    <div>\n        <h3>Disk Management <span class=\"updating\" data-bind=\"visible: updating() > 0\"></span></h3>\n    </div>\n    <div class=\"single-pane no-padding usage\">\n        <h4>Usage</h4>\n        <ul>\n            <li class=\"visualization\">&nbsp;</li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[0]}\"></span> System</label><span data-bind=\"text: get_filesize('system')\"></span> <span data-bind=\"text: '(' + get_percentage('system')() + ')'\"></span></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[1]}\"></span> Backup</label><span data-bind=\"text: get_filesize('backups')\"></span> <span data-bind=\"text: '(' + get_percentage('backups')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_backups\">Delete all</a> | <a href=\"\" data-bind=\"click: go_to_backup\">View</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[2]}\"></span> Diagnostic</label><span data-bind=\"text: get_filesize('diags')\"></span> <span data-bind=\"text: '(' + get_percentage('diags')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_diags\">Delete all</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[3]}\"></span> Capture</label><span data-bind=\"text: get_filesize('captures')\"></span> <span data-bind=\"text: '(' + get_percentage('captures')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_captures\">Delete all</a> |<a href=\"\" data-bind=\"click: go_to_recorder\">View</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[4]}\"></span> Free</label><span data-bind=\"text: get_filesize('free')\"></span> <span data-bind=\"text: '(' + get_percentage('free')() + ')'\"></span></li>\n        </ul>\n    </div>\n</div>");
+require.define("./components-ixia/disk-management/template.html", "<div class=\"disk main\">\n    <div>\n        <h3>Disk Management <span class=\"updating\" data-bind=\"visible: updating() > 0\"></span></h3>\n    </div>\n    <div class=\"single-pane no-padding usage\">\n        <h4>Usage</h4>\n        <ul>\n            <li class=\"visualization\">&nbsp;</li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[0]}\"></span> System</label><span data-bind=\"text: get_filesize('system')\"></span> <span data-bind=\"text: '(' + get_percentage('system')() + ')'\"></span></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[1]}\"></span> Backup</label><span data-bind=\"text: get_filesize('backups')\"></span> <span data-bind=\"text: '(' + get_percentage('backups')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_backups\">Delete all</a> | <a href=\"\" data-bind=\"click: go_to_backup\">View</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[2]}\"></span> Diagnostic</label><span data-bind=\"text: get_filesize('diags')\"></span> <span data-bind=\"text: '(' + get_percentage('diags')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_diags\">Delete all</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[3]}\"></span> Capture</label><span data-bind=\"text: get_filesize('captures')\"></span> <span data-bind=\"text: '(' + get_percentage('captures')() + ')'\"></span> <a href=\"\" data-bind=\"click: delete_all_captures\">Delete all</a> |<a href=\"\" data-bind=\"click: go_to_recorder\">View</a></li>\n            <li><label><span class=\"legend\" data-bind=\"style: {backgroundColor: colors[4]}\"></span> Free</label><span data-bind=\"text: get_filesize('free')\"></span> <span data-bind=\"text: '(' + get_percentage('free')() + ')'\"></span></li>\n        </ul>\n    </div>\n</div>");
 
-require.modules["disk-management"] = require.modules["./components-spirent/disk-management"];
+require.modules["disk-management"] = require.modules["./components-ixia/disk-management"];
 
 
-require.register("./components-spirent/boot", Function("exports, module",
+require.register("./components-ixia/boot", Function("exports, module",
 "/*global $: true, LightboxWorkingViewModel: true */\n\
 \n\
-var Logger = require('./components-spirent/logger'),\n\
-    log_ajax = require('./components-spirent/logger-jquery-ajax'),\n\
-    AssetManager = require('./components-spirent/asset-manager'),\n\
-    Translator = require('./components-spirent/translator'),\n\
-    DictionaryProvider = require('./components-spirent/dictionary-provider'),\n\
-    Util = require('./components-spirent/utility-functions'),\n\
-    InfoPane = require('./components-spirent/info-pane'),\n\
+var Logger = require('./components-ixia/logger'),\n\
+    log_ajax = require('./components-ixia/logger-jquery-ajax'),\n\
+    AssetManager = require('./components-ixia/asset-manager'),\n\
+    Translator = require('./components-ixia/translator'),\n\
+    DictionaryProvider = require('./components-ixia/dictionary-provider'),\n\
+    Util = require('./components-ixia/utility-functions'),\n\
+    InfoPane = require('./components-ixia/info-pane'),\n\
     promise = require('then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7'),\n\
     manager = new AssetManager(),\n\
     lightbox = Util.lightbox,\n\
@@ -77550,7 +77554,7 @@ function translatorInitializer(language) {\n\
 \n\
 function openLoadingLightbox() {\n\
     return promise(function (resolve) {\n\
-        manager.queueDownload(\"images/spinner.gif\");\n\
+        manager.queueDownload(\"static/images/spinner.gif\");\n\
         manager.downloadAll(function () {\n\
             lightbox.open({\n\
                 url: 'html/lightbox_tmpl',\n\
@@ -77574,7 +77578,7 @@ function getImageUrls() {\n\
     return promise(function (resolve, reject) {\n\
         $.ajax({\n\
             type: \"get\",\n\
-            url: \"/spirent/get_images\",\n\
+            url: \"/ixia/get_images\",\n\
             dataType: 'json',\n\
             success: resolve,\n\
             error: function (jqXhr, textStatus, errorThrown) {\n\
@@ -77597,10 +77601,10 @@ function queueImages(build_number, data) {\n\
             if (imageFiles[i].directory === true) {\n\
                 subfolderImages = imageFiles[i].children;\n\
                 for (x = 0; x < subfolderImages.length; x += 1) {\n\
-                    manager.queueDownload(\"/images/\" + imageFiles[i].name + \"/\" + subfolderImages[x] + '?' + build_number);\n\
+                    manager.queueDownload(\"static/images/\" + imageFiles[i].name + \"/\" + subfolderImages[x] + '?' + build_number);\n\
                 }\n\
             } else {\n\
-                manager.queueDownload(\"/images/\" + imageFiles[i].name + '?' + build_number);\n\
+                manager.queueDownload(\"static/images/\" + imageFiles[i].name + '?' + build_number);\n\
             }\n\
         }\n\
         manager.downloadAll(resolve);\n\
@@ -77609,28 +77613,26 @@ function queueImages(build_number, data) {\n\
 \n\
 function loadGlobals() {\n\
     // Load modules that will be available to plain-JS scripts (non-component)\n\
-    window.DeviceModel = require('./components-spirent/device-model');\n\
-    window.SpirentViewModel = require('./components-spirent/spirent-view-model');\n\
-    window.TestHistoryViewModel = require('./components-spirent/test-history-view-model');\n\
-    window.DashboardViewModel = require('./components-spirent/dashboard-view-model');\n\
-    window.TestViewModel = require('./components-spirent/test-view-model');\n\
-    window.TestTemplateViewModel = require('./components-spirent/test-template-view-model');\n\
-    window.ConfiguredTestViewModel = require('./components-spirent/configured-test-view-model');\n\
-    window.AdministrationViewModel = require('./components-spirent/administration-view-model');\n\
-    window.TrafficPlayerViewModel = require('./components-spirent/traffic-player-view-model');\n\
-    window.TestDeviceViewModel = require('./components-spirent/test-device-view-model');\n\
-    window.LineRateMessageViewModel = require('./components-spirent/line-rate-message-view-model');\n\
-    window.TrafficRecorder = require('./components-spirent/traffic-recorder');\n\
-    window.TestResultsFinalTableViewModel = require('./components-spirent/test-results-final-table-view-model');\n\
-    window.InfoPane = require('./components-spirent/info-pane');\n\
-    window.DiskManagement = require('./components-spirent/disk-management');\n\
+    window.DeviceModel = require('./components-ixia/device-model');\n\
+    window.IxiaViewModel = require('./components-ixia/ixia-view-model');\n\
+    window.TestHistoryViewModel = require('./components-ixia/test-history-view-model');\n\
+    window.DashboardViewModel = require('./components-ixia/dashboard-view-model');\n\
+    window.TestViewModel = require('./components-ixia/test-view-model');\n\
+    window.TestTemplateViewModel = require('./components-ixia/test-template-view-model');\n\
+    window.ConfiguredTestViewModel = require('./components-ixia/configured-test-view-model');\n\
+    window.AdministrationViewModel = require('./components-ixia/administration-view-model');\n\
+    window.TrafficPlayerViewModel = require('./components-ixia/traffic-player-view-model');\n\
+    window.TestDeviceViewModel = require('./components-ixia/test-device-view-model');\n\
+    window.LineRateMessageViewModel = require('./components-ixia/line-rate-message-view-model');\n\
+    window.TestResultsFinalTableViewModel = require('./components-ixia/test-results-final-table-view-model');\n\
+    window.InfoPane = require('./components-ixia/info-pane');\n\
 }\n\
 \n\
 function loadRootViewModel(settings) {\n\
     return promise(function (resolve) {\n\
         var model = new LightboxWorkingViewModel(translate(\"Loading\"), translate('Loading data...'), 30);\n\
         lightbox.working(model);\n\
-        var root_vm = new SpirentViewModel(settings);\n\
+        var root_vm = new IxiaViewModel(settings);\n\
         root_vm.setUser('Administrator');\n\
         root_vm.init().done(resolve.bind(this, root_vm)).fail(function(e) { window.logger.error(e + ' trace: ' + e.stack); });\n\
         ko.applyBindings(root_vm, document.getElementById('main'));\n\
@@ -77649,202 +77651,18 @@ function closeLoadingLightbox(spirentEnterpriseVm) {\n\
     });\n\
 }\n\
 \n\
-function showTrafficRecorder(spirentEnterpriseVm) {\n\
-    return promise(function (resolve) {\n\
-        var $main = document.querySelector('#main'),\n\
-            $player_body = $main.querySelector('.test'),\n\
-            $tabs = document.querySelector('.navigation .tabs'),\n\
-            $player_tab = $tabs.querySelector('.player'),\n\
-            $recorder_tab = document.createElement('li'),\n\
-            chassis = spirentEnterpriseVm.availableDevices()[0],\n\
-            recorder,\n\
-            show = function () {\n\
-                if (!recorder) {\n\
-                    recorder = TrafficRecorder.factory(chassis.ports);\n\
-                    $main.insertBefore(recorder.$el, $player_body.nextSibling);\n\
-                }\n\
-\n\
-//                spirentEnterpriseVm.selectedTab('recorder');\n\
-                classes($recorder_tab).add('selected');\n\
-                recorder.show();\n\
-            };\n\
-\n\
-        // Inject main navigation tab\n\
-        $recorder_tab.innerHTML = translate('RECORDER');\n\
-        $recorder_tab.className = 'recorder';\n\
-        $tabs.insertBefore($recorder_tab, $player_tab.nextSibling);\n\
-\n\
-        spirentEnterpriseVm.selectedTab.subscribe(function (tab) {\n\
-            if (tab !== 'recorder') {\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            show();\n\
-        });\n\
-\n\
-        //Bind tab click handler\n\
-        event.bind($recorder_tab, 'click', function() {\n\
-            spirentEnterpriseVm.selectedTab('recorder');\n\
-        });\n\
-\n\
-        // Hide recorder when another tab is selected\n\
-        spirentEnterpriseVm.selectedTab.subscribe(function (tab) {\n\
-            if (recorder && 'recorder' !== tab) {\n\
-                classes($recorder_tab).remove('selected');\n\
-                recorder.hide();\n\
-            }\n\
-        });\n\
-\n\
-        resolve(spirentEnterpriseVm);\n\
-    });\n\
-}\n\
-\n\
-function bindNetflowSettingsHandler(spirentEnterpriseVm) {\n\
-    return promise(function (resolve) {\n\
-        var admin = spirentEnterpriseVm.vmAdministration,\n\
-            admin_tab = admin.selectedTab,\n\
-            view,\n\
-            chassis = spirentEnterpriseVm.availableDevices()[0];\n\
-\n\
-        admin.flowmonEnabled(true);\n\
-\n\
-        if (!chassis.supports_flowmon) {\n\
-            resolve(spirentEnterpriseVm);\n\
-        }\n\
-\n\
-        admin_tab.subscribe(function (name) {\n\
-            if ('netflow' !== name) {\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            if (view) {\n\
-                if(view.$el.parentNode){\n\
-                    view.$el.parentNode.removeChild(view.$el);\n\
-                }\n\
-                view = undefined;\n\
-                //view.show();\n\
-                //return; // Short-circuit\n\
-            }\n\
-\n\
-            // Create new Netflow view\n\
-            var Settings = require('./components-spirent/netflow-settings'),\n\
-                $admin = document.querySelector('.administration .container');\n\
-\n\
-            view = Settings.factory(function (err) {\n\
-                if (err) {\n\
-                    window.logger.error('Could not load netflow', err);\n\
-                    view.hide();\n\
-                    lightbox.openError(window.translate('Error'), window.translate('Unable to load Netflow'));\n\
-                    return; // Short-circuit\n\
-                }\n\
-\n\
-                view.render();\n\
-            });\n\
-\n\
-            // Append to administration section\n\
-            $admin.appendChild(view.$el);\n\
-        });\n\
-\n\
-        admin_tab.subscribe(function (prev) {\n\
-            if ('netflow' === prev && view) {\n\
-                view.hide();\n\
-            }\n\
-        }, null, \"beforeChange\");\n\
-\n\
-        resolve(spirentEnterpriseVm);\n\
-    });\n\
-}\n\
-\n\
 function bindScheduler(spirentEnterpriseVm) {\n\
     return promise(function(resolve) {\n\
         try {\n\
             spirentEnterpriseVm.selectedTab.subscribe(function(name) {\n\
                 if ('calendar' == name) {\n\
-                    var scheduler = require('./components-spirent/scheduler').create(spirentEnterpriseVm);\n\
+                    var scheduler = require('./components-ixia/scheduler').create(spirentEnterpriseVm);\n\
                     window.calendar = scheduler;\n\
                     scheduler.render();\n\
                 }\n\
             });\n\
             resolve(spirentEnterpriseVm);\n\
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }\n\
-    });\n\
-}\n\
-\n\
-function bindPulse(spirentEnterpriseVm) {\n\
-    return promise(function (resolve) {\n\
-        var view,\n\
-            selected_tab = spirentEnterpriseVm.vmAdministration.selectedTab;\n\
-\n\
-        spirentEnterpriseVm.vmAdministration.pulseEnabled(true);\n\
-\n\
-        selected_tab.subscribe(function (tab) {\n\
-            if (tab !== 'pulse') {\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            if (view) {\n\
-                if(view.$el.parentNode) {\n\
-                    view.$el.parentNode.removeChild(view.$el);\n\
-                }\n\
-                view = undefined;\n\
-                //view.show();\n\
-                //return; // Short-circuit\n\
-            }\n\
-\n\
-            var $admin = document.querySelector('.administration .container'),\n\
-                PulseViewModel = require('./components-spirent/pulse');\n\
-\n\
-            view = PulseViewModel.factory(function (err) {\n\
-                if (err) {\n\
-                    window.logger.error('Could not load Pulse', err);\n\
-                    view.hide();\n\
-                    lightbox.openError(window.translate('Error'), window.translate('Unable to load Pulse'));\n\
-                }\n\
-            });\n\
-            view.render();\n\
-            $admin.appendChild(view.$el);\n\
-        });\n\
-\n\
-        selected_tab.subscribe(function (prev) {\n\
-            if ('pulse' === prev && view) {\n\
-                view.hide();\n\
-            }\n\
-        }, null, \"beforeChange\");\n\
-\n\
-        resolve(spirentEnterpriseVm);\n\
-    });\n\
-}\n\
-\n\
-function bindDiskManagement(spirentEnterpriseVm) {\n\
-    return promise(function (resolve) {\n\
-        var view,\n\
-            selected_tab = spirentEnterpriseVm.vmAdministration.selectedTab;\n\
-\n\
-        view = window.DiskManagement.factory(spirentEnterpriseVm);\n\
-        view.update();\n\
-\n\
-        selected_tab.subscribe(function (tab) {\n\
-            if (tab !== 'disk') {\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            if (!view.$el.parentNode) {\n\
-                var $admin = document.querySelector('.administration .container');\n\
-                $admin.appendChild(view.$el);\n\
-            } else {\n\
-                view.show();\n\
-            }\n\
-\n\
-            view.update(view.render.bind(view));\n\
-        });\n\
-\n\
-        selected_tab.subscribe(function (prev) {\n\
-            if ('disk' === prev && view) {\n\
-                view.hide();\n\
-            }\n\
-        }, null, \"beforeChange\");\n\
-\n\
-        resolve(spirentEnterpriseVm);\n\
     });\n\
 }\n\
 \n\
@@ -77869,7 +77687,7 @@ module.exports = function (settings, callback) {\n\
         push : function (vm) {\n\
             var state = vm.getState();\n\
             if (history.pushState) {\n\
-                history.pushState(state, \"Axon\");\n\
+                history.pushState(state, \"CyberRange\");\n\
             }\n\
         }\n\
     };\n\
@@ -77877,7 +77695,7 @@ module.exports = function (settings, callback) {\n\
     // Setup logging\n\
 \n\
     level = Logger.levels[level];\n\
-    logger = new Logger(level, settings, '/spirent/log_js.json');\n\
+    logger = new Logger(level, settings, '/ixia/log_js.json');\n\
 \n\
     if (window) {\n\
         window.logger = logger;\n\
@@ -77898,33 +77716,23 @@ module.exports = function (settings, callback) {\n\
         .then(getImageUrls)\n\
         .then(queueImages.bind(this, settings.build_number))\n\
         .then(loadGlobals)\n\
-        .then(loadRootViewModel.bind(this, settings))\n\
-        .then(bindNetflowSettingsHandler);\n\
-\n\
-    if (-1 !== settings.features.indexOf('traffic-recorder')) {\n\
-        load.then(showTrafficRecorder);\n\
-    }\n\
+        .then(loadRootViewModel.bind(this, settings));\n\
 \n\
     if (-1 !== settings.features.indexOf('scheduler')) {\n\
         load.then(bindScheduler);\n\
     }\n\
 \n\
-    if (-1 !== settings.features.indexOf('pulse')) {\n\
-        load.then(bindPulse);\n\
-    }\n\
-\n\
-    load.then(bindDiskManagement)\n\
-        .then(closeLoadingLightbox)\n\
+    load.then(closeLoadingLightbox)\n\
         .then(loadInfoPane)\n\
         .then(callback, function (err) {\n\
             logger.error(err);\n\
         })\n\
 ;\n\
 };\n\
-//# sourceURL=components-spirent/boot/index.js"
+//# sourceURL=components-ixia/boot/index.js"
 ));
 
-require.modules["boot"] = require.modules["./components-spirent/boot"];
+require.modules["boot"] = require.modules["./components-ixia/boot"];
 
 
-require("./components-spirent/boot");
+require("./components-ixia/boot");

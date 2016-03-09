@@ -1,0 +1,18 @@
+{
+    "name": "ixia-view-model",
+    "repo": "components-ixia/ixia-view-model",
+    "description": "Root view model",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {},
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js",
+        "test-configurations-adapter.js"
+    ],
+    "local": [
+        "endpoint-view-model"
+    ]
+}

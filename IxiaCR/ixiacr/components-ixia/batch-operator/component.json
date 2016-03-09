@@ -1,6 +1,6 @@
 {
   "name": "batch-operator",
-  "repo": "components-spirent/batch-operator",
+  "repo": "components-ixia/batch-operator",
   "description": "UI element to perform batch operations on a list of items",
   "version": "0.0.1",
   "keywords": [],

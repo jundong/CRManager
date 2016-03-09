@@ -169,7 +169,7 @@ TestEvent.createOrUpdateTestEvent = function (testConfig, eventConfig, callback)
 
 TestEvent.cancelTestEvent = function (id, callback) {
     request
-        .post('/spirent/schedule/test-events/' + id + '/cancel')
+        .post('/ixia/schedule/test-events/' + id + '/cancel')
         .use(no_cache)
         .send('')
         .set('Accept', 'application/json')
@@ -190,7 +190,7 @@ TestEvent.cancelTestEvent = function (id, callback) {
 TestEvent.reserve_and_begin_validation = function (test_config, event_config, success) {
     var status = window.translate('Validating schedule'),
         lb = new LightboxWorkingViewModel('working', status),
-        url = '/spirent/schedule/pending-events',
+        url = '/sp/ixiahedule/pending-events',
         data = {
             'test_config': test_config,
             'event_config': event_config
@@ -235,7 +235,7 @@ TestEvent.poll_for_validation = function (success) {
         poll = function (next) {
             again = next;
 
-            request.get('/spirent/get_istestready')
+            request.get('/spire/ixiastestready')
                 .use(no_cache)
                 .set('Accept', 'application/json')
                 .end(handle_response);
@@ -251,7 +251,7 @@ TestEvent.poll_for_validation = function (success) {
 TestEvent.create = function (test_config, event_config, success) {
     var status = window.translate('Saving scheduled test'),
         lb = new LightboxWorkingViewModel('working', status),
-        url = '/spirent/schedule/test-events',
+        url = '/spirent//ixia/test-events',
         data = {
             'test_config': test_config,
             'event_config': event_config

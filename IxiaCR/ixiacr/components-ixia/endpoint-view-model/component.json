@@ -1,6 +1,6 @@
 {
   "name": "endpoint-view-model",
-  "repo": "components-spirent/endpoint-view-model",
+  "repo": "components-ixia/endpoint-view-model",
   "description": "View Model for endpoints",
   "version": "0.0.1",
   "keywords": [],

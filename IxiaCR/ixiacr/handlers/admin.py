@@ -58,7 +58,9 @@ def view_includes(config):
     config.add_handler('shutdown_ixiacr', '/ixia/shutdown_ixiacr',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='shutdown_ixiacr')
-
+    config.add_handler('reset_eula', '/ixia/reset_eula',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='reset_eula')
 
 class IxiaAdminHandler(base.Handler):
     """This is the class container holding the methods that perform the
@@ -66,6 +68,29 @@ class IxiaAdminHandler(base.Handler):
     application.
 
     """
+    @action(renderer='json')
+    def reset_eula(self):
+        """This space was left blank because Python is self-documenting.
+
+        """
+        self.messages = []
+        ixiacrlogger.info('Entering: reset_eula')
+        try:
+            # Get all of the Eulas and delete 'em.
+            for user in User.query.all():
+                for eula in user.eulas:
+                    user.eulas.remove(eula)
+
+            transaction.commit()
+
+            return Response(self.localizer.translate(
+                _("User Eulas were successfully reset.")))
+
+        except Exception, e:
+            ixiacrlogger.exception('reset_eula: Exception. %s' % e)
+            self.messages.append(dict(
+                {'is_error': True, 'header': 'Failed', 'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
 
     @action(renderer='json')
     def verify_password(self):

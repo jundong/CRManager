@@ -238,7 +238,7 @@
     padding-right: 20px;
     padding-left: 3px;
     min-height: 16px;
-    background-image: url(/images/save.png);
+    background-image: url(static/images/save.png);
     background-repeat: no-repeat;
     background-position: right center;
 }

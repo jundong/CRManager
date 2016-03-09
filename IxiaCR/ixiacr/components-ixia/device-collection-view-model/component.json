@@ -1,6 +1,6 @@
 {
   "name": "device-collection-view-model",
-  "repo": "components-spirent/device-collection-view-model",
+  "repo": "components-ixia/device-collection-view-model",
   "description": "Manages a collection of device view models - used on test configuration pane.",
   "version": "0.0.1",
   "keywords": [],

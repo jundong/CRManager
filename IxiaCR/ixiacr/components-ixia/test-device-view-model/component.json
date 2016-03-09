@@ -1,6 +1,6 @@
 {
   "name": "test-device-view-model",
-  "repo": "components-spirent/test-device-view-model",
+  "repo": "components-ixia/test-device-view-model",
   "description": "View model for devices",
   "version": "0.0.1",
   "keywords": [],

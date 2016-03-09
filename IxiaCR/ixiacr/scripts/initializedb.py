@@ -101,16 +101,34 @@ def import_db(cmd):
         transaction.commit()
 
         # Create the admin user so we can always access the system as admin.
-        su = User(first_name=u'Ixia111111', last_name=u'User', username=u'admin',
-                  email=u'admin@ixia.com')
+        su = User(first_name=u'Ixia', last_name=u'User', username=u'admin',
+                  email=u'admin@ixiacom.com', remote_addr=u'127.0.0.1')
         su._set_password('admin')
         su.groups.append(admin_group)
         db.add(su)
         transaction.commit()
 
+        # Make a fake EULA for testing...
+        db.add(Eula(name=translatable_string(_(u'License Update....')),
+                    build=u"1.00.0001",
+                    heading=translatable_string(_(u'This is the heading for the new Eula please check the checkbox.')),
+                    content=translatable_string(_(u'eula_version_1'))))
+        transaction.commit()
+
+        # Create some generic static device types
+        db.add(DeviceType(name=translatable_string(_(u'localhost')),
+                          description=translatable_string(_(u'Our local Axon chassis.'))))
+        transaction.commit()
+
         db.add(TestMessage(test_id=0,
                            message=translatable_string(_(u'All tests can be run using either IPv4 packets or IPv6 packets. Just input your endpoint addresses in the appropriate format.')),
                            status=u'Result'))
+        transaction.commit()
+
+        db.add(Portlet(name=translatable_string(_(u'Welcome')), content_type=1, portlet_content=translatable_string(_(u'portlet.welcome.content')), default_column=u'.l-portlet-column', div_id_name=u'welcome'))
+        db.add(Portlet(name=translatable_string(_(u'Recent Results')), content_type=4, portlet_content=translatable_string(_(u'portlet.recent_results.content')), default_column=u'.l-portlet-column', div_id_name=u'recent-tests-template'))
+        db.add(Portlet(name=translatable_string(_(u'Favorite Tests')), content_type=4, portlet_content=translatable_string(_(u'portlet.favorite_tests.content')), default_column=u'.r-portlet-column', div_id_name=u'favorite-tests-template'))
+        db.add(Portlet(name=translatable_string(_(u'Test Library')), content_type=4, portlet_content=translatable_string(_(u'portlet.test_library.content')), default_column=u'.r-portlet-column', div_id_name=u'all-tests-template'))
         transaction.commit()
 
         # Configure global system parameters.

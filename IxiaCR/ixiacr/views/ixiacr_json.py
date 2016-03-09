@@ -1,11 +1,7 @@
 import time
 import json
 from pyramid.i18n import (TranslationStringFactory,
-                          get_localizer,
                           get_locale_name)
-import transaction
-
-from json import loads
 from decimal import *
 
 from sqlalchemy.exc import DBAPIError
@@ -44,6 +40,9 @@ def view_includes(config):
                      '/ixia/get_disk_info')
     config.add_view(get_disk_info, route_name='get_disk_info',
                     renderer='json', permission='all_access')
+    config.add_route('get_portlets', '/ixia/get_portlets.json')
+    config.add_view(get_portlets, route_name='get_portlets', renderer='json',
+                    permission='all_access')
 
 
 # Encode Python Decimals to JSON
@@ -148,7 +147,7 @@ def get_result_history(request):
     result_id = request.params.get('result_id', None)
     results = []
     try:
-        return results
+        return items
 
     except DBAPIError, e:
         return Response("Error: DB Error: {0}".format(e),
@@ -164,15 +163,38 @@ def get_result_history(request):
 def get_ixiacr_tests(request):
     # JSON feed that is responsible for the ixiacr_tests.
     test_id = request.params.get('test_id', None)
-    # result_id and config_from_result are used for getting real test config which may differ from user saved test
-    result_id = request.params.get('result_id', None)
-    config_from_result = None
-
-    filters = request.params.get('filters', None)
-    tests = []
+    tests = IxiaTest.query.filter(IxiaTest.active=='true').order_by(IxiaTest.id.desc()).all()
 
     try:
         return tests
+
+    except DBAPIError, e:
+        return Response("Error: DB Error: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+    except Exception, e:
+        return Response("Exception: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+
+
+@view_config(name='get_portlets', renderer='json')
+def get_portlets(request):
+    lang = get_locale_name(request)
+
+    def portlet_model(p):
+        return {
+            'id': p.id,
+            'name': p.name.get_translation(lang) if p.name else None,
+            'content_type': p.content_type,
+            'portlet_content': p.portlet_content.get_translation(
+                lang) if p.portlet_content else None,
+            'default_column': p.default_column,
+            'div_id_name': p.div_id_name
+        }
+
+    try:
+        return map(portlet_model, Portlet.query.all())
 
     except DBAPIError, e:
         return Response("Error: DB Error: {0}".format(e),
@@ -243,10 +265,6 @@ def get_test_state(request):
 def get_result_series(request):
     """The result data as JSON returned from the database when running the
     test.  See the wiki page for the specifics.
-
-    https://origin.spirenteng.com/display/ENT/Results+Presentation
-
-    URI: /spirent/get_result_series/{tab}/{idx}
 
     :param tab: The UI tab index selected.
     :type tab: Integer

@@ -1,6 +1,6 @@
 {
   "name": "async-poller",
-  "repo": "components-spirent/async-poller",
+  "repo": "components-ixia/async-poller",
   "description": "Continuously calls an asynchronous method",
   "version": "0.0.1",
   "keywords": [],

@@ -1,6 +1,6 @@
 {
     "name": "traffic-player-view-model",
-    "repo": "components-spirent/traffic-player-view-model",
+    "repo": "components-ixia/traffic-player-view-model",
     "description": "View-model for the traffic player",
     "version": "0.0.1",
     "keywords": [],

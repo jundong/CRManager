@@ -3450,7 +3450,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
     padding-right: 20px;
     padding-left: 3px;
     min-height: 16px;
-    background-image: url(/images/save.png);
+    background-image: url(components-ixia/scheduler/static/images/save.png);
     background-repeat: no-repeat;
     background-position: right center;
 }
@@ -3546,7 +3546,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 
 .scheduler-configure{
     background-color: #323233;
-    background-image: url("components-spirent/images/texture-small.png");
+    background-image: url("components-ixia/images/texture-small.png");
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -4470,14 +4470,14 @@ input.with-label {
 }
 
 .info-pane .diskfull {
-    background-image: url(/images/disk-white.png);
+    background-image: url(/static/images/disk-white.png);
     background-repeat: no-repeat;
     background-size: 1em;
     background-position: left 14px center;
 }
 
 .administration .nav .disk:before {
-    content: url(/images/disk-white.png);
+    content: url(/static/images/disk-white.png);
     position: absolute;
     top: 14px;
     left: 12px;
@@ -4485,7 +4485,7 @@ input.with-label {
 
 .disk .updating {
     display: inline-block;
-    background-image: url(/images/loading.gif);
+    background-image: url(/static/images/loading.gif);
     width: 15px;
     height: 15px;
 }

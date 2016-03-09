@@ -380,7 +380,7 @@
     <!-- ko if: vlan_id -->
     <td data-bind="text: vlanLabel"></td>
     <!-- /ko -->
-    <td data-bind="attr: {colspan: vlan_id() ? 1 : 2}"><span data-bind="text: strings['IP details']"></span> <img src="images/info.png"  data-bind="tooltip: ipDetails, attr: { 'title': ipDetails, 'alt': ipDetails, 'data-title': ipDetails}" /><div class="tooltip" style="display: none;" data-bind="text: ipDetails"></div></td>
+    <td data-bind="attr: {colspan: vlan_id() ? 1 : 2}"><span data-bind="text: strings['IP details']"></span> <img src="static/images/info.png"  data-bind="tooltip: ipDetails, attr: { 'title': ipDetails, 'alt': ipDetails, 'data-title': ipDetails}" /><div class="tooltip" style="display: none;" data-bind="text: ipDetails"></div></td>
 </script>
 
 {% include 'endpoint/traffic-player-pane.jinja2' %}

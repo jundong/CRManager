@@ -75,12 +75,11 @@ class AuthHandler(base.Handler):
                         session.save()
 
                     cookie = headers[0][1]
-                    user.update_session(cookie[cookie.index('"') + 1:cookie.index('!')], remote_addr)
+                    user.update_session(cookie[cookie.index('=') + 1:cookie.index('!')], remote_addr)
 
                     transaction.commit()
-                    #ChassisSession.login(session)          # DISABLED JCZ 2014-02-21
 
-                    return HTTPFound(location='', headers=headers)
+                    return HTTPFound(location='/', headers=headers)
 
             if self.request.method == 'POST':
                 if username and invoke_override:

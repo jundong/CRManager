@@ -31,10 +31,7 @@ function TestSidebarViewModel(testVm) {
         self.applyFilters(self.testVm.availableEndpoints, self.availableEndpoints);
     });
 
-//    self.availablePlaylists = self.testVm.availablePlaylists;
     self.availableDevices = self.testVm.availableDevices;
-//    self.availableEndpoints = self.testVm.availableEndpoints;
-//    self.availableTests = self.testVm.availableTests;
     self.getResultTypes = self.testVm.getResultTypes;
 
     self.toggleClass = ko.observable("all-items");

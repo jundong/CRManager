@@ -54,7 +54,7 @@
             </li>-->
             <li >
                 <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
-                <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+                <img class="search" src="static/images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
             </li>
 
         </ul>
@@ -73,11 +73,11 @@
                 <tbody data-bind="foreach: filteredHistoryItems">
                 <tr data-bind="click: function () { loadRecentTest(); }">
                     <td>
-                        <img data-bind="visible: endResult() == 'pass'" src="images/pass-light.png" title="{% trans %}pass{% endtrans %}" alt="{% trans %}pass{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'unrated'" src="images/unrated-light.png" title="{% trans %}unrated{% endtrans %}" alt="{% trans %}unrated{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'fail'" src="images/fail-light.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'error'" src="images/fail-light.png" title="{% trans %}error{% endtrans %}" alt="{% trans %}error{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'aborted'" src="images/no-light.png" title="{% trans %}aborted{% endtrans %}" alt="{% trans %}aborted{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'pass'" src="static/images/pass-light.png" title="{% trans %}pass{% endtrans %}" alt="{% trans %}pass{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'unrated'" src="static/images/unrated-light.png" title="{% trans %}unrated{% endtrans %}" alt="{% trans %}unrated{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'fail'" src="static/images/fail-light.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'error'" src="static/images/fail-light.png" title="{% trans %}error{% endtrans %}" alt="{% trans %}error{% endtrans %}" />
+                        <img data-bind="visible: endResult() == 'aborted'" src="static/images/no-light.png" title="{% trans %}aborted{% endtrans %}" alt="{% trans %}aborted{% endtrans %}" />
                     </td>
                     <td>
                         <h4 data-bind="text: name" class="name"></h4>

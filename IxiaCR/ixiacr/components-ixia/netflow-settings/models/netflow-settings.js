@@ -3,7 +3,7 @@ var model = require('model'),
 
 var NetflowSettings = model('NetflowSettings')
 //    .route('http://johntron.apiary.io/flowmon')
-    .route('/spirent/flowmon')
+    .route('/ixia/flowmon')
     .use(defaults)
     .attr('status')
     .attr('license_status')

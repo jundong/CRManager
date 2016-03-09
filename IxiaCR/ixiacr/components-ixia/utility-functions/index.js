@@ -33,7 +33,6 @@ function getTemplate(url, template_selector, callback, reload, log) {
                 // Warning: $template is a <script> element with string
                 // content - we need to call $.tmpl() on this to convert its
                 // contents to DOM elements. See
-                // axon/components-spirent/lightbox/index.js:openWithElement()
                 // for an example of how to do this.
                 callback($template);
             }
@@ -114,7 +113,7 @@ function formatRequestData(key, data) {
 }
 
 function getConfigSetting(key) {
-    var rootPath = "/spirent/";
+    var rootPath = "/ixia/";
     var stubsPath = "stubs/";
 
     var config = {
@@ -476,6 +475,8 @@ function clear_all_validation_messages (el) {
 }
 
 function get_chassis_reservationa_status (callback) {
+    return
+
     request
         .get('/spirent/get_reservation_status')
         .use(no_cache)

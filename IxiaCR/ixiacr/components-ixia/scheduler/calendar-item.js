@@ -27,7 +27,7 @@ CalendarItem.loadByRange = function(startDate, endDate, callback) {
     var self = this;
 
     request
-        .get('/spirent/schedule/calendar-items')
+        .get('/ixia/schedule/calendar-items')
         .use(no_cache)
         .query('start_date=' + moment(startDate).format("YYYY-MM-DD"))
         .query('end_date=' + moment(endDate).format("YYYY-MM-DD"))
@@ -45,7 +45,7 @@ CalendarItem.loadByResultId = function(result_id, callback) {
     var self = this;
 
     request
-        .get('/spirent/schedule/calendar-items')
+        .get('/ixia/schedule/calendar-items')
         .use(no_cache)
         .query('result_id=' + result_id)
         .query('timezone=' + tz.name())

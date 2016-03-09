@@ -1,6 +1,6 @@
 {
     "name": "test-history-view-model",
-    "repo": "components-spirent/test-history-view-model",
+    "repo": "components-ixia/test-history-view-model",
     "description": "View Model for previously-run tests",
     "version": "0.0.1",
     "keywords": [],

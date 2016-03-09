@@ -1,6 +1,6 @@
 {
   "name": "logger",
-  "repo": "components-spirent/logger",
+  "repo": "components-ixia/logger",
   "description": "Logs messages to a server via AJAX",
   "version": "0.0.1",
   "keywords": [],

@@ -3,7 +3,7 @@
 		"id": 1,
         "name": "Welcome",
         "content_type": 1,
-		"portlet_content": "<div class='get-started-image'><img src='images/get-started-spirent.jpg' alt='Get Started!' title='Get Started!' /></div><div class='get-started-content'><h3>Let's Get Started!</h3><p>Welcome to Axon!</p><p class='get-started-button-container'><span class='button-outer'><a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();' class='button'>RUN A TEST</a></p></div>",
+		"portlet_content": "<div class='get-started-image'><img src='static/images/get-started-spirent.jpg' alt='Get Started!' title='Get Started!' /></div><div class='get-started-content'><h3>Let's Get Started!</h3><p>Welcome to Axon!</p><p class='get-started-button-container'><span class='button-outer'><a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();' class='button'>RUN A TEST</a></p></div>",
 		"default_column": ".l-portlet-column",
 		"div_id_name": "welcome"
     },

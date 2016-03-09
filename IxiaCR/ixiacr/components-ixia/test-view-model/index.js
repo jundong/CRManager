@@ -687,7 +687,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 1,
             name: translate('Total Bandwidth'),
             description: translate('Total Bandwidth'),
-            url: '/spirent/get_result_series/1/1',
+            url: '/ixia/get_result_series/1/1',
             frequency: 1000,
             yAxisLabel: "Mbps",
             duration: durationInMilliseconds
@@ -696,7 +696,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 2,
             name: translate('Bandwidth'),
             description: translate('Bandwidth for Transport Data'),
-            url: '/spirent/get_result_series/2/1',
+            url: '/ixia/ixiat_result_series/2/1',
             frequency: 1000,
             yAxisLabel: translate("Mbps"),
             duration: durationInMilliseconds
@@ -705,7 +705,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 3,
             name: translate('Packet Loss'),
             description: translate('Packet Loss for Transport Data'),
-            url: '/spirent/get_result_series/2/2',
+            url: '/ixia/get_result_series/2/2',
             frequency: 1000,
             yAxisLabel: translate("Packets"),
             duration: durationInMilliseconds
@@ -714,7 +714,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 4,
             name: translate('Latency'),
             description: translate('Latency for Transport Data'),
-            url: '/spirent/get_result_series/2/3',
+            url: '/ixia/get_result_series/2/3',
             frequency: 1000,
             yAxisLabel: translate("Latency"),
             duration: durationInMilliseconds
@@ -723,7 +723,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 5,
             name: translate('Jitter'),
             description: translate('Jitter for Transport Data'),
-            url: '/spirent/get_result_series/2/4',
+            url: '/ixia/get_result_series/2/4',
             frequency: 1000,
             yAxisLabel: translate("Jitter"),
             duration: durationInMilliseconds
@@ -741,7 +741,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 7,
             name: translate('Connections'),
             description: translate('Connections for Application Data'),
-            url: '/spirent/get_result_series/3/2',
+            url: '/ixia/get_result_series/3/2',
             frequency: 1000,
             yAxisLabel: translate("Connections per second"),
             duration: durationInMilliseconds
@@ -750,7 +750,7 @@ TestViewModel.prototype.getDynamicResultTypes = function(){
             id: 8,
             name: translate('Transactions'),
             description: translate('Transactions for Application Data'),
-            url: '/spirent/get_result_series/3/3',
+            url: '/ixia/get_result_series/3/3',
             frequency: 1000,
             yAxisLabel: translate("Transactions per second"),
             duration: durationInMilliseconds

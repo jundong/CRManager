@@ -19,7 +19,6 @@ from ixiacr.lib.component_registry import register_component
 
 ixiacrlogger = IxiaLogger(__name__)
 
-
 # Venusian < 1.0a7 has a bug which prevents the ignore option in
 # the config.scan below from actually working.  This fixes it.
 # DO NOT REMOVE this unless you know what you're doing
@@ -83,8 +82,8 @@ def main(global_config, **settings):
             authorization_policy=authorization)
 
         # Secure by default all views/handlers
-        # Comment this line out to return to the old behavior of all API endpoints being unauthenticated
-        config.set_default_permission(Authenticated)
+        # Comment this line out to return to the old behavior of all API being unauthenticated
+        # config.set_default_permission(Authenticated)
 
         if 'debug' in settings and settings['debug'].lower() != 'false':
             config.include('pyramid_debugtoolbar')
@@ -94,7 +93,6 @@ def main(global_config, **settings):
         config.include('pyramid_jinja2')
         config.include("pyramid_beaker")
         config.add_static_view('static', 'static')
-        config.add_jinja2_search_path("ixiacr:testcases")
         config.add_jinja2_search_path("ixiacr:templates")
 
         config.add_translation_dirs("ixiacr:locale/")

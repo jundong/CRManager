@@ -18,7 +18,7 @@
                     <div class="fill" data-bind="attr: { 'style': 'width: '+vmResults.percentComplete()+'%' }"></div>
                 </div>
             </div>
-            <div class="run" data-bind="click: runTest, clickBubble: false"><img src="images/test-player-play-button.png" class="test-play-button" data-bind="visible: vmResults.status() != 'running'"><img src="images/test-player-stop-button.png" class="test-stop-button" data-bind="visible: vmResults.status() == 'running'"></div>
+            <div class="run" data-bind="click: runTest, clickBubble: false"><img src="static/images/test-player-play-button.png" class="test-play-button" data-bind="visible: vmResults.status() != 'running'"><img src="static/images/test-player-stop-button.png" class="test-stop-button" data-bind="visible: vmResults.status() == 'running'"></div>
             <div class="duration">
                 <p class="duration-header" data-bind="text: strings.Duration + ':'">Duration:</p>
                 <p data-bind="text: vmConfiguration.formattedDuration" class="duration-text"></p>
@@ -36,7 +36,7 @@
                 <li><h2 data-bind="text: vmConfiguration.name"></h2></li>
                 <li><h3 data-bind="text: vmConfiguration.categories()[0].name"></h3></li>
                 <li>
-                    <span class="round-button-outer" data-bind="visible: vmResults.status() != 'running'"><a class="round-button" href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false"><span class="round-button-text" data-bind="text: strings.save">SAVE</span><img src="images/save.png" /></a></span>
+                    <span class="round-button-outer" data-bind="visible: vmResults.status() != 'running'"><a class="round-button" href="javascript:void(0);" data-bind="click: openSaveModal, clickBubble: false"><span class="round-button-text" data-bind="text: strings.save">SAVE</span><img src="static/images/save.png" /></a></span>
                     <!--<span class="round-button-outer"><a class="round-button" href="javascript:void(0);" data-bind="click: openHelpModal, clickBubble: false"><img class="question_mark_button" src="images/question-mark.png" /></a></span>-->
                 </li>
             </ul>

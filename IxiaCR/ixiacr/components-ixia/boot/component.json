@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "boot",
-  "repo": "spirent/boot",
+  "repo": "ixia/boot",
   "description": "",
   "version": "0.0.1",
   "keywords": [],
@@ -26,7 +26,7 @@
       "utility-functions",
       "translator",
       "dictionary-provider",
-      "spirent-view-model",
+      "ixia-view-model",
       "device-model",
       "capture-filter-chooser",
       "netflow-settings",
