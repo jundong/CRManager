@@ -52914,7 +52914,7 @@ IxiaViewModel.prototype.updateAppLoadMessage = function (model, failed) {\n\
             self.header = translate('App Loading Error');\n\
             self.message = translate('The following failed to load:<br>{failed}<br><br>Please contact Spirent support at {link}', {\n\
                 failed: self.failedAjaxModels.join('<br>'),\n\
-                link: '<a href=\"http://support.spirentforbusiness.com\">support.spirentforbusiness.com</a>'\n\
+                link: '<a href=\"www.ixiacom.com\">www.ixiacom.com</a>'\n\
             });\n\
             util.lightbox.open({\n\
                 url: 'html/lightbox_tmpl',\n\
@@ -52946,30 +52946,14 @@ IxiaViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[0], true);\n\
         });\n\
 \n\
-//    var tracksAjax = self.getAvailableTracks()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[1]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[1], true);\n\
-//        });\n\
-//\n\
-//    var devicesAjax = self.getAvailableDevices()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[2]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
-//        });\n\
-//\n\
-//    var endpointAjax = self.getAvailableEndpoints()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
-//        });\n\
-//\n\
+    var devicesAjax = self.getAvailableDevices()\n\
+        .done(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[2]);\n\
+        })\n\
+        .fail(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
+        });\n\
+\n\
 //    //    var testsAjax = self.getAvailableTests()\n\
 //    //        .done(function () {\n\
 //    //            //self.updateAppLoadMessage(self.ajaxModels[4]);\n\
@@ -52978,14 +52962,7 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 //    //            self.updateAppLoadMessage(self.ajaxModels[4], true);\n\
 //    //        });\n\
 //\n\
-//    var tmplsTestsAjax = self.getTmplTests()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[13]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[13], true);\n\
-//        });\n\
-//\n\
+\n\
 //    var favoriteTestsAjax = self.getFavoriteTests()\n\
 //        .done(function () {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[14]);\n\
@@ -53001,15 +52978,7 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 //        .fail(function () {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[15], true);\n\
 //        });\n\
-//\n\
-//    var dataPointsAjax = self.getAvailableDatapoints()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[5]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[5], true);\n\
-//        });\n\
-//\n\
+\n\
 //    var resultTypesAjax = self.getResultTypes()\n\
 //        .done(function () {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[6]);\n\
@@ -53024,14 +52993,6 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 //        })\n\
 //        .fail(function () {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[7], true);\n\
-//        });\n\
-//\n\
-//    var locationsAjax = self.getAvailableLocations()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[8]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[8], true);\n\
 //        });\n\
 \n\
     var languageAjax = self.getLanguage()\n\
@@ -53058,15 +53019,6 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[11], true);\n\
 //        });\n\
 \n\
-//    var playlistAjax = self.getAvailablePlaylists()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[12]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[12], true);\n\
-//        });\n\
-\n\
-\n\
     self.selectTab(self.startingTab);\n\
 \n\
     self.initStart = (new Date()).getTime();\n\
@@ -53091,6 +53043,7 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 \n\
       return $.when(\n\
         settingsAjax,\n\
+        devicesAjax,\n\
         languageAjax\n\
     );\n\
 };\n\
@@ -53828,97 +53781,7 @@ IxiaViewModel.prototype.getAvailableDatapoints = function () {\n\
 \n\
     return ajax;\n\
 };\n\
-IxiaViewModel.prototype.getAvailableTracks = function (callback) {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-    self.availableTracks.removeAll();\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_tracks\"),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var availableTracks = data;\n\
-            self.availableTracksMap = new Array();\n\
 \n\
-            for (var i = 0; i < availableTracks.length; i++) {\n\
-                var availableTrack = new TestTrackViewModel(self);\n\
-                if (!availableTracks[i].js_bw_compute || availableTracks[i].js_bw_compute ==\"\"){\n\
-                    availableTracks[i].js_bw_compute=\"var computeFunction=function(){var trafficSettings = self.trafficSettings();if (trafficSettings == null || trafficSettings == undefined) {return;}var trackProperties = self.trackProperties();if (trackProperties.length == 0) {return;}var totalPropertiesBandwidth = 0;for (var i = 0; i < trackProperties.length; i++) {totalPropertiesBandwidth += trackProperties[i].bandwidth();}return (trafficSettings.value() * totalPropertiesBandwidth);};\";\n\
-                }\n\
-                availableTrack.inflate(availableTracks[i]);\n\
-                self.availableTracks.push(availableTrack);\n\
-\n\
-                self.availableTracksMap[availableTracks[i].id] = availableTrack;\n\
-            }\n\
-\n\
-            var availablePlaylists = self.availablePlaylists();\n\
-            if (availablePlaylists.length > 0) {\n\
-                for (i = 0; i < availablePlaylists.length; i++) {\n\
-                    var tracks = availablePlaylists[i].tracks();\n\
-                    for (var j = 0; j < tracks.length; j++) {\n\
-                        var track = tracks[j]();\n\
-                        var trackId = track.id();\n\
-                        track.name = self.availableTracksMap[trackId].name;\n\
-                        if(availablePlaylists[i].isReadOnly)\n\
-                            track.trackProperties = self.availableTracksMap[trackId].trackProperties;\n\
-                        track.layer = self.availableTracksMap[trackId].layer;\n\
-                    }\n\
-                }\n\
-            }\n\
-            self.availableTracks.sort(util.sortArrayByObjectKeyKoObservable(\"name\", true));\n\
-            if (callback){\n\
-                callback();\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
-IxiaViewModel.prototype.getAvailablePlaylists = function (callback) {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-\n\
-    self.availablePlaylists.removeAll();\n\
-\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_playlist_tracks\"),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var availablePlaylists = data;\n\
-\n\
-            for (var i = 0; i < availablePlaylists.length; i++) {\n\
-                var playlist = new TestPlaylistViewModel(self);\n\
-\n\
-                playlist.inflate(availablePlaylists[i]);\n\
-\n\
-                self.availablePlaylists.push(playlist);\n\
-            }\n\
-\n\
-            var availableTracks = self.availableTracks();\n\
-            if (availableTracks.length > 0) {\n\
-                for (i = 0; i < availablePlaylists.length; i++) {\n\
-                    var playlistTracks = self.availablePlaylists()[i].tracks();\n\
-                    for (var j = 0; j < playlistTracks.length; j++) {\n\
-                        var thisTrack = playlistTracks[j]();\n\
-                        var foundTrack = self.availableTracksMap[thisTrack.id()];\n\
-                        thisTrack.name = foundTrack.name;\n\
-                        if(availablePlaylists[i].isReadOnly)\n\
-                            thisTrack.trackProperties = foundTrack.trackProperties;\n\
-                        thisTrack.layer = foundTrack.layer;\n\
-                    }\n\
-\n\
-                    self.availablePlaylists()[i].setMinTrackLayer();\n\
-                    self.availablePlaylists()[i].calculatePercentagesForApplicationLayerTracks();\n\
-                }\n\
-            }\n\
-            self.availablePlaylists.sort(util.sortArrayByObjectKeyKoObservable(\"name\", true));\n\
-            if (callback){\n\
-                callback();\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
 IxiaViewModel.prototype.getAvailableDevices = function (callback, responseData) {\n\
     var self = IxiaViewModel.typesafe(this);\n\
 \n\
@@ -56119,7 +55982,7 @@ require.register("./components-ixia/test-view-model", Function("exports, module"
 /**\n\
  * Test configuration page - manages ConfiguredTestViewModel internally\n\
  *\n\
- * @param rootVModel SpirentEnterpriseViewModel\n\
+ * @param rootVModel IxiaCRViewModel\n\
  * @param delegate\n\
  * @constructor\n\
  */\n\
@@ -69436,11 +69299,6 @@ function DashboardViewModel(rootVm) {\n\
             return ;\n\
         }\n\
 \n\
-        // If paginator has already loaded, we don't need to initialize it\n\
-        //if (self.favoriteTestsPaginator.$el) {\n\
-        //    return ;\n\
-        //}\n\
-\n\
         function get_favorite_tests(page) {\n\
             var page_favorite_tests = self.rootVm.favoriteTests.slice((page - 1) * 5, page * 5);\n\
             var needRequestData = false;\n\
@@ -69543,6 +69401,37 @@ function DashboardViewModel(rootVm) {\n\
                 loading_text: translate(\"Loading tweets...\")\n\
             });\n\
         });\n\
+    };\n\
+\n\
+    self.initializeHotPotter = function () {\n\
+        $('.get-started-image').hotspotter({ imgTopMargin: 50 });\n\
+        for (var i = 0; i < self.rootVm.availableDevices().length; i++) {\n\
+            $('#' + self.rootVm.availableDevices()[i].name()).on('click',function(e){\n\
+                var currDevice = self.rootVm.availableDevices().filter(function (device) {\n\
+                        return device.name() === e.srcElement.id;\n\
+                    })[0];\n\
+                if (currDevice.name() === 'BPS') {\n\
+                    window.open('http://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'ATIP') {\n\
+                    window.open('http://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'Splunk') {\n\
+                    window.open('http://' + currDevice.host() + ':8000/en-US/app/launcher/home');\n\
+                } else if (currDevice.name() === 'Kali') {\n\
+                    window.open('ssh://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'AttackTarget') {\n\
+                    window.open('ssh://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'IPS') {\n\
+                    window.open('https://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'NGFW') {\n\
+                    window.open('https://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'DLP') {\n\
+                    window.open('https://' + currDevice.host());\n\
+                } else if (currDevice.name() === 'Windows') {\n\
+                    window.open('ssh://' + currDevice.host());\n\
+                }\n\
+\n\
+            });\n\
+        }\n\
     };\n\
 \n\
     self.getPortlets();\n\
@@ -70365,7 +70254,7 @@ require.register("./components-ixia/test-template-view-model", Function("exports
 /**\n\
  * Saved configuration for a single test\n\
  *\n\
- * @param rootVm SpirentEnterpriseViewModel\n\
+ * @param rootVm IxiaCRViewModel\n\
  * @constructor\n\
  */\n\
 function TestTemplateViewModel(rootVm) {\n\
@@ -72075,12 +71964,8 @@ function AdministrationViewModel(rootVm) {\n\
     self.language.subscribe(function (language) {\n\
         if (language === \"en\") {\n\
             self.languageDisplay(\"English\");\n\
-        } else if (language === \"ru\") {\n\
-            self.languageDisplay(\"Русский\");\n\
         } else if (language === \"zh\") {\n\
             self.languageDisplay(\"中文\");\n\
-        } else if (language === \"ja\") {\n\
-            self.languageDisplay(\"日本語\");\n\
         }\n\
     });\n\
 \n\
@@ -72097,8 +71982,6 @@ function AdministrationViewModel(rootVm) {\n\
     self.rootVm.availableDevices.subscribe(function (devices) {\n\
         self.applyFilters(self.rootVm.availableDevices,ko.observableArray(devices));\n\
         self.availableDevices(devices);\n\
-        self.flowmonSupported(devices.length && devices[0].features() !== undefined && devices[0].features.indexOf('flowmon') !== -1);\n\
-        self.pulseSupported(devices.length && devices[0].features() !== undefined && devices[0].features.indexOf('pulse') !== -1);\n\
     });\n\
 \n\
     self.selectedBackup.subscribe(function (selectedBackup) {\n\
@@ -75953,7 +75836,7 @@ var is_host = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5
 /**\r\n\
  * Represents a device (as a copy) in the traffic player\r\n\
  *\r\n\
- * @param rootVm SpirentEnterpriseViewModel\r\n\
+ * @param rootVm IxiaCRViewModel\r\n\
  * @constructor\r\n\
  */\r\n\
 function TestDeviceViewModel (rootVm) {\r\n\
@@ -75962,69 +75845,21 @@ function TestDeviceViewModel (rootVm) {\r\n\
 \r\n\
     self.id = ko.observable();\r\n\
     self.name = ko.observable();\r\n\
-    self.displayNameCssId = ko.observable();\r\n\
-    self.ports = ko.observableArray();\r\n\
+    self.description = ko.observable();\r\n\
     self.device_type_id = ko.observable();\r\n\
-    self.supports_flowmon = null;\r\n\
-    self.updating_port_status = ko.computed(function () {\r\n\
-        if (!self.ports().length) {\r\n\
-            return true; // Short-circuit\r\n\
-        }\r\n\
-\r\n\
-        var updating = false;\r\n\
-\r\n\
-        self.ports().forEach(function (port) {\r\n\
-            if (undefined === port.link_status()) {\r\n\
-                updating = true;\r\n\
-            }\r\n\
-        });\r\n\
-\r\n\
-        return updating;\r\n\
-    });\r\n\
-\r\n\
     self.host = ko.observable();\r\n\
-    self.hasTimeSync = ko.observable();\r\n\
-    self.timeSyncResolution = ko.observable();\r\n\
-\r\n\
+    self.displayNameCssId = ko.observable();\r\n\
     self.username = ko.observable();\r\n\
     self.password = ko.observable();\r\n\
-\r\n\
-    self.customer = ko.observable();\r\n\
-    self.location = ko.observable();\r\n\
-    self.tags = ko.observableArray();\r\n\
-    self.unqualifiedTags = ko.observable();\r\n\
-    self.favorite = ko.observable();\r\n\
     self.validationResult = ko.observable();\r\n\
 \r\n\
     self.active = ko.observable(true);\r\n\
-\r\n\
-    self.displayTimeSyncResolution = ko.computed(function () {\r\n\
-        return self.hasTimeSync() ? translate('NTP Sync OK') : translate('No NTP Sync');\r\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\r\n\
-\r\n\
-    self.timeSyncLabel = ko.computed(function (){\r\n\
-        return self.hasTimeSync() ? translate(\"Time Sync Resolution\") : translate(\"Has Time Sync\");\r\n\
-    });\r\n\
-    self.timeSyncValue = ko.computed(function (){\r\n\
-        return self.hasTimeSync() && self.timeSyncResolution() ? self.timeSyncResolution().toFixed(3) + translate(\"ms\") : translate(\"No\");\r\n\
-    });\r\n\
-\r\n\
-    self.displayTags = ko.computed({\r\n\
-        read: self.displayTagsRead.bind(self),\r\n\
-        write: self.displayTagsWrite.bind(self)\r\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\r\n\
 \r\n\
     self.name.subscribe(function () {\r\n\
         var realName = self.name();\r\n\
         realName = realName.replace(/ /g,'');\r\n\
         self.displayNameCssId(realName);\r\n\
     });\r\n\
-\r\n\
-    self.timeSyncClass = ko.computed(function () {\r\n\
-        return self.hasTimeSync() ? 'available' : 'unavailable';\r\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\r\n\
-\r\n\
-    self.features = ko.observableArray();\r\n\
 }\r\n\
 \r\n\
 module.exports = TestDeviceViewModel;\r\n\
@@ -76079,79 +75914,16 @@ TestDeviceViewModel.prototype.matchesSearch = function (searchString) {\r\n\
 };\r\n\
 \r\n\
 TestDeviceViewModel.prototype.inflate = function (data) {\r\n\
-    var self = TestDeviceViewModel.typesafe(this),\r\n\
-        map = {\r\n\
-            name: 'name',\r\n\
-            device_type_id: 'device_type_id',\r\n\
-            auth_id: 'username',\r\n\
-            password: 'password',\r\n\
-            has_time_sync: 'hasTimeSync',\r\n\
-            time_sync_resolution: 'timeSyncResolution'\r\n\
-        },\r\n\
-        key,\r\n\
-        observable,\r\n\
-        ports = self.ports(),\r\n\
-        port,\r\n\
-        found;\r\n\
+    var self = TestDeviceViewModel.typesafe(this);\r\n\
 \r\n\
     self.id(data.id);\r\n\
-\tself.host(data.host || '');\r\n\
-    if (undefined !== data.supports_flowmon) {\r\n\
-        self.supports_flowmon = data.supports_flowmon;\r\n\
-    }\r\n\
-\r\n\
-    // Update properties (observables) using map\r\n\
-    for (key in map) {\r\n\
-        if (data[key]) {\r\n\
-            observable = map[key];\r\n\
-            self[observable](data[key])\r\n\
-        }\r\n\
-    }\r\n\
-\r\n\
-    if (data.tags) {\r\n\
-        util.setTags(self, data.tags);\r\n\
-    }\r\n\
-\r\n\
-    if (!self.ports().length && undefined !== data.num_ports) {\r\n\
-        // Stub out ports until we have real data\r\n\
-        for (var i = 0; i < data.num_ports; i++) {\r\n\
-            port = new TestDevicePortViewModel(self.rootVm);\r\n\
-            port.id(i+1);\r\n\
-            ports.push(port);\r\n\
-        }\r\n\
-    } else if (undefined !== data.ports && data.ports instanceof Array) {\r\n\
-        // Use real data\r\n\
-        data.ports.forEach(function (port_data) {\r\n\
-            found = false;\r\n\
-\r\n\
-            ports.forEach(function(port) {\r\n\
-                if (port.id() === port_data.port) {\r\n\
-                    found = true;\r\n\
-                    port.inflate(port_data);\r\n\
-                }\r\n\
-            });\r\n\
-\r\n\
-            if (!found) {\r\n\
-                port = new TestDevicePortViewModel(self.rootVm);\r\n\
-                port.inflate(port_data);\r\n\
-                ports.push(port);\r\n\
-            }\r\n\
-        });\r\n\
-    }\r\n\
-\r\n\
-    // Order by port ID\r\n\
-    ports.sort(function(a, b) {\r\n\
-        return a.id() - b.id();\r\n\
-    });\r\n\
-\r\n\
-    self.ports(ports);\r\n\
-\r\n\
-    // ENT-4739 the devices status endpoint is not consistent with device info\r\n\
-    // loaded during initial page-load, and supported features should rarely\r\n\
-    // change, so only update features if this data is include and truthy.\r\n\
-    if (data.features) {\r\n\
-        self.features(data.features);\r\n\
-    }\r\n\
+    self.name(data.name);\r\n\
+    self.description(data.description);\r\n\
+    self.host(data.host);\r\n\
+    self.device_type_id(data.device_type_id);\r\n\
+    self.username(data.username);\r\n\
+    self.password(data.password);\r\n\
+    self.active(data.active);\r\n\
 };\r\n\
 \r\n\
 TestDeviceViewModel.prototype.toFlatObject = function () {\r\n\
@@ -76159,93 +75931,15 @@ TestDeviceViewModel.prototype.toFlatObject = function () {\r\n\
     var flatDevice = {\r\n\
         id: self.id(),\r\n\
         name: self.name(),\r\n\
+        description: self.description,\r\n\
         device_type_id: self.device_type_id(),\r\n\
-        ports: self.ports().length,\r\n\
         host: self.host(),\r\n\
-        tags: util.getTags(self),\r\n\
-        auth_id: self.username(),\r\n\
+        username: self.username(),\r\n\
         password: self.password(),\r\n\
         active: self.active()\r\n\
     };\r\n\
 \r\n\
     return flatDevice;\r\n\
-};\r\n\
-\r\n\
-TestDeviceViewModel.prototype.lineRate = function (port_index) {\r\n\
-    var port;\r\n\
-\r\n\
-    // Get port by port_index\r\n\
-    this.ports().some(function (p) {\r\n\
-        if (p.id() === port_index) {\r\n\
-            port = p;\r\n\
-            return true; // Stop the loop\r\n\
-        }\r\n\
-\r\n\
-        return false; // Continue\r\n\
-    });\r\n\
-\r\n\
-    if (!port) {\r\n\
-        return; // Short-circuit\r\n\
-    }\r\n\
-\r\n\
-    return port.line_speed();\r\n\
-};\r\n\
-\r\n\
-TestDeviceViewModel.prototype.updateTimeSyncCapability = function (timeSyncCapabilities) {\r\n\
-    var self = TestDeviceViewModel.typesafe(this);\r\n\
-\r\n\
-    if (timeSyncCapabilities === null\r\n\
-        || timeSyncCapabilities === undefined) {\r\n\
-        return;\r\n\
-    }\r\n\
-\r\n\
-    var id = self.id();\r\n\
-\r\n\
-    for (var i = 0; i < timeSyncCapabilities.length; i++) {\r\n\
-        if (id == timeSyncCapabilities[i].device_id) {\r\n\
-            self.hasTimeSync(timeSyncCapabilities[i].has_time_sync_capability);\r\n\
-            self.timeSyncResolution(timeSyncCapabilities[i].resolution);\r\n\
-            return;\r\n\
-        }\r\n\
-    }\r\n\
-};\r\n\
-\r\n\
-TestDeviceViewModel.prototype.displayTagsRead = function () {\r\n\
-    var self = TestDeviceViewModel.typesafe(this);\r\n\
-\r\n\
-    if (!self.unqualifiedTags()) {\r\n\
-        self.unqualifiedTags(self.tags().join(', '));\r\n\
-    }\r\n\
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());\r\n\
-};\r\n\
-\r\n\
-TestDeviceViewModel.prototype.displayTagsWrite = function (value) {\r\n\
-    var self = TestDeviceViewModel.typesafe(this);\r\n\
-\r\n\
-    if (value == null) {\r\n\
-        return;\r\n\
-    }\r\n\
-\r\n\
-    var newArray = value.split(',');\r\n\
-\r\n\
-    self.tags.removeAll();\r\n\
-    for (var i = 0; i < newArray.length; i++) {\r\n\
-        var trimmedValue = util.trimTag(newArray[i]);\r\n\
-\r\n\
-        if (trimmedValue == '') {\r\n\
-            continue;\r\n\
-        }\r\n\
-\r\n\
-        if (self.tags().indexOf(trimmedValue) == -1) {\r\n\
-            self.tags.push(trimmedValue);\r\n\
-        }\r\n\
-\r\n\
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {\r\n\
-            self.rootVm.availableTags.push(trimmedValue);\r\n\
-        }\r\n\
-    }\r\n\
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\r\n\
-    self.unqualifiedTags.valueHasMutated();\r\n\
 };\r\n\
 \r\n\
 TestDeviceViewModel.prototype.openSaveModal = function () {\r\n\
@@ -76317,19 +76011,11 @@ TestDeviceViewModel.prototype.clone = function (source) {\r\n\
         cloned_observable_properties = [\r\n\
             'id',\r\n\
             'name',\r\n\
-            'ports',\r\n\
+            'description',\r\n\
             'device_type_id',\r\n\
             'host',\r\n\
-            'hasTimeSync',\r\n\
-            'timeSyncResolution',\r\n\
             'username',\r\n\
-            'password',\r\n\
-            'customer',\r\n\
-            'location',\r\n\
-            'tags',\r\n\
-            'unqualifiedTags',\r\n\
-            'favorite',\r\n\
-            'validationResult'\r\n\
+            'password'\r\n\
         ];\r\n\
 \r\n\
     source = source || this;\r\n\

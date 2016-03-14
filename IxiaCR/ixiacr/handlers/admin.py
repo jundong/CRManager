@@ -61,6 +61,9 @@ def view_includes(config):
     config.add_handler('reset_eula', '/ixia/reset_eula',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='reset_eula')
+    config.add_handler('save_device', '/ixia/save_device',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='save_device')
 
 class IxiaAdminHandler(base.Handler):
     """This is the class container holding the methods that perform the
@@ -279,6 +282,46 @@ class IxiaAdminHandler(base.Handler):
             self.messages.append(dict({'is_error': True,
                                        'header': 'Failed',
                                        'content': e.message.encode('utf-8')}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def save_device(self):
+        """Save device
+
+        """
+
+        try:
+            if 'devices' in self.request.session:
+                pass
+
+            if len(self.messages) == 0:
+                self.messages.append({'is_error': False,
+                                      'header': 'Success',
+                                      'content': self.localizer.translate(
+                                          _('Successfully saved device.'))})
+
+            return {'result': 'SUCCESS', 'messages': self.messages,
+                    'items': self.items}
+
+        except KeyError, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True,
+                                       'header': 'Failed',
+                                       'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+        except DBAPIError, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True, 'header': 'Failed',
+                                       'content': self.localizer.translate(
+                                           _('Saving device failed. '
+                                             'Perhaps this host already '
+                                             'exists?'))}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+        except Exception, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True,
+                                       'header': 'Failed',
+                                       'content': str(e)}))
             return {'result': 'FAILURE', 'messages': self.messages}
 
 def is_blank(string):

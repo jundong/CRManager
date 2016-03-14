@@ -57,3 +57,7 @@ components `component.json` (see components-ixia/boot/component.json for an exam
 1. `make test`
 2. Open `static/js/test.html` in your browser
 3. Look for your tests
+
+## Complile translation file
+1. msgfmt -o message.mo message.po
+2. msgunfmt -o message.po message.mo

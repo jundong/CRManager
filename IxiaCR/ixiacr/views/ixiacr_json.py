@@ -43,6 +43,9 @@ def view_includes(config):
     config.add_route('get_portlets', '/ixia/get_portlets.json')
     config.add_view(get_portlets, route_name='get_portlets', renderer='json',
                     permission='all_access')
+    config.add_route('get_devices', '/ixia/get_devices.json')
+    config.add_view(get_devices, route_name='get_devices', renderer='json',
+                    permission='all_access')
 
 
 # Encode Python Decimals to JSON
@@ -326,3 +329,30 @@ def get_results(request):
         ex_msg = 'Failed in ixiacr_json get_results: {0}'.format(e)
         ixiacrlogger.exception(ex_msg)
         return {'response': ex_msg}
+
+
+@view_config(name='get_devices', renderer='json')
+def get_devices(request):
+    # JSON feed for tracks
+    devices = []
+
+    try:
+        for device in Device.query.all():
+            devices.append({'name': device.name,
+                      'description': device.description,
+                      'device_type_id': device.device_type_id,
+                      'host': device.host,
+                      'username': device.username,
+                      'password': device.password,
+                      'active': device.active})
+
+        return devices
+
+    except DBAPIError, e:
+        return Response("Error: DB Error: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+    except Exception, e:
+        return Response("Exception: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)

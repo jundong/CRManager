@@ -1,6 +1,6 @@
 <script id="dashboard-template" type="text/html">
     <div class="container">
-        <div class="l-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: leftPortlets, templateEngine: new ko.nativeTemplateEngine }">
+        <div class="l-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: leftPortlets, templateEngine: new ko.nativeTemplateEngine}">
         </div>
 
         <div class="r-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: rightPortlets, templateEngine: new ko.nativeTemplateEngine }">
@@ -13,7 +13,7 @@
 
 <script id="portlet-column-template" type="text/html">
     <!-- ko if: contentType() == 1 -->
-    <div class="portlet box" data-bind="template: {name: 'basic-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
+    <div class="portlet box" data-bind="template: {name: 'basic-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.initializeHotPotter(); } }">
     </div>
     <!-- /ko -->
     <!-- ko if: contentType() == 4 -->

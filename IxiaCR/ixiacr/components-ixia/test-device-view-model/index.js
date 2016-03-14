@@ -7,7 +7,7 @@ var is_host = require('is-host');
 /**
  * Represents a device (as a copy) in the traffic player
  *
- * @param rootVm SpirentEnterpriseViewModel
+ * @param rootVm IxiaCRViewModel
  * @constructor
  */
 function TestDeviceViewModel (rootVm) {
@@ -16,69 +16,21 @@ function TestDeviceViewModel (rootVm) {
 
     self.id = ko.observable();
     self.name = ko.observable();
-    self.displayNameCssId = ko.observable();
-    self.ports = ko.observableArray();
+    self.description = ko.observable();
     self.device_type_id = ko.observable();
-    self.supports_flowmon = null;
-    self.updating_port_status = ko.computed(function () {
-        if (!self.ports().length) {
-            return true; // Short-circuit
-        }
-
-        var updating = false;
-
-        self.ports().forEach(function (port) {
-            if (undefined === port.link_status()) {
-                updating = true;
-            }
-        });
-
-        return updating;
-    });
-
     self.host = ko.observable();
-    self.hasTimeSync = ko.observable();
-    self.timeSyncResolution = ko.observable();
-
+    self.displayNameCssId = ko.observable();
     self.username = ko.observable();
     self.password = ko.observable();
-
-    self.customer = ko.observable();
-    self.location = ko.observable();
-    self.tags = ko.observableArray();
-    self.unqualifiedTags = ko.observable();
-    self.favorite = ko.observable();
     self.validationResult = ko.observable();
 
     self.active = ko.observable(true);
-
-    self.displayTimeSyncResolution = ko.computed(function () {
-        return self.hasTimeSync() ? translate('NTP Sync OK') : translate('No NTP Sync');
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.timeSyncLabel = ko.computed(function (){
-        return self.hasTimeSync() ? translate("Time Sync Resolution") : translate("Has Time Sync");
-    });
-    self.timeSyncValue = ko.computed(function (){
-        return self.hasTimeSync() && self.timeSyncResolution() ? self.timeSyncResolution().toFixed(3) + translate("ms") : translate("No");
-    });
-
-    self.displayTags = ko.computed({
-        read: self.displayTagsRead.bind(self),
-        write: self.displayTagsWrite.bind(self)
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
 
     self.name.subscribe(function () {
         var realName = self.name();
         realName = realName.replace(/ /g,'');
         self.displayNameCssId(realName);
     });
-
-    self.timeSyncClass = ko.computed(function () {
-        return self.hasTimeSync() ? 'available' : 'unavailable';
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.features = ko.observableArray();
 }
 
 module.exports = TestDeviceViewModel;
@@ -133,79 +85,16 @@ TestDeviceViewModel.prototype.matchesSearch = function (searchString) {
 };
 
 TestDeviceViewModel.prototype.inflate = function (data) {
-    var self = TestDeviceViewModel.typesafe(this),
-        map = {
-            name: 'name',
-            device_type_id: 'device_type_id',
-            auth_id: 'username',
-            password: 'password',
-            has_time_sync: 'hasTimeSync',
-            time_sync_resolution: 'timeSyncResolution'
-        },
-        key,
-        observable,
-        ports = self.ports(),
-        port,
-        found;
+    var self = TestDeviceViewModel.typesafe(this);
 
     self.id(data.id);
-	self.host(data.host || '');
-    if (undefined !== data.supports_flowmon) {
-        self.supports_flowmon = data.supports_flowmon;
-    }
-
-    // Update properties (observables) using map
-    for (key in map) {
-        if (data[key]) {
-            observable = map[key];
-            self[observable](data[key])
-        }
-    }
-
-    if (data.tags) {
-        util.setTags(self, data.tags);
-    }
-
-    if (!self.ports().length && undefined !== data.num_ports) {
-        // Stub out ports until we have real data
-        for (var i = 0; i < data.num_ports; i++) {
-            port = new TestDevicePortViewModel(self.rootVm);
-            port.id(i+1);
-            ports.push(port);
-        }
-    } else if (undefined !== data.ports && data.ports instanceof Array) {
-        // Use real data
-        data.ports.forEach(function (port_data) {
-            found = false;
-
-            ports.forEach(function(port) {
-                if (port.id() === port_data.port) {
-                    found = true;
-                    port.inflate(port_data);
-                }
-            });
-
-            if (!found) {
-                port = new TestDevicePortViewModel(self.rootVm);
-                port.inflate(port_data);
-                ports.push(port);
-            }
-        });
-    }
-
-    // Order by port ID
-    ports.sort(function(a, b) {
-        return a.id() - b.id();
-    });
-
-    self.ports(ports);
-
-    // ENT-4739 the devices status endpoint is not consistent with device info
-    // loaded during initial page-load, and supported features should rarely
-    // change, so only update features if this data is include and truthy.
-    if (data.features) {
-        self.features(data.features);
-    }
+    self.name(data.name);
+    self.description(data.description);
+    self.host(data.host);
+    self.device_type_id(data.device_type_id);
+    self.username(data.username);
+    self.password(data.password);
+    self.active(data.active);
 };
 
 TestDeviceViewModel.prototype.toFlatObject = function () {
@@ -213,93 +102,15 @@ TestDeviceViewModel.prototype.toFlatObject = function () {
     var flatDevice = {
         id: self.id(),
         name: self.name(),
+        description: self.description,
         device_type_id: self.device_type_id(),
-        ports: self.ports().length,
         host: self.host(),
-        tags: util.getTags(self),
-        auth_id: self.username(),
+        username: self.username(),
         password: self.password(),
         active: self.active()
     };
 
     return flatDevice;
-};
-
-TestDeviceViewModel.prototype.lineRate = function (port_index) {
-    var port;
-
-    // Get port by port_index
-    this.ports().some(function (p) {
-        if (p.id() === port_index) {
-            port = p;
-            return true; // Stop the loop
-        }
-
-        return false; // Continue
-    });
-
-    if (!port) {
-        return; // Short-circuit
-    }
-
-    return port.line_speed();
-};
-
-TestDeviceViewModel.prototype.updateTimeSyncCapability = function (timeSyncCapabilities) {
-    var self = TestDeviceViewModel.typesafe(this);
-
-    if (timeSyncCapabilities === null
-        || timeSyncCapabilities === undefined) {
-        return;
-    }
-
-    var id = self.id();
-
-    for (var i = 0; i < timeSyncCapabilities.length; i++) {
-        if (id == timeSyncCapabilities[i].device_id) {
-            self.hasTimeSync(timeSyncCapabilities[i].has_time_sync_capability);
-            self.timeSyncResolution(timeSyncCapabilities[i].resolution);
-            return;
-        }
-    }
-};
-
-TestDeviceViewModel.prototype.displayTagsRead = function () {
-    var self = TestDeviceViewModel.typesafe(this);
-
-    if (!self.unqualifiedTags()) {
-        self.unqualifiedTags(self.tags().join(', '));
-    }
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());
-};
-
-TestDeviceViewModel.prototype.displayTagsWrite = function (value) {
-    var self = TestDeviceViewModel.typesafe(this);
-
-    if (value == null) {
-        return;
-    }
-
-    var newArray = value.split(',');
-
-    self.tags.removeAll();
-    for (var i = 0; i < newArray.length; i++) {
-        var trimmedValue = util.trimTag(newArray[i]);
-
-        if (trimmedValue == '') {
-            continue;
-        }
-
-        if (self.tags().indexOf(trimmedValue) == -1) {
-            self.tags.push(trimmedValue);
-        }
-
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {
-            self.rootVm.availableTags.push(trimmedValue);
-        }
-    }
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));
-    self.unqualifiedTags.valueHasMutated();
 };
 
 TestDeviceViewModel.prototype.openSaveModal = function () {
@@ -371,19 +182,11 @@ TestDeviceViewModel.prototype.clone = function (source) {
         cloned_observable_properties = [
             'id',
             'name',
-            'ports',
+            'description',
             'device_type_id',
             'host',
-            'hasTimeSync',
-            'timeSyncResolution',
             'username',
-            'password',
-            'customer',
-            'location',
-            'tags',
-            'unqualifiedTags',
-            'favorite',
-            'validationResult'
+            'password'
         ];
 
     source = source || this;

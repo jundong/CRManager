@@ -109,11 +109,77 @@ def import_db(cmd):
         transaction.commit()
 
         # Make a fake EULA for testing...
-        db.add(Eula(name=translatable_string(_(u'License Update....')),
-                    build=u"1.00.0001",
-                    heading=translatable_string(_(u'This is the heading for the new Eula please check the checkbox.')),
-                    content=translatable_string(_(u'eula_version_1'))))
-        transaction.commit()
+        # db.add(Eula(name=translatable_string(_(u'License Update....')),
+        #             build=u"1.00.0001",
+        #             heading=translatable_string(_(u'This is the heading for the new Eula please check the checkbox.')),
+        #             content=translatable_string(_(u'eula_version_1'))))
+        # transaction.commit()
+
+        devices = [
+            {'name': u'BPS',
+             'description': u'BPS',
+             'device_type_id': u'1',
+             'host': u'192.168.100.132',
+             'username': u'admin',
+             'password': u'admin'},
+            {'name': u'ATIP',
+             'description': u'ATIP',
+             'device_type_id': u'2',
+             'host': u'192.168.0.171',
+             'username': u'',
+             'password': u''},
+            {'name': u'IPS',
+             'description': u'IPS',
+             'device_type_id': u'3',
+             'host': u'192.168.0.106',
+             'username': u'',
+             'password': u''},
+            {'name': u'NGFW',
+             'description': u'NGFW',
+             'device_type_id': u'4',
+             'host': u'192.168.0.134',
+             'username': u'',
+             'password': u''},
+            {'name': u'DLP',
+             'description': u'DLP',
+             'device_type_id': u'5',
+             'host': u'192.168.0.140',
+             'username': u'',
+             'password': u''},
+            {'name': u'Splunk',
+             'description': u'Splunk',
+             'device_type_id': u'6',
+             'host': u'192.168.0.133',
+             'username': u'',
+             'password': u''},
+            {'name': u'AttackTarget',
+             'description': u'AttackTarget',
+             'device_type_id': u'7',
+             'host': u'192.168.0.150',
+             'username': u'',
+             'password': u''},
+            {'name': u'Kali',
+             'description': u'Kali',
+             'device_type_id': u'8',
+             'host': u'192.168.0.170',
+             'username': u'',
+             'password': u''},
+            {'name': u'Windows',
+             'description': u'Windows',
+             'device_type_id': u'9',
+             'host': u'192.168.0.172',
+             'username': u'',
+             'password': u''}
+        ]
+
+        for device in devices:
+            db.add(Device(name=device['name'],
+                description=device['description'],
+                device_type_id=device['device_type_id'],
+                host=device['host'],
+                username=device['username'],
+                password=device['password']))
+            transaction.commit()
 
         # Create some generic static device types
         db.add(DeviceType(name=translatable_string(_(u'localhost')),
@@ -129,13 +195,6 @@ def import_db(cmd):
         db.add(Portlet(name=translatable_string(_(u'Recent Results')), content_type=4, portlet_content=translatable_string(_(u'portlet.recent_results.content')), default_column=u'.l-portlet-column', div_id_name=u'recent-tests-template'))
         db.add(Portlet(name=translatable_string(_(u'Favorite Tests')), content_type=4, portlet_content=translatable_string(_(u'portlet.favorite_tests.content')), default_column=u'.r-portlet-column', div_id_name=u'favorite-tests-template'))
         db.add(Portlet(name=translatable_string(_(u'Test Library')), content_type=4, portlet_content=translatable_string(_(u'portlet.test_library.content')), default_column=u'.r-portlet-column', div_id_name=u'all-tests-template'))
-        transaction.commit()
-
-        # Configure global system parameters.
-        config = Configs(bps=u'192.168.100.132', metasploit=u'192.168.0.150', splunk=u'192.168.0.133',
-                                ips=u'', ngfw=u'192.168.0.134', dlp=u'192.168.0.140',
-                                windows=u'192.168.0.132', kali=u'192.168.0.170', atip=u'192.168.0.171')
-        db.add(config)
         transaction.commit()
 
         db.add(IxiaVersion(version=unicode(ixiacr_version),

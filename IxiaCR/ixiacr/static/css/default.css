@@ -1147,7 +1147,6 @@ body { background-color: #d8d8d8; }
 #main { min-width: 1024px;}
 
 #header .navigation .container,
-.dashboard .container,
 .test .test-header > .container,
 .test .config .network-map.expanded .player-header .container,
 .test .config .network-map.expanded .player-content > .container,
@@ -1165,7 +1164,11 @@ body { background-color: #d8d8d8; }
     margin-left: auto;
     margin-right: auto;
 }
-
+.dashboard .container {
+    width: 1624px;
+    margin-left: auto;
+    margin-right: auto;
+}
 /*
 
 
@@ -1403,13 +1406,13 @@ Dashboard
 }
 
 .dashboard .l-portlet-column {
-    width: 660px;
+    width: 1160px;
     float: left;
     margin: 0 24px 0 0;
 }
 
 .dashboard .r-portlet-column {
-    width: 340px;
+    width: 440px;
     float: left;
 }
 

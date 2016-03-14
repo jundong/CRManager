@@ -205,13 +205,14 @@ class Device(Base):
     __tablename__ = 'devices'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    type = Column(Unicode(64), nullable=False, unique=True)
     device_type_id = Column(Integer, ForeignKey('device_types.id',
                                                 onupdate="CASCADE",
                                                 ondelete="CASCADE"))
     name = Column(Unicode(64), unique=True, nullable=True)
     description = Column(UnicodeText, nullable=True)
     host = Column(Unicode(64), nullable=False, unique=True)
+    username = Column(Unicode(64), nullable=True, unique=False)
+    password = Column(Unicode(64), nullable=True, unique=False)
     active = Column(Boolean, default=True)
 
     @property

@@ -11,7 +11,7 @@ var DefaultHeaderDelegate = require('player').delegates["test-view-model"],
 /**
  * Test configuration page - manages ConfiguredTestViewModel internally
  *
- * @param rootVModel SpirentEnterpriseViewModel
+ * @param rootVModel IxiaCRViewModel
  * @param delegate
  * @constructor
  */

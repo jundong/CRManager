@@ -3,7 +3,7 @@ var MulticastSettingsViewModel = require('multicast-settings');
 /**
  * Saved configuration for a single test
  *
- * @param rootVm SpirentEnterpriseViewModel
+ * @param rootVm IxiaCRViewModel
  * @constructor
  */
 function TestTemplateViewModel(rootVm) {

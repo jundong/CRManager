@@ -26,11 +26,6 @@ function DashboardViewModel(rootVm) {
             return ;
         }
 
-        // If paginator has already loaded, we don't need to initialize it
-        //if (self.favoriteTestsPaginator.$el) {
-        //    return ;
-        //}
-
         function get_favorite_tests(page) {
             var page_favorite_tests = self.rootVm.favoriteTests.slice((page - 1) * 5, page * 5);
             var needRequestData = false;
@@ -133,6 +128,37 @@ function DashboardViewModel(rootVm) {
                 loading_text: translate("Loading tweets...")
             });
         });
+    };
+
+    self.initializeHotPotter = function () {
+        $('.get-started-image').hotspotter({ imgTopMargin: 50 });
+        for (var i = 0; i < self.rootVm.availableDevices().length; i++) {
+            $('#' + self.rootVm.availableDevices()[i].name()).on('click',function(e){
+                var currDevice = self.rootVm.availableDevices().filter(function (device) {
+                        return device.name() === e.srcElement.id;
+                    })[0];
+                if (currDevice.name() === 'BPS') {
+                    window.open('http://' + currDevice.host());
+                } else if (currDevice.name() === 'ATIP') {
+                    window.open('http://' + currDevice.host());
+                } else if (currDevice.name() === 'Splunk') {
+                    window.open('http://' + currDevice.host() + ':8000/en-US/app/launcher/home');
+                } else if (currDevice.name() === 'Kali') {
+                    window.open('ssh://' + currDevice.host());
+                } else if (currDevice.name() === 'AttackTarget') {
+                    window.open('ssh://' + currDevice.host());
+                } else if (currDevice.name() === 'IPS') {
+                    window.open('https://' + currDevice.host());
+                } else if (currDevice.name() === 'NGFW') {
+                    window.open('https://' + currDevice.host());
+                } else if (currDevice.name() === 'DLP') {
+                    window.open('https://' + currDevice.host());
+                } else if (currDevice.name() === 'Windows') {
+                    window.open('ssh://' + currDevice.host());
+                }
+
+            });
+        }
     };
 
     self.getPortlets();

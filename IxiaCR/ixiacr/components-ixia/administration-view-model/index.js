@@ -169,12 +169,8 @@ function AdministrationViewModel(rootVm) {
     self.language.subscribe(function (language) {
         if (language === "en") {
             self.languageDisplay("English");
-        } else if (language === "ru") {
-            self.languageDisplay("Русский");
         } else if (language === "zh") {
             self.languageDisplay("中文");
-        } else if (language === "ja") {
-            self.languageDisplay("日本語");
         }
     });
 
@@ -191,8 +187,6 @@ function AdministrationViewModel(rootVm) {
     self.rootVm.availableDevices.subscribe(function (devices) {
         self.applyFilters(self.rootVm.availableDevices,ko.observableArray(devices));
         self.availableDevices(devices);
-        self.flowmonSupported(devices.length && devices[0].features() !== undefined && devices[0].features.indexOf('flowmon') !== -1);
-        self.pulseSupported(devices.length && devices[0].features() !== undefined && devices[0].features.indexOf('pulse') !== -1);
     });
 
     self.selectedBackup.subscribe(function (selectedBackup) {

@@ -171,17 +171,17 @@ asyncTest("Queues Images (sub directory)", function(){
 	}, response);
 });
 
-//stub for SpirentEnterpriseViewModel so we don't need to import it and all it's dependencies
-var SpirentEnterpriseViewModel = function(){};
-SpirentEnterpriseViewModel.prototype.setUser = function(){};
-SpirentEnterpriseViewModel.prototype.init = function(){};
+//stub for IxiaCRViewModel so we don't need to import it and all it's dependencies
+var IxiaCRViewModel = function(){};
+IxiaCRViewModel.prototype.setUser = function(){};
+IxiaCRViewModel.prototype.init = function(){};
 
 asyncTest("Loads Root View Model", function(){
 	expect(4);
 
-	var enterpriseVmSpy = this.spy(window, "SpirentEnterpriseViewModel");
-	var setUserSpy = this.spy(SpirentEnterpriseViewModel.prototype, "setUser");
-	var initStub = this.stub(SpirentEnterpriseViewModel.prototype, "init", function(){
+	var enterpriseVmSpy = this.spy(window, "IxiaCRViewModel");
+	var setUserSpy = this.spy(IxiaCRViewModel.prototype, "setUser");
+	var initStub = this.stub(IxiaCRViewModel.prototype, "init", function(){
 		return {
 			done : function(callback){
 				callback();
@@ -192,7 +192,7 @@ asyncTest("Loads Root View Model", function(){
 	$fixture.append("<div id='main'></div>");
 	
 	var koStub = this.stub(ko, "applyBindings", function(enterpriseVm, element){
-		ok(enterpriseVm instanceof SpirentEnterpriseViewModel);
+		ok(enterpriseVm instanceof IxiaCRViewModel);
 		equal(document.getElementById("main"), element);
 	});
 	

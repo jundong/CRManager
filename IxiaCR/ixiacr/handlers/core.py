@@ -2,16 +2,12 @@
 from pyramid.i18n import TranslationStringFactory, get_locale_name
 from datetime import datetime, timedelta
 from pyramid_handlers import action
-from pyramid.view import view_config
 from pyramid.httpexceptions import HTTPFound
-from pyramid.security import remember
 from pyramid.security import forget
 from pyramid.url import route_url
 
 from ixiacr.models import *
 from ixiacr.handlers import base
-import transaction
-from sqlalchemy import desc,asc
 from ixiacr.lib.utils import get_global_vars
 from ixiacr.lib import IxiaLogger
 
@@ -108,6 +104,11 @@ class IxiaTemplateHandler(base.Handler):
 
     @action(renderer='html/dashboard.tmpl.jinja2', permission='all_access')
     def dashboard_tmpl(self):
+        # devices = {}
+        # for device in Device.query.all():
+        #     devices[device.name] = device.host
+        #
+        # return {'devices': devices}
         return {}
 
     @action(renderer='html/helpcenter.tmpl.jinja2', permission='all_access')

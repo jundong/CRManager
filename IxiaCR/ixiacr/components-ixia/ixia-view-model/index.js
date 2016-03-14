@@ -133,7 +133,7 @@ IxiaViewModel.prototype.updateAppLoadMessage = function (model, failed) {
             self.header = translate('App Loading Error');
             self.message = translate('The following failed to load:<br>{failed}<br><br>Please contact Spirent support at {link}', {
                 failed: self.failedAjaxModels.join('<br>'),
-                link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
+                link: '<a href="www.ixiacom.com">www.ixiacom.com</a>'
             });
             util.lightbox.open({
                 url: 'html/lightbox_tmpl',
@@ -165,30 +165,14 @@ IxiaViewModel.prototype.init = function (callback) {
             self.updateAppLoadMessage(self.ajaxModels[0], true);
         });
 
-//    var tracksAjax = self.getAvailableTracks()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[1]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[1], true);
-//        });
-//
-//    var devicesAjax = self.getAvailableDevices()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[2]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[2], true);
-//        });
-//
-//    var endpointAjax = self.getAvailableEndpoints()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[3]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[3]);
-//        });
-//
+    var devicesAjax = self.getAvailableDevices()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[2]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[2], true);
+        });
+
 //    //    var testsAjax = self.getAvailableTests()
 //    //        .done(function () {
 //    //            //self.updateAppLoadMessage(self.ajaxModels[4]);
@@ -197,14 +181,7 @@ IxiaViewModel.prototype.init = function (callback) {
 //    //            self.updateAppLoadMessage(self.ajaxModels[4], true);
 //    //        });
 //
-//    var tmplsTestsAjax = self.getTmplTests()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[13]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[13], true);
-//        });
-//
+
 //    var favoriteTestsAjax = self.getFavoriteTests()
 //        .done(function () {
 //            self.updateAppLoadMessage(self.ajaxModels[14]);
@@ -220,15 +197,7 @@ IxiaViewModel.prototype.init = function (callback) {
 //        .fail(function () {
 //            self.updateAppLoadMessage(self.ajaxModels[15], true);
 //        });
-//
-//    var dataPointsAjax = self.getAvailableDatapoints()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[5]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[5], true);
-//        });
-//
+
 //    var resultTypesAjax = self.getResultTypes()
 //        .done(function () {
 //            self.updateAppLoadMessage(self.ajaxModels[6]);
@@ -243,14 +212,6 @@ IxiaViewModel.prototype.init = function (callback) {
 //        })
 //        .fail(function () {
 //            self.updateAppLoadMessage(self.ajaxModels[7], true);
-//        });
-//
-//    var locationsAjax = self.getAvailableLocations()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[8]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[8], true);
 //        });
 
     var languageAjax = self.getLanguage()
@@ -277,15 +238,6 @@ IxiaViewModel.prototype.init = function (callback) {
 //            self.updateAppLoadMessage(self.ajaxModels[11], true);
 //        });
 
-//    var playlistAjax = self.getAvailablePlaylists()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[12]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[12], true);
-//        });
-
-
     self.selectTab(self.startingTab);
 
     self.initStart = (new Date()).getTime();
@@ -310,6 +262,7 @@ IxiaViewModel.prototype.init = function (callback) {
 
       return $.when(
         settingsAjax,
+        devicesAjax,
         languageAjax
     );
 };
@@ -1047,97 +1000,7 @@ IxiaViewModel.prototype.getAvailableDatapoints = function () {
 
     return ajax;
 };
-IxiaViewModel.prototype.getAvailableTracks = function (callback) {
-    var self = IxiaViewModel.typesafe(this);
-    self.availableTracks.removeAll();
-    var ajax = $.ajax({
-        type: "GET",
-        url: util.getConfigSetting("get_tracks"),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            var availableTracks = data;
-            self.availableTracksMap = new Array();
 
-            for (var i = 0; i < availableTracks.length; i++) {
-                var availableTrack = new TestTrackViewModel(self);
-                if (!availableTracks[i].js_bw_compute || availableTracks[i].js_bw_compute ==""){
-                    availableTracks[i].js_bw_compute="var computeFunction=function(){var trafficSettings = self.trafficSettings();if (trafficSettings == null || trafficSettings == undefined) {return;}var trackProperties = self.trackProperties();if (trackProperties.length == 0) {return;}var totalPropertiesBandwidth = 0;for (var i = 0; i < trackProperties.length; i++) {totalPropertiesBandwidth += trackProperties[i].bandwidth();}return (trafficSettings.value() * totalPropertiesBandwidth);};";
-                }
-                availableTrack.inflate(availableTracks[i]);
-                self.availableTracks.push(availableTrack);
-
-                self.availableTracksMap[availableTracks[i].id] = availableTrack;
-            }
-
-            var availablePlaylists = self.availablePlaylists();
-            if (availablePlaylists.length > 0) {
-                for (i = 0; i < availablePlaylists.length; i++) {
-                    var tracks = availablePlaylists[i].tracks();
-                    for (var j = 0; j < tracks.length; j++) {
-                        var track = tracks[j]();
-                        var trackId = track.id();
-                        track.name = self.availableTracksMap[trackId].name;
-                        if(availablePlaylists[i].isReadOnly)
-                            track.trackProperties = self.availableTracksMap[trackId].trackProperties;
-                        track.layer = self.availableTracksMap[trackId].layer;
-                    }
-                }
-            }
-            self.availableTracks.sort(util.sortArrayByObjectKeyKoObservable("name", true));
-            if (callback){
-                callback();
-            }
-        }
-    });
-
-    return ajax;
-};
-IxiaViewModel.prototype.getAvailablePlaylists = function (callback) {
-    var self = IxiaViewModel.typesafe(this);
-
-    self.availablePlaylists.removeAll();
-
-    var ajax = $.ajax({
-        type: "GET",
-        url: util.getConfigSetting("get_playlist_tracks"),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            var availablePlaylists = data;
-
-            for (var i = 0; i < availablePlaylists.length; i++) {
-                var playlist = new TestPlaylistViewModel(self);
-
-                playlist.inflate(availablePlaylists[i]);
-
-                self.availablePlaylists.push(playlist);
-            }
-
-            var availableTracks = self.availableTracks();
-            if (availableTracks.length > 0) {
-                for (i = 0; i < availablePlaylists.length; i++) {
-                    var playlistTracks = self.availablePlaylists()[i].tracks();
-                    for (var j = 0; j < playlistTracks.length; j++) {
-                        var thisTrack = playlistTracks[j]();
-                        var foundTrack = self.availableTracksMap[thisTrack.id()];
-                        thisTrack.name = foundTrack.name;
-                        if(availablePlaylists[i].isReadOnly)
-                            thisTrack.trackProperties = foundTrack.trackProperties;
-                        thisTrack.layer = foundTrack.layer;
-                    }
-
-                    self.availablePlaylists()[i].setMinTrackLayer();
-                    self.availablePlaylists()[i].calculatePercentagesForApplicationLayerTracks();
-                }
-            }
-            self.availablePlaylists.sort(util.sortArrayByObjectKeyKoObservable("name", true));
-            if (callback){
-                callback();
-            }
-        }
-    });
-
-    return ajax;
-};
 IxiaViewModel.prototype.getAvailableDevices = function (callback, responseData) {
     var self = IxiaViewModel.typesafe(this);
 
