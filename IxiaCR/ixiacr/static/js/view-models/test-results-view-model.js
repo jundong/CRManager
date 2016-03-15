@@ -152,13 +152,13 @@ TestResultsViewModel.prototype.selectTab = function(tab){
         self.tableVisible(true);
         self.reformatFinalTable();
         self.selectedTab(tab);
-        appHistory.push(spirentEnterpriseVm);
+        appHistory.push(ixiaCRVm);
         return;
     }else if(tab == "chart"){
         self.chartsVisible(true); 
         self.tableVisible(false);
         self.selectedTab(tab);
-        appHistory.push(spirentEnterpriseVm);
+        appHistory.push(ixiaCRVm);
         return;
     }
 };

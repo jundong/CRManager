@@ -1,9 +1,9 @@
 /*global ko:true, translate:true */
 
-// Use SpirentEnterpriseVM as dependency container, because we don't have one
+// Use ixiaCRVm as dependency container, because we don't have one
 
 function TestDevicePortViewModel(rootVm) {
-    rootVm = rootVm || window.spirentEnterpriseVm;
+    rootVm = rootVm || window.ixiaCRVm;
     var throttle_duration = rootVm.defaultThrottleDuration;
 
     this.id = ko.observable();

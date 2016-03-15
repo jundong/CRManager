@@ -51180,15 +51180,10 @@ function getConfigSetting(key) {\n\
     var stubsPath = \"stubs/\";\n\
 \n\
     var config = {\n\
-        \"get_axon_tests\": rootPath + \"get_axon_tests.json\",\n\
-        \"get_test_templates\": rootPath + \"get_test_templates.json\",\n\
-        \"get_favorite_tests\": rootPath + \"get_favorite_tests.json\",\n\
+        \"get_ixiacr_tests\": rootPath + \"get_ixiacr_tests.json\",\n\
         \"get_datapoints\": rootPath + \"get_datapoints.json\",\n\
         \"devices_status\": rootPath + \"devices/status\",\n\
         \"time_sync_status\": rootPath + \"status/time_sync\",\n\
-        \"get_playlists\": rootPath + \"get_playlists.json\",\n\
-        \"get_playlist_tracks\": rootPath + \"get_playlist_tracks.json\",\n\
-        \"get_tracks\": rootPath + \"get_tracks.json\",\n\
         \"get_results\": rootPath + \"get_results.json\",\n\
         \"get_endpoints\": rootPath + \"get_endpoints.json\",\n\
         \"get_devices\": rootPath + \"get_devices.json\",\n\
@@ -51201,8 +51196,6 @@ function getConfigSetting(key) {\n\
         \"get_tags\": rootPath + \"get_user_defined_tags.json\",\n\
         \"save_axon_test\": rootPath + \"save_axon_test\",\n\
         \"save_test_template\": rootPath + \"save_test_template\",\n\
-        \"save_track\": rootPath + \"save_track\",\n\
-        \"save_playlist\": rootPath + \"save_playlist\",\n\
         \"save_endpoint\": rootPath + \"save_endpoint\",\n\
         \"save_device\": rootPath + \"save_device\",\n\
         \"save_result\": rootPath + \"save_result\",\n\
@@ -51219,7 +51212,6 @@ function getConfigSetting(key) {\n\
         \"save_customers\": rootPath + \"save_customers\",\n\
         \"save_locations\": rootPath + \"save_locations\",\n\
         \"save_global_settings\": rootPath + \"save_global_settings\",\n\
-        \"save_wifi_settings\": rootPath + \"save_wifi_settings\",\n\
         \"verify_password\": rootPath + \"verify_password.json\",\n\
         \"set_admin_password\": rootPath + \"set_admin_password\",\n\
         \"backup\": rootPath + \"backup\",\n\
@@ -51227,9 +51219,6 @@ function getConfigSetting(key) {\n\
         \"reboot_axon\": rootPath + \"reboot_axon\",\n\
         \"shutdown_axon\": rootPath + \"shutdown_axon\",\n\
         \"get_task_status\": rootPath + \"get_task_status\",\n\
-        \"delete_track\": rootPath + \"delete_track\",\n\
-        \"delete_playlist\": rootPath + \"delete_playlist\",\n\
-        \"delete_endpoint\": rootPath + \"delete_endpoint\",\n\
         \"get_axon_logs\": rootPath + \"get_axon_logs\",\n\
         \"delete_device\": rootPath + \"delete_device\",\n\
         \"get_device_time_sync\": rootPath + \"get_device_time_sync\",\n\
@@ -52451,10 +52440,6 @@ UnicastEndpointViewModel.prototype.displayTagsWrite = function (value) {\n\
         if (self.tags().indexOf(trimmedValue) == -1) {\n\
             self.tags.push(trimmedValue);\n\
         }\n\
-\n\
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {\n\
-            self.rootVm.availableTags.push(trimmedValue);\n\
-        }\n\
     }\n\
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
     self.unqualifiedTags.valueHasMutated();\n\
@@ -52788,28 +52773,22 @@ function IxiaViewModel() {\n\
 \n\
     self.user = ko.observable();\n\
 \n\
-    self.availableTracks = ko.observableArray();\n\
     self.availablePlaylists = ko.observableArray();\n\
     self.availableDevices = ko.observableArray();\n\
     self.availableEndpoints = ko.observableArray();\n\
     self.availableTests = ko.observableArray();\n\
-    self.favoriteTests = ko.observableArray();\n\
-    self.factoryTests = ko.observableArray();\n\
-    self.userTests = ko.observableArray();\n\
+    self.enterpriseTests = ko.observableArray();\n\
+    self.hostTests = ko.observableArray();\n\
     self.availableTestsByCategory = ko.observableDictionary({});\n\
-    self.availableTracksMap = null;\n\
     self.availableDatapointsMap = ko.observableArray();\n\
     self.availableResultTypes = new Array();\n\
     self.availableDisplayMessages = new Array();\n\
     self.availableCustomers = ko.observableArray();\n\
     self.availableLocations = ko.observableArray();\n\
     self.language = ko.observable();\n\
-    self.availableTags = ko.observableArray();\n\
     self.testResultsHistory = ko.observableArray();\n\
     self.testResultsHistoryHandlers = new Array();\n\
     self.availableDiskSpace = ko.observable(); //will be updated by disk management\n\
-\n\
-    self.allTests = [];\n\
 \n\
     self.startingTab = 'dashboard';\n\
 \n\
@@ -52859,20 +52838,14 @@ function IxiaViewModel() {\n\
     self.completionPercent = 40;\n\
     self.completionMessage = \"\";\n\
     self.ajaxModels = new Array(translate(\"Global Settings\"),\n\
-        translate(\"Tracks\"),\n\
         translate(\"Devices\"),\n\
-        translate(\"Endpoints\"),\n\
         translate(\"Tests\"),\n\
-        translate(\"Datapoints\"),\n\
         translate(\"Result Types\"),\n\
         translate(\"Customers\"),\n\
         translate(\"Locations\"),\n\
         translate(\"Languages\"),\n\
-        translate(\"Tags\"),\n\
         translate(\"Display Messages\"),\n\
-        translate(\"Playlists\"),\n\
         translate(\"Test Library\"),\n\
-        translate(\"Favorite Tests\"),\n\
         translate(\"Recent Results\"));\n\
     self.ajaxModelsToComplete = self.ajaxModels.slice(0);\n\
     self.failedAjaxModels = new Array();\n\
@@ -52914,7 +52887,7 @@ IxiaViewModel.prototype.updateAppLoadMessage = function (model, failed) {\n\
             self.header = translate('App Loading Error');\n\
             self.message = translate('The following failed to load:<br>{failed}<br><br>Please contact Spirent support at {link}', {\n\
                 failed: self.failedAjaxModels.join('<br>'),\n\
-                link: '<a href=\"www.ixiacom.com\">www.ixiacom.com</a>'\n\
+                link: '<a href=\"http://www.ixiacom.com\">www.ixiacom.com</a>'\n\
             });\n\
             util.lightbox.open({\n\
                 url: 'html/lightbox_tmpl',\n\
@@ -52948,22 +52921,22 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 \n\
     var devicesAjax = self.getAvailableDevices()\n\
         .done(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[1]);\n\
+        })\n\
+        .fail(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[1], true);\n\
+        });\n\
+\n\
+    var testsAjax = self.getAvailableTests()\n\
+        .done(function () {\n\
             self.updateAppLoadMessage(self.ajaxModels[2]);\n\
         })\n\
         .fail(function () {\n\
             self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
         });\n\
-\n\
-//    //    var testsAjax = self.getAvailableTests()\n\
-//    //        .done(function () {\n\
-//    //            //self.updateAppLoadMessage(self.ajaxModels[4]);\n\
-//    //        })\n\
-//    //        .fail(function () {\n\
-//    //            self.updateAppLoadMessage(self.ajaxModels[4], true);\n\
-//    //        });\n\
 //\n\
 \n\
-//    var favoriteTestsAjax = self.getFavoriteTests()\n\
+//    var enterpriseTestsAjax = self.getFavoriteTests()\n\
 //        .done(function () {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[14]);\n\
 //        })\n\
@@ -52997,19 +52970,11 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 \n\
     var languageAjax = self.getLanguage()\n\
         .done(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[9]);\n\
+            self.updateAppLoadMessage(self.ajaxModels[6]);\n\
         })\n\
         .fail(function () {\n\
-            self.updateAppLoadMessage(self.ajaxModels[9], true);\n\
+            self.updateAppLoadMessage(self.ajaxModels[6], true);\n\
         });\n\
-\n\
-//    var tagsAjax = self.getAvailableTags()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[10]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[10], true);\n\
-//        });\n\
 \n\
 //    var messageAjax = self.getAvailableDisplayMessages()\n\
 //        .done(function () {\n\
@@ -53019,32 +52984,15 @@ IxiaViewModel.prototype.init = function (callback) {\n\
 //            self.updateAppLoadMessage(self.ajaxModels[11], true);\n\
 //        });\n\
 \n\
-    self.selectTab(self.startingTab);\n\
+        self.selectTab(self.startingTab);\n\
 \n\
-    self.initStart = (new Date()).getTime();\n\
+        self.initStart = (new Date()).getTime();\n\
 \n\
-//    return $.when(\n\
-//        settingsAjax,\n\
-//        tracksAjax,\n\
-//        playlistAjax,\n\
-//        devicesAjax,\n\
-//        endpointAjax,\n\
-//        tmplsTestsAjax,\n\
-//        favoriteTestsAjax,\n\
-//        historyResults,\n\
-//        dataPointsAjax,\n\
-//        resultTypesAjax,\n\
-//        customersAjax,\n\
-//        locationsAjax,\n\
-//        languageAjax,\n\
-//        tagsAjax,\n\
-//        messageAjax\n\
-//    );\n\
-\n\
-      return $.when(\n\
+    return $.when(\n\
         settingsAjax,\n\
         devicesAjax,\n\
-        languageAjax\n\
+        languageAjax,\n\
+        testsAjax\n\
     );\n\
 };\n\
 \n\
@@ -53250,136 +53198,18 @@ IxiaViewModel.prototype.getLanguage = function() {\n\
     return ajax;\n\
 };\n\
 \n\
-IxiaViewModel.prototype.getAvailableTags = function () {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-\n\
-    self.availableTags.removeAll();\n\
-\n\
-    var ajax = $.ajax({\n\
-        type: 'GET',\n\
-        url: util.getConfigSetting('get_tags'),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var availableTags = data;\n\
-\n\
-            for (var i = 0; i < availableTags.length; i++) {\n\
-                self.availableTags.push(availableTags[i]);\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax\n\
-};\n\
-\n\
-IxiaViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-    var tags = self.availableTags();\n\
-\n\
-    var data = new Array();\n\
-\n\
-    for (var i = 0; i < tags.length; i++) {\n\
-        data.push({\"value\": tags[i]});\n\
-    }\n\
-\n\
-    return data;\n\
-};\n\
-\n\
-IxiaViewModel.prototype.getTmplTests = function (callback) {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-\n\
-    self.vmDashboard.tmplTests.removeAll();\n\
-\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_test_templates\"),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            for (var i = 0; i < data.length; i++) {\n\
-                self.factoryTests().push(data[i]);\n\
-            };\n\
-            self.fillAvailableTestsWithResults(data, true);\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
-\n\
-IxiaViewModel.prototype.getFavoriteTests = function (params, callback) {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-    var offset = 0;\n\
-    var url = util.getConfigSetting(\"get_favorite_tests\");\n\
-    if (params) {\n\
-        if (params['page']) {\n\
-            offset = params['page'];\n\
-            url += '?page=' + params['page'];\n\
-            if (params['page_size']) {\n\
-                offset = (offset - 1) * params['page_size'];\n\
-                url += '&page_size=' + params['page_size'];\n\
-            } else {\n\
-                offset = (offset - 1) * 5;\n\
-            }\n\
-        } else {\n\
-            if (params['page_size']) {\n\
-                url += '?page_size=' + params['page_size'];\n\
-            }\n\
-        }\n\
-    }\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: url,\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            self.vmDashboard.totalFavoriteTests = data['total_number'];\n\
-            self.vmDashboard.favoriteTests.removeAll();\n\
-\n\
-            self.fillFavoriteTests(data['data'], offset);\n\
-            self.fillAvailableTestsWithResults(data['data'], false);\n\
-\n\
-            if (callback){\n\
-                callback();\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
-\n\
 IxiaViewModel.prototype.getAvailableTests = function (params, callback) {\n\
     var self = IxiaViewModel.typesafe(this);\n\
-    var url = util.getConfigSetting(\"get_axon_tests\");\n\
-    if (params) {\n\
-        if (params['test_id']) {\n\
-            url += '?test_id=' + params['test_id'];\n\
-            if(params['result_id']) {\n\
-                url += '&result_id=' + params['result_id'];\n\
-            }\n\
-        } else {\n\
-            if (params['filters']) {\n\
-                url += '?filters=' + params['filters'];\n\
-            }\n\
-            if (params['page']) {\n\
-                url += '?page=' + params['page'];\n\
-                if (params['page_size']) {\n\
-                    url += '&page_size=' + params['page_size'];\n\
-                }\n\
-            } else {\n\
-                if (params['page_size']) {\n\
-                    url += '?page_size=' + params['page_size'];\n\
-                }\n\
-            }\n\
-        }\n\
-    }\n\
+\n\
     var ajax = $.ajax({\n\
         type: \"GET\",\n\
-        url: url,\n\
+        url: util.getConfigSetting(\"get_ixiacr_tests\"),\n\
         dataType: 'json',\n\
         success: function (data, textStatus, jqXhr) {\n\
-            for (var i = 0; i < data.length; i++) {\n\
-                if (data[i].is_user_save) {\n\
-                    self.userTests().push(data[i]);\n\
-                }\n\
-            };\n\
-            self.fillAvailableTestsWithResults(data, false);\n\
+            self.availableTests.removeAll();\n\
+            self.enterpriseTests.removeAll();\n\
+            self.hostTests.removeAll();\n\
+            self.fillAvailableTests(data);\n\
 \n\
             if (callback){\n\
                 callback();\n\
@@ -53390,75 +53220,20 @@ IxiaViewModel.prototype.getAvailableTests = function (params, callback) {\n\
     return ajax;\n\
 };\n\
 \n\
-IxiaViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactoryTest){\n\
+IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
     var self = IxiaViewModel.typesafe(this);\n\
     var availableTests = data = translate_tests_configurations(data);\n\
-    var existingTest;\n\
 \n\
     for (var i = 0; i < availableTests.length; i++) {\n\
-        var test = new TestTemplateViewModel(self);\n\
+        var existingTest = null,\n\
+            test = new TestTemplateViewModel(self);\n\
         test.inflate(availableTests[i]);\n\
-        test.isFactoryTest(isFactoryTest);\n\
-        test.isTemplate(isFactoryTest);\n\
 \n\
-        if (isFactoryTest) {\n\
-            existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
-                return (test.id() === item.id()) && item.isTemplate();\n\
-            });\n\
-            if (existingTest === null) {\n\
-                self.availableTests.push(test);\n\
-                self.allTests.push(test);\n\
-            }\n\
-\n\
-            // Update template tests list\n\
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.tmplTests(), function (item) {\n\
-                return (item.id() === test.id() && item.isFactoryTest() && item.isTemplate());\n\
-            });\n\
-            if (existingTest === null) {\n\
-                // To make 'Throughput Test' at the second position in 'Test Library'\n\
-                if (test.template_name() == 'Throughput Test') {\n\
-                    if (self.vmDashboard.tmplTests().length > 1) {\n\
-                        // Insert value\n\
-                        self.vmDashboard.tmplTests.splice(1, 0, test);\n\
-                    } else {\n\
-                        self.vmDashboard.tmplTests.push(test);\n\
-                    }\n\
-                } else {\n\
-                    self.vmDashboard.tmplTests.push(test);\n\
-                }\n\
-            }\n\
-            self.addToCategoryView(test);\n\
-        } else if (test.isUserSave) {\n\
-            if(test.result_id){\n\
-                //code pass for loading test result from test_results\n\
-                self.allTests.push(test);\n\
-            }\n\
-            else {\n\
-                //code pass for loading user saved test\n\
-                existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
-                    return (test.id() === item.id()) && item.isUserSave;\n\
-                });\n\
-                if (existingTest === null) {\n\
-                    self.availableTests.push(test);\n\
-//                    self.allTests.push(test);\n\
-                } else {\n\
-                    self.availableTests.remove(existingTest);\n\
-                    self.availableTests.push(test);\n\
-//                    self.allTests.pop(existingTest);\n\
-//                    self.allTests.push(test);\n\
-                }\n\
-                self.addToCategoryView(test);\n\
-            }\n\
-        } else {\n\
-            existingTest = ko.utils.arrayFirst(self.allTests, function (item) {\n\
-                return (test.id() === item.id()) && !item.isUserSave;\n\
-            });\n\
-            if (existingTest === null) {\n\
-                self.allTests.push(test);\n\
-            } else {\n\
-                self.allTests.pop(existingTest);\n\
-                self.allTests.push(test);\n\
-            }\n\
+        existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
+            return (test.id() === item.id());\n\
+        });\n\
+        if (existingTest === null) {\n\
+            self.availableTests.push(test);\n\
         }\n\
     }\n\
 \n\
@@ -53471,85 +53246,85 @@ IxiaViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactor
 \n\
 IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
     var self = IxiaViewModel.typesafe(this);\n\
-    var favoriteTests = data = translate_tests_configurations(data);\n\
+    var enterpriseTests = data = translate_tests_configurations(data);\n\
     var existingTest;\n\
 \n\
     // Keep favorite test number is consistent with DB in FrontEnd cache\n\
-    if (self.vmDashboard.totalFavoriteTests > self.favoriteTests().length) {\n\
-        for (var i = self.favoriteTests().length; i < self.vmDashboard.totalFavoriteTests; i++) {\n\
-            self.favoriteTests.push(undefined);\n\
+    if (self.vmDashboard.totalEnterpriseTests > self.enterpriseTests().length) {\n\
+        for (var i = self.enterpriseTests().length; i < self.vmDashboard.totalEnterpriseTests; i++) {\n\
+            self.enterpriseTests.push(undefined);\n\
         }\n\
-    } else if (self.vmDashboard.totalFavoriteTests < self.favoriteTests().length) {\n\
-        for (var i = self.favoriteTests().length - 1; i >= 0; i--) {\n\
-            if (self.favoriteTests()[i] == undefined) {\n\
-                self.favoriteTests.splice(i, 1);\n\
+    } else if (self.vmDashboard.totalEnterpriseTests < self.enterpriseTests().length) {\n\
+        for (var i = self.enterpriseTests().length - 1; i >= 0; i--) {\n\
+            if (self.enterpriseTests()[i] == undefined) {\n\
+                self.enterpriseTests.splice(i, 1);\n\
             }\n\
         }\n\
     }\n\
 \n\
-    for (var i = 0; i < favoriteTests.length; i++) {\n\
+    for (var i = 0; i < enterpriseTests.length; i++) {\n\
         var test = new TestTemplateViewModel(self);\n\
-        test.inflate(favoriteTests[i]);\n\
+        test.inflate(enterpriseTests[i]);\n\
 \n\
         if (offset != undefined) {\n\
             // If offset is set, we query favorite tests from DB, so the favorite property has already been set\n\
-            self.favoriteTests()[offset + i] = test;\n\
+            self.enterpriseTests()[offset + i] = test;\n\
             if (i < 5) {\n\
-                self.vmDashboard.favoriteTests.push(test);\n\
+                self.vmDashboard.enterpriseTests.push(test);\n\
             }\n\
         } else {\n\
-            // Make sure self.favoriteTests() has value before we use it\n\
-            if (self.favoriteTests().length == 0 && test.favorite()) {\n\
-                self.favoriteTests.push(test);\n\
-                self.vmDashboard.totalFavoriteTests += 1;\n\
+            // Make sure self.enterpriseTests() has value before we use it\n\
+            if (self.enterpriseTests().length == 0 && test.favorite()) {\n\
+                self.enterpriseTests.push(test);\n\
+                self.vmDashboard.totalEnterpriseTests += 1;\n\
             }\n\
 \n\
             // Update favorite tests list\n\
-            existingTest = ko.utils.arrayFirst(self.favoriteTests(), function (item) {\n\
+            existingTest = ko.utils.arrayFirst(self.enterpriseTests(), function (item) {\n\
                 if (item != undefined) {\n\
                     return item.id() === test.id();\n\
                 }\n\
                 return false;\n\
             });\n\
             if (existingTest !== null) {\n\
-                var index = self.favoriteTests.indexOf(existingTest);\n\
+                var index = self.enterpriseTests.indexOf(existingTest);\n\
                 // Update\n\
                 if (test.favorite()) {\n\
                     if (index != -1) {\n\
-                        self.favoriteTests()[index] = test;\n\
+                        self.enterpriseTests()[index] = test;\n\
                     }\n\
                 } else {\n\
                     // Remove\n\
                     if (index != -1) {\n\
-                        self.favoriteTests.remove(existingTest);\n\
-                        if (self.vmDashboard.favoriteTests.indexOf(existingTest) != -1) {\n\
-                            if (self.favoriteTests().length > index) {\n\
-                                if (self.favoriteTests()[index] !== undefined) {\n\
-                                    if (self.vmDashboard.favoriteTests.indexOf(self.favoriteTests()[index]) == -1) {\n\
-                                        self.vmDashboard.favoriteTests.push(self.favoriteTests()[index])\n\
+                        self.enterpriseTests.remove(existingTest);\n\
+                        if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {\n\
+                            if (self.enterpriseTests().length > index) {\n\
+                                if (self.enterpriseTests()[index] !== undefined) {\n\
+                                    if (self.vmDashboard.enterpriseTests.indexOf(self.enterpriseTests()[index]) == -1) {\n\
+                                        self.vmDashboard.enterpriseTests.push(self.enterpriseTests()[index])\n\
                                     }\n\
                                 }\n\
                             }\n\
                         }\n\
-                        self.vmDashboard.totalFavoriteTests -= 1;\n\
+                        self.vmDashboard.totalEnterpriseTests -= 1;\n\
                     }\n\
                 }\n\
             } else {\n\
                 // Do nothing if the Frontend cache is empty here\n\
-                if (self.favoriteTests().length == 0 && !test.favorite()) {\n\
+                if (self.enterpriseTests().length == 0 && !test.favorite()) {\n\
                     continue;\n\
                 }\n\
-                if (self.favoriteTests()[0].id() < test.id() && test.favorite()) {\n\
-                    self.favoriteTests.unshift(test);\n\
-                    self.vmDashboard.totalFavoriteTests += 1;\n\
-                } else if (self.favoriteTests()[0].id() > test.id() && test.favorite()) {\n\
+                if (self.enterpriseTests()[0].id() < test.id() && test.favorite()) {\n\
+                    self.enterpriseTests.unshift(test);\n\
+                    self.vmDashboard.totalEnterpriseTests += 1;\n\
+                } else if (self.enterpriseTests()[0].id() > test.id() && test.favorite()) {\n\
                     var position = undefined;\n\
                     // First loop to determine whether there is a proper position for insert\n\
-                    for (var k = 0; k < self.favoriteTests().length; k++) {\n\
-                        if (self.favoriteTests()[k] == undefined) {\n\
+                    for (var k = 0; k < self.enterpriseTests().length; k++) {\n\
+                        if (self.enterpriseTests()[k] == undefined) {\n\
                             continue;\n\
                         }\n\
-                        if (self.favoriteTests()[k].id() > test.id()) {\n\
+                        if (self.enterpriseTests()[k].id() > test.id()) {\n\
                             continue;\n\
                         } else {\n\
                             position = k;\n\
@@ -53557,45 +53332,45 @@ IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
                         }\n\
                     }\n\
                     if (position == undefined) {\n\
-                        if (self.favoriteTests()[self.favoriteTests().length - 1] != undefined) {\n\
-                            self.favoriteTests.push(test);\n\
+                        if (self.enterpriseTests()[self.enterpriseTests().length - 1] != undefined) {\n\
+                            self.enterpriseTests.push(test);\n\
                         } else {\n\
-                            self.favoriteTests()[self.favoriteTests().length - 1] = test;\n\
+                            self.enterpriseTests()[self.enterpriseTests().length - 1] = test;\n\
                         }\n\
                     } else {\n\
                         // Second loop to determine the insert position\n\
-                        var slice = self.favoriteTests.slice(position, self.favoriteTests().length);\n\
+                        var slice = self.enterpriseTests.slice(position, self.enterpriseTests().length);\n\
                         slice.unshift(test);\n\
-                        self.favoriteTests = self.favoriteTests.slice(0, position).concat(slice);\n\
+                        self.enterpriseTests = self.enterpriseTests.slice(0, position).concat(slice);\n\
 \n\
                     }\n\
-                    self.vmDashboard.totalFavoriteTests += 1;\n\
+                    self.vmDashboard.totalEnterpriseTests += 1;\n\
                 }\n\
             }\n\
 \n\
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests(), function (item) {\n\
+            existingTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {\n\
                 return item.id() === test.id();\n\
             });\n\
             if (existingTest !== null) {\n\
                 // Update\n\
                 if (test.favorite()) {\n\
-                    var index = self.vmDashboard.favoriteTests.indexOf(existingTest);\n\
-                    self.vmDashboard.favoriteTests()[index] = test;\n\
+                    var index = self.vmDashboard.enterpriseTests.indexOf(existingTest);\n\
+                    self.vmDashboard.enterpriseTests()[index] = test;\n\
                 } else {\n\
                     // Remove\n\
-                    if (self.vmDashboard.favoriteTests.indexOf(existingTest) != -1) {\n\
-                        self.vmDashboard.favoriteTests.remove(existingTest);\n\
+                    if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {\n\
+                        self.vmDashboard.enterpriseTests.remove(existingTest);\n\
                     }\n\
                 }\n\
             } else {\n\
-                if (self.vmDashboard.favoriteTests().length == 0 && test.favorite()) {\n\
-                    self.vmDashboard.favoriteTests.push(test);\n\
+                if (self.vmDashboard.enterpriseTests().length == 0 && test.favorite()) {\n\
+                    self.vmDashboard.enterpriseTests.push(test);\n\
                     continue;\n\
                 }\n\
-                if (self.vmDashboard.favoriteTests()[0].id() < test.id() && test.favorite()) {\n\
-                    self.vmDashboard.favoriteTests.unshift(test);\n\
-                    if (self.vmDashboard.favoriteTests().length > 5) {\n\
-                        self.vmDashboard.favoriteTests.pop();\n\
+                if (self.vmDashboard.enterpriseTests()[0].id() < test.id() && test.favorite()) {\n\
+                    self.vmDashboard.enterpriseTests.unshift(test);\n\
+                    if (self.vmDashboard.enterpriseTests().length > 5) {\n\
+                        self.vmDashboard.enterpriseTests.pop();\n\
                     }\n\
                 }\n\
             }\n\
@@ -53611,19 +53386,10 @@ IxiaViewModel.prototype.insertUserTest = function (userTest){\n\
 \n\
     userTestId = userTest.id();\n\
 \n\
-    existingUserTest = ko.utils.arrayFirst(self.userTests(), function (item) {\n\
-        return userTestId === item.id;\n\
-    });\n\
-\n\
-    if (existingUserTest !== null) {\n\
-        self.userTests.remove(existingUserTest);\n\
-    }\n\
-\n\
     self.updateTestNameInRecentTests(userTest);\n\
 \n\
     flatUserTest = userTest.toFlatObject();\n\
-    self.fillAvailableTestsWithResults([flatUserTest], false);\n\
-    self.userTests().push(flatUserTest);\n\
+    self.fillAvailableTests([flatUserTest]);\n\
 };\n\
 \n\
 IxiaViewModel.prototype.removeUserTest = function (userTest){\n\
@@ -53638,28 +53404,16 @@ IxiaViewModel.prototype.removeUserTest = function (userTest){\n\
         self.availableTests.remove(existingUserTest);\n\
     }\n\
 \n\
-    existingUserTest = ko.utils.arrayFirst(self.allTests, function (item) {\n\
-        return userTest.id() === item.id() && !item.isTemplate();\n\
-    });\n\
-\n\
     if (existingUserTest !== null) {\n\
-        self.allTests.pop(existingUserTest);\n\
+        self.enterpriseTests.remove(existingUserTest);\n\
     }\n\
 \n\
-    existingUserTest = ko.utils.arrayFirst(self.favoriteTests(), function (item) {\n\
+    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {\n\
         return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();\n\
     });\n\
 \n\
     if (existingUserTest !== null) {\n\
-        self.favoriteTests.remove(existingUserTest);\n\
-    }\n\
-\n\
-    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests(), function (item) {\n\
-        return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();\n\
-    });\n\
-\n\
-    if (existingUserTest !== null) {\n\
-        self.vmDashboard.favoriteTests.remove(existingUserTest);\n\
+        self.vmDashboard.enterpriseTests.remove(existingUserTest);\n\
     }\n\
 };\n\
 \n\
@@ -54909,7 +54663,7 @@ require.register("./components-ixia/netflow-settings/models/netflow-settings.js"
 \n\
 var NetflowSettings = model('NetflowSettings')\n\
 //    .route('http://johntron.apiary.io/flowmon')\n\
-    .route('/ixia/flowmon')\n\
+    .route('/spirent/flowmon')\n\
     .use(defaults)\n\
     .attr('status')\n\
     .attr('license_status')\n\
@@ -55997,19 +55751,15 @@ function TestViewModel(rootVModel, delegate) {\n\
     self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;\n\
     self.getAvailableTests = self.rootVm.getAvailableTests;\n\
     self.getAvailableDatapoints = self.rootVm.getAvailableDatapoints;\n\
-    self.availableTracks = self.rootVm.availableTracks;\n\
     self.availablePlaylists = self.rootVm.availablePlaylists;\n\
     self.availableDevices = self.rootVm.availableDevices;\n\
     self.availableEndpoints = self.rootVm.availableEndpoints;\n\
     self.availableTests = self.rootVm.availableTests;\n\
-    self.userTests = self.rootVm.userTests;\n\
-    self.factoryTests = self.rootVm.factoryTests;\n\
     self.availableTestsByCategory = self.rootVm.availableTestsByCategory;\n\
     self.availableDatapointsMap = self.rootVm.availableDatapointsMap;\n\
     self.getResultTypes = self.rootVm.getResultTypes;\n\
     self.availableCustomers = self.rootVm.availableCustomers;\n\
     self.availableLocations = self.rootVm.availableLocations;\n\
-    self.availableTags = self.rootVm.availableTags;\n\
 \n\
     self.strings = {\n\
         \"save\": translate('Save'),\n\
@@ -56226,7 +55976,7 @@ TestViewModel.prototype.selectTab = function(tab, callback){\n\
             break;\n\
     }\n\
 \n\
-    appHistory.push(spirentEnterpriseVm);\n\
+    appHistory.push(ixiaCRVm);\n\
 };\n\
 \n\
 TestViewModel.prototype.templateResultsTab = function(isTestRunning, callback){\n\
@@ -56376,13 +56126,13 @@ TestViewModel.prototype.loadTest = function (testConfiguration, eventConfigurati
 TestViewModel.prototype.loadRecentTest = function (historyItem) {\n\
     var self = TestViewModel.typesafe(this);\n\
     self.ensureUnreservedOrFail(function() {\n\
-        var matchedTest = ko.utils.arrayFirst(self.rootVm.allTests, function (item) {\n\
+        var matchedTest = ko.utils.arrayFirst(self.rootVm.availableTests, function (item) {\n\
             return (item.id() === historyItem.test_id && !item.isFactoryTest() && (item.result_id && item.result_id === historyItem.result_id()));\n\
         });\n\
 \n\
         if (matchedTest === null) {\n\
             self.rootVm.getAvailableTests({\"test_id\" : historyItem.test_id, \"result_id\" : historyItem.result_id()}, function() {\n\
-                matchedTest = ko.utils.arrayFirst(self.rootVm.allTests, function (item) {\n\
+                matchedTest = ko.utils.arrayFirst(self.rootVm.availableTests, function (item) {\n\
                             return (item.id() === historyItem.test_id && !item.isFactoryTest() && (item.result_id && item.result_id === historyItem.result_id()));\n\
                         });\n\
                 if (matchedTest !== null) {\n\
@@ -69282,64 +69032,62 @@ function DashboardViewModel(rootVm) {\n\
     self.leftPortlets = ko.observableArray();\n\
     self.rightPortlets = ko.observableArray();\n\
 \n\
-    self.favoriteTestsPaginator = new Paginator();\n\
-    self.favoriteTests = ko.observableArray();\n\
-    self.favoriteTests.extend({ rateLimit: 50 });\n\
-    self.favoriteTestsPerPage = 5;\n\
-    self.$favoriteTestsPaginator = undefined;\n\
-    self.totalFavoriteTests = ko.observable(0);\n\
+    self.enterpriseTestsPaginator = new Paginator();\n\
+    self.enterpriseTests = ko.observableArray();\n\
+    self.enterpriseTests.extend({ rateLimit: 50 });\n\
+    self.enterpriseTestsPerPage = 5;\n\
+    self.$enterpriseTestsPaginator = undefined;\n\
+    self.totalEnterpriseTests = ko.observable(0);\n\
 \n\
-    self.tmplTests = ko.observableArray();\n\
+    self.hostTests = ko.observableArray();\n\
     self.testResultsHistory = ko.observableArray();\n\
     self.totalHistoryResults = ko.observable(0);\n\
 \n\
-    self.showFavoriteTestsPaginator = function() {\n\
-        // If Favorite Tests records less than one page shows count, hide the paginator\n\
-        if (self.totalFavoriteTests < 5) {\n\
+    self.showEnterpriseTestsPaginator = function() {\n\
+        // If Enterprise Tests records less than one page shows count, hide the paginator\n\
+        if (self.totalEnterpriseTests < 5) {\n\
             return ;\n\
         }\n\
 \n\
-        function get_favorite_tests(page) {\n\
-            var page_favorite_tests = self.rootVm.favoriteTests.slice((page - 1) * 5, page * 5);\n\
+        function get_enterprise_tests(page) {\n\
+            var page_enterprise_tests = self.rootVm.enterpriseTests.slice((page - 1) * 5, page * 5);\n\
             var needRequestData = false;\n\
-            for (var i = 0; i < page_favorite_tests.length; i++) {\n\
-                if (page_favorite_tests[i] === undefined) {\n\
+            for (var i = 0; i < page_enterprise_tests.length; i++) {\n\
+                if (page_enterprise_tests[i] === undefined) {\n\
                     needRequestData = true\n\
-                    self.rootVm.getFavoriteTests({'page': page, 'page_size': 5}, function () {\n\
-                        reset();\n\
-                    });\n\
+                    reset();\n\
                     break;\n\
                 }\n\
             }\n\
             if (!needRequestData) {\n\
-                self.favoriteTests.removeAll();\n\
-                for (var i = 0; i < page_favorite_tests.length; i++) {\n\
-                    self.favoriteTests.push(page_favorite_tests[i]);\n\
+                self.enterpriseTests.removeAll();\n\
+                for (var i = 0; i < page_enterprise_tests.length; i++) {\n\
+                    self.enterpriseTests.push(page_enterprise_tests[i]);\n\
                 }\n\
             }\n\
         }\n\
 \n\
         function page_changed(page) {\n\
-            get_favorite_tests(page);\n\
+            get_enterprise_tests(page);\n\
             render_page();\n\
         }\n\
 \n\
         function render() {\n\
-            if (!self.$favoriteTestsPaginator) {\n\
-                self.favoriteTestsPaginator.on('change', page_changed.bind(self));\n\
+            if (!self.$enterpriseTestsPaginator) {\n\
+                self.enterpriseTestsPaginator.on('change', page_changed.bind(self));\n\
             }\n\
-            self.$favoriteTestsPaginator = document.querySelector('.favorite-tests-paginator');\n\
+            self.$enterpriseTestsPaginator = document.querySelector('.enterprise-tests-paginator');\n\
             reset();\n\
         }\n\
 \n\
         function reset() {\n\
-            var pages = Math.ceil(self.totalFavoriteTests / self.favoriteTestsPerPage);\n\
+            var pages = Math.ceil(self.totalEnterpriseTests / self.enterpriseTestsPerPage);\n\
 \n\
-            if (pages !== self.favoriteTestsPaginator.pages()) {\n\
-                self.favoriteTestsPaginator.pages(pages);\n\
+            if (pages !== self.enterpriseTestsPaginator.pages()) {\n\
+                self.enterpriseTestsPaginator.pages(pages);\n\
             }\n\
 \n\
-            self.favoriteTestsPaginator.render();\n\
+            self.enterpriseTestsPaginator.render();\n\
             render_page();\n\
         };\n\
 \n\
@@ -69350,10 +69098,10 @@ function DashboardViewModel(rootVm) {\n\
          */\n\
 \n\
         function render_page() {\n\
-            while (self.$favoriteTestsPaginator.firstChild) {\n\
-                self.$favoriteTestsPaginator.removeChild(self.$favoriteTestsPaginator.firstChild);\n\
+            while (self.$enterpriseTestsPaginator.firstChild) {\n\
+                self.$enterpriseTestsPaginator.removeChild(self.$enterpriseTestsPaginator.firstChild);\n\
             }\n\
-            self.$favoriteTestsPaginator.appendChild(self.favoriteTestsPaginator.$el);\n\
+            self.$enterpriseTestsPaginator.appendChild(self.enterpriseTestsPaginator.$el);\n\
         };\n\
 \n\
         render();\n\
@@ -69756,10 +69504,6 @@ TestHistoryViewModel.prototype.displayTagsWrite = function (value) {\n\
 \n\
         if (self.tags().indexOf(trimmedValue) == -1) {\n\
             self.tags.push(trimmedValue);\n\
-        }\n\
-\n\
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {\n\
-            self.rootVm.availableTags.push(trimmedValue);\n\
         }\n\
     }\n\
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
@@ -70392,7 +70136,7 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {\n\
     } else {\n\
         // Make sure we initialize the diagram\n\
         if (self.diagram === null) {\n\
-            var tmplTest = ko.utils.arrayFirst(self.vmDashboard.tmplTests(), function (item) {\n\
+            var tmplTest = ko.utils.arrayFirst(self.vmDashboard.hostTests(), function (item) {\n\
                 return item.template_name() === flatTest.template_name;\n\
             });\n\
             if (tmplTest !== null && self.diagram === null) {\n\
@@ -70475,9 +70219,6 @@ TestTemplateViewModel.prototype.displayTagsWrite = function (value) {\n\
             self.tags.push(trimmedValue);\n\
         }\n\
 \n\
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {\n\
-            self.rootVm.availableTags.push(trimmedValue);\n\
-        }\n\
     }\n\
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
     self.unqualifiedTags.valueHasMutated();\n\
@@ -71269,7 +71010,7 @@ ConfiguredTestViewModel.prototype.getDefaultPlaylistId = function () {\r\n\
     if (self.isMulticast) {\r\n\
         return self.defaultPlaylistId;\r\n\
     } else {\r\n\
-        tmpl = ko.utils.arrayFirst(self.rootVm.vmDashboard.tmplTests(), function (item) {\r\n\
+        tmpl = ko.utils.arrayFirst(self.rootVm.vmDashboard.hostTests(), function (item) {\r\n\
             return item.template_name() === self.template_name();\r\n\
         });\r\n\
 \r\n\
@@ -71619,10 +71360,6 @@ ConfiguredTestViewModel.prototype.displayTagsWrite = function (value) {\r\n\
         if (self.tags().indexOf(trimmedValue) == -1) {\r\n\
             self.tags.push(trimmedValue);\r\n\
         }\r\n\
-\r\n\
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {\r\n\
-            self.rootVm.availableTags.push(trimmedValue);\r\n\
-        }\r\n\
     }\r\n\
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\r\n\
     self.unqualifiedTags.valueHasMutated();\r\n\
@@ -71793,7 +71530,7 @@ require.modules["configured-test-view-model"] = require.modules["./components-ix
 
 
 require.register("./components-ixia/administration-view-model", Function("exports, module",
-"/*global ko:true, translate:true, $:true, appHistory:true, spirentEnterpriseVm:true, TestDeviceViewModel:true, TestPlaylistViewModel:true, TestTrackViewModel:true, LightboxWorkingViewModel:true */\n\
+"/*global ko:true, translate:true, $:true, appHistory:true, ixiaCRVm:true, TestDeviceViewModel:true, TestPlaylistViewModel:true, TestTrackViewModel:true, LightboxWorkingViewModel:true */\n\
 \n\
 var noop = function () {},\n\
     util = require('./components-ixia/utility-functions'),\n\
@@ -71815,10 +71552,6 @@ function AdministrationViewModel(rootVm) {\n\
     };\n\
 \n\
     self.rootVm = rootVm;\n\
-    self.flowmonEnabled = ko.observable(false);\n\
-    self.flowmonSupported = ko.observable(false);\n\
-    self.pulseEnabled = ko.observable(false);\n\
-    self.pulseSupported = ko.observable(false);\n\
     self.globalSettingsVm = rootVm.vmGlobalSettings;\n\
     self.selectedTab = ko.observable();\n\
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
@@ -71826,29 +71559,24 @@ function AdministrationViewModel(rootVm) {\n\
     self.endpointsTabSelected = ko.computed(self.calculateEndpointsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.tracksTabSelected = ko.computed(self.calculateTracksTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.playlistsTabSelected = ko.computed(self.calculatePlaylistsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.netflowTabSelected = ko.computed(self.calculateNetflowTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemBackupRestoreTabSelected = ko.computed(self.calculateSystemBackupRestoreTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.wifiAdminTabSelected = ko.computed(self.calculateWifiAdminTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.ntpServerTabSelected = ko.computed(self.calculateNtpServerTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.endpointsTabClass = ko.computed(self.calculateEndpointsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.tracksTabClass = ko.computed(self.calculateTracksTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.playlistsTabClass = ko.computed(self.calculatePlaylistsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.netflowTabClass = ko.computed(self.calculateNetflowTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.pulseTabClass = ko.computed(self.calculatePulseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.languageTabClass = ko.computed(self.calculateLanguageTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemBackupRestoreTabClass = ko.computed(self.calculateSystemBackupRestoreTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.wifiAdminTabClass = ko.computed(self.calculateWifiAdminTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.ntpServerTabClass = ko.computed(self.calculateNtpServerTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
@@ -71872,12 +71600,6 @@ function AdministrationViewModel(rootVm) {\n\
 \n\
     self.language = ko.observable(self.rootVm.language());\n\
     self.languageDisplay = ko.observable();\n\
-    self.availableTracks = ko.observableArray(self.rootVm.availableTracks());\n\
-    self.availableTracksSummary = ko.computed(function () {\n\
-        return translate('Showing {number} Tracks', {\n\
-            number: self.availableTracks().length\n\
-        }, 'number');\n\
-    });\n\
     self.availableEndpoints = ko.observableArray(self.rootVm.availableEndpoints());\n\
     self.availableEndpointsSummary = ko.computed(function () {\n\
         return translate('Showing {number} Endpoints', {\n\
@@ -71969,11 +71691,6 @@ function AdministrationViewModel(rootVm) {\n\
         }\n\
     });\n\
 \n\
-    self.rootVm.availableTracks.subscribe(function (newTracks) {\n\
-        self.applyFilters(self.rootVm.availableTracks, ko.observableArray(newTracks));\n\
-        self.availableTracks(newTracks);\n\
-    });\n\
-\n\
     self.rootVm.availableEndpoints.subscribe(function (newEndpoints) {\n\
         self.applyFilters(self.rootVm.availableEndpoints, ko.observableArray(newEndpoints));\n\
         self.availableEndpoints(newEndpoints);\n\
@@ -72021,11 +71738,7 @@ AdministrationViewModel.prototype.render = function ($parent, template) {\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.bind = function () {\n\
-    var self = this,\n\
-        $check_offline = this.$el.querySelector('.check-offline');\n\
-\n\
-    event.bind($check_offline, 'click', this.checkForOfflineUpdates.bind(this));\n\
-    self.bindWifiValidator();\n\
+    var self = this;\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.checkForOfflineUpdates = function () {\n\
@@ -72075,23 +71788,6 @@ AdministrationViewModel.prototype.checkForOfflineUpdates = function () {\n\
             workingVm.status('error');\n\
         }\n\
     });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.bindWifiValidator = function () {\n\
-    var $form = this.$el.querySelector('.main.wifi'),\n\
-        $save = $form.querySelector('.save-button'),\n\
-        handle = this.validateWifiSettings.bind(this);\n\
-\n\
-    this.wifiValidator = validate($form)\n\
-        .on('blur')\n\
-        .field('ssid')\n\
-            .is('required', this.strings['Field is required'])\n\
-            .is(/^[a-z0-9\\.\\-\\_]{1,32}$/i, \"SSID's must be 1 to 32 alphanumeric characters\")\n\
-        .field('key')\n\
-            .is('required', this.strings['Field is required'])\n\
-            .is('minimum', 8, 'WPA key must be at least 8 characters');\n\
-\n\
-    event.bind($save, 'click', handle);\n\
 };\n\
 \n\
 function mark_invalid($el, message) {\n\
@@ -72161,63 +71857,6 @@ AdministrationViewModel.prototype.validateGlobalSettings = function () {\n\
     }); // Looks async, but everything is synchronous\n\
 \n\
     return success;\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.validateWifiSettings = function (e) {\n\
-    e.stopPropagation(); // Prevent click events from closing the lightbox\n\
-\n\
-    var confirm = this.confirmWifiSettings.bind(this);\n\
-\n\
-    if ('off' === this.globalSettingsVm.wifiEnabled()) {\n\
-        confirm();\n\
-    } else {\n\
-        this.wifiValidator.validate(function (err, is_valid) {\n\
-            if (is_valid) {\n\
-                confirm();\n\
-            }\n\
-        });\n\
-    }\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.confirmWifiSettings = function () {\n\
-    var message = this.$el.querySelector('.main.wifi .confirmation-message').innerHTML,\n\
-        save = this.saveWifiSettings.bind(this);\n\
-\n\
-    this.runLightboxWarning(message, save);\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.saveWifiSettings = function () {\n\
-    var self = AdministrationViewModel.typesafe(this),\n\
-        data = self.globalSettingsVm.wifiToFlatObject(),\n\
-        workingVm;\n\
-\n\
-    util.lightbox.close();\n\
-    workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'))\n\
-    util.lightbox.working(workingVm);\n\
-    $.ajax({\n\
-        type: util.getRequestMethod('save_wifi_settings'),\n\
-        url: util.getConfigSetting('save_wifi_settings'),\n\
-        data: util.formatRequestData('save_wifi_settings', data),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            if (data.messages[0].is_error === true) {\n\
-                workingVm.status('error');\n\
-            } else {\n\
-                self.lightboxText = translate('Success');\n\
-                util.lightbox.open({\n\
-                    url: 'html/lightbox_tmpl',\n\
-                    selector: '#lightbox-message-template',\n\
-                    cancelSelector: '.ok-button',\n\
-                    onOpenComplete: function () {\n\
-                        ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
-                    }\n\
-                });\n\
-            }\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            workingVm.status('error');\n\
-        }\n\
-    });\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.displaySelectedTagsRead = function () {\n\
@@ -72361,7 +72000,6 @@ AdministrationViewModel.prototype.applySearchFilter = function (searchString, so
 AdministrationViewModel.prototype.applyFiltersForAll = function () {\n\
     this.applyFilters(this.rootVm.availableEndpoints(), this.availableEndpoints);\n\
     this.applyFilters(this.rootVm.availablePlaylists(), this.availablePlaylists);\n\
-    this.applyFilters(this.rootVm.availableTracks(), this.availableTracks);\n\
     this.applyFilters(this.rootVm.availableDevices(), this.availableDevices);\n\
 };\n\
 \n\
@@ -72421,7 +72059,7 @@ AdministrationViewModel.prototype.selectTab = function (tabName) {\n\
     $('.administration input.shaded.search').trigger('input');\n\
 \n\
     self.selectedTab(tabName);\n\
-    appHistory.push(spirentEnterpriseVm);\n\
+    appHistory.push(ixiaCRVm);\n\
 \n\
     // Keep current active tab clean\n\
     self.clearError(tabName);\n\
@@ -72463,11 +72101,6 @@ AdministrationViewModel.prototype.calculatePlaylistsTabSelected = function () {\
 \n\
     return self.selectedTab() === \"playlists\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateNetflowTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"netflow\";\n\
-};\n\
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -72497,11 +72130,6 @@ AdministrationViewModel.prototype.calculateSystemBackupRestoreTabSelected = func
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
     return self.selectedTab() === \"system backup restore\";\n\
-};\n\
-AdministrationViewModel.prototype.calculateWifiAdminTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"wifi admin\";\n\
 };\n\
 AdministrationViewModel.prototype.calculateSystemSettingsTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
@@ -72535,24 +72163,6 @@ AdministrationViewModel.prototype.calculatePlaylistsTabClass = function () {\n\
 \n\
     return self.selectedTab() === \"playlists\" ? \"playlists selected\" : \"playlists\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateNetflowTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    if (!self.flowmonEnabled() || !self.flowmonSupported()) {\n\
-        return 'hidden';\n\
-    }\n\
-\n\
-    return self.selectedTab() === \"netflow\" ? \"netflow selected\" : \"netflow\";\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.calculatePulseTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    if (!self.pulseEnabled() || !self.pulseSupported()) {\n\
-        return 'hidden';\n\
-    }\n\
-    return self.selectedTab() === \"pulse\" ? \"pulse selected\" : \"pulse\";\n\
-};\n\
 \n\
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
@@ -72584,11 +72194,7 @@ AdministrationViewModel.prototype.calculateSystemBackupRestoreTabClass = functio
 \n\
     return self.selectedTab() === \"system backup restore\" ? \"backup-restore selected\" : \"backup-restore\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateWifiAdminTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
 \n\
-    return self.selectedTab() === \"wifi admin\" ? \"wifi selected\" : \"wifi\";\n\
-};\n\
 AdministrationViewModel.prototype.calculateDiskTabClass = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -76219,563 +75825,6 @@ module.exports = LineRateMessageViewModel;\n\
 require.modules["line-rate-message-view-model"] = require.modules["./components-ixia/line-rate-message-view-model"];
 
 
-require.register("./components-ixia/pulse", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-ixia/pulse/templates/index.js')),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    Model = require('./components-ixia/pulse/models/pulse.js'),\n\
-    AsyncPoller = require('./components-ixia/async-poller'),\n\
-    LoadingState = require('./components-ixia/loading-state'),\n\
-    InterfaceSelector = require('./components-ixia/interface-selector'),\n\
-    NetworkSettingsView = require('./components-ixia/network-settings-view'),\n\
-    events = require('component~event@0.1.4'),\n\
-    task_status_url = util.getConfigSetting('get_task_status'),\n\
-    lightbox = window.util.lightbox,\n\
-    request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
-    no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    $license = domify(require('./components-ixia/pulse/templates/license.js')),\n\
-    results_status_observable = window.spirentEnterpriseVm.vmTest.vmResults.status;\n\
-\n\
-\n\
-function PulseViewModel() {\n\
-    this.$orgtemp = $template.cloneNode(true);\n\
-    this.$el = this.$orgtemp;\n\
-    this.poller = undefined;\n\
-    this.loading_state = new LoadingState(this.$el);\n\
-    this.interface_selector = undefined;\n\
-    this.network_settings = new NetworkSettingsView();\n\
-    this.ports_observable = spirentEnterpriseVm.availableDevices()[0].ports;\n\
-    this.validator = undefined;\n\
-    this.port_selected = false;\n\
-    this.strings = {\n\
-        \"Saving\": window.translate(\"Saving\"),\n\
-        \"Saving...\": window.translate('Saving...'),\n\
-        \"Select a port\": window.translate(\"Select a port\"),\n\
-        \"Please wait for test to finish\": window.translate(\"Please wait for test to finish\"),\n\
-        \"AxonPoint desc\": window.translate(\"If you have AxonPoint devices on your network, you can enable and configure this AxonCore to participate as an AxonPulse Endpoint for TCP throughput tests. From the AxonCloud Control portal, configure your AxonPoint devices to use this AxonPulse Endpoint.\"),\n\
-        \"pulse save confirmation\": window.translate(\"Saving will interrupt any tests that are currently running.\"),\n\
-        \"pulse port overwrite confirmation\": window.translate(\"Reallocating this port to Pulse will stop exporting Netflow data on this port.\")\n\
-    };\n\
-    this.event_handlers = [];\n\
-    this.$interface_selector = undefined;\n\
-    this.$network_settings = undefined;\n\
-//    this.init_render = true;\n\
-}\n\
-\n\
-PulseViewModel.factory = function (done) {\n\
-    var view = new PulseViewModel(),\n\
-        poll = function (next) {\n\
-            Model.get(function (err, model) {\n\
-                if (err) {\n\
-                    return done(err);\n\
-                }\n\
-\n\
-                if (model.status() === 'loading') {\n\
-                    // Continue polling\n\
-                    return next();\n\
-                }\n\
-\n\
-                view.poller.stop();\n\
-                view.set_model(model);\n\
-                view.render();\n\
-                done(null, view);\n\
-            });\n\
-        };\n\
-\n\
-    // Poll for pulse until it's done loading\n\
-    view.poller = new AsyncPoller(poll, 500);\n\
-    view.poller.poll();\n\
-\n\
-    return view;\n\
-};\n\
-\n\
-PulseViewModel.prototype.set_model = function (model) {\n\
-    if(this.model){\n\
-        this.unbind();\n\
-    }\n\
-\n\
-    this.model = model;\n\
-\n\
-    if(this.interface_selector){\n\
-        this.interface_selector = undefined;\n\
-//        this.interface_selector.unbind();\n\
-//        //this.model.interfaces(model.interfaces());\n\
-//        this.interface_selector.set_models(this.model.interfaces());\n\
-//         this.network_settings.hide();\n\
-//        return;\n\
-    }\n\
-\n\
-    this.interface_selector = new InterfaceSelector(model.interfaces(), this.render_interface.bind(this));\n\
-};\n\
-\n\
-PulseViewModel.prototype.render = function () {\n\
-    if (!this.model || this.model.status() === 'loading') {\n\
-        this.render_loading();\n\
-        return this.$el; // Short-circuit\n\
-    }\n\
-\n\
-    if (this.model.license_status() === 'invalid') {\n\
-        $lict = $license.cloneNode(true);\n\
-        this.$el.parentNode.replaceChild($lict, this.$el);\n\
-        this.$el = $lict;\n\
-        this.loading_state.hide();\n\
-        return; // Short-circuit\n\
-    }\n\
-\n\
-//    if(!this.init_render){\n\
-//        this.loading_state.hide();\n\
-//        return; // Short-circuit for show()\n\
-//    }\n\
-\n\
-//    this.init_render = false;\n\
-    this.$el.parentNode.replaceChild(this.$orgtemp,this.$el);\n\
-    this.$el = this.$orgtemp;\n\
-\n\
-    this.$el.querySelector('.desc ul li').textContent = this.strings[\"AxonPoint desc\"];\n\
-\n\
-    this.transitionTo(results_status_observable());\n\
-    results_status_observable.subscribe(this.transitionTo.bind(this));\n\
-\n\
-    var $settings = this.$el.querySelector('.settings');\n\
-\n\
-    //this.loading_state.hide();\n\
-\n\
-    this.interface_selector.render();\n\
-    this.network_settings.render();\n\
-    this.network_settings.hide();\n\
-\n\
-    if(this.$interface_selector){\n\
-        this.$interface_selector.parentNode.removeChild(this.$interface_selector);\n\
-    }\n\
-    if(this.$network_settings){\n\
-        this.$network_settings.parentNode.removeChild(this.$network_settings);\n\
-    }\n\
-\n\
-    this.$interface_selector = this.interface_selector.$el;\n\
-    this.$network_settings = this.network_settings.$el;\n\
-\n\
-    $settings.appendChild(this.$interface_selector);\n\
-    $settings.appendChild(this.$network_settings);\n\
-\n\
-    this.bind();\n\
-    this.network_settings.bind();\n\
-//    this.init_render = false;\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-PulseViewModel.prototype.render_loading = function () {\n\
-    var message = 'Loading...';\n\
-    this.loading_state.set_el(this.$el);\n\
-\n\
-    this.loading_state.show(message);\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-PulseViewModel.prototype.show = function () {\n\
-    //after uploaded valid license, not necessary anymore, cause it poll every time when show()\n\
-//    if(this.model.license_status() === 'invalid')\n\
-//    {\n\
-//        this.render_loading();\n\
-//        this.reload();\n\
-//    }\n\
-\n\
-    //this.syncPortsFrom();\n\
-    this.render_loading();\n\
-    this.reload();\n\
-    //regular\n\
-    classes(this.$el).remove('hidden');\n\
-};\n\
-\n\
-PulseViewModel.prototype.reload = function () {\n\
-    //try to fetch a valid licence\n\
-    this.poller.poll();\n\
-};\n\
-\n\
-PulseViewModel.prototype.hide = function () {\n\
-    classes(this.$el).add('hidden');\n\
-    if (this.poller.stop) {\n\
-        this.poller.stop();\n\
-    }\n\
-};\n\
-\n\
-PulseViewModel.prototype.bind = function () {\n\
-    var $el = this.$el,\n\
-        model = this.model,\n\
-        $enable = $el.querySelector('.status .enable'),\n\
-        enable = model.status.bind(this.model, 'enabled'),\n\
-        $disable = $el.querySelector('.status .disable'),\n\
-        disable = model.status.bind(this.model, 'disabled'),\n\
-        $save = $el.querySelector('.save'),\n\
-        validate = this.validate.bind(this),\n\
-        $settings = $el.querySelector('.settings'),\n\
-        toggle_state = function () {\n\
-            if (model.enabled()) {\n\
-                $enable.checked = true;\n\
-                $disable.checked = false;\n\
-                classes($settings).remove('hidden');\n\
-            } else {\n\
-                $enable.checked = false;\n\
-                $disable.checked = true;\n\
-                classes($settings).add('hidden');\n\
-            }\n\
-        };\n\
-\n\
-    // UI -> UI\n\
-    this.interface_selector.on('select', this.select_port.bind(this));\n\
-\n\
-\n\
-    // UI -> model\n\
-    this.event_handlers = [\n\
-        [$enable, 'change', enable],\n\
-        [$disable, 'change', disable],\n\
-        [$save, 'click', validate]\n\
-    ];\n\
-\n\
-    this.event_handlers.forEach(function (handler) {\n\
-        events.bind(handler[0], handler[1], handler[2]);\n\
-    });\n\
-//    events.bind($enable, 'change', enable);\n\
-//    events.bind($disable, 'change', disable);\n\
-//    events.bind($save, 'click', validate);\n\
-\n\
-    // Model -> UI\n\
-    model.on('change status', toggle_state);\n\
-    toggle_state();\n\
-};\n\
-\n\
-PulseViewModel.prototype.unbind = function () {\n\
-    this.event_handlers.forEach(function (handler) {\n\
-        events.unbind(handler[0], handler[1], handler[2]);\n\
-    });\n\
-};\n\
-\n\
-PulseViewModel.prototype.select_port = function (model) {\n\
-    var self = this,\n\
-        select_port_action = function () {\n\
-            this.model.interfaces().forEach(function (iface) {\n\
-                if (model.physical_port() === iface.physical_port()) {\n\
-                    iface.enabled(true);\n\
-                    iface.allocated_to('streetwise');\n\
-                } else if (iface.allocated_to() === 'streetwise') {\n\
-                    iface.enabled(false);\n\
-                    iface.allocated_to('stc');\n\
-                }\n\
-            });\n\
-\n\
-            this.port_selected = true;\n\
-            this.network_settings.unbind();\n\
-            this.network_settings.set_model(model);\n\
-            this.network_settings.render();\n\
-            this.network_settings.bind();\n\
-            this.network_settings.show();\n\
-        };\n\
-\n\
-    if(model.allocated_to() !== 'stc' && model.allocated_to() !== 'streetwise'){\n\
-        lightbox.confirmation_dialog(self,self.strings[\"pulse port overwrite confirmation\"],select_port_action);\n\
-//            this.port_overwrite_confirmation(select_port_action);\n\
-        return;\n\
-    }\n\
-\n\
-    select_port_action.call(self);\n\
-\n\
-};\n\
-\n\
-PulseViewModel.prototype.render_interface = function (model, $el) {\n\
-    var classed = classes($el);\n\
-\n\
-    classed.remove('streetwise');\n\
-\n\
-\n\
-    if (model.allocated_to()) {\n\
-        classed.add(model.allocated_to());\n\
-    }\n\
-\n\
-    if (model.available()) {\n\
-        classed.add('available');\n\
-    } else {\n\
-        classed.remove('available');\n\
-    }\n\
-\n\
-    return $el;\n\
-};\n\
-\n\
-PulseViewModel.prototype.validate = function (e) {\n\
-    if (e && e.preventDefault) {\n\
-        e.preventDefault();\n\
-    }\n\
-\n\
-    // Make sure a port is selected\n\
-    this.hide_select_a_port();\n\
-    if(this.model.enabled()){\n\
-        if (!this.port_selected) {\n\
-            // Show validation error\n\
-            this.show_select_a_port();\n\
-            return;\n\
-        }\n\
-\n\
-        this.network_settings.validate(this.confirm_save.bind(this));\n\
-    }\n\
-    else\n\
-    {\n\
-        this.confirm_save();\n\
-    }\n\
-\n\
-};\n\
-\n\
-PulseViewModel.prototype.confirm_save = function () {\n\
-    lightbox.confirmation_dialog(this,this.strings[\"pulse save confirmation\"],this.save);\n\
-}\n\
-\n\
-PulseViewModel.prototype.save = function () {\n\
-    var poll = this.pollTask.bind(this),\n\
-        start_task_poller = function (nothing, response) {\n\
-            poll(response.body.task_id);\n\
-        },\n\
-        model;\n\
-\n\
-    /*ignore jslint start*/\n\
-    if (typeof LightboxWorkingViewModel !== 'undefined' && typeof translate === 'function') {\n\
-    /*ignore jslint end*/\n\
-        model = new LightboxWorkingViewModel(translate(\"Saving\"), translate('Saving...'));\n\
-        lightbox.working(model);\n\
-    }\n\
-\n\
-    this.model.save(start_task_poller);\n\
-};\n\
-\n\
-PulseViewModel.prototype.pollTask = function (task_id) {\n\
-    var self = this,\n\
-        url = task_status_url + '?task_id=' + task_id,\n\
-        poll = self.pollTask.bind(self, task_id),\n\
-        workingVm;\n\
-\n\
-    request.get(url)\n\
-        .use(no_cache)\n\
-        .end(function (res) {\n\
-            if ('running' === res.body.status) {\n\
-                // Keep polling\n\
-                setTimeout(poll, 500);\n\
-                return;\n\
-            }\n\
-\n\
-            workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-            if (res.error) {\n\
-                // Show failure\n\
-                workingVm.status('error');\n\
-                lightbox.working(workingVm);\n\
-                return;\n\
-            }\n\
-\n\
-            self.syncPortsTo();\n\
-\n\
-            workingVm.status('success');\n\
-            lightbox.working(workingVm);\n\
-\n\
-        });\n\
-};\n\
-\n\
-//sync to global port observable, not currently used\n\
-PulseViewModel.prototype.syncPortsTo = function(){\n\
-    var interfaces = this.model.interfaces(),\n\
-        ports_observable = this.ports_observable,\n\
-        pulse_enable = this.model.status();\n\
-\n\
-    ports_observable().forEach(function (port_glob) {\n\
-        if(port_glob.allocated_to() === 'streetwise')\n\
-        {\n\
-            port_glob.allocated_to('');\n\
-        }\n\
-        else if (port_glob.allocated_to() === ''){\n\
-            port_glob.allocated_to(undefined);\n\
-        }\n\
-        interfaces.forEach(function (port_local) {\n\
-            if ( pulse_enable === \"enabled\" && port_local.physical_port() === port_glob.id() && port_local.allocated_to() === 'streetwise') {\n\
-                port_glob.allocated_to('streetwise');\n\
-                //old_port.available(!new_port.enabled());\n\
-            }\n\
-        });\n\
-    });\n\
-}\n\
-\n\
-//sync from global port observable, not currently used\n\
-PulseViewModel.prototype.syncPortsFrom = function(){\n\
-    var interfaces = this.model.interfaces(),\n\
-        ports_observable = this.ports_observable;\n\
-\n\
-    ports_observable().forEach(function (port_glob) {\n\
-        interfaces.forEach(function (port_local) {\n\
-            if (port_local.physical_port() === port_glob.id()) {\n\
-                if(port_glob.allocated_to() !== 'streetwise' && port_glob.allocated_to() !== undefined){\n\
-                    port_local.allocated_to(port_glob.allocated_to() === '' ? 'stc': port_glob.allocated_to());\n\
-                }\n\
-            }\n\
-        });\n\
-    });\n\
-}\n\
-\n\
-\n\
-PulseViewModel.prototype.show_select_a_port = function() {\n\
-    var el = this.interface_selector.$el,\n\
-        message = domify('<label class=\"validator-message\">');\n\
-\n\
-    message.textContent = this.strings[\"Select a port\"];\n\
-\n\
-    classes(el).add('invalid');\n\
-    if (el.parentNode) {\n\
-        el.parentNode.insertBefore(message, el.nextSibling);\n\
-    }\n\
-};\n\
-\n\
-PulseViewModel.prototype.hide_select_a_port = function() {\n\
-    window.util.clear_validation_messages(this.interface_selector.$el);\n\
-};\n\
-\n\
-PulseViewModel.prototype.unblock = function () {\n\
-    this.loading_state.hide();\n\
-};\n\
-\n\
-PulseViewModel.prototype.transitionTo = function (state) {\n\
-    if ('running' === state) {\n\
-        this.blockForTesting();\n\
-    } else {\n\
-        this.unblock();\n\
-    }\n\
-};\n\
-\n\
-PulseViewModel.prototype.blockForTesting = function () {\n\
-    var message = this.strings[\"Please wait for test to finish\"];\n\
-    this.loading_state.show(message);\n\
-};\n\
-\n\
-module.exports = PulseViewModel;\n\
-//# sourceURL=components-ixia/pulse/index.js"
-));
-
-require.register("./components-ixia/pulse/templates/index.js", Function("exports, module",
-"module.exports = '<div class=\"pulse main\">\\n\
-    <div>\\n\
-        <h3>Pulse</h3>\\n\
-        <button class=\"save-button save\">Save</button>\\n\
-    </div>\\n\
-    <div class=\"desc\">\\n\
-        <ul>\\n\
-            <li></li>\\n\
-        </ul>\\n\
-    </div>\\n\
-    <div class=\"single-pane no-padding global\">\\n\
-        <h4>Endpoint Configuration</h4>\\n\
-        <ul>\\n\
-            <li class=\"status\">\\n\
-                <label for=\"pulse-on\">Enable</label>\\n\
-                <input type=\"radio\" class=\"enable\" id=\"pulse-on\" name=\"status\">\\n\
-                <label for=\"pulse-off\">Disable</label>\\n\
-                <input type=\"radio\" class=\"disable\" id=\"pulse-off\" name=\"status\">\\n\
-            </li>\\n\
-            <li class=\"settings hidden\">\\n\
-\\n\
-            </li>\\n\
-        </ul>\\n\
-    </div>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/pulse/templates/index.js"
-));
-
-require.register("./components-ixia/pulse/models/pulse.js", Function("exports, module",
-"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
-    request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
-    no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    PulseInterfaceModel = require('./components-ixia/pulse/models/interface.js');\n\
-\n\
-var PulseModel = model('PulseModel')\n\
-    .route('/ixia/pulse')\n\
-    .attr(\"status\")\n\
-    .attr(\"license_status\")\n\
-    .attr(\"interfaces\");\n\
-\n\
-PulseModel.get = function (done) {\n\
-    var model = new PulseModel();\n\
-\n\
-    request.get(this.url())\n\
-        .use(no_cache)\n\
-        .end(function (error, response) {\n\
-            var data;\n\
-\n\
-            if (error || !response.ok || response.body.result === 'FAILURE') {\n\
-                return done(error || response.error.message || response.response.body.messages);\n\
-            }\n\
-\n\
-            data = response.body;\n\
-\n\
-            // Inflate interface models\n\
-            data.interfaces.forEach(function (iface, i) {\n\
-                data.interfaces[i] = new PulseInterfaceModel(iface);\n\
-            });\n\
-\n\
-            // Safely update the model with properties from REST API\n\
-            for (var key in data) {\n\
-                if (typeof model[key] === 'function') {\n\
-                    model[key](data[key]);\n\
-                }\n\
-            }\n\
-\n\
-            return done(null, model);\n\
-        });\n\
-\n\
-    return model;\n\
-};\n\
-\n\
-PulseModel.prototype.enabled = function() {\n\
-    return 'enabled' === this.status();\n\
-};\n\
-\n\
-PulseModel.prototype.disabled = function() {\n\
-    return 'disabled' === this.status();\n\
-};\n\
-\n\
-module.exports = PulseModel;\n\
-//# sourceURL=components-ixia/pulse/models/pulse.js"
-));
-
-require.register("./components-ixia/pulse/models/interface.js", Function("exports, module",
-"var InterfaceModel = require('./components-ixia/interface-model'),\n\
-    PulseInterfaceModel = InterfaceModel;\n\
-\n\
-PulseInterfaceModel\n\
-    .attr('enabled')\n\
-    .attr('vlan')\n\
-    .attr('dhcp')\n\
-    .attr('ip')\n\
-    .attr('netmask')\n\
-    .attr('gateway');\n\
-\n\
-module.exports = PulseInterfaceModel;\n\
-//# sourceURL=components-ixia/pulse/models/interface.js"
-));
-
-require.register("./components-ixia/pulse/templates/license.js", Function("exports, module",
-"module.exports = '<div class=\"pulse main license\">\\n\
-    <div>\\n\
-        <h3>Pulse</h3>\\n\
-    </div>\\n\
-    <div class=\"single-pane no-padding global\">\\n\
-        <h4>Pulse Endpoint license invalid</h4>\\n\
-        <ul>\\n\
-            <li>\\n\
-                <div>This Axon does not have a license for the Pulse Endpoint feature. If you have already purchased a license, ensure this Axon is connected to the Internet.</div>\\n\
-                <div>If no Internet connection can be obtained, <a href=\"mailto:axonsupport@spirent.com\">contact support</a> for a downloadable license.</div>\\n\
-            </li>\\n\
-        </ul>\\n\
-\\n\
-    </div>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/pulse/templates/license.js"
-));
-
-require.modules["pulse"] = require.modules["./components-ixia/pulse"];
-
-
 require.register("./components-ixia/info-pane", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\n\
     util = require('./components-ixia/utility-functions'),\n\
@@ -76786,12 +75835,12 @@ require.register("./components-ixia/info-pane", Function("exports, module",
     template = domify(require('./components-ixia/info-pane/template.html')),\n\
     moment = require('johntron~moment-timezone@0f4b9df99d9f6212c2036f5ae6f74b240f289381');\n\
 \n\
-function InfoPane($parent, spirentEnterpriseVm) {\n\
+function InfoPane($parent, ixiaCRVm) {\n\
     this.$parent = $parent;\n\
     this.$el = template.cloneNode(true);\n\
     this.reservation_status = {reserved: false};\n\
     this.reservation_poller = new Poller(this.get_reservation_status.bind(this));\n\
-    this.rootVm  = spirentEnterpriseVm;\n\
+    this.rootVm  = ixiaCRVm;\n\
     this.bind_diskmanagement();\n\
 }\n\
 \n\
@@ -77322,45 +76371,45 @@ function loadRootViewModel(settings) {\n\
         root_vm.setUser('Administrator');\n\
         root_vm.init().done(resolve.bind(this, root_vm)).fail(function(e) { window.logger.error(e + ' trace: ' + e.stack); });\n\
         ko.applyBindings(root_vm, document.getElementById('main'));\n\
-        window.spirentEnterpriseVm = root_vm;\n\
+        window.ixiaCRVm = root_vm;\n\
     });\n\
 }\n\
 \n\
-function closeLoadingLightbox(spirentEnterpriseVm) {\n\
+function closeLoadingLightbox(ixiaCRVm) {\n\
     return promise(function (resolve) {\n\
         var model = new LightboxWorkingViewModel(translate(\"Loading\"), translate('App loaded.'), 100);\n\
         lightbox.working(model);\n\
         setTimeout(function () {\n\
             Util.lightbox.close();\n\
         }, 166); // 1/10 of a second delay.\n\
-        resolve(spirentEnterpriseVm);\n\
+        resolve(ixiaCRVm);\n\
     });\n\
 }\n\
 \n\
-function bindScheduler(spirentEnterpriseVm) {\n\
+function bindScheduler(ixiaCRVm) {\n\
     return promise(function(resolve) {\n\
         try {\n\
-            spirentEnterpriseVm.selectedTab.subscribe(function(name) {\n\
+            ixiaCRVm.selectedTab.subscribe(function(name) {\n\
                 if ('calendar' == name) {\n\
-                    var scheduler = require('./components-ixia/scheduler').create(spirentEnterpriseVm);\n\
+                    var scheduler = require('./components-ixia/scheduler').create(ixiaCRVm);\n\
                     window.calendar = scheduler;\n\
                     scheduler.render();\n\
                 }\n\
             });\n\
-            resolve(spirentEnterpriseVm);\n\
+            resolve(ixiaCRVm);\n\
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }\n\
     });\n\
 }\n\
 \n\
-function loadInfoPane(spirentEnterpriseVm) {\n\
+function loadInfoPane(ixiaCRVm) {\n\
     return promise(function (resolve) {\n\
         var $parent = document.querySelector('#header'),\n\
-            pane = new InfoPane($parent, spirentEnterpriseVm);\n\
+            pane = new InfoPane($parent, ixiaCRVm);\n\
 \n\
         pane.render();\n\
         pane.poll_reservation_status();\n\
         pane.on('update:complete', pane.render.bind(pane));\n\
-        return resolve(spirentEnterpriseVm);\n\
+        return resolve(ixiaCRVm);\n\
     });\n\
 }\n\
 \n\

@@ -1519,7 +1519,7 @@ Dashboard
     width: 11px;
     top: 1px;
 }
-.dashboard .portlet .favorite-tests {
+.dashboard .portlet .enterprise-tests {
     border: solid 1px #161617;
     border-radius: 2px;
     box-shadow: 0px 1px 1px #434344;
@@ -1528,44 +1528,44 @@ Dashboard
 }
 
 /* "No favorite tests" message */
-.dashboard div.favorite-tests {
+.dashboard div.enterprise-tests {
     padding: 0.5em;
 }
 
-.dashboard .portlet .favorite-tests li,
-.dashboard .portlet .favorite-tests span {
+.dashboard .portlet .enterprise-tests li,
+.dashboard .portlet .enterprise-tests span {
     border-top: solid 1px #282829;
     border-bottom: solid 1px #141414;
     cursor: pointer;
     padding: 12px 14px;
 }
 
-.dashboard .portlet .favorite-tests li:hover,
-.dashboard .portlet .favorite-tests span:hover {
+.dashboard .portlet .enterprise-tests li:hover,
+.dashboard .portlet .enterprise-tests span:hover {
     background-color: #141414;
     border-top: solid 1px #141414;
 }
 
-.dashboard .portlet .favorite-tests li:first-of-type {
+.dashboard .portlet .enterprise-tests li:first-of-type {
     border-top: none;
 }
 
-.dashboard .portlet .favorite-tests li:last-of-type {
+.dashboard .portlet .enterprise-tests li:last-of-type {
     border-bottom: none;
 }
 
-.dashboard .portlet .favorite-tests li h3 {
+.dashboard .portlet .enterprise-tests li h3 {
     color: #f5f5f5;
     font-size: 12px;
     line-height: 14px;
     margin: 0;
 }
 
-.dashboard .portlet .favorite-tests li p {
+.dashboard .portlet .enterprise-tests li p {
     font-size: 10px;
     line-height: 12px;
 }
-.dashboard .portlet .favorite-tests .show-more {
+.dashboard .portlet .enterprise-tests .show-more {
     text-align: center;
     cursor: pointer;
     font-weight: bold;
@@ -1573,7 +1573,7 @@ Dashboard
     color: #f5f5f5;
     display:block;
 }
-.dashboard .portlet .favorite-tests-paginator {
+.dashboard .portlet .enterprise-tests-paginator {
     text-align: right;
     border: solid 1px #161617;
     border-radius: 2px;

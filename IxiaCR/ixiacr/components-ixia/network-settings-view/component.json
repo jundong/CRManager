@@ -1,6 +1,6 @@
 {
   "name": "network-settings-view",
-  "repo": "components-ixia/network-settings-view",
+  "repo": "components-spirent/network-settings-view",
   "description": "Renders network settings",
   "version": "0.0.1",
   "keywords": [],

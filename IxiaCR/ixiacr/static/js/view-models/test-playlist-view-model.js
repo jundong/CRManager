@@ -475,15 +475,6 @@ TestPlaylistViewModel.prototype.validate = function (result) {
         result.addCheckResults(self.strings["Test Configuration Error"], false, self.strings["Playlist requires at least one track"]);
         return result; //short- circuit
     }
-    // check if tracks in this playlist existing or had been deleted
-    for(var i = 0; i < self.tracks().length; i++){
-        var existingTrack = ko.utils.arrayFirst(self.rootVm.availableTracks(), function (item) {
-            return item.id() === self.tracks()[i]().id();
-        });
-        if (!existingTrack) {
-            deletedTracks.push(self.tracks()[i]);
-        }
-    }
     if (deletedTracks.length > 0) {
         var deletedTracksNames = '';
         for (var i = 0; i < deletedTracks.length; i++) {
@@ -538,10 +529,6 @@ TestPlaylistViewModel.prototype.displayTagsWrite = function (value) {
     for (i = 0; i < trimmedArray.length; i += 1) {
         if (self.tags().indexOf(trimmedArray[i]) === -1) {
             self.tags.push(trimmedArray[i]);
-        }
-
-        if (self.rootVm.availableTags().indexOf(trimmedArray[i]) === -1) {
-            self.rootVm.availableTags.push(trimmedArray[i]);
         }
     }
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));

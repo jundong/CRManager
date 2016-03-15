@@ -9,64 +9,62 @@ function DashboardViewModel(rootVm) {
     self.leftPortlets = ko.observableArray();
     self.rightPortlets = ko.observableArray();
 
-    self.favoriteTestsPaginator = new Paginator();
-    self.favoriteTests = ko.observableArray();
-    self.favoriteTests.extend({ rateLimit: 50 });
-    self.favoriteTestsPerPage = 5;
-    self.$favoriteTestsPaginator = undefined;
-    self.totalFavoriteTests = ko.observable(0);
+    self.enterpriseTestsPaginator = new Paginator();
+    self.enterpriseTests = ko.observableArray();
+    self.enterpriseTests.extend({ rateLimit: 50 });
+    self.enterpriseTestsPerPage = 5;
+    self.$enterpriseTestsPaginator = undefined;
+    self.totalEnterpriseTests = ko.observable(0);
 
-    self.tmplTests = ko.observableArray();
+    self.hostTests = ko.observableArray();
     self.testResultsHistory = ko.observableArray();
     self.totalHistoryResults = ko.observable(0);
 
-    self.showFavoriteTestsPaginator = function() {
-        // If Favorite Tests records less than one page shows count, hide the paginator
-        if (self.totalFavoriteTests < 5) {
+    self.showEnterpriseTestsPaginator = function() {
+        // If Enterprise Tests records less than one page shows count, hide the paginator
+        if (self.totalEnterpriseTests < 5) {
             return ;
         }
 
-        function get_favorite_tests(page) {
-            var page_favorite_tests = self.rootVm.favoriteTests.slice((page - 1) * 5, page * 5);
+        function get_enterprise_tests(page) {
+            var page_enterprise_tests = self.rootVm.enterpriseTests.slice((page - 1) * 5, page * 5);
             var needRequestData = false;
-            for (var i = 0; i < page_favorite_tests.length; i++) {
-                if (page_favorite_tests[i] === undefined) {
+            for (var i = 0; i < page_enterprise_tests.length; i++) {
+                if (page_enterprise_tests[i] === undefined) {
                     needRequestData = true
-                    self.rootVm.getFavoriteTests({'page': page, 'page_size': 5}, function () {
-                        reset();
-                    });
+                    reset();
                     break;
                 }
             }
             if (!needRequestData) {
-                self.favoriteTests.removeAll();
-                for (var i = 0; i < page_favorite_tests.length; i++) {
-                    self.favoriteTests.push(page_favorite_tests[i]);
+                self.enterpriseTests.removeAll();
+                for (var i = 0; i < page_enterprise_tests.length; i++) {
+                    self.enterpriseTests.push(page_enterprise_tests[i]);
                 }
             }
         }
 
         function page_changed(page) {
-            get_favorite_tests(page);
+            get_enterprise_tests(page);
             render_page();
         }
 
         function render() {
-            if (!self.$favoriteTestsPaginator) {
-                self.favoriteTestsPaginator.on('change', page_changed.bind(self));
+            if (!self.$enterpriseTestsPaginator) {
+                self.enterpriseTestsPaginator.on('change', page_changed.bind(self));
             }
-            self.$favoriteTestsPaginator = document.querySelector('.favorite-tests-paginator');
+            self.$enterpriseTestsPaginator = document.querySelector('.enterprise-tests-paginator');
             reset();
         }
 
         function reset() {
-            var pages = Math.ceil(self.totalFavoriteTests / self.favoriteTestsPerPage);
+            var pages = Math.ceil(self.totalEnterpriseTests / self.enterpriseTestsPerPage);
 
-            if (pages !== self.favoriteTestsPaginator.pages()) {
-                self.favoriteTestsPaginator.pages(pages);
+            if (pages !== self.enterpriseTestsPaginator.pages()) {
+                self.enterpriseTestsPaginator.pages(pages);
             }
 
-            self.favoriteTestsPaginator.render();
+            self.enterpriseTestsPaginator.render();
             render_page();
         };
 
@@ -77,10 +75,10 @@ function DashboardViewModel(rootVm) {
          */
 
         function render_page() {
-            while (self.$favoriteTestsPaginator.firstChild) {
-                self.$favoriteTestsPaginator.removeChild(self.$favoriteTestsPaginator.firstChild);
+            while (self.$enterpriseTestsPaginator.firstChild) {
+                self.$enterpriseTestsPaginator.removeChild(self.$enterpriseTestsPaginator.firstChild);
             }
-            self.$favoriteTestsPaginator.appendChild(self.favoriteTestsPaginator.$el);
+            self.$enterpriseTestsPaginator.appendChild(self.enterpriseTestsPaginator.$el);
         };
 
         render();

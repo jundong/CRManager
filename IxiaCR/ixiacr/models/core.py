@@ -460,14 +460,26 @@ class IxiaTest(Base):
     __tablename__ = 'ixiacr_tests'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
+    type = Column(Unicode(64), nullable=False)
     created_by = Column(Integer, ForeignKey('users.id',
                                             onupdate="CASCADE",
-                                            ondelete="CASCADE"))
+                                            ondelete="CASCADE"),
+                        default=1)
     created = Column(DateTime, default=datetime.now)
+    #Scenario name
     name = Column(Unicode(128), nullable=True)
+    #Scenario topology image name
+    topology_image = Column(Unicode(128), nullable=True)
+    #Scenario topology description
+    topology_description = Column(UnicodeText, nullable=True)
+    #Scenario description
     description = Column(UnicodeText, nullable=True)
-    module = Column(Unicode(255), nullable=False)
-    duration = Column(Integer, default=1)
+    attack_task = Column(UnicodeText, nullable=True)
+    attack_steps = Column(UnicodeText, nullable=True)
+    attack_criteria = Column(UnicodeText, nullable=True)
+    defense_task = Column(UnicodeText, nullable=True)
+    defense_steps = Column(UnicodeText, nullable=True)
+    defense_criteria = Column(UnicodeText, nullable=True)
     active = Column(Boolean, default=True)
 
     def __unicode__(self):

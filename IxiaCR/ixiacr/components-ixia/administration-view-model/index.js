@@ -1,4 +1,4 @@
-/*global ko:true, translate:true, $:true, appHistory:true, spirentEnterpriseVm:true, TestDeviceViewModel:true, TestPlaylistViewModel:true, TestTrackViewModel:true, LightboxWorkingViewModel:true */
+/*global ko:true, translate:true, $:true, appHistory:true, ixiaCRVm:true, TestDeviceViewModel:true, TestPlaylistViewModel:true, TestTrackViewModel:true, LightboxWorkingViewModel:true */
 
 var noop = function () {},
     util = require('utility-functions'),
@@ -20,10 +20,6 @@ function AdministrationViewModel(rootVm) {
     };
 
     self.rootVm = rootVm;
-    self.flowmonEnabled = ko.observable(false);
-    self.flowmonSupported = ko.observable(false);
-    self.pulseEnabled = ko.observable(false);
-    self.pulseSupported = ko.observable(false);
     self.globalSettingsVm = rootVm.vmGlobalSettings;
     self.selectedTab = ko.observable();
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
@@ -31,29 +27,24 @@ function AdministrationViewModel(rootVm) {
     self.endpointsTabSelected = ko.computed(self.calculateEndpointsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.tracksTabSelected = ko.computed(self.calculateTracksTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.playlistsTabSelected = ko.computed(self.calculatePlaylistsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.netflowTabSelected = ko.computed(self.calculateNetflowTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemBackupRestoreTabSelected = ko.computed(self.calculateSystemBackupRestoreTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.wifiAdminTabSelected = ko.computed(self.calculateWifiAdminTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.ntpServerTabSelected = ko.computed(self.calculateNtpServerTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.endpointsTabClass = ko.computed(self.calculateEndpointsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.tracksTabClass = ko.computed(self.calculateTracksTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.playlistsTabClass = ko.computed(self.calculatePlaylistsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.netflowTabClass = ko.computed(self.calculateNetflowTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.pulseTabClass = ko.computed(self.calculatePulseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.languageTabClass = ko.computed(self.calculateLanguageTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemBackupRestoreTabClass = ko.computed(self.calculateSystemBackupRestoreTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.wifiAdminTabClass = ko.computed(self.calculateWifiAdminTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.ntpServerTabClass = ko.computed(self.calculateNtpServerTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
@@ -77,12 +68,6 @@ function AdministrationViewModel(rootVm) {
 
     self.language = ko.observable(self.rootVm.language());
     self.languageDisplay = ko.observable();
-    self.availableTracks = ko.observableArray(self.rootVm.availableTracks());
-    self.availableTracksSummary = ko.computed(function () {
-        return translate('Showing {number} Tracks', {
-            number: self.availableTracks().length
-        }, 'number');
-    });
     self.availableEndpoints = ko.observableArray(self.rootVm.availableEndpoints());
     self.availableEndpointsSummary = ko.computed(function () {
         return translate('Showing {number} Endpoints', {
@@ -174,11 +159,6 @@ function AdministrationViewModel(rootVm) {
         }
     });
 
-    self.rootVm.availableTracks.subscribe(function (newTracks) {
-        self.applyFilters(self.rootVm.availableTracks, ko.observableArray(newTracks));
-        self.availableTracks(newTracks);
-    });
-
     self.rootVm.availableEndpoints.subscribe(function (newEndpoints) {
         self.applyFilters(self.rootVm.availableEndpoints, ko.observableArray(newEndpoints));
         self.availableEndpoints(newEndpoints);
@@ -226,11 +206,7 @@ AdministrationViewModel.prototype.render = function ($parent, template) {
 };
 
 AdministrationViewModel.prototype.bind = function () {
-    var self = this,
-        $check_offline = this.$el.querySelector('.check-offline');
-
-    event.bind($check_offline, 'click', this.checkForOfflineUpdates.bind(this));
-    self.bindWifiValidator();
+    var self = this;
 };
 
 AdministrationViewModel.prototype.checkForOfflineUpdates = function () {
@@ -280,23 +256,6 @@ AdministrationViewModel.prototype.checkForOfflineUpdates = function () {
             workingVm.status('error');
         }
     });
-};
-
-AdministrationViewModel.prototype.bindWifiValidator = function () {
-    var $form = this.$el.querySelector('.main.wifi'),
-        $save = $form.querySelector('.save-button'),
-        handle = this.validateWifiSettings.bind(this);
-
-    this.wifiValidator = validate($form)
-        .on('blur')
-        .field('ssid')
-            .is('required', this.strings['Field is required'])
-            .is(/^[a-z0-9\.\-\_]{1,32}$/i, "SSID's must be 1 to 32 alphanumeric characters")
-        .field('key')
-            .is('required', this.strings['Field is required'])
-            .is('minimum', 8, 'WPA key must be at least 8 characters');
-
-    event.bind($save, 'click', handle);
 };
 
 function mark_invalid($el, message) {
@@ -366,63 +325,6 @@ AdministrationViewModel.prototype.validateGlobalSettings = function () {
     }); // Looks async, but everything is synchronous
 
     return success;
-};
-
-AdministrationViewModel.prototype.validateWifiSettings = function (e) {
-    e.stopPropagation(); // Prevent click events from closing the lightbox
-
-    var confirm = this.confirmWifiSettings.bind(this);
-
-    if ('off' === this.globalSettingsVm.wifiEnabled()) {
-        confirm();
-    } else {
-        this.wifiValidator.validate(function (err, is_valid) {
-            if (is_valid) {
-                confirm();
-            }
-        });
-    }
-};
-
-AdministrationViewModel.prototype.confirmWifiSettings = function () {
-    var message = this.$el.querySelector('.main.wifi .confirmation-message').innerHTML,
-        save = this.saveWifiSettings.bind(this);
-
-    this.runLightboxWarning(message, save);
-};
-
-AdministrationViewModel.prototype.saveWifiSettings = function () {
-    var self = AdministrationViewModel.typesafe(this),
-        data = self.globalSettingsVm.wifiToFlatObject(),
-        workingVm;
-
-    util.lightbox.close();
-    workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'))
-    util.lightbox.working(workingVm);
-    $.ajax({
-        type: util.getRequestMethod('save_wifi_settings'),
-        url: util.getConfigSetting('save_wifi_settings'),
-        data: util.formatRequestData('save_wifi_settings', data),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            if (data.messages[0].is_error === true) {
-                workingVm.status('error');
-            } else {
-                self.lightboxText = translate('Success');
-                util.lightbox.open({
-                    url: 'html/lightbox_tmpl',
-                    selector: '#lightbox-message-template',
-                    cancelSelector: '.ok-button',
-                    onOpenComplete: function () {
-                        ko.applyBindings(self, document.getElementById('lightbox-message'));
-                    }
-                });
-            }
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            workingVm.status('error');
-        }
-    });
 };
 
 AdministrationViewModel.prototype.displaySelectedTagsRead = function () {
@@ -566,7 +468,6 @@ AdministrationViewModel.prototype.applySearchFilter = function (searchString, so
 AdministrationViewModel.prototype.applyFiltersForAll = function () {
     this.applyFilters(this.rootVm.availableEndpoints(), this.availableEndpoints);
     this.applyFilters(this.rootVm.availablePlaylists(), this.availablePlaylists);
-    this.applyFilters(this.rootVm.availableTracks(), this.availableTracks);
     this.applyFilters(this.rootVm.availableDevices(), this.availableDevices);
 };
 
@@ -626,7 +527,7 @@ AdministrationViewModel.prototype.selectTab = function (tabName) {
     $('.administration input.shaded.search').trigger('input');
 
     self.selectedTab(tabName);
-    appHistory.push(spirentEnterpriseVm);
+    appHistory.push(ixiaCRVm);
 
     // Keep current active tab clean
     self.clearError(tabName);
@@ -668,11 +569,6 @@ AdministrationViewModel.prototype.calculatePlaylistsTabSelected = function () {
 
     return self.selectedTab() === "playlists";
 };
-AdministrationViewModel.prototype.calculateNetflowTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "netflow";
-};
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
 
@@ -702,11 +598,6 @@ AdministrationViewModel.prototype.calculateSystemBackupRestoreTabSelected = func
     var self = AdministrationViewModel.typesafe(this);
 
     return self.selectedTab() === "system backup restore";
-};
-AdministrationViewModel.prototype.calculateWifiAdminTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "wifi admin";
 };
 AdministrationViewModel.prototype.calculateSystemSettingsTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
@@ -740,24 +631,6 @@ AdministrationViewModel.prototype.calculatePlaylistsTabClass = function () {
 
     return self.selectedTab() === "playlists" ? "playlists selected" : "playlists";
 };
-AdministrationViewModel.prototype.calculateNetflowTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    if (!self.flowmonEnabled() || !self.flowmonSupported()) {
-        return 'hidden';
-    }
-
-    return self.selectedTab() === "netflow" ? "netflow selected" : "netflow";
-};
-
-AdministrationViewModel.prototype.calculatePulseTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    if (!self.pulseEnabled() || !self.pulseSupported()) {
-        return 'hidden';
-    }
-    return self.selectedTab() === "pulse" ? "pulse selected" : "pulse";
-};
 
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
@@ -789,27 +662,13 @@ AdministrationViewModel.prototype.calculateSystemBackupRestoreTabClass = functio
 
     return self.selectedTab() === "system backup restore" ? "backup-restore selected" : "backup-restore";
 };
-AdministrationViewModel.prototype.calculateWifiAdminTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
 
-    return self.selectedTab() === "wifi admin" ? "wifi selected" : "wifi";
-};
-AdministrationViewModel.prototype.calculateDiskTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
 
-    return self.selectedTab() === "disk" ? "disk selected" : "disk";
-};
 AdministrationViewModel.prototype.calculateSystemSettingsTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
 
     return self.selectedTab() === "system settings" ? "system selected" : "system";
 };
-AdministrationViewModel.prototype.calculateNtpServerTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "ntp server" ? "ntp selected" : "ntp";
-};
-
 
 AdministrationViewModel.prototype.addDevice = function () {
     var self = AdministrationViewModel.typesafe(this),

@@ -107,45 +107,45 @@ function loadRootViewModel(settings) {
         root_vm.setUser('Administrator');
         root_vm.init().done(resolve.bind(this, root_vm)).fail(function(e) { window.logger.error(e + ' trace: ' + e.stack); });
         ko.applyBindings(root_vm, document.getElementById('main'));
-        window.spirentEnterpriseVm = root_vm;
+        window.ixiaCRVm = root_vm;
     });
 }
 
-function closeLoadingLightbox(spirentEnterpriseVm) {
+function closeLoadingLightbox(ixiaCRVm) {
     return promise(function (resolve) {
         var model = new LightboxWorkingViewModel(translate("Loading"), translate('App loaded.'), 100);
         lightbox.working(model);
         setTimeout(function () {
             Util.lightbox.close();
         }, 166); // 1/10 of a second delay.
-        resolve(spirentEnterpriseVm);
+        resolve(ixiaCRVm);
     });
 }
 
-function bindScheduler(spirentEnterpriseVm) {
+function bindScheduler(ixiaCRVm) {
     return promise(function(resolve) {
         try {
-            spirentEnterpriseVm.selectedTab.subscribe(function(name) {
+            ixiaCRVm.selectedTab.subscribe(function(name) {
                 if ('calendar' == name) {
-                    var scheduler = require('scheduler').create(spirentEnterpriseVm);
+                    var scheduler = require('scheduler').create(ixiaCRVm);
                     window.calendar = scheduler;
                     scheduler.render();
                 }
             });
-            resolve(spirentEnterpriseVm);
+            resolve(ixiaCRVm);
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }
     });
 }
 
-function loadInfoPane(spirentEnterpriseVm) {
+function loadInfoPane(ixiaCRVm) {
     return promise(function (resolve) {
         var $parent = document.querySelector('#header'),
-            pane = new InfoPane($parent, spirentEnterpriseVm);
+            pane = new InfoPane($parent, ixiaCRVm);
 
         pane.render();
         pane.poll_reservation_status();
         pane.on('update:complete', pane.render.bind(pane));
-        return resolve(spirentEnterpriseVm);
+        return resolve(ixiaCRVm);
     });
 }
 

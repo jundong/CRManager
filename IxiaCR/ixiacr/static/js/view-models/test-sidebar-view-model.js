@@ -11,11 +11,6 @@ function TestSidebarViewModel(testVm) {
     self.getAvailableTests = self.testVm.getAvailableTests;
     self.getAvailableDatapoints = self.testVm.getAvailableDatapoints;
 
-    self.availableTracks = ko.observableArray(self.testVm.availableTracks());
-    self.testVm.availableTracks.subscribe(function () {
-        self.applyFilters(self.testVm.availableTracks, self.availableTracks);
-    });
-
     self.availablePlaylists = ko.observableArray(self.testVm.availablePlaylists());
     self.testVm.availablePlaylists.subscribe(function () {
         self.applyFilters(self.testVm.availablePlaylists, self.availablePlaylists);
@@ -219,7 +214,6 @@ function TestSidebarViewModel(testVm) {
         self.applyFilters(self.testVm.availablePlaylists, self.availablePlaylists);
         self.applyFilters(self.testVm.availableEndpoints, self.availableEndpoints);
         self.applyFilters(self.testVm.availableTests, self.availableTests);
-        self.applyFilters(self.testVm.availableTracks, self.availableTracks);
     };
 
     self.selectedCustomer.subscribe(function (value) {
@@ -314,12 +308,7 @@ function TestSidebarViewModel(testVm) {
     self.startingTab = 'endpoints';
 
     self.filterMessage = ko.computed(function(){
-        if (self.selectedMenuItem() == 'tracks') {
-            return translate("showing {shown} of {total} tracks", {
-                shown: self.availableTracks().length,
-                total: self.rootVm.availableTracks().length
-            }, 'total');
-        } else if (self.selectedMenuItem() == 'playlists') {
+        if (self.selectedMenuItem() == 'playlists') {
             return translate("showing {shown} of {total} playlists", {
                 shown: self.availablePlaylists().length,
                 total: self.rootVm.availablePlaylists().length

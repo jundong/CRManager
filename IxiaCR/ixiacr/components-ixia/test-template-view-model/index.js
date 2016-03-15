@@ -141,7 +141,7 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {
     } else {
         // Make sure we initialize the diagram
         if (self.diagram === null) {
-            var tmplTest = ko.utils.arrayFirst(self.vmDashboard.tmplTests(), function (item) {
+            var tmplTest = ko.utils.arrayFirst(self.vmDashboard.hostTests(), function (item) {
                 return item.template_name() === flatTest.template_name;
             });
             if (tmplTest !== null && self.diagram === null) {
@@ -224,9 +224,6 @@ TestTemplateViewModel.prototype.displayTagsWrite = function (value) {
             self.tags.push(trimmedValue);
         }
 
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {
-            self.rootVm.availableTags.push(trimmedValue);
-        }
     }
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));
     self.unqualifiedTags.valueHasMutated();

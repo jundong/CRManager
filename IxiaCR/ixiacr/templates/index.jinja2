@@ -32,18 +32,15 @@
 				<div class="container">
 					<div class="bar">
 						<div class="spirent-logo" data-bind="click: showDashboard">
-                            <img src="static/images/spirent_axon_logo_white_gradient.png" title="{% trans %}Spirent{% endtrans %}" alt="{% trans %}Spirent{% endtrans %}" />
+                            <img src="static/images/ixia_logo.png" title="{% trans %}Ixia{% endtrans %}" alt="{% trans %}Spirent{% endtrans %}" />
                             <div class="model">Core {{ model | safe }}</div>
                         </div>
 						<ul class="tabs">
 							<!-- this has to be on one line in order to not have an annoying space between elements -->
 							<li data-bind="attr: { 'class': dashboardTabClass }, click: showDashboard">
                                 {% trans %}DASHBOARD{% endtrans %}
-                            </li><li data-bind="attr: { 'class': testLibraryTabClass }, click: openTestCreationLightbox, clickBubble: false">
-                                {% trans %}TEST LIBRARY{% endtrans %}
-	                        </li><li data-bind="attr: { 'class': testTabClass }, click: openTestCreationLightboxUnlessLoaded, clickBubble: false">
-	                            {% trans %}TRAFFIC PLAYER{% endtrans %}
-	                        </li>{% if 'scheduler' in global_vars.features %}<li data-bind="attr: { 'class': calendarTabClass }, click:  showCalendar">
+                            </li>
+                            {% if 'scheduler' in global_vars.features %}<li data-bind="attr: { 'class': calendarTabClass }, click:  showCalendar">
 	                            {% trans %}CALENDAR{% endtrans %}
 	                        </li>{% else %}<li data-bind="attr: { 'class': historyTabClass }, click: showHistory">
 	                            {% trans %}HISTORY{% endtrans %}
@@ -54,7 +51,7 @@
 						<div class="admin_notification" data-bind="visible: vmGlobalSettings.admin_notifier() != 0, text: vmGlobalSettings.admin_notifier()"></div>
 						<ul class="account">
 							<li><span data-bind="text: user"></span></li>
-							<li><a href="www.ixiacom.com" id="support">{% trans %}Help{% endtrans %}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/logout" class="logout">{% trans %}Log Out{% endtrans %}</a></li>
+							<li><a href="http://www.ixiacom.com" id="support">{% trans %}Help{% endtrans %}</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/logout" class="logout">{% trans %}Log Out{% endtrans %}</a></li>
 						</ul>
 						<div class="clear"></div>
 					</div>
@@ -73,7 +70,7 @@
 	<script id="placeholder-template" type="text/html"></script>
 
     <script type="text/javascript">
-        Axon = {
+        CyberRange = {
             build_number: "{{global_vars.build_number}}",
             log_level: "{{global_vars.ui_log_level}}",
             language: '{{ language }}',
@@ -109,8 +106,6 @@
 	<script type="text/javascript" src="static/js/view-models/lightbox-view-model.js"></script>
 	<script type="text/javascript" src="static/js/view-models/lightbox-error-view-model.js"></script>
 	<script type="text/javascript" src="static/js/view-models/validation-results-view-model.js"></script>
-	<script type="text/javascript" src="static/js/view-models/test-playlist-view-model.js"></script>
-	<script type="text/javascript" src="static/js/view-models/test-track-view-model.js"></script>
 	<script type="text/javascript" src="static/js/view-models/test-device-port-view-model.js"></script>
 	<script type="text/javascript" src="static/js/view-models/test-sidebar-view-model.js"></script>
 	<script type="text/javascript" src="static/js/view-models/test-traffic-setting-view-model.js"></script>
@@ -132,7 +127,7 @@
         s.src = 'static/js/build.js';
         s.onload = function () {
 	        window.util = require('./components-ixia/utility-functions');
-	        require('./components-ixia/boot')(Axon);
+	        require('./components-ixia/boot')(CyberRange);
         };
         $this.parentNode.insertBefore(s, $this.nextSibling);
 	</script>
@@ -152,7 +147,7 @@
             "offset": "-10000px",
             "formHeight": "500px",
             "screenshot": false,
-            "url": "www.ixiacom.com"
+            "url": "http://www.ixiacom.com"
         });
 
         document.querySelector('#support').onclick = function (e) {

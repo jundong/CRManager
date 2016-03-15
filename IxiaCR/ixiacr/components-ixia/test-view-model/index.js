@@ -26,19 +26,15 @@ function TestViewModel(rootVModel, delegate) {
     self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;
     self.getAvailableTests = self.rootVm.getAvailableTests;
     self.getAvailableDatapoints = self.rootVm.getAvailableDatapoints;
-    self.availableTracks = self.rootVm.availableTracks;
     self.availablePlaylists = self.rootVm.availablePlaylists;
     self.availableDevices = self.rootVm.availableDevices;
     self.availableEndpoints = self.rootVm.availableEndpoints;
     self.availableTests = self.rootVm.availableTests;
-    self.userTests = self.rootVm.userTests;
-    self.factoryTests = self.rootVm.factoryTests;
     self.availableTestsByCategory = self.rootVm.availableTestsByCategory;
     self.availableDatapointsMap = self.rootVm.availableDatapointsMap;
     self.getResultTypes = self.rootVm.getResultTypes;
     self.availableCustomers = self.rootVm.availableCustomers;
     self.availableLocations = self.rootVm.availableLocations;
-    self.availableTags = self.rootVm.availableTags;
 
     self.strings = {
         "save": translate('Save'),
@@ -255,7 +251,7 @@ TestViewModel.prototype.selectTab = function(tab, callback){
             break;
     }
 
-    appHistory.push(spirentEnterpriseVm);
+    appHistory.push(ixiaCRVm);
 };
 
 TestViewModel.prototype.templateResultsTab = function(isTestRunning, callback){
@@ -405,13 +401,13 @@ TestViewModel.prototype.loadTest = function (testConfiguration, eventConfigurati
 TestViewModel.prototype.loadRecentTest = function (historyItem) {
     var self = TestViewModel.typesafe(this);
     self.ensureUnreservedOrFail(function() {
-        var matchedTest = ko.utils.arrayFirst(self.rootVm.allTests, function (item) {
+        var matchedTest = ko.utils.arrayFirst(self.rootVm.availableTests, function (item) {
             return (item.id() === historyItem.test_id && !item.isFactoryTest() && (item.result_id && item.result_id === historyItem.result_id()));
         });
 
         if (matchedTest === null) {
             self.rootVm.getAvailableTests({"test_id" : historyItem.test_id, "result_id" : historyItem.result_id()}, function() {
-                matchedTest = ko.utils.arrayFirst(self.rootVm.allTests, function (item) {
+                matchedTest = ko.utils.arrayFirst(self.rootVm.availableTests, function (item) {
                             return (item.id() === historyItem.test_id && !item.isFactoryTest() && (item.result_id && item.result_id === historyItem.result_id()));
                         });
                 if (matchedTest !== null) {

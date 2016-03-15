@@ -28,10 +28,6 @@ function PacketLossViewModel() {
         {name: 'RINGO'}
     ];
 
-    self.availableTracks = ko.observableArray(self.tracks);
-
-    self.selectedTracks = ko.observableArray();
-
     self.portUserUnits = [
         {unitId: 0, unit: '-'},
         {unitId: 1, unit: 'k'},

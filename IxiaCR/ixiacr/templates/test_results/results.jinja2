@@ -18,11 +18,11 @@
     {% if error_message %}
         <h2 style="color:red; text-align: center;">{{ error_message }}</h2>
     {% else %}
-        <img class="screen-logo" src="./images/spirent_axon_logo_large.png" alt="Spirent" title="Spirent" />
-        <img class="print-logo" src="./images/spirent_axon_logo_grey.png" alt="Spirent" title="Spirent" />
+        <img class="screen-logo" src="static/images/ixia_logo.png" alt="Ixia" title="Ixia" />
+        <img class="print-logo" src="static/images/ixia_logo.png" alt="Ixia" title="Ixia" />
         <hr />
 
-        <h1>{% trans %}Axon Test Name:{% endtrans %} {{ test.name }} </h1>
+        <h1>{% trans %}Cyber Range Test Name:{% endtrans %} {{ test.name }} </h1>
         <ul>
             <li><label>{% trans %}Executed by:{% endtrans %}</label> <span>{{ user.full_name }} ({{ user.username }})</span></li>
             <li><label>{% trans %}Date:{% endtrans %}</label> <span>{{ test_date }}</span></li>

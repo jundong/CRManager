@@ -21,8 +21,8 @@
     <div class="portlet box" data-bind="template: {name: 'recent-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
     </div>
     <!-- /ko -->
-    <!-- ko if: templateId() == 'favorite-tests-template' -->
-    <div class="portlet box" data-bind="template: {name: 'favorite-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.showFavoriteTestsPaginator(); }}">
+    <!-- ko if: templateId() == 'enterprise-tests-template' -->
+    <div class="portlet box" data-bind="template: {name: 'enterprise-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.showEnterpriseTestsPaginator(); }}">
     </div>
     <!-- /ko -->
     <!-- ko if: templateId() == 'all-tests-template' -->
@@ -42,21 +42,18 @@
     <div class="clear"></div>
 </script>
 
-<script id="favorite-tests-portlet-template" type="text/html">
+<script id="enterprise-tests-portlet-template" type="text/html">
     <h2>
         <span data-bind="text: name"></span>
     </h2>
     <div class="portlet-content">
-        <ul class="favorite-tests" data-bind="visible: dashboardVm.favoriteTests().length > 0, foreach: dashboardVm.favoriteTests">
+        <ul class="enterprise-tests" data-bind="visible: dashboardVm.enterpriseTests().length > 0, foreach: dashboardVm.enterpriseTests">
             <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
                 <h3 data-bind="text: name"></h3>
                 <p data-bind="text: template_name"></p>
             </li>
         </ul>
-        <div class="favorite-tests-paginator" data-bind="visible: dashboardVm.totalFavoriteTests > dashboardVm.favoriteTestsPerPage"></div>
-        <div class="favorite-tests" data-bind="visible: dashboardVm.favoriteTests().length <= 0">
-            {% trans %}You have no favorite tests.  You can add a test to your favorites by clicking on the "Favorite" checkbox when you save a test.{% endtrans %}
-        </div>
+        <div class="enterprise-tests-paginator" data-bind="visible: dashboardVm.totalEnterpriseTests > dashboardVm.enterpriseTestsPerPage"></div>
     </div>
 </script>
 
@@ -65,7 +62,7 @@
         <span data-bind="text: name"></span>
     </h2>
     <div class="portlet-content">
-        <ul class="favorite-tests" data-bind="foreach: dashboardVm.tmplTests">
+        <ul class="enterprise-tests" data-bind="foreach: dashboardVm.hostTests">
             <!-- ko if: $index() < 10 -->
             <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
                 <h3 data-bind="text: name"></h3>
@@ -108,9 +105,6 @@
                 <!-- /ko -->
             </tbody>
         </table>
-        </div>
-        <div data-bind="visible: $root.testResultsHistory().length <= 0">
-            {% trans %}You haven't run any tests yet.  Why don't you get started?{% endtrans %}  <a href='javascript:spirentEnterpriseVm.openTestCreationLightbox();'>{% trans %}Click here to run a test.{% endtrans %}</a>
         </div>
     </div>
 </script>

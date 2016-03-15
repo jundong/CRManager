@@ -570,3 +570,56 @@ KeyError: 'user'
 [2016-03-14 23:18:43,531 DEBUG txn.-1221661952 - MainThread] commit
 [2016-03-14 23:18:43,531 DEBUG txn.-1221661952 - MainThread] new transaction
 [2016-03-14 23:18:43,531 DEBUG txn.-1221661952 - MainThread] commit
+[2016-03-15 21:29:46,324 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,362 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa00158c>
+[2016-03-15 21:29:46,367 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,368 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,383 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ec634c>
+[2016-03-15 21:29:46,390 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,391 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,395 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ff7e8c>
+[2016-03-15 21:29:46,399 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,399 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,403 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ff7e8c>
+[2016-03-15 21:29:46,407 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,407 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,409 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa0014ec>
+[2016-03-15 21:29:46,415 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,415 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,418 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ff7e8c>
+[2016-03-15 21:29:46,422 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,423 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,429 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ff7d4c>
+[2016-03-15 21:29:46,434 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,435 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,439 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa00134c>
+[2016-03-15 21:29:46,443 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,443 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,449 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9fea48c>
+[2016-03-15 21:29:46,456 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,456 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,459 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9ff7eac>
+[2016-03-15 21:29:46,465 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,465 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,467 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9fea48c>
+[2016-03-15 21:29:46,472 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,473 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,478 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa011c0c>
+[2016-03-15 21:29:46,488 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,488 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,492 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9fea48c>
+[2016-03-15 21:29:46,497 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,498 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,501 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9feaacc>
+[2016-03-15 21:29:46,505 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,506 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,510 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa019eac>
+[2016-03-15 21:29:46,525 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,527 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,538 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0xa00bfec>
+[2016-03-15 21:29:46,545 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,545 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,549 DEBUG txn.-1221883136 - MainThread] commit <zope.sqlalchemy.datamanager.SessionDataManager object at 0x9eb33ec>
+[2016-03-15 21:29:46,554 DEBUG txn.-1221883136 - MainThread] commit
+[2016-03-15 21:29:46,555 DEBUG txn.-1221883136 - MainThread] new transaction
+[2016-03-15 21:29:46,555 DEBUG txn.-1221883136 - MainThread] commit

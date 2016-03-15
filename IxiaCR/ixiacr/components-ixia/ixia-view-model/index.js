@@ -7,28 +7,22 @@ function IxiaViewModel() {
 
     self.user = ko.observable();
 
-    self.availableTracks = ko.observableArray();
     self.availablePlaylists = ko.observableArray();
     self.availableDevices = ko.observableArray();
     self.availableEndpoints = ko.observableArray();
     self.availableTests = ko.observableArray();
-    self.favoriteTests = ko.observableArray();
-    self.factoryTests = ko.observableArray();
-    self.userTests = ko.observableArray();
+    self.enterpriseTests = ko.observableArray();
+    self.hostTests = ko.observableArray();
     self.availableTestsByCategory = ko.observableDictionary({});
-    self.availableTracksMap = null;
     self.availableDatapointsMap = ko.observableArray();
     self.availableResultTypes = new Array();
     self.availableDisplayMessages = new Array();
     self.availableCustomers = ko.observableArray();
     self.availableLocations = ko.observableArray();
     self.language = ko.observable();
-    self.availableTags = ko.observableArray();
     self.testResultsHistory = ko.observableArray();
     self.testResultsHistoryHandlers = new Array();
     self.availableDiskSpace = ko.observable(); //will be updated by disk management
-
-    self.allTests = [];
 
     self.startingTab = 'dashboard';
 
@@ -78,20 +72,14 @@ function IxiaViewModel() {
     self.completionPercent = 40;
     self.completionMessage = "";
     self.ajaxModels = new Array(translate("Global Settings"),
-        translate("Tracks"),
         translate("Devices"),
-        translate("Endpoints"),
         translate("Tests"),
-        translate("Datapoints"),
         translate("Result Types"),
         translate("Customers"),
         translate("Locations"),
         translate("Languages"),
-        translate("Tags"),
         translate("Display Messages"),
-        translate("Playlists"),
         translate("Test Library"),
-        translate("Favorite Tests"),
         translate("Recent Results"));
     self.ajaxModelsToComplete = self.ajaxModels.slice(0);
     self.failedAjaxModels = new Array();
@@ -133,7 +121,7 @@ IxiaViewModel.prototype.updateAppLoadMessage = function (model, failed) {
             self.header = translate('App Loading Error');
             self.message = translate('The following failed to load:<br>{failed}<br><br>Please contact Spirent support at {link}', {
                 failed: self.failedAjaxModels.join('<br>'),
-                link: '<a href="www.ixiacom.com">www.ixiacom.com</a>'
+                link: '<a href="http://www.ixiacom.com">www.ixiacom.com</a>'
             });
             util.lightbox.open({
                 url: 'html/lightbox_tmpl',
@@ -167,22 +155,22 @@ IxiaViewModel.prototype.init = function (callback) {
 
     var devicesAjax = self.getAvailableDevices()
         .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[1]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[1], true);
+        });
+
+    var testsAjax = self.getAvailableTests()
+        .done(function () {
             self.updateAppLoadMessage(self.ajaxModels[2]);
         })
         .fail(function () {
             self.updateAppLoadMessage(self.ajaxModels[2], true);
         });
-
-//    //    var testsAjax = self.getAvailableTests()
-//    //        .done(function () {
-//    //            //self.updateAppLoadMessage(self.ajaxModels[4]);
-//    //        })
-//    //        .fail(function () {
-//    //            self.updateAppLoadMessage(self.ajaxModels[4], true);
-//    //        });
 //
 
-//    var favoriteTestsAjax = self.getFavoriteTests()
+//    var enterpriseTestsAjax = self.getFavoriteTests()
 //        .done(function () {
 //            self.updateAppLoadMessage(self.ajaxModels[14]);
 //        })
@@ -216,19 +204,11 @@ IxiaViewModel.prototype.init = function (callback) {
 
     var languageAjax = self.getLanguage()
         .done(function () {
-            self.updateAppLoadMessage(self.ajaxModels[9]);
+            self.updateAppLoadMessage(self.ajaxModels[6]);
         })
         .fail(function () {
-            self.updateAppLoadMessage(self.ajaxModels[9], true);
+            self.updateAppLoadMessage(self.ajaxModels[6], true);
         });
-
-//    var tagsAjax = self.getAvailableTags()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[10]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[10], true);
-//        });
 
 //    var messageAjax = self.getAvailableDisplayMessages()
 //        .done(function () {
@@ -238,32 +218,15 @@ IxiaViewModel.prototype.init = function (callback) {
 //            self.updateAppLoadMessage(self.ajaxModels[11], true);
 //        });
 
-    self.selectTab(self.startingTab);
+        self.selectTab(self.startingTab);
 
-    self.initStart = (new Date()).getTime();
+        self.initStart = (new Date()).getTime();
 
-//    return $.when(
-//        settingsAjax,
-//        tracksAjax,
-//        playlistAjax,
-//        devicesAjax,
-//        endpointAjax,
-//        tmplsTestsAjax,
-//        favoriteTestsAjax,
-//        historyResults,
-//        dataPointsAjax,
-//        resultTypesAjax,
-//        customersAjax,
-//        locationsAjax,
-//        languageAjax,
-//        tagsAjax,
-//        messageAjax
-//    );
-
-      return $.when(
+    return $.when(
         settingsAjax,
         devicesAjax,
-        languageAjax
+        languageAjax,
+        testsAjax
     );
 };
 
@@ -469,136 +432,18 @@ IxiaViewModel.prototype.getLanguage = function() {
     return ajax;
 };
 
-IxiaViewModel.prototype.getAvailableTags = function () {
-    var self = IxiaViewModel.typesafe(this);
-
-    self.availableTags.removeAll();
-
-    var ajax = $.ajax({
-        type: 'GET',
-        url: util.getConfigSetting('get_tags'),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            var availableTags = data;
-
-            for (var i = 0; i < availableTags.length; i++) {
-                self.availableTags.push(availableTags[i]);
-            }
-        }
-    });
-
-    return ajax
-};
-
-IxiaViewModel.prototype.getAvailableTagsAsAutoSuggestData = function () {
-    var self = IxiaViewModel.typesafe(this);
-    var tags = self.availableTags();
-
-    var data = new Array();
-
-    for (var i = 0; i < tags.length; i++) {
-        data.push({"value": tags[i]});
-    }
-
-    return data;
-};
-
-IxiaViewModel.prototype.getTmplTests = function (callback) {
-    var self = IxiaViewModel.typesafe(this);
-
-    self.vmDashboard.tmplTests.removeAll();
-
-    var ajax = $.ajax({
-        type: "GET",
-        url: util.getConfigSetting("get_test_templates"),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            for (var i = 0; i < data.length; i++) {
-                self.factoryTests().push(data[i]);
-            };
-            self.fillAvailableTestsWithResults(data, true);
-        }
-    });
-
-    return ajax;
-};
-
-IxiaViewModel.prototype.getFavoriteTests = function (params, callback) {
-    var self = IxiaViewModel.typesafe(this);
-    var offset = 0;
-    var url = util.getConfigSetting("get_favorite_tests");
-    if (params) {
-        if (params['page']) {
-            offset = params['page'];
-            url += '?page=' + params['page'];
-            if (params['page_size']) {
-                offset = (offset - 1) * params['page_size'];
-                url += '&page_size=' + params['page_size'];
-            } else {
-                offset = (offset - 1) * 5;
-            }
-        } else {
-            if (params['page_size']) {
-                url += '?page_size=' + params['page_size'];
-            }
-        }
-    }
-    var ajax = $.ajax({
-        type: "GET",
-        url: url,
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            self.vmDashboard.totalFavoriteTests = data['total_number'];
-            self.vmDashboard.favoriteTests.removeAll();
-
-            self.fillFavoriteTests(data['data'], offset);
-            self.fillAvailableTestsWithResults(data['data'], false);
-
-            if (callback){
-                callback();
-            }
-        }
-    });
-
-    return ajax;
-};
-
 IxiaViewModel.prototype.getAvailableTests = function (params, callback) {
     var self = IxiaViewModel.typesafe(this);
-    var url = util.getConfigSetting("get_axon_tests");
-    if (params) {
-        if (params['test_id']) {
-            url += '?test_id=' + params['test_id'];
-            if(params['result_id']) {
-                url += '&result_id=' + params['result_id'];
-            }
-        } else {
-            if (params['filters']) {
-                url += '?filters=' + params['filters'];
-            }
-            if (params['page']) {
-                url += '?page=' + params['page'];
-                if (params['page_size']) {
-                    url += '&page_size=' + params['page_size'];
-                }
-            } else {
-                if (params['page_size']) {
-                    url += '?page_size=' + params['page_size'];
-                }
-            }
-        }
-    }
+
     var ajax = $.ajax({
         type: "GET",
-        url: url,
+        url: util.getConfigSetting("get_ixiacr_tests"),
         dataType: 'json',
         success: function (data, textStatus, jqXhr) {
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].is_user_save) {
-                    self.userTests().push(data[i]);
-                }
-            };
-            self.fillAvailableTestsWithResults(data, false);
+            self.availableTests.removeAll();
+            self.enterpriseTests.removeAll();
+            self.hostTests.removeAll();
+            self.fillAvailableTests(data);
 
             if (callback){
                 callback();
@@ -609,75 +454,20 @@ IxiaViewModel.prototype.getAvailableTests = function (params, callback) {
     return ajax;
 };
 
-IxiaViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactoryTest){
+IxiaViewModel.prototype.fillAvailableTests = function (data){
     var self = IxiaViewModel.typesafe(this);
     var availableTests = data = translate_tests_configurations(data);
-    var existingTest;
 
     for (var i = 0; i < availableTests.length; i++) {
-        var test = new TestTemplateViewModel(self);
+        var existingTest = null,
+            test = new TestTemplateViewModel(self);
         test.inflate(availableTests[i]);
-        test.isFactoryTest(isFactoryTest);
-        test.isTemplate(isFactoryTest);
 
-        if (isFactoryTest) {
-            existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {
-                return (test.id() === item.id()) && item.isTemplate();
-            });
-            if (existingTest === null) {
-                self.availableTests.push(test);
-                self.allTests.push(test);
-            }
-
-            // Update template tests list
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.tmplTests(), function (item) {
-                return (item.id() === test.id() && item.isFactoryTest() && item.isTemplate());
-            });
-            if (existingTest === null) {
-                // To make 'Throughput Test' at the second position in 'Test Library'
-                if (test.template_name() == 'Throughput Test') {
-                    if (self.vmDashboard.tmplTests().length > 1) {
-                        // Insert value
-                        self.vmDashboard.tmplTests.splice(1, 0, test);
-                    } else {
-                        self.vmDashboard.tmplTests.push(test);
-                    }
-                } else {
-                    self.vmDashboard.tmplTests.push(test);
-                }
-            }
-            self.addToCategoryView(test);
-        } else if (test.isUserSave) {
-            if(test.result_id){
-                //code pass for loading test result from test_results
-                self.allTests.push(test);
-            }
-            else {
-                //code pass for loading user saved test
-                existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {
-                    return (test.id() === item.id()) && item.isUserSave;
-                });
-                if (existingTest === null) {
-                    self.availableTests.push(test);
-//                    self.allTests.push(test);
-                } else {
-                    self.availableTests.remove(existingTest);
-                    self.availableTests.push(test);
-//                    self.allTests.pop(existingTest);
-//                    self.allTests.push(test);
-                }
-                self.addToCategoryView(test);
-            }
-        } else {
-            existingTest = ko.utils.arrayFirst(self.allTests, function (item) {
-                return (test.id() === item.id()) && !item.isUserSave;
-            });
-            if (existingTest === null) {
-                self.allTests.push(test);
-            } else {
-                self.allTests.pop(existingTest);
-                self.allTests.push(test);
-            }
+        existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {
+            return (test.id() === item.id());
+        });
+        if (existingTest === null) {
+            self.availableTests.push(test);
         }
     }
 
@@ -690,85 +480,85 @@ IxiaViewModel.prototype.fillAvailableTestsWithResults = function (data, isFactor
 
 IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){
     var self = IxiaViewModel.typesafe(this);
-    var favoriteTests = data = translate_tests_configurations(data);
+    var enterpriseTests = data = translate_tests_configurations(data);
     var existingTest;
 
     // Keep favorite test number is consistent with DB in FrontEnd cache
-    if (self.vmDashboard.totalFavoriteTests > self.favoriteTests().length) {
-        for (var i = self.favoriteTests().length; i < self.vmDashboard.totalFavoriteTests; i++) {
-            self.favoriteTests.push(undefined);
+    if (self.vmDashboard.totalEnterpriseTests > self.enterpriseTests().length) {
+        for (var i = self.enterpriseTests().length; i < self.vmDashboard.totalEnterpriseTests; i++) {
+            self.enterpriseTests.push(undefined);
         }
-    } else if (self.vmDashboard.totalFavoriteTests < self.favoriteTests().length) {
-        for (var i = self.favoriteTests().length - 1; i >= 0; i--) {
-            if (self.favoriteTests()[i] == undefined) {
-                self.favoriteTests.splice(i, 1);
+    } else if (self.vmDashboard.totalEnterpriseTests < self.enterpriseTests().length) {
+        for (var i = self.enterpriseTests().length - 1; i >= 0; i--) {
+            if (self.enterpriseTests()[i] == undefined) {
+                self.enterpriseTests.splice(i, 1);
             }
         }
     }
 
-    for (var i = 0; i < favoriteTests.length; i++) {
+    for (var i = 0; i < enterpriseTests.length; i++) {
         var test = new TestTemplateViewModel(self);
-        test.inflate(favoriteTests[i]);
+        test.inflate(enterpriseTests[i]);
 
         if (offset != undefined) {
             // If offset is set, we query favorite tests from DB, so the favorite property has already been set
-            self.favoriteTests()[offset + i] = test;
+            self.enterpriseTests()[offset + i] = test;
             if (i < 5) {
-                self.vmDashboard.favoriteTests.push(test);
+                self.vmDashboard.enterpriseTests.push(test);
             }
         } else {
-            // Make sure self.favoriteTests() has value before we use it
-            if (self.favoriteTests().length == 0 && test.favorite()) {
-                self.favoriteTests.push(test);
-                self.vmDashboard.totalFavoriteTests += 1;
+            // Make sure self.enterpriseTests() has value before we use it
+            if (self.enterpriseTests().length == 0 && test.favorite()) {
+                self.enterpriseTests.push(test);
+                self.vmDashboard.totalEnterpriseTests += 1;
             }
 
             // Update favorite tests list
-            existingTest = ko.utils.arrayFirst(self.favoriteTests(), function (item) {
+            existingTest = ko.utils.arrayFirst(self.enterpriseTests(), function (item) {
                 if (item != undefined) {
                     return item.id() === test.id();
                 }
                 return false;
             });
             if (existingTest !== null) {
-                var index = self.favoriteTests.indexOf(existingTest);
+                var index = self.enterpriseTests.indexOf(existingTest);
                 // Update
                 if (test.favorite()) {
                     if (index != -1) {
-                        self.favoriteTests()[index] = test;
+                        self.enterpriseTests()[index] = test;
                     }
                 } else {
                     // Remove
                     if (index != -1) {
-                        self.favoriteTests.remove(existingTest);
-                        if (self.vmDashboard.favoriteTests.indexOf(existingTest) != -1) {
-                            if (self.favoriteTests().length > index) {
-                                if (self.favoriteTests()[index] !== undefined) {
-                                    if (self.vmDashboard.favoriteTests.indexOf(self.favoriteTests()[index]) == -1) {
-                                        self.vmDashboard.favoriteTests.push(self.favoriteTests()[index])
+                        self.enterpriseTests.remove(existingTest);
+                        if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {
+                            if (self.enterpriseTests().length > index) {
+                                if (self.enterpriseTests()[index] !== undefined) {
+                                    if (self.vmDashboard.enterpriseTests.indexOf(self.enterpriseTests()[index]) == -1) {
+                                        self.vmDashboard.enterpriseTests.push(self.enterpriseTests()[index])
                                     }
                                 }
                             }
                         }
-                        self.vmDashboard.totalFavoriteTests -= 1;
+                        self.vmDashboard.totalEnterpriseTests -= 1;
                     }
                 }
             } else {
                 // Do nothing if the Frontend cache is empty here
-                if (self.favoriteTests().length == 0 && !test.favorite()) {
+                if (self.enterpriseTests().length == 0 && !test.favorite()) {
                     continue;
                 }
-                if (self.favoriteTests()[0].id() < test.id() && test.favorite()) {
-                    self.favoriteTests.unshift(test);
-                    self.vmDashboard.totalFavoriteTests += 1;
-                } else if (self.favoriteTests()[0].id() > test.id() && test.favorite()) {
+                if (self.enterpriseTests()[0].id() < test.id() && test.favorite()) {
+                    self.enterpriseTests.unshift(test);
+                    self.vmDashboard.totalEnterpriseTests += 1;
+                } else if (self.enterpriseTests()[0].id() > test.id() && test.favorite()) {
                     var position = undefined;
                     // First loop to determine whether there is a proper position for insert
-                    for (var k = 0; k < self.favoriteTests().length; k++) {
-                        if (self.favoriteTests()[k] == undefined) {
+                    for (var k = 0; k < self.enterpriseTests().length; k++) {
+                        if (self.enterpriseTests()[k] == undefined) {
                             continue;
                         }
-                        if (self.favoriteTests()[k].id() > test.id()) {
+                        if (self.enterpriseTests()[k].id() > test.id()) {
                             continue;
                         } else {
                             position = k;
@@ -776,45 +566,45 @@ IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){
                         }
                     }
                     if (position == undefined) {
-                        if (self.favoriteTests()[self.favoriteTests().length - 1] != undefined) {
-                            self.favoriteTests.push(test);
+                        if (self.enterpriseTests()[self.enterpriseTests().length - 1] != undefined) {
+                            self.enterpriseTests.push(test);
                         } else {
-                            self.favoriteTests()[self.favoriteTests().length - 1] = test;
+                            self.enterpriseTests()[self.enterpriseTests().length - 1] = test;
                         }
                     } else {
                         // Second loop to determine the insert position
-                        var slice = self.favoriteTests.slice(position, self.favoriteTests().length);
+                        var slice = self.enterpriseTests.slice(position, self.enterpriseTests().length);
                         slice.unshift(test);
-                        self.favoriteTests = self.favoriteTests.slice(0, position).concat(slice);
+                        self.enterpriseTests = self.enterpriseTests.slice(0, position).concat(slice);
 
                     }
-                    self.vmDashboard.totalFavoriteTests += 1;
+                    self.vmDashboard.totalEnterpriseTests += 1;
                 }
             }
 
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests(), function (item) {
+            existingTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {
                 return item.id() === test.id();
             });
             if (existingTest !== null) {
                 // Update
                 if (test.favorite()) {
-                    var index = self.vmDashboard.favoriteTests.indexOf(existingTest);
-                    self.vmDashboard.favoriteTests()[index] = test;
+                    var index = self.vmDashboard.enterpriseTests.indexOf(existingTest);
+                    self.vmDashboard.enterpriseTests()[index] = test;
                 } else {
                     // Remove
-                    if (self.vmDashboard.favoriteTests.indexOf(existingTest) != -1) {
-                        self.vmDashboard.favoriteTests.remove(existingTest);
+                    if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {
+                        self.vmDashboard.enterpriseTests.remove(existingTest);
                     }
                 }
             } else {
-                if (self.vmDashboard.favoriteTests().length == 0 && test.favorite()) {
-                    self.vmDashboard.favoriteTests.push(test);
+                if (self.vmDashboard.enterpriseTests().length == 0 && test.favorite()) {
+                    self.vmDashboard.enterpriseTests.push(test);
                     continue;
                 }
-                if (self.vmDashboard.favoriteTests()[0].id() < test.id() && test.favorite()) {
-                    self.vmDashboard.favoriteTests.unshift(test);
-                    if (self.vmDashboard.favoriteTests().length > 5) {
-                        self.vmDashboard.favoriteTests.pop();
+                if (self.vmDashboard.enterpriseTests()[0].id() < test.id() && test.favorite()) {
+                    self.vmDashboard.enterpriseTests.unshift(test);
+                    if (self.vmDashboard.enterpriseTests().length > 5) {
+                        self.vmDashboard.enterpriseTests.pop();
                     }
                 }
             }
@@ -830,19 +620,10 @@ IxiaViewModel.prototype.insertUserTest = function (userTest){
 
     userTestId = userTest.id();
 
-    existingUserTest = ko.utils.arrayFirst(self.userTests(), function (item) {
-        return userTestId === item.id;
-    });
-
-    if (existingUserTest !== null) {
-        self.userTests.remove(existingUserTest);
-    }
-
     self.updateTestNameInRecentTests(userTest);
 
     flatUserTest = userTest.toFlatObject();
-    self.fillAvailableTestsWithResults([flatUserTest], false);
-    self.userTests().push(flatUserTest);
+    self.fillAvailableTests([flatUserTest]);
 };
 
 IxiaViewModel.prototype.removeUserTest = function (userTest){
@@ -857,28 +638,16 @@ IxiaViewModel.prototype.removeUserTest = function (userTest){
         self.availableTests.remove(existingUserTest);
     }
 
-    existingUserTest = ko.utils.arrayFirst(self.allTests, function (item) {
-        return userTest.id() === item.id() && !item.isTemplate();
-    });
-
     if (existingUserTest !== null) {
-        self.allTests.pop(existingUserTest);
+        self.enterpriseTests.remove(existingUserTest);
     }
 
-    existingUserTest = ko.utils.arrayFirst(self.favoriteTests(), function (item) {
+    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {
         return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();
     });
 
     if (existingUserTest !== null) {
-        self.favoriteTests.remove(existingUserTest);
-    }
-
-    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.favoriteTests(), function (item) {
-        return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();
-    });
-
-    if (existingUserTest !== null) {
-        self.vmDashboard.favoriteTests.remove(existingUserTest);
+        self.vmDashboard.enterpriseTests.remove(existingUserTest);
     }
 };
 

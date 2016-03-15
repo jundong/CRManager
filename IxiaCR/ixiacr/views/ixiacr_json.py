@@ -75,15 +75,7 @@ def get_global_settings(request):
     ixiacrlogger.debug('Start: get_global_settings')
     try:
         config = Configs.by_id(1)
-        return {'bps': config.bps,
-                'atip': config.atip,
-                'splunk': config.splunk,
-                'kali': config.kali,
-                'metasploit': config.metasploit,
-                'ips': config.ips,
-                'ngfw': config.ngfw,
-                'dlp': config.dlp,
-                'windows': config.windows}
+        return {}
 
     except Exception, e:
         ixiacrlogger.exception('Exception: get_global_settings -- ' + format(e))

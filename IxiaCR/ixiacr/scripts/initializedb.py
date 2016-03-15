@@ -186,6 +186,44 @@ def import_db(cmd):
                           description=translatable_string(_(u'Our local Axon chassis.'))))
         transaction.commit()
 
+        tests = [
+            {'name': u'Enterprise Test Case',
+             'type': u'ENTERPRISE',
+             'topology_image': u'ixia_log.png',
+             'topology_description': u'Enterprise Test Case for Topology Description',
+             'attack_task': u'Red side task',
+             'attack_steps': u'Red side steps',
+             'attack_criteria': u'Red side criteria',
+             'defense_task': u'Blue side task',
+             'defense_steps': u'Blue side steps',
+             'defense_criteria': u'Red side criteria'
+            },
+            {'name': u'Host Test Case',
+             'type': u'HOST',
+             'topology_image': u'ixia_log.png',
+             'topology_description': u'Enterprise Test Case for Topology Description',
+             'attack_task': u'Red side task',
+             'attack_steps': u'Red side steps',
+             'attack_criteria': u'Red side criteria',
+             'defense_task': u'Blue side task',
+             'defense_steps': u'Blue side steps',
+             'defense_criteria': u'Red side criteria'
+            }
+        ]
+
+        for test in tests:
+            db.add(IxiaTest(name=test['name'],
+                type=test['type'],
+                topology_image=test['topology_image'],
+                topology_description=test['topology_description'],
+                attack_task=test['attack_task'],
+                attack_steps=test['attack_steps'],
+                attack_criteria=test['attack_criteria'],
+                defense_task=test['defense_task'],
+                defense_steps=test['defense_steps'],
+                defense_criteria=test['defense_criteria']))
+            transaction.commit()
+
         db.add(TestMessage(test_id=0,
                            message=translatable_string(_(u'All tests can be run using either IPv4 packets or IPv6 packets. Just input your endpoint addresses in the appropriate format.')),
                            status=u'Result'))
@@ -193,7 +231,7 @@ def import_db(cmd):
 
         db.add(Portlet(name=translatable_string(_(u'Welcome')), content_type=1, portlet_content=translatable_string(_(u'portlet.welcome.content')), default_column=u'.l-portlet-column', div_id_name=u'welcome'))
         db.add(Portlet(name=translatable_string(_(u'Recent Results')), content_type=4, portlet_content=translatable_string(_(u'portlet.recent_results.content')), default_column=u'.l-portlet-column', div_id_name=u'recent-tests-template'))
-        db.add(Portlet(name=translatable_string(_(u'Favorite Tests')), content_type=4, portlet_content=translatable_string(_(u'portlet.favorite_tests.content')), default_column=u'.r-portlet-column', div_id_name=u'favorite-tests-template'))
+        db.add(Portlet(name=translatable_string(_(u'Favorite Tests')), content_type=4, portlet_content=translatable_string(_(u'portlet.favorite_tests.content')), default_column=u'.r-portlet-column', div_id_name=u'enterprise-tests-template'))
         db.add(Portlet(name=translatable_string(_(u'Test Library')), content_type=4, portlet_content=translatable_string(_(u'portlet.test_library.content')), default_column=u'.r-portlet-column', div_id_name=u'all-tests-template'))
         transaction.commit()
 

@@ -7,12 +7,12 @@ var emitter = require('emitter'),
     template = domify(require('./template.html')),
     moment = require('moment-timezone');
 
-function InfoPane($parent, spirentEnterpriseVm) {
+function InfoPane($parent, ixiaCRVm) {
     this.$parent = $parent;
     this.$el = template.cloneNode(true);
     this.reservation_status = {reserved: false};
     this.reservation_poller = new Poller(this.get_reservation_status.bind(this));
-    this.rootVm  = spirentEnterpriseVm;
+    this.rootVm  = ixiaCRVm;
     this.bind_diskmanagement();
 }
 

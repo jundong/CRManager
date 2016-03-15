@@ -582,7 +582,7 @@ ko.bindingHandlers.testConfigSidebar = {
     update: function(element, valueAccessor, allBindingsAccessor, context) {
         $(window).unbind('scroll');
         $(window).unbind('resize');
-        var $selected_tab = $('.' + spirentEnterpriseVm.selectedTab()),
+        var $selected_tab = $('.' + ixiaCRVm.selectedTab()),
             $sidebar = $selected_tab.find('.sidebar'),
             $placeholder = $selected_tab.find('.sidebar-placeholder'),
             $testHeader = $selected_tab.find('.test-header'),
@@ -848,7 +848,7 @@ ko.bindingHandlers.backupFileUpload = {
                         });
                     };
 
-                    window.spirentEnterpriseVm.getGlobalSettings(globalSettingsCallback, true);
+                    window.ixiaCRVm.getGlobalSettings(globalSettingsCallback, true);
                     util.lightbox.working(new LightboxWorkingViewModel(translate("Refreshing backup list"), translate("Refreshing backup list")));
                 }
                 else {

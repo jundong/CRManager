@@ -596,7 +596,7 @@ $(document).ready(function(){
         });
 
         window.logout_timer = $.timer(function() {
-          if (spirentEnterpriseVm.vmTest.vmResults.status() && spirentEnterpriseVm.vmTest.vmResults.status() === "running"){
+          if (ixiaCRVm.vmTest.vmResults.status() && ixiaCRVm.vmTest.vmResults.status() === "running"){
             window.update_user_session();
           } else {
             self.lightboxText ='You have been idle for 30 minutes.  If your session continues to stay inactive for the next 30 seconds, you will be automatically logged out.';

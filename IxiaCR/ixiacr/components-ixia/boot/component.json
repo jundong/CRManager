@@ -42,7 +42,6 @@
       "traffic-player-view-model",
       "test-device-view-model",
       "line-rate-message-view-model",
-      "pulse",
       "info-pane",
       "disk-management"
   ]

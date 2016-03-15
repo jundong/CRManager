@@ -561,7 +561,7 @@ ConfiguredTestViewModel.prototype.getDefaultPlaylistId = function () {
     if (self.isMulticast) {
         return self.defaultPlaylistId;
     } else {
-        tmpl = ko.utils.arrayFirst(self.rootVm.vmDashboard.tmplTests(), function (item) {
+        tmpl = ko.utils.arrayFirst(self.rootVm.vmDashboard.hostTests(), function (item) {
             return item.template_name() === self.template_name();
         });
 
@@ -910,10 +910,6 @@ ConfiguredTestViewModel.prototype.displayTagsWrite = function (value) {
 
         if (self.tags().indexOf(trimmedValue) == -1) {
             self.tags.push(trimmedValue);
-        }
-
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {
-            self.rootVm.availableTags.push(trimmedValue);
         }
     }
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));

@@ -12,7 +12,7 @@ function popState(state){
 	window.dispatchEvent(evt);
 }
 
-spirentEnterpriseVm = {
+ixiaCRVm = {
 	restoreState : function(){}
 };
 
@@ -83,7 +83,7 @@ test("Loads History on History Change Event", function(){
 
 	var historyState = { prop : "some value"}
 
-	var historySpy = this.spy(spirentEnterpriseVm, "restoreState");
+	var historySpy = this.spy(ixiaCRVm, "restoreState");
 
 	popState(historyState);
 	
@@ -94,7 +94,7 @@ test("Doesn't Load History If Null", function(){
 
 	var historyState;
 
-	var historySpy = this.spy(spirentEnterpriseVm, "restoreState");
+	var historySpy = this.spy(ixiaCRVm, "restoreState");
 
 	popState(historyState);
 	

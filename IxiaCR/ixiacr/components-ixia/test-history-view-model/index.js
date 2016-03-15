@@ -258,10 +258,6 @@ TestHistoryViewModel.prototype.displayTagsWrite = function (value) {
         if (self.tags().indexOf(trimmedValue) == -1) {
             self.tags.push(trimmedValue);
         }
-
-        if (self.rootVm.availableTags().indexOf(trimmedValue) == -1) {
-            self.rootVm.availableTags.push(trimmedValue);
-        }
     }
     self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));
     self.unqualifiedTags.valueHasMutated();
