@@ -187,33 +187,36 @@ def import_db(cmd):
         transaction.commit()
 
         tests = [
-            {'name': u'Enterprise Test Case',
+            {'name': translatable_string(_(u'Enterprise Traffic Track')),
              'type': u'ENTERPRISE',
+             'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
              'topology_image': u'ixia_log.png',
-             'topology_description': u'Enterprise Test Case for Topology Description',
-             'attack_task': u'Red side task',
-             'attack_steps': u'Red side steps',
-             'attack_criteria': u'Red side criteria',
-             'defense_task': u'Blue side task',
-             'defense_steps': u'Blue side steps',
-             'defense_criteria': u'Red side criteria'
+             'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
+             'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
+             'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
+             'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
+             'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
+             'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
+             'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria'))
             },
-            {'name': u'Host Test Case',
+            {'name': translatable_string(_(u'Using Vulnerability Scanning Tool')),
              'type': u'HOST',
+             'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
              'topology_image': u'ixia_log.png',
-             'topology_description': u'Enterprise Test Case for Topology Description',
-             'attack_task': u'Red side task',
-             'attack_steps': u'Red side steps',
-             'attack_criteria': u'Red side criteria',
-             'defense_task': u'Blue side task',
-             'defense_steps': u'Blue side steps',
-             'defense_criteria': u'Red side criteria'
+             'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
+             'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
+             'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
+             'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
+             'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
+             'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
+             'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria'))
             }
         ]
 
         for test in tests:
-            db.add(IxiaTest(name=test['name'],
+            db.add(TestCases(name=test['name'],
                 type=test['type'],
+                description=test['description'],
                 topology_image=test['topology_image'],
                 topology_description=test['topology_description'],
                 attack_task=test['attack_task'],
@@ -225,7 +228,7 @@ def import_db(cmd):
             transaction.commit()
 
         db.add(TestMessage(test_id=0,
-                           message=translatable_string(_(u'All tests can be run using either IPv4 packets or IPv6 packets. Just input your endpoint addresses in the appropriate format.')),
+                           message=translatable_string(_(u'All tests can be run using either IPv4 packets or IPv6 packets. Just input your addresses in the appropriate format.')),
                            status=u'Result'))
         transaction.commit()
 

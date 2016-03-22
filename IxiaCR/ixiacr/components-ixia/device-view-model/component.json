@@ -13,18 +13,12 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js",
-    "multiple-port/view-model.js",
-    "multiple-port/templates/template.js",
-    "single-port/view-model.js",
-    "single-port/templates/template.js"
+    "index.js"
   ],
   "styles": [
-    "style.css",
-    "multiple-port/style.css"
+    "style.css"
   ],
   "local": [
-    "utility-functions",
-    "endpoint-view-model"
+    "utility-functions"
   ]
 }

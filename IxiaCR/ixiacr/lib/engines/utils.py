@@ -173,25 +173,3 @@ class RateMonitor(object):
             self._trigger_count = 0
 
         self._trigger_count += 1
-
-
-class TopologyUtils(object):
-    def __init__(self, endpoint):
-        self.endpoint = endpoint
-
-    def is_same_l2_broadcast_domain(self, endpoint):
-        if self.endpoint.vlan_id != endpoint.vlan_id:
-            return False  # different VLANs means different l2 domains
-
-        # Either same vlan or no vlans
-        return (self.is_same_subnet(endpoint))
-
-    def get_network(self, endpoint):
-        return ipaddr.IPNetwork('%s/%s' % (endpoint.ip, endpoint.prefix))
-
-    def is_same_subnet(self, endpoint):
-        if self.endpoint.use_dhcp or endpoint.use_dhcp:
-            return False
-
-        return (self.get_network(self.endpoint).network
-                == self.get_network(endpoint).network)

@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="nav box">
             <li class="devices" data-bind="attr: {'class': devicesTabClass}, click: function () { refreshDevices(); }">{% trans %}Devices{% endtrans %}</li>
-            <li class="change-password" data-bind="attr: {'class': changePasswordTabClass}, click: function () { selectTab('change password'); }">{% trans %}Change Password{% endtrans %}</li>
+            <li class="change-password" data-bind="attr: {'class': changePasswordTabClass}, click: function () { selectTab('change password'); }">{% trans %}Change Account{% endtrans %}</li>
             <li class="update" data-bind="attr: {'class': upgradeLocationTabClass}, click: function () { selectTab('upgrade location'); }">
                 <div class="admin_update_notification" data-bind="visible: globalSettingsVm.admin_notifier() != 0, text: globalSettingsVm.admin_notifier()"></div>{% trans %}Update{% endtrans %}
             </li>
@@ -64,10 +64,7 @@
                         <img class="search" src="static/images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
                     </div>
                 </div>
-                <a class="add-button" href="javascript:void(0);" data-bind="click: function () { addDevice(); }, clickBubble: false">
-                    <!-- ko if: rootVm.availableDevices().length == 1 -->{% trans %}+ Add Device{% endtrans %}<!-- /ko -->
-                    <!-- ko if: rootVm.availableDevices().length > 1 -->{% trans %}+ Add Another Device{% endtrans %}<!-- /ko -->
-                </a>
+
                 <ul data-bind="foreach: availableDevices">
                     <li class="item" data-bind="attr: { 'id': displayNameCssId }, css: { hidden: id() == 1}">
                         <ul>
@@ -92,7 +89,7 @@
         </div>
         <div class="main" id="changePasswordMain" data-bind="visible: changePasswordTabSelected">
             <div>
-                <h3>{% trans %}Change system password{% endtrans %}</h3>
+                <h3>{% trans %}Change system account{% endtrans %}</h3>
                 <ul class="single-pane change-password">
                     <li id="oldPasswordList"><label>{% trans %}Old password{% endtrans %}</label>
                         <input class="long" type="password" id="oldPassword" data-bind="validateOldPassword: $data"/>
@@ -104,6 +101,9 @@
                         <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
                     </li>
                 </ul>
+                <a class="add-button" href="javascript:void(0);" data-bind="click: function () { addDevice(); }, clickBubble: false">
+                    {% trans %}+ Add Account{% endtrans %}
+                </a>
                 <a class="save-button" href="javascript:void(0);" data-bind="click: changePassword, clickBubble: false">{% trans %}Save{% endtrans %}</a>
             </div>
         </div>
@@ -128,7 +128,7 @@
             <div>
                 <h3>{% trans %}Update{% endtrans %}</h3>
                 <div class="single-pane no-padding" data-bind="visible: globalSettingsVm.availableUpdate().newest_build != null">
-                    <h4>{% trans %}Update Axon{% endtrans %}</h4>
+                    <h4>{% trans %}Update System{% endtrans %}</h4>
                     <ul>
                         <li>
                             <p>{% trans %}Current Build:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></p>
@@ -138,17 +138,17 @@
                             <!--<p>{% trans %}To update your Axon software to the latest revision, ensure that you have a working Internet connection and then click Begin update. Do not close the browser or turn off the Axon device until the update process is complete. The process can take as long as 15 minutes.{% endtrans %}</p>-->
                         <!--</li>-->
                         <li style="width:98%">
-                            <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, 'Warning:<br /><br />Updating can take up to 45 minutes. After the update begins you will be logged out. During this time, please avoid shutting down the Axon. You will be able to log in again after the update has completed.<br /><br />If you have problems, please <a href=\'http://support.spirentforbusiness.com\' target=\'_blank\'>contact support</a>.<br />', beginUpgrade.bind($data)), clickBubble: false">
+                            <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, 'Warning:<br /><br />Updating can take up to 45 minutes. After the update begins you will be logged out. During this time, please avoid shutting down the Axon. You will be able to log in again after the update has completed.<br /><br />If you have problems, please <a href=\'http://www.ixiacom.com\' target=\'_blank\'>contact support</a>.<br />', beginUpgrade.bind($data)), clickBubble: false">
                                 <span>{% trans %}Begin update{% endtrans %}</span>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="single-pane no-padding" data-bind="visible: globalSettingsVm.availableUpdate().newest_build == null">
-                    <h4>{% trans %}Update Axon{% endtrans %}</h4>
+                    <h4>{% trans %}Update System{% endtrans %}</h4>
                     <ul>
                         <li>
-                            <p>{% trans %}Axon is up to date.{% endtrans %}</p>
+                            <p>{% trans %}Cyber Range is up to date.{% endtrans %}</p>
                             <p>{% trans %}Current Build:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></p>
                         </li>
                         <li style="width:98%">
@@ -172,18 +172,12 @@
                     </div>
                 </div>
                 <div  class="single-pane no-padding">
-                    <h4>{% trans %}Basic Setting{% endtrans %}</h4>
-                    <ul>
-                        <li><label>{% trans %}Device Name{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.device_name" /></li>
-                    </ul>
-                </div>
-                <div  class="single-pane no-padding">
                     <h4>{% trans %}Cyber Range Network Settings{% endtrans %}</h4>
                     <ul>
                         <li><label>{% trans %}Hostname{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.hostname" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway, attr: { 'disabled': globalSettingsVm.dhcp() != 'false' ? 'disabled' : null }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway" /></li>
                         <li><label>{% trans %}MAC Address{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.mac_address, attr: { 'disabled': 'disabled' }" /></li>
                     </ul>
                 </div>
@@ -219,15 +213,6 @@
                         </li>
                     </ul>
                 </div>
-				<div class="single-pane no-padding ssl">
-                    <h4>{% trans %}SSL{% endtrans %}</h4>
-                    <ul>
-                        <li>
-                            <p><a href="/ssl.crt">{% trans %}Download SSL certificate{% endtrans %}</a></p>
-                        </li>
-                    </ul>
-                </div>
-
                 <a class="save-button" href="javascript:void(0);" data-bind="click: saveGlobalSettings, clickBubble: false">{% trans %}Save{% endtrans %}</a>
             </div>
         </div>

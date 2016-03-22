@@ -54,31 +54,7 @@ function generateSaveDeviceResponse(data) {
 
 	return JSON.stringify(responseObject);
 }
-function generateSaveEndpointResponse(data) {
-	var responseObject = getGenericResponseObjectForDataWithId(data);
-	responseObject.messages[0].content = 'Successfully saved endpoint';
-	return JSON.stringify(responseObject);
-}
-function generateSaveTrackResponse(data) {
-	var responseObject = getGenericResponseObjectForDataWithId(data);
-	responseObject.messages[0].content = 'Successfully saved endpoint';
-	return JSON.stringify(responseObject);
-}
-function generateSavePlaylistResponse(data) {
-	var responseObject = getGenericResponseObjectForDataWithId(data);
-	responseObject.messages[0].content = 'Successfully saved endpoint';
-	return JSON.stringify(responseObject);
-}
-function generateSaveTestTemplateResponse(data) {
-	var responseObject = getGenericResponseObjectForDataWithId(data);
-	responseObject.messages[0].content = 'Successfully saved endpoint';
-	return JSON.stringify(responseObject);
-}
-function generateSaveAxonTestResponse(data) {
-	var responseObject = getGenericResponseObjectForDataWithId(data);
-	responseObject.messages[0].content = 'Successfully saved endpoint';
-	return JSON.stringify(responseObject);
-}
+
 function generateUnknownResponse(data) {
 	var responseObject = getGenericResponseObject();
 

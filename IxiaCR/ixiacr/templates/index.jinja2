@@ -40,11 +40,10 @@
 							<li data-bind="attr: { 'class': dashboardTabClass }, click: showDashboard">
                                 {% trans %}DASHBOARD{% endtrans %}
                             </li>
-                            {% if 'scheduler' in global_vars.features %}<li data-bind="attr: { 'class': calendarTabClass }, click:  showCalendar">
-	                            {% trans %}CALENDAR{% endtrans %}
-	                        </li>{% else %}<li data-bind="attr: { 'class': historyTabClass }, click: showHistory">
+                            <li data-bind="attr: { 'class': historyTabClass }, click: showHistory">
 	                            {% trans %}HISTORY{% endtrans %}
-	                        </li>{% endif %}<li data-bind="attr: { 'class': administrationTabClass }, click: showAdministration">
+                            </li>
+	                        <li data-bind="attr: { 'class': administrationTabClass }, click: showAdministration">
 	                            {% trans %}ADMINISTRATION{% endtrans %}
 	                        </li>
 						</ul>

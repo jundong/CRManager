@@ -1,6 +1,5 @@
 var MultiplePortDeviceViewModel = require('device-view-model').MultiplePortDeviceViewModel,
-    DeviceCollectionViewModel = require('device-collection-view-model'),
-    MulticastSettingsViewModel = require('multicast-settings');
+    DeviceCollectionViewModel = require('device-collection-view-model');
 
 function MulticastTrafficPlayerDelegate(parent) {
     this.parent = parent;
@@ -46,17 +45,6 @@ MulticastTrafficPlayerDelegate.prototype.inflate = function (data) {
     parent.destination().inflate(data.destination);
     parent.destination.subscribe(subscribe_parent);
     subscribe_parent(destination);
-
-    // Settings
-    if (data && data.supplemental_configuration && data.supplemental_configuration.multicast_settings) {
-        // Handle multicast setting reload from Calendar
-        this.multicast_settings = new MulticastSettingsViewModel(data.supplemental_configuration.multicast_settings);
-        this.multicast_settings.inflate(data.supplemental_configuration.multicast_settings);
-    } else {
-        this.multicast_settings = new MulticastSettingsViewModel(data.multicast_settings);
-        this.multicast_settings.inflate(data.multicast_settings);
-    }
-    parent.multicast_settings = this.multicast_settings;
 };
 
 MulticastTrafficPlayerDelegate.prototype.toFlatObject = function (obj) {

@@ -187,7 +187,7 @@ Reusable Components
 }
 
 
-.netflow-settings .interfaces button,
+.interfaces button,
 .button.dark
 {
     padding: 12px 15px;
@@ -629,8 +629,7 @@ input.dark-checkbox:checked + a
     background: url(../images/checkbox-on.png) 0 no-repeat;
 }
 
-.dark-text-box,
-.endpoint-pane input[type="text"]
+.dark-text-box input[type="text"]
 {
     font-size: 11px;
     background-color: #111;
@@ -2177,15 +2176,7 @@ Test
     border-top-right-radius: 3px;
     position: absolute;
 }
-.test .configuration .sidebar .menu li#endpointsTab {
-    left:0px;
-}
-.test .configuration .sidebar .menu li#tracksTab {
-    left: 122px;
-}
-.test .configuration .sidebar .menu li#playlistsTab {
-    left: 221px;
-}
+
 .test .configuration .sidebar .menu li#customInfoTab {
     left: 335px;
     width: 150px;
@@ -2219,14 +2210,6 @@ Test
     left: 18px;
     top: 14px;
 }
-/*.test .configuration .sidebar .menu li:nth-child(4):before {
-    content: url("../images/endpoint.png");
-    position: absolute;
-    left: 18px;
-    top: 13px;
-}*/
-
-
 
 .test .configuration .sidebar .menu li.selected {
     background-color: #262627;
@@ -2287,12 +2270,6 @@ Test
     left: 18px;
     top: 14px;
 }
-/*.test .configuration .sidebar .menu li.selected:nth-child(4):before {
-    content: url("../images/gray-endpoint.png");
-    position: absolute;
-    left: 18px;
-    top: 13px;
-}*/
 
 .test .configuration .sidebar .filters {
     float: right;
@@ -3675,24 +3652,6 @@ body .draggable img {
     right: 20px;
 }
 
-
-
-
-
-
-.config .network-map .transmit-container .endpoint-rollup-container li,
-.config .network-map .receive-container .endpoint-rollup-container li {
-    display: inline-block;
-    padding: 5px;
-    background-color: gray;
-    color: white;
-}
-
-.config .network-map .transmit-container .endpoint-rollup-container,
-.config .network-map .receive-container .endpoint-rollup-container {
-    margin: 0 3px 0 0;
-}
-
 /*Chart*/
 
 .results { background-color: #d8d8d8; background-color: #323233; background-image: url("../images/texture-small.png");
@@ -4263,45 +4222,6 @@ body .draggable img {
     content: url("../images/table-gray.png");
 }
 
-.administration .nav .endpoints:before {
-    content: url("../images/endpoint-white.png");
-    position: absolute;
-    top: 14px;
-    left: 12px;
-}
-.administration .nav .endpoints.selected:before {
-    content: url("../images/endpoint-gray.png");
-}
-
-.administration .nav .playlists:before {
-    content: url("../images/list-white.png");
-    position: absolute;
-    top: 14px;
-    left: 12px;
-}
-.administration .nav .playlists.selected:before {
-    content: url("../images/list-gray.png");
-}
-
-.administration .nav .tracks:before {
-    content: url("../images/white-grid.png");
-    position: absolute;
-    top: 14px;
-    left: 12px;
-}
-.administration .nav .tracks.selected:before {
-    content: url("../images/gray-grid.png");
-}
-
-.administration .nav .netflow:before {
-    content: url("../images/white-monitoring.png");
-    position: absolute;
-    top: 14px;
-    left: 12px;
-}
-.administration .nav .netflow.selected:before {
-    content: url("../images/gray-monitoring.png");
-}
 .administration .nav .change-password:before {
     content: url("../images/lock-white.png");
     position: absolute;

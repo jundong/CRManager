@@ -216,14 +216,6 @@ msgstr ""
 "Destination MAC address learning for test traffic failed for ${par_0} of "
 "${par_1} tracks on ${chassis}, port ${port}"
 
-#: ixiacr/lib/engines/stc/exceptions.py:232
-msgid ""
-"Gateway MAC address learning for test endpoints failed for ${par_0} of "
-"${par_1} ${par_2} on ${chassis}, port ${port}"
-msgstr ""
-"Gateway MAC address learning for test endpoints failed for ${par_0} of "
-"${par_1} ${par_2} on ${chassis}, port ${port}"
-
 #: ixiacr/lib/engines/stc/exceptions.py:234
 msgid ""
 "Test traffic load will exceed current port PHY speed (${par_0} Mbps) "
@@ -1167,147 +1159,77 @@ msgstr "服务器"
 msgid "QoS"
 msgstr "QoS"
 
-#: ixiacr/scripts/initializedb.py:416
-msgid "test_type.Stress_Test"
-msgstr "压力测试"
-
-#: ixiacr/scripts/initializedb.py:418
-msgid "traffic_type.Stress"
-msgstr "压力"
-
-#: ixiacr/scripts/initializedb.py:424
-msgid "test_type.SLA_Test"
-msgstr "SLA测试"
-
-#: ixiacr/scripts/initializedb.py:426
-msgid "traffic_type.SLA"
-msgstr "SLA"
-
-#: ixiacr/scripts/initializedb.py:432
-msgid "test_type.Quality_of_Service"
-msgstr "服务质量"
-
-#: ixiacr/scripts/initializedb.py:434
-msgid "traffic_type.QoS"
-msgstr "QoS"
-
-#: ixiacr/scripts/initializedb.py:440
-msgid "test_type.Performance_Test"
-msgstr "性能测试"
-
-#: ixiacr/scripts/initializedb.py:442
-msgid "traffic_type.Packet"
-msgstr "包"
-
-#: ixiacr/scripts/initializedb.py:448
-msgid "test_type.Application_Performance"
-msgstr "应用性能"
-
-#: ixiacr/scripts/initializedb.py:450
-msgid "traffic_type.App"
-msgstr "App"
-
 #: ixiacr/scripts/initializedb.py:463
-msgid "Network Stress Test"
-msgstr "网络压力测试"
+msgid "Enterprise Traffic Track"
+msgstr "企业级流量的溯源跟踪"
 
 #: ixiacr/scripts/initializedb.py:467
-msgid "axon_test_template.network_stess_test.description"
-msgstr "<p>在IPv4和IPv6网络中，该测试仅使用2到3层256字节大小的帧产生流量，测定在压力环境下的最大无损带宽。测试结果代表网络在极度压力环境下所允许的最大可持续流量。</p><p>Cyber Range以每分钟的线速发送帧。如果发生丢包，Cyber Range会减小载荷并重复测试，直至丢包停止。Cyber Range会以不同载荷记录延迟和抖动数据 </p>"
+msgid "cr_test_template.enterprise_traffic_track.description"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:496
-msgid "Site to Site with SLA"
-msgstr "基于SLA的站点到站点测试"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.topology_description"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:500
-msgid "axon_test_template.site_to_site_with_sla.description"
-msgstr "通过在IPv4或IPv6网络发发送2层、3层流量，该测试从承诺信息速率（CIR）角度衡量网络提供商对服务品质协议（SLA）的履行情况，具体包括广域网链路中的带宽、延迟和抖动。广域网将由不同大小报文形成的流量通过网络中某系统的一个端口发送至其他系统的另外一个端口。网络性能通过对比运营商的承诺信息速率所规定的带宽、延迟、抖动与测试结果中的实际值来定义。如果带宽、延迟或抖动超过了您设定的极限值，测试失败。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_task"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:529
-msgid "QoS Site to Site"
-msgstr "站点到站点QoS"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_steps"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:533
-msgid "axon_test_template.qos_site_to_site.description"
-msgstr "该测试检测IPv4或IPv6网络站点间使用不同DSCP优先级定义的语音、视频以及数据包的QoS性能。通常，流量会一直增加到您所设定的最大值。QoS性能通过随网络交通堵塞增加而出现的语音或视频质量下降幅度来定义。测量对象包括各应用的延迟、抖动、以及丢包情况。该测试预期数据丢包将发生在语音以及视频流量产生之前。语音和视频质量测量结果会记录在测试报告里。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_criteria"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:564
-msgid "Device QoS Test"
-msgstr "设备QoS测试"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_task"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:568
-msgid "axon_test_template.device_qos_test.description"
-msgstr "该测试通过为语音、视频以及HTTP数据包定义不同DSCP优先级，验证设备端到端的QoS性能。该测试需要使用两个流量发送端口和一个接收端口，通过不断增加流量产生1.5倍于常规的超额流量请求，网络QoS性能会伴随着网络流量拥塞增加而出现语音或视频质量下降。具体测量内容包括各应用的延迟、抖动、以及丢包等情况。根据测试配置，预期数据流丢包会发生在语音以及视频流量产生之前。语音和视频质量测量结果会记录在测试报告里。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_steps"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:590
-msgid "Network Performance Modeling"
-msgstr "网络性能模型"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_criteria"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
-#: ixiacr/scripts/initializedb.py:593
-msgid "axon_test_template.network_performance_modeling.description"
-msgstr "<p>该测试面向IPv4或IPv6网络的2到3层，使用成熟标准检测端到端性能以及连通性。</p><p>Cyber Range在测试端口之间发送特定流量，并不断增加带宽直至数据丢包发生。</p><p>网络性能通过未发生丢包时的最大带宽以及该带宽对应的延迟和抖动定义。如有丢包发生即认为测试失败。</p>"
+#: ixiacr/scripts/initializedb.py:463
+msgid "Using Vulnerability Scanning Tool"
+msgstr "漏洞扫描工具的运用"
 
-#: ixiacr/scripts/initializedb.py:624
-msgid "Network Performance Modeling (Enterprise Mix)"
-msgstr "网络性能模型（混合型企业网络）"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.description"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。在此背景下，主动防范的漏洞扫描技术便应运而生。通过漏洞扫描目的服务器，提前发现安全漏洞并对其进行修补，以达到防范于未然的目的。</p>"
 
-#: ixiacr/scripts/initializedb.py:627
-msgid "axon_test_template.network_performance_modeling_enterprise_mix.description"
-msgstr "<p>该测试面向IPv4或IPv6网络的2到3层，使用成熟标准检测端到端性能以及连通性。</p><p>Cyber Range在测试端口之间发送特定流量，并不断增加带宽直至数据丢包发生。</p><p>网络性能通过未发生丢包时的最大带宽以及该带宽对应的延迟和抖动定义。如有丢包发生即认为测试失败。</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.topology_description"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:657
-msgid "Application Performance Modeling (HTTP)"
-msgstr "应用性能模型 （HTTP）"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_task"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:660
-msgid "axon_test_template.application_performance_modeling_http.description"
-msgstr "该测试检测IPv4或IPv6网络4到7层的端到端的应用性能以及连通性。测试会基于您指定的用户数量产生相应的HTTP流量。应用性能取决于第一次失败传输之前网络能达到的最大带宽。最大带宽、平均HTTP响应时间、每秒失败TCP连接数以及成功HTTP事务数量会记录在结果中。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_steps"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:724
-msgid "Application Performance Modeling (Enterprise Mix)"
-msgstr "应用性能模型（企业网络应用混合）"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_criteria"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:727
-msgid "axon_test_template.application_performance_modeling_enterprise_mix.description"
-msgstr "该测试检测IPv4或IPv6网络4到7层的端到端的应用性能以及连通性。测试会基于您指定的用户数量产生相应的HTTP流量。应用性能取决于第一次失败传输之前网络能达到的最大带宽。最大带宽、平均HTTP响应时间、每秒失败TCP连接数以及成功HTTP事务数量会记录在结果中。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_task"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:792
-msgid "Application Performance Modeling (Voice, Video, and HTTP)"
-msgstr "应用性能模型（语音、视频与HTTP）"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_steps"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
-#: ixiacr/scripts/initializedb.py:795
-msgid "axon_test_template.application_performance_modeling_voice_video_http.description"
-msgstr "该测试检测IPv4或IPv6网络4到7层的端到端的应用性能以及连通性。测试会基于您指定的用户数量产生相应的HTTP流量。应用性能取决于第一次失败传输之前网络能达到的最大带宽。最大带宽、平均HTTP响应时间、每秒失败TCP连接数以及成功HTTP事务数量会记录在结果中。"
-
-#: ixiacr/scripts/initializedb.py:858
-msgid "Network QoS Performance"
-msgstr "网络QoS性能"
-
-#: ixiacr/scripts/initializedb.py:862
-msgid "axon_test_template.network_qos_performance.description"
-msgstr "<p>在IPv4和IPv6网络中，该测试可确定语音视频以及数据包（分别使用不同DSCP优先级定义）的QoS性能。</p><p>一般情况下，Cyber Range使用两个发送端口和一个接收端口，通过不断增加流量产生1.5倍于常规的超额流量请求。</p><p>QoS性能通过随网络交通堵塞增加而出现的语音或视频质量下降幅度来定义。测量对象包括各应用的延迟、抖动、以及丢包情况。该测试预期数据丢包发生在语音以及视频流量产生之前。Cyber Range 会收集包括MOS-LQ、MOS-V以及MOS-A在内的语音与视频质量数据。</p>"
-
-#: ixiacr/scripts/initializedb.py:894
-msgid "Network QoS Performance (256 Byte Frames)"
-msgstr "网络QoS性能（256字节帧）"
-
-#: ixiacr/scripts/initializedb.py:898
-msgid "axon_test_template.network_qos_performance_256_byte_frames.description"
-msgstr "<p>该测试用来确定在IPv4和IPv6网络中语音视频以及数据包（分别使用不同DSCP优先级定义）的QoS性能。</p><p>一般情况下，Cyber Range使用两个发送端口和一个接收端口，通过不断增加流量产生1.5倍于常规的超额流量请求，</p><p>QoS性能通过随网络交通堵塞增加而出现的语音或视频质量下降幅度来定义。测量对象包括各应用的延迟、抖动、以及丢包情况。该测试预期数据丢包发生在语音以及视频流量产生之前。Cyber Range 会收集包括MOS-LQ、MOS-V以及MOS-A在内的语音与视频质量数据。</p>"
-
-#: ixiacr/scripts/initializedb.py:928
-msgid "Throughput Test"
-msgstr ""
-
-#: ixiacr/scripts/initializedb.py:932
-msgid "axon_test_template.throughput_test.description"
-msgstr ""
-
-#: ixiacr/scripts/initializedb.py:965
-msgid ""
-"All tests can be run using either IPv4 packets or IPv6 packets. Just "
-"input your endpoint addresses in the appropriate format."
-msgstr "所有测试可选用IPv4或IPv6报文。只需用正确格式输入您的端点地址。"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_criteria"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
 #: ixiacr/scripts/initializedb.py:968
 msgid ""
@@ -1414,37 +1336,37 @@ msgstr "<div class='get-started-image'><img src='static/images/get-started-ixia.
         "    </div>"
         "</div>"
         "<div style='left: 285px; top: 140px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 150px; height: 85px; border-radius: 39px;' data-handler='Aim' data-activeon='hover' data-dim='120,64,39' data-coord='285,140' class='invisible-spot' id='Kali'></div>"
+        "    <div style='width: 150px; height: 95px; border-radius: 39px;' data-handler='Aim' data-activeon='hover' data-dim='150,95,0' data-coord='285,140' class='invisible-spot' id='Kali'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 470px; top: 15px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 140px; height: 85px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='160,64,0' data-coord='470,15' class='invisible-spot' id='Splunk'></div>"
+        "    <div style='width: 140px; height: 95px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='140,95,0' data-coord='470,15' class='invisible-spot' id='Splunk'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 440px; top: 140px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 150px; height: 85px; border-radius: 16px;' data-handler='Aim' data-activeon='hover' data-dim='120,64,16' data-coord='440,140' class='invisible-spot' id='AttackTarget'></div>"
+        "    <div style='width: 150px; height: 95px; border-radius: 16px;' data-handler='Aim' data-activeon='hover' data-dim='150,95,0' data-coord='440,140' class='invisible-spot' id='AttackTarget'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 620px; top: 130px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 120px; height: 85px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='108,80,0' data-coord='620,130' class='invisible-spot' id='IPS'></div>"
+        "    <div style='width: 120px; height: 95px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='120,95,0' data-coord='620,130' class='invisible-spot' id='IPS'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 820px; top: 130px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 155px; height: 85px; border-radius: 15px;' data-handler='Aim' data-activeon='hover' data-dim='128,80,15' data-coord='820,130' class='invisible-spot' id='NGFW'></div>"
+        "    <div style='width: 155px; height: 95px; border-radius: 15px;' data-handler='Aim' data-activeon='hover' data-dim='155,95,0' data-coord='820,130' class='invisible-spot' id='NGFW'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 815px; top: 390px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 240px; height: 90px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='188,80,0' data-coord='815,390' class='invisible-spot' id='DLP'></div>"
+        "    <div style='width: 240px; height: 100px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='240,100,0' data-coord='815,390' class='invisible-spot' id='DLP'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 295px; top: 380px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 110px; height: 80px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='100,70,0' data-coord='295,380' class='invisible-spot' id='Windows'></div>"
+        "    <div style='width: 110px; height: 90px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='110,90,0' data-coord='295,380' class='invisible-spot' id='Windows'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
@@ -1609,72 +1531,45 @@ msgstr "警告：点击下方按钮将该Cyber Range设备重置为出厂默认�
 msgid "By agreeing, you will lose all data. Are you sure?"
 msgstr "同意此操作将会使您丢失所有数据。您确定吗？"
 
-#: ixiacr/templates/endpoint/fields.jinja2:2
-#: ixiacr/templates/html/administration.tmpl.jinja2:197
-msgid "VLAN ID"
-msgstr "VLAN ID"
-
-#: ixiacr/templates/endpoint/fields.jinja2:7
-#: ixiacr/templates/html/administration.tmpl.jinja2:465
-msgid "No DHCP"
-msgstr "无DHCP"
-
-#: ixiacr/templates/endpoint/fields.jinja2:10
-msgid "DHCPv4"
-msgstr "DHCPv4"
-
-#: ixiacr/templates/endpoint/fields.jinja2:13
-msgid "DHCPv6"
-msgstr "DHCPv6"
-
-#: ixiacr/templates/endpoint/fields.jinja2:16
 msgid "Number of hosts"
 msgstr "主机数量"
 
-#: ixiacr/templates/endpoint/fields.jinja2:20
 msgid "test.configuration.tmpl.jinja2.Starting_IP"
 msgstr "开始IP"
 
-#: ixiacr/templates/endpoint/fields.jinja2:24
 msgid "test.configuration.tmpl.jinja2.Ending_IP"
 msgstr "终止IP"
 
-#: ixiacr/templates/endpoint/fields.jinja2:28
 #: ixiacr/templates/html/administration.tmpl.jinja2:202
 msgid "Prefix"
 msgstr "前缀"
 
-#: ixiacr/templates/endpoint/fields.jinja2:32
 #: ixiacr/templates/html/administration.tmpl.jinja2:203
 #: ixiacr/templates/html/administration.tmpl.jinja2:475
 msgid "Gateway"
 msgstr "网关"
 
-#: ixiacr/templates/endpoint/traffic-player-pane.jinja2:6
-#: ixiacr/templates/html/administration.tmpl.jinja2:319
-#: ixiacr/templates/html/administration.tmpl.jinja2:374
 #: ixiacr/templates/html/administration.tmpl.jinja2:545
 msgid "Save"
 msgstr "保存"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:4
-#: ixiacr/templates/html/administration.tmpl.jinja2:28
-#: ixiacr/templates/html/administration.tmpl.jinja2:123
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:134
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:181
 msgid "Devices"
-msgstr "设备数"
+msgstr "设备"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:10
 #: ixiacr/templates/html/administration.tmpl.jinja2:76
-msgid "Change Password"
-msgstr "更改密码"
+msgid "Change Account"
+msgstr "更改账号"
+
+msgid "Existing User Name"
+msgstr "用户名已存在"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:12
 #: ixiacr/templates/html/administration.tmpl.jinja2:85
 #: ixiacr/templates/html/administration.tmpl.jinja2:324
 msgid "Update"
-msgstr "更新Cyber Range"
+msgstr "更新系统"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:14
 #: ixiacr/templates/html/administration.tmpl.jinja2:93
@@ -1729,12 +1624,9 @@ msgid "search"
 msgstr "查询"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:145
-msgid "+ Add Device"
-msgstr "+ 添加设备"
+msgid "+ Add Account"
+msgstr "+ 添加账号"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:146
-msgid "+ Add Another Device"
-msgstr "+ 添加另一个设备"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:151
 #: ixiacr/templates/html/administration.tmpl.jinja2:195
@@ -1787,17 +1679,9 @@ msgstr "开始IP"
 msgid "Ending IP"
 msgstr "终止IP"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:204
-msgid "Are you sure you want to delete this endpoint?"
-msgstr "确定删除该端点？"
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:284
 msgid "Clone &raquo;"
 msgstr "克隆 &raquo;"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:286
-msgid "Are you sure you want to delete this track?"
-msgstr "确定删除该数据模型？"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:297
 msgid "Customers & Locations"
@@ -1839,6 +1723,14 @@ msgstr "新密码"
 msgid "Verify new password"
 msgstr "验证新密码"
 
+#: ixiacr/templates/html/administration.tmpl.jinja2:313
+msgid "Password"
+msgstr "密码"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:314
+msgid "Verify Password"
+msgstr "验证密码"
+
 #: ixiacr/templates/html/administration.tmpl.jinja2:315
 msgid "Your passwords do not match. Please try again."
 msgstr "密码未能匹配。请重试。"
@@ -1849,8 +1741,8 @@ msgstr "密码匹配成功。点击“保存”按钮保存该密码。"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:326
 #: ixiacr/templates/html/administration.tmpl.jinja2:343
-msgid "Update Cyber Range"
-msgstr "更新Cyber Range"
+msgid "Update System"
+msgstr "更新系统"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:329
 #: ixiacr/templates/html/administration.tmpl.jinja2:347
@@ -2219,82 +2111,18 @@ msgid "ONLY SHOW FAVORITES"
 msgstr "只显示收藏的测试"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:84
-#: ixiacr/templates/html/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:13
 msgid "Test Type:"
 msgstr "测试类型："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:85
-#: ixiacr/templates/html/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:14
 msgid "Performance"
 msgstr "性能"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:88
-#: ixiacr/templates/html/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:17
 msgid "Traffic Type:"
 msgstr "流量类型："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:89
-#: ixiacr/templates/html/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:18
 msgid "Application"
 msgstr "应用性能模型 （HTTP）"
 
@@ -2383,30 +2211,14 @@ msgid "Find tests for me"
 msgstr "发现测试例"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:235
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:299
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:333
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:417
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:448
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:713
 msgid "FAVORITE"
 msgstr "添加至收藏"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:236
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:272
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:300
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:334
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:418
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:449
 msgid "lightbox.tmpl.jinja2.CANCEL"
 msgstr "取消"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:237
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:273
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:301
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:335
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:419
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:450
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:714
 msgid "lightbox.tmpl.jinja2.SAVE"
 msgstr "保存"
 
@@ -2415,11 +2227,6 @@ msgid "There are validation errors with your test configuration:"
 msgstr "测试配置验证出错："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:261
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:289
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:323
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:438
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:482
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:743
 msgid "TAGS:"
 msgstr "标签:"
 
@@ -2470,23 +2277,6 @@ msgstr "测试配置相关帮助信息"
 msgid "How to fix your time sync."
 msgstr "怎样修复您的时间同步。"
 
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:521
-msgid ""
-"If your Cyber Range says that it does not have time sync for one (or more) of "
-"your endpoints in a test, your timing results (latency and jitter) will "
-"not be accurate.  The clocks on the machines will be too far apart to "
-"provide any real measurments.  In this situation, you should connect your"
-" Cyber Range(s) to an NTP server in the \"System Settings\" tab of the "
-"Administration section.  Each Cyber Range will need to be connected to the NTP "
-"server in its own GUI, this cannot be done remotely. If possible, it is "
-"best if all Cyber Ranges that you will be running site-to-site tests between are"
-" connected to the same NTP server.<br><br>If you are connected to an NTP "
-"server but are still receiving a large range for your timing accuracy, "
-"the internal clocks may not have been synced to the NTP server for a long"
-" enough time.  Please wait another 30 minutes while your clocks "
-"synchronize."
-msgstr "如果Cyber Range提示您测试中的一个或多个端点没有时间同步，与时间有关的测试结果（延迟或抖动）将会不准确。在这种情况下，您可以到”系统管理”面板中的”系统设置“选项卡下，将Cyber Range连接至NTP服务器。每一个Cyber Range会话都必须在各自界面中连接至NTP服务器，该操作无法远程执行。如可能，请尽量在即将运行的站点到站点测试中将所有的Cyber Range连接至同一NTP服务器。<br><br>如果您已连接了一台NTP服务器，而收发数据的时间精度依然偏差过大，可能是由于内部时钟过久未与NTP服务器同步导致。建议您再等待30分钟让时钟充分同步。"
-
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:529
 msgid "Test Validation"
 msgstr "测试验证"
@@ -2517,12 +2307,6 @@ msgid "There were warnings validating your test configuration"
 msgstr "测试配置验证中出现多个警告"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:577
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:586
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:598
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:611
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:647
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:660
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:673
 msgid "Ok"
 msgstr "好"
 
@@ -2562,1014 +2346,158 @@ msgid "There are validation errors with your test results:"
 msgstr "测试结果验证出错："
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:8
 msgid "Tests"
 msgstr "测试"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:18
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:24
 msgid "ALL ITEMS"
 msgstr "所有项目"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:19
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:26
 msgid "FAVORITES"
 msgstr "收藏夹"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:20
 msgid "RECOMMENDED"
 msgstr "推荐"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:33
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:41
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:55
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:281
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:292
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:254
 msgid "Configure"
 msgstr "配置"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:71
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:135
 msgid "Traffic Player"
 msgstr "流量控制器"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:74
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:138
 msgid "Delete"
 msgstr "删除 &raquo;"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:96
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:159
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:153
 msgid "Playlist"
 msgstr "流量定制列表："
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:107
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:205
-#: ixiacr/templates/html/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:204
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:10
 msgid "Traffic"
 msgstr "控制器（控制列表）与数据模型（表）流量损耗"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:161
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:155
 msgid "open"
 msgstr "打开"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:156
 msgid "save"
 msgstr "保存"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:209
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:210
 msgid "Mbps"
 msgstr "Mbps"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:243
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:248
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:259
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:223
 msgid "Timing Accuracy"
 msgstr "时间精确度"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:249
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:260
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:224
 msgid "How do I fix my Time Sync?"
 msgstr "怎样修复我的时间同步？"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:246
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:251
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:262
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:226
 msgid "ms"
 msgstr "ms"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:267
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:278
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:241
 msgid "+ Add another traffic player"
 msgstr "+ 添加一个流量控制器"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:289
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:327
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:304
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:338
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:266
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:300
 msgid "remove"
 msgstr "移除"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:293
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:297
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:338
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:308
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:349
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:270
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:311
 msgid "Track Options"
 msgstr "数据模型选项"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:6
 msgid "Current Status"
 msgstr "当前状态"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:18
 msgid "(You must first <a>pause</a> the test to apply a new traffic setting)"
 msgstr "（在应用新流量设置之前，请<a>暂停</a>当前测试）"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:27
 msgid "Chart"
 msgstr "图表"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:28
 msgid "Summary"
 msgstr "总结"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:40
 msgid "Transport Data"
 msgstr "传输数据"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:44
 msgid "Application Data"
 msgstr "应用数据"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:48
 msgid "Voice Quality Data"
 msgstr "语音质量数据"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:52
 msgid "Video Quality Data"
 msgstr "视频质量数据"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:64
 msgid "Packet Loss"
 msgstr "丢包"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:80
 msgid "Calls"
 msgstr "每秒呼叫数"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:81
-#: ixiacr/templates/html/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:96
 msgid "Video Connections"
 msgstr "视频连接数 (每秒)"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:82
-#: ixiacr/templates/html/test.results.tmpl.jinja2:90
-#: ixiacr/templates/html/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:98
 msgid "Quality MOS Scores"
 msgstr "语音质量MOS值"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:83
-#: ixiacr/templates/html/test.results.tmpl.jinja2:91
-#: ixiacr/templates/html/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:99
 msgid "RTP Packet Loss"
 msgstr "RTP丢包"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:88
 msgid "Calls per Second"
 msgstr "每秒呼叫数"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:89
 msgid "Total Calls"
 msgstr "总呼叫数"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:107
 msgid "Results Details"
 msgstr "结果明细"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:118
-#: ixiacr/templates/test_results/results.jinja2:135
-#: ixiacr/templates/test_results/results.jinja2:256
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:118
 msgid "Track"
 msgstr "数据模型"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:155
 msgid "Download Results"
 msgstr "下载结果"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:156
 msgid "print"
 msgstr "打印"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:157
 msgid "csv"
 msgstr "csv"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:167
 msgid "You must first configure and run your test."
 msgstr "在运行测试之前请配置测试。"
 
@@ -3761,66 +2689,6 @@ msgstr "source name"
 #: ixiacr/views/results.py:56
 msgid "source host"
 msgstr "source host"
-
-#: ixiacr/views/results.py:56
-msgid "endpoint name"
-msgstr "endpoint name"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint ip"
-msgstr "endpoint ip"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint prefix"
-msgstr "endpoint prefix"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint end ip"
-msgstr "endpoint end ip"
-
-#: ixiacr/views/results.py:58
-msgid "endpoint use dhcp"
-msgstr "endpoint use dhcp"
-
-#: ixiacr/views/results.py:58
-msgid "endpoint gateway"
-msgstr "endpoint gateway"
-
-#: ixiacr/views/results.py:59
-msgid "endpoint vlanid"
-msgstr "endpoint vlanid"
-
-#: ixiacr/views/results.py:59
-msgid "track name"
-msgstr "track name"
-
-#: ixiacr/views/results.py:59
-msgid "track id"
-msgstr "track id"
-
-#: ixiacr/views/results.py:60
-msgid "track object"
-msgstr "track object"
-
-#: ixiacr/views/results.py:60
-msgid "track percentage"
-msgstr "track percentage"
-
-#: ixiacr/views/results.py:61
-msgid "track traffic setting name"
-msgstr "track traffic setting name"
-
-#: ixiacr/views/results.py:62
-msgid "track traffic setting value"
-msgstr "track traffic setting value"
-
-#: ixiacr/views/results.py:62
-msgid "track properties name"
-msgstr "track properties name"
-
-#: ixiacr/views/results.py:63
-msgid "track properties value"
-msgstr "track properties value"
 
 #: ixiacr/views/results.py:63
 msgid "data name"

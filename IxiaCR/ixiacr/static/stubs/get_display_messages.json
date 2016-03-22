@@ -1,5 +1,5 @@
 [
-    "All tests can be run using either IPv4 packets or IPv6 packets. Just input your endpoint addresses in the appropriate format.",
+    "All tests can be run using either IPv4 packets or IPv6 packets. Just input your addresses in the appropriate format.",
     "Your test is currently running, aggregate results are displayed during the test.",
     "Detailed results are available when the test is complete.",
     "Network performance tests send generic data traffic between the selected ports.",

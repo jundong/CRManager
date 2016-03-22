@@ -25107,317 +25107,6 @@ require.modules["ianstormtaylor~next-sibling"] = require.modules["ianstormtaylor
 require.modules["next-sibling"] = require.modules["ianstormtaylor~next-sibling@0.0.1"];
 
 
-require.register("component~domify@1.1.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `parse`.\n\
- */\n\
-\n\
-module.exports = parse;\n\
-\n\
-/**\n\
- * Wrap map from jquery.\n\
- */\n\
-\n\
-var map = {\n\
-  option: [1, '<select multiple=\"multiple\">', '</select>'],\n\
-  optgroup: [1, '<select multiple=\"multiple\">', '</select>'],\n\
-  legend: [1, '<fieldset>', '</fieldset>'],\n\
-  thead: [1, '<table>', '</table>'],\n\
-  tbody: [1, '<table>', '</table>'],\n\
-  tfoot: [1, '<table>', '</table>'],\n\
-  colgroup: [1, '<table>', '</table>'],\n\
-  caption: [1, '<table>', '</table>'],\n\
-  tr: [2, '<table><tbody>', '</tbody></table>'],\n\
-  td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],\n\
-  th: [3, '<table><tbody><tr>', '</tr></tbody></table>'],\n\
-  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],\n\
-  _default: [0, '', '']\n\
-};\n\
-\n\
-/**\n\
- * Parse `html` and return the children.\n\
- *\n\
- * @param {String} html\n\
- * @return {Array}\n\
- * @api private\n\
- */\n\
-\n\
-function parse(html) {\n\
-  if ('string' != typeof html) throw new TypeError('String expected');\n\
-\n\
-  html = html.replace(/^\\s+|\\s+$/g, ''); // Remove leading/trailing whitespace\n\
-\n\
-  // tag name\n\
-  var m = /<([\\w:]+)/.exec(html);\n\
-  if (!m) return document.createTextNode(html);\n\
-  var tag = m[1];\n\
-\n\
-  // body support\n\
-  if (tag == 'body') {\n\
-    var el = document.createElement('html');\n\
-    el.innerHTML = html;\n\
-    return el.removeChild(el.lastChild);\n\
-  }\n\
-\n\
-  // wrap map\n\
-  var wrap = map[tag] || map._default;\n\
-  var depth = wrap[0];\n\
-  var prefix = wrap[1];\n\
-  var suffix = wrap[2];\n\
-  var el = document.createElement('div');\n\
-  el.innerHTML = prefix + html + suffix;\n\
-  while (depth--) el = el.lastChild;\n\
-\n\
-  // Note: when moving children, don't rely on el.children\n\
-  // being 'live' to support Polymer's broken behaviour.\n\
-  // See: https://github.com/component/domify/pull/23\n\
-  if (1 == el.children.length) {\n\
-    return el.removeChild(el.children[0]);\n\
-  }\n\
-\n\
-  var fragment = document.createDocumentFragment();\n\
-  while (el.children.length) {\n\
-    fragment.appendChild(el.removeChild(el.children[0]));\n\
-  }\n\
-\n\
-  return fragment;\n\
-}\n\
-\n\
-//# sourceURL=components/component/domify/1.1.1/index.js"
-));
-
-require.modules["component-domify"] = require.modules["component~domify@1.1.1"];
-require.modules["component~domify"] = require.modules["component~domify@1.1.1"];
-require.modules["domify"] = require.modules["component~domify@1.1.1"];
-
-
-require.register("component~domify@1.3.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `parse`.\n\
- */\n\
-\n\
-module.exports = parse;\n\
-\n\
-/**\n\
- * Tests for browser support.\n\
- */\n\
-\n\
-var div = document.createElement('div');\n\
-// Setup\n\
-div.innerHTML = '  <link/><table></table><a href=\"/a\">a</a><input type=\"checkbox\"/>';\n\
-// Make sure that link elements get serialized correctly by innerHTML\n\
-// This requires a wrapper element in IE\n\
-var innerHTMLBug = !div.getElementsByTagName('link').length;\n\
-div = undefined;\n\
-\n\
-/**\n\
- * Wrap map from jquery.\n\
- */\n\
-\n\
-var map = {\n\
-  legend: [1, '<fieldset>', '</fieldset>'],\n\
-  tr: [2, '<table><tbody>', '</tbody></table>'],\n\
-  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],\n\
-  // for script/link/style tags to work in IE6-8, you have to wrap\n\
-  // in a div with a non-whitespace character in front, ha!\n\
-  _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']\n\
-};\n\
-\n\
-map.td =\n\
-map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];\n\
-\n\
-map.option =\n\
-map.optgroup = [1, '<select multiple=\"multiple\">', '</select>'];\n\
-\n\
-map.thead =\n\
-map.tbody =\n\
-map.colgroup =\n\
-map.caption =\n\
-map.tfoot = [1, '<table>', '</table>'];\n\
-\n\
-map.text =\n\
-map.circle =\n\
-map.ellipse =\n\
-map.line =\n\
-map.path =\n\
-map.polygon =\n\
-map.polyline =\n\
-map.rect = [1, '<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">','</svg>'];\n\
-\n\
-/**\n\
- * Parse `html` and return a DOM Node instance, which could be a TextNode,\n\
- * HTML DOM Node of some kind (<div> for example), or a DocumentFragment\n\
- * instance, depending on the contents of the `html` string.\n\
- *\n\
- * @param {String} html - HTML string to \"domify\"\n\
- * @param {Document} doc - The `document` instance to create the Node for\n\
- * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance\n\
- * @api private\n\
- */\n\
-\n\
-function parse(html, doc) {\n\
-  if ('string' != typeof html) throw new TypeError('String expected');\n\
-\n\
-  // default to the global `document` object\n\
-  if (!doc) doc = document;\n\
-\n\
-  // tag name\n\
-  var m = /<([\\w:]+)/.exec(html);\n\
-  if (!m) return doc.createTextNode(html);\n\
-\n\
-  html = html.replace(/^\\s+|\\s+$/g, ''); // Remove leading/trailing whitespace\n\
-\n\
-  var tag = m[1];\n\
-\n\
-  // body support\n\
-  if (tag == 'body') {\n\
-    var el = doc.createElement('html');\n\
-    el.innerHTML = html;\n\
-    return el.removeChild(el.lastChild);\n\
-  }\n\
-\n\
-  // wrap map\n\
-  var wrap = map[tag] || map._default;\n\
-  var depth = wrap[0];\n\
-  var prefix = wrap[1];\n\
-  var suffix = wrap[2];\n\
-  var el = doc.createElement('div');\n\
-  el.innerHTML = prefix + html + suffix;\n\
-  while (depth--) el = el.lastChild;\n\
-\n\
-  // one element\n\
-  if (el.firstChild == el.lastChild) {\n\
-    return el.removeChild(el.firstChild);\n\
-  }\n\
-\n\
-  // several elements\n\
-  var fragment = doc.createDocumentFragment();\n\
-  while (el.firstChild) {\n\
-    fragment.appendChild(el.removeChild(el.firstChild));\n\
-  }\n\
-\n\
-  return fragment;\n\
-}\n\
-\n\
-//# sourceURL=components/component/domify/1.3.1/index.js"
-));
-
-require.modules["component-domify"] = require.modules["component~domify@1.3.1"];
-require.modules["component~domify"] = require.modules["component~domify@1.3.1"];
-require.modules["domify"] = require.modules["component~domify@1.3.1"];
-
-
-require.register("component~type@1.0.0", Function("exports, module",
-"\n\
-/**\n\
- * toString ref.\n\
- */\n\
-\n\
-var toString = Object.prototype.toString;\n\
-\n\
-/**\n\
- * Return the type of `val`.\n\
- *\n\
- * @param {Mixed} val\n\
- * @return {String}\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(val){\n\
-  switch (toString.call(val)) {\n\
-    case '[object Function]': return 'function';\n\
-    case '[object Date]': return 'date';\n\
-    case '[object RegExp]': return 'regexp';\n\
-    case '[object Arguments]': return 'arguments';\n\
-    case '[object Array]': return 'array';\n\
-    case '[object String]': return 'string';\n\
-  }\n\
-\n\
-  if (val === null) return 'null';\n\
-  if (val === undefined) return 'undefined';\n\
-  if (val && val.nodeType === 1) return 'element';\n\
-  if (val === Object(val)) return 'object';\n\
-\n\
-  return typeof val;\n\
-};\n\
-\n\
-//# sourceURL=components/component/type/1.0.0/index.js"
-));
-
-require.modules["component-type"] = require.modules["component~type@1.0.0"];
-require.modules["component~type"] = require.modules["component~type@1.0.0"];
-require.modules["type"] = require.modules["component~type@1.0.0"];
-
-
-require.register("component~clone@0.2.2", Function("exports, module",
-"/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var type;\n\
-try {\n\
-  type = require('component~type@1.0.0');\n\
-} catch (_) {\n\
-  type = require('component~type@1.0.0');\n\
-}\n\
-\n\
-/**\n\
- * Module exports.\n\
- */\n\
-\n\
-module.exports = clone;\n\
-\n\
-/**\n\
- * Clones objects.\n\
- *\n\
- * @param {Mixed} any object\n\
- * @api public\n\
- */\n\
-\n\
-function clone(obj){\n\
-  switch (type(obj)) {\n\
-    case 'object':\n\
-      var copy = {};\n\
-      for (var key in obj) {\n\
-        if (obj.hasOwnProperty(key)) {\n\
-          copy[key] = clone(obj[key]);\n\
-        }\n\
-      }\n\
-      return copy;\n\
-\n\
-    case 'array':\n\
-      var copy = new Array(obj.length);\n\
-      for (var i = 0, l = obj.length; i < l; i++) {\n\
-        copy[i] = clone(obj[i]);\n\
-      }\n\
-      return copy;\n\
-\n\
-    case 'regexp':\n\
-      // from millermedeiros/amd-utils - MIT\n\
-      var flags = '';\n\
-      flags += obj.multiline ? 'm' : '';\n\
-      flags += obj.global ? 'g' : '';\n\
-      flags += obj.ignoreCase ? 'i' : '';\n\
-      return new RegExp(obj.source, flags);\n\
-\n\
-    case 'date':\n\
-      return new Date(obj.getTime());\n\
-\n\
-    default: // string, number, boolean, …\n\
-      return obj;\n\
-  }\n\
-}\n\
-\n\
-//# sourceURL=components/component/clone/0.2.2/index.js"
-));
-
-require.modules["component-clone"] = require.modules["component~clone@0.2.2"];
-require.modules["component~clone"] = require.modules["component~clone@0.2.2"];
-require.modules["clone"] = require.modules["component~clone@0.2.2"];
-
-
 require.register("component~props@1.1.2", Function("exports, module",
 "/**\n\
  * Global Names\n\
@@ -25649,2123 +25338,6 @@ function get(str) {\n\
 require.modules["component-to-function"] = require.modules["component~to-function@2.0.3"];
 require.modules["component~to-function"] = require.modules["component~to-function@2.0.3"];
 require.modules["to-function"] = require.modules["component~to-function@2.0.3"];
-
-
-require.register("component~each@0.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var type = require('component~type@1.0.0');\n\
-\n\
-/**\n\
- * HOP reference.\n\
- */\n\
-\n\
-var has = Object.prototype.hasOwnProperty;\n\
-\n\
-/**\n\
- * Iterate the given `obj` and invoke `fn(val, i)`.\n\
- *\n\
- * @param {String|Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(obj, fn){\n\
-  switch (type(obj)) {\n\
-    case 'array':\n\
-      return array(obj, fn);\n\
-    case 'object':\n\
-      if ('number' == typeof obj.length) return array(obj, fn);\n\
-      return object(obj, fn);\n\
-    case 'string':\n\
-      return string(obj, fn);\n\
-  }\n\
-};\n\
-\n\
-/**\n\
- * Iterate string chars.\n\
- *\n\
- * @param {String} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function string(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj.charAt(i), i);\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate object keys.\n\
- *\n\
- * @param {Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function object(obj, fn) {\n\
-  for (var key in obj) {\n\
-    if (has.call(obj, key)) {\n\
-      fn(key, obj[key]);\n\
-    }\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate array-ish.\n\
- *\n\
- * @param {Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function array(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj[i], i);\n\
-  }\n\
-}\n\
-//# sourceURL=components/component/each/0.0.1/index.js"
-));
-
-require.modules["component-each"] = require.modules["component~each@0.0.1"];
-require.modules["component~each"] = require.modules["component~each@0.0.1"];
-require.modules["each"] = require.modules["component~each@0.0.1"];
-
-
-require.register("component~each@0.1.0", Function("exports, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var toFunction = require('component~to-function@2.0.3');\n\
-var type;\n\
-\n\
-try {\n\
-  type = require('type-component');\n\
-} catch (e) {\n\
-  type = require('component~type@1.0.0');\n\
-}\n\
-\n\
-/**\n\
- * HOP reference.\n\
- */\n\
-\n\
-var has = Object.prototype.hasOwnProperty;\n\
-\n\
-/**\n\
- * Iterate the given `obj` and invoke `fn(val, i)`.\n\
- *\n\
- * @param {String|Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(obj, fn){\n\
-  fn = toFunction(fn);\n\
-  switch (type(obj)) {\n\
-    case 'array':\n\
-      return array(obj, fn);\n\
-    case 'object':\n\
-      if ('number' == typeof obj.length) return array(obj, fn);\n\
-      return object(obj, fn);\n\
-    case 'string':\n\
-      return string(obj, fn);\n\
-  }\n\
-};\n\
-\n\
-/**\n\
- * Iterate string chars.\n\
- *\n\
- * @param {String} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function string(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj.charAt(i), i);\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate object keys.\n\
- *\n\
- * @param {Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function object(obj, fn) {\n\
-  for (var key in obj) {\n\
-    if (has.call(obj, key)) {\n\
-      fn(key, obj[key]);\n\
-    }\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate array-ish.\n\
- *\n\
- * @param {Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function array(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj[i], i);\n\
-  }\n\
-}\n\
-\n\
-//# sourceURL=components/component/each/0.1.0/index.js"
-));
-
-require.modules["component-each"] = require.modules["component~each@0.1.0"];
-require.modules["component~each"] = require.modules["component~each@0.1.0"];
-require.modules["each"] = require.modules["component~each@0.1.0"];
-
-
-require.register("component~trim@0.0.1", Function("exports, module",
-"\n\
-exports = module.exports = trim;\n\
-\n\
-function trim(str){\n\
-  if (str.trim) return str.trim();\n\
-  return str.replace(/^\\s*|\\s*$/g, '');\n\
-}\n\
-\n\
-exports.left = function(str){\n\
-  if (str.trimLeft) return str.trimLeft();\n\
-  return str.replace(/^\\s*/, '');\n\
-};\n\
-\n\
-exports.right = function(str){\n\
-  if (str.trimRight) return str.trimRight();\n\
-  return str.replace(/\\s*$/, '');\n\
-};\n\
-\n\
-//# sourceURL=components/component/trim/0.0.1/index.js"
-));
-
-require.modules["component-trim"] = require.modules["component~trim@0.0.1"];
-require.modules["component~trim"] = require.modules["component~trim@0.0.1"];
-require.modules["trim"] = require.modules["component~trim@0.0.1"];
-
-
-require.register("component~value@1.1.0", Function("exports, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var typeOf = require('component~type@1.0.0');\n\
-\n\
-/**\n\
- * Set or get `el`'s' value.\n\
- *\n\
- * @param {Element} el\n\
- * @param {Mixed} val\n\
- * @return {Mixed}\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(el, val){\n\
-  if (2 == arguments.length) return set(el, val);\n\
-  return get(el);\n\
-};\n\
-\n\
-/**\n\
- * Get `el`'s value.\n\
- */\n\
-\n\
-function get(el) {\n\
-  switch (type(el)) {\n\
-    case 'checkbox':\n\
-    case 'radio':\n\
-      if (el.checked) {\n\
-        var attr = el.getAttribute('value');\n\
-        return null == attr ? true : attr;\n\
-      } else {\n\
-        return false;\n\
-      }\n\
-    case 'radiogroup':\n\
-      for (var i = 0, radio; radio = el[i]; i++) {\n\
-        if (radio.checked) return radio.value;\n\
-      }\n\
-      break;\n\
-    case 'select':\n\
-      for (var i = 0, option; option = el.options[i]; i++) {\n\
-        if (option.selected) return option.value;\n\
-      }\n\
-      break;\n\
-    default:\n\
-      return el.value;\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Set `el`'s value.\n\
- */\n\
-\n\
-function set(el, val) {\n\
-  switch (type(el)) {\n\
-    case 'checkbox':\n\
-    case 'radio':\n\
-      if (val) {\n\
-        el.checked = true;\n\
-      } else {\n\
-        el.checked = false;\n\
-      }\n\
-      break;\n\
-    case 'radiogroup':\n\
-      for (var i = 0, radio; radio = el[i]; i++) {\n\
-        radio.checked = radio.value === val;\n\
-      }\n\
-      break;\n\
-    case 'select':\n\
-      for (var i = 0, option; option = el.options[i]; i++) {\n\
-        option.selected = option.value === val;\n\
-      }\n\
-      break;\n\
-    default:\n\
-      el.value = val;\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Element type.\n\
- */\n\
-\n\
-function type(el) {\n\
-  var group = 'array' == typeOf(el) || 'object' == typeOf(el);\n\
-  if (group) el = el[0];\n\
-  var name = el.nodeName.toLowerCase();\n\
-  var type = el.getAttribute('type');\n\
-\n\
-  if (group && type && 'radio' == type.toLowerCase()) return 'radiogroup';\n\
-  if ('input' == name && type && 'checkbox' == type.toLowerCase()) return 'checkbox';\n\
-  if ('input' == name && type && 'radio' == type.toLowerCase()) return 'radio';\n\
-  if ('select' == name) return 'select';\n\
-  return name;\n\
-}\n\
-\n\
-//# sourceURL=components/component/value/1.1.0/index.js"
-));
-
-require.modules["component-value"] = require.modules["component~value@1.1.0"];
-require.modules["component~value"] = require.modules["component~value@1.1.0"];
-require.modules["value"] = require.modules["component~value@1.1.0"];
-
-
-require.register("component~bind@1.0.0", Function("exports, module",
-"/**\n\
- * Slice reference.\n\
- */\n\
-\n\
-var slice = [].slice;\n\
-\n\
-/**\n\
- * Bind `obj` to `fn`.\n\
- *\n\
- * @param {Object} obj\n\
- * @param {Function|String} fn or string\n\
- * @return {Function}\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(obj, fn){\n\
-  if ('string' == typeof fn) fn = obj[fn];\n\
-  if ('function' != typeof fn) throw new Error('bind() requires a function');\n\
-  var args = slice.call(arguments, 2);\n\
-  return function(){\n\
-    return fn.apply(obj, args.concat(slice.call(arguments)));\n\
-  }\n\
-};\n\
-\n\
-//# sourceURL=components/component/bind/1.0.0/index.js"
-));
-
-require.modules["component-bind"] = require.modules["component~bind@1.0.0"];
-require.modules["component~bind"] = require.modules["component~bind@1.0.0"];
-require.modules["bind"] = require.modules["component~bind@1.0.0"];
-
-
-require.register("segmentio~bind-all@0.0.2", Function("exports, module",
-"\n\
-try {\n\
-  var bind = require('component~bind@1.0.0');\n\
-  var type = require('component~type@1.0.0');\n\
-} catch (e) {\n\
-  var bind = require('bind-component');\n\
-  var type = require('type-component');\n\
-}\n\
-\n\
-module.exports = function (obj) {\n\
-  for (var key in obj) {\n\
-    var val = obj[key];\n\
-    if (type(val) === 'function') obj[key] = bind(obj, obj[key]);\n\
-  }\n\
-  return obj;\n\
-};\n\
-//# sourceURL=components/segmentio/bind-all/0.0.2/index.js"
-));
-
-require.modules["segmentio-bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
-require.modules["segmentio~bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
-require.modules["bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
-
-
-require.register("ianstormtaylor~bind@0.0.2", Function("exports, module",
-"\n\
-try {\n\
-  var bind = require('component~bind@1.0.0');\n\
-} catch (e) {\n\
-  var bind = require('bind-component');\n\
-}\n\
-\n\
-var bindAll = require('segmentio~bind-all@0.0.2');\n\
-\n\
-\n\
-/**\n\
- * Expose `bind`.\n\
- */\n\
-\n\
-module.exports = exports = bind;\n\
-\n\
-\n\
-/**\n\
- * Expose `bindAll`.\n\
- */\n\
-\n\
-exports.all = bindAll;\n\
-\n\
-\n\
-/**\n\
- * Expose `bindMethods`.\n\
- */\n\
-\n\
-exports.methods = bindMethods;\n\
-\n\
-\n\
-/**\n\
- * Bind `methods` on `obj` to always be called with the `obj` as context.\n\
- *\n\
- * @param {Object} obj\n\
- * @param {String} methods...\n\
- */\n\
-\n\
-function bindMethods (obj, methods) {\n\
-  methods = [].slice.call(arguments, 1);\n\
-  for (var i = 0, method; method = methods[i]; i++) {\n\
-    obj[method] = bind(obj, obj[method]);\n\
-  }\n\
-  return obj;\n\
-}\n\
-//# sourceURL=components/ianstormtaylor/bind/0.0.2/index.js"
-));
-
-require.modules["ianstormtaylor-bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
-require.modules["ianstormtaylor~bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
-require.modules["bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
-
-
-require.register("segmentio~is-email@0.1.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `isEmail`.\n\
- */\n\
-\n\
-module.exports = isEmail;\n\
-\n\
-\n\
-/**\n\
- * Email address matcher.\n\
- */\n\
-\n\
-var matcher = /.+\\@.+\\..+/;\n\
-\n\
-\n\
-/**\n\
- * Loosely validate an email address.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isEmail (string) {\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-email/0.1.1/index.js"
-));
-
-require.modules["segmentio-is-email"] = require.modules["segmentio~is-email@0.1.1"];
-require.modules["segmentio~is-email"] = require.modules["segmentio~is-email@0.1.1"];
-require.modules["is-email"] = require.modules["segmentio~is-email@0.1.1"];
-
-
-require.register("segmentio~is-hex-color@0.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `isHexColor`.\n\
- */\n\
-\n\
-module.exports = isHexColor;\n\
-\n\
-\n\
-/**\n\
- * Hex color matcher.\n\
- */\n\
-\n\
-var matcher = /^#[a-f0-9]{3}([a-f0-9]{3})?$/i;\n\
-\n\
-\n\
-/**\n\
- * Check whether a `string` is a hex color.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isHexColor (string) {\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-hex-color/0.0.1/index.js"
-));
-
-require.modules["segmentio-is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
-require.modules["segmentio~is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
-require.modules["is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
-
-
-require.register("segmentio~is-hsl-color@0.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `isHslColor`.\n\
- */\n\
-\n\
-module.exports = isHslColor;\n\
-\n\
-\n\
-/**\n\
- * HSL(A) color matcher.\n\
- */\n\
-\n\
-var matcher = /^hsla?\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}%\\s*,\\s*\\d{1,3}%\\s*(,\\s*[\\d\\.]+)?\\s*\\)$/;\n\
-\n\
-\n\
-/**\n\
- * Loosely check whether a `string` is an HSL(A) color string.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isHslColor (string) {\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-hsl-color/0.0.1/index.js"
-));
-
-require.modules["segmentio-is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
-require.modules["segmentio~is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
-require.modules["is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
-
-
-require.register("segmentio~is-rgb-color@0.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Expose `isRgbColor`.\n\
- */\n\
-\n\
-module.exports = isRgbColor;\n\
-\n\
-\n\
-/**\n\
- * RGB(A) color matcher.\n\
- */\n\
-\n\
-var matcher = /^rgba?\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*(,\\s*[\\d\\.]+)?\\s*\\)$/;\n\
-\n\
-\n\
-/**\n\
- * Loosely check whether a `string` is an RGB(A) color string.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isRgbColor (string) {\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-rgb-color/0.0.1/index.js"
-));
-
-require.modules["segmentio-is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
-require.modules["segmentio~is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
-require.modules["is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
-
-
-require.register("segmentio~is-url@0.1.0", Function("exports, module",
-"\n\
-/**\n\
- * Expose `isUrl`.\n\
- */\n\
-\n\
-module.exports = isUrl;\n\
-\n\
-\n\
-/**\n\
- * Matcher.\n\
- */\n\
-\n\
-var matcher = /^(ftp|https?):\\/\\/([^\\s\\.]+\\.[^\\s]{2,}|localhost)$/;\n\
-\n\
-\n\
-/**\n\
- * Loosely validate a URL.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isUrl (string) {\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-url/0.1.0/index.js"
-));
-
-require.modules["segmentio-is-url"] = require.modules["segmentio~is-url@0.1.0"];
-require.modules["segmentio~is-url"] = require.modules["segmentio~is-url@0.1.0"];
-require.modules["is-url"] = require.modules["segmentio~is-url@0.1.0"];
-
-
-require.register("segmentio~is-domain@0.0.1", Function("exports, module",
-"/**\n\
- * Expose `isDomain`.\n\
- */\n\
-\n\
-module.exports = isDomain;\n\
-\n\
-/**\n\
- * Matcher.\n\
- */\n\
-\n\
-var matcher = /^[a-zA-Z0-9_-]+\\.[.a-zA-Z0-9_-]+$/;\n\
-\n\
-/**\n\
- * Loosely validate a domain `string`.\n\
- *\n\
- * @param {String} string\n\
- * @return {Boolean}\n\
- */\n\
-\n\
-function isDomain(string){\n\
-  return matcher.test(string);\n\
-}\n\
-//# sourceURL=components/segmentio/is-domain/0.0.1/lib/index.js"
-));
-
-require.modules["segmentio-is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
-require.modules["segmentio~is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
-require.modules["is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
-
-
-require.register("timoxley~keycode@2.0.0", Function("exports, module",
-"// Source: http://jsfiddle.net/vWx8V/\n\
-// http://stackoverflow.com/questions/5603195/full-list-of-javascript-keycodes\n\
-\n\
-\n\
-\n\
-/**\n\
- * Conenience method returns corresponding value for given keyName or keyCode.\n\
- *\n\
- * @param {Mixed} keyCode {Number} or keyName {String}\n\
- * @return {Mixed}\n\
- * @api public\n\
- */\n\
-\n\
-exports = module.exports = function(searchInput) {\n\
-  // Keyboard Events\n\
-  if (searchInput && 'object' === typeof searchInput) {\n\
-    var hasKeyCode = searchInput.which || searchInput.keyCode || searchInput.charCode\n\
-    if (hasKeyCode) searchInput = hasKeyCode\n\
-  }\n\
-\n\
-  // Numbers\n\
-  if ('number' === typeof searchInput) return names[searchInput]\n\
-\n\
-  // Everything else (cast to string)\n\
-  var search = String(searchInput)\n\
-\n\
-  // check codes\n\
-  var foundNamedKey = codes[search.toLowerCase()]\n\
-  if (foundNamedKey) return foundNamedKey\n\
-\n\
-  // check aliases\n\
-  var foundNamedKey = aliases[search.toLowerCase()]\n\
-  if (foundNamedKey) return foundNamedKey\n\
-\n\
-  // weird character?\n\
-  if (search.length === 1) return search.charCodeAt(0)\n\
-\n\
-  return undefined\n\
-}\n\
-\n\
-/**\n\
- * Get by name\n\
- *\n\
- *   exports.code['enter'] // => 13\n\
- */\n\
-\n\
-var codes = exports.code = exports.codes = {\n\
-  'backspace': 8,\n\
-  'tab': 9,\n\
-  'enter': 13,\n\
-  'shift': 16,\n\
-  'ctrl': 17,\n\
-  'alt': 18,\n\
-  'pause/break': 19,\n\
-  'caps lock': 20,\n\
-  'esc': 27,\n\
-  'space': 32,\n\
-  'page up': 33,\n\
-  'page down': 34,\n\
-  'end': 35,\n\
-  'home': 36,\n\
-  'left': 37,\n\
-  'up': 38,\n\
-  'right': 39,\n\
-  'down': 40,\n\
-  'insert': 45,\n\
-  'delete': 46,\n\
-  'command': 91,\n\
-  'right click': 93,\n\
-  'numpad *': 106,\n\
-  'numpad +': 107,\n\
-  'numpad -': 109,\n\
-  'numpad .': 110,\n\
-  'numpad /': 111,\n\
-  'num lock': 144,\n\
-  'scroll lock': 145,\n\
-  'my computer': 182,\n\
-  'my calculator': 183,\n\
-  ';': 186,\n\
-  '=': 187,\n\
-  ',': 188,\n\
-  '-': 189,\n\
-  '.': 190,\n\
-  '/': 191,\n\
-  '`': 192,\n\
-  '[': 219,\n\
-  '\\\\': 220,\n\
-  ']': 221,\n\
-  \"'\": 222,\n\
-}\n\
-\n\
-// Helper aliases\n\
-\n\
-var aliases = exports.aliases = {\n\
-  'windows': 91,\n\
-  '⇧': 16,\n\
-  '⌥': 18,\n\
-  '⌃': 17,\n\
-  '⌘': 91,\n\
-  'ctl': 17,\n\
-  'control': 17,\n\
-  'option': 18,\n\
-  'pause': 19,\n\
-  'break': 19,\n\
-  'caps': 20,\n\
-  'escape': 27,\n\
-  'spc': 32,\n\
-  'pgup': 33,\n\
-  'pgdn': 33,\n\
-  'ins': 45,\n\
-  'del': 46,\n\
-  'cmd': 91\n\
-}\n\
-\n\
-\n\
-/*!\n\
- * Programatically add the following\n\
- */\n\
-\n\
-// lower case chars\n\
-for (i = 97; i < 123; i++) codes[String.fromCharCode(i)] = i - 32\n\
-\n\
-// numbers\n\
-for (var i = 48; i < 58; i++) codes[i - 48] = i\n\
-\n\
-// function keys\n\
-for (i = 1; i < 13; i++) codes['f'+i] = i + 111\n\
-\n\
-// numpad keys\n\
-for (i = 0; i < 10; i++) codes['numpad '+i] = i + 96\n\
-\n\
-/**\n\
- * Get by code\n\
- *\n\
- *   exports.name[13] // => 'Enter'\n\
- */\n\
-\n\
-var names = exports.names = exports.title = {} // title for backward compat\n\
-\n\
-// Create reverse mapping\n\
-for (i in codes) names[codes[i]] = i\n\
-\n\
-// Add aliases\n\
-for (var alias in aliases) {\n\
-  codes[alias] = aliases[alias]\n\
-}\n\
-\n\
-//# sourceURL=components/timoxley/keycode/2.0.0/index.js"
-));
-
-require.modules["timoxley-keycode"] = require.modules["timoxley~keycode@2.0.0"];
-require.modules["timoxley~keycode"] = require.modules["timoxley~keycode@2.0.0"];
-require.modules["keycode"] = require.modules["timoxley~keycode@2.0.0"];
-
-
-require.register("segmentio~extend@1.0.0", Function("exports, module",
-"\n\
-module.exports = function extend (object) {\n\
-    // Takes an unlimited number of extenders.\n\
-    var args = Array.prototype.slice.call(arguments, 1);\n\
-\n\
-    // For each extender, copy their properties on our object.\n\
-    for (var i = 0, source; source = args[i]; i++) {\n\
-        if (!source) continue;\n\
-        for (var property in source) {\n\
-            object[property] = source[property];\n\
-        }\n\
-    }\n\
-\n\
-    return object;\n\
-};\n\
-//# sourceURL=components/segmentio/extend/1.0.0/index.js"
-));
-
-require.modules["segmentio-extend"] = require.modules["segmentio~extend@1.0.0"];
-require.modules["segmentio~extend"] = require.modules["segmentio~extend@1.0.0"];
-require.modules["extend"] = require.modules["segmentio~extend@1.0.0"];
-
-
-require.register("ianstormtaylor~create-event@0.0.4", Function("exports, module",
-"\n\
-var extend = require('segmentio~extend@1.0.0')\n\
-  , keycode = require('timoxley~keycode@2.0.0');\n\
-\n\
-\n\
-/**\n\
- * Expose `createEvent`.\n\
- */\n\
-\n\
-module.exports = !!document.createEvent\n\
-  ? createEvent\n\
-  : createIeEvent;\n\
-\n\
-\n\
-/**\n\
- * Default options.\n\
- */\n\
-\n\
-var defaults = {\n\
-  alt           : false,\n\
-  bubbles       : true,\n\
-  button        : 0,\n\
-  cancelable    : true,\n\
-  clientX       : 0,\n\
-  clientY       : 0,\n\
-  ctrl          : false,\n\
-  detail        : 1,\n\
-  key           : 0,\n\
-  meta          : false,\n\
-  relatedTarget : null,\n\
-  screenX       : 0,\n\
-  screenY       : 0,\n\
-  shift         : false,\n\
-  view          : window\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Create a non-IE event object.\n\
- *\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- */\n\
-\n\
-function createEvent (type, options) {\n\
-  switch (type) {\n\
-    case 'dblclick':\n\
-    case 'click':\n\
-      return createMouseEvent(type, options);\n\
-    case 'keydown':\n\
-    case 'keyup':\n\
-      return createKeyboardEvent(type, options);\n\
-  }\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Create a non-IE mouse event.\n\
- *\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- */\n\
-\n\
-function createMouseEvent (type, options) {\n\
-  options = clean(type, options);\n\
-  var e = document.createEvent('MouseEvent');\n\
-  e.initMouseEvent(\n\
-    type,\n\
-    options.bubbles,      // bubbles?\n\
-    options.cancelable,   // cancelable?\n\
-    options.view,         // view\n\
-    options.detail,       // detail\n\
-    options.screenX,      // screenX\n\
-    options.screenY,      // screenY\n\
-    options.clientX ,     // clientX\n\
-    options.clientY,      // clientY\n\
-    options.ctrl,         // ctrlKey\n\
-    options.alt,          // altKey\n\
-    options.shift,        // shiftKey\n\
-    options.meta,         // metaKey\n\
-    options.button,       // button\n\
-    options.relatedTarget // relatedTarget\n\
-  );\n\
-  return e;\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Create a non-IE keyboard event.\n\
- *\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- */\n\
-\n\
-function createKeyboardEvent (type, options) {\n\
-  options = clean(type, options);\n\
-  var e = document.createEvent('KeyboardEvent');\n\
-  (e.initKeyEvent || e.initKeyboardEvent).call(\n\
-    e,\n\
-    type,\n\
-    options.bubbles,    // bubbles?\n\
-    options.cancelable, // cancelable?\n\
-    options.view,       // view\n\
-    options.ctrl,       // ctrlKey\n\
-    options.alt,        // altKey\n\
-    options.shift,      // shiftKey\n\
-    options.meta,       // metaKey\n\
-    options.key,        // keyCode\n\
-    options.key         // charCode\n\
-  );\n\
-\n\
-  // super hack: http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017\n\
-  if (e.keyCode !== options.key) {\n\
-    Object.defineProperty(e, 'keyCode', {\n\
-      get: function () { return options.key; }\n\
-    });\n\
-    Object.defineProperty(e, 'charCode', {\n\
-      get: function () { return options.key; }\n\
-    });\n\
-    Object.defineProperty(e, 'which', {\n\
-      get: function () { return options.key; }\n\
-    });\n\
-    Object.defineProperty(e, 'shiftKey', {\n\
-      get: function () { return options.shift; }\n\
-    });\n\
-  }\n\
-\n\
-  return e;\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Create an IE event. Surprisingly nicer API, eh?\n\
- *\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- */\n\
-\n\
-function createIeEvent (type, options) {\n\
-  options = clean(type, options);\n\
-  var e = document.createEventObject();\n\
-  e.altKey = options.alt;\n\
-  e.bubbles = options.bubbles;\n\
-  e.button = options.button;\n\
-  e.cancelable = options.cancelable;\n\
-  e.clientX = options.clientX;\n\
-  e.clientY = options.clientY;\n\
-  e.ctrlKey = options.ctrl;\n\
-  e.detail = options.detail;\n\
-  e.metaKey = options.meta;\n\
-  e.screenX = options.screenX;\n\
-  e.screenY = options.screenY;\n\
-  e.shiftKey = options.shift;\n\
-  e.keyCode = options.key;\n\
-  e.charCode = options.key;\n\
-  e.view = options.view;\n\
-  return e;\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Back an `options` object by defaults, and convert some convenience features.\n\
- *\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- * @return {Object} [description]\n\
- */\n\
-\n\
-function clean (type, options) {\n\
-  options = extend({}, defaults, options);\n\
-  if ('dblclick' === type) options.detail = 2;\n\
-  if ('string' === typeof options.key) options.key = keycode(options.key);\n\
-  return options;\n\
-}\n\
-\n\
-//# sourceURL=components/ianstormtaylor/create-event/0.0.4/index.js"
-));
-
-require.modules["ianstormtaylor-create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
-require.modules["ianstormtaylor~create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
-require.modules["create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
-
-
-require.register("ianstormtaylor~trigger-event@0.1.0", Function("exports, module",
-"\n\
-var create = require('ianstormtaylor~create-event@0.0.4');\n\
-\n\
-\n\
-/**\n\
- * Expose `trigger`.\n\
- */\n\
-\n\
-module.exports = trigger;\n\
-\n\
-\n\
-/**\n\
- * Trigger an event of `type` on an `el` with `options`.\n\
- *\n\
- * @param {Element} el\n\
- * @param {String} type\n\
- * @param {Object} options\n\
- */\n\
-\n\
-function trigger (el, type, options) {\n\
-\n\
-  // default el is `document`\n\
-  if ('string' === typeof el) {\n\
-    options = type;\n\
-    type = el;\n\
-    el = document;\n\
-  }\n\
-\n\
-  var e = create(type, options);\n\
-  el.dispatchEvent\n\
-    ? el.dispatchEvent(e)\n\
-    : el.fireEvent(ieify(type), e);\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Convert a type into an IE-specific type.\n\
- *\n\
- * @param {String} type\n\
- * @return {String}\n\
- */\n\
-\n\
-function ieify (type) {\n\
-  return 'on' + type[0].toUpperCase() + type.slice(1);\n\
-}\n\
-//# sourceURL=components/ianstormtaylor/trigger-event/0.1.0/index.js"
-));
-
-require.modules["ianstormtaylor-trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
-require.modules["ianstormtaylor~trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
-require.modules["trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
-
-
-require.register("segmentio~submit-form@0.0.1", Function("exports, module",
-"\n\
-var trigger = require('ianstormtaylor~trigger-event@0.1.0');\n\
-\n\
-\n\
-/**\n\
- * Expose `submitForm`.\n\
- */\n\
-\n\
-module.exports = submitForm;\n\
-\n\
-\n\
-/**\n\
- * Submit a `form` programmatically, triggering submit handlers.\n\
- *\n\
- * @param {Element} form\n\
- */\n\
-\n\
-function submitForm (form) {\n\
-  var button = document.createElement('button');\n\
-  button.style.display = 'none';\n\
-  form.appendChild(button);\n\
-  trigger(button, 'click');\n\
-  form.removeChild(button);\n\
-}\n\
-//# sourceURL=components/segmentio/submit-form/0.0.1/index.js"
-));
-
-require.modules["segmentio-submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
-require.modules["segmentio~submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
-require.modules["submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
-
-
-require.register("segmentio~each@0.1.1", Function("exports, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var toFunction = require('component~to-function@2.0.3');\n\
-var type;\n\
-\n\
-try {\n\
-  type = require('type-component');\n\
-} catch (e) {\n\
-  type = require('component~type@1.0.0');\n\
-}\n\
-\n\
-/**\n\
- * HOP reference.\n\
- */\n\
-\n\
-var has = Object.prototype.hasOwnProperty;\n\
-\n\
-/**\n\
- * Iterate the given `obj` and invoke `fn(val, i)`.\n\
- *\n\
- * @param {String|Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api public\n\
- */\n\
-\n\
-module.exports = function(obj, fn){\n\
-  fn = toFunction(fn);\n\
-  switch (type(obj)) {\n\
-    case 'array':\n\
-      return array(obj, fn);\n\
-    case 'object':\n\
-      if ('number' == typeof obj.length) return array(obj, fn);\n\
-      return object(obj, fn);\n\
-    case 'string':\n\
-      return string(obj, fn);\n\
-  }\n\
-};\n\
-\n\
-/**\n\
- * Iterate string chars.\n\
- *\n\
- * @param {String} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function string(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj.charAt(i), i);\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate object keys.\n\
- *\n\
- * @param {Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function object(obj, fn) {\n\
-  for (var key in obj) {\n\
-    if (has.call(obj, key)) {\n\
-      fn(key, obj[key]);\n\
-    }\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Iterate array-ish.\n\
- *\n\
- * @param {Array|Object} obj\n\
- * @param {Function} fn\n\
- * @api private\n\
- */\n\
-\n\
-function array(obj, fn) {\n\
-  for (var i = 0; i < obj.length; ++i) {\n\
-    fn(obj[i], i);\n\
-  }\n\
-}\n\
-\n\
-//# sourceURL=components/segmentio/each/0.1.1/index.js"
-));
-
-require.modules["segmentio-each"] = require.modules["segmentio~each@0.1.1"];
-require.modules["segmentio~each"] = require.modules["segmentio~each@0.1.1"];
-require.modules["each"] = require.modules["segmentio~each@0.1.1"];
-
-
-require.register("timoxley~next-tick@0.0.2", Function("exports, module",
-"\"use strict\"\n\
-\n\
-if (typeof setImmediate == 'function') {\n\
-  module.exports = function(f){ setImmediate(f) }\n\
-}\n\
-// legacy node.js\n\
-else if (typeof process != 'undefined' && typeof process.nextTick == 'function') {\n\
-  module.exports = process.nextTick\n\
-}\n\
-// fallback for other environments / postMessage behaves badly on IE8\n\
-else if (typeof window == 'undefined' || window.ActiveXObject || !window.postMessage) {\n\
-  module.exports = function(f){ setTimeout(f) };\n\
-} else {\n\
-  var q = [];\n\
-\n\
-  window.addEventListener('message', function(){\n\
-    var i = 0;\n\
-    while (i < q.length) {\n\
-      try { q[i++](); }\n\
-      catch (e) {\n\
-        q = q.slice(i);\n\
-        window.postMessage('tic!', '*');\n\
-        throw e;\n\
-      }\n\
-    }\n\
-    q.length = 0;\n\
-  }, true);\n\
-\n\
-  module.exports = function(fn){\n\
-    if (!q.length) window.postMessage('tic!', '*');\n\
-    q.push(fn);\n\
-  }\n\
-}\n\
-\n\
-//# sourceURL=components/timoxley/next-tick/0.0.2/index.js"
-));
-
-require.modules["timoxley-next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
-require.modules["timoxley~next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
-require.modules["next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
-
-
-require.register("segmentio~ware@0.2.0", Function("exports, module",
-"\n\
-/**\n\
- * Expose `Ware`.\n\
- */\n\
-\n\
-module.exports = Ware;\n\
-\n\
-\n\
-/**\n\
- * Initialize a new `Ware` manager.\n\
- */\n\
-\n\
-function Ware () {\n\
-  if (!(this instanceof Ware)) return new Ware();\n\
-  this.fns = [];\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Use a middleware `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Ware}\n\
- */\n\
-\n\
-Ware.prototype.use = function (fn) {\n\
-  this.fns.push(fn);\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Run through the middleware with the given `args` and optional `callback`.\n\
- *\n\
- * @param {Mixed} args...\n\
- * @param {Function} callback (optional)\n\
- * @return {Ware}\n\
- */\n\
-\n\
-Ware.prototype.run = function () {\n\
-  var fns = this.fns;\n\
-  var i = 0;\n\
-  var last = arguments[arguments.length - 1];\n\
-  var callback = 'function' == typeof last ? last : null;\n\
-  var args = callback\n\
-    ? [].slice.call(arguments, 0, arguments.length - 1)\n\
-    : [].slice.call(arguments);\n\
-\n\
-  function next (err) {\n\
-    var fn = fns[i++];\n\
-    if (!fn) return callback && callback.apply(null, [err].concat(args));\n\
-    if (fn.length < args.length + 2 && err) return next(err);\n\
-\n\
-    var arr = [].slice.call(args);\n\
-    if (err) arr.unshift(err);\n\
-    arr.push(next);\n\
-    fn.apply(null, arr);\n\
-  }\n\
-\n\
-  next();\n\
-  return this;\n\
-};\n\
-//# sourceURL=components/segmentio/ware/0.2.0/lib/index.js"
-));
-
-require.modules["segmentio-ware"] = require.modules["segmentio~ware@0.2.0"];
-require.modules["segmentio~ware"] = require.modules["segmentio~ware@0.2.0"];
-require.modules["ware"] = require.modules["segmentio~ware@0.2.0"];
-
-
-require.register("segmentio~validator@0.0.13", Function("exports, module",
-"\n\
-var ware = require('segmentio~ware@0.2.0');\n\
-var each;\n\
-\n\
-/**\n\
- * Try to require from component and node\n\
- */\n\
-\n\
-try {\n\
-  each = require('segmentio~each@0.1.1');\n\
-} catch (err) {\n\
-  each = require('each-component');\n\
-}\n\
-\n\
-/**\n\
- * Trace helper.\n\
- *\n\
- * TODO: move to npm\n\
- */\n\
-\n\
-function tracer(trace) {\n\
-  var ids = 0;\n\
-  return function(name, obj){\n\
-    var id = ++ids;\n\
-    obj = obj || {};\n\
-    obj.id = id;\n\
-\n\
-    trace(name + ':start', obj);\n\
-    return function(obj){\n\
-      trace(name + ':end');\n\
-    }\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Expose `Validator`.\n\
- */\n\
-\n\
-module.exports = Validator;\n\
-\n\
-/**\n\
- * Initialize a new `Validator`.\n\
- */\n\
-\n\
-function Validator (opts) {\n\
-  if (!(this instanceof Validator)) return new Validator(opts);\n\
-  opts = opts || {};\n\
-  this.trace = tracer(opts.trace || function(){});\n\
-  this.rules = [];\n\
-  this._optional = false;\n\
-}\n\
-\n\
-/**\n\
- * Add a new rule `fn`, with optional `context`.\n\
- *\n\
- * @param {Function} fn\n\
- * @param {Mixed} context (optional)\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.rule = function (fn, context) {\n\
-  this.rules.push({\n\
-    fn: fn,\n\
-    context: context\n\
-  });\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Kick off the validation against all our rules.\n\
- *\n\
- * @param {Function} callback(err, valid, [context])\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.validate = function (value, callback) {\n\
-  var rules = this.rules;\n\
-  var optional = this._optional;\n\
-  var middleware = ware();\n\
-  var trace = this.trace;\n\
-\n\
-  each(rules, function (rule) {\n\
-    middleware.use(function (value, done) {\n\
-\n\
-      // handle optional setting\n\
-      if (!value && optional) return done();\n\
-\n\
-      // dont handle errors so that things like fs.exists work\n\
-      var finish = function (err, valid) {\n\
-        if (err) return done(err);\n\
-        if (!valid) return done(new ValidationError(rule));\n\
-        done();\n\
-      };\n\
-\n\
-      // async\n\
-      if (rule.fn.length > 1) {\n\
-        var end = trace('validator:' + rule.fn.name);\n\
-        return rule.fn(value, function(){\n\
-          end();\n\
-          finish.apply(null, arguments);\n\
-        });\n\
-      }\n\
-\n\
-      // sync\n\
-      var end = trace('validator:' + rule.fn.name);\n\
-      var val = rule.fn(value);\n\
-      end();\n\
-      finish(null, val);\n\
-    });\n\
-  });\n\
-\n\
-  middleware.run(value, function (err) {\n\
-    if (!err) return callback(null, true);\n\
-    if (err && err instanceof ValidationError) {\n\
-      return callback(null, false, err.rule.context);\n\
-    }\n\
-    return callback(err);\n\
-  });\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Make the validator pass on empty values.\n\
- *\n\
- * @param {Boolean} optional\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.optional = function (optional) {\n\
-  this._optional = false === optional ? false : true;\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * A simple error constructor to store the rule.\n\
- */\n\
-\n\
-function ValidationError (rule) {\n\
-  this.rule = rule;\n\
-}\n\
-//# sourceURL=components/segmentio/validator/0.0.13/index.js"
-));
-
-require.modules["segmentio-validator"] = require.modules["segmentio~validator@0.0.13"];
-require.modules["segmentio~validator"] = require.modules["segmentio~validator@0.0.13"];
-require.modules["validator"] = require.modules["segmentio~validator@0.0.13"];
-
-
-require.register("yields~prevent@0.0.2", Function("exports, module",
-"\n\
-/**\n\
- * prevent default on the given `e`.\n\
- * \n\
- * examples:\n\
- * \n\
- *      anchor.onclick = prevent;\n\
- *      anchor.onclick = function(e){\n\
- *        if (something) return prevent(e);\n\
- *      };\n\
- * \n\
- * @param {Event} e\n\
- */\n\
-\n\
-module.exports = function(e){\n\
-  e = e || window.event\n\
-  return e.preventDefault\n\
-    ? e.preventDefault()\n\
-    : e.returnValue = false;\n\
-};\n\
-\n\
-//# sourceURL=components/yields/prevent/0.0.2/index.js"
-));
-
-require.modules["yields-prevent"] = require.modules["yields~prevent@0.0.2"];
-require.modules["yields~prevent"] = require.modules["yields~prevent@0.0.2"];
-require.modules["prevent"] = require.modules["yields~prevent@0.0.2"];
-
-
-require.register("yields~stop@0.0.2", Function("exports, module",
-"\n\
-/**\n\
- * stop propagation on the given `e`.\n\
- * \n\
- * examples:\n\
- * \n\
- *      anchor.onclick = require('stop');\n\
- *      anchor.onclick = function(e){\n\
- *        if (!some) return require('stop')(e);\n\
- *      };\n\
- * \n\
- * \n\
- * @param {Event} e\n\
- */\n\
-\n\
-module.exports = function(e){\n\
-  e = e || window.event;\n\
-  return e.stopPropagation\n\
-    ? e.stopPropagation()\n\
-    : e.cancelBubble = true;\n\
-};\n\
-\n\
-//# sourceURL=components/yields/stop/0.0.2/index.js"
-));
-
-require.modules["yields-stop"] = require.modules["yields~stop@0.0.2"];
-require.modules["yields~stop"] = require.modules["yields~stop@0.0.2"];
-require.modules["stop"] = require.modules["yields~stop@0.0.2"];
-
-
-require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js", Function("exports, module",
-"\n\
-var classes = require('component~classes@1.1.4');\n\
-var domify = require('component~domify@1.1.1');\n\
-var next = require('ianstormtaylor~next-sibling@0.0.1');\n\
-var type = require('component~type@1.0.0');\n\
-var value = require('component~value@1.1.0');\n\
-\n\
-\n\
-/**\n\
- * Default element accessor.\n\
- *\n\
- * @param {Element|Object} view\n\
- */\n\
-\n\
-exports.el = function (view) {\n\
-  if (view.el) return view.el; // handle views\n\
-  return view;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Default value method.\n\
- *\n\
- * @param {Element|Object} view\n\
- */\n\
-\n\
-exports.value = function (view) {\n\
-  var el = this.el(view);\n\
-  if ('function' == typeof view.value) return view.value();\n\
-  if ('element' != type(el)) return;\n\
-  return value(el);\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Default valid method.\n\
- *\n\
- * @param {Element|Object} view\n\
- */\n\
-\n\
-exports.valid = function (view) {\n\
-  this.clear(view);\n\
-  var el = this.el(view);\n\
-  if ('function' == typeof view.valid) return view.valid();\n\
-  if ('element' != type(el)) return;\n\
-\n\
-  classes(el).add('valid');\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Default invalid method.\n\
- *\n\
- * @param {Element|Object} view\n\
- * @param {String} msg\n\
- */\n\
-\n\
-exports.invalid = function (view, msg) {\n\
-  this.clear(view);\n\
-  var el = this.el(view);\n\
-  if ('function' == typeof view.invalid) return view.invalid(msg);\n\
-  if ('element' != type(el)) return;\n\
-\n\
-  classes(el).add('invalid');\n\
-  if (msg && el.parentNode) {\n\
-    var message = domify('<label class=\"validator-message\">');\n\
-    message.textContent = msg;\n\
-    el.parentNode.insertBefore(message, el.nextSibling);\n\
-  }\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Default clear validation method.\n\
- *\n\
- * @param {Element|Object} view\n\
- */\n\
-\n\
-exports.clear = function (view) {\n\
-  var el = this.el(view);\n\
-  if ('function' == typeof view.valid) return view.valid();\n\
-  if ('element' != type(el)) return;\n\
-\n\
-  classes(el).remove('valid').remove('invalid');\n\
-  var message;\n\
-  while (message = next(el, '.validator-message')) {\n\
-    if (el.parentNode) el.parentNode.removeChild(message);\n\
-  }\n\
-};\n\
-//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js"
-));
-
-require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js", Function("exports, module",
-"\n\
-var adapter = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js');\n\
-var bind = require('component~event@0.1.2').bind;\n\
-var each = require('component~each@0.1.0');\n\
-var type = require('component~type@1.0.0');\n\
-var Validator = require('segmentio~validator@0.0.13');\n\
-var validators = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js');\n\
-\n\
-\n\
-/**\n\
- * Expose `Field`.\n\
- */\n\
-\n\
-module.exports = Field;\n\
-\n\
-\n\
-/**\n\
- * Initialize a new `Field`.\n\
- *\n\
- * @param {Element} el\n\
- * @param {Object} adapter\n\
- * @param {Object} validators\n\
- */\n\
-\n\
-function Field (el, validator) {\n\
-  this.el = el;\n\
-  this.validator = validator;\n\
-  this.adapter = validator.adapter;\n\
-  this.validators = validator.validators;\n\
-  this._validator = new Validator().optional();\n\
-  this._valid = true;\n\
-  this.form = validator.form;\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Add a validation `fn` displaying `message` when invalid.\n\
- *\n\
- * @param {Function|RegExp|String} fn\n\
- * @param {Mixed} settings (optional)\n\
- * @param {String} message (optional)\n\
- * @return {Field}\n\
- */\n\
-\n\
-Field.prototype.is = function (fn) {\n\
-  var settings = arguments.length < 3 ? [] : [].slice.call(arguments, 1, arguments.length - 1);\n\
-  var message = arguments.length == 1 ? '' : arguments[arguments.length - 1];\n\
-\n\
-  // required\n\
-  if ('required' == fn) this._validator.optional(false);\n\
-\n\
-  // regexp\n\
-  if ('regexp' == type(fn)) fn = this.validators.regexp(fn);\n\
-\n\
-  // shorthand\n\
-  if ('string' == type(fn)) fn = this.validators[fn];\n\
-\n\
-  // handle fns that take settings\n\
-  if (settings.length) fn = fn.apply(this, settings);\n\
-\n\
-  this._validator.rule(fn, message);\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Validate our element against all of its rules, and `callback(valid)`.\n\
- *\n\
- * @param {Function} callback (optional)\n\
- * @return {Field}\n\
- */\n\
-\n\
-Field.prototype.validate = function (callback) {\n\
-  var self = this;\n\
-  var value = this.adapter.value(this.el);\n\
-\n\
-  this._validator.validate(value, function (err, valid, msg) {\n\
-    valid\n\
-      ? self.adapter.valid(self.el)\n\
-      : self.adapter.invalid(self.el, msg);\n\
-    callback && callback(err, valid, msg);\n\
-  });\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Set an `event` trigger for validation.\n\
- *\n\
- * @param {String} event\n\
- * @return {Field}\n\
- */\n\
-\n\
-Field.prototype.on = function (event) {\n\
-  var self = this;\n\
-  bind(this.el, event, function (e) {\n\
-    // don't validate an empty input on blur, that's annoying\n\
-    if ('blur' === event && !self.adapter.value(self.el)) return;\n\
-    self.validate();\n\
-  });\n\
-  return this;\n\
-};\n\
-\n\
-//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js"
-));
-
-require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2", Function("exports, module",
-"\n\
-var adapter = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js');\n\
-var bind = require('ianstormtaylor~bind@0.0.2');\n\
-var event = require('component~event@0.1.2');\n\
-var clone = require('component~clone@0.2.2');\n\
-var Field = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js');\n\
-var submit = require('segmentio~submit-form@0.0.1');\n\
-var Vldtr = require('segmentio~validator@0.0.13');\n\
-var validators = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js');\n\
-\n\
-\n\
-/**\n\
- * Expose `Validator`.\n\
- */\n\
-\n\
-module.exports = exports = Validator;\n\
-\n\
-\n\
-/**\n\
- * Initialize a new `Validator`.\n\
- *\n\
- * @param {Element} form\n\
- */\n\
-\n\
-function Validator (form) {\n\
-  if (!(this instanceof Validator)) return new Validator(form);\n\
-  this.form = form;\n\
-  this._validator = new Vldtr();\n\
-  this.adapter = clone(adapter);\n\
-  this.validators = clone(validators);\n\
-  this.submit = bind(this, this.submit);\n\
-  this.bind();\n\
-}\n\
-\n\
-\n\
-/**\n\
- * Use a `plugin`.\n\
- *\n\
- * @param {Function} plugin\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.use = function (plugin) {\n\
-  plugin(this);\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Set an aditional trigger `event` for individual field validation.\n\
- *\n\
- * @param {String} event\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.on = function (event) {\n\
-  this._event = event;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Add a field `el` to be validated.\n\
- *\n\
- * @param {Element|String} el\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.field = function (el) {\n\
-  if ('string' === typeof el) el = this.form.querySelector('[name=\"' + el + '\"]');\n\
-  var field = new Field(el, this);\n\
-  if (this._event) field.on(this._event);\n\
-\n\
-  this._validator.rule(function (val, done) {\n\
-    field.validate(done);\n\
-  });\n\
-\n\
-  // let us chain `is` like we were the field\n\
-  this.is = function () {\n\
-    field.is.apply(field, arguments);\n\
-    return this;\n\
-  };\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Validate each field and `callback(valid)`.\n\
- *\n\
- * @param {Function} callback\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.validate = function (callback) {\n\
-  this._validator.validate(null, function (err, valid, msg) {\n\
-    callback && callback(err, valid, msg);\n\
-  });\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific validator `fn`.\n\
- *\n\
- * @param {String|Object} name\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.validator = function (name, fn) {\n\
-  if ('object' == typeof name) {\n\
-    for (var key in name) this.validator(key, name[key]);\n\
-    return;\n\
-  }\n\
-\n\
-  this.validators[name] = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific el adapter `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.el = function (fn) {\n\
-  this.adapter.el = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific value adapter `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.value = function (fn) {\n\
-  this.adapter.value = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific valid adapter `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.valid = function (fn) {\n\
-  this.adapter.valid = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific invalid adapter `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.invalid = function (fn) {\n\
-  this.adapter.invalid = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Define a view-specific clear adapter `fn`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Validator}\n\
- */\n\
-\n\
-Validator.prototype.clear = function (fn) {\n\
-  this.adapter.clear = fn;\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Bind the form's submit handler.\n\
- *\n\
- * @return {Validator}\n\
- * @api private\n\
- */\n\
-\n\
-Validator.prototype.bind = function () {\n\
-  // capture to preempt other handlers\n\
-  event.bind(this.form, 'submit', this.submit, true);\n\
-  // prevent the browser from validating for us\n\
-  this.form.setAttribute('novalidate', true);\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Unind the form's submit handler.\n\
- *\n\
- * @return {Validator}\n\
- * @api private\n\
- */\n\
-\n\
-Validator.prototype.unbind = function () {\n\
-  // capture to preempt other handlers\n\
-  event.unbind(this.form, 'submit', this.submit, true);\n\
-  // enable browser form validation\n\
-  this.form.removeAttribute('novalidate');\n\
-  return this;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Form submit handler.\n\
- *\n\
- * @param {Event} e\n\
- * @api private\n\
- */\n\
-\n\
-Validator.prototype.submit = function (e) {\n\
-  e.stopImmediatePropagation();\n\
-  e.preventDefault();\n\
-  var self = this;\n\
-  this.validate(function (err, valid) {\n\
-    if (!err && valid) {\n\
-      self.unbind();\n\
-      submit(self.form);\n\
-    }\n\
-  });\n\
-};\n\
-\n\
-//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/index.js"
-));
-
-require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js", Function("exports, module",
-"\n\
-var email = require('segmentio~is-email@0.1.1');\n\
-var hex = require('segmentio~is-hex-color@0.0.1');\n\
-var hsl = require('segmentio~is-hsl-color@0.0.1');\n\
-var rgb = require('segmentio~is-rgb-color@0.0.1');\n\
-var trim = require('component~trim@0.0.1');\n\
-var type = require('component~type@1.0.0');\n\
-var url = require('segmentio~is-url@0.1.0');\n\
-var domain = require('segmentio~is-domain@0.0.1');\n\
-\n\
-\n\
-/**\n\
- * Required.\n\
- */\n\
-\n\
-exports.required = function (val) {\n\
-  return type(val) === 'string' ? trim(val) : val;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Email addresses.\n\
- */\n\
-\n\
-exports.email = email;\n\
-\n\
-\n\
-/**\n\
- * URLs.\n\
- */\n\
-\n\
-exports.url = url;\n\
-\n\
-/**\n\
- * Domains.\n\
- */\n\
-\n\
-exports.domain = domain;\n\
-\n\
-/**\n\
- * HEX color.\n\
- */\n\
-\n\
-exports.hex = hex;\n\
-\n\
-\n\
-/**\n\
- * HSL color.\n\
- */\n\
-\n\
-exports.hsla = exports.hsl = hsl;\n\
-\n\
-\n\
-/**\n\
- * RGB color.\n\
- */\n\
-\n\
-exports.rgba = exports.rgb = rgb;\n\
-\n\
-\n\
-/**\n\
- * Any color string.\n\
- */\n\
-\n\
-exports.color = function (val) {\n\
-  return hex(val) || hsl(val) || rgb(val);\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Number.\n\
- *\n\
- * Note: this won't work for straight up element validation since they\n\
- * always return strings.\n\
- */\n\
-\n\
-exports.number = function (val) {\n\
-  return 'number' == typeof val;\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Regexp.\n\
- *\n\
- * @param {RegExp|String} regexp\n\
- */\n\
-\n\
-exports.regexp = function (regexp) {\n\
-  if ('string' === typeof regexp) regexp = new RegExp(regexp);\n\
-  return function (val) {\n\
-    return regexp.test(val);\n\
-  };\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Minimum length.\n\
- *\n\
- * @param {Number} length\n\
- */\n\
-\n\
-exports.min =\n\
-exports.minimum = function (length) {\n\
-  return function (val) {\n\
-    var l = val.length ? val.length : val;\n\
-    return l >= length;\n\
-  };\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Maximum length.\n\
- * @param {Number} length\n\
- */\n\
-\n\
-exports.max =\n\
-exports.maximum = function (length) {\n\
-  return function (val) {\n\
-    var l = val.length ? val.length : val;\n\
-    return l <= length;\n\
-  };\n\
-};\n\
-\n\
-\n\
-/**\n\
- * Validation rule that requires 1 field be equal to another\n\
- *\n\
- * When a string is used, it will search for an input element with that name.\n\
- * Otherwise, it's assumed to be something that field.adapter.value will\n\
- * recognize\n\
- *\n\
- * @param {String|mixed} other\n\
- * @returns {Function}\n\
- */\n\
-\n\
-exports.equal = function (other) {\n\
-    var field = this;\n\
-    return function (val) {\n\
-      if (type(other) === 'string') {\n\
-        var el = field.form.querySelector(\"[name=\\\"\" + other + \"\\\"]\");\n\
-      }\n\
-      return val === field.adapter.value(el || other);\n\
-    };\n\
-};\n\
-\n\
-//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js"
-));
-
-require.modules["johntron-validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
-require.modules["johntron~validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
-require.modules["validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
-
-
-require.register("johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18", Function("exports, module",
-"var ipv6_matcher = /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$/,\n\
-    ipv4_matcher = /^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/;\n\
-\n\
-module.exports = function (validator) {\n\
-    validator.validators.ip = module.exports.validate;\n\
-};\n\
-\n\
-module.exports.validate = function (string) {\n\
-    var matcher;\n\
-\n\
-    if (string.match(/:/) !== null) {\n\
-        matcher = ipv6_matcher;\n\
-    } else {\n\
-        matcher = ipv4_matcher;\n\
-    }\n\
-\n\
-    return matcher.test(string);\n\
-};\n\
-//# sourceURL=components/johntron/is-ip-address/39a0715c025a0be4d5956e1b891682d6d0f18e18/index.js"
-));
-
-require.modules["johntron-is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
-require.modules["johntron~is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
-require.modules["is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
 
 
 require.register("juliangruber~isarray@0.0.1", Function("exports, module",
@@ -28624,6 +26196,227 @@ Collection.prototype.push = function(model){\n\
 require.modules["component-collection"] = require.modules["component~collection@0.0.2"];
 require.modules["component~collection"] = require.modules["component~collection@0.0.2"];
 require.modules["collection"] = require.modules["component~collection@0.0.2"];
+
+
+require.register("component~type@1.0.0", Function("exports, module",
+"\n\
+/**\n\
+ * toString ref.\n\
+ */\n\
+\n\
+var toString = Object.prototype.toString;\n\
+\n\
+/**\n\
+ * Return the type of `val`.\n\
+ *\n\
+ * @param {Mixed} val\n\
+ * @return {String}\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(val){\n\
+  switch (toString.call(val)) {\n\
+    case '[object Function]': return 'function';\n\
+    case '[object Date]': return 'date';\n\
+    case '[object RegExp]': return 'regexp';\n\
+    case '[object Arguments]': return 'arguments';\n\
+    case '[object Array]': return 'array';\n\
+    case '[object String]': return 'string';\n\
+  }\n\
+\n\
+  if (val === null) return 'null';\n\
+  if (val === undefined) return 'undefined';\n\
+  if (val && val.nodeType === 1) return 'element';\n\
+  if (val === Object(val)) return 'object';\n\
+\n\
+  return typeof val;\n\
+};\n\
+\n\
+//# sourceURL=components/component/type/1.0.0/index.js"
+));
+
+require.modules["component-type"] = require.modules["component~type@1.0.0"];
+require.modules["component~type"] = require.modules["component~type@1.0.0"];
+require.modules["type"] = require.modules["component~type@1.0.0"];
+
+
+require.register("component~each@0.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var type = require('component~type@1.0.0');\n\
+\n\
+/**\n\
+ * HOP reference.\n\
+ */\n\
+\n\
+var has = Object.prototype.hasOwnProperty;\n\
+\n\
+/**\n\
+ * Iterate the given `obj` and invoke `fn(val, i)`.\n\
+ *\n\
+ * @param {String|Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(obj, fn){\n\
+  switch (type(obj)) {\n\
+    case 'array':\n\
+      return array(obj, fn);\n\
+    case 'object':\n\
+      if ('number' == typeof obj.length) return array(obj, fn);\n\
+      return object(obj, fn);\n\
+    case 'string':\n\
+      return string(obj, fn);\n\
+  }\n\
+};\n\
+\n\
+/**\n\
+ * Iterate string chars.\n\
+ *\n\
+ * @param {String} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function string(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj.charAt(i), i);\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate object keys.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function object(obj, fn) {\n\
+  for (var key in obj) {\n\
+    if (has.call(obj, key)) {\n\
+      fn(key, obj[key]);\n\
+    }\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate array-ish.\n\
+ *\n\
+ * @param {Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function array(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj[i], i);\n\
+  }\n\
+}\n\
+//# sourceURL=components/component/each/0.0.1/index.js"
+));
+
+require.modules["component-each"] = require.modules["component~each@0.0.1"];
+require.modules["component~each"] = require.modules["component~each@0.0.1"];
+require.modules["each"] = require.modules["component~each@0.0.1"];
+
+
+require.register("component~each@0.1.0", Function("exports, module",
+"\n\
+/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var toFunction = require('component~to-function@2.0.3');\n\
+var type;\n\
+\n\
+try {\n\
+  type = require('type-component');\n\
+} catch (e) {\n\
+  type = require('component~type@1.0.0');\n\
+}\n\
+\n\
+/**\n\
+ * HOP reference.\n\
+ */\n\
+\n\
+var has = Object.prototype.hasOwnProperty;\n\
+\n\
+/**\n\
+ * Iterate the given `obj` and invoke `fn(val, i)`.\n\
+ *\n\
+ * @param {String|Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(obj, fn){\n\
+  fn = toFunction(fn);\n\
+  switch (type(obj)) {\n\
+    case 'array':\n\
+      return array(obj, fn);\n\
+    case 'object':\n\
+      if ('number' == typeof obj.length) return array(obj, fn);\n\
+      return object(obj, fn);\n\
+    case 'string':\n\
+      return string(obj, fn);\n\
+  }\n\
+};\n\
+\n\
+/**\n\
+ * Iterate string chars.\n\
+ *\n\
+ * @param {String} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function string(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj.charAt(i), i);\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate object keys.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function object(obj, fn) {\n\
+  for (var key in obj) {\n\
+    if (has.call(obj, key)) {\n\
+      fn(key, obj[key]);\n\
+    }\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate array-ish.\n\
+ *\n\
+ * @param {Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function array(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj[i], i);\n\
+  }\n\
+}\n\
+\n\
+//# sourceURL=components/component/each/0.1.0/index.js"
+));
+
+require.modules["component-each"] = require.modules["component~each@0.1.0"];
+require.modules["component~each"] = require.modules["component~each@0.1.0"];
+require.modules["each"] = require.modules["component~each@0.1.0"];
 
 
 require.register("redventures~reduce@1.0.1", Function("exports, module",
@@ -30223,6 +28016,73 @@ require.modules["johntron~model"] = require.modules["johntron~model@703274a10f27
 require.modules["model"] = require.modules["johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12"];
 
 
+require.register("component~clone@0.2.2", Function("exports, module",
+"/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var type;\n\
+try {\n\
+  type = require('component~type@1.0.0');\n\
+} catch (_) {\n\
+  type = require('component~type@1.0.0');\n\
+}\n\
+\n\
+/**\n\
+ * Module exports.\n\
+ */\n\
+\n\
+module.exports = clone;\n\
+\n\
+/**\n\
+ * Clones objects.\n\
+ *\n\
+ * @param {Mixed} any object\n\
+ * @api public\n\
+ */\n\
+\n\
+function clone(obj){\n\
+  switch (type(obj)) {\n\
+    case 'object':\n\
+      var copy = {};\n\
+      for (var key in obj) {\n\
+        if (obj.hasOwnProperty(key)) {\n\
+          copy[key] = clone(obj[key]);\n\
+        }\n\
+      }\n\
+      return copy;\n\
+\n\
+    case 'array':\n\
+      var copy = new Array(obj.length);\n\
+      for (var i = 0, l = obj.length; i < l; i++) {\n\
+        copy[i] = clone(obj[i]);\n\
+      }\n\
+      return copy;\n\
+\n\
+    case 'regexp':\n\
+      // from millermedeiros/amd-utils - MIT\n\
+      var flags = '';\n\
+      flags += obj.multiline ? 'm' : '';\n\
+      flags += obj.global ? 'g' : '';\n\
+      flags += obj.ignoreCase ? 'i' : '';\n\
+      return new RegExp(obj.source, flags);\n\
+\n\
+    case 'date':\n\
+      return new Date(obj.getTime());\n\
+\n\
+    default: // string, number, boolean, …\n\
+      return obj;\n\
+  }\n\
+}\n\
+\n\
+//# sourceURL=components/component/clone/0.2.2/index.js"
+));
+
+require.modules["component-clone"] = require.modules["component~clone@0.2.2"];
+require.modules["component~clone"] = require.modules["component~clone@0.2.2"];
+require.modules["clone"] = require.modules["component~clone@0.2.2"];
+
+
 require.register("manuelstofer~each@master", Function("exports, module",
 "\"use strict\";\n\
 \n\
@@ -30356,6 +28216,208 @@ function apply (model, key, value) {\n\
 require.modules["segmentio-model-defaults"] = require.modules["segmentio~model-defaults@1.0.6"];
 require.modules["segmentio~model-defaults"] = require.modules["segmentio~model-defaults@1.0.6"];
 require.modules["model-defaults"] = require.modules["segmentio~model-defaults@1.0.6"];
+
+
+require.register("component~domify@1.1.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `parse`.\n\
+ */\n\
+\n\
+module.exports = parse;\n\
+\n\
+/**\n\
+ * Wrap map from jquery.\n\
+ */\n\
+\n\
+var map = {\n\
+  option: [1, '<select multiple=\"multiple\">', '</select>'],\n\
+  optgroup: [1, '<select multiple=\"multiple\">', '</select>'],\n\
+  legend: [1, '<fieldset>', '</fieldset>'],\n\
+  thead: [1, '<table>', '</table>'],\n\
+  tbody: [1, '<table>', '</table>'],\n\
+  tfoot: [1, '<table>', '</table>'],\n\
+  colgroup: [1, '<table>', '</table>'],\n\
+  caption: [1, '<table>', '</table>'],\n\
+  tr: [2, '<table><tbody>', '</tbody></table>'],\n\
+  td: [3, '<table><tbody><tr>', '</tr></tbody></table>'],\n\
+  th: [3, '<table><tbody><tr>', '</tr></tbody></table>'],\n\
+  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],\n\
+  _default: [0, '', '']\n\
+};\n\
+\n\
+/**\n\
+ * Parse `html` and return the children.\n\
+ *\n\
+ * @param {String} html\n\
+ * @return {Array}\n\
+ * @api private\n\
+ */\n\
+\n\
+function parse(html) {\n\
+  if ('string' != typeof html) throw new TypeError('String expected');\n\
+\n\
+  html = html.replace(/^\\s+|\\s+$/g, ''); // Remove leading/trailing whitespace\n\
+\n\
+  // tag name\n\
+  var m = /<([\\w:]+)/.exec(html);\n\
+  if (!m) return document.createTextNode(html);\n\
+  var tag = m[1];\n\
+\n\
+  // body support\n\
+  if (tag == 'body') {\n\
+    var el = document.createElement('html');\n\
+    el.innerHTML = html;\n\
+    return el.removeChild(el.lastChild);\n\
+  }\n\
+\n\
+  // wrap map\n\
+  var wrap = map[tag] || map._default;\n\
+  var depth = wrap[0];\n\
+  var prefix = wrap[1];\n\
+  var suffix = wrap[2];\n\
+  var el = document.createElement('div');\n\
+  el.innerHTML = prefix + html + suffix;\n\
+  while (depth--) el = el.lastChild;\n\
+\n\
+  // Note: when moving children, don't rely on el.children\n\
+  // being 'live' to support Polymer's broken behaviour.\n\
+  // See: https://github.com/component/domify/pull/23\n\
+  if (1 == el.children.length) {\n\
+    return el.removeChild(el.children[0]);\n\
+  }\n\
+\n\
+  var fragment = document.createDocumentFragment();\n\
+  while (el.children.length) {\n\
+    fragment.appendChild(el.removeChild(el.children[0]));\n\
+  }\n\
+\n\
+  return fragment;\n\
+}\n\
+\n\
+//# sourceURL=components/component/domify/1.1.1/index.js"
+));
+
+require.modules["component-domify"] = require.modules["component~domify@1.1.1"];
+require.modules["component~domify"] = require.modules["component~domify@1.1.1"];
+require.modules["domify"] = require.modules["component~domify@1.1.1"];
+
+
+require.register("component~domify@1.3.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `parse`.\n\
+ */\n\
+\n\
+module.exports = parse;\n\
+\n\
+/**\n\
+ * Tests for browser support.\n\
+ */\n\
+\n\
+var div = document.createElement('div');\n\
+// Setup\n\
+div.innerHTML = '  <link/><table></table><a href=\"/a\">a</a><input type=\"checkbox\"/>';\n\
+// Make sure that link elements get serialized correctly by innerHTML\n\
+// This requires a wrapper element in IE\n\
+var innerHTMLBug = !div.getElementsByTagName('link').length;\n\
+div = undefined;\n\
+\n\
+/**\n\
+ * Wrap map from jquery.\n\
+ */\n\
+\n\
+var map = {\n\
+  legend: [1, '<fieldset>', '</fieldset>'],\n\
+  tr: [2, '<table><tbody>', '</tbody></table>'],\n\
+  col: [2, '<table><tbody></tbody><colgroup>', '</colgroup></table>'],\n\
+  // for script/link/style tags to work in IE6-8, you have to wrap\n\
+  // in a div with a non-whitespace character in front, ha!\n\
+  _default: innerHTMLBug ? [1, 'X<div>', '</div>'] : [0, '', '']\n\
+};\n\
+\n\
+map.td =\n\
+map.th = [3, '<table><tbody><tr>', '</tr></tbody></table>'];\n\
+\n\
+map.option =\n\
+map.optgroup = [1, '<select multiple=\"multiple\">', '</select>'];\n\
+\n\
+map.thead =\n\
+map.tbody =\n\
+map.colgroup =\n\
+map.caption =\n\
+map.tfoot = [1, '<table>', '</table>'];\n\
+\n\
+map.text =\n\
+map.circle =\n\
+map.ellipse =\n\
+map.line =\n\
+map.path =\n\
+map.polygon =\n\
+map.polyline =\n\
+map.rect = [1, '<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">','</svg>'];\n\
+\n\
+/**\n\
+ * Parse `html` and return a DOM Node instance, which could be a TextNode,\n\
+ * HTML DOM Node of some kind (<div> for example), or a DocumentFragment\n\
+ * instance, depending on the contents of the `html` string.\n\
+ *\n\
+ * @param {String} html - HTML string to \"domify\"\n\
+ * @param {Document} doc - The `document` instance to create the Node for\n\
+ * @return {DOMNode} the TextNode, DOM Node, or DocumentFragment instance\n\
+ * @api private\n\
+ */\n\
+\n\
+function parse(html, doc) {\n\
+  if ('string' != typeof html) throw new TypeError('String expected');\n\
+\n\
+  // default to the global `document` object\n\
+  if (!doc) doc = document;\n\
+\n\
+  // tag name\n\
+  var m = /<([\\w:]+)/.exec(html);\n\
+  if (!m) return doc.createTextNode(html);\n\
+\n\
+  html = html.replace(/^\\s+|\\s+$/g, ''); // Remove leading/trailing whitespace\n\
+\n\
+  var tag = m[1];\n\
+\n\
+  // body support\n\
+  if (tag == 'body') {\n\
+    var el = doc.createElement('html');\n\
+    el.innerHTML = html;\n\
+    return el.removeChild(el.lastChild);\n\
+  }\n\
+\n\
+  // wrap map\n\
+  var wrap = map[tag] || map._default;\n\
+  var depth = wrap[0];\n\
+  var prefix = wrap[1];\n\
+  var suffix = wrap[2];\n\
+  var el = doc.createElement('div');\n\
+  el.innerHTML = prefix + html + suffix;\n\
+  while (depth--) el = el.lastChild;\n\
+\n\
+  // one element\n\
+  if (el.firstChild == el.lastChild) {\n\
+    return el.removeChild(el.firstChild);\n\
+  }\n\
+\n\
+  // several elements\n\
+  var fragment = doc.createDocumentFragment();\n\
+  while (el.firstChild) {\n\
+    fragment.appendChild(el.removeChild(el.firstChild));\n\
+  }\n\
+\n\
+  return fragment;\n\
+}\n\
+\n\
+//# sourceURL=components/component/domify/1.3.1/index.js"
+));
+
+require.modules["component-domify"] = require.modules["component~domify@1.3.1"];
+require.modules["component~domify"] = require.modules["component~domify@1.3.1"];
+require.modules["domify"] = require.modules["component~domify@1.3.1"];
 
 
 require.register("johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68", Function("exports, module",
@@ -30517,919 +28579,6 @@ var initializers = {\n\
 require.modules["johntron-trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
 require.modules["johntron~trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
 require.modules["trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
-
-
-require.register("matthewmueller~debounce@0.0.1", Function("exports, module",
-"/**\n\
- * Debounce\n\
- *\n\
- * Returns a function, that, as long as it continues to be invoked, will not\n\
- * be triggered. The function will be called after it stops being called for\n\
- * N milliseconds. If `immediate` is passed, trigger the function on the\n\
- * leading edge, instead of the trailing.\n\
- *\n\
- * @param {Function} func\n\
- * @param {Number} wait\n\
- * @param {Boolean} immediate\n\
- * @return {Function}\n\
- */\n\
-\n\
-module.exports = function(func, wait, immediate) {\n\
-  var timeout, result;\n\
-  return function() {\n\
-    var context = this, args = arguments;\n\
-    var later = function() {\n\
-      timeout = null;\n\
-      if (!immediate) result = func.apply(context, args);\n\
-    };\n\
-    var callNow = immediate && !timeout;\n\
-    clearTimeout(timeout);\n\
-    timeout = setTimeout(later, wait);\n\
-    if (callNow) result = func.apply(context, args);\n\
-    return result;\n\
-  };\n\
-};\n\
-\n\
-//# sourceURL=components/matthewmueller/debounce/0.0.1/index.js"
-));
-
-require.modules["matthewmueller-debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
-require.modules["matthewmueller~debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
-require.modules["debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
-
-
-require.register("johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5", Function("exports, module",
-"var is_ip_address = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18').validate,\n\
-    tlds = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5/tlds.js');\n\
-\n\
-function is_hostname(str) {\n\
-    var labels = str.split('.').slice(0, -1),\n\
-        tld = str.split('.').slice(-1)[0],\n\
-        valid_label = new RegExp(\"^[a-z0-9]?[a-z0-9-]*[a-z0-9]$\");\n\
-\n\
-    if (tld === '') {\n\
-        // Don't allow trailing '.', because this format is mostly only used in zone files\n\
-        return false;\n\
-    }\n\
-\n\
-    if (str.length > 253) {\n\
-        return false;\n\
-    }\n\
-\n\
-    if (tld !== 'local' && tlds.indexOf(tld) === -1) {\n\
-        // Not a valid TLD\n\
-        return false;\n\
-    }\n\
-\n\
-    for (var i = 0; i < labels.length; i++) {\n\
-        var label = labels[i];\n\
-\n\
-        if (label.length < 1 || label.length > 63) {\n\
-            return false;\n\
-        }\n\
-\n\
-        if (!valid_label.test(label)) {\n\
-            // Must be alphanumeric with hyphens only in the middle\n\
-            return false;\n\
-        }\n\
-    }\n\
-\n\
-    return true;\n\
-}\n\
-\n\
-module.exports = function (validator) {\n\
-    validator.validators.host = module.exports.validate;\n\
-};\n\
-\n\
-module.exports.validate = function (string) {\n\
-    return is_ip_address(string) || is_hostname(string);\n\
-};\n\
-\n\
-//var tests = [\n\
-//    [\"a.com\", true], // gTLD\n\
-//    [\"a.cc\", true], // ccTLD\n\
-//    [\"a.local\", true], // Special TLD\n\
-//    [\"a\", false], // No TLD\n\
-//    [\"a.a.a.a\", false], // Invalid TLD\n\
-//    [\"192.168.1.1\", true], // v4\n\
-//    [\"ff::1\", true], // v6\n\
-//    [\"192.\", false],\n\
-//    [\"ff:\", false]\n\
-//];\n\
-//\n\
-//tests.forEach(function (test) {\n\
-//    var str = test[0],\n\
-//        expected = test[1];\n\
-//\n\
-//    if (module.exports.validate(str) !== expected) {\n\
-//        console.error('Expected', str, 'to be', expected ? 'valid' : 'invalid');\n\
-//    }\n\
-//});\n\
-//# sourceURL=components/johntron/is-host/9f441b6f34440e715b31f06157611292e67565a5/index.js"
-));
-
-require.register("johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5/tlds.js", Function("exports, module",
-"/**\n\
- * Taken from http://www.iana.org/domains/root/db on 1 Dec 2014 with this:\n\
- *\n\
- *  var links = document.querySelectorAll('.domain.tld a'),\n\
- *      str = '';\n\
- *\n\
- *  [].forEach.call(links, function (link) { str += link.textContent.replace(/\\./, '') + '\\n\
-'; });\n\
- *\n\
- *  console.log(str);\n\
- */\n\
-module.exports = [\n\
-    \"abogado\",\n\
-    \"ac\",\n\
-    \"academy\",\n\
-    \"accountants\",\n\
-    \"active\",\n\
-    \"actor\",\n\
-    \"ad\",\n\
-    \"ae\",\n\
-    \"aero\",\n\
-    \"af\",\n\
-    \"ag\",\n\
-    \"agency\",\n\
-    \"ai\",\n\
-    \"airforce\",\n\
-    \"al\",\n\
-    \"allfinanz\",\n\
-    \"alsace\",\n\
-    \"am\",\n\
-    \"an\",\n\
-    \"android\",\n\
-    \"ao\",\n\
-    \"aq\",\n\
-    \"ar\",\n\
-    \"archi\",\n\
-    \"army\",\n\
-    \"arpa\",\n\
-    \"as\",\n\
-    \"asia\",\n\
-    \"associates\",\n\
-    \"at\",\n\
-    \"attorney\",\n\
-    \"au\",\n\
-    \"auction\",\n\
-    \"audio\",\n\
-    \"autos\",\n\
-    \"aw\",\n\
-    \"ax\",\n\
-    \"axa\",\n\
-    \"az\",\n\
-    \"ba\",\n\
-    \"band\",\n\
-    \"bar\",\n\
-    \"bargains\",\n\
-    \"bayern\",\n\
-    \"bb\",\n\
-    \"bd\",\n\
-    \"be\",\n\
-    \"beer\",\n\
-    \"berlin\",\n\
-    \"best\",\n\
-    \"bf\",\n\
-    \"bg\",\n\
-    \"bh\",\n\
-    \"bi\",\n\
-    \"bid\",\n\
-    \"bike\",\n\
-    \"bio\",\n\
-    \"biz\",\n\
-    \"bj\",\n\
-    \"bl\",\n\
-    \"black\",\n\
-    \"blackfriday\",\n\
-    \"bloomberg\",\n\
-    \"blue\",\n\
-    \"bm\",\n\
-    \"bmw\",\n\
-    \"bn\",\n\
-    \"bnpparibas\",\n\
-    \"bo\",\n\
-    \"boo\",\n\
-    \"boutique\",\n\
-    \"bq\",\n\
-    \"br\",\n\
-    \"brussels\",\n\
-    \"bs\",\n\
-    \"bt\",\n\
-    \"budapest\",\n\
-    \"build\",\n\
-    \"builders\",\n\
-    \"business\",\n\
-    \"buzz\",\n\
-    \"bv\",\n\
-    \"bw\",\n\
-    \"by\",\n\
-    \"bz\",\n\
-    \"bzh\",\n\
-    \"ca\",\n\
-    \"cab\",\n\
-    \"cal\",\n\
-    \"camera\",\n\
-    \"camp\",\n\
-    \"cancerresearch\",\n\
-    \"capetown\",\n\
-    \"capital\",\n\
-    \"caravan\",\n\
-    \"cards\",\n\
-    \"care\",\n\
-    \"career\",\n\
-    \"careers\",\n\
-    \"casa\",\n\
-    \"cash\",\n\
-    \"cat\",\n\
-    \"catering\",\n\
-    \"cc\",\n\
-    \"cd\",\n\
-    \"center\",\n\
-    \"ceo\",\n\
-    \"cern\",\n\
-    \"cf\",\n\
-    \"cg\",\n\
-    \"ch\",\n\
-    \"channel\",\n\
-    \"cheap\",\n\
-    \"christmas\",\n\
-    \"chrome\",\n\
-    \"church\",\n\
-    \"ci\",\n\
-    \"citic\",\n\
-    \"city\",\n\
-    \"ck\",\n\
-    \"cl\",\n\
-    \"claims\",\n\
-    \"cleaning\",\n\
-    \"click\",\n\
-    \"clinic\",\n\
-    \"clothing\",\n\
-    \"club\",\n\
-    \"cm\",\n\
-    \"cn\",\n\
-    \"co\",\n\
-    \"coach\",\n\
-    \"codes\",\n\
-    \"coffee\",\n\
-    \"college\",\n\
-    \"cologne\",\n\
-    \"com\",\n\
-    \"community\",\n\
-    \"company\",\n\
-    \"computer\",\n\
-    \"condos\",\n\
-    \"construction\",\n\
-    \"consulting\",\n\
-    \"contractors\",\n\
-    \"cooking\",\n\
-    \"cool\",\n\
-    \"coop\",\n\
-    \"country\",\n\
-    \"cr\",\n\
-    \"credit\",\n\
-    \"creditcard\",\n\
-    \"cricket\",\n\
-    \"crs\",\n\
-    \"cruises\",\n\
-    \"cu\",\n\
-    \"cuisinella\",\n\
-    \"cv\",\n\
-    \"cw\",\n\
-    \"cx\",\n\
-    \"cy\",\n\
-    \"cymru\",\n\
-    \"cz\",\n\
-    \"dad\",\n\
-    \"dance\",\n\
-    \"dating\",\n\
-    \"day\",\n\
-    \"de\",\n\
-    \"deals\",\n\
-    \"degree\",\n\
-    \"delivery\",\n\
-    \"democrat\",\n\
-    \"dental\",\n\
-    \"dentist\",\n\
-    \"desi\",\n\
-    \"diamonds\",\n\
-    \"diet\",\n\
-    \"digital\",\n\
-    \"direct\",\n\
-    \"directory\",\n\
-    \"discount\",\n\
-    \"dj\",\n\
-    \"dk\",\n\
-    \"dm\",\n\
-    \"dnp\",\n\
-    \"do\",\n\
-    \"domains\",\n\
-    \"durban\",\n\
-    \"dvag\",\n\
-    \"dz\",\n\
-    \"eat\",\n\
-    \"ec\",\n\
-    \"edu\",\n\
-    \"education\",\n\
-    \"ee\",\n\
-    \"eg\",\n\
-    \"eh\",\n\
-    \"email\",\n\
-    \"emerck\",\n\
-    \"energy\",\n\
-    \"engineer\",\n\
-    \"engineering\",\n\
-    \"enterprises\",\n\
-    \"equipment\",\n\
-    \"er\",\n\
-    \"es\",\n\
-    \"esq\",\n\
-    \"estate\",\n\
-    \"et\",\n\
-    \"eu\",\n\
-    \"eus\",\n\
-    \"events\",\n\
-    \"everbank\",\n\
-    \"exchange\",\n\
-    \"expert\",\n\
-    \"exposed\",\n\
-    \"fail\",\n\
-    \"farm\",\n\
-    \"feedback\",\n\
-    \"fi\",\n\
-    \"finance\",\n\
-    \"financial\",\n\
-    \"firmdale\",\n\
-    \"fish\",\n\
-    \"fishing\",\n\
-    \"fitness\",\n\
-    \"fj\",\n\
-    \"fk\",\n\
-    \"flights\",\n\
-    \"florist\",\n\
-    \"flsmidth\",\n\
-    \"fly\",\n\
-    \"fm\",\n\
-    \"fo\",\n\
-    \"foo\",\n\
-    \"forsale\",\n\
-    \"foundation\",\n\
-    \"fr\",\n\
-    \"frl\",\n\
-    \"frogans\",\n\
-    \"fund\",\n\
-    \"furniture\",\n\
-    \"futbol\",\n\
-    \"ga\",\n\
-    \"gal\",\n\
-    \"gallery\",\n\
-    \"gb\",\n\
-    \"gbiz\",\n\
-    \"gd\",\n\
-    \"ge\",\n\
-    \"gent\",\n\
-    \"gf\",\n\
-    \"gg\",\n\
-    \"gh\",\n\
-    \"gi\",\n\
-    \"gift\",\n\
-    \"gifts\",\n\
-    \"gives\",\n\
-    \"gl\",\n\
-    \"glass\",\n\
-    \"gle\",\n\
-    \"global\",\n\
-    \"globo\",\n\
-    \"gm\",\n\
-    \"gmail\",\n\
-    \"gmo\",\n\
-    \"gmx\",\n\
-    \"gn\",\n\
-    \"google\",\n\
-    \"gop\",\n\
-    \"gov\",\n\
-    \"gp\",\n\
-    \"gq\",\n\
-    \"gr\",\n\
-    \"graphics\",\n\
-    \"gratis\",\n\
-    \"green\",\n\
-    \"gripe\",\n\
-    \"gs\",\n\
-    \"gt\",\n\
-    \"gu\",\n\
-    \"guide\",\n\
-    \"guitars\",\n\
-    \"guru\",\n\
-    \"gw\",\n\
-    \"gy\",\n\
-    \"hamburg\",\n\
-    \"haus\",\n\
-    \"healthcare\",\n\
-    \"help\",\n\
-    \"here\",\n\
-    \"hiphop\",\n\
-    \"hiv\",\n\
-    \"hk\",\n\
-    \"hm\",\n\
-    \"hn\",\n\
-    \"holdings\",\n\
-    \"holiday\",\n\
-    \"homes\",\n\
-    \"horse\",\n\
-    \"host\",\n\
-    \"hosting\",\n\
-    \"house\",\n\
-    \"how\",\n\
-    \"hr\",\n\
-    \"ht\",\n\
-    \"hu\",\n\
-    \"ibm\",\n\
-    \"id\",\n\
-    \"ie\",\n\
-    \"il\",\n\
-    \"im\",\n\
-    \"immo\",\n\
-    \"immobilien\",\n\
-    \"in\",\n\
-    \"industries\",\n\
-    \"info\",\n\
-    \"ing\",\n\
-    \"ink\",\n\
-    \"institute\",\n\
-    \"insure\",\n\
-    \"int\",\n\
-    \"international\",\n\
-    \"investments\",\n\
-    \"io\",\n\
-    \"iq\",\n\
-    \"ir\",\n\
-    \"is\",\n\
-    \"it\",\n\
-    \"je\",\n\
-    \"jetzt\",\n\
-    \"jm\",\n\
-    \"jo\",\n\
-    \"jobs\",\n\
-    \"joburg\",\n\
-    \"jp\",\n\
-    \"juegos\",\n\
-    \"kaufen\",\n\
-    \"ke\",\n\
-    \"kg\",\n\
-    \"kh\",\n\
-    \"ki\",\n\
-    \"kim\",\n\
-    \"kitchen\",\n\
-    \"kiwi\",\n\
-    \"km\",\n\
-    \"kn\",\n\
-    \"koeln\",\n\
-    \"kp\",\n\
-    \"kr\",\n\
-    \"krd\",\n\
-    \"kred\",\n\
-    \"kw\",\n\
-    \"ky\",\n\
-    \"kz\",\n\
-    \"la\",\n\
-    \"lacaixa\",\n\
-    \"land\",\n\
-    \"lawyer\",\n\
-    \"lb\",\n\
-    \"lc\",\n\
-    \"lds\",\n\
-    \"lease\",\n\
-    \"legal\",\n\
-    \"lgbt\",\n\
-    \"li\",\n\
-    \"life\",\n\
-    \"lighting\",\n\
-    \"limited\",\n\
-    \"limo\",\n\
-    \"link\",\n\
-    \"lk\",\n\
-    \"loans\",\n\
-    \"london\",\n\
-    \"lotto\",\n\
-    \"lr\",\n\
-    \"ls\",\n\
-    \"lt\",\n\
-    \"ltda\",\n\
-    \"lu\",\n\
-    \"luxe\",\n\
-    \"luxury\",\n\
-    \"lv\",\n\
-    \"ly\",\n\
-    \"ma\",\n\
-    \"madrid\",\n\
-    \"maison\",\n\
-    \"management\",\n\
-    \"mango\",\n\
-    \"market\",\n\
-    \"marketing\",\n\
-    \"mc\",\n\
-    \"md\",\n\
-    \"me\",\n\
-    \"media\",\n\
-    \"meet\",\n\
-    \"melbourne\",\n\
-    \"meme\",\n\
-    \"memorial\",\n\
-    \"menu\",\n\
-    \"mf\",\n\
-    \"mg\",\n\
-    \"mh\",\n\
-    \"miami\",\n\
-    \"mil\",\n\
-    \"mini\",\n\
-    \"mk\",\n\
-    \"ml\",\n\
-    \"mm\",\n\
-    \"mn\",\n\
-    \"mo\",\n\
-    \"mobi\",\n\
-    \"moda\",\n\
-    \"moe\",\n\
-    \"monash\",\n\
-    \"money\",\n\
-    \"mormon\",\n\
-    \"mortgage\",\n\
-    \"moscow\",\n\
-    \"motorcycles\",\n\
-    \"mov\",\n\
-    \"mp\",\n\
-    \"mq\",\n\
-    \"mr\",\n\
-    \"ms\",\n\
-    \"mt\",\n\
-    \"mu\",\n\
-    \"museum\",\n\
-    \"mv\",\n\
-    \"mw\",\n\
-    \"mx\",\n\
-    \"my\",\n\
-    \"mz\",\n\
-    \"na\",\n\
-    \"nagoya\",\n\
-    \"name\",\n\
-    \"navy\",\n\
-    \"nc\",\n\
-    \"ne\",\n\
-    \"net\",\n\
-    \"network\",\n\
-    \"neustar\",\n\
-    \"new\",\n\
-    \"nexus\",\n\
-    \"nf\",\n\
-    \"ng\",\n\
-    \"ngo\",\n\
-    \"nhk\",\n\
-    \"ni\",\n\
-    \"ninja\",\n\
-    \"nl\",\n\
-    \"no\",\n\
-    \"np\",\n\
-    \"nr\",\n\
-    \"nra\",\n\
-    \"nrw\",\n\
-    \"nu\",\n\
-    \"nyc\",\n\
-    \"nz\",\n\
-    \"okinawa\",\n\
-    \"om\",\n\
-    \"ong\",\n\
-    \"onl\",\n\
-    \"ooo\",\n\
-    \"org\",\n\
-    \"organic\",\n\
-    \"otsuka\",\n\
-    \"ovh\",\n\
-    \"pa\",\n\
-    \"paris\",\n\
-    \"partners\",\n\
-    \"parts\",\n\
-    \"party\",\n\
-    \"pe\",\n\
-    \"pf\",\n\
-    \"pg\",\n\
-    \"ph\",\n\
-    \"pharmacy\",\n\
-    \"photo\",\n\
-    \"photography\",\n\
-    \"photos\",\n\
-    \"physio\",\n\
-    \"pics\",\n\
-    \"pictures\",\n\
-    \"pink\",\n\
-    \"pizza\",\n\
-    \"pk\",\n\
-    \"pl\",\n\
-    \"place\",\n\
-    \"plumbing\",\n\
-    \"pm\",\n\
-    \"pn\",\n\
-    \"pohl\",\n\
-    \"poker\",\n\
-    \"post\",\n\
-    \"pr\",\n\
-    \"praxi\",\n\
-    \"press\",\n\
-    \"pro\",\n\
-    \"prod\",\n\
-    \"productions\",\n\
-    \"prof\",\n\
-    \"properties\",\n\
-    \"property\",\n\
-    \"ps\",\n\
-    \"pt\",\n\
-    \"pub\",\n\
-    \"pw\",\n\
-    \"py\",\n\
-    \"qa\",\n\
-    \"qpon\",\n\
-    \"quebec\",\n\
-    \"re\",\n\
-    \"realtor\",\n\
-    \"recipes\",\n\
-    \"red\",\n\
-    \"rehab\",\n\
-    \"reise\",\n\
-    \"reisen\",\n\
-    \"reit\",\n\
-    \"ren\",\n\
-    \"rentals\",\n\
-    \"repair\",\n\
-    \"report\",\n\
-    \"republican\",\n\
-    \"rest\",\n\
-    \"restaurant\",\n\
-    \"reviews\",\n\
-    \"rich\",\n\
-    \"rio\",\n\
-    \"rip\",\n\
-    \"ro\",\n\
-    \"rocks\",\n\
-    \"rodeo\",\n\
-    \"rs\",\n\
-    \"rsvp\",\n\
-    \"ru\",\n\
-    \"ruhr\",\n\
-    \"rw\",\n\
-    \"ryukyu\",\n\
-    \"sa\",\n\
-    \"saarland\",\n\
-    \"sarl\",\n\
-    \"sb\",\n\
-    \"sc\",\n\
-    \"sca\",\n\
-    \"scb\",\n\
-    \"schmidt\",\n\
-    \"schule\",\n\
-    \"science\",\n\
-    \"scot\",\n\
-    \"sd\",\n\
-    \"se\",\n\
-    \"services\",\n\
-    \"sexy\",\n\
-    \"sg\",\n\
-    \"sh\",\n\
-    \"shiksha\",\n\
-    \"shoes\",\n\
-    \"si\",\n\
-    \"singles\",\n\
-    \"sj\",\n\
-    \"sk\",\n\
-    \"sl\",\n\
-    \"sm\",\n\
-    \"sn\",\n\
-    \"so\",\n\
-    \"social\",\n\
-    \"software\",\n\
-    \"sohu\",\n\
-    \"solar\",\n\
-    \"solutions\",\n\
-    \"soy\",\n\
-    \"space\",\n\
-    \"spiegel\",\n\
-    \"sr\",\n\
-    \"ss\",\n\
-    \"st\",\n\
-    \"su\",\n\
-    \"supplies\",\n\
-    \"supply\",\n\
-    \"support\",\n\
-    \"surf\",\n\
-    \"surgery\",\n\
-    \"suzuki\",\n\
-    \"sv\",\n\
-    \"sx\",\n\
-    \"sy\",\n\
-    \"sydney\",\n\
-    \"systems\",\n\
-    \"sz\",\n\
-    \"taipei\",\n\
-    \"tatar\",\n\
-    \"tattoo\",\n\
-    \"tax\",\n\
-    \"tc\",\n\
-    \"td\",\n\
-    \"technology\",\n\
-    \"tel\",\n\
-    \"tf\",\n\
-    \"tg\",\n\
-    \"th\",\n\
-    \"tienda\",\n\
-    \"tips\",\n\
-    \"tirol\",\n\
-    \"tj\",\n\
-    \"tk\",\n\
-    \"tl\",\n\
-    \"tm\",\n\
-    \"tn\",\n\
-    \"to\",\n\
-    \"today\",\n\
-    \"tokyo\",\n\
-    \"tools\",\n\
-    \"top\",\n\
-    \"town\",\n\
-    \"toys\",\n\
-    \"tp\",\n\
-    \"tr\",\n\
-    \"trade\",\n\
-    \"training\",\n\
-    \"travel\",\n\
-    \"tt\",\n\
-    \"tui\",\n\
-    \"tv\",\n\
-    \"tw\",\n\
-    \"tz\",\n\
-    \"ua\",\n\
-    \"ug\",\n\
-    \"uk\",\n\
-    \"um\",\n\
-    \"university\",\n\
-    \"uno\",\n\
-    \"uol\",\n\
-    \"us\",\n\
-    \"uy\",\n\
-    \"uz\",\n\
-    \"va\",\n\
-    \"vacations\",\n\
-    \"vc\",\n\
-    \"ve\",\n\
-    \"vegas\",\n\
-    \"ventures\",\n\
-    \"versicherung\",\n\
-    \"vet\",\n\
-    \"vg\",\n\
-    \"vi\",\n\
-    \"viajes\",\n\
-    \"villas\",\n\
-    \"vision\",\n\
-    \"vlaanderen\",\n\
-    \"vn\",\n\
-    \"vodka\",\n\
-    \"vote\",\n\
-    \"voting\",\n\
-    \"voto\",\n\
-    \"voyage\",\n\
-    \"vu\",\n\
-    \"wales\",\n\
-    \"wang\",\n\
-    \"watch\",\n\
-    \"webcam\",\n\
-    \"website\",\n\
-    \"wed\",\n\
-    \"wedding\",\n\
-    \"wf\",\n\
-    \"whoswho\",\n\
-    \"wien\",\n\
-    \"wiki\",\n\
-    \"williamhill\",\n\
-    \"wme\",\n\
-    \"work\",\n\
-    \"works\",\n\
-    \"world\",\n\
-    \"ws\",\n\
-    \"wtc\",\n\
-    \"wtf\",\n\
-    \"测试\",\n\
-    \"परीक्षा\",\n\
-    \"佛山\",\n\
-    \"集团\",\n\
-    \"在线\",\n\
-    \"한국\",\n\
-    \"ভারত\",\n\
-    \"八卦\",\n\
-    \"موقع\",\n\
-    \"বাংলা\",\n\
-    \"公益\",\n\
-    \"公司\",\n\
-    \"移动\",\n\
-    \"我爱你\",\n\
-    \"москва\",\n\
-    \"испытание\",\n\
-    \"қаз\",\n\
-    \"онлайн\",\n\
-    \"сайт\",\n\
-    \"срб\",\n\
-    \"бел\",\n\
-    \"테스트\",\n\
-    \"орг\",\n\
-    \"삼성\",\n\
-    \"சிங்கப்பூர்\",\n\
-    \"商标\",\n\
-    \"商城\",\n\
-    \"дети\",\n\
-    \"мкд\",\n\
-    \"טעסט\",\n\
-    \"中文网\",\n\
-    \"中信\",\n\
-    \"中国\",\n\
-    \"中國\",\n\
-    \"谷歌\",\n\
-    \"భారత్\",\n\
-    \"ලංකා\",\n\
-    \"測試\",\n\
-    \"ભારત\",\n\
-    \"भारत\",\n\
-    \"آزمایشی\",\n\
-    \"பரிட்சை\",\n\
-    \"संगठन\",\n\
-    \"网络\",\n\
-    \"укр\",\n\
-    \"香港\",\n\
-    \"δοκιμή\",\n\
-    \"إختبار\",\n\
-    \"台湾\",\n\
-    \"台灣\",\n\
-    \"手机\",\n\
-    \"мон\",\n\
-    \"الجزائر\",\n\
-    \"عمان\",\n\
-    \"ایران\",\n\
-    \"امارات\",\n\
-    \"بازار\",\n\
-    \"پاکستان\",\n\
-    \"الاردن\",\n\
-    \"بھارت\",\n\
-    \"المغرب\",\n\
-    \"السعودية\",\n\
-    \"سودان\",\n\
-    \"عراق\",\n\
-    \"مليسيا\",\n\
-    \"شبكة\",\n\
-    \"გე\",\n\
-    \"机构\",\n\
-    \"组织机构\",\n\
-    \"ไทย\",\n\
-    \"سورية\",\n\
-    \"рус\",\n\
-    \"рф\",\n\
-    \"تونس\",\n\
-    \"みんな\",\n\
-    \"グーグル\",\n\
-    \"世界\",\n\
-    \"ਭਾਰਤ\",\n\
-    \"网址\",\n\
-    \"游戏\",\n\
-    \"vermögensberater\",\n\
-    \"vermögensberatung\",\n\
-    \"企业\",\n\
-    \"مصر\",\n\
-    \"قطر\",\n\
-    \"广东\",\n\
-    \"இலங்கை\",\n\
-    \"இந்தியா\",\n\
-    \"հայ\",\n\
-    \"新加坡\",\n\
-    \"فلسطين\",\n\
-    \"テスト\",\n\
-    \"政务\",\n\
-    \"xxx\",\n\
-    \"xyz\",\n\
-    \"yachts\",\n\
-    \"yandex\",\n\
-    \"ye\",\n\
-    \"yoga\",\n\
-    \"yokohama\",\n\
-    \"youtube\",\n\
-    \"yt\",\n\
-    \"za\",\n\
-    \"zip\",\n\
-    \"zm\",\n\
-    \"zone\",\n\
-    \"zw\"\n\
-];\n\
-//# sourceURL=components/johntron/is-host/9f441b6f34440e715b31f06157611292e67565a5/tlds.js"
-));
-
-require.modules["johntron-is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
-require.modules["johntron~is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
-require.modules["is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
 
 
 require.register("samsonjs~strftime@v0.8.3", Function("exports, module",
@@ -46918,6 +44067,1944 @@ require.modules["jashkenas~underscore"] = require.modules["jashkenas~underscore@
 require.modules["underscore"] = require.modules["jashkenas~underscore@1.8.2"];
 
 
+require.register("component~trim@0.0.1", Function("exports, module",
+"\n\
+exports = module.exports = trim;\n\
+\n\
+function trim(str){\n\
+  if (str.trim) return str.trim();\n\
+  return str.replace(/^\\s*|\\s*$/g, '');\n\
+}\n\
+\n\
+exports.left = function(str){\n\
+  if (str.trimLeft) return str.trimLeft();\n\
+  return str.replace(/^\\s*/, '');\n\
+};\n\
+\n\
+exports.right = function(str){\n\
+  if (str.trimRight) return str.trimRight();\n\
+  return str.replace(/\\s*$/, '');\n\
+};\n\
+\n\
+//# sourceURL=components/component/trim/0.0.1/index.js"
+));
+
+require.modules["component-trim"] = require.modules["component~trim@0.0.1"];
+require.modules["component~trim"] = require.modules["component~trim@0.0.1"];
+require.modules["trim"] = require.modules["component~trim@0.0.1"];
+
+
+require.register("component~value@1.1.0", Function("exports, module",
+"\n\
+/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var typeOf = require('component~type@1.0.0');\n\
+\n\
+/**\n\
+ * Set or get `el`'s' value.\n\
+ *\n\
+ * @param {Element} el\n\
+ * @param {Mixed} val\n\
+ * @return {Mixed}\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(el, val){\n\
+  if (2 == arguments.length) return set(el, val);\n\
+  return get(el);\n\
+};\n\
+\n\
+/**\n\
+ * Get `el`'s value.\n\
+ */\n\
+\n\
+function get(el) {\n\
+  switch (type(el)) {\n\
+    case 'checkbox':\n\
+    case 'radio':\n\
+      if (el.checked) {\n\
+        var attr = el.getAttribute('value');\n\
+        return null == attr ? true : attr;\n\
+      } else {\n\
+        return false;\n\
+      }\n\
+    case 'radiogroup':\n\
+      for (var i = 0, radio; radio = el[i]; i++) {\n\
+        if (radio.checked) return radio.value;\n\
+      }\n\
+      break;\n\
+    case 'select':\n\
+      for (var i = 0, option; option = el.options[i]; i++) {\n\
+        if (option.selected) return option.value;\n\
+      }\n\
+      break;\n\
+    default:\n\
+      return el.value;\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Set `el`'s value.\n\
+ */\n\
+\n\
+function set(el, val) {\n\
+  switch (type(el)) {\n\
+    case 'checkbox':\n\
+    case 'radio':\n\
+      if (val) {\n\
+        el.checked = true;\n\
+      } else {\n\
+        el.checked = false;\n\
+      }\n\
+      break;\n\
+    case 'radiogroup':\n\
+      for (var i = 0, radio; radio = el[i]; i++) {\n\
+        radio.checked = radio.value === val;\n\
+      }\n\
+      break;\n\
+    case 'select':\n\
+      for (var i = 0, option; option = el.options[i]; i++) {\n\
+        option.selected = option.value === val;\n\
+      }\n\
+      break;\n\
+    default:\n\
+      el.value = val;\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Element type.\n\
+ */\n\
+\n\
+function type(el) {\n\
+  var group = 'array' == typeOf(el) || 'object' == typeOf(el);\n\
+  if (group) el = el[0];\n\
+  var name = el.nodeName.toLowerCase();\n\
+  var type = el.getAttribute('type');\n\
+\n\
+  if (group && type && 'radio' == type.toLowerCase()) return 'radiogroup';\n\
+  if ('input' == name && type && 'checkbox' == type.toLowerCase()) return 'checkbox';\n\
+  if ('input' == name && type && 'radio' == type.toLowerCase()) return 'radio';\n\
+  if ('select' == name) return 'select';\n\
+  return name;\n\
+}\n\
+\n\
+//# sourceURL=components/component/value/1.1.0/index.js"
+));
+
+require.modules["component-value"] = require.modules["component~value@1.1.0"];
+require.modules["component~value"] = require.modules["component~value@1.1.0"];
+require.modules["value"] = require.modules["component~value@1.1.0"];
+
+
+require.register("component~bind@1.0.0", Function("exports, module",
+"/**\n\
+ * Slice reference.\n\
+ */\n\
+\n\
+var slice = [].slice;\n\
+\n\
+/**\n\
+ * Bind `obj` to `fn`.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @param {Function|String} fn or string\n\
+ * @return {Function}\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(obj, fn){\n\
+  if ('string' == typeof fn) fn = obj[fn];\n\
+  if ('function' != typeof fn) throw new Error('bind() requires a function');\n\
+  var args = slice.call(arguments, 2);\n\
+  return function(){\n\
+    return fn.apply(obj, args.concat(slice.call(arguments)));\n\
+  }\n\
+};\n\
+\n\
+//# sourceURL=components/component/bind/1.0.0/index.js"
+));
+
+require.modules["component-bind"] = require.modules["component~bind@1.0.0"];
+require.modules["component~bind"] = require.modules["component~bind@1.0.0"];
+require.modules["bind"] = require.modules["component~bind@1.0.0"];
+
+
+require.register("segmentio~bind-all@0.0.2", Function("exports, module",
+"\n\
+try {\n\
+  var bind = require('component~bind@1.0.0');\n\
+  var type = require('component~type@1.0.0');\n\
+} catch (e) {\n\
+  var bind = require('bind-component');\n\
+  var type = require('type-component');\n\
+}\n\
+\n\
+module.exports = function (obj) {\n\
+  for (var key in obj) {\n\
+    var val = obj[key];\n\
+    if (type(val) === 'function') obj[key] = bind(obj, obj[key]);\n\
+  }\n\
+  return obj;\n\
+};\n\
+//# sourceURL=components/segmentio/bind-all/0.0.2/index.js"
+));
+
+require.modules["segmentio-bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
+require.modules["segmentio~bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
+require.modules["bind-all"] = require.modules["segmentio~bind-all@0.0.2"];
+
+
+require.register("ianstormtaylor~bind@0.0.2", Function("exports, module",
+"\n\
+try {\n\
+  var bind = require('component~bind@1.0.0');\n\
+} catch (e) {\n\
+  var bind = require('bind-component');\n\
+}\n\
+\n\
+var bindAll = require('segmentio~bind-all@0.0.2');\n\
+\n\
+\n\
+/**\n\
+ * Expose `bind`.\n\
+ */\n\
+\n\
+module.exports = exports = bind;\n\
+\n\
+\n\
+/**\n\
+ * Expose `bindAll`.\n\
+ */\n\
+\n\
+exports.all = bindAll;\n\
+\n\
+\n\
+/**\n\
+ * Expose `bindMethods`.\n\
+ */\n\
+\n\
+exports.methods = bindMethods;\n\
+\n\
+\n\
+/**\n\
+ * Bind `methods` on `obj` to always be called with the `obj` as context.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @param {String} methods...\n\
+ */\n\
+\n\
+function bindMethods (obj, methods) {\n\
+  methods = [].slice.call(arguments, 1);\n\
+  for (var i = 0, method; method = methods[i]; i++) {\n\
+    obj[method] = bind(obj, obj[method]);\n\
+  }\n\
+  return obj;\n\
+}\n\
+//# sourceURL=components/ianstormtaylor/bind/0.0.2/index.js"
+));
+
+require.modules["ianstormtaylor-bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
+require.modules["ianstormtaylor~bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
+require.modules["bind"] = require.modules["ianstormtaylor~bind@0.0.2"];
+
+
+require.register("segmentio~is-email@0.1.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `isEmail`.\n\
+ */\n\
+\n\
+module.exports = isEmail;\n\
+\n\
+\n\
+/**\n\
+ * Email address matcher.\n\
+ */\n\
+\n\
+var matcher = /.+\\@.+\\..+/;\n\
+\n\
+\n\
+/**\n\
+ * Loosely validate an email address.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isEmail (string) {\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-email/0.1.1/index.js"
+));
+
+require.modules["segmentio-is-email"] = require.modules["segmentio~is-email@0.1.1"];
+require.modules["segmentio~is-email"] = require.modules["segmentio~is-email@0.1.1"];
+require.modules["is-email"] = require.modules["segmentio~is-email@0.1.1"];
+
+
+require.register("segmentio~is-hex-color@0.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `isHexColor`.\n\
+ */\n\
+\n\
+module.exports = isHexColor;\n\
+\n\
+\n\
+/**\n\
+ * Hex color matcher.\n\
+ */\n\
+\n\
+var matcher = /^#[a-f0-9]{3}([a-f0-9]{3})?$/i;\n\
+\n\
+\n\
+/**\n\
+ * Check whether a `string` is a hex color.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isHexColor (string) {\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-hex-color/0.0.1/index.js"
+));
+
+require.modules["segmentio-is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
+require.modules["segmentio~is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
+require.modules["is-hex-color"] = require.modules["segmentio~is-hex-color@0.0.1"];
+
+
+require.register("segmentio~is-hsl-color@0.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `isHslColor`.\n\
+ */\n\
+\n\
+module.exports = isHslColor;\n\
+\n\
+\n\
+/**\n\
+ * HSL(A) color matcher.\n\
+ */\n\
+\n\
+var matcher = /^hsla?\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}%\\s*,\\s*\\d{1,3}%\\s*(,\\s*[\\d\\.]+)?\\s*\\)$/;\n\
+\n\
+\n\
+/**\n\
+ * Loosely check whether a `string` is an HSL(A) color string.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isHslColor (string) {\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-hsl-color/0.0.1/index.js"
+));
+
+require.modules["segmentio-is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
+require.modules["segmentio~is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
+require.modules["is-hsl-color"] = require.modules["segmentio~is-hsl-color@0.0.1"];
+
+
+require.register("segmentio~is-rgb-color@0.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `isRgbColor`.\n\
+ */\n\
+\n\
+module.exports = isRgbColor;\n\
+\n\
+\n\
+/**\n\
+ * RGB(A) color matcher.\n\
+ */\n\
+\n\
+var matcher = /^rgba?\\(\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*,\\s*\\d{1,3}\\s*(,\\s*[\\d\\.]+)?\\s*\\)$/;\n\
+\n\
+\n\
+/**\n\
+ * Loosely check whether a `string` is an RGB(A) color string.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isRgbColor (string) {\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-rgb-color/0.0.1/index.js"
+));
+
+require.modules["segmentio-is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
+require.modules["segmentio~is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
+require.modules["is-rgb-color"] = require.modules["segmentio~is-rgb-color@0.0.1"];
+
+
+require.register("segmentio~is-url@0.1.0", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `isUrl`.\n\
+ */\n\
+\n\
+module.exports = isUrl;\n\
+\n\
+\n\
+/**\n\
+ * Matcher.\n\
+ */\n\
+\n\
+var matcher = /^(ftp|https?):\\/\\/([^\\s\\.]+\\.[^\\s]{2,}|localhost)$/;\n\
+\n\
+\n\
+/**\n\
+ * Loosely validate a URL.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isUrl (string) {\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-url/0.1.0/index.js"
+));
+
+require.modules["segmentio-is-url"] = require.modules["segmentio~is-url@0.1.0"];
+require.modules["segmentio~is-url"] = require.modules["segmentio~is-url@0.1.0"];
+require.modules["is-url"] = require.modules["segmentio~is-url@0.1.0"];
+
+
+require.register("segmentio~is-domain@0.0.1", Function("exports, module",
+"/**\n\
+ * Expose `isDomain`.\n\
+ */\n\
+\n\
+module.exports = isDomain;\n\
+\n\
+/**\n\
+ * Matcher.\n\
+ */\n\
+\n\
+var matcher = /^[a-zA-Z0-9_-]+\\.[.a-zA-Z0-9_-]+$/;\n\
+\n\
+/**\n\
+ * Loosely validate a domain `string`.\n\
+ *\n\
+ * @param {String} string\n\
+ * @return {Boolean}\n\
+ */\n\
+\n\
+function isDomain(string){\n\
+  return matcher.test(string);\n\
+}\n\
+//# sourceURL=components/segmentio/is-domain/0.0.1/lib/index.js"
+));
+
+require.modules["segmentio-is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
+require.modules["segmentio~is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
+require.modules["is-domain"] = require.modules["segmentio~is-domain@0.0.1"];
+
+
+require.register("timoxley~keycode@2.0.0", Function("exports, module",
+"// Source: http://jsfiddle.net/vWx8V/\n\
+// http://stackoverflow.com/questions/5603195/full-list-of-javascript-keycodes\n\
+\n\
+\n\
+\n\
+/**\n\
+ * Conenience method returns corresponding value for given keyName or keyCode.\n\
+ *\n\
+ * @param {Mixed} keyCode {Number} or keyName {String}\n\
+ * @return {Mixed}\n\
+ * @api public\n\
+ */\n\
+\n\
+exports = module.exports = function(searchInput) {\n\
+  // Keyboard Events\n\
+  if (searchInput && 'object' === typeof searchInput) {\n\
+    var hasKeyCode = searchInput.which || searchInput.keyCode || searchInput.charCode\n\
+    if (hasKeyCode) searchInput = hasKeyCode\n\
+  }\n\
+\n\
+  // Numbers\n\
+  if ('number' === typeof searchInput) return names[searchInput]\n\
+\n\
+  // Everything else (cast to string)\n\
+  var search = String(searchInput)\n\
+\n\
+  // check codes\n\
+  var foundNamedKey = codes[search.toLowerCase()]\n\
+  if (foundNamedKey) return foundNamedKey\n\
+\n\
+  // check aliases\n\
+  var foundNamedKey = aliases[search.toLowerCase()]\n\
+  if (foundNamedKey) return foundNamedKey\n\
+\n\
+  // weird character?\n\
+  if (search.length === 1) return search.charCodeAt(0)\n\
+\n\
+  return undefined\n\
+}\n\
+\n\
+/**\n\
+ * Get by name\n\
+ *\n\
+ *   exports.code['enter'] // => 13\n\
+ */\n\
+\n\
+var codes = exports.code = exports.codes = {\n\
+  'backspace': 8,\n\
+  'tab': 9,\n\
+  'enter': 13,\n\
+  'shift': 16,\n\
+  'ctrl': 17,\n\
+  'alt': 18,\n\
+  'pause/break': 19,\n\
+  'caps lock': 20,\n\
+  'esc': 27,\n\
+  'space': 32,\n\
+  'page up': 33,\n\
+  'page down': 34,\n\
+  'end': 35,\n\
+  'home': 36,\n\
+  'left': 37,\n\
+  'up': 38,\n\
+  'right': 39,\n\
+  'down': 40,\n\
+  'insert': 45,\n\
+  'delete': 46,\n\
+  'command': 91,\n\
+  'right click': 93,\n\
+  'numpad *': 106,\n\
+  'numpad +': 107,\n\
+  'numpad -': 109,\n\
+  'numpad .': 110,\n\
+  'numpad /': 111,\n\
+  'num lock': 144,\n\
+  'scroll lock': 145,\n\
+  'my computer': 182,\n\
+  'my calculator': 183,\n\
+  ';': 186,\n\
+  '=': 187,\n\
+  ',': 188,\n\
+  '-': 189,\n\
+  '.': 190,\n\
+  '/': 191,\n\
+  '`': 192,\n\
+  '[': 219,\n\
+  '\\\\': 220,\n\
+  ']': 221,\n\
+  \"'\": 222,\n\
+}\n\
+\n\
+// Helper aliases\n\
+\n\
+var aliases = exports.aliases = {\n\
+  'windows': 91,\n\
+  '⇧': 16,\n\
+  '⌥': 18,\n\
+  '⌃': 17,\n\
+  '⌘': 91,\n\
+  'ctl': 17,\n\
+  'control': 17,\n\
+  'option': 18,\n\
+  'pause': 19,\n\
+  'break': 19,\n\
+  'caps': 20,\n\
+  'escape': 27,\n\
+  'spc': 32,\n\
+  'pgup': 33,\n\
+  'pgdn': 33,\n\
+  'ins': 45,\n\
+  'del': 46,\n\
+  'cmd': 91\n\
+}\n\
+\n\
+\n\
+/*!\n\
+ * Programatically add the following\n\
+ */\n\
+\n\
+// lower case chars\n\
+for (i = 97; i < 123; i++) codes[String.fromCharCode(i)] = i - 32\n\
+\n\
+// numbers\n\
+for (var i = 48; i < 58; i++) codes[i - 48] = i\n\
+\n\
+// function keys\n\
+for (i = 1; i < 13; i++) codes['f'+i] = i + 111\n\
+\n\
+// numpad keys\n\
+for (i = 0; i < 10; i++) codes['numpad '+i] = i + 96\n\
+\n\
+/**\n\
+ * Get by code\n\
+ *\n\
+ *   exports.name[13] // => 'Enter'\n\
+ */\n\
+\n\
+var names = exports.names = exports.title = {} // title for backward compat\n\
+\n\
+// Create reverse mapping\n\
+for (i in codes) names[codes[i]] = i\n\
+\n\
+// Add aliases\n\
+for (var alias in aliases) {\n\
+  codes[alias] = aliases[alias]\n\
+}\n\
+\n\
+//# sourceURL=components/timoxley/keycode/2.0.0/index.js"
+));
+
+require.modules["timoxley-keycode"] = require.modules["timoxley~keycode@2.0.0"];
+require.modules["timoxley~keycode"] = require.modules["timoxley~keycode@2.0.0"];
+require.modules["keycode"] = require.modules["timoxley~keycode@2.0.0"];
+
+
+require.register("segmentio~extend@1.0.0", Function("exports, module",
+"\n\
+module.exports = function extend (object) {\n\
+    // Takes an unlimited number of extenders.\n\
+    var args = Array.prototype.slice.call(arguments, 1);\n\
+\n\
+    // For each extender, copy their properties on our object.\n\
+    for (var i = 0, source; source = args[i]; i++) {\n\
+        if (!source) continue;\n\
+        for (var property in source) {\n\
+            object[property] = source[property];\n\
+        }\n\
+    }\n\
+\n\
+    return object;\n\
+};\n\
+//# sourceURL=components/segmentio/extend/1.0.0/index.js"
+));
+
+require.modules["segmentio-extend"] = require.modules["segmentio~extend@1.0.0"];
+require.modules["segmentio~extend"] = require.modules["segmentio~extend@1.0.0"];
+require.modules["extend"] = require.modules["segmentio~extend@1.0.0"];
+
+
+require.register("ianstormtaylor~create-event@0.0.4", Function("exports, module",
+"\n\
+var extend = require('segmentio~extend@1.0.0')\n\
+  , keycode = require('timoxley~keycode@2.0.0');\n\
+\n\
+\n\
+/**\n\
+ * Expose `createEvent`.\n\
+ */\n\
+\n\
+module.exports = !!document.createEvent\n\
+  ? createEvent\n\
+  : createIeEvent;\n\
+\n\
+\n\
+/**\n\
+ * Default options.\n\
+ */\n\
+\n\
+var defaults = {\n\
+  alt           : false,\n\
+  bubbles       : true,\n\
+  button        : 0,\n\
+  cancelable    : true,\n\
+  clientX       : 0,\n\
+  clientY       : 0,\n\
+  ctrl          : false,\n\
+  detail        : 1,\n\
+  key           : 0,\n\
+  meta          : false,\n\
+  relatedTarget : null,\n\
+  screenX       : 0,\n\
+  screenY       : 0,\n\
+  shift         : false,\n\
+  view          : window\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Create a non-IE event object.\n\
+ *\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ */\n\
+\n\
+function createEvent (type, options) {\n\
+  switch (type) {\n\
+    case 'dblclick':\n\
+    case 'click':\n\
+      return createMouseEvent(type, options);\n\
+    case 'keydown':\n\
+    case 'keyup':\n\
+      return createKeyboardEvent(type, options);\n\
+  }\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Create a non-IE mouse event.\n\
+ *\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ */\n\
+\n\
+function createMouseEvent (type, options) {\n\
+  options = clean(type, options);\n\
+  var e = document.createEvent('MouseEvent');\n\
+  e.initMouseEvent(\n\
+    type,\n\
+    options.bubbles,      // bubbles?\n\
+    options.cancelable,   // cancelable?\n\
+    options.view,         // view\n\
+    options.detail,       // detail\n\
+    options.screenX,      // screenX\n\
+    options.screenY,      // screenY\n\
+    options.clientX ,     // clientX\n\
+    options.clientY,      // clientY\n\
+    options.ctrl,         // ctrlKey\n\
+    options.alt,          // altKey\n\
+    options.shift,        // shiftKey\n\
+    options.meta,         // metaKey\n\
+    options.button,       // button\n\
+    options.relatedTarget // relatedTarget\n\
+  );\n\
+  return e;\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Create a non-IE keyboard event.\n\
+ *\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ */\n\
+\n\
+function createKeyboardEvent (type, options) {\n\
+  options = clean(type, options);\n\
+  var e = document.createEvent('KeyboardEvent');\n\
+  (e.initKeyEvent || e.initKeyboardEvent).call(\n\
+    e,\n\
+    type,\n\
+    options.bubbles,    // bubbles?\n\
+    options.cancelable, // cancelable?\n\
+    options.view,       // view\n\
+    options.ctrl,       // ctrlKey\n\
+    options.alt,        // altKey\n\
+    options.shift,      // shiftKey\n\
+    options.meta,       // metaKey\n\
+    options.key,        // keyCode\n\
+    options.key         // charCode\n\
+  );\n\
+\n\
+  // super hack: http://stackoverflow.com/questions/10455626/keydown-simulation-in-chrome-fires-normally-but-not-the-correct-key/10520017#10520017\n\
+  if (e.keyCode !== options.key) {\n\
+    Object.defineProperty(e, 'keyCode', {\n\
+      get: function () { return options.key; }\n\
+    });\n\
+    Object.defineProperty(e, 'charCode', {\n\
+      get: function () { return options.key; }\n\
+    });\n\
+    Object.defineProperty(e, 'which', {\n\
+      get: function () { return options.key; }\n\
+    });\n\
+    Object.defineProperty(e, 'shiftKey', {\n\
+      get: function () { return options.shift; }\n\
+    });\n\
+  }\n\
+\n\
+  return e;\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Create an IE event. Surprisingly nicer API, eh?\n\
+ *\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ */\n\
+\n\
+function createIeEvent (type, options) {\n\
+  options = clean(type, options);\n\
+  var e = document.createEventObject();\n\
+  e.altKey = options.alt;\n\
+  e.bubbles = options.bubbles;\n\
+  e.button = options.button;\n\
+  e.cancelable = options.cancelable;\n\
+  e.clientX = options.clientX;\n\
+  e.clientY = options.clientY;\n\
+  e.ctrlKey = options.ctrl;\n\
+  e.detail = options.detail;\n\
+  e.metaKey = options.meta;\n\
+  e.screenX = options.screenX;\n\
+  e.screenY = options.screenY;\n\
+  e.shiftKey = options.shift;\n\
+  e.keyCode = options.key;\n\
+  e.charCode = options.key;\n\
+  e.view = options.view;\n\
+  return e;\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Back an `options` object by defaults, and convert some convenience features.\n\
+ *\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ * @return {Object} [description]\n\
+ */\n\
+\n\
+function clean (type, options) {\n\
+  options = extend({}, defaults, options);\n\
+  if ('dblclick' === type) options.detail = 2;\n\
+  if ('string' === typeof options.key) options.key = keycode(options.key);\n\
+  return options;\n\
+}\n\
+\n\
+//# sourceURL=components/ianstormtaylor/create-event/0.0.4/index.js"
+));
+
+require.modules["ianstormtaylor-create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
+require.modules["ianstormtaylor~create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
+require.modules["create-event"] = require.modules["ianstormtaylor~create-event@0.0.4"];
+
+
+require.register("ianstormtaylor~trigger-event@0.1.0", Function("exports, module",
+"\n\
+var create = require('ianstormtaylor~create-event@0.0.4');\n\
+\n\
+\n\
+/**\n\
+ * Expose `trigger`.\n\
+ */\n\
+\n\
+module.exports = trigger;\n\
+\n\
+\n\
+/**\n\
+ * Trigger an event of `type` on an `el` with `options`.\n\
+ *\n\
+ * @param {Element} el\n\
+ * @param {String} type\n\
+ * @param {Object} options\n\
+ */\n\
+\n\
+function trigger (el, type, options) {\n\
+\n\
+  // default el is `document`\n\
+  if ('string' === typeof el) {\n\
+    options = type;\n\
+    type = el;\n\
+    el = document;\n\
+  }\n\
+\n\
+  var e = create(type, options);\n\
+  el.dispatchEvent\n\
+    ? el.dispatchEvent(e)\n\
+    : el.fireEvent(ieify(type), e);\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Convert a type into an IE-specific type.\n\
+ *\n\
+ * @param {String} type\n\
+ * @return {String}\n\
+ */\n\
+\n\
+function ieify (type) {\n\
+  return 'on' + type[0].toUpperCase() + type.slice(1);\n\
+}\n\
+//# sourceURL=components/ianstormtaylor/trigger-event/0.1.0/index.js"
+));
+
+require.modules["ianstormtaylor-trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
+require.modules["ianstormtaylor~trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
+require.modules["trigger-event"] = require.modules["ianstormtaylor~trigger-event@0.1.0"];
+
+
+require.register("segmentio~submit-form@0.0.1", Function("exports, module",
+"\n\
+var trigger = require('ianstormtaylor~trigger-event@0.1.0');\n\
+\n\
+\n\
+/**\n\
+ * Expose `submitForm`.\n\
+ */\n\
+\n\
+module.exports = submitForm;\n\
+\n\
+\n\
+/**\n\
+ * Submit a `form` programmatically, triggering submit handlers.\n\
+ *\n\
+ * @param {Element} form\n\
+ */\n\
+\n\
+function submitForm (form) {\n\
+  var button = document.createElement('button');\n\
+  button.style.display = 'none';\n\
+  form.appendChild(button);\n\
+  trigger(button, 'click');\n\
+  form.removeChild(button);\n\
+}\n\
+//# sourceURL=components/segmentio/submit-form/0.0.1/index.js"
+));
+
+require.modules["segmentio-submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
+require.modules["segmentio~submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
+require.modules["submit-form"] = require.modules["segmentio~submit-form@0.0.1"];
+
+
+require.register("segmentio~each@0.1.1", Function("exports, module",
+"\n\
+/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var toFunction = require('component~to-function@2.0.3');\n\
+var type;\n\
+\n\
+try {\n\
+  type = require('type-component');\n\
+} catch (e) {\n\
+  type = require('component~type@1.0.0');\n\
+}\n\
+\n\
+/**\n\
+ * HOP reference.\n\
+ */\n\
+\n\
+var has = Object.prototype.hasOwnProperty;\n\
+\n\
+/**\n\
+ * Iterate the given `obj` and invoke `fn(val, i)`.\n\
+ *\n\
+ * @param {String|Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api public\n\
+ */\n\
+\n\
+module.exports = function(obj, fn){\n\
+  fn = toFunction(fn);\n\
+  switch (type(obj)) {\n\
+    case 'array':\n\
+      return array(obj, fn);\n\
+    case 'object':\n\
+      if ('number' == typeof obj.length) return array(obj, fn);\n\
+      return object(obj, fn);\n\
+    case 'string':\n\
+      return string(obj, fn);\n\
+  }\n\
+};\n\
+\n\
+/**\n\
+ * Iterate string chars.\n\
+ *\n\
+ * @param {String} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function string(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj.charAt(i), i);\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate object keys.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function object(obj, fn) {\n\
+  for (var key in obj) {\n\
+    if (has.call(obj, key)) {\n\
+      fn(key, obj[key]);\n\
+    }\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Iterate array-ish.\n\
+ *\n\
+ * @param {Array|Object} obj\n\
+ * @param {Function} fn\n\
+ * @api private\n\
+ */\n\
+\n\
+function array(obj, fn) {\n\
+  for (var i = 0; i < obj.length; ++i) {\n\
+    fn(obj[i], i);\n\
+  }\n\
+}\n\
+\n\
+//# sourceURL=components/segmentio/each/0.1.1/index.js"
+));
+
+require.modules["segmentio-each"] = require.modules["segmentio~each@0.1.1"];
+require.modules["segmentio~each"] = require.modules["segmentio~each@0.1.1"];
+require.modules["each"] = require.modules["segmentio~each@0.1.1"];
+
+
+require.register("timoxley~next-tick@0.0.2", Function("exports, module",
+"\"use strict\"\n\
+\n\
+if (typeof setImmediate == 'function') {\n\
+  module.exports = function(f){ setImmediate(f) }\n\
+}\n\
+// legacy node.js\n\
+else if (typeof process != 'undefined' && typeof process.nextTick == 'function') {\n\
+  module.exports = process.nextTick\n\
+}\n\
+// fallback for other environments / postMessage behaves badly on IE8\n\
+else if (typeof window == 'undefined' || window.ActiveXObject || !window.postMessage) {\n\
+  module.exports = function(f){ setTimeout(f) };\n\
+} else {\n\
+  var q = [];\n\
+\n\
+  window.addEventListener('message', function(){\n\
+    var i = 0;\n\
+    while (i < q.length) {\n\
+      try { q[i++](); }\n\
+      catch (e) {\n\
+        q = q.slice(i);\n\
+        window.postMessage('tic!', '*');\n\
+        throw e;\n\
+      }\n\
+    }\n\
+    q.length = 0;\n\
+  }, true);\n\
+\n\
+  module.exports = function(fn){\n\
+    if (!q.length) window.postMessage('tic!', '*');\n\
+    q.push(fn);\n\
+  }\n\
+}\n\
+\n\
+//# sourceURL=components/timoxley/next-tick/0.0.2/index.js"
+));
+
+require.modules["timoxley-next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
+require.modules["timoxley~next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
+require.modules["next-tick"] = require.modules["timoxley~next-tick@0.0.2"];
+
+
+require.register("segmentio~ware@0.2.0", Function("exports, module",
+"\n\
+/**\n\
+ * Expose `Ware`.\n\
+ */\n\
+\n\
+module.exports = Ware;\n\
+\n\
+\n\
+/**\n\
+ * Initialize a new `Ware` manager.\n\
+ */\n\
+\n\
+function Ware () {\n\
+  if (!(this instanceof Ware)) return new Ware();\n\
+  this.fns = [];\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Use a middleware `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Ware}\n\
+ */\n\
+\n\
+Ware.prototype.use = function (fn) {\n\
+  this.fns.push(fn);\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Run through the middleware with the given `args` and optional `callback`.\n\
+ *\n\
+ * @param {Mixed} args...\n\
+ * @param {Function} callback (optional)\n\
+ * @return {Ware}\n\
+ */\n\
+\n\
+Ware.prototype.run = function () {\n\
+  var fns = this.fns;\n\
+  var i = 0;\n\
+  var last = arguments[arguments.length - 1];\n\
+  var callback = 'function' == typeof last ? last : null;\n\
+  var args = callback\n\
+    ? [].slice.call(arguments, 0, arguments.length - 1)\n\
+    : [].slice.call(arguments);\n\
+\n\
+  function next (err) {\n\
+    var fn = fns[i++];\n\
+    if (!fn) return callback && callback.apply(null, [err].concat(args));\n\
+    if (fn.length < args.length + 2 && err) return next(err);\n\
+\n\
+    var arr = [].slice.call(args);\n\
+    if (err) arr.unshift(err);\n\
+    arr.push(next);\n\
+    fn.apply(null, arr);\n\
+  }\n\
+\n\
+  next();\n\
+  return this;\n\
+};\n\
+//# sourceURL=components/segmentio/ware/0.2.0/lib/index.js"
+));
+
+require.modules["segmentio-ware"] = require.modules["segmentio~ware@0.2.0"];
+require.modules["segmentio~ware"] = require.modules["segmentio~ware@0.2.0"];
+require.modules["ware"] = require.modules["segmentio~ware@0.2.0"];
+
+
+require.register("segmentio~validator@0.0.13", Function("exports, module",
+"\n\
+var ware = require('segmentio~ware@0.2.0');\n\
+var each;\n\
+\n\
+/**\n\
+ * Try to require from component and node\n\
+ */\n\
+\n\
+try {\n\
+  each = require('segmentio~each@0.1.1');\n\
+} catch (err) {\n\
+  each = require('each-component');\n\
+}\n\
+\n\
+/**\n\
+ * Trace helper.\n\
+ *\n\
+ * TODO: move to npm\n\
+ */\n\
+\n\
+function tracer(trace) {\n\
+  var ids = 0;\n\
+  return function(name, obj){\n\
+    var id = ++ids;\n\
+    obj = obj || {};\n\
+    obj.id = id;\n\
+\n\
+    trace(name + ':start', obj);\n\
+    return function(obj){\n\
+      trace(name + ':end');\n\
+    }\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Expose `Validator`.\n\
+ */\n\
+\n\
+module.exports = Validator;\n\
+\n\
+/**\n\
+ * Initialize a new `Validator`.\n\
+ */\n\
+\n\
+function Validator (opts) {\n\
+  if (!(this instanceof Validator)) return new Validator(opts);\n\
+  opts = opts || {};\n\
+  this.trace = tracer(opts.trace || function(){});\n\
+  this.rules = [];\n\
+  this._optional = false;\n\
+}\n\
+\n\
+/**\n\
+ * Add a new rule `fn`, with optional `context`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @param {Mixed} context (optional)\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.rule = function (fn, context) {\n\
+  this.rules.push({\n\
+    fn: fn,\n\
+    context: context\n\
+  });\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Kick off the validation against all our rules.\n\
+ *\n\
+ * @param {Function} callback(err, valid, [context])\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.validate = function (value, callback) {\n\
+  var rules = this.rules;\n\
+  var optional = this._optional;\n\
+  var middleware = ware();\n\
+  var trace = this.trace;\n\
+\n\
+  each(rules, function (rule) {\n\
+    middleware.use(function (value, done) {\n\
+\n\
+      // handle optional setting\n\
+      if (!value && optional) return done();\n\
+\n\
+      // dont handle errors so that things like fs.exists work\n\
+      var finish = function (err, valid) {\n\
+        if (err) return done(err);\n\
+        if (!valid) return done(new ValidationError(rule));\n\
+        done();\n\
+      };\n\
+\n\
+      // async\n\
+      if (rule.fn.length > 1) {\n\
+        var end = trace('validator:' + rule.fn.name);\n\
+        return rule.fn(value, function(){\n\
+          end();\n\
+          finish.apply(null, arguments);\n\
+        });\n\
+      }\n\
+\n\
+      // sync\n\
+      var end = trace('validator:' + rule.fn.name);\n\
+      var val = rule.fn(value);\n\
+      end();\n\
+      finish(null, val);\n\
+    });\n\
+  });\n\
+\n\
+  middleware.run(value, function (err) {\n\
+    if (!err) return callback(null, true);\n\
+    if (err && err instanceof ValidationError) {\n\
+      return callback(null, false, err.rule.context);\n\
+    }\n\
+    return callback(err);\n\
+  });\n\
+\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Make the validator pass on empty values.\n\
+ *\n\
+ * @param {Boolean} optional\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.optional = function (optional) {\n\
+  this._optional = false === optional ? false : true;\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * A simple error constructor to store the rule.\n\
+ */\n\
+\n\
+function ValidationError (rule) {\n\
+  this.rule = rule;\n\
+}\n\
+//# sourceURL=components/segmentio/validator/0.0.13/index.js"
+));
+
+require.modules["segmentio-validator"] = require.modules["segmentio~validator@0.0.13"];
+require.modules["segmentio~validator"] = require.modules["segmentio~validator@0.0.13"];
+require.modules["validator"] = require.modules["segmentio~validator@0.0.13"];
+
+
+require.register("yields~prevent@0.0.2", Function("exports, module",
+"\n\
+/**\n\
+ * prevent default on the given `e`.\n\
+ * \n\
+ * examples:\n\
+ * \n\
+ *      anchor.onclick = prevent;\n\
+ *      anchor.onclick = function(e){\n\
+ *        if (something) return prevent(e);\n\
+ *      };\n\
+ * \n\
+ * @param {Event} e\n\
+ */\n\
+\n\
+module.exports = function(e){\n\
+  e = e || window.event\n\
+  return e.preventDefault\n\
+    ? e.preventDefault()\n\
+    : e.returnValue = false;\n\
+};\n\
+\n\
+//# sourceURL=components/yields/prevent/0.0.2/index.js"
+));
+
+require.modules["yields-prevent"] = require.modules["yields~prevent@0.0.2"];
+require.modules["yields~prevent"] = require.modules["yields~prevent@0.0.2"];
+require.modules["prevent"] = require.modules["yields~prevent@0.0.2"];
+
+
+require.register("yields~stop@0.0.2", Function("exports, module",
+"\n\
+/**\n\
+ * stop propagation on the given `e`.\n\
+ * \n\
+ * examples:\n\
+ * \n\
+ *      anchor.onclick = require('stop');\n\
+ *      anchor.onclick = function(e){\n\
+ *        if (!some) return require('stop')(e);\n\
+ *      };\n\
+ * \n\
+ * \n\
+ * @param {Event} e\n\
+ */\n\
+\n\
+module.exports = function(e){\n\
+  e = e || window.event;\n\
+  return e.stopPropagation\n\
+    ? e.stopPropagation()\n\
+    : e.cancelBubble = true;\n\
+};\n\
+\n\
+//# sourceURL=components/yields/stop/0.0.2/index.js"
+));
+
+require.modules["yields-stop"] = require.modules["yields~stop@0.0.2"];
+require.modules["yields~stop"] = require.modules["yields~stop@0.0.2"];
+require.modules["stop"] = require.modules["yields~stop@0.0.2"];
+
+
+require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js", Function("exports, module",
+"\n\
+var classes = require('component~classes@1.1.4');\n\
+var domify = require('component~domify@1.1.1');\n\
+var next = require('ianstormtaylor~next-sibling@0.0.1');\n\
+var type = require('component~type@1.0.0');\n\
+var value = require('component~value@1.1.0');\n\
+\n\
+\n\
+/**\n\
+ * Default element accessor.\n\
+ *\n\
+ * @param {Element|Object} view\n\
+ */\n\
+\n\
+exports.el = function (view) {\n\
+  if (view.el) return view.el; // handle views\n\
+  return view;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Default value method.\n\
+ *\n\
+ * @param {Element|Object} view\n\
+ */\n\
+\n\
+exports.value = function (view) {\n\
+  var el = this.el(view);\n\
+  if ('function' == typeof view.value) return view.value();\n\
+  if ('element' != type(el)) return;\n\
+  return value(el);\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Default valid method.\n\
+ *\n\
+ * @param {Element|Object} view\n\
+ */\n\
+\n\
+exports.valid = function (view) {\n\
+  this.clear(view);\n\
+  var el = this.el(view);\n\
+  if ('function' == typeof view.valid) return view.valid();\n\
+  if ('element' != type(el)) return;\n\
+\n\
+  classes(el).add('valid');\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Default invalid method.\n\
+ *\n\
+ * @param {Element|Object} view\n\
+ * @param {String} msg\n\
+ */\n\
+\n\
+exports.invalid = function (view, msg) {\n\
+  this.clear(view);\n\
+  var el = this.el(view);\n\
+  if ('function' == typeof view.invalid) return view.invalid(msg);\n\
+  if ('element' != type(el)) return;\n\
+\n\
+  classes(el).add('invalid');\n\
+  if (msg && el.parentNode) {\n\
+    var message = domify('<label class=\"validator-message\">');\n\
+    message.textContent = msg;\n\
+    el.parentNode.insertBefore(message, el.nextSibling);\n\
+  }\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Default clear validation method.\n\
+ *\n\
+ * @param {Element|Object} view\n\
+ */\n\
+\n\
+exports.clear = function (view) {\n\
+  var el = this.el(view);\n\
+  if ('function' == typeof view.valid) return view.valid();\n\
+  if ('element' != type(el)) return;\n\
+\n\
+  classes(el).remove('valid').remove('invalid');\n\
+  var message;\n\
+  while (message = next(el, '.validator-message')) {\n\
+    if (el.parentNode) el.parentNode.removeChild(message);\n\
+  }\n\
+};\n\
+//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js"
+));
+
+require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js", Function("exports, module",
+"\n\
+var adapter = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js');\n\
+var bind = require('component~event@0.1.2').bind;\n\
+var each = require('component~each@0.1.0');\n\
+var type = require('component~type@1.0.0');\n\
+var Validator = require('segmentio~validator@0.0.13');\n\
+var validators = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js');\n\
+\n\
+\n\
+/**\n\
+ * Expose `Field`.\n\
+ */\n\
+\n\
+module.exports = Field;\n\
+\n\
+\n\
+/**\n\
+ * Initialize a new `Field`.\n\
+ *\n\
+ * @param {Element} el\n\
+ * @param {Object} adapter\n\
+ * @param {Object} validators\n\
+ */\n\
+\n\
+function Field (el, validator) {\n\
+  this.el = el;\n\
+  this.validator = validator;\n\
+  this.adapter = validator.adapter;\n\
+  this.validators = validator.validators;\n\
+  this._validator = new Validator().optional();\n\
+  this._valid = true;\n\
+  this.form = validator.form;\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Add a validation `fn` displaying `message` when invalid.\n\
+ *\n\
+ * @param {Function|RegExp|String} fn\n\
+ * @param {Mixed} settings (optional)\n\
+ * @param {String} message (optional)\n\
+ * @return {Field}\n\
+ */\n\
+\n\
+Field.prototype.is = function (fn) {\n\
+  var settings = arguments.length < 3 ? [] : [].slice.call(arguments, 1, arguments.length - 1);\n\
+  var message = arguments.length == 1 ? '' : arguments[arguments.length - 1];\n\
+\n\
+  // required\n\
+  if ('required' == fn) this._validator.optional(false);\n\
+\n\
+  // regexp\n\
+  if ('regexp' == type(fn)) fn = this.validators.regexp(fn);\n\
+\n\
+  // shorthand\n\
+  if ('string' == type(fn)) fn = this.validators[fn];\n\
+\n\
+  // handle fns that take settings\n\
+  if (settings.length) fn = fn.apply(this, settings);\n\
+\n\
+  this._validator.rule(fn, message);\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Validate our element against all of its rules, and `callback(valid)`.\n\
+ *\n\
+ * @param {Function} callback (optional)\n\
+ * @return {Field}\n\
+ */\n\
+\n\
+Field.prototype.validate = function (callback) {\n\
+  var self = this;\n\
+  var value = this.adapter.value(this.el);\n\
+\n\
+  this._validator.validate(value, function (err, valid, msg) {\n\
+    valid\n\
+      ? self.adapter.valid(self.el)\n\
+      : self.adapter.invalid(self.el, msg);\n\
+    callback && callback(err, valid, msg);\n\
+  });\n\
+\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Set an `event` trigger for validation.\n\
+ *\n\
+ * @param {String} event\n\
+ * @return {Field}\n\
+ */\n\
+\n\
+Field.prototype.on = function (event) {\n\
+  var self = this;\n\
+  bind(this.el, event, function (e) {\n\
+    // don't validate an empty input on blur, that's annoying\n\
+    if ('blur' === event && !self.adapter.value(self.el)) return;\n\
+    self.validate();\n\
+  });\n\
+  return this;\n\
+};\n\
+\n\
+//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js"
+));
+
+require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2", Function("exports, module",
+"\n\
+var adapter = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/adapter.js');\n\
+var bind = require('ianstormtaylor~bind@0.0.2');\n\
+var event = require('component~event@0.1.2');\n\
+var clone = require('component~clone@0.2.2');\n\
+var Field = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/field.js');\n\
+var submit = require('segmentio~submit-form@0.0.1');\n\
+var Vldtr = require('segmentio~validator@0.0.13');\n\
+var validators = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js');\n\
+\n\
+\n\
+/**\n\
+ * Expose `Validator`.\n\
+ */\n\
+\n\
+module.exports = exports = Validator;\n\
+\n\
+\n\
+/**\n\
+ * Initialize a new `Validator`.\n\
+ *\n\
+ * @param {Element} form\n\
+ */\n\
+\n\
+function Validator (form) {\n\
+  if (!(this instanceof Validator)) return new Validator(form);\n\
+  this.form = form;\n\
+  this._validator = new Vldtr();\n\
+  this.adapter = clone(adapter);\n\
+  this.validators = clone(validators);\n\
+  this.submit = bind(this, this.submit);\n\
+  this.bind();\n\
+}\n\
+\n\
+\n\
+/**\n\
+ * Use a `plugin`.\n\
+ *\n\
+ * @param {Function} plugin\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.use = function (plugin) {\n\
+  plugin(this);\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Set an aditional trigger `event` for individual field validation.\n\
+ *\n\
+ * @param {String} event\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.on = function (event) {\n\
+  this._event = event;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Add a field `el` to be validated.\n\
+ *\n\
+ * @param {Element|String} el\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.field = function (el) {\n\
+  if ('string' === typeof el) el = this.form.querySelector('[name=\"' + el + '\"]');\n\
+  var field = new Field(el, this);\n\
+  if (this._event) field.on(this._event);\n\
+\n\
+  this._validator.rule(function (val, done) {\n\
+    field.validate(done);\n\
+  });\n\
+\n\
+  // let us chain `is` like we were the field\n\
+  this.is = function () {\n\
+    field.is.apply(field, arguments);\n\
+    return this;\n\
+  };\n\
+\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Validate each field and `callback(valid)`.\n\
+ *\n\
+ * @param {Function} callback\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.validate = function (callback) {\n\
+  this._validator.validate(null, function (err, valid, msg) {\n\
+    callback && callback(err, valid, msg);\n\
+  });\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific validator `fn`.\n\
+ *\n\
+ * @param {String|Object} name\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.validator = function (name, fn) {\n\
+  if ('object' == typeof name) {\n\
+    for (var key in name) this.validator(key, name[key]);\n\
+    return;\n\
+  }\n\
+\n\
+  this.validators[name] = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific el adapter `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.el = function (fn) {\n\
+  this.adapter.el = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific value adapter `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.value = function (fn) {\n\
+  this.adapter.value = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific valid adapter `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.valid = function (fn) {\n\
+  this.adapter.valid = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific invalid adapter `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.invalid = function (fn) {\n\
+  this.adapter.invalid = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Define a view-specific clear adapter `fn`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Validator}\n\
+ */\n\
+\n\
+Validator.prototype.clear = function (fn) {\n\
+  this.adapter.clear = fn;\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Bind the form's submit handler.\n\
+ *\n\
+ * @return {Validator}\n\
+ * @api private\n\
+ */\n\
+\n\
+Validator.prototype.bind = function () {\n\
+  // capture to preempt other handlers\n\
+  event.bind(this.form, 'submit', this.submit, true);\n\
+  // prevent the browser from validating for us\n\
+  this.form.setAttribute('novalidate', true);\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Unind the form's submit handler.\n\
+ *\n\
+ * @return {Validator}\n\
+ * @api private\n\
+ */\n\
+\n\
+Validator.prototype.unbind = function () {\n\
+  // capture to preempt other handlers\n\
+  event.unbind(this.form, 'submit', this.submit, true);\n\
+  // enable browser form validation\n\
+  this.form.removeAttribute('novalidate');\n\
+  return this;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Form submit handler.\n\
+ *\n\
+ * @param {Event} e\n\
+ * @api private\n\
+ */\n\
+\n\
+Validator.prototype.submit = function (e) {\n\
+  e.stopImmediatePropagation();\n\
+  e.preventDefault();\n\
+  var self = this;\n\
+  this.validate(function (err, valid) {\n\
+    if (!err && valid) {\n\
+      self.unbind();\n\
+      submit(self.form);\n\
+    }\n\
+  });\n\
+};\n\
+\n\
+//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/index.js"
+));
+
+require.register("johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js", Function("exports, module",
+"\n\
+var email = require('segmentio~is-email@0.1.1');\n\
+var hex = require('segmentio~is-hex-color@0.0.1');\n\
+var hsl = require('segmentio~is-hsl-color@0.0.1');\n\
+var rgb = require('segmentio~is-rgb-color@0.0.1');\n\
+var trim = require('component~trim@0.0.1');\n\
+var type = require('component~type@1.0.0');\n\
+var url = require('segmentio~is-url@0.1.0');\n\
+var domain = require('segmentio~is-domain@0.0.1');\n\
+\n\
+\n\
+/**\n\
+ * Required.\n\
+ */\n\
+\n\
+exports.required = function (val) {\n\
+  return type(val) === 'string' ? trim(val) : val;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Email addresses.\n\
+ */\n\
+\n\
+exports.email = email;\n\
+\n\
+\n\
+/**\n\
+ * URLs.\n\
+ */\n\
+\n\
+exports.url = url;\n\
+\n\
+/**\n\
+ * Domains.\n\
+ */\n\
+\n\
+exports.domain = domain;\n\
+\n\
+/**\n\
+ * HEX color.\n\
+ */\n\
+\n\
+exports.hex = hex;\n\
+\n\
+\n\
+/**\n\
+ * HSL color.\n\
+ */\n\
+\n\
+exports.hsla = exports.hsl = hsl;\n\
+\n\
+\n\
+/**\n\
+ * RGB color.\n\
+ */\n\
+\n\
+exports.rgba = exports.rgb = rgb;\n\
+\n\
+\n\
+/**\n\
+ * Any color string.\n\
+ */\n\
+\n\
+exports.color = function (val) {\n\
+  return hex(val) || hsl(val) || rgb(val);\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Number.\n\
+ *\n\
+ * Note: this won't work for straight up element validation since they\n\
+ * always return strings.\n\
+ */\n\
+\n\
+exports.number = function (val) {\n\
+  return 'number' == typeof val;\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Regexp.\n\
+ *\n\
+ * @param {RegExp|String} regexp\n\
+ */\n\
+\n\
+exports.regexp = function (regexp) {\n\
+  if ('string' === typeof regexp) regexp = new RegExp(regexp);\n\
+  return function (val) {\n\
+    return regexp.test(val);\n\
+  };\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Minimum length.\n\
+ *\n\
+ * @param {Number} length\n\
+ */\n\
+\n\
+exports.min =\n\
+exports.minimum = function (length) {\n\
+  return function (val) {\n\
+    var l = val.length ? val.length : val;\n\
+    return l >= length;\n\
+  };\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Maximum length.\n\
+ * @param {Number} length\n\
+ */\n\
+\n\
+exports.max =\n\
+exports.maximum = function (length) {\n\
+  return function (val) {\n\
+    var l = val.length ? val.length : val;\n\
+    return l <= length;\n\
+  };\n\
+};\n\
+\n\
+\n\
+/**\n\
+ * Validation rule that requires 1 field be equal to another\n\
+ *\n\
+ * When a string is used, it will search for an input element with that name.\n\
+ * Otherwise, it's assumed to be something that field.adapter.value will\n\
+ * recognize\n\
+ *\n\
+ * @param {String|mixed} other\n\
+ * @returns {Function}\n\
+ */\n\
+\n\
+exports.equal = function (other) {\n\
+    var field = this;\n\
+    return function (val) {\n\
+      if (type(other) === 'string') {\n\
+        var el = field.form.querySelector(\"[name=\\\"\" + other + \"\\\"]\");\n\
+      }\n\
+      return val === field.adapter.value(el || other);\n\
+    };\n\
+};\n\
+\n\
+//# sourceURL=components/johntron/validate-form/6005cddc781064389ea0053f3f4bad47e2f1a2d2/lib/validators.js"
+));
+
+require.modules["johntron-validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
+require.modules["johntron~validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
+require.modules["validate-form"] = require.modules["johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2"];
+
+
+require.register("johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18", Function("exports, module",
+"var ipv6_matcher = /^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b)\\.){3}(\\b((25[0-5])|(1\\d{2})|(2[0-4]\\d)|(\\d{1,2}))\\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$/,\n\
+    ipv4_matcher = /^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$/;\n\
+\n\
+module.exports = function (validator) {\n\
+    validator.validators.ip = module.exports.validate;\n\
+};\n\
+\n\
+module.exports.validate = function (string) {\n\
+    var matcher;\n\
+\n\
+    if (string.match(/:/) !== null) {\n\
+        matcher = ipv6_matcher;\n\
+    } else {\n\
+        matcher = ipv4_matcher;\n\
+    }\n\
+\n\
+    return matcher.test(string);\n\
+};\n\
+//# sourceURL=components/johntron/is-ip-address/39a0715c025a0be4d5956e1b891682d6d0f18e18/index.js"
+));
+
+require.modules["johntron-is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
+require.modules["johntron~is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
+require.modules["is-ip-address"] = require.modules["johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18"];
+
+
 require.register("johntron~yadda@5e9e59e67b97272c395c9d85f8cf75b8e459cc33/lib/Array.js", Function("exports, module",
 "/*\n\
  * Copyright 2010 Acuminous Ltd / Energized Work Ltd\n\
@@ -48933,218 +48020,917 @@ require.modules["johntron~yadda"] = require.modules["johntron~yadda@5e9e59e67b97
 require.modules["yadda"] = require.modules["johntron~yadda@5e9e59e67b97272c395c9d85f8cf75b8e459cc33"];
 
 
-require.register("johntron~ip@b11eb045dc96ee4049cd046277d1c05a3fd6ebf2", Function("exports, module",
-"var v4 = new RegExp(/^(\\d{1,3}\\.){3}\\d{1,3}$/),\n\
-    v6 = new RegExp(/^[a-f0-9:]+$/i);\n\
+require.register("matthewmueller~debounce@0.0.1", Function("exports, module",
+"/**\n\
+ * Debounce\n\
+ *\n\
+ * Returns a function, that, as long as it continues to be invoked, will not\n\
+ * be triggered. The function will be called after it stops being called for\n\
+ * N milliseconds. If `immediate` is passed, trigger the function on the\n\
+ * leading edge, instead of the trailing.\n\
+ *\n\
+ * @param {Function} func\n\
+ * @param {Number} wait\n\
+ * @param {Boolean} immediate\n\
+ * @return {Function}\n\
+ */\n\
 \n\
-function IP(addr) {\n\
-    if (addr instanceof IP) {\n\
-        return addr;\n\
+module.exports = function(func, wait, immediate) {\n\
+  var timeout, result;\n\
+  return function() {\n\
+    var context = this, args = arguments;\n\
+    var later = function() {\n\
+      timeout = null;\n\
+      if (!immediate) result = func.apply(context, args);\n\
+    };\n\
+    var callNow = immediate && !timeout;\n\
+    clearTimeout(timeout);\n\
+    timeout = setTimeout(later, wait);\n\
+    if (callNow) result = func.apply(context, args);\n\
+    return result;\n\
+  };\n\
+};\n\
+\n\
+//# sourceURL=components/matthewmueller/debounce/0.0.1/index.js"
+));
+
+require.modules["matthewmueller-debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
+require.modules["matthewmueller~debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
+require.modules["debounce"] = require.modules["matthewmueller~debounce@0.0.1"];
+
+
+require.register("johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5", Function("exports, module",
+"var is_ip_address = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18').validate,\n\
+    tlds = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5/tlds.js');\n\
+\n\
+function is_hostname(str) {\n\
+    var labels = str.split('.').slice(0, -1),\n\
+        tld = str.split('.').slice(-1)[0],\n\
+        valid_label = new RegExp(\"^[a-z0-9]?[a-z0-9-]*[a-z0-9]$\");\n\
+\n\
+    if (tld === '') {\n\
+        // Don't allow trailing '.', because this format is mostly only used in zone files\n\
+        return false;\n\
     }\n\
 \n\
-    var self = this;\n\
-\n\
-    self.addr = addr;\n\
-    self.tets = []; // octets (v4) or hextets (v6)\n\
-\n\
-    if (v4.test(addr)) {\n\
-        addr.split(/\\./g).forEach(function (octet) {\n\
-            octet = parseInt(octet, 10);\n\
-            self.tets.push(octet);\n\
-        });\n\
-    } else if (v6.test(addr)) {\n\
-        IP.normalize_v6(addr).forEach(function (hextet) {\n\
-            hextet = parseInt(hextet, 16);\n\
-            self.tets.push(hextet >> 8); // First word\n\
-            self.tets.push(hextet & 0xff); // Second word\n\
-        });\n\
+    if (str.length > 253) {\n\
+        return false;\n\
     }\n\
+\n\
+    if (tld !== 'local' && tlds.indexOf(tld) === -1) {\n\
+        // Not a valid TLD\n\
+        return false;\n\
+    }\n\
+\n\
+    for (var i = 0; i < labels.length; i++) {\n\
+        var label = labels[i];\n\
+\n\
+        if (label.length < 1 || label.length > 63) {\n\
+            return false;\n\
+        }\n\
+\n\
+        if (!valid_label.test(label)) {\n\
+            // Must be alphanumeric with hyphens only in the middle\n\
+            return false;\n\
+        }\n\
+    }\n\
+\n\
+    return true;\n\
 }\n\
 \n\
-\n\
-/**\n\
- * Decompresses zeros\n\
- * @param addr\n\
- * @return {Array} of hextets in base16\n\
- */\n\
-IP.normalize_v6 = function (addr) {\n\
-    addr = addr.split(/::/g, 2); // Zero-compression - split at double-colon\n\
-\n\
-    // Break into hextets\n\
-    var head = (addr[0] || '').split(/:/g, 8),\n\
-        tail = (addr[1] || '').split(/:/g, 8);\n\
-\n\
-    // Remove '' elements from tail\n\
-    tail = tail.filter(function (el) { return el.length; });\n\
-\n\
-    // Decompress zero hextets\n\
-    if (tail.length === 0) {\n\
-        // Nothing after ::, so pad tail with empty hextets\n\
-        while (head.length < 8) {\n\
-            head.push('0000');\n\
-        }\n\
-    } else if (head.length === 0) {\n\
-        // Nothing before ::, so prefix tail with empty hextets\n\
-        while (tail.length < 8) {\n\
-            tail.unshift('0000');\n\
-        }\n\
-    } else {\n\
-        // Has head and tail, so just pad to proper length\n\
-        while (head.length + tail.length < 8) {\n\
-            head.push('0000');\n\
-        }\n\
-    }\n\
-\n\
-    return head.concat(tail);\n\
+module.exports = function (validator) {\n\
+    validator.validators.host = module.exports.validate;\n\
 };\n\
 \n\
-IP.prototype.version = function () {\n\
-    return this.tets.length > 4 ? 6 : 4;\n\
+module.exports.validate = function (string) {\n\
+    return is_ip_address(string) || is_hostname(string);\n\
 };\n\
-\n\
-IP.prototype.equal = function (test) {\n\
-    test = IP(test);\n\
-\n\
-    if (this.tets.length !== test.tets.length) {\n\
-        throw new Error('Cannot compare v4 and v6');\n\
-    }\n\
-\n\
-    return this.tets.every(function (tet, i) {\n\
-        return tet === test.tets[i];\n\
-    });\n\
-};\n\
-\n\
-IP.prototype.greater = function (test) {\n\
-    test = IP(test);\n\
-\n\
-    for (var i = 0; i < this.tets.length; i++) {\n\
-        if (this.tets[i] > test.tets[i]) {\n\
-            return true; // Short-circuit\n\
-        } else if (this.tets[i] < test.tets[i]) {\n\
-            return false; // Short-circuit\n\
-        }\n\
-    }\n\
-\n\
-    return false;\n\
-};\n\
-\n\
-IP.prototype.less = function (test) {\n\
-    test = IP(test);\n\
-\n\
-    for (var i = 0; i < this.tets.length; i++) {\n\
-        if (this.tets[i] < test.tets[i]) {\n\
-            return true; // Short-circuit\n\
-        } else if (this.tets[i] > test.tets[i]) {\n\
-            return false; // Short-circuit\n\
-        }\n\
-    }\n\
-\n\
-    return false;\n\
-};\n\
-\n\
-IP.prototype.lessOrEqual = function (test) {\n\
-\treturn this.less(test) || this.equal(test);\n\
-};\n\
-\n\
-IP.prototype.greaterOrEqual = function (test) {\n\
-\treturn this.greater(test) || this.equal(test);\n\
-};\n\
-\n\
-module.exports = IP;\n\
 \n\
 //var tests = [\n\
-//    // Format: method, first operand, second operand, expected value\n\
-//\n\
-//    // v4\n\
-//    // Basics\n\
-//    ['equal', '0.0.0.0', '0.0.0.0', true],\n\
-//    ['equal', '255.255.255.255', '255.255.255.255', true],\n\
-//    ['equal', '255.255.255.255', '0.0.0.0', false],\n\
-//\n\
-//    // Verify offsets\n\
-//    ['equal', '255.0.0.0', '255.0.0.0', true],\n\
-//    ['equal', '0.0.255.0', '0.0.255.0', true],\n\
-//    ['equal', '0.0.0.255', '0.0.0.255', true],\n\
-//    ['equal', '0.0.0.0', '0.0.255.0', false],\n\
-//    ['equal', '255.0.0.0', '0.0.0.255', false],\n\
-//\n\
-//    // Greater\n\
-//    ['greater', '225.0.0.1', '225.0.0.0', true],\n\
-//    ['greater', '255.0.0.0', '0.0.0.0', true],\n\
-//    ['greater', '255.255.255.255', '255.255.0.255', true],\n\
-//    ['greater', '0.0.0.255', '0.0.0.0', true],\n\
-//    ['greater', '0.0.0.0', '255.0.0.0', false],\n\
-//    ['greater', '255.0.255.255', '255.255.255.255', false],\n\
-//\n\
-//    // Less\n\
-//    ['less', '225.0.0.0', '225.0.0.1', true],\n\
-//    ['less', '0.0.0.0', '255.0.0.0', true],\n\
-//    ['less', '0.0.0.0', '0.0.0.255', true],\n\
-//    ['less', '255.255.255.0', '255.255.255.255', true],\n\
-//    ['less', '255.255.0.255', '255.255.255.255', true],\n\
-//    ['less', '255.0.0.0', '0.0.0.0', false],\n\
-//    ['less', '255.255.255.255', '255.0.255.255', false],\n\
-//\n\
-//    // v6\n\
-//    // Basics\n\
-//    ['equal', '0:0:0:0:0:0:0:0', '0:0:0:0:0:0:0:0', true],\n\
-//    ['equal', 'ff:ff:ff:ff:ff:ff:ff:ff', 'ff:ff:ff:ff:ff:ff:ff:ff', true],\n\
-//\n\
-//    // Zero decompression\n\
-//    ['equal', '::11ff', '::11ff', true],\n\
-//    ['equal', '11ff::', '11ff::', true],\n\
-//    ['equal', 'ff11::', '11ff::', false],\n\
-//    ['equal', '11ff::11ff', '11ff::11ff', true],\n\
-//    ['equal', 'ff11::11ff', '11ff::11ff', false],\n\
-//    ['equal', '11ff:11ff::11ff', '11ff:11ff::11ff', true],\n\
-//    ['equal', '11ff::11ff:11ff', '11ff::11ff:11ff', true],\n\
-//    ['equal', '11ff::ff11:11ff', '11ff::11ff:11ff', false],\n\
-//    ['equal', '11ff:11ff::11ff:11ff', '11ff:11ff::11ff:11ff', true],\n\
-//    ['equal', 'ff11:11ff::11ff:11ff', '11ff:11ff::11ff:11ff', false],\n\
-//    ['equal', '11ff:11ff::11ff:11ff', '11ff:11ff::ff11:11ff', false],\n\
-//\n\
-//    // Verify offsets\n\
-//    ['equal', 'ff11:11ff:11ff:11ff:11ff:11ff:11ff:11ff', 'ff11:11ff:11ff:11ff:11ff:11ff:11ff:11ff', true], // first\n\
-//    ['equal', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:ff11', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:ff11', true], // last\n\
-//    ['equal', '11ff:11ff:11ff:11ff:11ff:ff11:11ff:11ff', '11ff:11ff:11ff:11ff:11ff:ff11:11ff:11ff', true], // middle\n\
-//    ['equal', 'ff11:11ff:11ff:11ff:11ff:11ff:11ff:11ff', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:11ff', false], // first\n\
-//    ['equal', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:11ff', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:ff11', false], // last\n\
-//    ['equal', '11ff:11ff:11ff:ff11:11ff:11ff:11ff:11ff', '11ff:11ff:11ff:11ff:11ff:11ff:11ff:11ff', false], // middle\n\
-//\n\
-//    // Greater\n\
-//    ['greater', 'ff11::', '11ff::', true],\n\
-//    ['greater', 'ff11:ff11::ff11', 'ff11:11ff::ff11', true],\n\
-//    ['greater', 'ff11::ff11:ff11', 'ff11::11ff:ff11', true],\n\
-//    ['greater', 'ff11:11ff::ff11', 'ff11:ff11::ff11', false],\n\
-//    ['greater', 'ff11::11ff:ff11', 'ff11::ff11:ff11', false],\n\
-//\n\
-//    // Less\n\
-//    ['less', '11ff::', 'ff11::', true],\n\
-//    ['less', 'ff11:11ff::ff11', 'ff11:ff11::ff11', true],\n\
-//    ['less', 'ff11::11ff:ff11', 'ff11::ff11:ff11', true],\n\
-//    ['less', 'ff11:ff11::ff11', 'ff11:11ff::ff11', false],\n\
-//    ['less', 'ff11::ff11:ff11', 'ff11::11ff:ff11', false]\n\
+//    [\"a.com\", true], // gTLD\n\
+//    [\"a.cc\", true], // ccTLD\n\
+//    [\"a.local\", true], // Special TLD\n\
+//    [\"a\", false], // No TLD\n\
+//    [\"a.a.a.a\", false], // Invalid TLD\n\
+//    [\"192.168.1.1\", true], // v4\n\
+//    [\"ff::1\", true], // v6\n\
+//    [\"192.\", false],\n\
+//    [\"ff:\", false]\n\
 //];\n\
 //\n\
 //tests.forEach(function (test) {\n\
-//    var fn = test[0],\n\
-//        a = new IP(test[1]),\n\
-//        b = new IP(test[2]),\n\
-//        actual = a[fn](b),\n\
-//        expected = test[3];\n\
+//    var str = test[0],\n\
+//        expected = test[1];\n\
 //\n\
-////    console.log(test[1], fn, test[2], expected, actual === expected);\n\
-//    if (actual !== expected) {\n\
-//        console.log('Fail:', test[1], fn, test[2], actual, expected);\n\
+//    if (module.exports.validate(str) !== expected) {\n\
+//        console.error('Expected', str, 'to be', expected ? 'valid' : 'invalid');\n\
 //    }\n\
 //});\n\
-\n\
-//# sourceURL=components/johntron/ip/b11eb045dc96ee4049cd046277d1c05a3fd6ebf2/index.js"
+//# sourceURL=components/johntron/is-host/9f441b6f34440e715b31f06157611292e67565a5/index.js"
 ));
 
-require.modules["johntron-ip"] = require.modules["johntron~ip@b11eb045dc96ee4049cd046277d1c05a3fd6ebf2"];
-require.modules["johntron~ip"] = require.modules["johntron~ip@b11eb045dc96ee4049cd046277d1c05a3fd6ebf2"];
-require.modules["ip"] = require.modules["johntron~ip@b11eb045dc96ee4049cd046277d1c05a3fd6ebf2"];
+require.register("johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5/tlds.js", Function("exports, module",
+"/**\n\
+ * Taken from http://www.iana.org/domains/root/db on 1 Dec 2014 with this:\n\
+ *\n\
+ *  var links = document.querySelectorAll('.domain.tld a'),\n\
+ *      str = '';\n\
+ *\n\
+ *  [].forEach.call(links, function (link) { str += link.textContent.replace(/\\./, '') + '\\n\
+'; });\n\
+ *\n\
+ *  console.log(str);\n\
+ */\n\
+module.exports = [\n\
+    \"abogado\",\n\
+    \"ac\",\n\
+    \"academy\",\n\
+    \"accountants\",\n\
+    \"active\",\n\
+    \"actor\",\n\
+    \"ad\",\n\
+    \"ae\",\n\
+    \"aero\",\n\
+    \"af\",\n\
+    \"ag\",\n\
+    \"agency\",\n\
+    \"ai\",\n\
+    \"airforce\",\n\
+    \"al\",\n\
+    \"allfinanz\",\n\
+    \"alsace\",\n\
+    \"am\",\n\
+    \"an\",\n\
+    \"android\",\n\
+    \"ao\",\n\
+    \"aq\",\n\
+    \"ar\",\n\
+    \"archi\",\n\
+    \"army\",\n\
+    \"arpa\",\n\
+    \"as\",\n\
+    \"asia\",\n\
+    \"associates\",\n\
+    \"at\",\n\
+    \"attorney\",\n\
+    \"au\",\n\
+    \"auction\",\n\
+    \"audio\",\n\
+    \"autos\",\n\
+    \"aw\",\n\
+    \"ax\",\n\
+    \"axa\",\n\
+    \"az\",\n\
+    \"ba\",\n\
+    \"band\",\n\
+    \"bar\",\n\
+    \"bargains\",\n\
+    \"bayern\",\n\
+    \"bb\",\n\
+    \"bd\",\n\
+    \"be\",\n\
+    \"beer\",\n\
+    \"berlin\",\n\
+    \"best\",\n\
+    \"bf\",\n\
+    \"bg\",\n\
+    \"bh\",\n\
+    \"bi\",\n\
+    \"bid\",\n\
+    \"bike\",\n\
+    \"bio\",\n\
+    \"biz\",\n\
+    \"bj\",\n\
+    \"bl\",\n\
+    \"black\",\n\
+    \"blackfriday\",\n\
+    \"bloomberg\",\n\
+    \"blue\",\n\
+    \"bm\",\n\
+    \"bmw\",\n\
+    \"bn\",\n\
+    \"bnpparibas\",\n\
+    \"bo\",\n\
+    \"boo\",\n\
+    \"boutique\",\n\
+    \"bq\",\n\
+    \"br\",\n\
+    \"brussels\",\n\
+    \"bs\",\n\
+    \"bt\",\n\
+    \"budapest\",\n\
+    \"build\",\n\
+    \"builders\",\n\
+    \"business\",\n\
+    \"buzz\",\n\
+    \"bv\",\n\
+    \"bw\",\n\
+    \"by\",\n\
+    \"bz\",\n\
+    \"bzh\",\n\
+    \"ca\",\n\
+    \"cab\",\n\
+    \"cal\",\n\
+    \"camera\",\n\
+    \"camp\",\n\
+    \"cancerresearch\",\n\
+    \"capetown\",\n\
+    \"capital\",\n\
+    \"caravan\",\n\
+    \"cards\",\n\
+    \"care\",\n\
+    \"career\",\n\
+    \"careers\",\n\
+    \"casa\",\n\
+    \"cash\",\n\
+    \"cat\",\n\
+    \"catering\",\n\
+    \"cc\",\n\
+    \"cd\",\n\
+    \"center\",\n\
+    \"ceo\",\n\
+    \"cern\",\n\
+    \"cf\",\n\
+    \"cg\",\n\
+    \"ch\",\n\
+    \"channel\",\n\
+    \"cheap\",\n\
+    \"christmas\",\n\
+    \"chrome\",\n\
+    \"church\",\n\
+    \"ci\",\n\
+    \"citic\",\n\
+    \"city\",\n\
+    \"ck\",\n\
+    \"cl\",\n\
+    \"claims\",\n\
+    \"cleaning\",\n\
+    \"click\",\n\
+    \"clinic\",\n\
+    \"clothing\",\n\
+    \"club\",\n\
+    \"cm\",\n\
+    \"cn\",\n\
+    \"co\",\n\
+    \"coach\",\n\
+    \"codes\",\n\
+    \"coffee\",\n\
+    \"college\",\n\
+    \"cologne\",\n\
+    \"com\",\n\
+    \"community\",\n\
+    \"company\",\n\
+    \"computer\",\n\
+    \"condos\",\n\
+    \"construction\",\n\
+    \"consulting\",\n\
+    \"contractors\",\n\
+    \"cooking\",\n\
+    \"cool\",\n\
+    \"coop\",\n\
+    \"country\",\n\
+    \"cr\",\n\
+    \"credit\",\n\
+    \"creditcard\",\n\
+    \"cricket\",\n\
+    \"crs\",\n\
+    \"cruises\",\n\
+    \"cu\",\n\
+    \"cuisinella\",\n\
+    \"cv\",\n\
+    \"cw\",\n\
+    \"cx\",\n\
+    \"cy\",\n\
+    \"cymru\",\n\
+    \"cz\",\n\
+    \"dad\",\n\
+    \"dance\",\n\
+    \"dating\",\n\
+    \"day\",\n\
+    \"de\",\n\
+    \"deals\",\n\
+    \"degree\",\n\
+    \"delivery\",\n\
+    \"democrat\",\n\
+    \"dental\",\n\
+    \"dentist\",\n\
+    \"desi\",\n\
+    \"diamonds\",\n\
+    \"diet\",\n\
+    \"digital\",\n\
+    \"direct\",\n\
+    \"directory\",\n\
+    \"discount\",\n\
+    \"dj\",\n\
+    \"dk\",\n\
+    \"dm\",\n\
+    \"dnp\",\n\
+    \"do\",\n\
+    \"domains\",\n\
+    \"durban\",\n\
+    \"dvag\",\n\
+    \"dz\",\n\
+    \"eat\",\n\
+    \"ec\",\n\
+    \"edu\",\n\
+    \"education\",\n\
+    \"ee\",\n\
+    \"eg\",\n\
+    \"eh\",\n\
+    \"email\",\n\
+    \"emerck\",\n\
+    \"energy\",\n\
+    \"engineer\",\n\
+    \"engineering\",\n\
+    \"enterprises\",\n\
+    \"equipment\",\n\
+    \"er\",\n\
+    \"es\",\n\
+    \"esq\",\n\
+    \"estate\",\n\
+    \"et\",\n\
+    \"eu\",\n\
+    \"eus\",\n\
+    \"events\",\n\
+    \"everbank\",\n\
+    \"exchange\",\n\
+    \"expert\",\n\
+    \"exposed\",\n\
+    \"fail\",\n\
+    \"farm\",\n\
+    \"feedback\",\n\
+    \"fi\",\n\
+    \"finance\",\n\
+    \"financial\",\n\
+    \"firmdale\",\n\
+    \"fish\",\n\
+    \"fishing\",\n\
+    \"fitness\",\n\
+    \"fj\",\n\
+    \"fk\",\n\
+    \"flights\",\n\
+    \"florist\",\n\
+    \"flsmidth\",\n\
+    \"fly\",\n\
+    \"fm\",\n\
+    \"fo\",\n\
+    \"foo\",\n\
+    \"forsale\",\n\
+    \"foundation\",\n\
+    \"fr\",\n\
+    \"frl\",\n\
+    \"frogans\",\n\
+    \"fund\",\n\
+    \"furniture\",\n\
+    \"futbol\",\n\
+    \"ga\",\n\
+    \"gal\",\n\
+    \"gallery\",\n\
+    \"gb\",\n\
+    \"gbiz\",\n\
+    \"gd\",\n\
+    \"ge\",\n\
+    \"gent\",\n\
+    \"gf\",\n\
+    \"gg\",\n\
+    \"gh\",\n\
+    \"gi\",\n\
+    \"gift\",\n\
+    \"gifts\",\n\
+    \"gives\",\n\
+    \"gl\",\n\
+    \"glass\",\n\
+    \"gle\",\n\
+    \"global\",\n\
+    \"globo\",\n\
+    \"gm\",\n\
+    \"gmail\",\n\
+    \"gmo\",\n\
+    \"gmx\",\n\
+    \"gn\",\n\
+    \"google\",\n\
+    \"gop\",\n\
+    \"gov\",\n\
+    \"gp\",\n\
+    \"gq\",\n\
+    \"gr\",\n\
+    \"graphics\",\n\
+    \"gratis\",\n\
+    \"green\",\n\
+    \"gripe\",\n\
+    \"gs\",\n\
+    \"gt\",\n\
+    \"gu\",\n\
+    \"guide\",\n\
+    \"guitars\",\n\
+    \"guru\",\n\
+    \"gw\",\n\
+    \"gy\",\n\
+    \"hamburg\",\n\
+    \"haus\",\n\
+    \"healthcare\",\n\
+    \"help\",\n\
+    \"here\",\n\
+    \"hiphop\",\n\
+    \"hiv\",\n\
+    \"hk\",\n\
+    \"hm\",\n\
+    \"hn\",\n\
+    \"holdings\",\n\
+    \"holiday\",\n\
+    \"homes\",\n\
+    \"horse\",\n\
+    \"host\",\n\
+    \"hosting\",\n\
+    \"house\",\n\
+    \"how\",\n\
+    \"hr\",\n\
+    \"ht\",\n\
+    \"hu\",\n\
+    \"ibm\",\n\
+    \"id\",\n\
+    \"ie\",\n\
+    \"il\",\n\
+    \"im\",\n\
+    \"immo\",\n\
+    \"immobilien\",\n\
+    \"in\",\n\
+    \"industries\",\n\
+    \"info\",\n\
+    \"ing\",\n\
+    \"ink\",\n\
+    \"institute\",\n\
+    \"insure\",\n\
+    \"int\",\n\
+    \"international\",\n\
+    \"investments\",\n\
+    \"io\",\n\
+    \"iq\",\n\
+    \"ir\",\n\
+    \"is\",\n\
+    \"it\",\n\
+    \"je\",\n\
+    \"jetzt\",\n\
+    \"jm\",\n\
+    \"jo\",\n\
+    \"jobs\",\n\
+    \"joburg\",\n\
+    \"jp\",\n\
+    \"juegos\",\n\
+    \"kaufen\",\n\
+    \"ke\",\n\
+    \"kg\",\n\
+    \"kh\",\n\
+    \"ki\",\n\
+    \"kim\",\n\
+    \"kitchen\",\n\
+    \"kiwi\",\n\
+    \"km\",\n\
+    \"kn\",\n\
+    \"koeln\",\n\
+    \"kp\",\n\
+    \"kr\",\n\
+    \"krd\",\n\
+    \"kred\",\n\
+    \"kw\",\n\
+    \"ky\",\n\
+    \"kz\",\n\
+    \"la\",\n\
+    \"lacaixa\",\n\
+    \"land\",\n\
+    \"lawyer\",\n\
+    \"lb\",\n\
+    \"lc\",\n\
+    \"lds\",\n\
+    \"lease\",\n\
+    \"legal\",\n\
+    \"lgbt\",\n\
+    \"li\",\n\
+    \"life\",\n\
+    \"lighting\",\n\
+    \"limited\",\n\
+    \"limo\",\n\
+    \"link\",\n\
+    \"lk\",\n\
+    \"loans\",\n\
+    \"london\",\n\
+    \"lotto\",\n\
+    \"lr\",\n\
+    \"ls\",\n\
+    \"lt\",\n\
+    \"ltda\",\n\
+    \"lu\",\n\
+    \"luxe\",\n\
+    \"luxury\",\n\
+    \"lv\",\n\
+    \"ly\",\n\
+    \"ma\",\n\
+    \"madrid\",\n\
+    \"maison\",\n\
+    \"management\",\n\
+    \"mango\",\n\
+    \"market\",\n\
+    \"marketing\",\n\
+    \"mc\",\n\
+    \"md\",\n\
+    \"me\",\n\
+    \"media\",\n\
+    \"meet\",\n\
+    \"melbourne\",\n\
+    \"meme\",\n\
+    \"memorial\",\n\
+    \"menu\",\n\
+    \"mf\",\n\
+    \"mg\",\n\
+    \"mh\",\n\
+    \"miami\",\n\
+    \"mil\",\n\
+    \"mini\",\n\
+    \"mk\",\n\
+    \"ml\",\n\
+    \"mm\",\n\
+    \"mn\",\n\
+    \"mo\",\n\
+    \"mobi\",\n\
+    \"moda\",\n\
+    \"moe\",\n\
+    \"monash\",\n\
+    \"money\",\n\
+    \"mormon\",\n\
+    \"mortgage\",\n\
+    \"moscow\",\n\
+    \"motorcycles\",\n\
+    \"mov\",\n\
+    \"mp\",\n\
+    \"mq\",\n\
+    \"mr\",\n\
+    \"ms\",\n\
+    \"mt\",\n\
+    \"mu\",\n\
+    \"museum\",\n\
+    \"mv\",\n\
+    \"mw\",\n\
+    \"mx\",\n\
+    \"my\",\n\
+    \"mz\",\n\
+    \"na\",\n\
+    \"nagoya\",\n\
+    \"name\",\n\
+    \"navy\",\n\
+    \"nc\",\n\
+    \"ne\",\n\
+    \"net\",\n\
+    \"network\",\n\
+    \"neustar\",\n\
+    \"new\",\n\
+    \"nexus\",\n\
+    \"nf\",\n\
+    \"ng\",\n\
+    \"ngo\",\n\
+    \"nhk\",\n\
+    \"ni\",\n\
+    \"ninja\",\n\
+    \"nl\",\n\
+    \"no\",\n\
+    \"np\",\n\
+    \"nr\",\n\
+    \"nra\",\n\
+    \"nrw\",\n\
+    \"nu\",\n\
+    \"nyc\",\n\
+    \"nz\",\n\
+    \"okinawa\",\n\
+    \"om\",\n\
+    \"ong\",\n\
+    \"onl\",\n\
+    \"ooo\",\n\
+    \"org\",\n\
+    \"organic\",\n\
+    \"otsuka\",\n\
+    \"ovh\",\n\
+    \"pa\",\n\
+    \"paris\",\n\
+    \"partners\",\n\
+    \"parts\",\n\
+    \"party\",\n\
+    \"pe\",\n\
+    \"pf\",\n\
+    \"pg\",\n\
+    \"ph\",\n\
+    \"pharmacy\",\n\
+    \"photo\",\n\
+    \"photography\",\n\
+    \"photos\",\n\
+    \"physio\",\n\
+    \"pics\",\n\
+    \"pictures\",\n\
+    \"pink\",\n\
+    \"pizza\",\n\
+    \"pk\",\n\
+    \"pl\",\n\
+    \"place\",\n\
+    \"plumbing\",\n\
+    \"pm\",\n\
+    \"pn\",\n\
+    \"pohl\",\n\
+    \"poker\",\n\
+    \"post\",\n\
+    \"pr\",\n\
+    \"praxi\",\n\
+    \"press\",\n\
+    \"pro\",\n\
+    \"prod\",\n\
+    \"productions\",\n\
+    \"prof\",\n\
+    \"properties\",\n\
+    \"property\",\n\
+    \"ps\",\n\
+    \"pt\",\n\
+    \"pub\",\n\
+    \"pw\",\n\
+    \"py\",\n\
+    \"qa\",\n\
+    \"qpon\",\n\
+    \"quebec\",\n\
+    \"re\",\n\
+    \"realtor\",\n\
+    \"recipes\",\n\
+    \"red\",\n\
+    \"rehab\",\n\
+    \"reise\",\n\
+    \"reisen\",\n\
+    \"reit\",\n\
+    \"ren\",\n\
+    \"rentals\",\n\
+    \"repair\",\n\
+    \"report\",\n\
+    \"republican\",\n\
+    \"rest\",\n\
+    \"restaurant\",\n\
+    \"reviews\",\n\
+    \"rich\",\n\
+    \"rio\",\n\
+    \"rip\",\n\
+    \"ro\",\n\
+    \"rocks\",\n\
+    \"rodeo\",\n\
+    \"rs\",\n\
+    \"rsvp\",\n\
+    \"ru\",\n\
+    \"ruhr\",\n\
+    \"rw\",\n\
+    \"ryukyu\",\n\
+    \"sa\",\n\
+    \"saarland\",\n\
+    \"sarl\",\n\
+    \"sb\",\n\
+    \"sc\",\n\
+    \"sca\",\n\
+    \"scb\",\n\
+    \"schmidt\",\n\
+    \"schule\",\n\
+    \"science\",\n\
+    \"scot\",\n\
+    \"sd\",\n\
+    \"se\",\n\
+    \"services\",\n\
+    \"sexy\",\n\
+    \"sg\",\n\
+    \"sh\",\n\
+    \"shiksha\",\n\
+    \"shoes\",\n\
+    \"si\",\n\
+    \"singles\",\n\
+    \"sj\",\n\
+    \"sk\",\n\
+    \"sl\",\n\
+    \"sm\",\n\
+    \"sn\",\n\
+    \"so\",\n\
+    \"social\",\n\
+    \"software\",\n\
+    \"sohu\",\n\
+    \"solar\",\n\
+    \"solutions\",\n\
+    \"soy\",\n\
+    \"space\",\n\
+    \"spiegel\",\n\
+    \"sr\",\n\
+    \"ss\",\n\
+    \"st\",\n\
+    \"su\",\n\
+    \"supplies\",\n\
+    \"supply\",\n\
+    \"support\",\n\
+    \"surf\",\n\
+    \"surgery\",\n\
+    \"suzuki\",\n\
+    \"sv\",\n\
+    \"sx\",\n\
+    \"sy\",\n\
+    \"sydney\",\n\
+    \"systems\",\n\
+    \"sz\",\n\
+    \"taipei\",\n\
+    \"tatar\",\n\
+    \"tattoo\",\n\
+    \"tax\",\n\
+    \"tc\",\n\
+    \"td\",\n\
+    \"technology\",\n\
+    \"tel\",\n\
+    \"tf\",\n\
+    \"tg\",\n\
+    \"th\",\n\
+    \"tienda\",\n\
+    \"tips\",\n\
+    \"tirol\",\n\
+    \"tj\",\n\
+    \"tk\",\n\
+    \"tl\",\n\
+    \"tm\",\n\
+    \"tn\",\n\
+    \"to\",\n\
+    \"today\",\n\
+    \"tokyo\",\n\
+    \"tools\",\n\
+    \"top\",\n\
+    \"town\",\n\
+    \"toys\",\n\
+    \"tp\",\n\
+    \"tr\",\n\
+    \"trade\",\n\
+    \"training\",\n\
+    \"travel\",\n\
+    \"tt\",\n\
+    \"tui\",\n\
+    \"tv\",\n\
+    \"tw\",\n\
+    \"tz\",\n\
+    \"ua\",\n\
+    \"ug\",\n\
+    \"uk\",\n\
+    \"um\",\n\
+    \"university\",\n\
+    \"uno\",\n\
+    \"uol\",\n\
+    \"us\",\n\
+    \"uy\",\n\
+    \"uz\",\n\
+    \"va\",\n\
+    \"vacations\",\n\
+    \"vc\",\n\
+    \"ve\",\n\
+    \"vegas\",\n\
+    \"ventures\",\n\
+    \"versicherung\",\n\
+    \"vet\",\n\
+    \"vg\",\n\
+    \"vi\",\n\
+    \"viajes\",\n\
+    \"villas\",\n\
+    \"vision\",\n\
+    \"vlaanderen\",\n\
+    \"vn\",\n\
+    \"vodka\",\n\
+    \"vote\",\n\
+    \"voting\",\n\
+    \"voto\",\n\
+    \"voyage\",\n\
+    \"vu\",\n\
+    \"wales\",\n\
+    \"wang\",\n\
+    \"watch\",\n\
+    \"webcam\",\n\
+    \"website\",\n\
+    \"wed\",\n\
+    \"wedding\",\n\
+    \"wf\",\n\
+    \"whoswho\",\n\
+    \"wien\",\n\
+    \"wiki\",\n\
+    \"williamhill\",\n\
+    \"wme\",\n\
+    \"work\",\n\
+    \"works\",\n\
+    \"world\",\n\
+    \"ws\",\n\
+    \"wtc\",\n\
+    \"wtf\",\n\
+    \"测试\",\n\
+    \"परीक्षा\",\n\
+    \"佛山\",\n\
+    \"集团\",\n\
+    \"在线\",\n\
+    \"한국\",\n\
+    \"ভারত\",\n\
+    \"八卦\",\n\
+    \"موقع\",\n\
+    \"বাংলা\",\n\
+    \"公益\",\n\
+    \"公司\",\n\
+    \"移动\",\n\
+    \"我爱你\",\n\
+    \"москва\",\n\
+    \"испытание\",\n\
+    \"қаз\",\n\
+    \"онлайн\",\n\
+    \"сайт\",\n\
+    \"срб\",\n\
+    \"бел\",\n\
+    \"테스트\",\n\
+    \"орг\",\n\
+    \"삼성\",\n\
+    \"சிங்கப்பூர்\",\n\
+    \"商标\",\n\
+    \"商城\",\n\
+    \"дети\",\n\
+    \"мкд\",\n\
+    \"טעסט\",\n\
+    \"中文网\",\n\
+    \"中信\",\n\
+    \"中国\",\n\
+    \"中國\",\n\
+    \"谷歌\",\n\
+    \"భారత్\",\n\
+    \"ලංකා\",\n\
+    \"測試\",\n\
+    \"ભારત\",\n\
+    \"भारत\",\n\
+    \"آزمایشی\",\n\
+    \"பரிட்சை\",\n\
+    \"संगठन\",\n\
+    \"网络\",\n\
+    \"укр\",\n\
+    \"香港\",\n\
+    \"δοκιμή\",\n\
+    \"إختبار\",\n\
+    \"台湾\",\n\
+    \"台灣\",\n\
+    \"手机\",\n\
+    \"мон\",\n\
+    \"الجزائر\",\n\
+    \"عمان\",\n\
+    \"ایران\",\n\
+    \"امارات\",\n\
+    \"بازار\",\n\
+    \"پاکستان\",\n\
+    \"الاردن\",\n\
+    \"بھارت\",\n\
+    \"المغرب\",\n\
+    \"السعودية\",\n\
+    \"سودان\",\n\
+    \"عراق\",\n\
+    \"مليسيا\",\n\
+    \"شبكة\",\n\
+    \"გე\",\n\
+    \"机构\",\n\
+    \"组织机构\",\n\
+    \"ไทย\",\n\
+    \"سورية\",\n\
+    \"рус\",\n\
+    \"рф\",\n\
+    \"تونس\",\n\
+    \"みんな\",\n\
+    \"グーグル\",\n\
+    \"世界\",\n\
+    \"ਭਾਰਤ\",\n\
+    \"网址\",\n\
+    \"游戏\",\n\
+    \"vermögensberater\",\n\
+    \"vermögensberatung\",\n\
+    \"企业\",\n\
+    \"مصر\",\n\
+    \"قطر\",\n\
+    \"广东\",\n\
+    \"இலங்கை\",\n\
+    \"இந்தியா\",\n\
+    \"հայ\",\n\
+    \"新加坡\",\n\
+    \"فلسطين\",\n\
+    \"テスト\",\n\
+    \"政务\",\n\
+    \"xxx\",\n\
+    \"xyz\",\n\
+    \"yachts\",\n\
+    \"yandex\",\n\
+    \"ye\",\n\
+    \"yoga\",\n\
+    \"yokohama\",\n\
+    \"youtube\",\n\
+    \"yt\",\n\
+    \"za\",\n\
+    \"zip\",\n\
+    \"zm\",\n\
+    \"zone\",\n\
+    \"zw\"\n\
+];\n\
+//# sourceURL=components/johntron/is-host/9f441b6f34440e715b31f06157611292e67565a5/tlds.js"
+));
+
+require.modules["johntron-is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
+require.modules["johntron~is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
+require.modules["is-host"] = require.modules["johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5"];
 
 
 require.register("houzhenyu1117~humanize@component", Function("exports, module",
@@ -51760,1012 +51546,8 @@ DictionaryProvider.load = function (language, callback) {\n\
 require.modules["dictionary-provider"] = require.modules["./components-ixia/dictionary-provider"];
 
 
-require.register("./components-ixia/endpoint-view-model", Function("exports, module",
-"module.exports = {\n\
-    UnicastViewModel: require('./components-ixia/endpoint-view-model/unicast/view-model.js'),\n\
-    MulticastViewModel: require('./components-ixia/endpoint-view-model/multicast/view-model.js')\n\
-};\n\
-//# sourceURL=components-ixia/endpoint-view-model/index.js"
-));
-
-require.register("./components-ixia/endpoint-view-model/validator.js", Function("exports, module",
-"var validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
-    is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18');\n\
-\n\
-// Validation functions\n\
-function greater_than(limit) {\n\
-    return function (subject) { return subject > limit; };\n\
-}\n\
-\n\
-function less_than(limit) {\n\
-    return function (subject) { return subject < limit; };\n\
-}\n\
-\n\
-function less_than_or_equal(limit) {\n\
-    return function (subject) { return subject <= limit; };\n\
-}\n\
-\n\
-/**\n\
- * Binds a validator to an endpoint DOM node - multicast or unicast\n\
- * @constructor\n\
- */\n\
-function EndpointValidator() {\n\
-    this.$view = undefined;\n\
-    this.validator = undefined;\n\
-    this.strings = {\n\
-        \"Field is required\": window.translate(\"Field is required\"),\n\
-        \"Must be less than 4,096\": window.translate(\"Must be less than 4,096\"),\n\
-        \"Must be an IP address\": window.translate(\"Must be an IP address\"),\n\
-        \"Must be greater than 0\": window.translate(\"Must be greater than 0\"),\n\
-        \"Must be less than 128\": window.translate(\"Must be less than 128\"),\n\
-        \"Must be less than or equal to 512\": window.translate(\"Must be less than or equal to 512\"),\n\
-        \"Must be an integer\": window.translate(\"Must be an integer\")\n\
-    };\n\
-}\n\
-\n\
-/**\n\
- * @param $view DOM element containing endpoint form\n\
- * @param dhcp Using DHCP?\n\
- */\n\
-EndpointValidator.prototype.bind = function ($view, dhcp) {\n\
-    this.$view = $view;\n\
-\n\
-    this.unbind();\n\
-\n\
-    if (dhcp) {\n\
-        this.bindDHCPValidator();\n\
-    } else {\n\
-        this.bindStaticIPValidator();\n\
-    }\n\
-};\n\
-\n\
-EndpointValidator.prototype.unbind = function () {\n\
-    delete this.validator;\n\
-};\n\
-\n\
-EndpointValidator.prototype.bindStaticIPValidator = function () {\n\
-    this.validator = validate(this.$view)\n\
-        .use(is_ip)\n\
-        .on('blur')\n\
-        .field('vlan_id')\n\
-            .is(/^\\d+$/, this.strings[\"Must be an integer\"])\n\
-            .is(greater_than(0), this.strings[\"Must be greater than 0\"])\n\
-            .is(less_than(Math.pow(2, 12)), this.strings[\"Must be less than 4,096\"])\n\
-        .field('starting_ip')\n\
-            .is('required', this.strings[\"Field is required\"])\n\
-            .is('ip', this.strings[\"Must be an IP address\"])\n\
-        .field('ending_ip')\n\
-            .is('ip', this.strings[\"Must be an IP address\"])\n\
-        .field('prefix')\n\
-            .is('required', this.strings[\"Field is required\"])\n\
-            .is(greater_than(0), this.strings[\"Must be greater than 0\"])\n\
-            .is(less_than(128), this.strings[\"Must be less than 128\"])\n\
-        .field('gateway')\n\
-            .is('required', this.strings[\"Field is required\"])\n\
-            .is('ip', this.strings[\"Must be an IP address\"]);\n\
-};\n\
-\n\
-EndpointValidator.prototype.bindDHCPValidator = function () {\n\
-    this.validator = validate(this.$view)\n\
-        .use(is_ip)\n\
-        .on('blur')\n\
-        .field('vlan_id')\n\
-            .is(/^\\d+$/, this.strings[\"Must be an integer\"])\n\
-            .is(greater_than(0), this.strings[\"Must be greater than 0\"])\n\
-            .is(less_than(Math.pow(2, 12)), this.strings[\"Must be less than 4,096\"])\n\
-        .field('dhcp_hosts')\n\
-            .is('required', this.strings[\"Field is required\"])\n\
-            .is(/^\\d+$/, this.strings[\"Must be an integer\"])\n\
-            .is(greater_than(0), this.strings[\"Must be greater than 0\"])\n\
-            .is(less_than_or_equal(512), this.strings[\"Must be less than or equal to 512\"]);\n\
-};\n\
-\n\
-/**\n\
- *\n\
- * @param result {ValidationResultsViewModel|callback}\n\
- * @param targetName optional if using callback for first parameter\n\
- */\n\
-EndpointValidator.prototype.validate = function (result, targetName) {\n\
-    this.validator.validate(function (err, valid) {\n\
-        if (!valid) {\n\
-            if( result instanceof ValidationResultsViewModel ){\n\
-                var message = window.translate('{name} endpoint is invalid', {name: targetName});\n\
-                result.addCheckResults(message, false, message);\n\
-            }\n\
-        }\n\
-        else if (!(result instanceof ValidationResultsViewModel) && typeof result === 'function') {\n\
-            result(err, valid);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-\n\
-module.exports = EndpointValidator;\n\
-//# sourceURL=components-ixia/endpoint-view-model/validator.js"
-));
-
-require.register("./components-ixia/endpoint-view-model/unicast/view-model.js", Function("exports, module",
-"/*global ko:true, translate:true */\n\
-\n\
-var noop = function () {},\n\
-    util = require('./components-ixia/utility-functions'),\n\
-    domify = require('component~domify@1.3.1'),\n\
-    event = require('component~event@0.1.4'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    EndpointValidator = require('./components-ixia/endpoint-view-model/validator.js'),\n\
-    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2');\n\
-\n\
-function UnicastEndpointViewModel(rootVm) {\n\
-    var self = this;\n\
-\n\
-    self.rootVm = rootVm;\n\
-\n\
-    self.id = ko.observable(0);\n\
-    self.name = ko.observable();\n\
-    self.tagged = ko.observable(false);\n\
-    self.use_dhcp = ko.observable(false);\n\
-    self.dhcp_hosts = ko.observable(20);\n\
-\n\
-    self.vlan_id = ko.observable();\n\
-    self.ip = ko.observable();\n\
-    self.end_ip = ko.observable();\n\
-    self.prefix = ko.observable();\n\
-    self.gateway = ko.observable();\n\
-\n\
-    self.customer = ko.observable();\n\
-    self.location = ko.observable();\n\
-    self.tags = ko.observableArray();\n\
-    self.unqualifiedTags = ko.observable();\n\
-    self.favorite = ko.observable();\n\
-\n\
-    self.displayTags = ko.computed({\n\
-        read: self.displayTagsRead.bind(self),\n\
-        write: self.displayTagsWrite.bind(self)\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.useDhcpOrDhcpV6Text = ko.computed(function () {\n\
-        if (self.use_dhcp()) {\n\
-            return translate('Yes');\n\
-        }\n\
-\n\
-        return translate('No');\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.taggedText = ko.computed(function () {\n\
-        if (self.tagged()) {\n\
-            return translate('Yes');\n\
-        }\n\
-\n\
-        return translate('No');\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.basicTabClass = ko.computed(function () {\n\
-        return self.tagged() ? null : 'selected';\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.taggedTabClass = ko.computed(function () {\n\
-        return self.tagged() ? 'selected' : null;\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.showDhcpHosts = ko.computed(self.computeShowDhcpHosts.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.strings = {\n\
-        \"An endpoint already exists with this name\": translate(\"An endpoint already exists with this name\"),\n\
-        \"Save\": translate(\"Save\"),\n\
-        \"Update\": translate(\"Update\")\n\
-    };\n\
-    this.validator = new EndpointValidator();\n\
-}\n\
-\n\
-module.exports = UnicastEndpointViewModel;\n\
-\n\
-UnicastEndpointViewModel.prototype.is_new = function () {\n\
-    return !this.id();\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.render = function () {\n\
-    var template = document.querySelector('#endpoint-template').innerHTML;\n\
-\n\
-    this.$el = domify(template);\n\
-    this.renderForm(this.$el);\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.bind = function () {\n\
-    var $save = this.$el.querySelector('.save a'),\n\
-        show_save_dialog = this.openSaveModal.bind(this),\n\
-        $form = this.$el.querySelector('.form');\n\
-\n\
-    ko.applyBindings(this, this.$el);\n\
-\n\
-    event.bind($save, 'click', show_save_dialog);\n\
-\n\
-    this.bindForm($form);\n\
-\n\
-    // Validator isn't bound until addressing scheme has been selected - see setAddressingScheme()\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.renderForm = function ($form) {\n\
-    var static_ip_fields = ['ip', 'end_ip', 'prefix', 'gateway'],\n\
-        $el,\n\
-        observable,\n\
-        $save_header = $form.querySelector('.save-header'),\n\
-        $save_button;\n\
-\n\
-    // Set static IP values\n\
-    static_ip_fields.forEach(function (field) {\n\
-        $el = $form.querySelector('.' + field + ' input');\n\
-        observable = this[field];\n\
-        $el.value = observable() || '';\n\
-    }, this);\n\
-\n\
-    this.setAddressingScheme($form, this.use_dhcp());\n\
-\n\
-    if ($save_header) {\n\
-        $save_button = $save_header.querySelector('.save');\n\
-\n\
-        classes($save_header).remove('update');\n\
-\n\
-        $save_button.textContent = this.strings[\"Save\"];\n\
-        if (!this.is_new()) {\n\
-            classes($save_header).add('update');\n\
-        }\n\
-    }\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.bindForm = function ($form) {\n\
-    var $radios = $form.querySelectorAll('.selector > input[type=\"radio\"]'),\n\
-        scheme,\n\
-        set_scheme = this.use_dhcp,\n\
-        scheme_changed = function (scheme) {\n\
-            scheme = scheme === 'false' ? false : scheme;\n\
-            set_scheme(scheme);\n\
-        };\n\
-\n\
-    // DOM -> data\n\
-    [].forEach.call($radios, function ($radio) {\n\
-        scheme = $radio.value;\n\
-        event.bind($radio, 'change', scheme_changed.bind(this, scheme));\n\
-    }, this);\n\
-\n\
-    // Data -> DOM\n\
-    set_scheme.subscribe(this.setAddressingScheme.bind(this, $form));\n\
-\n\
-    this.bindStaticIPHandlers($form);\n\
-    this.bindDHCPHandlers($form);\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.bindModal = function ($el, callback) {\n\
-    var $save = $el.querySelector('.save'),\n\
-        save = this.save.bind(this, callback),\n\
-        save_if_valid = function (err, valid, msg) {\n\
-            if (valid) {\n\
-                save();\n\
-            }\n\
-        },\n\
-        validate = this.validate.bind(this, save_if_valid),\n\
-        validate_name = this.validateName.bind(this, validate);\n\
-\n\
-    event.bind($save, 'click', validate_name);\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.bindStaticIPHandlers = function ($form) {\n\
-    var view = this,\n\
-        fields = ['ip', 'end_ip', 'prefix', 'gateway'],\n\
-        selector,\n\
-        observable,\n\
-        $field,\n\
-        value,\n\
-        update_observable = function (field, e) {\n\
-            value = e.target.value;\n\
-            field(value);\n\
-        },\n\
-        update_dom = function ($field, value) {\n\
-            $field.value = value;\n\
-        };\n\
-\n\
-    fields.forEach(function (field) {\n\
-        observable = view[field];\n\
-        selector = '.' + field + ' input';\n\
-        $field = $form.querySelector('.' + field + ' input');\n\
-\n\
-        // DOM -> Data\n\
-        event.bind($field, 'change', update_observable.bind(view, observable));\n\
-\n\
-        // Data -> DOM\n\
-        observable.subscribe(update_dom.bind(view, $field));\n\
-    });\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.bindDHCPHandlers = function ($form) {\n\
-    var $hosts = $form.querySelector('li.dhcp-hosts input'),\n\
-        hosts = this.dhcp_hosts;\n\
-\n\
-    // DOM -> Data\n\
-    event.bind($hosts, 'change', function () {\n\
-        hosts(+this.value);\n\
-    });\n\
-    // Data -> DOM\n\
-    $hosts.value = (this.dhcp_hosts() !== undefined && this.dhcp_hosts() !== '') ? this.dhcp_hosts() : 20;\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.setAddressingScheme = function ($form, scheme) {\n\
-    // Note: A scheme of 'false' denotes static IP addressing - this is historical\n\
-    $form = $form || this.$el.querySelector('.form');\n\
-\n\
-    var is_dhcp = this.is_dhcp(scheme),\n\
-        visible_selector = is_dhcp ? 'li.dhcp' : 'li.static',\n\
-        hidden_selector = is_dhcp ? 'li.static' : 'li.dhcp',\n\
-        $inputs = $form.querySelectorAll('.selector > input[type=\"radio\"]'),\n\
-        $hidden = $form.querySelectorAll(hidden_selector),\n\
-        $visible = $form.querySelectorAll(visible_selector);\n\
-\n\
-    this.validator.bind($form, is_dhcp);\n\
-\n\
-    [].forEach.call($inputs, function ($el) {\n\
-        if ($el.value === 'false' && !scheme) {\n\
-            $el.checked = true;\n\
-        } else if ($el.value === scheme) {\n\
-            $el.checked = true;\n\
-        } else {\n\
-            $el.checked = false;\n\
-        }\n\
-    });\n\
-\n\
-    [].forEach.call($hidden, function ($el) {\n\
-        classes($el).add('hidden');\n\
-    });\n\
-\n\
-    [].forEach.call($visible, function ($el) {\n\
-        classes($el).remove('hidden');\n\
-    });\n\
-};\n\
-\n\
-UnicastEndpointViewModel.typesafe = function (that) {\n\
-    if (!(that instanceof UnicastEndpointViewModel)) {\n\
-        throw 'This method must be executed on a EndpointViewModel';\n\
-    }\n\
-\n\
-    return that;\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.matchesSearch = function (searchString) {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-\n\
-    var searchTerms = searchString.split(' ');\n\
-\n\
-    if (searchTerms.length == 0) {\n\
-        return true;\n\
-    }\n\
-\n\
-    var name = self.name().toUpperCase();\n\
-    var customer ='';\n\
-    var location ='';\n\
-    if (!self.location() == '' || !self.location() == null) {\n\
-        location = self.location().toUpperCase();\n\
-    }\n\
-    if (!self.customer() == '' || !self.customer() == null) {\n\
-        customer = self.customer().toUpperCase();\n\
-    }\n\
-\n\
-    for (var i = 0; i < searchTerms.length; i++) {\n\
-        if (searchTerms[i] == '' || searchTerms[i] == null) {\n\
-            continue;\n\
-        }\n\
-\n\
-        if (name.indexOf(searchTerms[i].toUpperCase()) == -1\n\
-            && customer.indexOf(searchTerms[i].toUpperCase()) == -1\n\
-            && location.indexOf(searchTerms[i].toUpperCase()) == -1) {\n\
-            return false;\n\
-        }\n\
-    }\n\
-\n\
-    return true;\n\
-};\n\
-\n\
-/**\n\
- *\n\
- * @param result {ValidationResultsViewModel|callback}\n\
- * @param targetName optional if using callback for first parameter\n\
- */\n\
-UnicastEndpointViewModel.prototype.validate = function (result, targetName) {\n\
-    var callback;\n\
-\n\
-    if (result instanceof ValidationResultsViewModel) {\n\
-        this.validator.validate(result, targetName);\n\
-    } else {\n\
-        callback = result;\n\
-        this.validator.validate(callback);\n\
-    }\n\
-}\n\
-\n\
-UnicastEndpointViewModel.prototype.validateName = function (callback) {\n\
-    var self = UnicastEndpointViewModel.typesafe(this),\n\
-        $form = document.querySelector('#lightbox-save-endpoint'),\n\
-        existing,\n\
-        is_unique = function (name) {\n\
-            // Check if an endpoint with same name exists (and is not self)\n\
-            existing = ko.utils.arrayFirst(self.rootVm.availableEndpoints(), function (item) {\n\
-                return name.toLowerCase() == item.name().toLowerCase() && self.id() != item.id();\n\
-            });\n\
-\n\
-            return existing === null || existing.id() === self.id(); //existing === null --> create, existing.id() === self.id()--> update\n\
-        },\n\
-        validation_handler = function(err, valid, msg) {\n\
-            if (valid) {\n\
-                callback();\n\
-            }\n\
-        };\n\
-\n\
-    validate($form).on('blur')\n\
-        .field('name')\n\
-            .is('required', self.strings['Field is required'])\n\
-            .is(is_unique, self.strings['An endpoint already exists with this name'])\n\
-        .validate(validation_handler);\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.computeShowDhcpHosts = function () {\n\
-    return !!this.use_dhcp();\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.inflate = function (endpoint) {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-\n\
-    if(endpoint.id)\n\
-        self.id(endpoint.id);\n\
-\n\
-    if(endpoint.name)\n\
-        self.name(endpoint.name);\n\
-    else if (!util.isNullOrEmpty(endpoint.vlan_id))\n\
-        self.name(endpoint.vlan_id);\n\
-    else if (!endpoint.use_dhcp)\n\
-        self.name(endpoint.ip);\n\
-    else\n\
-        self.name(translate(\"DHCP\"));\n\
-\n\
-    self.tagged(endpoint.tagged);\n\
-    self.use_dhcp(endpoint.use_dhcp === 'false' ? false : endpoint.use_dhcp);\n\
-    self.dhcp_hosts(+endpoint.dhcp_hosts);\n\
-    if (typeof(endpoint.vlan_id) != \"undefined\" && endpoint.vlan_id != null) {\n\
-        self.vlan_id(endpoint.vlan_id.toString());\n\
-    }\n\
-    self.ip(endpoint.ip);\n\
-    self.end_ip(endpoint.end_ip);\n\
-    self.prefix(endpoint.prefix);\n\
-    self.gateway(endpoint.gateway);\n\
-\n\
-    util.setTags(self, endpoint.tags);\n\
-\n\
-    return self;\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.clone = function() {\n\
-    var data = this.toFlatObject(),\n\
-        endpoint;\n\
-\n\
-    data.id = undefined;\n\
-    endpoint = new UnicastEndpointViewModel(this.rootVm);\n\
-    return endpoint.inflate(data);\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.deleteEndpoint = function(){\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-\n\
-    util.lightbox.close();\n\
-\n\
-    var workingVm = new LightboxWorkingViewModel(translate('Delete'), translate('Deleting...'));\n\
-    util.lightbox.working(workingVm);\n\
-    var id = self.id();\n\
-\n\
-    var data = {\n\
-        id : id\n\
-    };\n\
-\n\
-    $.ajax({\n\
-        type : util.getRequestMethod('delete_endpoint'),\n\
-        url : util.getConfigSetting('delete_endpoint'),\n\
-        data : JSON.stringify(data),\n\
-        dataType : \"json\",\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var message = data.messages[0];\n\
-            if(!message.is_error && message.header == \"Success\"){\n\
-                var callbackFunction = function(){workingVm.status(\"success\");};\n\
-                self.rootVm.getAvailableEndpoints(callbackFunction);\n\
-            }else{\n\
-                workingVm.status(\"error\");\n\
-                workingVm.close(util.lightbox.close.bind(util.lightbox));\n\
-            }\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            workingVm.status('error');\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.toFlatObject = function () {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-\n\
-    var flatEndpoint = {\n\
-        id: self.id(),\n\
-        name: self.name() || \"\",\n\
-        use_dhcp: self.use_dhcp(),\n\
-        dhcp_hosts: +self.dhcp_hosts() || 20,\n\
-        vlan_id: self.vlan_id() || \"\",\n\
-        ip: self.ip() || \"\",\n\
-        end_ip: self.end_ip() || \"\",\n\
-        prefix: self.prefix() || \"\",\n\
-        gateway: self.gateway() || \"\",\n\
-        tags: util.getTags(self)\n\
-    };\n\
-\n\
-    return flatEndpoint;\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.save = function (callback) {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-    var name = self.name();\n\
-    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-\n\
-    self.unqualifiedTags(self.tags().join(', '));\n\
-\n\
-    //loop availableEndpoints[] to check if new- added endpoint exists or not\n\
-    var foundExisting = ko.utils.arrayFirst(self.rootVm.availableEndpoints(), function (item) {\n\
-        return name.toLowerCase() == item.name().toLowerCase();\n\
-    });\n\
-    util.lightbox.close();\n\
-    if(foundExisting){\n\
-        self.id(foundExisting.id());\n\
-        workingVm = new LightboxWorkingViewModel(translate('Update'), translate('Updating...'));\n\
-    }\n\
-    util.lightbox.working(workingVm);\n\
-    var data = self.toFlatObject();\n\
-    $.ajax({\n\
-        type: util.getRequestMethod('save_endpoint'),\n\
-        url: util.getConfigSetting('save_endpoint'),\n\
-        data: util.formatRequestData('save_endpoint', data),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            if (data.result == \"SUCCESS\") {\n\
-                self.id(data.items[0].id);\n\
-                logger.info('Updated endpoint id: ' + data.items[0].id);\n\
-                workingVm.status('success');\n\
-\n\
-                if (foundExisting === null) {\n\
-                    self.rootVm.availableEndpoints.push(self);\n\
-                } else {\n\
-                    self.rootVm.availableEndpoints.replace(foundExisting, self);\n\
-                }\n\
-\n\
-                //sort endpoints by name after adding- HungTran\n\
-                self.rootVm.availableEndpoints.sort(function(a,b) {return (a.name() > b.name()) ? 1 : ((b.name() > a.name()) ? -1 : 0);} );\n\
-            } else {\n\
-                workingVm.status('error');\n\
-                logger.error({message: 'Failed to save endpoint', data: data, textStatus: textStatus});\n\
-            }\n\
-\n\
-            if (typeof callback === 'function') { // Could be jQuery.Event\n\
-                callback(self.toFlatObject());\n\
-            }\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            workingVm.status('error');\n\
-            logger.error(errorThrown);\n\
-        }\n\
-    });\n\
-\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.openSaveModal = function (e, callback) {\n\
-    callback = callback || function(){};\n\
-    var self = UnicastEndpointViewModel.typesafe(this),\n\
-        refreshDraggables = false,\n\
-        $form;\n\
-\n\
-    if (e && e.preventDefault !== undefined) {\n\
-        e.preventDefault();\n\
-    }\n\
-\n\
-    util.lightbox.close();\n\
-    util.lightbox.open({\n\
-        url : 'html/lightbox_tmpl',\n\
-        selector : '#lightbox-save-endpoint-template',\n\
-        cancelSelector: '.cancel-button',\n\
-        onOpenComplete: function(){\n\
-            $form = document.getElementById('lightbox-save-endpoint');\n\
-\n\
-            if(self.id() == 0){\n\
-                if(!self.use_dhcp()){\n\
-                    if(util.isNullOrEmpty(self.vlan_id()) && util.isNullOrEmpty(self.ip())){\n\
-                       self.name('');\n\
-                    }\n\
-                    if(!util.isNullOrEmpty(self.vlan_id())){\n\
-                       self.name(self.vlan_id());\n\
-                    }else if(!util.isNullOrEmpty(self.ip())){\n\
-                       self.name(self.ip());\n\
-                    }\n\
-                }else if(self.use_dhcp()){\n\
-                    if(!util.isNullOrEmpty(self.vlan_id())){\n\
-                       self.name(self.vlan_id());\n\
-                    }else\n\
-                       self.name(translate(\"DHCP\"));\n\
-                }\n\
-            }\n\
-\n\
-            self.startState = self.toFlatObject();\n\
-            ko.applyBindings(self, $form);\n\
-            self.renderForm($form);\n\
-            self.bindForm($form);\n\
-            self.bindModal($form, callback);\n\
-            self.inflate(self.startState); // Update modal with current state\n\
-        },\n\
-        onClose: function(){\n\
-            if (self.name() === '') {\n\
-                refreshDraggables = true;\n\
-            }\n\
-            self.inflate(self.startState);\n\
-\n\
-            if (refreshDraggables) {\n\
-                self.rootVm.refreshTestDraggables();\n\
-            }\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.displayTagsRead = function () {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-    if (!self.unqualifiedTags()) {\n\
-        self.unqualifiedTags(self.tags().join(', '));\n\
-    }\n\
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.displayTagsWrite = function (value) {\n\
-    var self = UnicastEndpointViewModel.typesafe(this);\n\
-\n\
-    if (value == null) {\n\
-        return;\n\
-    }\n\
-\n\
-    var newArray = value.split(',');\n\
-\n\
-    self.tags.removeAll();\n\
-    for (var i = 0; i < newArray.length; i++) {\n\
-        var trimmedValue = util.trimTag(newArray[i]);\n\
-\n\
-        if (trimmedValue == '') {\n\
-            continue;\n\
-        }\n\
-\n\
-        if (self.tags().indexOf(trimmedValue) == -1) {\n\
-            self.tags.push(trimmedValue);\n\
-        }\n\
-    }\n\
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
-    self.unqualifiedTags.valueHasMutated();\n\
-};\n\
-\n\
-UnicastEndpointViewModel.prototype.is_dhcp = function (scheme) {\n\
-    if (scheme === undefined) {\n\
-        scheme = this.use_dhcp();\n\
-    }\n\
-\n\
-    // Only DHCP has schemes\n\
-    return scheme === 'v4' || scheme === 'v6';\n\
-};\n\
-//# sourceURL=components-ixia/endpoint-view-model/unicast/view-model.js"
-));
-
-require.register("./components-ixia/endpoint-view-model/multicast/view-model.js", Function("exports, module",
-"/*global ko:true */\n\
-\n\
-var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-ixia/endpoint-view-model/multicast/templates/template.js')),\n\
-    EndpointValidator = require('./components-ixia/endpoint-view-model/validator.js'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    event = require('component~event@0.1.4'),\n\
-    UnicastEndpointVm  =  require('./components-ixia/endpoint-view-model/unicast/view-model.js');\n\
-\n\
-function MulticastEndpointViewModel(port) {\n\
-    var self = this;\n\
-\n\
-    self.$el = undefined;\n\
-\n\
-    self.device = undefined;\n\
-\n\
-    self.enabled = ko.observable(false);\n\
-\n\
-    self.port = ko.observable(port);\n\
-\n\
-    self.id = ko.observable(0);\n\
-    self.name = ko.observable('');\n\
-    self.tagged = ko.observable(false);\n\
-    self.use_dhcp = ko.observable(\"false\");\n\
-    self.dhcp_hosts = ko.observable(20);\n\
-\n\
-    self.vlan_id = ko.observable('');\n\
-    self.ip = ko.observable('');\n\
-    self.end_ip = ko.observable('');\n\
-    self.prefix = ko.observable('');\n\
-    self.gateway = ko.observable('');\n\
-\n\
-    self.portLabel = ko.computed(self.computePortLabel.bind(self));\n\
-    self.vlanLabel = ko.computed(self.computeVlanLabel.bind(self));\n\
-    self.ipDetails = ko.computed(self.computeIpDetails.bind(self));\n\
-\n\
-    self.customer = ko.observable();\n\
-    self.location = ko.observable();\n\
-    self.tags = ko.observableArray();\n\
-    self.unqualifiedTags = ko.observable();\n\
-    self.favorite = ko.observable();\n\
-\n\
-    self.strings = {\n\
-        \"IP details\": window.translate(\"IP details\")\n\
-    };\n\
-\n\
-    self.validator = new EndpointValidator();\n\
-}\n\
-\n\
-MulticastEndpointViewModel.factory = function(port, parent){\n\
-    var view = new MulticastEndpointViewModel(port);\n\
-\n\
-    view.set_parent(parent);\n\
-\n\
-    return view;\n\
-}\n\
-\n\
-MulticastEndpointViewModel.prototype.set_parent = function(parent) {\n\
-    var self = this;\n\
-    self.device = parent;\n\
-    self.is_selected = ko.computed(function () {\n\
-        return self.port() === self.device.selectedPort();\n\
-    });\n\
-}\n\
-\n\
-MulticastEndpointViewModel.prototype.render = function(){\n\
-    var self = this;\n\
-\n\
-    self.$el =  $template.cloneNode(true);\n\
-\n\
-    self.bind();\n\
-\n\
-    return self.$el;\n\
-}\n\
-\n\
-MulticastEndpointViewModel.prototype.inflate = function(data){\n\
-    var self = this;\n\
-\n\
-    Object.keys(data).forEach(function (prop) {\n\
-        var val = data[prop];\n\
-\n\
-        if (!self.hasOwnProperty(prop)) {\n\
-            return; // Short-circuit\n\
-        }\n\
-\n\
-        if (self[prop].constructor === ko.observable().constructor || self[prop].constructor === ko.observableArray().constructor) {\n\
-            self[prop](val);\n\
-        } else {\n\
-            self[prop] = val;\n\
-        }\n\
-\n\
-        if(prop === 'use_dhcp' && data[prop] === false){\n\
-            self[prop]('false');\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.bind = function(){\n\
-    ko.applyBindings(this, this.$el);\n\
-\n\
-    var self = this,\n\
-        $self = self.$el,\n\
-        $save = $self.querySelector('.save a'),\n\
-        show_save_dialog = self.show_save_dialog.bind(self),\n\
-        $enable = $self.querySelector('.enable input');\n\
-\n\
-    // View-Model > DOM\n\
-    $enable.checked = this.enabled();\n\
-    this.toggle();\n\
-\n\
-    // DOM > View-Model\n\
-    event.bind($enable, 'click', function (e) {\n\
-        self.enabled(e.target.checked);\n\
-        self.toggle();\n\
-        self.update_validator();\n\
-    });\n\
-    event.bind($save, 'click', show_save_dialog);\n\
-    this.update_validator();\n\
-\n\
-    this.use_dhcp.subscribe(this.update_validator.bind(this));\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.toggle = function(){\n\
-    var self = this,\n\
-        $show = self.$el.querySelectorAll('.form li:not(.enable)');\n\
-\n\
-    [].forEach.call($show, function ($el) {\n\
-        if (self.enabled()) {\n\
-            classes($el).remove('hidden');\n\
-        } else {\n\
-            classes($el).add('hidden');\n\
-        }\n\
-    })\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.update_validator = function(){\n\
-    if (!this.enabled()) {\n\
-        this.validator.unbind();\n\
-        return;\n\
-    }\n\
-\n\
-    var is_dhcp = this.is_dhcp();\n\
-    this.validator.bind(this.$el, is_dhcp);\n\
-};\n\
-\n\
-/**\n\
- *\n\
- * @param result {ValidationResultsViewModel|callback}\n\
- * @param targetName optional if using callback for first parameter\n\
- */\n\
-MulticastEndpointViewModel.prototype.validate = function (result, targetName) {\n\
-    var callback;\n\
-\n\
-    if (!this.enabled()) {\n\
-        return result;\n\
-    }\n\
-\n\
-    targetName = window.translate('{name}, port {port}', {\n\
-        name: targetName,\n\
-        port: this.port()\n\
-    });\n\
-\n\
-    if (result instanceof ValidationResultsViewModel) {\n\
-        this.validator.validate(result, targetName);\n\
-    } else {\n\
-        callback = result;\n\
-        this.validator.validate(callback);\n\
-    }\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.toFlatObject = function(){\n\
-    var self = this;\n\
-\n\
-//    if(!self.enabled()){\n\
-//        return null;\n\
-//    }\n\
-\n\
-    var flat_object = {\n\
-        port: self.port(),\n\
-        enabled: self.enabled(),\n\
-        id: self.id(),\n\
-        name: self.name() || \"\",\n\
-        use_dhcp: self.use_dhcp(),\n\
-        dhcp_hosts: +self.dhcp_hosts() || 20,\n\
-        vlan_id: self.vlan_id() || \"\",\n\
-        ip: self.ip() || \"\",\n\
-        end_ip: self.end_ip() || \"\",\n\
-        prefix: self.prefix() || \"\",\n\
-        gateway: self.gateway() || \"\",\n\
-        tags: window.util.getTags(self)\n\
-    };\n\
-\n\
-    return flat_object;\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.is_dhcp = function (scheme) {\n\
-    if (scheme === undefined) {\n\
-        scheme = this.use_dhcp();\n\
-    }\n\
-\n\
-    // Only DHCP has schemes\n\
-    return scheme === 'v4' || scheme === 'v6';\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.computePortLabel = function () {\n\
-    if (this.port() === null) {\n\
-        return translate('No Port');\n\
-    }\n\
-\n\
-    return translate('Port {port}', {port: this.port()});\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.computeVlanLabel = function () {\n\
-    if (this.vlan_id() === null) {\n\
-        return translate('No Vlan');\n\
-    }\n\
-\n\
-    return translate(\"VLAN {id}\", {id: this.vlan_id()});\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.computeIpDetails = function () {\n\
-    if (this.is_dhcp()) {\n\
-        var details = [];\n\
-\n\
-        return window.translate(\"Number of hosts: {hosts}\", {\n\
-            hosts: this.dhcp_hosts()\n\
-        });\n\
-    }\n\
-\n\
-    return translate('Starting IP: {startingIp}, Ending IP: {endingIp}', {\n\
-        startingIp: this.ip(),\n\
-        endingIp: this.end_ip()\n\
-    });\n\
-};\n\
-\n\
-MulticastEndpointViewModel.prototype.show_save_dialog = function () {\n\
-    var self = this,\n\
-        endpointViewModel = new UnicastEndpointVm(self.device.testConfigVm.rootVm),\n\
-        sync_handler = function(data){\n\
-            self.inflate(data);\n\
-        };\n\
-\n\
-    endpointViewModel.inflate(self.toFlatObject());\n\
-    endpointViewModel.openSaveModal(null, sync_handler);\n\
-};\n\
-\n\
-\n\
-module.exports = MulticastEndpointViewModel;\n\
-//# sourceURL=components-ixia/endpoint-view-model/multicast/view-model.js"
-));
-
-require.register("./components-ixia/endpoint-view-model/multicast/templates/template.js", Function("exports, module",
-"module.exports = '<div class=\"endpoint-pane\" data-bind=\"visible: is_selected\">\\n\
-    <section>\\n\
-        <ul class=\"form\">\\n\
-            <li class=\"enable\"><label><input type=\"checkbox\" id=\"enable\"> Enable this port</label></li>\\n\
-            <li>\\n\
-                <label class=\"vlan\">VLAN ID</label>\\n\
-                <input type=\"text\" name=\"vlan_id\" class=\"vlan\" data-bind=\"value: vlan_id\" placeholder=\"1 to 4096\">\\n\
-                <span class=\"save small-round-button-outer\"><a class=\"small-round-button\"><img src=\"static/images/save.png\" title=\"Save\" alt=\"Save\"></a></span>\\n\
-            </li>\\n\
-            <li class=\"selector dhcpContainer\">\\n\
-                <input type=\"radio\" value=\"false\" data-bind=\"checked: use_dhcp\">\\n\
-                <label class=\"dhcp\"> No DHCP</label>\\n\
-\\n\
-                <input type=\"radio\" value=\"v4\" data-bind=\"checked: use_dhcp\">\\n\
-                <label class=\"dhcp normalCase\"> DHCPv4</label>\\n\
-\\n\
-                <input type=\"radio\" value=\"v6\" data-bind=\"checked: use_dhcp\">\\n\
-                <label class=\"dhcp normalCase\"> DHCPv6</label>\\n\
-            </li>\\n\
-            <li data-bind=\"visible: use_dhcp() != \\'false\\'\" class=\"dhcp dhcp-hosts\">\\n\
-                <ul>\\n\
-                    <label class=\"dhcpHosts\">Number of hosts</label>\\n\
-                    <input type=\"text\" name=\"dhcp_hosts\" data-bind=\"value: dhcp_hosts\">\\n\
-                </ul>\\n\
-            </li>\\n\
-            <li data-bind=\"visible: use_dhcp() == \\'false\\'\">\\n\
-                <ul>\\n\
-                    <li class=\"static ip\">\\n\
-                        <label class=\"startingIpAddress\">Starting IP</label>\\n\
-                        <input type=\"text\" name=\"starting_ip\" placeholder=\"IPv4 or IPv6\" data-bind=\"value: ip\">\\n\
-                    </li>\\n\
-                    <li class=\"static end_ip\">\\n\
-                        <label>Ending IP</label>\\n\
-                        <input type=\"text\" name=\"ending_ip\" placeholder=\"IPv4 or IPv6\" data-bind=\"value: end_ip\">\\n\
-                    </li>\\n\
-                    <li class=\"static prefix\">\\n\
-                        <label>Prefix</label>\\n\
-                        <input type=\"text\" name=\"prefix\" placeholder=\"1 to 128\" data-bind=\"value: prefix\">\\n\
-                    </li>\\n\
-                    <li class=\"static gateway\">\\n\
-                        <label>Gateway</label>\\n\
-                        <input type=\"text\" name=\"gateway\" placeholder=\"IPv4 or IPv6\" data-bind=\"value: gateway\">\\n\
-                    </li>\\n\
-                </ul>\\n\
-            </li>\\n\
-        </ul>\\n\
-    </section>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/endpoint-view-model/multicast/templates/template.js"
-));
-
-require.modules["endpoint-view-model"] = require.modules["./components-ixia/endpoint-view-model"];
-
-
 require.register("./components-ixia/ixia-view-model", Function("exports, module",
-"var translate_tests_configurations = require('./components-ixia/ixia-view-model/test-configurations-adapter.js'),\n\
-    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel;\n\
+"var translate_tests_configurations = require('./components-ixia/ixia-view-model/test-configurations-adapter.js');\n\
 \n\
 function IxiaViewModel() {\n\
     var self = this;\n\
@@ -52773,9 +51555,7 @@ function IxiaViewModel() {\n\
 \n\
     self.user = ko.observable();\n\
 \n\
-    self.availablePlaylists = ko.observableArray();\n\
     self.availableDevices = ko.observableArray();\n\
-    self.availableEndpoints = ko.observableArray();\n\
     self.availableTests = ko.observableArray();\n\
     self.enterpriseTests = ko.observableArray();\n\
     self.hostTests = ko.observableArray();\n\
@@ -52806,18 +51586,6 @@ function IxiaViewModel() {\n\
 \n\
     self.dashboardTabClass = ko.computed(function () {\n\
         return 'dashboard ' + self.getTabClassFor('dashboard');\n\
-    }).extend({ throttle: self.defaultThrottleDuration });\n\
-\n\
-    self.testLibraryTabClass = ko.computed(function () {\n\
-        return 'library ' + self.getTabClassFor('testLibrary');\n\
-    }).extend({ throttle: self.defaultThrottleDuration });\n\
-\n\
-    self.testTabClass = ko.computed(function () {\n\
-        return 'player ' + self.getTabClassFor('test');\n\
-    }).extend({ throttle: self.defaultThrottleDuration });\n\
-\n\
-    self.calendarTabClass = ko.computed(function () {\n\
-        return 'calendar ' + self.getTabClassFor('calendar');\n\
     }).extend({ throttle: self.defaultThrottleDuration });\n\
 \n\
     self.historyTabClass = ko.computed(function () {\n\
@@ -52934,39 +51702,6 @@ IxiaViewModel.prototype.init = function (callback) {\n\
         .fail(function () {\n\
             self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
         });\n\
-//\n\
-\n\
-//    var enterpriseTestsAjax = self.getFavoriteTests()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[14]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[14], true);\n\
-//        });\n\
-//\n\
-//    var historyResults = self.getResultHistory()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[15]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[15], true);\n\
-//        });\n\
-\n\
-//    var resultTypesAjax = self.getResultTypes()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[6]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[6], true);\n\
-//        });\n\
-//\n\
-//    var customersAjax = self.getAvailableCustomers()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[7]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[7], true);\n\
-//        });\n\
 \n\
     var languageAjax = self.getLanguage()\n\
         .done(function () {\n\
@@ -53032,11 +51767,6 @@ IxiaViewModel.prototype.showTest = function () {\n\
 IxiaViewModel.prototype.showDashboard = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
     self.selectTab('dashboard');\n\
-};\n\
-\n\
-IxiaViewModel.prototype.showCalendar = function () {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-    self.selectTab('calendar');\n\
 };\n\
 \n\
 IxiaViewModel.prototype.showHistory = function () {\n\
@@ -53129,7 +51859,7 @@ IxiaViewModel.prototype.getGlobalSettings = function (callback, reload) {\n\
         url: url,\n\
         dataType: 'json',\n\
         success: function (data, textStatus, jqXhr) {\n\
-            //self.vmGlobalSettings.inflate(data);\n\
+            self.vmGlobalSettings.inflate(data);\n\
             if (callback){\n\
                 callback();\n\
             }\n\
@@ -53514,28 +52244,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
     self.testResultsHistory.sort(function(pre, next) {return (pre.result_id() > next.result_id() ? -1 : 1)});\n\
 };\n\
 \n\
-IxiaViewModel.prototype.getAvailableDatapoints = function () {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-\n\
-    self.availableDatapointsMap.removeAll();\n\
-\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_datapoints\"),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var availableDatapoints = data;\n\
-\n\
-            for (var i = 0; i < availableDatapoints.length; i++) {\n\
-                var datapoint = availableDatapoints[i];\n\
-                self.availableDatapointsMap()[datapoint.id] = datapoint;\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
-\n\
 IxiaViewModel.prototype.getAvailableDevices = function (callback, responseData) {\n\
     var self = IxiaViewModel.typesafe(this);\n\
 \n\
@@ -53574,33 +52282,6 @@ IxiaViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {\n\
     });\n\
 };\n\
 \n\
-IxiaViewModel.prototype.getAvailableEndpoints = function (callback) {\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-\n\
-    self.availableEndpoints.removeAll();\n\
-\n\
-    var ajax = $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_endpoints\"),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            var availableEndpoints = data;\n\
-\n\
-            for (var i = 0; i < availableEndpoints.length; i++) {\n\
-                var endpoint = new EndpointViewModel(self);\n\
-                endpoint.inflate(availableEndpoints[i]);\n\
-                self.availableEndpoints.push(endpoint);\n\
-            }\n\
-\n\
-            self.availableEndpoints.sort(util.sortArrayByObjectKeyKoObservable(\"name\", true));\n\
-            if (callback){\n\
-                callback();\n\
-            }\n\
-        }\n\
-    });\n\
-\n\
-    return ajax;\n\
-};\n\
 IxiaViewModel.prototype.getResultTypes = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
 \n\
@@ -53642,6 +52323,7 @@ IxiaViewModel.prototype.getAvailableDisplayMessages = function () {\n\
 \n\
     return ajax;\n\
 };\n\
+\n\
 IxiaViewModel.prototype.addToCategoryView = function (newTest) {\n\
     var self = IxiaViewModel.typesafe(this)\n\
     var categories = newTest.categories();\n\
@@ -53681,6 +52363,7 @@ IxiaViewModel.prototype.addToCategoryView = function (newTest) {\n\
         }\n\
     }\n\
 };\n\
+\n\
 IxiaViewModel.prototype.deleteTest = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
     logger.info(\"removeFromCategoryView unimplemented\");\n\
@@ -53688,10 +52371,12 @@ IxiaViewModel.prototype.deleteTest = function () {\n\
     //remove from array\n\
     //removeFromCategoryView();\n\
 };\n\
+\n\
 IxiaViewModel.prototype.openTestCreationLightbox = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.openTestCreationLightbox();\n\
 };\n\
+\n\
 IxiaViewModel.prototype.openTestCreationLightboxUnlessLoaded = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
     if(!self.vmTest.vmConfiguration.isLoaded())\n\
@@ -53728,7 +52413,6 @@ module.exports = IxiaViewModel;\n\
 
 require.register("./components-ixia/ixia-view-model/test-configurations-adapter.js", Function("exports, module",
 "/**\n\
- * Translates JSON objects from REST endpoint into something UI code can use.\n\
  * Provides an abstraction layer between REST API and UI code.\n\
  *\n\
  * @param config Array of test configuration JSON data (from REST API)\n\
@@ -53983,1549 +52667,6 @@ require.register("./components-ixia/capture-filter-chooser/template.js", Functio
 require.modules["capture-filter-chooser"] = require.modules["./components-ixia/capture-filter-chooser"];
 
 
-require.register("./components-ixia/interface-model", Function("exports, module",
-"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
-    defaults = require('segmentio~model-defaults@1.0.6');\n\
-\n\
-var Interface = model('Interface')\n\
-    .use(defaults)\n\
-    .attr('physical_port')\n\
-    .attr('available', {\"default\": true}) // True if port can be re-allocated\n\
-    .attr('allocated_to')\n\
-    .attr('enabled', {\"default\": false});\n\
-\n\
-Interface.primaryKey = \"physical_port\";\n\
-\n\
-Interface.from_device_view_model = function (view_model) {\n\
-    var physical_port = view_model.toFlatObject();\n\
-    return new this({physical_port: physical_port});\n\
-};\n\
-\n\
-module.exports = Interface;\n\
-//# sourceURL=components-ixia/interface-model/index.js"
-));
-
-require.modules["interface-model"] = require.modules["./components-ixia/interface-model"];
-
-
-require.register("./components-ixia/interface-selector", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-ixia/interface-selector/templates/template.js'),\n\
-    interface_template = require('./components-ixia/interface-selector/templates/interface.js'),\n\
-    Interface = require('./components-ixia/interface-model'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    event = require('component~event@0.1.4');\n\
-\n\
-/**\n\
- * @param interfaces ObservableArray or Array of Interfaces\n\
- * @param render_interface delegate function called when an interface needs rendering\n\
- * @constructor\n\
- */\n\
-function InterfaceSelector(interfaces, render_interface) {\n\
-    if (interfaces.subscribe) {\n\
-        // interfaces is observable\n\
-        // interfaces.subscribe(this.update_interfaces.bind(this)); // Causes ENT-3611\n\
-        interfaces = interfaces();\n\
-    }\n\
-    this.set_models(interfaces);\n\
-    this.render_interface = typeof render_interface === 'function' ? render_interface : function () {};\n\
-    this.$el = domify(template);\n\
-    this.$interfaces = [];\n\
-    this.click_handlers = [];\n\
-    this.change_handlers = [];\n\
-    this.strings = {\n\
-        \"No interfaces\": window.translate(\"No interfaces\")\n\
-    };\n\
-}\n\
-\n\
-emitter(InterfaceSelector.prototype);\n\
-\n\
-InterfaceSelector.sort = function (interfaces) {\n\
-    var ret = [],\n\
-        offset;\n\
-\n\
-    interfaces.map(function (iface) {\n\
-        offset = iface.physical_port() - 1;\n\
-        ret[offset] = iface;\n\
-    });\n\
-\n\
-    return ret;\n\
-};\n\
-\n\
-InterfaceSelector.prototype.set_models = function (models) {\n\
-    // Convert \"view-models\" to Models\n\
-    models = models.map(function (iface) {\n\
-        if (iface.toFlatObject) {\n\
-            iface = Interface.from_device_view_model(iface);\n\
-        }\n\
-        return iface;\n\
-    });\n\
-\n\
-    this.models = InterfaceSelector.sort(models) || [];\n\
-\n\
-};\n\
-\n\
-InterfaceSelector.prototype.render = function () {\n\
-    var $interface;\n\
-\n\
-    this.$el.innerHTML = '';\n\
-\n\
-    if (!this.models.length) {\n\
-        this.$el.innerHTML = this.strings[\"No interfaces\"];\n\
-    }\n\
-\n\
-    this.models.map(function (model, i) {\n\
-        $interface = domify(interface_template);\n\
-        this.render_interface(model, $interface, i);\n\
-        this.$el.appendChild($interface);\n\
-        this.$interfaces[i] = $interface;\n\
-    }, this);\n\
-\n\
-    this.bind();\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-InterfaceSelector.prototype.bind = function () {\n\
-    var $interfaces = this.$interfaces,\n\
-        $interface,\n\
-        models = this.models,\n\
-        model,\n\
-        handler,\n\
-        redraw = this.render_interface;\n\
-\n\
-    // DOM -> Model\n\
-    $interfaces.forEach(function ($interface, index) {\n\
-        model = models[index];\n\
-\n\
-        handler = this.select.bind(this, model, false);\n\
-        this.click_handlers[index] = handler;\n\
-\n\
-        if (model.available()) {\n\
-            event.bind($interface, 'click', handler);\n\
-        }\n\
-    }, this);\n\
-\n\
-    // Model -> DOM\n\
-    this.models.forEach(function (model, index) {\n\
-        $interface = $interfaces[index];\n\
-\n\
-        handler = redraw.bind(this, model, $interface, index);\n\
-        this.change_handlers[index] = handler;\n\
-\n\
-        model.on('change', handler);\n\
-    }, this);\n\
-};\n\
-\n\
-InterfaceSelector.prototype.unbind = function () {\n\
-    var $interfaces = this.$interfaces,\n\
-        $interface,\n\
-        models = this.models,\n\
-        model,\n\
-        handler,\n\
-        redraw = this.render_interface;\n\
-\n\
-    // DOM -> Model\n\
-    $interfaces.forEach(function ($interface, index) {\n\
-        model = models[index];\n\
-\n\
-        handler = this.click_handlers[index];\n\
-        event.unbind($interface, 'click', handler);\n\
-\n\
-        delete this.click_handlers[index];\n\
-    }, this);\n\
-\n\
-    // Model -> DOM\n\
-    this.models.forEach(function (model, index) {\n\
-        $interface = $interfaces[index];\n\
-\n\
-        handler = this.change_handlers[index];\n\
-        model.off('change', handler);\n\
-\n\
-        delete this.change_handlers[index];\n\
-    }, this);\n\
-};\n\
-\n\
-InterfaceSelector.prototype.select = function (selected, silent) {\n\
-    var $interfaces = this.$interfaces,\n\
-        classed,\n\
-        index = -1;\n\
-\n\
-    if (!selected || undefined === selected.physical_port()) {\n\
-        return;\n\
-    }\n\
-\n\
-    this.models.forEach(function (model, i) {\n\
-        if (selected.physical_port() === model.physical_port()) {\n\
-            index = i;\n\
-        }\n\
-    });\n\
-\n\
-    $interfaces.forEach(function ($interface, i) {\n\
-        classed = classes($interface);\n\
-\n\
-        if (i === index) {\n\
-            classed.add('selected');\n\
-        } else {\n\
-            classed.remove('selected');\n\
-        }\n\
-    });\n\
-\n\
-    if (!silent) {\n\
-        this.emit('select', selected, $interfaces[index], index);\n\
-    }\n\
-};\n\
-\n\
-InterfaceSelector.prototype.update_interfaces = function (interfaces) {\n\
-    this.set_models(interfaces);\n\
-    this.render();\n\
-};\n\
-\n\
-module.exports = InterfaceSelector;\n\
-\n\
-//# sourceURL=components-ixia/interface-selector/index.js"
-));
-
-require.register("./components-ixia/interface-selector/templates/interface.js", Function("exports, module",
-"module.exports = '<div class=\"interface\"></div>\\n\
-';\n\
-//# sourceURL=components-ixia/interface-selector/templates/interface.js"
-));
-
-require.register("./components-ixia/interface-selector/templates/template.js", Function("exports, module",
-"module.exports = '<div class=\"interface-selector port-container\"></div>\\n\
-';\n\
-//# sourceURL=components-ixia/interface-selector/templates/template.js"
-));
-
-require.modules["interface-selector"] = require.modules["./components-ixia/interface-selector"];
-
-
-require.register("./components-ixia/loading-state", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-ixia/loading-state/template.js'));\n\
-\n\
-function LoadingState($el) {\n\
-    this.$template = $template.cloneNode(true);\n\
-    this.set_el($el);\n\
-}\n\
-\n\
-LoadingState.prototype.show = function (message) {\n\
-    var $message = this.$template.querySelector('h3'),\n\
-        prev = $.blockUI.defaults.css; // We need to reset the block UI's CSS\n\
-\n\
-    $message.textContent = message;\n\
-\n\
-    $.blockUI.defaults.css = {};\n\
-    $(this.$el).block({\n\
-        message: this.$template,\n\
-        width: '100%'\n\
-    });\n\
-    $.blockUI.defaults.css = prev;\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-LoadingState.prototype.hide = function () {\n\
-    $(this.$el).unblock();\n\
-};\n\
-\n\
-LoadingState.prototype.set_el = function ($el) {\n\
-    this.$el = $el;\n\
-};\n\
-\n\
-\n\
-module.exports = LoadingState;\n\
-//# sourceURL=components-ixia/loading-state/index.js"
-));
-
-require.register("./components-ixia/loading-state/template.js", Function("exports, module",
-"module.exports = '<div id=\"lightbox-working\">\\n\
-    <div class=\"working\"><img src=\"static/images/spinner.gif\" class=\"loading\"/>\\n\
-        <div class=\"content\"><h3></h3></div>\\n\
-    </div>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/loading-state/template.js"
-));
-
-require.modules["loading-state"] = require.modules["./components-ixia/loading-state"];
-
-
-require.register("./components-ixia/netflow-settings", Function("exports, module",
-"/*global translate: true */\n\
-\n\
-var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-ixia/netflow-settings/templates/netflow-settings.js'),\n\
-    event = require('component~event@0.1.4'),\n\
-    GlobalSettings = require('./components-ixia/netflow-settings/views/global-settings.js'),\n\
-    Interfaces = require('./components-ixia/netflow-settings/views/interfaces.js'),\n\
-    Model = require('./components-ixia/netflow-settings/models/netflow-settings.js'),\n\
-    InterfaceModel = require('./components-ixia/interface-model'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    util = require('./components-ixia/utility-functions'),\n\
-    lightbox = util.lightbox,\n\
-    task_status_url = util.getConfigSetting('get_task_status'),\n\
-    request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
-    no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
-    noop = function() {},\n\
-    spirentEnterpriseVm = window.spirentEnterpriseVm,\n\
-    results_status_observable = window.spirentEnterpriseVm.vmTest.vmResults.status,\n\
-    LoadingState = require('./components-ixia/loading-state');\n\
-\n\
-// Extend interface model\n\
-InterfaceModel.attr('collectors', {default: []});\n\
-\n\
-function NetflowSettings(model) {\n\
-    this.setModel(model);\n\
-    this.$el = domify(template);\n\
-    this.globalSettingsPane = new GlobalSettings(model);\n\
-    this.interfacesPane = undefined;\n\
-    this.ports_observable = spirentEnterpriseVm.availableDevices()[0].ports;\n\
-    this.loading_state = new LoadingState(this.$el);\n\
-    //this.init_render = true;\n\
-    this.graber = undefined;\n\
-\n\
-    this.strings = {\n\
-        \"License invalid\": window.translate(\"Your license is invalid. If you just updated, you may need a new license. Please upload a valid license or contact Spirent support at <a href='http://support.spirentforbusiness.com' target='_blank'>support.spirentforbusiness.com</a>.\"),\n\
-        \"Updating\": window.translate(\"Updating\"),\n\
-        \"Loading\": window.translate(\"Loading\"),\n\
-        \"Exporting has not yet started\": window.translate(\"Exporting has not yet started\"),\n\
-        \"Please allow approximately three minutes for exporting to begin.\": window.translate(\"Please allow approximately three minutes for exporting to begin.\"),\n\
-        \"Please wait for test to finish\": window.translate(\"Please wait for test to finish\"),\n\
-        \"Netflow save confirmation\": window.translate(\"Saving will interrupt any tests that are currently running.\")\n\
-    };\n\
-}\n\
-\n\
-NetflowSettings.factory = function (callback) {\n\
-    callback = callback || function() {};\n\
-\n\
-    var view = new NetflowSettings(),\n\
-        handler = function (err, model) {\n\
-            if (err) {\n\
-                return callback(err);\n\
-            }\n\
-\n\
-            view.setModel(model);\n\
-            return callback(null, view);\n\
-        };\n\
-\n\
-    view.renderLoading();\n\
-\n\
-    view.graber = function(){\n\
-        Model.get(undefined,handler);\n\
-    }\n\
-\n\
-    view.graber();\n\
-\n\
-    return view;\n\
-};\n\
-\n\
-NetflowSettings.prototype.setModel = function (model) {\n\
-    if (!model) {\n\
-        return; // Short-circuit\n\
-    }\n\
-\n\
-    var interfaces = [];\n\
-\n\
-\n\
-    // Convert interfaces object to models\n\
-    model.interfaces().forEach(function (iface) {\n\
-        interfaces.push(new InterfaceModel(iface));\n\
-    });\n\
-\n\
-//    if(!this.init_render){\n\
-//        this.interfacesPane.update_interfaces(interfaces);\n\
-//        return;\n\
-//    }\n\
-\n\
-    this.globalSettingsPane.setModel(model);\n\
-    this.model = model;\n\
-\n\
-    this.interfacesPane = new Interfaces(interfaces, this.model.is_enabled());\n\
-\n\
-};\n\
-\n\
-NetflowSettings.prototype.render = function () {\n\
-    var updating = this.model.status() === 'updating',\n\
-        license_invalid = this.model.license_status() === 'invalid',\n\
-        $global = this.$el.querySelector('.global'),\n\
-        chassis_id = window.spirentEnterpriseVm.vmGlobalSettings.chassisId(),\n\
-        $flownba = this.$el.querySelector('#flownba');\n\
-\n\
-    $flownba.href += '&id=' + encodeURIComponent(chassis_id);\n\
-\n\
-    if (updating) {\n\
-        this.renderUpdating();\n\
-        return this.$el;\n\
-    }\n\
-\n\
-    if (license_invalid) {\n\
-        this.renderInvalidLicense();\n\
-        return this.$el;\n\
-    }\n\
-\n\
-//    if(!this.init_render){\n\
-//        this.transitionTo(results_status_observable());\n\
-//        return;\n\
-//    }\n\
-\n\
-//    this.init_render = false;\n\
-\n\
-    // Enabling Netflow re-allocates ports\n\
-    // And port re-allocation interrupts tests\n\
-    // So block UI when tests are running to avoid interrupting\n\
-    this.transitionTo(results_status_observable());\n\
-    results_status_observable.subscribe(this.transitionTo.bind(this));\n\
-\n\
-    $global.querySelector('.mode .enable').checked = this.model.is_enabled();\n\
-    $global.querySelector('.mode .disable').checked = !this.model.is_enabled();\n\
-\n\
-    this.globalSettingsPane.render();\n\
-    this.interfacesPane.render();\n\
-\n\
-    $global.appendChild(this.globalSettingsPane.$el);\n\
-    this.$el.appendChild(this.interfacesPane.$el);\n\
-\n\
-    this.bind();\n\
-    return this.$el;\n\
-};\n\
-\n\
-NetflowSettings.prototype.renderUpdating = function () {\n\
-    var updating = this.strings.Updating,\n\
-        prev_html = this.$el.innerHTML,\n\
-        not_updating = function (data) {\n\
-            return data.status() !== 'updating';\n\
-        }.bind(this),\n\
-        updated = function (data) {\n\
-            if (!this.$el.parentNode || !this.$el.parentNode.contains(this.$el)) {\n\
-                // view was removed\n\
-                return;\n\
-            }\n\
-\n\
-            /*global $:true */\n\
-            if ($ && $.fn && typeof $.fn.unblock === 'function') {\n\
-                this.loading_state.hide();\n\
-            } else {\n\
-                this.$el.innerHTML = prev_html;\n\
-            }\n\
-            this.model = data;\n\
-            this.interfacesPane.toggle('enabled' === this.model.status());\n\
-            this.render();\n\
-        }.bind(this);\n\
-\n\
-    /*global $:true */\n\
-    if ($ && $.fn && typeof $.fn.block === 'function') {\n\
-        this.loading_state.show(updating);\n\
-    } else {\n\
-        this.$el.innerHTML = updating;\n\
-    }\n\
-    /*global $:false */\n\
-\n\
-    this.pollUntil(not_updating, updated);\n\
-};\n\
-\n\
-NetflowSettings.prototype.renderLoading = function () {\n\
-    var message = this.strings.Loading;\n\
-    this.loading_state.show(message);\n\
-};\n\
-\n\
-NetflowSettings.prototype.blockForTesting = function () {\n\
-    var message = this.strings[\"Please wait for test to finish\"];\n\
-    this.loading_state.show(message);\n\
-};\n\
-\n\
-NetflowSettings.prototype.blockWithMessage = function (message) {\n\
-    this.loading_state.show(message);\n\
-};\n\
-\n\
-NetflowSettings.prototype.unblock = function () {\n\
-    this.loading_state.hide();\n\
-};\n\
-\n\
-NetflowSettings.prototype.transitionTo = function (state) {\n\
-    if ('running' === state) {\n\
-        this.blockForTesting();\n\
-    } else {\n\
-        this.unblock();\n\
-    }\n\
-};\n\
-\n\
-NetflowSettings.prototype.pollUntil = function (condition, done) {\n\
-    Model.get(undefined, function (err, model) {\n\
-        if (condition(model)) {\n\
-            done(model);\n\
-        } else {\n\
-            setTimeout(this.pollUntil.bind(this, condition, done), 500);\n\
-        }\n\
-    }.bind(this));\n\
-};\n\
-\n\
-NetflowSettings.prototype.renderInvalidLicense = function () {\n\
-    var message = this.strings[\"License invalid\"],\n\
-        $message;\n\
-\n\
-\n\
-    /*global $:true */\n\
-    if ($ && $.fn && typeof $.fn.block === 'function') {\n\
-        this.transitionTo('license_invalid');\n\
-        var prev_defaults = $.blockUI.defaults.css;\n\
-        $.blockUI.defaults.css = {};\n\
-        $(this.$el).block({message: '<div class=\"lightbox-chrome\">' + message + '</div>'});\n\
-        $.blockUI.defaults.css = prev_defaults;\n\
-    } else {\n\
-        $message = document.createTextNode(message);\n\
-        this.$el.appendChild($message);\n\
-    }\n\
-    /*global $:false */\n\
-};\n\
-\n\
-NetflowSettings.prototype.bind = function () {\n\
-    var $enable = this.$el.querySelector('.mode .enable'),\n\
-        $disable = this.$el.querySelector('.mode .disable'),\n\
-        $save = this.$el.querySelector('.save');\n\
-\n\
-    event.bind($enable, 'change', this.toggle.bind(this, true));\n\
-    event.bind($disable, 'change', this.toggle.bind(this, false));\n\
-    event.bind($save, 'click', this.validate.bind(this));\n\
-\n\
-    this.model.on('saving', this.updateAllocations.bind(this));\n\
-};\n\
-\n\
-NetflowSettings.prototype.validate = function (e) {\n\
-    if (e && e.preventDefault) {\n\
-        e.preventDefault();\n\
-    }\n\
-\n\
-    var save = this.confirm_save.bind(this);\n\
-\n\
-    this.globalSettingsPane.validate(save, noop);\n\
-};\n\
-\n\
-NetflowSettings.prototype.confirm_save = function () {\n\
-    lightbox.confirmation_dialog(this,this.strings[\"Netflow save confirmation\"],this.save)\n\
-}\n\
-\n\
-NetflowSettings.prototype.save = function () {\n\
-    var poll = this.pollTask.bind(this),\n\
-        start_task_poller = function (nothing, response) {\n\
-            poll(response.body.task_id);\n\
-        },\n\
-        interfaces = [],\n\
-        offset,\n\
-        model;\n\
-\n\
-    /*ignore jslint start*/\n\
-    if (typeof LightboxWorkingViewModel !== 'undefined' && typeof translate === 'function') {\n\
-    /*ignore jslint end*/\n\
-        model = new LightboxWorkingViewModel(translate(\"Saving\"), translate('Saving...'));\n\
-        lightbox.working(model);\n\
-    }\n\
-\n\
-    this.interfacesPane.models.forEach(function (iface) {\n\
-        offset = iface.physical_port() - 1;\n\
-        interfaces[offset] = iface.toJSON();\n\
-    });\n\
-    this.model.interfaces(interfaces);\n\
-\n\
-    this.model.save(start_task_poller);\n\
-};\n\
-\n\
-NetflowSettings.prototype.hide = function () {\n\
-    classes(this.$el).add('hidden');\n\
-};\n\
-\n\
-NetflowSettings.prototype.show = function () {\n\
-    //this.syncPortsFrom();\n\
-    this.renderLoading();\n\
-    this.reload();\n\
-\n\
-    classes(this.$el).remove('hidden');\n\
-};\n\
-\n\
-NetflowSettings.prototype.reload = function () {\n\
-    //try to fetch a valid licence\n\
-    this.graber();\n\
-};\n\
-\n\
-NetflowSettings.prototype.toggle = function (enabled) {\n\
-    enabled = enabled || false;\n\
-    this.model.toggle(enabled);\n\
-    this.globalSettingsPane.toggle(enabled);\n\
-    this.interfacesPane.toggle(enabled);\n\
-};\n\
-\n\
-NetflowSettings.prototype.pollTask = function (task_id) {\n\
-    var self = this,\n\
-        url = task_status_url + '?task_id=' + task_id,\n\
-        poll = this.pollTask.bind(this, task_id),\n\
-        is_exporting = this.model.is_exporting(),\n\
-        strings = this.strings,\n\
-        show_warning = function () {\n\
-            lightbox.openAlert(strings['Exporting has not yet started'], strings['Please allow approximately three minutes for exporting to begin.']);\n\
-            lightbox.off('close', show_warning);\n\
-        },\n\
-        workingVm;\n\
-\n\
-    request.get(url)\n\
-        .use(no_cache)\n\
-        .end(function (res) {\n\
-            if ('running' === res.body.status) {\n\
-                // Keep polling\n\
-                setTimeout(poll, 500);\n\
-                return;\n\
-            }\n\
-\n\
-            workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-            if (res.error) {\n\
-                // Show failure\n\
-                workingVm.status('error');\n\
-                lightbox.working(workingVm);\n\
-                return;\n\
-            }\n\
-\n\
-            /*\n\
-            ports_observable().forEach(function (old_port) {\n\
-                interfaces.forEach(function (new_port) {\n\
-                    if (new_port.physical_port === old_port.id()) {\n\
-                        old_port.allocated_to(new_port.enabled ? new_port.allocated_to : 'stc');\n\
-                        old_port.available(!new_port.enabled);\n\
-                    }\n\
-                });\n\
-            });\n\
-            */\n\
-            self.syncPortsTo();\n\
-\n\
-            workingVm.status('success');\n\
-            lightbox.working(workingVm);\n\
-            if (is_exporting) {\n\
-                // Warn of the ~3 min delay\n\
-                lightbox.on('close', show_warning);\n\
-            }\n\
-        });\n\
-};\n\
-\n\
-//sync to global port observable\n\
-NetflowSettings.prototype.syncPortsTo = function(){\n\
-    var interfaces = this.model.interfaces(),\n\
-        ports_observable = this.ports_observable,\n\
-        netflow_enable = this.model.status();\n\
-\n\
-    ports_observable().forEach(function (port_glob) {\n\
-        if(port_glob.allocated_to() === 'flowmon')\n\
-        {\n\
-            port_glob.allocated_to('');\n\
-        }\n\
-        else if (port_glob.allocated_to() === ''){\n\
-            port_glob.allocated_to(undefined);\n\
-        }\n\
-        interfaces.forEach(function (port_local) {\n\
-            if (netflow_enable === 'enabled' && port_local.physical_port === port_glob.id() && port_local.allocated_to === 'flowmon' && port_local.enabled) {\n\
-                port_glob.allocated_to('flowmon');\n\
-            }\n\
-        });\n\
-    });\n\
-}\n\
-\n\
-//sync from global port observable, not currently used\n\
-NetflowSettings.prototype.syncPortsFrom = function(){\n\
-    var interfaces = this.interfacesPane.models,\n\
-        ports_observable = this.ports_observable;\n\
-\n\
-    ports_observable().forEach(function (port_glob) {\n\
-        interfaces.forEach(function (port_local) {\n\
-            if (port_local.physical_port() === port_glob.id() && port_glob.allocated_to() !== 'flowmon' && port_glob.allocated_to() !== undefined) {\n\
-                port_local.allocated_to (port_glob.allocated_to() === '' ? 'flowmon' : port_glob.allocated_to());\n\
-                port_local.enabled(false);\n\
-            }\n\
-        });\n\
-    });\n\
-}\n\
-\n\
-NetflowSettings.prototype.updateAllocations = function () {\n\
-    var interfaces = this.model.interfaces();\n\
-\n\
-    interfaces.forEach(function (iface, i) {\n\
-        if (iface.enabled) {\n\
-            iface.allocated_to = 'flowmon';\n\
-        }\n\
-        interfaces[i] = iface;\n\
-    });\n\
-};\n\
-\n\
-module.exports = NetflowSettings;\n\
-//# sourceURL=components-ixia/netflow-settings/views/netflow-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/models/netflow-settings.js", Function("exports, module",
-"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
-    defaults = require('segmentio~model-defaults@1.0.6');\n\
-\n\
-var NetflowSettings = model('NetflowSettings')\n\
-//    .route('http://johntron.apiary.io/flowmon')\n\
-    .route('/spirent/flowmon')\n\
-    .use(defaults)\n\
-    .attr('status')\n\
-    .attr('license_status')\n\
-    .attr('protocol', {\"default\": []})\n\
-    .attr('active_timeout', {\"default\": 1800})\n\
-    .attr('inactive_timeout', {\"default\": 15})\n\
-    .attr('interfaces', {\"default\": []});\n\
-\n\
-NetflowSettings.prototype.toggle = function (state) {\n\
-    state = state ? 'enabled' : 'disabled';\n\
-    this.status(state);\n\
-};\n\
-\n\
-NetflowSettings.prototype.is_enabled = function () {\n\
-    return 'enabled' === this.status();\n\
-};\n\
-\n\
-NetflowSettings.prototype.is_exporting = function () {\n\
-    var interfaces_enabled = false;\n\
-\n\
-    this.interfaces().map(function (iface) {\n\
-        if ('flowmon' === iface.allocated_to && iface.enabled) {\n\
-            interfaces_enabled = true;\n\
-        }\n\
-    });\n\
-    return this.is_enabled() && interfaces_enabled;\n\
-};\n\
-\n\
-module.exports = NetflowSettings;\n\
-//# sourceURL=components-ixia/netflow-settings/models/netflow-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/netflow-settings.js", Function("exports, module",
-"module.exports = '<form class=\"netflow-settings main\">\\n\
-    <div>\\n\
-        <h3>NetFlow</h3>\\n\
-        <button class=\"save-button save\">Save</button>\\n\
-    </div>\\n\
-    <div class=\"single-pane no-padding global\">\\n\
-        <h4>Global settings</h4>\\n\
-        <ul>\\n\
-            <li class=\"mode\">\\n\
-                <label for=\"netflow-on\">Enable</label>\\n\
-                <input type=\"radio\" class=\"enable\" id=\"netflow-on\" name=\"mode\">\\n\
-                <label for=\"netflow-off\">Disable</label>\\n\
-                <input type=\"radio\" class=\"disable\" id=\"netflow-off\" name=\"mode\">\\n\
-            </li>\\n\
-        </ul>\\n\
-    </div>\\n\
-    <div class=\"single-pane no-padding tip\">\\n\
-        <h4>Need a collector?</h4>\\n\
-        <div>\\n\
-            <p>\\n\
-                FlowNBA Cloud is a Netflow collector service. Send your Netflow\\n\
-                data to FlowNBA, then configure the collector\\'s monitoring and\\n\
-                anomaly detection with your browser.\\n\
-            </p>\\n\
-            <p>\\n\
-                Check out <a id=\"flownba\" href=\"https://www.flownba.com/?utm_source=axon\" target=\"_blank\">FlowNBA.com</a>\\n\
-                for more information.\\n\
-            </p>\\n\
-        </div>\\n\
-    </div>\\n\
-</form>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/netflow-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/views/global-settings.js", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-ixia/netflow-settings/templates/global-settings.js'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    event = require('component~event@0.1.4'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
-    noop = function () {};\n\
-\n\
-function GlobalSettings(model) {\n\
-    this.model = model;\n\
-    this.$el = domify(template);\n\
-    this.strings = {\n\
-        \"netflow-v5\": window.translate(\"Netflow v5\"),\n\
-        \"netflow-v9\": window.translate(\"Netflow v9\"),\n\
-        \"ipfix\": window.translate(\"IPFIX\"),\n\
-        \"Please enter a timeout in seconds\": window.translate(\"Please enter a timeout in seconds\")\n\
-    };\n\
-}\n\
-\n\
-emitter(GlobalSettings.prototype);\n\
-\n\
-GlobalSettings.prototype.setModel = function (model) {\n\
-    this.model = model;\n\
-};\n\
-\n\
-GlobalSettings.prototype.render = function () {\n\
-    var protocols = this.model.protocol() || [],\n\
-        $active_timeout = this.$el.querySelector('#active_timeout'),\n\
-        $inactive_timeout = this.$el.querySelector('#inactive_timeout');\n\
-\n\
-    this.insertProtocols(protocols);\n\
-\n\
-    $active_timeout.value = this.model.active_timeout();\n\
-    $inactive_timeout.value = this.model.inactive_timeout();\n\
-\n\
-    this.bind();\n\
-\n\
-    this.toggle(this.model.is_enabled());\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-GlobalSettings.prototype.insertProtocols = function (protocols) {\n\
-    var $protocol = this.$el.querySelector('.protocol'),\n\
-        $option,\n\
-        strings = this.strings;\n\
-\n\
-    protocols.forEach(function (protocol) {\n\
-        $option = document.createElement('option');\n\
-        $option.value = protocol.name;\n\
-        $option.innerHTML = strings[protocol.name];\n\
-        $option.selected = protocol.selected;\n\
-        if (protocol.selected) {\n\
-            // Hack to make the fancy dropdown work\n\
-            $protocol.parentNode.setAttribute('data-value', strings[protocol.name]);\n\
-        }\n\
-        $protocol.appendChild($option);\n\
-\n\
-    });\n\
-};\n\
-\n\
-GlobalSettings.prototype.bind = function () {\n\
-    var $protocol = this.$el.querySelector('.protocol'),\n\
-        $active_timeout = this.$el.querySelector('#active_timeout'),\n\
-        $inactive_timeout = this.$el.querySelector('#inactive_timeout');\n\
-\n\
-    event.bind($protocol, 'change', this.protocolChanged.bind(this));\n\
-    event.bind($active_timeout, 'change', this.activeTimeoutChanged.bind(this));\n\
-    event.bind($inactive_timeout, 'change', this.inactiveTimeoutChanged.bind(this));\n\
-    this.bindValidator();\n\
-};\n\
-\n\
-GlobalSettings.prototype.bindValidator = function () {\n\
-    this.validator = validate(this.$el)\n\
-        .on('blur')\n\
-        .field('active_timeout')\n\
-            .is('required', this.strings[\"Please enter a timeout in seconds\"])\n\
-            .is(/^\\d+$/, this.strings[\"Please enter a timeout in seconds\"])\n\
-        .field('inactive_timeout')\n\
-            .is('required', this.strings[\"Please enter a timeout in seconds\"])\n\
-            .is(/^\\d+$/, this.strings[\"Please enter a timeout in seconds\"]);\n\
-};\n\
-\n\
-GlobalSettings.prototype.validate = function (success, fail) {\n\
-    success = success || noop;\n\
-    fail = fail || noop;\n\
-\n\
-    this.validator.validate(function (err, is_valid, msg) {\n\
-        if (is_valid) {\n\
-            success();\n\
-        } else {\n\
-            fail(err);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-GlobalSettings.prototype.toggle = function (show) {\n\
-    show = show === undefined ? classes(this.$el).has('hidden') : show;\n\
-\n\
-    if (show) {\n\
-        classes(this.$el).remove('hidden');\n\
-    } else {\n\
-        classes(this.$el).add('hidden');\n\
-    }\n\
-};\n\
-\n\
-GlobalSettings.prototype.protocolChanged = function () {\n\
-    var $protocol = this.$el.querySelector('.protocol'),\n\
-        selected_index = $protocol.selectedIndex,\n\
-        protocols = this.model.protocol(),\n\
-        protocol = protocols[selected_index],\n\
-        strings = this.strings;\n\
-\n\
-    $protocol.parentNode.setAttribute('data-value', strings[protocol.name]);\n\
-\n\
-    protocols.forEach(function (protocol) {\n\
-        protocol.selected = false;\n\
-    });\n\
-\n\
-    protocol.selected = true;\n\
-\n\
-    this.model.protocol(protocols);\n\
-};\n\
-\n\
-GlobalSettings.prototype.activeTimeoutChanged = function () {\n\
-    var timeout = +this.$el.querySelector('#active_timeout').value;\n\
-\n\
-    this.model.active_timeout(timeout);\n\
-};\n\
-\n\
-GlobalSettings.prototype.inactiveTimeoutChanged = function () {\n\
-    var timeout = +this.$el.querySelector('#inactive_timeout').value;\n\
-\n\
-    this.model.inactive_timeout(timeout);\n\
-};\n\
-\n\
-module.exports = GlobalSettings;\n\
-//# sourceURL=components-ixia/netflow-settings/views/global-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/global-settings.js", Function("exports, module",
-"module.exports = '<ul class=\"global-settings\">\\n\
-    <li>\\n\
-        <label>Use</label>\\n\
-        <span class=\"light-select2\">\\n\
-            <select class=\"protocol\"></select>\\n\
-        </span>\\n\
-    </li>\\n\
-    <li>\\n\
-        <label for=\"active_timeout\">Active timeout</label>\\n\
-        <input type=\"text\" name=\"active_timeout\" id=\"active_timeout\" /> seconds\\n\
-    </li>\\n\
-    <li>\\n\
-        <label for=\"inactive_timeout\">Inactive timeout</label>\\n\
-        <input type=\"text\" name=\"inactive_timeout\" id=\"inactive_timeout\" /> seconds\\n\
-    </li>\\n\
-</ul>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/global-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/views/interfaces.js", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    Selector = require('./components-ixia/interface-selector'),\n\
-    Settings = require('./components-ixia/netflow-settings/views/interface-settings.js'),\n\
-    template = domify(require('./components-ixia/netflow-settings/templates/interfaces.js')),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    event = require('component~event@0.1.4'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    lightbox = window.util.lightbox;\n\
-\n\
-function render_interface(model, $el) {\n\
-    var classed = classes($el);\n\
-\n\
-    if (model.enabled()) {\n\
-        classed.remove('streetwise');\n\
-        classed.remove('player');\n\
-        classed.add('flowmon');\n\
-    } else if (model.changed().allocated_to === 'flowmon') {\n\
-        // User stopped exporting on this port\n\
-        classed.remove('flowmon');\n\
-        classed.add('player');\n\
-    } else {\n\
-        classed.remove('flowmon');\n\
-        classed.add(model.changed().allocated_to);\n\
-    }\n\
-\n\
-\n\
-    if (model.available()) {\n\
-        classed.add('available');\n\
-    } else {\n\
-        classed.remove('available');\n\
-    }\n\
-\n\
-    return $el;\n\
-}\n\
-\n\
-function Interfaces(interfaces, visible) {\n\
-    this.models = Selector.sort(interfaces || []);\n\
-    this.visible = visible;\n\
-    this.selector = new Selector(this.models, render_interface);\n\
-    this.$el = template.cloneNode(true);\n\
-    this.views = [];\n\
-    this.strings = {\n\
-        \"Select a port\": window.translate(\"Choose the ports from which you want to generate NetFlow records. Connect each selected port to a SPAN or TAP port to enable capture of network data to generate NetFlow records.\"),\n\
-        \"flowmon port overwrite confirmation\": window.translate(\"Reallocating this port to Netflow will stop AxonPoint Server on this port.\")\n\
-    };\n\
-}\n\
-\n\
-emitter(Interfaces.prototype);\n\
-\n\
-Interfaces.prototype.render = function () {\n\
-    var selector = this.selector,\n\
-        $selector = this.$el.querySelector('.selector'),\n\
-        $settings = this.$el.querySelector('.settings'),\n\
-        add = this.add.bind(this);\n\
-\n\
-    selector.render();\n\
-    if (!$selector.contains(selector.$el)) {\n\
-        $selector.appendChild(selector.$el);\n\
-    }\n\
-\n\
-    if (this.models.length) {\n\
-        $settings.innerHTML = '<p>' + this.strings[\"Select a port\"] + '</p>';\n\
-    }\n\
-\n\
-    this.models.forEach(function (iface, i) {\n\
-        add(iface, i);\n\
-    });\n\
-\n\
-    this.bind();\n\
-\n\
-    this.toggle(this.visible);\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-Interfaces.prototype.bind = function () {\n\
-    var views = this.views,\n\
-        selector = this.selector,\n\
-        select = this.select.bind(this),\n\
-        emit = this.emit.bind(this, 'changed');\n\
-\n\
-    views.forEach(function (view) {\n\
-        view.on('changed', emit);\n\
-    }, this);\n\
-\n\
-    selector.on('select', select);\n\
-};\n\
-\n\
-Interfaces.prototype.toggle = function (visible) {\n\
-    if (visible) {\n\
-        classes(this.$el).remove('hidden');\n\
-    } else {\n\
-        classes(this.$el).add('hidden');\n\
-    }\n\
-\n\
-    this.visible = visible;\n\
-};\n\
-\n\
-Interfaces.prototype.add = function (iface, index) {\n\
-    var $settings = this.$el.querySelector('.settings'),\n\
-        view = new Settings(iface);\n\
-\n\
-    if (isNaN(index)) {\n\
-        index = this.models.length;\n\
-    }\n\
-\n\
-    view.render();\n\
-    view.hide();\n\
-    $settings.appendChild(view.$el);\n\
-\n\
-    this.models[index] = iface;\n\
-    this.views[index] = view;\n\
-};\n\
-\n\
-Interfaces.prototype.select = function (model) {\n\
-    var self = this,\n\
-        $message = self.$el.querySelector('.settings > p'),\n\
-        models = self.models,\n\
-        views = self.views,\n\
-        select_action = function () {\n\
-            // Hide \"select a port\" message\n\
-            if ($message) {\n\
-                $message.parentNode.removeChild($message);\n\
-            }\n\
-\n\
-            views.forEach(function (view, i) {\n\
-                if (models[i].physical_port() === model.physical_port()) {\n\
-                    view.show();\n\
-                } else {\n\
-                    // Hide other views\n\
-                    view.hide();\n\
-                }\n\
-            }, this);\n\
-        };\n\
-\n\
-    if(model.allocated_to() !== 'stc' && model.allocated_to() !== 'flowmon'){\n\
-        lightbox.confirmation_dialog(self,self.strings[\"flowmon port overwrite confirmation\"],select_action);\n\
-        return;\n\
-    }\n\
-\n\
-    select_action.call(self);\n\
-};\n\
-\n\
-Interfaces.prototype.reset_interfaces = function (interfaces) {\n\
-    this.selector.unbind();\n\
-    this.selector.set_models(interfaces);\n\
-}\n\
-\n\
-module.exports = Interfaces;\n\
-//# sourceURL=components-ixia/netflow-settings/views/interfaces.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/interfaces.js", Function("exports, module",
-"module.exports = '<div class=\"interfaces transmit-receive-container single-pane box\">\\n\
-    <ul>\\n\
-        <li class=\"selector\"></li>\\n\
-        <li class=\"settings endpoint-container\">Select an interface above</li>\\n\
-    </ul>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/interfaces.js"
-));
-
-require.register("./components-ixia/netflow-settings/views/interface-settings.js", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-ixia/netflow-settings/templates/interface/settings.js'),\n\
-    CollectorModel = require('./components-ixia/netflow-settings/models/collector.js'),\n\
-    List = require('./components-ixia/netflow-settings/views/collector-list.js'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    event = require('component~event@0.1.4'),\n\
-    emitter = require('component~emitter@1.0.1');\n\
-\n\
-function InterfaceSettings(model) {\n\
-    var collectors = model.collectors() || [];\n\
-\n\
-    this.model = model;\n\
-    this.$el = domify(template);\n\
-\n\
-    // Convert objects to Models\n\
-    collectors.forEach(function (collector, i) {\n\
-        collectors[i] = new CollectorModel(collector);\n\
-    });\n\
-    this.collectors = new List(collectors);\n\
-\n\
-    this.strings = {\n\
-        \"Export this interface's traffic\": window.translate(\"Export this interface's traffic\")\n\
-    };\n\
-}\n\
-\n\
-emitter(InterfaceSettings.prototype);\n\
-\n\
-InterfaceSettings.prototype.render = function () {\n\
-    var $checkbox = this.$el.querySelector('.export input'),\n\
-        $collectors = this.$el.querySelector('.collectors'),\n\
-        collectors = this.collectors,\n\
-        enabled = this.model.enabled();\n\
-\n\
-    collectors.render();\n\
-    $collectors.appendChild(collectors.$el);\n\
-    $checkbox.checked = enabled;\n\
-\n\
-    this.enable(enabled);\n\
-\n\
-    this.bind();\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-InterfaceSettings.prototype.show = function () {\n\
-    classes(this.$el).remove('hidden');\n\
-};\n\
-\n\
-InterfaceSettings.prototype.hide = function () {\n\
-    classes(this.$el).add('hidden');\n\
-};\n\
-\n\
-InterfaceSettings.prototype.is_visible = function () {\n\
-    return !classes(this.$el).has('hidden');\n\
-};\n\
-\n\
-InterfaceSettings.prototype.bind = function () {\n\
-    var $checkbox = this.$el.querySelector('.export input'),\n\
-        $add = this.$el.querySelector('.add-collector'),\n\
-        enable = this.enable.bind(this),\n\
-        changed = function (e) {\n\
-            if (e && e.preventDefault) {\n\
-                e.preventDefault();\n\
-            }\n\
-\n\
-            var state = $checkbox.checked;\n\
-            enable(state);\n\
-        },\n\
-        collectors = this.collectors,\n\
-        add = function (e) {\n\
-            if (e && e.preventDefault) {\n\
-                e.preventDefault();\n\
-            }\n\
-\n\
-            collectors.add();\n\
-        };\n\
-\n\
-    event.bind($checkbox, 'change', changed.bind(this));\n\
-    event.bind($add, 'click', add);\n\
-};\n\
-\n\
-InterfaceSettings.prototype.setInterface = function (iface) {\n\
-    this.model = iface;\n\
-};\n\
-\n\
-InterfaceSettings.prototype.enable = function (enabled) {\n\
-    var $collectors = this.$el.querySelector('.collectors'),\n\
-        $add = this.$el.querySelector('.add-collector');\n\
-\n\
-    this.model.enabled(enabled);\n\
-\n\
-    if (enabled) {\n\
-        classes($collectors).remove('hidden');\n\
-        classes($add).remove('hidden');\n\
-    } else {\n\
-        classes($collectors).add('hidden');\n\
-        classes($add).add('hidden');\n\
-    }\n\
-};\n\
-\n\
-module.exports = InterfaceSettings;\n\
-//# sourceURL=components-ixia/netflow-settings/views/interface-settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/interface/settings.js", Function("exports, module",
-"module.exports = '<ul class=\"form\">\\n\
-    <li class=\"export\">\\n\
-        <label><input type=\"checkbox\"> Export this interface\\'s traffic</label>\\n\
-    </li>\\n\
-    <li class=\"collectors\"></li>\\n\
-    <li class=\"add-collector\">\\n\
-        <button>Add collector</button>\\n\
-    </li>\\n\
-</ul>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/interface/settings.js"
-));
-
-require.register("./components-ixia/netflow-settings/views/collector-list.js", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    template = require('./components-ixia/netflow-settings/templates/collector-list.js'),\n\
-    Model = require('./components-ixia/netflow-settings/models/collector.js'),\n\
-    Subview = require('./components-ixia/netflow-settings/views/collector.js'),\n\
-    event = require('component~event@0.1.4'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    classes = require('component~classes@1.2.3');\n\
-\n\
-function CollectorList(collectors) {\n\
-    this.models = collectors || [];\n\
-    this.$collectors = [];\n\
-    this.views = [];\n\
-    this.$el = domify(template);\n\
-    this.strings = {\n\
-        'No collectors': window.translate('No collectors')\n\
-    };\n\
-}\n\
-\n\
-emitter(CollectorList.prototype);\n\
-\n\
-CollectorList.prototype.render = function () {\n\
-    var add = this.add.bind(this),\n\
-        $li;\n\
-\n\
-    if (this.models.length) {\n\
-        this.models.forEach(add);\n\
-    } else {\n\
-        this.addEmptyMessage();\n\
-    }\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-CollectorList.prototype.add = function (model, index) {\n\
-    var $parent = this.$el,\n\
-        $li = document.createElement('li'),\n\
-        view,\n\
-        $view,\n\
-        bind_item = this.bindItem.bind(this),\n\
-        $empty_message = this.$el.querySelector('.empty-message');\n\
-\n\
-    if ($empty_message) {\n\
-        this.$el.removeChild($empty_message);\n\
-    }\n\
-\n\
-    if (isNaN(index)) {\n\
-        index = this.models.length;\n\
-    }\n\
-\n\
-    if (model instanceof Model) {\n\
-        model.id(index); // \"save\" this model, so it's not discarded when editor is canceled\n\
-    } else {\n\
-        // Model was probably an Event, so create a new model\n\
-        model = new Model({});\n\
-    }\n\
-\n\
-    view = new Subview(model, model.isNew());\n\
-    this.models[index] = model;\n\
-    this.$collectors[index] = $li;\n\
-    this.views[index] = view;\n\
-\n\
-    $view = view.render();\n\
-    $li.appendChild($view);\n\
-    $parent.appendChild($li);\n\
-\n\
-    bind_item(index, $li, view);\n\
-};\n\
-\n\
-CollectorList.prototype.bindItem = function (index, $el, view, rebind) {\n\
-    var emit = this.emit.bind(this),\n\
-        remove = this.remove.bind(this),\n\
-        models = this.models;\n\
-\n\
-    if (rebind) {\n\
-        view.off('mode_changed');\n\
-        view.off('saved');\n\
-        view.off('removed');\n\
-    }\n\
-\n\
-    view.on('mode_changed', function () {\n\
-        // Redraw <li></li>\n\
-        $el.innerHTML = '';\n\
-        $el.appendChild(view.$el);\n\
-    });\n\
-\n\
-    view.on('saved', function (model) {\n\
-        model.id(index); // \"save\" this model, so it's not discared when editor is canceled\n\
-        emit('changed', models);\n\
-    });\n\
-\n\
-    view.on('removed', function () {\n\
-        remove(index);\n\
-        emit('changed', models);\n\
-    });\n\
-};\n\
-\n\
-\n\
-CollectorList.prototype.remove = function (index) {\n\
-    var $el = this.$collectors[index],\n\
-        view;\n\
-\n\
-    this.$el.removeChild($el);\n\
-    this.models.splice(index, 1);\n\
-    this.$collectors.splice(index, 1);\n\
-    this.views.splice(index, 1);\n\
-\n\
-    // Re-bind proceeding elements\n\
-    for (index; index < this.views.length; index += 1) {\n\
-        view = this.views[index];\n\
-        $el = this.$collectors[index];\n\
-        this.bindItem(index, $el, view, true);\n\
-    }\n\
-\n\
-    if (!this.models.length) {\n\
-        this.addEmptyMessage();\n\
-    }\n\
-};\n\
-\n\
-CollectorList.prototype.addEmptyMessage = function () {\n\
-    var $li = document.createElement('li');\n\
-\n\
-    $li.innerHTML = this.strings['No collectors'];\n\
-    classes($li).add('italic');\n\
-    classes($li).add('empty-message');\n\
-    this.$el.appendChild($li);\n\
-};\n\
-\n\
-module.exports = CollectorList;\n\
-//# sourceURL=components-ixia/netflow-settings/views/collector-list.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/collector-list.js", Function("exports, module",
-"module.exports = '<ul class=\"collector-list\"></ul>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/collector-list.js"
-));
-
-require.register("./components-ixia/netflow-settings/views/collector.js", Function("exports, module",
-"var domify = require('component~domify@1.3.1'),\n\
-    view_template = require('./components-ixia/netflow-settings/templates/collector.js'),\n\
-    edit_template = require('./components-ixia/netflow-settings/templates/collector-editor.js'),\n\
-    event = require('component~event@0.1.4'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
-    is_host = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5'),\n\
-    noop = function () {};\n\
-\n\
-function Collector(model, editing) {\n\
-    this.model = model;\n\
-    this.editing = editing || false;\n\
-    this.$view = domify(view_template);\n\
-    this.$edit = domify(edit_template);\n\
-    this.strings = {\n\
-        \"Please enter a valid host address (IPv4, IPv6, or name)\": window.translate(\"Please enter a valid host address (IPv4, IPv6, or name)\"),\n\
-        \"Please enter a valid port number\": window.translate(\"Please enter a valid port number\"),\n\
-        \"Port must be less than 65535\": window.translate(\"Port must be less than 65535\")\n\
-    };\n\
-}\n\
-\n\
-emitter(Collector.prototype);\n\
-\n\
-Collector.prototype.view = function () {\n\
-    var $el = this.$view,\n\
-        $address = $el.querySelector('.address'),\n\
-        $port = $el.querySelector('.port'),\n\
-        model = this.model;\n\
-\n\
-    $address.innerHTML = model.address();\n\
-    $port.innerHTML = model.port();\n\
-\n\
-    this.$el = $el;\n\
-\n\
-    if (this.editing) {\n\
-        this.emit('mode_changed', 'view');\n\
-        this.editing = false;\n\
-    }\n\
-\n\
-    return $el;\n\
-};\n\
-\n\
-Collector.prototype.edit = function () {\n\
-    var model = this.model,\n\
-        $el = this.$edit,\n\
-        $address = $el.querySelector('[name=address]'),\n\
-        $port = $el.querySelector('[name=port]');\n\
-\n\
-    $address.value = model.address();\n\
-    $port.value = model.port();\n\
-\n\
-    this.$el = $el;\n\
-\n\
-    if (!this.editing) {\n\
-        this.emit('mode_changed', 'edit');\n\
-        this.editing = true;\n\
-    }\n\
-\n\
-    return $el;\n\
-};\n\
-\n\
-Collector.prototype.save = function () {\n\
-    var model = this.model,\n\
-        $el = this.$edit,\n\
-        address = $el.querySelector('[name=address]').value,\n\
-        port = $el.querySelector('[name=port]').value;\n\
-\n\
-    model.address(address);\n\
-    model.port(port);\n\
-\n\
-    this.emit('saved', model);\n\
-    this.view();\n\
-};\n\
-\n\
-Collector.prototype.remove = function () {\n\
-    var old = this.model;\n\
-\n\
-    this.model.destroy();\n\
-    this.emit('removed', old);\n\
-};\n\
-\n\
-\n\
-Collector.prototype.render = function () {\n\
-    var $el;\n\
-\n\
-    this.bind();\n\
-\n\
-    if (this.editing) {\n\
-        $el = this.edit();\n\
-    } else {\n\
-        $el = this.view();\n\
-    }\n\
-\n\
-    return $el;\n\
-};\n\
-\n\
-Collector.prototype.bind = function () {\n\
-    // View-mode\n\
-    var $view = this.$view,\n\
-        $edit_trigger = $view.querySelector('.edit'),\n\
-        $delete = $view.querySelector('.delete'),\n\
-\n\
-    // Edit-mode\n\
-        $edit = this.$edit,\n\
-        $cancel = $edit.querySelector('.cancel'),\n\
-        $save = $edit.querySelector('.save'),\n\
-        cancel = function () {\n\
-            if (this.model.isNew()) {\n\
-                this.remove();\n\
-            } else {\n\
-                this.view();\n\
-            }\n\
-        }.bind(this),\n\
-        save = this.save.bind(this);\n\
-\n\
-    // View-mode\n\
-    event.bind($edit_trigger, 'click', this.edit.bind(this));\n\
-    event.bind($delete, 'click', this.remove.bind(this));\n\
-\n\
-    // Edit-mode\n\
-    event.bind($cancel, 'click', cancel);\n\
-    event.bind($save, 'click', this.validate.bind(this, save, noop));\n\
-\n\
-    this.bindValidator();\n\
-};\n\
-\n\
-Collector.prototype.bindValidator = function () {\n\
-    var less_than_65535 = function (val) {\n\
-            return val < 65535;\n\
-        };\n\
-\n\
-    this.validator = validate(this.$edit)\n\
-        .on('blur')\n\
-        .use(is_host)\n\
-        .field('address')\n\
-            .is('required', this.strings[\"Please enter a valid host address (IPv4, IPv6, or name)\"])\n\
-            .is('host', this.strings[\"Please enter a valid host address (IPv4, IPv6, or name)\"])\n\
-        .field('port')\n\
-            .is('required', this.strings[\"Please enter a valid port number\"])\n\
-            .is(/^\\d+$/, this.strings[\"Please enter a valid port number\"])\n\
-            .is(less_than_65535, this.strings[\"Port must be less than 65535\"]);\n\
-};\n\
-\n\
-Collector.prototype.validate = function (success, fail, e) {\n\
-    if (e.preventDefault) {\n\
-        e.preventDefault();\n\
-    }\n\
-\n\
-    success = success || noop;\n\
-    fail = fail || noop;\n\
-\n\
-    this.validator.validate(function (err, is_valid, msg) {\n\
-        if (is_valid) {\n\
-            success();\n\
-        } else {\n\
-            fail(err);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-module.exports = Collector;\n\
-//# sourceURL=components-ixia/netflow-settings/views/collector.js"
-));
-
-require.register("./components-ixia/netflow-settings/models/collector.js", Function("exports, module",
-"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
-    defaults = require('segmentio~model-defaults@1.0.6');\n\
-\n\
-\n\
-var Collector = model('Collector')\n\
-    .route('/netflow-settings/collectors')\n\
-    .use(defaults)\n\
-    .attr('id')\n\
-    .attr('address', {\"default\": ''})\n\
-    .attr('port', {\"default\": '2055'});\n\
-\n\
-Collector.primaryKey = 'id';\n\
-\n\
-Collector.prototype.destroy = function () {\n\
-    this.model.emit('destroying', this);\n\
-    this.emit('destroying');\n\
-    this.destroyed = true;\n\
-    this.model.emit('destroy', this);\n\
-    this.emit('destroy');\n\
-};\n\
-\n\
-module.exports = Collector;\n\
-//# sourceURL=components-ixia/netflow-settings/models/collector.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/collector.js", Function("exports, module",
-"module.exports = '<div class=\"collector\">\\n\
-    <span class=\"address\"></span>:<span class=\"port\"></span>\\n\
-    <div class=\"actions\">\\n\
-        <button class=\"edit\">edit</button>\\n\
-        <button class=\"delete\">delete</button>\\n\
-    </div>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/collector.js"
-));
-
-require.register("./components-ixia/netflow-settings/templates/collector-editor.js", Function("exports, module",
-"module.exports = '<div class=\"collector-editor\">\\n\
-    <ul>\\n\
-        <li><label>Address</label> <input type=\"text\" name=\"address\" class=\"address\" /></li>\\n\
-        <li><label>Port</label> <input type=\"text\" name=\"port\" class=\"port\" min=\"1\" /></li>\\n\
-        <li><button class=\"cancel button-cancel cancel-button\">cancel</button> <button class=\"save\">Save</button></li>\\n\
-    </ul>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/netflow-settings/templates/collector-editor.js"
-));
-
-require.modules["netflow-settings"] = require.modules["./components-ixia/netflow-settings"];
-
-
 require.register("./components-ixia/player", Function("exports, module",
 "module.exports = {\n\
     delegates: {\n\
@@ -55725,8 +52866,6 @@ require.modules["player"] = require.modules["./components-ixia/player"];
 require.register("./components-ixia/test-view-model", Function("exports, module",
 "var DefaultHeaderDelegate = require('./components-ixia/player').delegates[\"test-view-model\"],\n\
     indefinite_modules = [\n\
-        \"axon.testcases.spirent.throughput_test\",\n\
-        \"axon.testcases.spirent.multicast_aggregated_throughput\"\n\
     ],\n\
     static_duration_modules = {\n\
         \"axon.testcases.spirent.multicast_join_leave_latency\": 5 // Always runs for ~5 minutes\n\
@@ -55745,15 +52884,10 @@ function TestViewModel(rootVModel, delegate) {\n\
 \n\
     self.rootVm = rootVModel;\n\
 \n\
-    self.getAvailableTracks = self.rootVm.getAvailableTracks;\n\
-    self.getAvailablePlaylists = self.rootVm.getAvailablePlaylists;\n\
     self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
-    self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;\n\
     self.getAvailableTests = self.rootVm.getAvailableTests;\n\
     self.getAvailableDatapoints = self.rootVm.getAvailableDatapoints;\n\
-    self.availablePlaylists = self.rootVm.availablePlaylists;\n\
     self.availableDevices = self.rootVm.availableDevices;\n\
-    self.availableEndpoints = self.rootVm.availableEndpoints;\n\
     self.availableTests = self.rootVm.availableTests;\n\
     self.availableTestsByCategory = self.rootVm.availableTestsByCategory;\n\
     self.availableDatapointsMap = self.rootVm.availableDatapointsMap;\n\
@@ -55800,8 +52934,6 @@ function TestViewModel(rootVModel, delegate) {\n\
     self.startingTab = 'configuration';\n\
 \n\
     self.selectedTab(self.startingTab);\n\
-\n\
-//    self.selectedTab.subscribe(self.onSelectedTabUpdated.bind(self));\n\
 \n\
     self.isTestRunning = ko.observable(false);\n\
     self.hasResults = ko.observable(false);\n\
@@ -56753,6 +53885,56 @@ module.exports = AsyncPoller;\n\
 require.modules["async-poller"] = require.modules["./components-ixia/async-poller"];
 
 
+require.register("./components-ixia/loading-state", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    $template = domify(require('./components-ixia/loading-state/template.js'));\n\
+\n\
+function LoadingState($el) {\n\
+    this.$template = $template.cloneNode(true);\n\
+    this.set_el($el);\n\
+}\n\
+\n\
+LoadingState.prototype.show = function (message) {\n\
+    var $message = this.$template.querySelector('h3'),\n\
+        prev = $.blockUI.defaults.css; // We need to reset the block UI's CSS\n\
+\n\
+    $message.textContent = message;\n\
+\n\
+    $.blockUI.defaults.css = {};\n\
+    $(this.$el).block({\n\
+        message: this.$template,\n\
+        width: '100%'\n\
+    });\n\
+    $.blockUI.defaults.css = prev;\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+LoadingState.prototype.hide = function () {\n\
+    $(this.$el).unblock();\n\
+};\n\
+\n\
+LoadingState.prototype.set_el = function ($el) {\n\
+    this.$el = $el;\n\
+};\n\
+\n\
+\n\
+module.exports = LoadingState;\n\
+//# sourceURL=components-ixia/loading-state/index.js"
+));
+
+require.register("./components-ixia/loading-state/template.js", Function("exports, module",
+"module.exports = '<div id=\"lightbox-working\">\\n\
+    <div class=\"working\"><img src=\"static/images/spinner.gif\" class=\"loading\"/>\\n\
+        <div class=\"content\"><h3></h3></div>\\n\
+    </div>\\n\
+</div>';\n\
+//# sourceURL=components-ixia/loading-state/template.js"
+));
+
+require.modules["loading-state"] = require.modules["./components-ixia/loading-state"];
+
+
 require.register("./components-ixia/network-settings-view", Function("exports, module",
 "var domify = require('component~domify@1.3.1'),\n\
     $template = domify(require('./components-ixia/network-settings-view/template.js')),\n\
@@ -56962,6 +54144,225 @@ require.register("./components-ixia/network-settings-view/template.js", Function
 ));
 
 require.modules["network-settings-view"] = require.modules["./components-ixia/network-settings-view"];
+
+
+require.register("./components-ixia/interface-model", Function("exports, module",
+"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
+    defaults = require('segmentio~model-defaults@1.0.6');\n\
+\n\
+var Interface = model('Interface')\n\
+    .use(defaults)\n\
+    .attr('physical_port')\n\
+    .attr('available', {\"default\": true}) // True if port can be re-allocated\n\
+    .attr('allocated_to')\n\
+    .attr('enabled', {\"default\": false});\n\
+\n\
+Interface.primaryKey = \"physical_port\";\n\
+\n\
+Interface.from_device_view_model = function (view_model) {\n\
+    var physical_port = view_model.toFlatObject();\n\
+    return new this({physical_port: physical_port});\n\
+};\n\
+\n\
+module.exports = Interface;\n\
+//# sourceURL=components-ixia/interface-model/index.js"
+));
+
+require.modules["interface-model"] = require.modules["./components-ixia/interface-model"];
+
+
+require.register("./components-ixia/interface-selector", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    template = require('./components-ixia/interface-selector/templates/template.js'),\n\
+    interface_template = require('./components-ixia/interface-selector/templates/interface.js'),\n\
+    Interface = require('./components-ixia/interface-model'),\n\
+    emitter = require('component~emitter@1.0.1'),\n\
+    classes = require('component~classes@1.2.3'),\n\
+    event = require('component~event@0.1.4');\n\
+\n\
+/**\n\
+ * @param interfaces ObservableArray or Array of Interfaces\n\
+ * @param render_interface delegate function called when an interface needs rendering\n\
+ * @constructor\n\
+ */\n\
+function InterfaceSelector(interfaces, render_interface) {\n\
+    if (interfaces.subscribe) {\n\
+        // interfaces is observable\n\
+        // interfaces.subscribe(this.update_interfaces.bind(this)); // Causes ENT-3611\n\
+        interfaces = interfaces();\n\
+    }\n\
+    this.set_models(interfaces);\n\
+    this.render_interface = typeof render_interface === 'function' ? render_interface : function () {};\n\
+    this.$el = domify(template);\n\
+    this.$interfaces = [];\n\
+    this.click_handlers = [];\n\
+    this.change_handlers = [];\n\
+    this.strings = {\n\
+        \"No interfaces\": window.translate(\"No interfaces\")\n\
+    };\n\
+}\n\
+\n\
+emitter(InterfaceSelector.prototype);\n\
+\n\
+InterfaceSelector.sort = function (interfaces) {\n\
+    var ret = [],\n\
+        offset;\n\
+\n\
+    interfaces.map(function (iface) {\n\
+        offset = iface.physical_port() - 1;\n\
+        ret[offset] = iface;\n\
+    });\n\
+\n\
+    return ret;\n\
+};\n\
+\n\
+InterfaceSelector.prototype.set_models = function (models) {\n\
+    // Convert \"view-models\" to Models\n\
+    models = models.map(function (iface) {\n\
+        if (iface.toFlatObject) {\n\
+            iface = Interface.from_device_view_model(iface);\n\
+        }\n\
+        return iface;\n\
+    });\n\
+\n\
+    this.models = InterfaceSelector.sort(models) || [];\n\
+\n\
+};\n\
+\n\
+InterfaceSelector.prototype.render = function () {\n\
+    var $interface;\n\
+\n\
+    this.$el.innerHTML = '';\n\
+\n\
+    if (!this.models.length) {\n\
+        this.$el.innerHTML = this.strings[\"No interfaces\"];\n\
+    }\n\
+\n\
+    this.models.map(function (model, i) {\n\
+        $interface = domify(interface_template);\n\
+        this.render_interface(model, $interface, i);\n\
+        this.$el.appendChild($interface);\n\
+        this.$interfaces[i] = $interface;\n\
+    }, this);\n\
+\n\
+    this.bind();\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+InterfaceSelector.prototype.bind = function () {\n\
+    var $interfaces = this.$interfaces,\n\
+        $interface,\n\
+        models = this.models,\n\
+        model,\n\
+        handler,\n\
+        redraw = this.render_interface;\n\
+\n\
+    // DOM -> Model\n\
+    $interfaces.forEach(function ($interface, index) {\n\
+        model = models[index];\n\
+\n\
+        handler = this.select.bind(this, model, false);\n\
+        this.click_handlers[index] = handler;\n\
+\n\
+        if (model.available()) {\n\
+            event.bind($interface, 'click', handler);\n\
+        }\n\
+    }, this);\n\
+\n\
+    // Model -> DOM\n\
+    this.models.forEach(function (model, index) {\n\
+        $interface = $interfaces[index];\n\
+\n\
+        handler = redraw.bind(this, model, $interface, index);\n\
+        this.change_handlers[index] = handler;\n\
+\n\
+        model.on('change', handler);\n\
+    }, this);\n\
+};\n\
+\n\
+InterfaceSelector.prototype.unbind = function () {\n\
+    var $interfaces = this.$interfaces,\n\
+        $interface,\n\
+        models = this.models,\n\
+        model,\n\
+        handler,\n\
+        redraw = this.render_interface;\n\
+\n\
+    // DOM -> Model\n\
+    $interfaces.forEach(function ($interface, index) {\n\
+        model = models[index];\n\
+\n\
+        handler = this.click_handlers[index];\n\
+        event.unbind($interface, 'click', handler);\n\
+\n\
+        delete this.click_handlers[index];\n\
+    }, this);\n\
+\n\
+    // Model -> DOM\n\
+    this.models.forEach(function (model, index) {\n\
+        $interface = $interfaces[index];\n\
+\n\
+        handler = this.change_handlers[index];\n\
+        model.off('change', handler);\n\
+\n\
+        delete this.change_handlers[index];\n\
+    }, this);\n\
+};\n\
+\n\
+InterfaceSelector.prototype.select = function (selected, silent) {\n\
+    var $interfaces = this.$interfaces,\n\
+        classed,\n\
+        index = -1;\n\
+\n\
+    if (!selected || undefined === selected.physical_port()) {\n\
+        return;\n\
+    }\n\
+\n\
+    this.models.forEach(function (model, i) {\n\
+        if (selected.physical_port() === model.physical_port()) {\n\
+            index = i;\n\
+        }\n\
+    });\n\
+\n\
+    $interfaces.forEach(function ($interface, i) {\n\
+        classed = classes($interface);\n\
+\n\
+        if (i === index) {\n\
+            classed.add('selected');\n\
+        } else {\n\
+            classed.remove('selected');\n\
+        }\n\
+    });\n\
+\n\
+    if (!silent) {\n\
+        this.emit('select', selected, $interfaces[index], index);\n\
+    }\n\
+};\n\
+\n\
+InterfaceSelector.prototype.update_interfaces = function (interfaces) {\n\
+    this.set_models(interfaces);\n\
+    this.render();\n\
+};\n\
+\n\
+module.exports = InterfaceSelector;\n\
+\n\
+//# sourceURL=components-ixia/interface-selector/index.js"
+));
+
+require.register("./components-ixia/interface-selector/templates/interface.js", Function("exports, module",
+"module.exports = '<div class=\"interface\"></div>\\n\
+';\n\
+//# sourceURL=components-ixia/interface-selector/templates/interface.js"
+));
+
+require.register("./components-ixia/interface-selector/templates/template.js", Function("exports, module",
+"module.exports = '<div class=\"interface-selector port-container\"></div>\\n\
+';\n\
+//# sourceURL=components-ixia/interface-selector/templates/template.js"
+));
+
+require.modules["interface-selector"] = require.modules["./components-ixia/interface-selector"];
 
 
 require.register("./components-ixia/agenda", Function("exports, module",
@@ -69020,6 +66421,1263 @@ module.exports = English.library()\n\
 require.modules["traffic-recorder"] = require.modules["./components-ixia/traffic-recorder"];
 
 
+require.register("./components-ixia/netflow-settings", Function("exports, module",
+"/*global translate: true */\n\
+\n\
+var domify = require('component~domify@1.3.1'),\n\
+    template = require('./components-ixia/netflow-settings/templates/netflow-settings.js'),\n\
+    event = require('component~event@0.1.4'),\n\
+    GlobalSettings = require('./components-ixia/netflow-settings/views/global-settings.js'),\n\
+    Interfaces = require('./components-ixia/netflow-settings/views/interfaces.js'),\n\
+    Model = require('./components-ixia/netflow-settings/models/netflow-settings.js'),\n\
+    InterfaceModel = require('./components-ixia/interface-model'),\n\
+    classes = require('component~classes@1.2.3'),\n\
+    util = require('./components-ixia/utility-functions'),\n\
+    lightbox = util.lightbox,\n\
+    task_status_url = util.getConfigSetting('get_task_status'),\n\
+    request = require('johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026'),\n\
+    no_cache = require('johntron~superagent-no-cache@e81c9b82be613a9e418045bdce4699f72c804e7a'),\n\
+    noop = function() {},\n\
+    ixiaCRVm = window.ixiaCRVm,\n\
+    results_status_observable = window.ixiaCRVm.vmTest.vmResults.status,\n\
+    LoadingState = require('./components-ixia/loading-state');\n\
+\n\
+// Extend interface model\n\
+InterfaceModel.attr('collectors', {default: []});\n\
+\n\
+function NetflowSettings(model) {\n\
+    this.setModel(model);\n\
+    this.$el = domify(template);\n\
+    this.globalSettingsPane = new GlobalSettings(model);\n\
+    this.interfacesPane = undefined;\n\
+    this.ports_observable = ixiaCRVm.availableDevices()[0].ports;\n\
+    this.loading_state = new LoadingState(this.$el);\n\
+    //this.init_render = true;\n\
+    this.graber = undefined;\n\
+\n\
+    this.strings = {\n\
+        \"License invalid\": window.translate(\"Your license is invalid. If you just updated, you may need a new license. Please upload a valid license or contact Spirent support at <a href='http://www.ixiacom.com' target='_blank'>www.ixiacom.com</a>.\"),\n\
+        \"Updating\": window.translate(\"Updating\"),\n\
+        \"Loading\": window.translate(\"Loading\"),\n\
+        \"Exporting has not yet started\": window.translate(\"Exporting has not yet started\"),\n\
+        \"Please allow approximately three minutes for exporting to begin.\": window.translate(\"Please allow approximately three minutes for exporting to begin.\"),\n\
+        \"Please wait for test to finish\": window.translate(\"Please wait for test to finish\"),\n\
+        \"Netflow save confirmation\": window.translate(\"Saving will interrupt any tests that are currently running.\")\n\
+    };\n\
+}\n\
+\n\
+NetflowSettings.factory = function (callback) {\n\
+    callback = callback || function() {};\n\
+\n\
+    var view = new NetflowSettings(),\n\
+        handler = function (err, model) {\n\
+            if (err) {\n\
+                return callback(err);\n\
+            }\n\
+\n\
+            view.setModel(model);\n\
+            return callback(null, view);\n\
+        };\n\
+\n\
+    view.renderLoading();\n\
+\n\
+    view.graber = function(){\n\
+        Model.get(undefined,handler);\n\
+    }\n\
+\n\
+    view.graber();\n\
+\n\
+    return view;\n\
+};\n\
+\n\
+NetflowSettings.prototype.setModel = function (model) {\n\
+    if (!model) {\n\
+        return; // Short-circuit\n\
+    }\n\
+\n\
+    var interfaces = [];\n\
+\n\
+\n\
+    // Convert interfaces object to models\n\
+    model.interfaces().forEach(function (iface) {\n\
+        interfaces.push(new InterfaceModel(iface));\n\
+    });\n\
+\n\
+//    if(!this.init_render){\n\
+//        this.interfacesPane.update_interfaces(interfaces);\n\
+//        return;\n\
+//    }\n\
+\n\
+    this.globalSettingsPane.setModel(model);\n\
+    this.model = model;\n\
+\n\
+    this.interfacesPane = new Interfaces(interfaces, this.model.is_enabled());\n\
+\n\
+};\n\
+\n\
+NetflowSettings.prototype.render = function () {\n\
+    var updating = this.model.status() === 'updating',\n\
+        $global = this.$el.querySelector('.global');\n\
+\n\
+    if (updating) {\n\
+        this.renderUpdating();\n\
+        return this.$el;\n\
+    }\n\
+\n\
+    // Enabling Netflow re-allocates ports\n\
+    // And port re-allocation interrupts tests\n\
+    // So block UI when tests are running to avoid interrupting\n\
+    this.transitionTo(results_status_observable());\n\
+    results_status_observable.subscribe(this.transitionTo.bind(this));\n\
+\n\
+    $global.querySelector('.mode .enable').checked = this.model.is_enabled();\n\
+    $global.querySelector('.mode .disable').checked = !this.model.is_enabled();\n\
+\n\
+    this.globalSettingsPane.render();\n\
+    this.interfacesPane.render();\n\
+\n\
+    $global.appendChild(this.globalSettingsPane.$el);\n\
+    this.$el.appendChild(this.interfacesPane.$el);\n\
+\n\
+    this.bind();\n\
+    return this.$el;\n\
+};\n\
+\n\
+NetflowSettings.prototype.renderUpdating = function () {\n\
+    var updating = this.strings.Updating,\n\
+        prev_html = this.$el.innerHTML,\n\
+        not_updating = function (data) {\n\
+            return data.status() !== 'updating';\n\
+        }.bind(this),\n\
+        updated = function (data) {\n\
+            if (!this.$el.parentNode || !this.$el.parentNode.contains(this.$el)) {\n\
+                // view was removed\n\
+                return;\n\
+            }\n\
+\n\
+            /*global $:true */\n\
+            if ($ && $.fn && typeof $.fn.unblock === 'function') {\n\
+                this.loading_state.hide();\n\
+            } else {\n\
+                this.$el.innerHTML = prev_html;\n\
+            }\n\
+            this.model = data;\n\
+            this.interfacesPane.toggle('enabled' === this.model.status());\n\
+            this.render();\n\
+        }.bind(this);\n\
+\n\
+    /*global $:true */\n\
+    if ($ && $.fn && typeof $.fn.block === 'function') {\n\
+        this.loading_state.show(updating);\n\
+    } else {\n\
+        this.$el.innerHTML = updating;\n\
+    }\n\
+    /*global $:false */\n\
+\n\
+    this.pollUntil(not_updating, updated);\n\
+};\n\
+\n\
+NetflowSettings.prototype.renderLoading = function () {\n\
+    var message = this.strings.Loading;\n\
+    this.loading_state.show(message);\n\
+};\n\
+\n\
+NetflowSettings.prototype.blockForTesting = function () {\n\
+    var message = this.strings[\"Please wait for test to finish\"];\n\
+    this.loading_state.show(message);\n\
+};\n\
+\n\
+NetflowSettings.prototype.blockWithMessage = function (message) {\n\
+    this.loading_state.show(message);\n\
+};\n\
+\n\
+NetflowSettings.prototype.unblock = function () {\n\
+    this.loading_state.hide();\n\
+};\n\
+\n\
+NetflowSettings.prototype.transitionTo = function (state) {\n\
+    if ('running' === state) {\n\
+        this.blockForTesting();\n\
+    } else {\n\
+        this.unblock();\n\
+    }\n\
+};\n\
+\n\
+NetflowSettings.prototype.pollUntil = function (condition, done) {\n\
+    Model.get(undefined, function (err, model) {\n\
+        if (condition(model)) {\n\
+            done(model);\n\
+        } else {\n\
+            setTimeout(this.pollUntil.bind(this, condition, done), 500);\n\
+        }\n\
+    }.bind(this));\n\
+};\n\
+\n\
+NetflowSettings.prototype.renderInvalidLicense = function () {\n\
+    var message = this.strings[\"License invalid\"],\n\
+        $message;\n\
+\n\
+\n\
+    /*global $:true */\n\
+    if ($ && $.fn && typeof $.fn.block === 'function') {\n\
+        this.transitionTo('license_invalid');\n\
+        var prev_defaults = $.blockUI.defaults.css;\n\
+        $.blockUI.defaults.css = {};\n\
+        $(this.$el).block({message: '<div class=\"lightbox-chrome\">' + message + '</div>'});\n\
+        $.blockUI.defaults.css = prev_defaults;\n\
+    } else {\n\
+        $message = document.createTextNode(message);\n\
+        this.$el.appendChild($message);\n\
+    }\n\
+    /*global $:false */\n\
+};\n\
+\n\
+NetflowSettings.prototype.bind = function () {\n\
+    var $enable = this.$el.querySelector('.mode .enable'),\n\
+        $disable = this.$el.querySelector('.mode .disable'),\n\
+        $save = this.$el.querySelector('.save');\n\
+\n\
+    event.bind($enable, 'change', this.toggle.bind(this, true));\n\
+    event.bind($disable, 'change', this.toggle.bind(this, false));\n\
+    event.bind($save, 'click', this.validate.bind(this));\n\
+\n\
+    this.model.on('saving', this.updateAllocations.bind(this));\n\
+};\n\
+\n\
+NetflowSettings.prototype.validate = function (e) {\n\
+    if (e && e.preventDefault) {\n\
+        e.preventDefault();\n\
+    }\n\
+\n\
+    var save = this.confirm_save.bind(this);\n\
+\n\
+    this.globalSettingsPane.validate(save, noop);\n\
+};\n\
+\n\
+NetflowSettings.prototype.confirm_save = function () {\n\
+    lightbox.confirmation_dialog(this,this.strings[\"Netflow save confirmation\"],this.save)\n\
+}\n\
+\n\
+NetflowSettings.prototype.save = function () {\n\
+    var poll = this.pollTask.bind(this),\n\
+        start_task_poller = function (nothing, response) {\n\
+            poll(response.body.task_id);\n\
+        },\n\
+        interfaces = [],\n\
+        offset,\n\
+        model;\n\
+\n\
+    /*ignore jslint start*/\n\
+    if (typeof LightboxWorkingViewModel !== 'undefined' && typeof translate === 'function') {\n\
+    /*ignore jslint end*/\n\
+        model = new LightboxWorkingViewModel(translate(\"Saving\"), translate('Saving...'));\n\
+        lightbox.working(model);\n\
+    }\n\
+\n\
+    this.interfacesPane.models.forEach(function (iface) {\n\
+        offset = iface.physical_port() - 1;\n\
+        interfaces[offset] = iface.toJSON();\n\
+    });\n\
+    this.model.interfaces(interfaces);\n\
+\n\
+    this.model.save(start_task_poller);\n\
+};\n\
+\n\
+NetflowSettings.prototype.hide = function () {\n\
+    classes(this.$el).add('hidden');\n\
+};\n\
+\n\
+NetflowSettings.prototype.show = function () {\n\
+    //this.syncPortsFrom();\n\
+    this.renderLoading();\n\
+    this.reload();\n\
+\n\
+    classes(this.$el).remove('hidden');\n\
+};\n\
+\n\
+NetflowSettings.prototype.reload = function () {\n\
+    //try to fetch a valid licence\n\
+    this.graber();\n\
+};\n\
+\n\
+NetflowSettings.prototype.toggle = function (enabled) {\n\
+    enabled = enabled || false;\n\
+    this.model.toggle(enabled);\n\
+    this.globalSettingsPane.toggle(enabled);\n\
+    this.interfacesPane.toggle(enabled);\n\
+};\n\
+\n\
+NetflowSettings.prototype.pollTask = function (task_id) {\n\
+    var self = this,\n\
+        url = task_status_url + '?task_id=' + task_id,\n\
+        poll = this.pollTask.bind(this, task_id),\n\
+        is_exporting = this.model.is_exporting(),\n\
+        strings = this.strings,\n\
+        show_warning = function () {\n\
+            lightbox.openAlert(strings['Exporting has not yet started'], strings['Please allow approximately three minutes for exporting to begin.']);\n\
+            lightbox.off('close', show_warning);\n\
+        },\n\
+        workingVm;\n\
+\n\
+    request.get(url)\n\
+        .use(no_cache)\n\
+        .end(function (res) {\n\
+            if ('running' === res.body.status) {\n\
+                // Keep polling\n\
+                setTimeout(poll, 500);\n\
+                return;\n\
+            }\n\
+\n\
+            workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
+            if (res.error) {\n\
+                // Show failure\n\
+                workingVm.status('error');\n\
+                lightbox.working(workingVm);\n\
+                return;\n\
+            }\n\
+\n\
+            /*\n\
+            ports_observable().forEach(function (old_port) {\n\
+                interfaces.forEach(function (new_port) {\n\
+                    if (new_port.physical_port === old_port.id()) {\n\
+                        old_port.allocated_to(new_port.enabled ? new_port.allocated_to : 'stc');\n\
+                        old_port.available(!new_port.enabled);\n\
+                    }\n\
+                });\n\
+            });\n\
+            */\n\
+            self.syncPortsTo();\n\
+\n\
+            workingVm.status('success');\n\
+            lightbox.working(workingVm);\n\
+            if (is_exporting) {\n\
+                // Warn of the ~3 min delay\n\
+                lightbox.on('close', show_warning);\n\
+            }\n\
+        });\n\
+};\n\
+\n\
+//sync to global port observable\n\
+NetflowSettings.prototype.syncPortsTo = function(){\n\
+    var interfaces = this.model.interfaces(),\n\
+        ports_observable = this.ports_observable,\n\
+        netflow_enable = this.model.status();\n\
+\n\
+    ports_observable().forEach(function (port_glob) {\n\
+        if(port_glob.allocated_to() === 'flowmon')\n\
+        {\n\
+            port_glob.allocated_to('');\n\
+        }\n\
+        else if (port_glob.allocated_to() === ''){\n\
+            port_glob.allocated_to(undefined);\n\
+        }\n\
+        interfaces.forEach(function (port_local) {\n\
+            if (netflow_enable === 'enabled' && port_local.physical_port === port_glob.id() && port_local.allocated_to === 'flowmon' && port_local.enabled) {\n\
+                port_glob.allocated_to('flowmon');\n\
+            }\n\
+        });\n\
+    });\n\
+}\n\
+\n\
+//sync from global port observable, not currently used\n\
+NetflowSettings.prototype.syncPortsFrom = function(){\n\
+    var interfaces = this.interfacesPane.models,\n\
+        ports_observable = this.ports_observable;\n\
+\n\
+    ports_observable().forEach(function (port_glob) {\n\
+        interfaces.forEach(function (port_local) {\n\
+            if (port_local.physical_port() === port_glob.id() && port_glob.allocated_to() !== 'flowmon' && port_glob.allocated_to() !== undefined) {\n\
+                port_local.allocated_to (port_glob.allocated_to() === '' ? 'flowmon' : port_glob.allocated_to());\n\
+                port_local.enabled(false);\n\
+            }\n\
+        });\n\
+    });\n\
+}\n\
+\n\
+NetflowSettings.prototype.updateAllocations = function () {\n\
+    var interfaces = this.model.interfaces();\n\
+\n\
+    interfaces.forEach(function (iface, i) {\n\
+        if (iface.enabled) {\n\
+            iface.allocated_to = 'flowmon';\n\
+        }\n\
+        interfaces[i] = iface;\n\
+    });\n\
+};\n\
+\n\
+module.exports = NetflowSettings;\n\
+//# sourceURL=components-ixia/netflow-settings/views/netflow-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/models/netflow-settings.js", Function("exports, module",
+"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
+    defaults = require('segmentio~model-defaults@1.0.6');\n\
+\n\
+var NetflowSettings = model('NetflowSettings')\n\
+//    .route('http://johntron.apiary.io/flowmon')\n\
+    .route('/spirent/flowmon')\n\
+    .use(defaults)\n\
+    .attr('status')\n\
+    .attr('license_status')\n\
+    .attr('protocol', {\"default\": []})\n\
+    .attr('active_timeout', {\"default\": 1800})\n\
+    .attr('inactive_timeout', {\"default\": 15})\n\
+    .attr('interfaces', {\"default\": []});\n\
+\n\
+NetflowSettings.prototype.toggle = function (state) {\n\
+    state = state ? 'enabled' : 'disabled';\n\
+    this.status(state);\n\
+};\n\
+\n\
+NetflowSettings.prototype.is_enabled = function () {\n\
+    return 'enabled' === this.status();\n\
+};\n\
+\n\
+NetflowSettings.prototype.is_exporting = function () {\n\
+    var interfaces_enabled = false;\n\
+\n\
+    this.interfaces().map(function (iface) {\n\
+        if ('flowmon' === iface.allocated_to && iface.enabled) {\n\
+            interfaces_enabled = true;\n\
+        }\n\
+    });\n\
+    return this.is_enabled() && interfaces_enabled;\n\
+};\n\
+\n\
+module.exports = NetflowSettings;\n\
+//# sourceURL=components-ixia/netflow-settings/models/netflow-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/netflow-settings.js", Function("exports, module",
+"module.exports = '<form class=\"netflow-settings main\">\\n\
+    <div>\\n\
+        <h3>NetFlow</h3>\\n\
+        <button class=\"save-button save\">Save</button>\\n\
+    </div>\\n\
+    <div class=\"single-pane no-padding global\">\\n\
+        <h4>Global settings</h4>\\n\
+        <ul>\\n\
+            <li class=\"mode\">\\n\
+                <label for=\"netflow-on\">Enable</label>\\n\
+                <input type=\"radio\" class=\"enable\" id=\"netflow-on\" name=\"mode\">\\n\
+                <label for=\"netflow-off\">Disable</label>\\n\
+                <input type=\"radio\" class=\"disable\" id=\"netflow-off\" name=\"mode\">\\n\
+            </li>\\n\
+        </ul>\\n\
+    </div>\\n\
+    <div class=\"single-pane no-padding tip\">\\n\
+        <h4>Need a collector?</h4>\\n\
+        <div>\\n\
+            <p>\\n\
+                FlowNBA Cloud is a Netflow collector service. Send your Netflow\\n\
+                data to FlowNBA, then configure the collector\\'s monitoring and\\n\
+                anomaly detection with your browser.\\n\
+            </p>\\n\
+            <p>\\n\
+                Check out <a id=\"flownba\" href=\"https://www.flownba.com/?utm_source=axon\" target=\"_blank\">FlowNBA.com</a>\\n\
+                for more information.\\n\
+            </p>\\n\
+        </div>\\n\
+    </div>\\n\
+</form>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/netflow-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/views/global-settings.js", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    template = require('./components-ixia/netflow-settings/templates/global-settings.js'),\n\
+    emitter = require('component~emitter@1.0.1'),\n\
+    event = require('component~event@0.1.4'),\n\
+    classes = require('component~classes@1.2.3'),\n\
+    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
+    noop = function () {};\n\
+\n\
+function GlobalSettings(model) {\n\
+    this.model = model;\n\
+    this.$el = domify(template);\n\
+    this.strings = {\n\
+        \"netflow-v5\": window.translate(\"Netflow v5\"),\n\
+        \"netflow-v9\": window.translate(\"Netflow v9\"),\n\
+        \"ipfix\": window.translate(\"IPFIX\"),\n\
+        \"Please enter a timeout in seconds\": window.translate(\"Please enter a timeout in seconds\")\n\
+    };\n\
+}\n\
+\n\
+emitter(GlobalSettings.prototype);\n\
+\n\
+GlobalSettings.prototype.setModel = function (model) {\n\
+    this.model = model;\n\
+};\n\
+\n\
+GlobalSettings.prototype.render = function () {\n\
+    var protocols = this.model.protocol() || [],\n\
+        $active_timeout = this.$el.querySelector('#active_timeout'),\n\
+        $inactive_timeout = this.$el.querySelector('#inactive_timeout');\n\
+\n\
+    this.insertProtocols(protocols);\n\
+\n\
+    $active_timeout.value = this.model.active_timeout();\n\
+    $inactive_timeout.value = this.model.inactive_timeout();\n\
+\n\
+    this.bind();\n\
+\n\
+    this.toggle(this.model.is_enabled());\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+GlobalSettings.prototype.insertProtocols = function (protocols) {\n\
+    var $protocol = this.$el.querySelector('.protocol'),\n\
+        $option,\n\
+        strings = this.strings;\n\
+\n\
+    protocols.forEach(function (protocol) {\n\
+        $option = document.createElement('option');\n\
+        $option.value = protocol.name;\n\
+        $option.innerHTML = strings[protocol.name];\n\
+        $option.selected = protocol.selected;\n\
+        if (protocol.selected) {\n\
+            // Hack to make the fancy dropdown work\n\
+            $protocol.parentNode.setAttribute('data-value', strings[protocol.name]);\n\
+        }\n\
+        $protocol.appendChild($option);\n\
+\n\
+    });\n\
+};\n\
+\n\
+GlobalSettings.prototype.bind = function () {\n\
+    var $protocol = this.$el.querySelector('.protocol'),\n\
+        $active_timeout = this.$el.querySelector('#active_timeout'),\n\
+        $inactive_timeout = this.$el.querySelector('#inactive_timeout');\n\
+\n\
+    event.bind($protocol, 'change', this.protocolChanged.bind(this));\n\
+    event.bind($active_timeout, 'change', this.activeTimeoutChanged.bind(this));\n\
+    event.bind($inactive_timeout, 'change', this.inactiveTimeoutChanged.bind(this));\n\
+    this.bindValidator();\n\
+};\n\
+\n\
+GlobalSettings.prototype.bindValidator = function () {\n\
+    this.validator = validate(this.$el)\n\
+        .on('blur')\n\
+        .field('active_timeout')\n\
+            .is('required', this.strings[\"Please enter a timeout in seconds\"])\n\
+            .is(/^\\d+$/, this.strings[\"Please enter a timeout in seconds\"])\n\
+        .field('inactive_timeout')\n\
+            .is('required', this.strings[\"Please enter a timeout in seconds\"])\n\
+            .is(/^\\d+$/, this.strings[\"Please enter a timeout in seconds\"]);\n\
+};\n\
+\n\
+GlobalSettings.prototype.validate = function (success, fail) {\n\
+    success = success || noop;\n\
+    fail = fail || noop;\n\
+\n\
+    this.validator.validate(function (err, is_valid, msg) {\n\
+        if (is_valid) {\n\
+            success();\n\
+        } else {\n\
+            fail(err);\n\
+        }\n\
+    });\n\
+};\n\
+\n\
+GlobalSettings.prototype.toggle = function (show) {\n\
+    show = show === undefined ? classes(this.$el).has('hidden') : show;\n\
+\n\
+    if (show) {\n\
+        classes(this.$el).remove('hidden');\n\
+    } else {\n\
+        classes(this.$el).add('hidden');\n\
+    }\n\
+};\n\
+\n\
+GlobalSettings.prototype.protocolChanged = function () {\n\
+    var $protocol = this.$el.querySelector('.protocol'),\n\
+        selected_index = $protocol.selectedIndex,\n\
+        protocols = this.model.protocol(),\n\
+        protocol = protocols[selected_index],\n\
+        strings = this.strings;\n\
+\n\
+    $protocol.parentNode.setAttribute('data-value', strings[protocol.name]);\n\
+\n\
+    protocols.forEach(function (protocol) {\n\
+        protocol.selected = false;\n\
+    });\n\
+\n\
+    protocol.selected = true;\n\
+\n\
+    this.model.protocol(protocols);\n\
+};\n\
+\n\
+GlobalSettings.prototype.activeTimeoutChanged = function () {\n\
+    var timeout = +this.$el.querySelector('#active_timeout').value;\n\
+\n\
+    this.model.active_timeout(timeout);\n\
+};\n\
+\n\
+GlobalSettings.prototype.inactiveTimeoutChanged = function () {\n\
+    var timeout = +this.$el.querySelector('#inactive_timeout').value;\n\
+\n\
+    this.model.inactive_timeout(timeout);\n\
+};\n\
+\n\
+module.exports = GlobalSettings;\n\
+//# sourceURL=components-ixia/netflow-settings/views/global-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/global-settings.js", Function("exports, module",
+"module.exports = '<ul class=\"global-settings\">\\n\
+    <li>\\n\
+        <label>Use</label>\\n\
+        <span class=\"light-select2\">\\n\
+            <select class=\"protocol\"></select>\\n\
+        </span>\\n\
+    </li>\\n\
+    <li>\\n\
+        <label for=\"active_timeout\">Active timeout</label>\\n\
+        <input type=\"text\" name=\"active_timeout\" id=\"active_timeout\" /> seconds\\n\
+    </li>\\n\
+    <li>\\n\
+        <label for=\"inactive_timeout\">Inactive timeout</label>\\n\
+        <input type=\"text\" name=\"inactive_timeout\" id=\"inactive_timeout\" /> seconds\\n\
+    </li>\\n\
+</ul>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/global-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/views/interfaces.js", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    Selector = require('./components-ixia/interface-selector'),\n\
+    Settings = require('./components-ixia/netflow-settings/views/interface-settings.js'),\n\
+    template = domify(require('./components-ixia/netflow-settings/templates/interfaces.js')),\n\
+    classes = require('component~classes@1.2.3'),\n\
+    event = require('component~event@0.1.4'),\n\
+    emitter = require('component~emitter@1.0.1'),\n\
+    lightbox = window.util.lightbox;\n\
+\n\
+function render_interface(model, $el) {\n\
+    var classed = classes($el);\n\
+\n\
+    if (model.enabled()) {\n\
+        classed.remove('streetwise');\n\
+        classed.remove('player');\n\
+        classed.add('flowmon');\n\
+    } else if (model.changed().allocated_to === 'flowmon') {\n\
+        // User stopped exporting on this port\n\
+        classed.remove('flowmon');\n\
+        classed.add('player');\n\
+    } else {\n\
+        classed.remove('flowmon');\n\
+        classed.add(model.changed().allocated_to);\n\
+    }\n\
+\n\
+\n\
+    if (model.available()) {\n\
+        classed.add('available');\n\
+    } else {\n\
+        classed.remove('available');\n\
+    }\n\
+\n\
+    return $el;\n\
+}\n\
+\n\
+function Interfaces(interfaces, visible) {\n\
+    this.models = Selector.sort(interfaces || []);\n\
+    this.visible = visible;\n\
+    this.selector = new Selector(this.models, render_interface);\n\
+    this.$el = template.cloneNode(true);\n\
+    this.views = [];\n\
+    this.strings = {\n\
+        \"Select a port\": window.translate(\"Choose the ports from which you want to generate NetFlow records. Connect each selected port to a SPAN or TAP port to enable capture of network data to generate NetFlow records.\"),\n\
+        \"flowmon port overwrite confirmation\": window.translate(\"Reallocating this port to Netflow will stop AxonPoint Server on this port.\")\n\
+    };\n\
+}\n\
+\n\
+emitter(Interfaces.prototype);\n\
+\n\
+Interfaces.prototype.render = function () {\n\
+    var selector = this.selector,\n\
+        $selector = this.$el.querySelector('.selector'),\n\
+        $settings = this.$el.querySelector('.settings'),\n\
+        add = this.add.bind(this);\n\
+\n\
+    selector.render();\n\
+    if (!$selector.contains(selector.$el)) {\n\
+        $selector.appendChild(selector.$el);\n\
+    }\n\
+\n\
+    if (this.models.length) {\n\
+        $settings.innerHTML = '<p>' + this.strings[\"Select a port\"] + '</p>';\n\
+    }\n\
+\n\
+    this.models.forEach(function (iface, i) {\n\
+        add(iface, i);\n\
+    });\n\
+\n\
+    this.bind();\n\
+\n\
+    this.toggle(this.visible);\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+Interfaces.prototype.bind = function () {\n\
+    var views = this.views,\n\
+        selector = this.selector,\n\
+        select = this.select.bind(this),\n\
+        emit = this.emit.bind(this, 'changed');\n\
+\n\
+    views.forEach(function (view) {\n\
+        view.on('changed', emit);\n\
+    }, this);\n\
+\n\
+    selector.on('select', select);\n\
+};\n\
+\n\
+Interfaces.prototype.toggle = function (visible) {\n\
+    if (visible) {\n\
+        classes(this.$el).remove('hidden');\n\
+    } else {\n\
+        classes(this.$el).add('hidden');\n\
+    }\n\
+\n\
+    this.visible = visible;\n\
+};\n\
+\n\
+Interfaces.prototype.add = function (iface, index) {\n\
+    var $settings = this.$el.querySelector('.settings'),\n\
+        view = new Settings(iface);\n\
+\n\
+    if (isNaN(index)) {\n\
+        index = this.models.length;\n\
+    }\n\
+\n\
+    view.render();\n\
+    view.hide();\n\
+    $settings.appendChild(view.$el);\n\
+\n\
+    this.models[index] = iface;\n\
+    this.views[index] = view;\n\
+};\n\
+\n\
+Interfaces.prototype.select = function (model) {\n\
+    var self = this,\n\
+        $message = self.$el.querySelector('.settings > p'),\n\
+        models = self.models,\n\
+        views = self.views,\n\
+        select_action = function () {\n\
+            // Hide \"select a port\" message\n\
+            if ($message) {\n\
+                $message.parentNode.removeChild($message);\n\
+            }\n\
+\n\
+            views.forEach(function (view, i) {\n\
+                if (models[i].physical_port() === model.physical_port()) {\n\
+                    view.show();\n\
+                } else {\n\
+                    // Hide other views\n\
+                    view.hide();\n\
+                }\n\
+            }, this);\n\
+        };\n\
+\n\
+    if(model.allocated_to() !== 'stc' && model.allocated_to() !== 'flowmon'){\n\
+        lightbox.confirmation_dialog(self,self.strings[\"flowmon port overwrite confirmation\"],select_action);\n\
+        return;\n\
+    }\n\
+\n\
+    select_action.call(self);\n\
+};\n\
+\n\
+Interfaces.prototype.reset_interfaces = function (interfaces) {\n\
+    this.selector.unbind();\n\
+    this.selector.set_models(interfaces);\n\
+}\n\
+\n\
+module.exports = Interfaces;\n\
+//# sourceURL=components-ixia/netflow-settings/views/interfaces.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/interfaces.js", Function("exports, module",
+"module.exports = '<div class=\"interfaces transmit-receive-container single-pane box\">\\n\
+    <ul>\\n\
+        <li class=\"selector\"></li>\\n\
+        <li class=\"settings endpoint-container\">Select an interface above</li>\\n\
+    </ul>\\n\
+</div>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/interfaces.js"
+));
+
+require.register("./components-ixia/netflow-settings/views/interface-settings.js", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    template = require('./components-ixia/netflow-settings/templates/interface/settings.js'),\n\
+    CollectorModel = require('./components-ixia/netflow-settings/models/collector.js'),\n\
+    List = require('./components-ixia/netflow-settings/views/collector-list.js'),\n\
+    classes = require('component~classes@1.2.3'),\n\
+    event = require('component~event@0.1.4'),\n\
+    emitter = require('component~emitter@1.0.1');\n\
+\n\
+function InterfaceSettings(model) {\n\
+    var collectors = model.collectors() || [];\n\
+\n\
+    this.model = model;\n\
+    this.$el = domify(template);\n\
+\n\
+    // Convert objects to Models\n\
+    collectors.forEach(function (collector, i) {\n\
+        collectors[i] = new CollectorModel(collector);\n\
+    });\n\
+    this.collectors = new List(collectors);\n\
+\n\
+    this.strings = {\n\
+        \"Export this interface's traffic\": window.translate(\"Export this interface's traffic\")\n\
+    };\n\
+}\n\
+\n\
+emitter(InterfaceSettings.prototype);\n\
+\n\
+InterfaceSettings.prototype.render = function () {\n\
+    var $checkbox = this.$el.querySelector('.export input'),\n\
+        $collectors = this.$el.querySelector('.collectors'),\n\
+        collectors = this.collectors,\n\
+        enabled = this.model.enabled();\n\
+\n\
+    collectors.render();\n\
+    $collectors.appendChild(collectors.$el);\n\
+    $checkbox.checked = enabled;\n\
+\n\
+    this.enable(enabled);\n\
+\n\
+    this.bind();\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+InterfaceSettings.prototype.show = function () {\n\
+    classes(this.$el).remove('hidden');\n\
+};\n\
+\n\
+InterfaceSettings.prototype.hide = function () {\n\
+    classes(this.$el).add('hidden');\n\
+};\n\
+\n\
+InterfaceSettings.prototype.is_visible = function () {\n\
+    return !classes(this.$el).has('hidden');\n\
+};\n\
+\n\
+InterfaceSettings.prototype.bind = function () {\n\
+    var $checkbox = this.$el.querySelector('.export input'),\n\
+        $add = this.$el.querySelector('.add-collector'),\n\
+        enable = this.enable.bind(this),\n\
+        changed = function (e) {\n\
+            if (e && e.preventDefault) {\n\
+                e.preventDefault();\n\
+            }\n\
+\n\
+            var state = $checkbox.checked;\n\
+            enable(state);\n\
+        },\n\
+        collectors = this.collectors,\n\
+        add = function (e) {\n\
+            if (e && e.preventDefault) {\n\
+                e.preventDefault();\n\
+            }\n\
+\n\
+            collectors.add();\n\
+        };\n\
+\n\
+    event.bind($checkbox, 'change', changed.bind(this));\n\
+    event.bind($add, 'click', add);\n\
+};\n\
+\n\
+InterfaceSettings.prototype.setInterface = function (iface) {\n\
+    this.model = iface;\n\
+};\n\
+\n\
+InterfaceSettings.prototype.enable = function (enabled) {\n\
+    var $collectors = this.$el.querySelector('.collectors'),\n\
+        $add = this.$el.querySelector('.add-collector');\n\
+\n\
+    this.model.enabled(enabled);\n\
+\n\
+    if (enabled) {\n\
+        classes($collectors).remove('hidden');\n\
+        classes($add).remove('hidden');\n\
+    } else {\n\
+        classes($collectors).add('hidden');\n\
+        classes($add).add('hidden');\n\
+    }\n\
+};\n\
+\n\
+module.exports = InterfaceSettings;\n\
+//# sourceURL=components-ixia/netflow-settings/views/interface-settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/interface/settings.js", Function("exports, module",
+"module.exports = '<ul class=\"form\">\\n\
+    <li class=\"export\">\\n\
+        <label><input type=\"checkbox\"> Export this interface\\'s traffic</label>\\n\
+    </li>\\n\
+    <li class=\"collectors\"></li>\\n\
+    <li class=\"add-collector\">\\n\
+        <button>Add collector</button>\\n\
+    </li>\\n\
+</ul>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/interface/settings.js"
+));
+
+require.register("./components-ixia/netflow-settings/views/collector-list.js", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    template = require('./components-ixia/netflow-settings/templates/collector-list.js'),\n\
+    Model = require('./components-ixia/netflow-settings/models/collector.js'),\n\
+    Subview = require('./components-ixia/netflow-settings/views/collector.js'),\n\
+    event = require('component~event@0.1.4'),\n\
+    emitter = require('component~emitter@1.0.1'),\n\
+    classes = require('component~classes@1.2.3');\n\
+\n\
+function CollectorList(collectors) {\n\
+    this.models = collectors || [];\n\
+    this.$collectors = [];\n\
+    this.views = [];\n\
+    this.$el = domify(template);\n\
+    this.strings = {\n\
+        'No collectors': window.translate('No collectors')\n\
+    };\n\
+}\n\
+\n\
+emitter(CollectorList.prototype);\n\
+\n\
+CollectorList.prototype.render = function () {\n\
+    var add = this.add.bind(this),\n\
+        $li;\n\
+\n\
+    if (this.models.length) {\n\
+        this.models.forEach(add);\n\
+    } else {\n\
+        this.addEmptyMessage();\n\
+    }\n\
+\n\
+    return this.$el;\n\
+};\n\
+\n\
+CollectorList.prototype.add = function (model, index) {\n\
+    var $parent = this.$el,\n\
+        $li = document.createElement('li'),\n\
+        view,\n\
+        $view,\n\
+        bind_item = this.bindItem.bind(this),\n\
+        $empty_message = this.$el.querySelector('.empty-message');\n\
+\n\
+    if ($empty_message) {\n\
+        this.$el.removeChild($empty_message);\n\
+    }\n\
+\n\
+    if (isNaN(index)) {\n\
+        index = this.models.length;\n\
+    }\n\
+\n\
+    if (model instanceof Model) {\n\
+        model.id(index); // \"save\" this model, so it's not discarded when editor is canceled\n\
+    } else {\n\
+        // Model was probably an Event, so create a new model\n\
+        model = new Model({});\n\
+    }\n\
+\n\
+    view = new Subview(model, model.isNew());\n\
+    this.models[index] = model;\n\
+    this.$collectors[index] = $li;\n\
+    this.views[index] = view;\n\
+\n\
+    $view = view.render();\n\
+    $li.appendChild($view);\n\
+    $parent.appendChild($li);\n\
+\n\
+    bind_item(index, $li, view);\n\
+};\n\
+\n\
+CollectorList.prototype.bindItem = function (index, $el, view, rebind) {\n\
+    var emit = this.emit.bind(this),\n\
+        remove = this.remove.bind(this),\n\
+        models = this.models;\n\
+\n\
+    if (rebind) {\n\
+        view.off('mode_changed');\n\
+        view.off('saved');\n\
+        view.off('removed');\n\
+    }\n\
+\n\
+    view.on('mode_changed', function () {\n\
+        // Redraw <li></li>\n\
+        $el.innerHTML = '';\n\
+        $el.appendChild(view.$el);\n\
+    });\n\
+\n\
+    view.on('saved', function (model) {\n\
+        model.id(index); // \"save\" this model, so it's not discared when editor is canceled\n\
+        emit('changed', models);\n\
+    });\n\
+\n\
+    view.on('removed', function () {\n\
+        remove(index);\n\
+        emit('changed', models);\n\
+    });\n\
+};\n\
+\n\
+\n\
+CollectorList.prototype.remove = function (index) {\n\
+    var $el = this.$collectors[index],\n\
+        view;\n\
+\n\
+    this.$el.removeChild($el);\n\
+    this.models.splice(index, 1);\n\
+    this.$collectors.splice(index, 1);\n\
+    this.views.splice(index, 1);\n\
+\n\
+    // Re-bind proceeding elements\n\
+    for (index; index < this.views.length; index += 1) {\n\
+        view = this.views[index];\n\
+        $el = this.$collectors[index];\n\
+        this.bindItem(index, $el, view, true);\n\
+    }\n\
+\n\
+    if (!this.models.length) {\n\
+        this.addEmptyMessage();\n\
+    }\n\
+};\n\
+\n\
+CollectorList.prototype.addEmptyMessage = function () {\n\
+    var $li = document.createElement('li');\n\
+\n\
+    $li.innerHTML = this.strings['No collectors'];\n\
+    classes($li).add('italic');\n\
+    classes($li).add('empty-message');\n\
+    this.$el.appendChild($li);\n\
+};\n\
+\n\
+module.exports = CollectorList;\n\
+//# sourceURL=components-ixia/netflow-settings/views/collector-list.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/collector-list.js", Function("exports, module",
+"module.exports = '<ul class=\"collector-list\"></ul>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/collector-list.js"
+));
+
+require.register("./components-ixia/netflow-settings/views/collector.js", Function("exports, module",
+"var domify = require('component~domify@1.3.1'),\n\
+    view_template = require('./components-ixia/netflow-settings/templates/collector.js'),\n\
+    edit_template = require('./components-ixia/netflow-settings/templates/collector-editor.js'),\n\
+    event = require('component~event@0.1.4'),\n\
+    emitter = require('component~emitter@1.0.1'),\n\
+    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
+    is_host = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5'),\n\
+    noop = function () {};\n\
+\n\
+function Collector(model, editing) {\n\
+    this.model = model;\n\
+    this.editing = editing || false;\n\
+    this.$view = domify(view_template);\n\
+    this.$edit = domify(edit_template);\n\
+    this.strings = {\n\
+        \"Please enter a valid host address (IPv4, IPv6, or name)\": window.translate(\"Please enter a valid host address (IPv4, IPv6, or name)\"),\n\
+        \"Please enter a valid port number\": window.translate(\"Please enter a valid port number\"),\n\
+        \"Port must be less than 65535\": window.translate(\"Port must be less than 65535\")\n\
+    };\n\
+}\n\
+\n\
+emitter(Collector.prototype);\n\
+\n\
+Collector.prototype.view = function () {\n\
+    var $el = this.$view,\n\
+        $address = $el.querySelector('.address'),\n\
+        $port = $el.querySelector('.port'),\n\
+        model = this.model;\n\
+\n\
+    $address.innerHTML = model.address();\n\
+    $port.innerHTML = model.port();\n\
+\n\
+    this.$el = $el;\n\
+\n\
+    if (this.editing) {\n\
+        this.emit('mode_changed', 'view');\n\
+        this.editing = false;\n\
+    }\n\
+\n\
+    return $el;\n\
+};\n\
+\n\
+Collector.prototype.edit = function () {\n\
+    var model = this.model,\n\
+        $el = this.$edit,\n\
+        $address = $el.querySelector('[name=address]'),\n\
+        $port = $el.querySelector('[name=port]');\n\
+\n\
+    $address.value = model.address();\n\
+    $port.value = model.port();\n\
+\n\
+    this.$el = $el;\n\
+\n\
+    if (!this.editing) {\n\
+        this.emit('mode_changed', 'edit');\n\
+        this.editing = true;\n\
+    }\n\
+\n\
+    return $el;\n\
+};\n\
+\n\
+Collector.prototype.save = function () {\n\
+    var model = this.model,\n\
+        $el = this.$edit,\n\
+        address = $el.querySelector('[name=address]').value,\n\
+        port = $el.querySelector('[name=port]').value;\n\
+\n\
+    model.address(address);\n\
+    model.port(port);\n\
+\n\
+    this.emit('saved', model);\n\
+    this.view();\n\
+};\n\
+\n\
+Collector.prototype.remove = function () {\n\
+    var old = this.model;\n\
+\n\
+    this.model.destroy();\n\
+    this.emit('removed', old);\n\
+};\n\
+\n\
+\n\
+Collector.prototype.render = function () {\n\
+    var $el;\n\
+\n\
+    this.bind();\n\
+\n\
+    if (this.editing) {\n\
+        $el = this.edit();\n\
+    } else {\n\
+        $el = this.view();\n\
+    }\n\
+\n\
+    return $el;\n\
+};\n\
+\n\
+Collector.prototype.bind = function () {\n\
+    // View-mode\n\
+    var $view = this.$view,\n\
+        $edit_trigger = $view.querySelector('.edit'),\n\
+        $delete = $view.querySelector('.delete'),\n\
+\n\
+    // Edit-mode\n\
+        $edit = this.$edit,\n\
+        $cancel = $edit.querySelector('.cancel'),\n\
+        $save = $edit.querySelector('.save'),\n\
+        cancel = function () {\n\
+            if (this.model.isNew()) {\n\
+                this.remove();\n\
+            } else {\n\
+                this.view();\n\
+            }\n\
+        }.bind(this),\n\
+        save = this.save.bind(this);\n\
+\n\
+    // View-mode\n\
+    event.bind($edit_trigger, 'click', this.edit.bind(this));\n\
+    event.bind($delete, 'click', this.remove.bind(this));\n\
+\n\
+    // Edit-mode\n\
+    event.bind($cancel, 'click', cancel);\n\
+    event.bind($save, 'click', this.validate.bind(this, save, noop));\n\
+\n\
+    this.bindValidator();\n\
+};\n\
+\n\
+Collector.prototype.bindValidator = function () {\n\
+    var less_than_65535 = function (val) {\n\
+            return val < 65535;\n\
+        };\n\
+\n\
+    this.validator = validate(this.$edit)\n\
+        .on('blur')\n\
+        .use(is_host)\n\
+        .field('address')\n\
+            .is('required', this.strings[\"Please enter a valid host address (IPv4, IPv6, or name)\"])\n\
+            .is('host', this.strings[\"Please enter a valid host address (IPv4, IPv6, or name)\"])\n\
+        .field('port')\n\
+            .is('required', this.strings[\"Please enter a valid port number\"])\n\
+            .is(/^\\d+$/, this.strings[\"Please enter a valid port number\"])\n\
+            .is(less_than_65535, this.strings[\"Port must be less than 65535\"]);\n\
+};\n\
+\n\
+Collector.prototype.validate = function (success, fail, e) {\n\
+    if (e.preventDefault) {\n\
+        e.preventDefault();\n\
+    }\n\
+\n\
+    success = success || noop;\n\
+    fail = fail || noop;\n\
+\n\
+    this.validator.validate(function (err, is_valid, msg) {\n\
+        if (is_valid) {\n\
+            success();\n\
+        } else {\n\
+            fail(err);\n\
+        }\n\
+    });\n\
+};\n\
+\n\
+module.exports = Collector;\n\
+//# sourceURL=components-ixia/netflow-settings/views/collector.js"
+));
+
+require.register("./components-ixia/netflow-settings/models/collector.js", Function("exports, module",
+"var model = require('johntron~model@703274a10f27b50f3433a728c8c0c4fce556ee12'),\n\
+    defaults = require('segmentio~model-defaults@1.0.6');\n\
+\n\
+\n\
+var Collector = model('Collector')\n\
+    .route('/netflow-settings/collectors')\n\
+    .use(defaults)\n\
+    .attr('id')\n\
+    .attr('address', {\"default\": ''})\n\
+    .attr('port', {\"default\": '2055'});\n\
+\n\
+Collector.primaryKey = 'id';\n\
+\n\
+Collector.prototype.destroy = function () {\n\
+    this.model.emit('destroying', this);\n\
+    this.emit('destroying');\n\
+    this.destroyed = true;\n\
+    this.model.emit('destroy', this);\n\
+    this.emit('destroy');\n\
+};\n\
+\n\
+module.exports = Collector;\n\
+//# sourceURL=components-ixia/netflow-settings/models/collector.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/collector.js", Function("exports, module",
+"module.exports = '<div class=\"collector\">\\n\
+    <span class=\"address\"></span>:<span class=\"port\"></span>\\n\
+    <div class=\"actions\">\\n\
+        <button class=\"edit\">edit</button>\\n\
+        <button class=\"delete\">delete</button>\\n\
+    </div>\\n\
+</div>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/collector.js"
+));
+
+require.register("./components-ixia/netflow-settings/templates/collector-editor.js", Function("exports, module",
+"module.exports = '<div class=\"collector-editor\">\\n\
+    <ul>\\n\
+        <li><label>Address</label> <input type=\"text\" name=\"address\" class=\"address\" /></li>\\n\
+        <li><label>Port</label> <input type=\"text\" name=\"port\" class=\"port\" min=\"1\" /></li>\\n\
+        <li><button class=\"cancel button-cancel cancel-button\">cancel</button> <button class=\"save\">Save</button></li>\\n\
+    </ul>\\n\
+</div>';\n\
+//# sourceURL=components-ixia/netflow-settings/templates/collector-editor.js"
+));
+
+require.modules["netflow-settings"] = require.modules["./components-ixia/netflow-settings"];
+
+
 require.register("./components-ixia/dashboard-view-model", Function("exports, module",
 "var Paginator = require('./components-ixia/paginator');\n\
 \n\
@@ -69783,219 +68441,8 @@ module.exports = TestResultsFinalTableViewModel;\n\
 require.modules["test-results-final-table-view-model"] = require.modules["./components-ixia/test-results-final-table-view-model"];
 
 
-require.register("./components-ixia/multicast-settings", Function("exports, module",
-"/*global ko:true */\n\
-\n\
-var domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-ixia/multicast-settings/template.js')),\n\
-    validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
-    is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18'),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    IP = require('johntron~ip@b11eb045dc96ee4049cd046277d1c05a3fd6ebf2');\n\
-\n\
-/**\n\
- * View model for multicast settings\n\
- *\n\
- * @constructor\n\
- */\n\
-function MulticastSettingsViewModel() {\n\
-    var self = this;\n\
-\n\
-    self.strings = {\n\
-        \"Select one\": window.translate(\"Select one\"),\n\
-        \"IGMP v2\": window.translate(\"IGMP v2\"),\n\
-        \"IGMP v3\": window.translate(\"IGMP v3\"),\n\
-        \"MLD v1\": window.translate(\"MLD v1\"),\n\
-        \"MLD v2\": window.translate(\"MLD v2\"),\n\
-        \"Field is required\": window.translate(\"Field is required\"),\n\
-        \"Must be an IP address\": window.translate(\"Must be an IP address\"),\n\
-        \"axon.multicast.settings.invalid\": window.translate(\"Must be in ranges 225.0.0.0 to 239.255.255.255 or ff00:: to ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff\"),\n\
-        \"axon.multicast.settings.reserved\": window.translate(\"IP cannot be in a reserved range: ff01:: to ff01::2:fff, ff02:: to ff02::2:fff, and ff05:: to ff05::2:fff\"),\n\
-        \"IPv4 or v6\": window.translate(\"IPv4 or v6\")\n\
-    };\n\
-\n\
-    self.available_protocols = {\n\
-        \"IGMP_V2\": self.strings[\"IGMP v2\"],\n\
-        \"IGMP_V3\": self.strings[\"IGMP v3\"],\n\
-        \"MLD_V1\": self.strings[\"MLD v1\"],\n\
-        \"MLD_V2\": self.strings[\"MLD v2\"]\n\
-    };\n\
-\n\
-    self.protocolOptions = Object.keys(self.available_protocols).map(function (value) {\n\
-        return {value: value, text: self.available_protocols[value]};\n\
-    });\n\
-\n\
-    self.ip = ko.observable();\n\
-    self.end_ip = ko.observable();\n\
-    self.protocol = ko.observable();\n\
-\n\
-    self.$el = undefined; // See render()\n\
-    self.validator = undefined; // See bind()\n\
-}\n\
-\n\
-MulticastSettingsViewModel.prototype.inflate = function (data) {\n\
-    data = data || {};\n\
-\n\
-    this.ip(data.ip);\n\
-    this.end_ip(data.end_ip);\n\
-    this.protocol(data.protocol);\n\
-};\n\
-\n\
-/**\n\
- * Called by knockout \"render\" binding - see custom-binding-handlers.js\n\
- */\n\
-MulticastSettingsViewModel.prototype.render = function () {\n\
-    this.$el = template.cloneNode(true);\n\
-\n\
-    ko.applyBindings(this, this.$el);\n\
-\n\
-    this.bind();\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-function mark_invalid($el, message) {\n\
-    if (classes($el.parentNode).has('light-select')) {\n\
-        // $el is a fancy select box nested inside of a div, so use the parent div\n\
-        $el = $el.parentNode;\n\
-    }\n\
-\n\
-    var $old = $el.parentNode.querySelectorAll('label.validator-message'),\n\
-        $message = document.createElement('label');\n\
-\n\
-    // Remove old validation messages\n\
-    [].forEach.call($old, function ($el) {\n\
-        $el.parentNode.removeChild($el);\n\
-    });\n\
-\n\
-    // Add new message\n\
-    classes($message).add('validator-message');\n\
-    $message.textContent = message;\n\
-    $el.parentNode.appendChild($message);\n\
-\n\
-    classes($el).add('invalid');\n\
-}\n\
-\n\
-function within_valid_range(val) {\n\
-    var min,\n\
-        max;\n\
-\n\
-    val = new IP(val);\n\
-\n\
-    if (val.version() === 4) {\n\
-        min = new IP('225.0.0.0');\n\
-        max = new IP('239.255.255.255');\n\
-        return val.greaterOrEqual(min) && val.lessOrEqual(max);\n\
-    }\n\
-\n\
-    // IPv6\n\
-    min = new IP('ff00::0');\n\
-    max = new IP('ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff');\n\
-    return val.greaterOrEqual(min) && val.lessOrEqual(max);\n\
-}\n\
-\n\
-function not_reserved(val) {\n\
-    var is_reserved,\n\
-        min,\n\
-        max;\n\
-\n\
-    val = new IP(val);\n\
-\n\
-    if (val.version() !== 6) {\n\
-        // Only IPv6 have reserved ranges\n\
-        return true; // Short-circuit\n\
-    }\n\
-\n\
-    // Ensure it's not in a reserved range\n\
-    is_reserved = ['ff01', 'ff02', 'ff05'].some(function (prefix) {\n\
-        min = new IP(prefix + '::0');\n\
-        max = new IP(prefix + '::2:ffff');\n\
-\n\
-        return val.greaterOrEqual(min) && val.lessOrEqual(max);\n\
-    });\n\
-\n\
-    return !is_reserved;\n\
-}\n\
-\n\
-MulticastSettingsViewModel.prototype.bind = function () {\n\
-    this.validator = validate(this.$el)\n\
-        .invalid(mark_invalid)\n\
-        .use(is_ip)\n\
-        .on('blur')\n\
-        .field('ip')\n\
-            .is('required', this.strings[\"Field is required\"])\n\
-            .is('ip', this.strings[\"Must be an IP address\"])\n\
-            .is(within_valid_range, this.strings[\"axon.multicast.settings.invalid\"])\n\
-            .is(not_reserved, this.strings[\"axon.multicast.settings.reserved\"])\n\
-        .field('end_ip')\n\
-            .is('ip', this.strings[\"Must be an IP address\"])\n\
-            .is(within_valid_range, this.strings[\"axon.multicast.settings.invalid\"])\n\
-            .is(not_reserved, this.strings[\"axon.multicast.settings.reserved\"])\n\
-        .field('protocol')\n\
-            .is('required', this.strings[\"Field is required\"]);\n\
-};\n\
-\n\
-MulticastSettingsViewModel.prototype.clone = function () {\n\
-    return new MulticastSettingsViewModel(this.rootVm, this.data);\n\
-};\n\
-\n\
-/**\n\
- * @param result ValidationResultsViewModel\n\
- * @param targetName context used in validation lightbox. e.g. \"Tx ...\"\n\
- * @returns ValidationResultsViewModel\n\
- */\n\
-MulticastSettingsViewModel.prototype.validate = function (result, targetName) {\n\
-    this.validator.validate(function (err, valid) {\n\
-        if (!valid) {\n\
-            var message = window.translate(\"{name} are invalid\", {\n\
-                name: targetName\n\
-            });\n\
-            result.addCheckResults(message, false, message);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-MulticastSettingsViewModel.prototype.toFlatObject = function () {\n\
-    return {\n\
-        ip: this.ip() || '',\n\
-        end_ip: this.end_ip() || '',\n\
-        protocol: this.protocol() || ''\n\
-    };\n\
-};\n\
-\n\
-module.exports = MulticastSettingsViewModel;\n\
-//# sourceURL=components-ixia/multicast-settings/view-model.js"
-));
-
-require.register("./components-ixia/multicast-settings/template.js", Function("exports, module",
-"module.exports = '<div>\\n\
-    <div class=\"header\">\\n\
-        <span class=\"label\">Multicast group settings</span>\\n\
-    </div>\\n\
-    <div class=\"additional-settings\">\\n\
-        <div class=\"container\">\\n\
-            <ul>\\n\
-                <li><label>IP</label><input class=\"dark-inverted-text-box multicast_ip\" type=\"text\" name=\"ip\" data-bind=\"value: ip, attr: {placeholder: strings[\\'IPv4 or v6\\']}\" /></li>\\n\
-                <li><label>Ending IP</label><input class=\"dark-inverted-text-box multicast_end_ip\" type=\"text\" name=\"end_ip\" data-bind=\"value: end_ip, attr: {placeholder: strings[\\'IPv4 or v6\\']}\" /></li>\\n\
-                <li>\\n\
-                    <label>Protocol</label><div class=\"light-select option-wrapper multicast_protocol\" data-bind=\"attr: {\\'data-value\\': available_protocols[protocol()] || strings[\\'Select one\\'] }\">\\n\
-                    <select name=\"protocol\" data-bind=\"options: protocolOptions, optionsValue: \\'value\\', optionsText: \\'text\\', value: protocol, optionsCaption: strings[\\'Select one\\']\"></select>\\n\
-                </div>\\n\
-                </li>\\n\
-            </ul>\\n\
-        </div>\\n\
-    </div>\\n\
-</div>';\n\
-//# sourceURL=components-ixia/multicast-settings/template.js"
-));
-
-require.modules["multicast-settings"] = require.modules["./components-ixia/multicast-settings"];
-
-
 require.register("./components-ixia/test-template-view-model", Function("exports, module",
-"var MulticastSettingsViewModel = require('./components-ixia/multicast-settings');\n\
-\n\
-/**\n\
+"/**\n\
  * Saved configuration for a single test\n\
  *\n\
  * @param rootVm IxiaCRViewModel\n\
@@ -70827,24 +69274,9 @@ ConfiguredTestViewModel.prototype.loadTest = function (testConfiguration, loadCo
     self.datapoint_ids = testConfiguration.datapoint_ids();\r\n\
 \r\n\
     if(testConfiguration.traffic_players){\r\n\
-        self.defaultPlaylistId = testConfiguration.traffic_players[0].playlist.id;\r\n\
-        for(var i = 0; i < testConfiguration.traffic_players.length; i++){\r\n\
-            self.addTrafficPlayer(testConfiguration.traffic_players[i], i > 0);\r\n\
-        }\r\n\
+        //\r\n\
     } else {\r\n\
-        var playlistIds = testConfiguration.playlist_ids();\r\n\
-        self.defaultPlaylistId = playlistIds[0];\r\n\
-\r\n\
-        for (var i = 0; i < playlistIds.length; i++) {\r\n\
-            var playlist = ko.utils.arrayFirst(self.testVm.availablePlaylists(), function (item) {\r\n\
-                return item.id() == playlistIds[i];\r\n\
-            });\r\n\
-\r\n\
-            if (playlist != null) {\r\n\
-                var trafficPlayer = self.addTrafficPlayer();\r\n\
-                trafficPlayer.playlist(playlist);\r\n\
-            }\r\n\
-        }\r\n\
+        //\r\n\
     }\r\n\
 \r\n\
     self.pollDevicesStatus();\r\n\
@@ -70870,9 +69302,6 @@ ConfiguredTestViewModel.prototype.loadTest = function (testConfiguration, loadCo
 \r\n\
 \r\n\
     self.setStartState();\r\n\
-    //self.rootVm.getAvailableEndpoints();\r\n\
-    //self.rootVm.getAvailableTracks();\r\n\
-    //self.rootVm.getAvailablePlaylists();\r\n\
     //self.rootVm.getAvailableTests();\r\n\
 \r\n\
     self.updateConfig(self.startState);\r\n\
@@ -70970,20 +69399,6 @@ ConfiguredTestViewModel.prototype.addTrafficPlayer = function (flatData, additio
     }\r\n\
 \r\n\
     if (additional && self.add_player_settings && self.add_player_settings === 'bandwidth') {\r\n\
-        // Adding an additional player, and test definition says to show \"Bandwidth\" instead of supplemental\r\n\
-        var playlist = self.rootVm.availablePlaylists().filter(function (playlist) {\r\n\
-            return playlist.id() === 1;\r\n\
-        })[0];\r\n\
-        flatData.playlist = playlist.toFlatObject();\r\n\
-        if (flatData.traffic_settings == undefined || !flatData.traffic_settings) {\r\n\
-            flatData.traffic_settings = [\r\n\
-                {\r\n\
-                    type_id: 2,\r\n\
-                    unit: \"Mbps\",\r\n\
-                    value: \"10\"\r\n\
-                }\r\n\
-            ];\r\n\
-        }\r\n\
         supplemental_config.hasSupplementalConfiguration = false;\r\n\
     }\r\n\
 \r\n\
@@ -71539,51 +69954,31 @@ var noop = function () {},\n\
     classes = require('component~classes@1.2.3'),\n\
     validate = require('johntron~validate-form@6005cddc781064389ea0053f3f4bad47e2f1a2d2'),\n\
     is_host = require('johntron~is-host@9f441b6f34440e715b31f06157611292e67565a5'),\n\
-    is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18'),\n\
-    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel; // This should be a generic model\n\
+    is_ip = require('johntron~is-ip-address@39a0715c025a0be4d5956e1b891682d6d0f18e18');\n\
 \n\
 function AdministrationViewModel(rootVm) {\n\
     var self = this;\n\
-\n\
-    self.strings = {\n\
-        'Field is required': translate('Field is required'),\n\
-        \"SSID's must be 1 to 32 alphanumeric characters\": translate(\"SSID's must be 1 to 32 alphanumeric characters\"),\n\
-        'WPA key must be at least 8 characters': translate('WPA key must be at least 8 characters')\n\
-    };\n\
 \n\
     self.rootVm = rootVm;\n\
     self.globalSettingsVm = rootVm.vmGlobalSettings;\n\
     self.selectedTab = ko.observable();\n\
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.devicesTabSelected = ko.computed(self.calculateDevicesTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.endpointsTabSelected = ko.computed(self.calculateEndpointsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.tracksTabSelected = ko.computed(self.calculateTracksTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.playlistsTabSelected = ko.computed(self.calculatePlaylistsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.systemBackupRestoreTabSelected = ko.computed(self.calculateSystemBackupRestoreTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.ntpServerTabSelected = ko.computed(self.calculateNtpServerTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.endpointsTabClass = ko.computed(self.calculateEndpointsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.tracksTabClass = ko.computed(self.calculateTracksTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.playlistsTabClass = ko.computed(self.calculatePlaylistsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.languageTabClass = ko.computed(self.calculateLanguageTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.systemBackupRestoreTabClass = ko.computed(self.calculateSystemBackupRestoreTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.ntpServerTabClass = ko.computed(self.calculateNtpServerTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.getAvailablePlaylists = self.rootVm.getAvailablePlaylists;\n\
-    self.getAvailableTracks = self.rootVm.getAvailableTracks;\n\
     self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
-    self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;\n\
     self.validateOldPassword = ko.observable();\n\
     self.validateNewPassword = ko.observable();\n\
     self.upgradeFile = ko.observable();\n\
@@ -71591,21 +69986,9 @@ function AdministrationViewModel(rootVm) {\n\
     self.fakeUpgradeStep = 0;\n\
     self.okFunction = ko.observable();\n\
     self.lightboxText = ko.observable();\n\
-    self.availablePlaylists = ko.observableArray(self.rootVm.availablePlaylists());\n\
-    self.availablePlaylistsSummary = ko.computed(function () {\n\
-        return translate('Showing {number} Playlists', {\n\
-            number: self.availablePlaylists().length\n\
-        }, 'number');\n\
-    });\n\
 \n\
     self.language = ko.observable(self.rootVm.language());\n\
     self.languageDisplay = ko.observable();\n\
-    self.availableEndpoints = ko.observableArray(self.rootVm.availableEndpoints());\n\
-    self.availableEndpointsSummary = ko.computed(function () {\n\
-        return translate('Showing {number} Endpoints', {\n\
-            number: self.availableEndpoints().length\n\
-        }, 'number');\n\
-    });\n\
     self.availableDevices = ko.observableArray(self.rootVm.availableDevices());\n\
     self.availableDevicesSummary = ko.computed(function () {\n\
         var length = self.availableDevices().length;\n\
@@ -71620,17 +70003,9 @@ function AdministrationViewModel(rootVm) {\n\
             number: length\n\
         }, 'number');\n\
     });\n\
-    self.selectedBackup = ko.observable();\n\
-    self.selectedBackupExternal = ko.observable();\n\
     self.editDeviceVisible = ko.observable(false);\n\
     self.deviceListVisible = ko.observable(true);\n\
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));\n\
-    self.editEndpointVisible = ko.observable(false);\n\
-    self.endpointListVisible = ko.observable(true);\n\
-    self.editPlaylistVisible = ko.observable(false);\n\
-    self.playlistListVisible = ko.observable(true);\n\
-    self.editTrackVisible = ko.observable(false);\n\
-    self.trackListVisible = ko.observable(true);\n\
     self.displayCustomers = ko.computed({\n\
         read: self.displayCustomersRead.bind(self),\n\
         write: self.displayCustomersWrite.bind(self)\n\
@@ -71674,11 +70049,6 @@ function AdministrationViewModel(rootVm) {\n\
         write: self.displaySelectedTagsWrite\n\
     }, self).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
 \n\
-    self.rootVm.availablePlaylists.subscribe(function (playlists) {\n\
-        self.applyFilters(self.rootVm.availablePlaylists, ko.observableArray(playlists));\n\
-        self.availablePlaylists(playlists);\n\
-    });\n\
-\n\
     self.rootVm.language.subscribe(function () {\n\
         self.language(self.rootVm.language());\n\
     });\n\
@@ -71691,25 +70061,10 @@ function AdministrationViewModel(rootVm) {\n\
         }\n\
     });\n\
 \n\
-    self.rootVm.availableEndpoints.subscribe(function (newEndpoints) {\n\
-        self.applyFilters(self.rootVm.availableEndpoints, ko.observableArray(newEndpoints));\n\
-        self.availableEndpoints(newEndpoints);\n\
-    });\n\
-\n\
     self.rootVm.availableDevices.subscribe(function (devices) {\n\
         self.applyFilters(self.rootVm.availableDevices,ko.observableArray(devices));\n\
         self.availableDevices(devices);\n\
     });\n\
-\n\
-    self.selectedBackup.subscribe(function (selectedBackup) {\n\
-        if (selectedBackup === undefined) {\n\
-            self.selectedBackupExternal(\"\");\n\
-        } else if (selectedBackup.device === \"chassis\") {\n\
-            self.selectedBackupExternal(\"False\");\n\
-        } else {\n\
-            self.selectedBackupExternal(\"True\");\n\
-        }\n\
-    }, self);\n\
 \n\
     self.selectedCustomer.subscribe(function (value) {\n\
         self.applyFiltersForAll();\n\
@@ -71738,7 +70093,10 @@ AdministrationViewModel.prototype.render = function ($parent, template) {\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.bind = function () {\n\
-    var self = this;\n\
+    var self = this,\n\
+        $check_offline = this.$el.querySelector('.check-offline');\n\
+\n\
+    event.bind($check_offline, 'click', this.checkForOfflineUpdates.bind(this));\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.checkForOfflineUpdates = function () {\n\
@@ -71819,28 +70177,11 @@ AdministrationViewModel.prototype.validateGlobalSettings = function () {\n\
         host_message = window.translate(\"Must be an IP address or hostname\"),\n\
         success = false;\n\
 \n\
-    if (this.globalSettingsVm.dhcp() === 'false') {\n\
-        validator.field('host')\n\
+    validator.field('host')\n\
             .is('required', window.translate('Field is required'))\n\
             .is('ip', ip_message);\n\
-//        validator.field('netmask');\n\
-        validator.field('gateway')\n\
+    validator.field('gateway')\n\
             .is('ip', ip_message);\n\
-    }\n\
-\n\
-    validator.field('primary_dns')\n\
-            .is('ip', ip_message);\n\
-    validator.field('secondary_dns')\n\
-            .is('ip', ip_message);\n\
-\n\
-    validator.field('ntp1')\n\
-        .is('host', host_message);\n\
-    validator.field('ntp2')\n\
-        .is('host', host_message);\n\
-    validator.field('ntp3')\n\
-        .is('host', host_message);\n\
-    validator.field('ntp4')\n\
-        .is('host', host_message);\n\
 \n\
     validator.validate(function (err, is_valid, reason) {\n\
         if (err) {\n\
@@ -71998,8 +70339,6 @@ AdministrationViewModel.prototype.applySearchFilter = function (searchString, so
 \n\
 \n\
 AdministrationViewModel.prototype.applyFiltersForAll = function () {\n\
-    this.applyFilters(this.rootVm.availableEndpoints(), this.availableEndpoints);\n\
-    this.applyFilters(this.rootVm.availablePlaylists(), this.availablePlaylists);\n\
     this.applyFilters(this.rootVm.availableDevices(), this.availableDevices);\n\
 };\n\
 \n\
@@ -72086,21 +70425,6 @@ AdministrationViewModel.prototype.calculateDevicesTabSelected = function () {\n\
 \n\
     return self.selectedTab() === \"devices\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateEndpointsTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"endpoints\";\n\
-};\n\
-AdministrationViewModel.prototype.calculateTracksTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"tracks\";\n\
-};\n\
-AdministrationViewModel.prototype.calculatePlaylistsTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"playlists\";\n\
-};\n\
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -72126,42 +70450,15 @@ AdministrationViewModel.prototype.calculateDatabaseTabSelected = function () {\n
 \n\
     return self.selectedTab() === \"database\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateSystemBackupRestoreTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"system backup restore\";\n\
-};\n\
 AdministrationViewModel.prototype.calculateSystemSettingsTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
     return self.selectedTab() === \"system settings\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateNtpServerTabSelected = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"ntp server\";\n\
-};\n\
-\n\
 AdministrationViewModel.prototype.calculateDevicesTabClass = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
     return self.selectedTab() === \"devices\" ? \"devices selected\" : \"devices\";\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.calculateEndpointsTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"endpoints\" ? \"endpoints selected\" : \"endpoints\";\n\
-};\n\
-AdministrationViewModel.prototype.calculateTracksTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"tracks\" ? \"tracks selected\" : \"tracks\";\n\
-};\n\
-AdministrationViewModel.prototype.calculatePlaylistsTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"playlists\" ? \"playlists selected\" : \"playlists\";\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {\n\
@@ -72189,12 +70486,6 @@ AdministrationViewModel.prototype.calculateDatabaseTabClass = function () {\n\
 \n\
     return self.selectedTab() === \"database\" ? \"database selected\" : \"database\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateSystemBackupRestoreTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"system backup restore\" ? \"backup-restore selected\" : \"backup-restore\";\n\
-};\n\
-\n\
 AdministrationViewModel.prototype.calculateDiskTabClass = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -72205,12 +70496,6 @@ AdministrationViewModel.prototype.calculateSystemSettingsTabClass = function () 
 \n\
     return self.selectedTab() === \"system settings\" ? \"system selected\" : \"system\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateNtpServerTabClass = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    return self.selectedTab() === \"ntp server\" ? \"ntp selected\" : \"ntp\";\n\
-};\n\
-\n\
 \n\
 AdministrationViewModel.prototype.addDevice = function () {\n\
     var self = AdministrationViewModel.typesafe(this),\n\
@@ -72229,45 +70514,6 @@ AdministrationViewModel.prototype.showDeviceList = function () {\n\
 \n\
     self.editDeviceVisible(false);\n\
     self.deviceListVisible(true);\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.addEndpoint = function () {\n\
-    var self = AdministrationViewModel.typesafe(this),\n\
-        endpoint = new EndpointViewModel(self.rootVm);\n\
-\n\
-    endpoint.openSaveModal();\n\
-};\n\
-AdministrationViewModel.prototype.showEndpointList = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    self.editEndpointVisible(false);\n\
-    self.endpointListVisible(true);\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.addPlaylist = function () {\n\
-    var self = AdministrationViewModel.typesafe(this),\n\
-        playlist = new TestPlaylistViewModel(self.rootVm);\n\
-\n\
-    playlist.openSaveModal();\n\
-};\n\
-AdministrationViewModel.prototype.showPlaylistList = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    self.editPlaylistVisible(false);\n\
-    self.playlistListVisible(true);\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.addTrack = function () {\n\
-    var self = AdministrationViewModel.typesafe(this),\n\
-        track = new TestTrackViewModel(self.rootVm);\n\
-\n\
-    track.openSaveModal();\n\
-};\n\
-AdministrationViewModel.prototype.showTrackList = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-\n\
-    self.editTrackVisible(false);\n\
-    self.trackListVisible(true);\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.displayCustomersRead = function () {\n\
@@ -72766,229 +71012,6 @@ AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm)
     });\n\
 };\n\
 \n\
-AdministrationViewModel.prototype.beginBackupSystem = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Starting system backup\"), translate(\"Starting system backup...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    getCompletedPollingFunction = function (task_id) {\n\
-        return function () {\n\
-            var data = {'task_id': task_id};\n\
-\n\
-            globalSettingsCallback = function () {\n\
-                $.ajax({\n\
-                    url: util.getConfigSetting('get_backup_status'),\n\
-                    cache: false,\n\
-                    contentType: false,\n\
-                    dataType: 'json',\n\
-                    data: JSON.stringify(data),\n\
-                    type: 'POST',\n\
-                    success: function (data) {\n\
-                        if (data.result === 'SUCCESS') {\n\
-                            self.lightboxText = translate('Backup complete');\n\
-                            util.lightbox.open({\n\
-                                url: 'html/lightbox_tmpl',\n\
-                                selector: '#lightbox-message-template',\n\
-                                cancelSelector: '.ok-button',\n\
-                                onOpenComplete: function () {\n\
-                                    ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
-                                }\n\
-                            });\n\
-                            window.location = data.link;\n\
-                        } else {\n\
-                            util.lightbox.openError(translate('Backup failed'), data.message ? data.message : 'Unknown failure');\n\
-                        }\n\
-                    }\n\
-                });\n\
-            };\n\
-\n\
-            util.lightbox.working(new LightboxWorkingViewModel(translate(\"Refreshing backup list\"), translate(\"Refreshing backup list\")));\n\
-            self.rootVm.getGlobalSettings(globalSettingsCallback, true);\n\
-        };\n\
-    };\n\
-    $.ajax({\n\
-        url: util.getConfigSetting('backup'),\n\
-        cache: false,\n\
-        contentType: false,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: util.getRequestMethod('backup'),\n\
-        success: function (data) {\n\
-            if (data.result === 'SUCCESS') {\n\
-                self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                        {\"header\": translate(\"Starting system backup...\"), \"content\": translate(\"Starting system backup...\")}\n\
-                    ]}, translate(\"System backup\"), data.task_id,\n\
-                    getCompletedPollingFunction(data.task_id));\n\
-            } else {\n\
-                util.lightbox.close();\n\
-                util.lightbox.openError(translate('Request failed'), (data.messages && data.messages.length > 0) ? data.messages[0].content : 'Unknown failure');\n\
-            }\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.beginRestoreSystem = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Starting system restore\"), translate(\"Starting system restore...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    completedPollingFunction = function (taskName) {\n\
-        util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading app...')));\n\
-        util.lightbox.close();\n\
-        window.location = '/logout';\n\
-    };\n\
-    var ajaxRestoreData = JSON.stringify({\"file\": self.selectedBackup().filename, \"device\": self.selectedBackup().device});\n\
-    $.ajax({\n\
-        url: util.getConfigSetting('restore_backup'),\n\
-        cache: false,\n\
-        contentType: false,\n\
-        data: ajaxRestoreData,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: util.getRequestMethod('restore_backup'),\n\
-        success: function (data) {\n\
-            if (data.result === 'SUCCESS') {\n\
-                self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                    {\"header\": translate(\"Starting system restore...\"), \"content\": translate(\"Starting system restore...\")}\n\
-                ]}, translate(\"System restore\"), data.task_id, completedPollingFunction);\n\
-            } else {\n\
-                util.lightbox.close();\n\
-                util.lightbox.openError(translate('Request failed'), (data.messages && data.messages.length > 0) ? data.messages[0].content : 'Unknown failure');\n\
-            }\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.deleteSystemBackup = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Deleting system backup\"), translate(\"Deleting system backup...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    completedPollingFunction = function () {\n\
-        util.lightbox.working(new LightboxWorkingViewModel(translate('Reloading backup list...'), translate('Reloading backup list...')));\n\
-        self.rootVm.getGlobalSettings(function () {\n\
-            util.lightbox.close();\n\
-        }, true);\n\
-    };\n\
-    var ajaxDeleteData = JSON.stringify({\"file\": self.selectedBackup().filename, \"device\": self.selectedBackup().device});\n\
-    $.ajax({\n\
-        url: util.getConfigSetting('delete_backup'),\n\
-        cache: false,\n\
-        contentType: false,\n\
-        data: ajaxDeleteData,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: util.getRequestMethod('delete_backup'),\n\
-        success: function (data) {\n\
-            self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": translate(\"Deleting system backup...\"), \"content\": translate(\"Deleting system backup...\")}\n\
-            ]}, translate(\"Delete backup\"), data.task_id, completedPollingFunction);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.deleteAllSystemBackups = function (callback) {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Deleting system backup\"), translate(\"Deleting system backup...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    completedPollingFunction = function () {\n\
-        util.lightbox.working(new LightboxWorkingViewModel(translate('Reloading backup list...'), translate('Reloading backup list...')));\n\
-        self.rootVm.getGlobalSettings(function () {\n\
-            util.lightbox.close();\n\
-            if(callback){\n\
-                callback();\n\
-            }\n\
-        }, true);\n\
-    };\n\
-    $.ajax({\n\
-        url: '/ixia/delete_all_backups',\n\
-        cache: false,\n\
-        contentType: false,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: 'DELETE',\n\
-        success: function (data) {\n\
-            self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": translate(\"Deleting system backup...\"), \"content\": translate(\"Deleting system backup...\")}\n\
-            ]}, translate(\"Delete backup\"), data.task_id, completedPollingFunction);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.archiveSystemBackup = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Archiving system backup\"), translate(\"Archiving system backup...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    completedPollingFunction = function (taskName, data) {\n\
-        if (data.messages[0].is_error === true) {\n\
-            self.header = taskName;\n\
-            self.message = data.messages[0].content;\n\
-            util.lightbox.open({\n\
-                url: 'html/lightbox_tmpl',\n\
-                selector: '#lightbox-error-template',\n\
-                cancelSelector: '.ok-button',\n\
-                onOpenComplete: function () {\n\
-                    ko.applyBindings(self, document.getElementById('lightbox-error'));\n\
-                }\n\
-            });\n\
-        } else {\n\
-            util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading backup list...')));\n\
-            util.lightbox.close();\n\
-            self.rootVm.getGlobalSettings();\n\
-        }\n\
-    };\n\
-    var ajaxArchiveData = JSON.stringify({\"file\": self.selectedBackup().filename});\n\
-    $.ajax({\n\
-        url: util.getConfigSetting('archive_backup'),\n\
-        cache: false,\n\
-        contentType: false,\n\
-        data: ajaxArchiveData,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: util.getRequestMethod('archive_backup'),\n\
-        success: function (data) {\n\
-            self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": translate(\"Archiving system backup...\"), \"content\": translate(\"Archiving system backup...\")}\n\
-            ]}, translate(\"Archive backup\"), data.task_id, completedPollingFunction);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
-AdministrationViewModel.prototype.importSystemBackup = function () {\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Importing system backup\"), translate(\"Importing system backup...\")));\n\
-    var currentDate = new Date();\n\
-\n\
-    completedPollingFunction = function (taskName) {\n\
-        util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading backup list...')));\n\
-        util.lightbox.close();\n\
-        self.rootVm.getGlobalSettings();\n\
-    };\n\
-    var ajaxImportData = JSON.stringify({\"file\": self.selectedBackup().filename});\n\
-    $.ajax({\n\
-        url: util.getConfigSetting('import_backup'),\n\
-        cache: false,\n\
-        contentType: false,\n\
-        data: ajaxImportData,\n\
-        dataType: 'json',\n\
-        processData: false,\n\
-        type: util.getRequestMethod('import_backup'),\n\
-        success: function (data) {\n\
-            self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": translate(\"Importing system backup...\"), \"content\": translate(\"Importing system backup...\")}\n\
-            ]}, translate(\"Import backup\"), data.task_id, completedPollingFunction);\n\
-        }\n\
-    });\n\
-};\n\
-\n\
 AdministrationViewModel.prototype.runLightboxWarning = function (text, okFunction) {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -73011,12 +71034,12 @@ AdministrationViewModel.prototype.getSystemLogs = function () {\n\
     util.lightbox.close();\n\
     util.lightbox.working(new LightboxWorkingViewModel(translate(\"Starting log compression...\"), translate(\"Starting log compression...\")));\n\
     $.ajax({\n\
-        url: util.getConfigSetting('get_ixia_logs'),\n\
+        url: util.getConfigSetting('get_axon_logs'),\n\
         cache: false,\n\
         contentType: false,\n\
         dataType: 'json',\n\
         processData: false,\n\
-        type: util.getRequestMethod('get_ixia_logs'),\n\
+        type: util.getRequestMethod('get_axon_logs'),\n\
         success: function (data) {\n\
             if (data.result === 'SUCCESS') {\n\
                 util.lightbox.close();\n\
@@ -73051,1157 +71074,8 @@ require.modules["administration-view-model"] = require.modules["./components-ixi
 
 require.register("./components-ixia/device-view-model", Function("exports, module",
 "module.exports = {\n\
-    SinglePortDeviceViewModel: require('./components-ixia/device-view-model/single-port/view-model.js'),\n\
-    MultiplePortDeviceViewModel: require('./components-ixia/device-view-model/multiple-port/view-model.js')\n\
 };\n\
 //# sourceURL=components-ixia/device-view-model/index.js"
-));
-
-require.register("./components-ixia/device-view-model/multiple-port/view-model.js", Function("exports, module",
-"/*global ko:true */\n\
-\n\
-var domify = require('component~domify@1.3.1'),\n\
-    $template = domify(require('./components-ixia/device-view-model/multiple-port/templates/template.js')),\n\
-    classes = require('component~classes@1.2.3'),\n\
-    emitter = require('component~emitter@1.0.1'),\n\
-    EndpointVm = require('./components-ixia/endpoint-view-model').MulticastViewModel;\n\
-\n\
-/**\n\
- * Manages Tx or Rx configuration for a traffic player when multiple ports can\n\
- * be enabled. When Tx or Rx supports multiple devices, DeviceCollectionViewModel\n\
- * is used (e.g. clients list of multicast player).\n\
- *\n\
- * @param testConfigVm ConfiguredTestViewModel\n\
- * @constructor\n\
- */\n\
-function MultiplePortDeviceViewModel(testConfigVm) {\n\
-    var self = this;\n\
-    self.testConfigVm = testConfigVm;\n\
-    self.devices_in_use = undefined; // Used to determine which devices are available\n\
-    self.$el = undefined;\n\
-\n\
-    self.endpoints = ko.observableArray([]);\n\
-\n\
-    self.device = undefined; // Immutable\n\
-\n\
-    self.selected_device = ko.observable(); // Used to handle dropdown changes - see .restore()\n\
-    self.selected_device_subscription = self.selected_device.subscribe(self.onDeviceChange.bind(self));\n\
-    self.networks = ko.observableArray();\n\
-    self.selectedPort = ko.observable();\n\
-    self.expended = ko.observable(true);\n\
-    self.label = ko.observable(); // e.g. \"source\" or \"destination\"\n\
-    self.deviceName = undefined; // set in .inflate()\n\
-\n\
-    self.strings = {\n\
-        'Checking port status ...': window.translate('Checking port status ...'),\n\
-        'Confirm for delete the device': window.translate('Confirm for delete the device'),\n\
-        \"No ports enabled\": window.translate(\"No ports enabled\")\n\
-    };\n\
-\n\
-    self.timingAccuracy = ko.observable();\n\
-    self.timingAccuracyText = ko.computed(function () {\n\
-        if (self.timingAccuracy() === undefined) {\n\
-            return;\n\
-        }\n\
-\n\
-        return window.translate(\"±{accuracy}ms timing accuracy\", {\n\
-            accuracy: self.timingAccuracy()\n\
-        });\n\
-    });\n\
-    self.computed_container = [];\n\
-\n\
-    self.lineRate = undefined;\n\
-}\n\
-\n\
-emitter(MultiplePortDeviceViewModel.prototype);\n\
-\n\
-MultiplePortDeviceViewModel.prototype.id = function () {\n\
-    if (!this.device) {\n\
-        return undefined;\n\
-    }\n\
-\n\
-    return this.device.id();\n\
-};\n\
-\n\
-/**\n\
- * Here so MultiplePortDeviceViewModel and DeviceCollectionViewModel can be use interchangeably\n\
- */\n\
-MultiplePortDeviceViewModel.prototype.getDeviceIds = function () {\n\
-    var id = this.id();\n\
-\n\
-    return id === undefined ? [] : [id];\n\
-};\n\
-MultiplePortDeviceViewModel.prototype.set_label = function (label) {\n\
-    this.label(label);\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.set_devices_in_use_observable = function (obs) {\n\
-    var self = this;\n\
-\n\
-    self.devices_in_use = obs;\n\
-\n\
-    self.not_last_device = ko.computed(function () {\n\
-        return self.devices_in_use().length > 1;\n\
-    });\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.typesafe = function (that) {\n\
-    if (!(that instanceof MultiplePortDeviceViewModel)) {\n\
-        throw 'This method must be executed on a MultiplePortDeviceViewModel';\n\
-    }\n\
-\n\
-    return that;\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.render = function () {\n\
-    var self = this,\n\
-        $endpoint_container;\n\
-\n\
-    self.$el =  $template.cloneNode(true); // Important! Reusing .$el would result in duplicate KO bindings\n\
-\n\
-    $endpoint_container = self.$el.querySelector('.endpoint-container');\n\
-\n\
-    self.bind();\n\
-\n\
-    self.endpoints().forEach(function (endpoint) {\n\
-        $endpoint_container.appendChild(endpoint.render());\n\
-    });\n\
-\n\
-    return self.$el;\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.bind = function(){\n\
-    var self = this;\n\
-\n\
-    ko.applyBindings(self, self.$el);\n\
-    this.makeDroppable();\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.inflate = function (device_data) {\n\
-    var self = this,\n\
-        device = self.testConfigVm.rootVm.availableDevices()[0],\n\
-        max_port_number = 4,\n\
-        endpoints = [];\n\
-\n\
-    device_data = self.normalize_data(device_data);\n\
-\n\
-    if (device_data.device && device_data.device.id) {\n\
-        device = ko.utils.arrayFirst(self.testConfigVm.rootVm.availableDevices(), function (item) {\n\
-            return item.id() == device_data.device.id;\n\
-        });\n\
-    }\n\
-\n\
-    self.device = device;\n\
-    self.selected_device(device);\n\
-\n\
-    self.selectedPort(device_data.selectedPort);\n\
-\n\
-    device.ports().forEach(function(port, i){\n\
-        var endpointVm = EndpointVm.factory(port.id(), self);\n\
-\n\
-        if (device_data.endpoints && device_data.endpoints.length && device_data.endpoints[i]) {\n\
-            endpointVm.inflate(device_data.endpoints[i]);\n\
-        }\n\
-\n\
-        endpoints.push(endpointVm);\n\
-    });\n\
-    self.endpoints(endpoints);\n\
-\n\
-    //error handler for device.port() is not available yet, case when add a device in admin tab and load test.\n\
-    if(self.endpoints().length === 0 ){\n\
-        for(var i = 1; i <= max_port_number; i++){\n\
-            var endpointVm = EndpointVm.factory(i, self);\n\
-\n\
-            if (device_data.endpoints && device_data.endpoints.length && device_data.endpoints[i]) {\n\
-                endpointVm.inflate(device_data.endpoints[i]);\n\
-            }\n\
-\n\
-            endpoints.push(endpointVm);\n\
-        }\n\
-        self.endpoints(endpoints);\n\
-    }\n\
-\n\
-    self.lineRate = ko.computed(function () {\n\
-        var enabled_ports = 0,\n\
-            min_rate = 0;\n\
-\n\
-        device.ports().forEach(function (port) {\n\
-            var id = port.id();\n\
-\n\
-            if (!self.isPortEnabled(id)()) {\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            enabled_ports++;\n\
-\n\
-            if (min_rate === 0) {\n\
-                min_rate = device.lineRate(id);\n\
-                return; // Short-circuit\n\
-            }\n\
-\n\
-            min_rate = Math.min(min_rate, device.lineRate(id));\n\
-        });\n\
-\n\
-        // Because traffic is distributed evenly across all ports, a number\n\
-        // higher than this will exceed line rate on the slowest port\n\
-        return min_rate * enabled_ports;\n\
-    });\n\
-\n\
-    self.deviceName = ko.computed(function () {\n\
-        return self.device.name();\n\
-    });\n\
-};\n\
-\n\
-/**\n\
- * Performs any transformations necessary to make saved data compatible with\n\
- * latest data structure\n\
- *\n\
- * @param data\n\
- */\n\
-MultiplePortDeviceViewModel.prototype.normalize_data = function (data) {\n\
-    data = data || {};\n\
-\n\
-    if (!data.device) {\n\
-        return data; // Short-circuit\n\
-    }\n\
-\n\
-    if (data.port !== undefined && data.endpoint) {\n\
-        // Convert old single-port endpoints to multi-port\n\
-        data.endpoint.enabled = true;\n\
-        data.endpoint.port = data.port;\n\
-        data.endpoints = data.endpoints || [];\n\
-        data.endpoints[data.port - 1] = data.endpoint;\n\
-    }\n\
-\n\
-    return data;\n\
-};\n\
-\n\
-/**\n\
- * @param result ValidationResultsViewModel\n\
- * @param targetName context used in validation lightbox. e.g. \"Tx ...\"\n\
- * @returns ValidationResultsViewModel\n\
- */\n\
-MultiplePortDeviceViewModel.prototype.validate = function (result, targetName) {\n\
-    var self = MultiplePortDeviceViewModel.typesafe(this),\n\
-        name = self.device.name(),\n\
-        has_enabled_ports = false;\n\
-\n\
-\ttargetName = window.translate('{name}, \"{device}\"', {\n\
-\t\tname: targetName,\n\
-\t\tdevice: name\n\
-\t});\n\
-\n\
-    self.endpoints().forEach(function(endpoint, index) {\n\
-        endpoint.validate(result, targetName);\n\
-        if (!endpoint.enabled()) {\n\
-            return; // short-circuit\n\
-        }\n\
-\n\
-        has_enabled_ports = true;\n\
-\n\
-        if (!endpoint.device.device.ports()[index].available()) {\n\
-            result.addCheckResults(translate(\"Test Configuration Error\"), false,\n\
-                translate(\"{name} uses unavailable port {port}\", {\n\
-                name: targetName,\n\
-                port: endpoint.port()\n\
-            }));\n\
-        }\n\
-    });\n\
-\n\
-    if (!has_enabled_ports) {\n\
-        result.addCheckResults(\n\
-            translate(\"Test Configuration Error\"),\n\
-            false,\n\
-            translate(\"{name} must have at least one enabled port.\",\n\
-                {name: targetName}\n\
-            )\n\
-        );\n\
-    }\n\
-\n\
-    return result;\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.has_enabled_endpoints = function() {\n\
-    var enabled = this.endpoints().filter(function(endpoint) {\n\
-        return endpoint.enabled();\n\
-    });\n\
-\n\
-    return enabled.length;\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.onDeviceChange = function (device) {\n\
-    if(device === this.device){\n\
-        return;\n\
-    }\n\
-\n\
-    // Remove .selected_device subscription, so events don't fire if/when the VM is restored\n\
-    this.selected_device_subscription.dispose();\n\
-\n\
-    this.emit('changed:device', device, this);\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.restore = function () {\n\
-    // Due to Knockout bindings, .selected_device() changes when the <select> changes\n\
-    // We need to restore the original value since this VM always represents the original device\n\
-    this.selected_device(this.device);\n\
-    this.selected_device_subscription = this.selected_device.subscribe(this.onDeviceChange.bind(this));\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.selectPort = function (portIndex) {\n\
-    var self = this;\n\
-\n\
-    self.selectedPort(portIndex);\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.isPortSelected = function (id) {\n\
-    var self = this;\n\
-\n\
-    if(!('isPortSelected_' + id in self.computed_container)){\n\
-        self.computed_container['isPortSelected_' + id] = ko.computed(function () {\n\
-            return self.selectedPort() === id;\n\
-        });\n\
-    }\n\
-\n\
-    return self.computed_container['isPortSelected_' + id];\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.isPortEnabled = function (id) {\n\
-    var self = this;\n\
-\n\
-    if(!('isPortEnabled_' + id in self.computed_container)){\n\
-        var endpoint;\n\
-        self.endpoints().forEach(function(item){\n\
-            if(item.port() == id){\n\
-                endpoint = item;\n\
-            }\n\
-        });\n\
-\n\
-        self.computed_container['isPortEnabled_' + id] = ko.computed(function () {\n\
-            return endpoint.enabled();\n\
-        });\n\
-    }\n\
-\n\
-    return self.computed_container['isPortEnabled_' + id];\n\
-};\n\
-\n\
-\n\
-MultiplePortDeviceViewModel.prototype.isPortAvailable = function (port) {\n\
-    var self = this;\n\
-\n\
-    if(!('isPortAvailable_' + port.id() in self.computed_container)){\n\
-        self.computed_container['isPortAvailable_' + port.id()] = ko.computed(function () {\n\
-            return port.available() && self.selectedPort() !== port.id();\n\
-        });\n\
-    }\n\
-\n\
-    return self.computed_container['isPortAvailable_' + port.id()];\n\
-};\n\
-\n\
-\n\
-MultiplePortDeviceViewModel.prototype.isPortUnavailable = function (port) {\n\
-    var self = this;\n\
-\n\
-    if(!('isPortUnavailable_' + port.id() in self.computed_container)){\n\
-        self.computed_container['isPortUnavailable_' + port.id()] = ko.computed(function () {\n\
-            return !port.available() && self.selectedPort() !== port.id();\n\
-        });\n\
-    }\n\
-\n\
-    return self.computed_container['isPortUnavailable_' + port.id()];\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.is_device_selectable = function (id) {\n\
-    var self = this;\n\
-\n\
-    if (self.devices_in_use === undefined) {\n\
-        // This could be a unicast player which cannot have more than one device\n\
-        // Allow any to be selected\n\
-        return true;\n\
-    }\n\
-\n\
-    if(!('is_device_selectable_' + id in self.computed_container)){\n\
-        self.computed_container['is_device_selectable_' + id] = ko.computed(function () {\n\
-            var res = true,\n\
-                in_use = self.devices_in_use();\n\
-\n\
-            for(var i = 0 ; i < in_use.length; i++){\n\
-                res = res && (in_use[i].id() !== id)\n\
-            }\n\
-\n\
-            res = res || (self.id() === id);\n\
-            return res\n\
-        });\n\
-    }\n\
-\n\
-    return self.computed_container['is_device_selectable_' + id];\n\
-};\n\
-\n\
-\n\
-MultiplePortDeviceViewModel.prototype.toFlatObject = function(){\n\
-    var self = this;\n\
-\n\
-    var flat_object = {\n\
-        selectedPort: self.selectedPort(),\n\
-        device : self.device ? self.device.toFlatObject() : {}\n\
-    };\n\
-\n\
-    flat_object.endpoints = [];\n\
-\n\
-    self.device.ports().forEach(function(port){\n\
-        self.endpoints().some(function(endpoint){\n\
-            if(endpoint.port() === port.id()){\n\
-                flat_object.endpoints.push(endpoint.toFlatObject())\n\
-            }\n\
-            return endpoint.port() === port.id();\n\
-        });\n\
-    });\n\
-\n\
-    flat_object.devicePorts = [];\n\
-    if (self.device) {\n\
-        var devicePorts = self.device.ports();\n\
-        for (var i = 0; i < devicePorts.length; i++) {\n\
-            flat_object.devicePorts.push(devicePorts[i].toFlatObject());\n\
-        }\n\
-    }\n\
-\n\
-    flat_object.networks = [];\n\
-    for (var i = 0; i < self.networks().length; i++) {\n\
-        flat_object.networks.push(self.networks()[i]);\n\
-    }\n\
-    return flat_object;\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.remove = function () {\n\
-    this.emit('removed', this);\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.expand_collapse = function () {\n\
-    var self = this;\n\
-\n\
-    self.expended(!self.expended());\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.show_expand_collapse = function () {\n\
-    classes(this.$el.querySelector('.expand-collapse')).remove('hidden');\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.show_timing_accuracy = function () {\n\
-    var $accuracy = this.$el.querySelector('.accuracy');\n\
-\n\
-    if (!$accuracy) {\n\
-        return; // Short-circuit\n\
-    }\n\
-\n\
-    classes($accuracy).remove('hidden');\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.show_delete = function () {\n\
-    classes(this.$el.querySelector('.delete')).remove('hidden');\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.hide_delete = function () {\n\
-    classes(this.$el.querySelector('.delete')).add('hidden');\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.makeDroppable = function () {\n\
-    var self = this,\n\
-        draggableClass = mobile.isMobile ? 'draggableIcon' : 'endpoint';\n\
-\n\
-    $(this.$el).droppable({\n\
-        drop: function (event, ui) {\n\
-            if (ui.draggable.hasClass(draggableClass)) {\n\
-                if(self.selectedPort() === undefined) {\n\
-                    return; // Short-circuit\n\
-                }\n\
-                var endpoint_data = ui.helper.data('endpoint'),\n\
-                    selected_port = self.selectedPort();\n\
-                if (endpoint_data) {\n\
-                    endpoint_data = endpoint_data.clone();\n\
-//                        endpoint_data.id(0); //treat as new, not in database\n\
-                    self.endpoints().some(function(endpoint){\n\
-                        if(endpoint.port() === selected_port){\n\
-                            if(!endpoint.enabled()){\n\
-                                endpoint.$el.querySelector('.enable input').click();\n\
-                            }\n\
-                            endpoint.inflate(endpoint_data.toFlatObject());\n\
-                            return true;\n\
-                        }\n\
-                        else{\n\
-                            return false;\n\
-                        }\n\
-                    });\n\
-\n\
-                }\n\
-            }\n\
-        },\n\
-        accept: '.' + draggableClass\n\
-    });\n\
-};\n\
-\n\
-MultiplePortDeviceViewModel.prototype.enabled_endpoints = function () {\n\
-    var self = this;\n\
-\n\
-    return self.endpoints().filter(function (endpoint) {\n\
-        return endpoint.enabled();\n\
-    });\n\
-};\n\
-\n\
-module.exports = MultiplePortDeviceViewModel;\n\
-//# sourceURL=components-ixia/device-view-model/multiple-port/view-model.js"
-));
-
-require.register("./components-ixia/device-view-model/multiple-port/templates/template.js", Function("exports, module",
-"module.exports = '<li class=\"device transmit-receive-container box\">\\n\
-    <div class=\"transmit-receive\">\\n\
-        <div data-bind=\"visible: expended\" class=\"expanded\">\\n\
-            <ul>\\n\
-                <li class=\"device-header\">\\n\
-                    <h1 class=\"tx-rx-label\" data-bind=\"text: label\"></h1>\\n\
-                    <a href=\"#\" class=\"expand-collapse hidden\" data-bind=\"click: expand_collapse\"></a>\\n\
-                </li>\\n\
-                <li class=\"device-container\">\\n\
-                    <div class=\"aluminum-select\">\\n\
-                        <span data-bind=\"text: device.name\"></span>\\n\
-                        <select data-bind=\"foreach: testConfigVm.rootVm.availableDevices, value: selected_device\">\\n\
-                            <option data-bind=\"value: $data, text: name, enable: $parent.is_device_selectable(id())\"></option>\\n\
-                        </select>\\n\
-                    </div>\\n\
-                </li>\\n\
-\\n\
-                <li class=\"timing\">\\n\
-                    <p data-bind=\"attr: { \\'class\\' : \\'sync \\' + device.timeSyncClass }, text: device.displayTimeSyncResolution\"></p>\\n\
-                    <!-- ko if: id() > 1 -->\\n\
-                    <p class=\"accuracy hidden\" data-bind=\"text: timingAccuracyText\"></p>\\n\
-                    <!-- /ko -->\\n\
-                </li>\\n\
-\\n\
-                <li class=\"port-container\">\\n\
-                    <span data-bind=\"visible: device.updating_port_status\" class=\"loading\">Checking port status ...</span>\\n\
-                    <ul data-bind=\"foreach: device.ports\" class=\"ports\">\\n\
-                        <li class=\"port-and-status\">\\n\
-                            <div class=\"port-status\" data-bind=\"attr: { \\'data-title\\': portLightTooltips }, tooltip: portLightTooltips\">\\n\
-                                <span class=\"tooltip\" style=\"display: none;\" data-bind=\"text: portLightTooltips\"></span>\\n\
-                                <div data-bind=\"attr: { \\'class\\': portLight1StatusClass }\"></div>\\n\
-                                <div data-bind=\"attr: { \\'class\\': portLight2StatusClass }\"></div>\\n\
-                            </div>\\n\
-                            <div data-bind=\"visible: $parent.isPortSelected(id())\" class=\"selected-port\"></div>\\n\
-\\n\
-                            <div data-bind=\"visible: $parent.isPortAvailable($data), click: function(data, event) { $parent.selectPort(id()); }, css: { enable: $parent.isPortEnabled(id()) }\" class=\"available-port\"></div>\\n\
-\\n\
-                            <div data-bind=\"visible: $parent.isPortUnavailable($data), attr: {\\'class\\': allocated_to}, css: {\\'unavailable-port\\': true}\" class=\"unavailable-port\"></div>\\n\
-                        </li>\\n\
-                    </ul>\\n\
-                    <div class=\"clear\"></div>\\n\
-                </li>\\n\
-                <li class=\"endpoint-container\" data-bind=\"visible: selectedPort\"></li>\\n\
-                <li class=\"delete hidden\">\\n\
-                    <a href=\"#\" class=\"delete-button button dark\" data-bind=\"click: remove\" type=\"button\">Delete</a>\\n\
-                </li>\\n\
-            </ul>\\n\
-        </div>\\n\
-        <div data-bind=\"visible: !expended()\" class=\"collapsed\">\\n\
-            <ul>\\n\
-                <li class=\"device-header\">\\n\
-                    <h1 class=\"tx-rx-label\" data-bind=\"text: device.name\"></h1>\\n\
-                    <a href=\"#\" class=\"expand-collapse collapsed\" data-bind=\"click: expand_collapse\"></a>\\n\
-                </li>\\n\
-                <li class=\"details\">\\n\
-                    <table>\\n\
-                        <tbody>\\n\
-                        <!-- ko if: !has_enabled_endpoints() -->\\n\
-                        <tr>\\n\
-                            <td data-bind=\"text: strings[\\'No ports enabled\\']\">No ports enabled</td>\\n\
-                        </tr>\\n\
-                        <!-- /ko -->\\n\
-                        <!-- ko foreach: endpoints() -->\\n\
-                        <tr data-bind=\"visible: enabled\">\\n\
-                            <td data-bind=\"text: portLabel\"></td>\\n\
-                            <!-- ko if: vlan_id -->\\n\
-                            <td data-bind=\"text: vlanLabel\"></td>\\n\
-                            <!-- /ko -->\\n\
-                            <td data-bind=\"attr: {colspan: vlan_id() ? 1 : 2}\">\\n\
-                                <span data-bind=\"text: strings[\\'IP details\\']\"></span> <img src=\"static/images/info.png\" data-bind=\"tooltip: ipDetails, attr: { \\'title\\': ipDetails, \\'alt\\': ipDetails, \\'data-title\\': ipDetails}\"/><div class=\"tooltip\" style=\"display: none;\" data-bind=\"text: ipDetails\"></div>\\n\
-                            </td>\\n\
-                        </tr>\\n\
-                        <!-- /ko -->\\n\
-                        </tbody>\\n\
-                    </table>\\n\
-                    <!--<ul data-bind=\"foreach: endpoints()\" class=\"endpoints\">-->\\n\
-                        <!--<li data-bind=\"text: port() + \\': \\' + (enabled()?\\'Enabled \\':\\'Disabled \\') + ip()\"></li>-->\\n\
-                    <!--</ul>-->\\n\
-                </li>\\n\
-            </ul>\\n\
-        </div>\\n\
-    </div>\\n\
-</li>\\n\
-';\n\
-//# sourceURL=components-ixia/device-view-model/multiple-port/templates/template.js"
-));
-
-require.register("./components-ixia/device-view-model/single-port/view-model.js", Function("exports, module",
-"/*global ko:true, EndpointViewModel:true */\n\
-\n\
-var noop = function () {},\n\
-    util = require('./components-ixia/utility-functions'),\n\
-    domify = require('component~domify@1.3.1'),\n\
-    template = domify(require('./components-ixia/device-view-model/single-port/templates/template.js')),\n\
-    EndpointViewModel = require('./components-ixia/endpoint-view-model').UnicastViewModel,\n\
-    mobile = {\n\
-        isMobile: /Android|webOS|iPhone|iPad|iPod|BlackBerry|windows phone/i.test(navigator.userAgent)\n\
-    },\n\
-    emitter = require('component~emitter@1.0.1');\n\
-\n\
-/**\n\
- * Manages Tx or Rx configuration for a traffic player when only a single port\n\
- * can be used.\n\
- *\n\
- * @param testConfigVm\n\
- * @constructor\n\
- */\n\
-function SinglePortDeviceViewModel(testConfigVm) {\n\
-    var self = this;\n\
-    self.testConfigVm = testConfigVm;\n\
-    self.testVm = testConfigVm.testVm;\n\
-    self.rootVm = testConfigVm.rootVm;\n\
-\n\
-    self.previousDevice = undefined;\n\
-    self.device = ko.observable();\n\
-\n\
-    self.device.subscribe(self.onDeviceChange.bind(self));\n\
-\n\
-    self.selectedPort = ko.observable();\n\
-    self.devicePorts = ko.observableArray();\n\
-\n\
-    self.vlan = ko.observable();\n\
-    self.networks = ko.observableArray();\n\
-\n\
-    self.endpoint = ko.observable(new EndpointViewModel(testConfigVm.rootVm));\n\
-\n\
-    self.trafficPlayer = null;\n\
-\n\
-    self.deviceName = ko.computed(self.computeDeviceName.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.showNoIpInfo = ko.computed(self.computeShowNoIpInfo.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.showIpInfo = ko.computed(self.computeShowIpInfo.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.showSelectAPort = ko.computed(self.computeShowSelectAPort.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.showEndpointConfiguration = ko.computed(self.computeShowEndpointConfiguration.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
-    self.label = ko.observable(); // e.g. \"Tx\" or \"Rx\"\n\
-    self.portLabel = ko.computed(self.computePortLabel.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.endpointLabel = ko.computed(self.computeEndpointLabel.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.vlanLabel = ko.computed(self.computeVlanLabel.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.ipLabel = ko.computed(self.computeIpLabel.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.ipDetails = ko.computed(self.computeIpDetails.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.lineRate = ko.computed(self.computeLineRate.bind(self));\n\
-\n\
-    self.strings = {\n\
-        'Checking port status ...': translate('Checking port status ...')\n\
-    };\n\
-\n\
-    self.timingAccuracy = ko.observable();\n\
-    self.timingAccuracyText = ko.computed(function () {\n\
-        return window.translate(\"{accuracy}ms offset from {source}\", {\n\
-            accuracy: self.timingAccuracy(),\n\
-            source: self.label()\n\
-        });\n\
-    });\n\
-}\n\
-\n\
-emitter(SinglePortDeviceViewModel.prototype);\n\
-\n\
-module.exports = SinglePortDeviceViewModel;\n\
-\n\
-SinglePortDeviceViewModel.prototype.id = function () {\n\
-    if (this.device() === undefined) {\n\
-        return undefined;\n\
-    }\n\
-\n\
-    return this.device().id();\n\
-};\n\
-\n\
-/**\n\
- * Allow substitution with DeviceCollectionViewModel.getDeviceIds()\n\
- */\n\
-SinglePortDeviceViewModel.prototype.getDeviceIds = function () {\n\
-    return [this.id()];\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.render = function () {\n\
-    var render_endpoint = this.render_endpoint.bind(this),\n\
-        endpoint_changed = function(endpoint) {\n\
-            if (endpoint) {\n\
-                render_endpoint(endpoint);\n\
-            }\n\
-        };\n\
-\n\
-    this.$el = template.cloneNode(true);\n\
-\n\
-    this.$el.querySelector('.port-container .loading').innerHTML = this.strings['Checking port status ...'];\n\
-\n\
-    this.bind();\n\
-\n\
-    if (this.endpoint()) {\n\
-        render_endpoint(this.endpoint());\n\
-    }\n\
-\n\
-    this.endpoint.subscribe(endpoint_changed);\n\
-\n\
-    return this.$el;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.render_endpoint = function (endpoint) {\n\
-    var $endpoint,\n\
-        $endpoint_container = this.$el.querySelector('.endpoint-container');\n\
-\n\
-    $endpoint_container.innerHTML = '';\n\
-    $endpoint = endpoint.render();\n\
-    $endpoint_container.appendChild($endpoint);\n\
-    endpoint.bind();\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.bind = function () {\n\
-    ko.applyBindings(this, this.$el);\n\
-    this.makeDroppable();\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.makeDroppable = function () {\n\
-    var set_endpoint = this.endpoint;\n\
-    var draggableClass = mobile.isMobile ? 'draggableIcon' : 'endpoint';\n\
-\n\
-    $(this.$el).droppable({\n\
-        drop: function (event, ui) {\n\
-            if (ui.draggable.hasClass(draggableClass)) {\n\
-                var endpoint = ui.helper.data('endpoint');\n\
-\n\
-                if (endpoint) {\n\
-                    endpoint = endpoint.clone();\n\
-                    set_endpoint(endpoint);\n\
-                }\n\
-\n\
-            }\n\
-        },\n\
-        accept: '.' + draggableClass\n\
-    });\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.typesafe = function (that) {\n\
-    if (!(that instanceof SinglePortDeviceViewModel)) {\n\
-        throw 'This method must be executed on a SinglePortDeviceViewModel';\n\
-    }\n\
-\n\
-    return that;\n\
-};\n\
-SinglePortDeviceViewModel.prototype.inflate = function (data) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this),\n\
-        device;\n\
-\n\
-    if (!data) {\n\
-        // Use first device as default\n\
-        device = self.rootVm.availableDevices()[0];\n\
-        self.device(device);\n\
-        return; // Short circuit\n\
-    }\n\
-\n\
-    device = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) { return item.id() == data.device.id; });\n\
-\n\
-    self.device(device);\n\
-\n\
-    self.selectPort(data.port, true);\n\
-\n\
-    if (!self.endpoint()) {\n\
-        self.endpoint(new EndpointViewModel(data.endpoint));\n\
-    }\n\
-    self.endpoint().inflate(data.endpoint);\n\
-    self.vlan(data.vlan);\n\
-};\n\
-SinglePortDeviceViewModel.prototype.computeShowSelectAPort = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.selectedPort() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowEndpointConfiguration = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.selectedPort() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeDeviceName = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.device() == null) {\n\
-        return null;\n\
-    }\n\
-\n\
-    return self.device().name();\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowVlan = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.endpoint() == null) {\n\
-        return false;\n\
-    }\n\
-\n\
-    return self.endpoint().vlan_id() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowNoIpInfo = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.endpoint() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowIpInfo = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.endpoint() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowNoVlan = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.endpoint() == null) {\n\
-        return false;\n\
-    }\n\
-\n\
-    return self.endpoint().vlan_id() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowEndpoint = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.endpoint() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowNoEndpoint = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.endpoint() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computePortLabel = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var port = self.selectedPort();\n\
-    if (port == null) {\n\
-        return translate('No Port');\n\
-    }\n\
-\n\
-    return translate('Port {port}', {\n\
-        port: port\n\
-    });\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeEndpointLabel = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var endpoint = self.endpoint();\n\
-    if (endpoint == null) {\n\
-        return translate('No Endpoint');\n\
-    }\n\
-\n\
-    return endpoint.name();\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeVlanLabel = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var endpoint = self.endpoint();\n\
-    if (endpoint == null) {\n\
-        return translate('No Vlan');\n\
-    }\n\
-\n\
-    var vlan = endpoint.vlan_id();\n\
-    if (vlan == null) {\n\
-        return translate('No Vlan');\n\
-    }\n\
-\n\
-    return vlan;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeIpLabel = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var endpoint = self.endpoint();\n\
-    if (endpoint == null) {\n\
-        return translate('No IP Info');\n\
-    }\n\
-\n\
-    return translate('IP Details');\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeIpDetails = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var endpoint = self.endpoint();\n\
-    if (endpoint == null) {\n\
-        return translate('No IP Details');\n\
-    }\n\
-\n\
-    return translate('Starting IP: {startingIp}, Ending IP: {endingIp}', {\n\
-        startingIp: endpoint.ip(),\n\
-        endingIp: endpoint.end_ip()\n\
-    });\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeLineRate = function () {\n\
-    var index = this.selectedPort(),\n\
-        device = this.device();\n\
-\n\
-    if (null == index || undefined === device) {\n\
-        // No device loaded or port is not selected, so line rate is undefined\n\
-        return null; // Short-circuit\n\
-    }\n\
-\n\
-    return device.lineRate(index);\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowPort = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.selectedPort() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeShowNoPort = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.selectedPort() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeHasDevice = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.device() != null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.computeNoDevice = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return self.device() == null;\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.portIdInUse = function (id) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.trafficPlayer == null) {\n\
-        return false;\n\
-    }\n\
-\n\
-    if (self.selectedPort() == id) {\n\
-        return true;\n\
-    } else {\n\
-        return false\n\
-    }\n\
-\n\
-    //return self.trafficPlayer.portIdInUse(id);\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.networkMapUsingSameDevice = function () {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.trafficPlayer == null) {\n\
-        return false;\n\
-    }\n\
-\n\
-    return self.trafficPlayer.usingSameDevice();\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.onDeviceChange = function (device) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this),\n\
-        ports = self.device().ports();\n\
-\n\
-    if (device.id) {\n\
-        logger.debug('Device changed to ' + device.id());\n\
-    }\n\
-\n\
-    self.selectedPort(null);\n\
-    self.endpoint(null);\n\
-    self.devicePorts(ports);\n\
-\n\
-    // Emit an event only if device is has changed\n\
-    if (device.id && self.previousDevice !== device.id()) {\n\
-        self.previousDevice = self.device().id();\n\
-        self.emit('changed:device', device);\n\
-    }\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.selectPort = function (portIndex, initialInflate) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this),\n\
-        endpoint = new EndpointViewModel(self.rootVm);\n\
-\n\
-    if (initialInflate) {\n\
-        self.selectedPort(portIndex);\n\
-        self.endpoint(endpoint);\n\
-    } else {\n\
-        self.selectedPort(portIndex);\n\
-        if (!self.endpoint()) {\n\
-            self.endpoint(endpoint);\n\
-        } else {\n\
-            self.endpoint(self.endpoint());\n\
-        }\n\
-    }\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.isPortSelected = function (id) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return ko.computed(function () {\n\
-        return self.selectedPort() === id;\n\
-    });\n\
-};\n\
-\n\
-\n\
-SinglePortDeviceViewModel.prototype.isPortAvailable = function (port) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return ko.computed(function () {\n\
-        return port.available() && self.selectedPort() !== port.id();\n\
-    });\n\
-};\n\
-\n\
-\n\
-SinglePortDeviceViewModel.prototype.isPortUnavailable = function (port) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    return ko.computed(function () {\n\
-        return !port.available() && self.selectedPort() !== port.id();\n\
-    });\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.validate = function (result, targetName) {\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    if (self.selectedPort() == null) {\n\
-        result.addCheckResults(translate(\"Test Configuration Error\"), false, translate(\"{name} is missing a port selection\", {\n\
-            name: targetName\n\
-        }));\n\
-    } else { // if port is selected, make sure the end point is configured\n\
-        var reqestedBandwidth = parseInt(self.trafficPlayer.traffic_setting().value());\n\
-        var ports = self.device().ports();\n\
-        var selected_port;\n\
-        ports.forEach(function(port) {\n\
-            if (port.id() === self.selectedPort()) {\n\
-                if (!port.available()) {\n\
-                    result.addCheckResults(translate(\"Test Configuration Error\"), false,\n\
-                        translate(\"{name} uses unavailable port {port}\", {\n\
-                        name: targetName,\n\
-                        port: port.id()\n\
-                    }));\n\
-                }\n\
-                selected_port = port;\n\
-            }\n\
-        });\n\
-        var portLineSpeed = selected_port.line_speed();\n\
-        if (!isNaN(reqestedBandwidth) && portLineSpeed != null) {\n\
-            if (reqestedBandwidth > portLineSpeed) {\n\
-                result.addCheckResults(translate(\"Test Configuration Error\"), false,\n\
-                    translate(\"{name} bandwidth '{bandwidth} Mbps' exceeds link capacity '{capacity} Mbps' on port {port}\", {\n\
-                        name: targetName,\n\
-                        bandwidth: reqestedBandwidth,\n\
-                        capacity: portLineSpeed,\n\
-                        port: self.selectedPort().toString()\n\
-                    }));\n\
-            }\n\
-        }\n\
-        if (self.endpoint() != null) {\n\
-            self.endpoint().validate(result, targetName);\n\
-            currentTrack = self.trafficPlayer.currentPlaylist.tracks();\n\
-            if (self.endpoint().use_dhcp() == \"v6\" && currentTrack.length > 0) {\n\
-                for (var i = 0; i < currentTrack.length; i++) {\n\
-                    if (currentTrack[i]().trackTypeId == 1 || currentTrack[i]().trackObject == \"FixedFrameLengthTrack\") {\n\
-                        engineCount = currentTrack[i]().trackProperties().length;\n\
-                        for (var j = 0; j < engineCount; j++) {\n\
-                            if (currentTrack[i]().trackProperties()[j].engine_model().name == \"frame_length\") {\n\
-                                if (currentTrack[i]().trackProperties()[j].engine_model().value[0] == 64) {\n\
-                                    result.addCheckResults(translate(\"Test Configuration Error\"), false,\n\
-                                        translate(\"{name} endpoint does not support 64 Byte Frames on DHCPv6\", {\n\
-                                            name: targetName\n\
-                                        }));\n\
-                                }\n\
-                            }\n\
-                        }\n\
-                    }\n\
-                }\n\
-            }\n\
-        } else {\n\
-            result.addCheckResults(translate(\"Test Configuration Error\"), false,\n\
-                translate(\"{name} endpoint has not been configured\", {\n\
-                    name: targetName\n\
-                }));\n\
-        }\n\
-    }\n\
-};\n\
-\n\
-SinglePortDeviceViewModel.prototype.toFlatObject = function(){\n\
-    var self = SinglePortDeviceViewModel.typesafe(this);\n\
-\n\
-    var flatConfig = {\n\
-        device : self.device() ? self.device().toFlatObject() : {},\n\
-        vlan : self.vlan(),\n\
-        networks : self.networks(),\n\
-        endpoint : self.endpoint() ? self.endpoint().toFlatObject() : {},\n\
-        port: self.selectedPort()\n\
-    };\n\
-\n\
-    flatConfig.devicePorts = new Array();\n\
-    if (self.device()) {\n\
-        var devicePorts = self.device().ports();\n\
-        for (var i = 0; i < devicePorts.length; i++) {\n\
-            flatConfig.devicePorts.push(devicePorts[i].toFlatObject());\n\
-        }\n\
-    }\n\
-\n\
-    var networks = self.networks();\n\
-    for (var i = 0; i < networks.length; i++) {\n\
-        flatConfig.networks.push(networks[i]);\n\
-    }\n\
-    return flatConfig;\n\
-};\n\
-//# sourceURL=components-ixia/device-view-model/single-port/view-model.js"
-));
-
-require.register("./components-ixia/device-view-model/single-port/templates/template.js", Function("exports, module",
-"module.exports = '<div class=\"device transmit-receive-container box\">\\n\
-    <ul class=\"transmit-receive\">\\n\
-        <li class=\"device-header\">\\n\
-            <h1 class=\"tx-rx-label\" data-bind=\"text: label\"></h1>\\n\
-        </li>\\n\
-        <li class=\"device-container\">\\n\
-            <div class=\"aluminum-select\">\\n\
-                <span data-bind=\"text: deviceName\"></span>\\n\
-                <select data-bind=\"options: rootVm.availableDevices, value: device, optionsText: \\'name\\'\"></select>\\n\
-            </div>\\n\
-        </li>\\n\
-\\n\
-        <li class=\"timing\">\\n\
-            <p data-bind=\"attr: { \\'class\\' : \\'sync \\' + device().timeSyncClass() }, text: device().displayTimeSyncResolution\"></p>\\n\
-        </li>\\n\
-\\n\
-        <li class=\"port-container\">\\n\
-            <span data-bind=\"visible: device().updating_port_status\" class=\"loading\">Checking port status ...</span>\\n\
-            <ul data-bind=\"foreach: device().ports()\" class=\"ports\">\\n\
-                <li class=\"port-and-status\">\\n\
-                    <div class=\"port-status\" data-bind=\"attr: { \\'data-title\\': portLightTooltips }, tooltip: portLightTooltips\">\\n\
-                        <span class=\"tooltip\" style=\"display: none;\" data-bind=\"text: portLightTooltips\"></span>\\n\
-                        <div data-bind=\"attr: { \\'class\\': portLight1StatusClass }\"></div>\\n\
-                        <div data-bind=\"attr: { \\'class\\': portLight2StatusClass }\"></div>\\n\
-                    </div>\\n\
-                    <div data-bind=\"visible: $parent.isPortSelected(id())\" class=\"selected-port\"></div>\\n\
-\\n\
-                    <div data-bind=\"visible: $parent.isPortAvailable($data), click: function(data, event) { $parent.selectPort(id()); }\" class=\"available-port\"></div>\\n\
-\\n\
-                    <div data-bind=\"visible: $parent.isPortUnavailable($data), attr: {\\'class\\': allocated_to}, css: {\\'unavailable-port\\': true}\" class=\"unavailable-port\"></div>\\n\
-                </li>\\n\
-            </ul>\\n\
-            <div class=\"clear\"></div>\\n\
-        </li>\\n\
-        <li class=\"endpoint-container\" data-bind=\"visible: showEndpointConfiguration\"></li>\\n\
-    </ul>\\n\
-</div>\\n\
-';\n\
-//# sourceURL=components-ixia/device-view-model/single-port/templates/template.js"
 ));
 
 require.modules["device-view-model"] = require.modules["./components-ixia/device-view-model"];
@@ -74608,7 +71482,6 @@ TrafficPlayerViewModel.prototype.is_primary = function (val) {\n\
 TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, datapoint_ids, is_multicast) {\n\
     var self = TrafficPlayerViewModel.typesafe(this),\n\
         supplementalConfig,\n\
-        playlist,\n\
         i,\n\
         datapoint;\n\
 \n\
@@ -74616,33 +71489,7 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     self.delegate = is_multicast ? new MulticastDelegate(this) : new UnicastDelegate(this);\n\
     self.delegate.inflate(data);\n\
 \n\
-    // Source and destination - delegated (see above)\n\
-\n\
-\n\
-    // Playlist\n\
-\n\
-    if (data.playlist) {\n\
-        playlist = new TestPlaylistViewModel(self.rootVm);\n\
-        if (data.playlist) {\n\
-            playlist.inflate(data.playlist);\n\
-        } else {\n\
-            playlist.inflate(self.playlist().toFlatObject());\n\
-        }\n\
-    } else {\n\
-        playlist = ko.utils.arrayFirst(self.testVm.availablePlaylists(), function (item) {\n\
-            return item.id() === default_playlist_id;\n\
-        });\n\
-\n\
-        if (playlist === null) {\n\
-            playlist = self.testVm.availablePlaylists()[0];\n\
-        }\n\
-    }\n\
-\n\
-    self.playlist(playlist);\n\
-\n\
-\n\
     // Datapoints\n\
-\n\
     for (i = 0; i < datapoint_ids.length; i++) {\n\
         datapoint = new DatapointViewModel(self.rootVm);\n\
         datapoint.inflate(self.testVm.availableDatapointsMap()[datapoint_ids[i]]);\n\
@@ -74650,18 +71497,12 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     }\n\
 \n\
     // Traffic setting\n\
-\n\
     self.traffic_setting(new TestTrafficSettingViewModel(self.testConfigVm, self));\n\
     if (data.traffic_settings && data.traffic_settings.length > 0) {\n\
         self.traffic_setting().inflate(data.traffic_settings[0]);\n\
     }\n\
 \n\
     self.line_rate_subscription = self.source().lineRate.subscribe(self.changeLineRate.bind(self));\n\
-\n\
-    // Multicast settings - delegated (see above)\n\
-\n\
-\n\
-    // Supplemental config\n\
 \n\
     if (data.supplemental_configuration) {\n\
         supplementalConfig = new TestSupplementalConfigurationViewModel(self.rootVm);\n\
@@ -75247,8 +72088,7 @@ module.exports = UnicastTrafficPlayerDelegate;\n\
 
 require.register("./components-ixia/traffic-player-view-model/delegates/multicast.js", Function("exports, module",
 "var MultiplePortDeviceViewModel = require('./components-ixia/device-view-model').MultiplePortDeviceViewModel,\n\
-    DeviceCollectionViewModel = require('./components-ixia/device-collection-view-model'),\n\
-    MulticastSettingsViewModel = require('./components-ixia/multicast-settings');\n\
+    DeviceCollectionViewModel = require('./components-ixia/device-collection-view-model');\n\
 \n\
 function MulticastTrafficPlayerDelegate(parent) {\n\
     this.parent = parent;\n\
@@ -75294,17 +72134,6 @@ MulticastTrafficPlayerDelegate.prototype.inflate = function (data) {\n\
     parent.destination().inflate(data.destination);\n\
     parent.destination.subscribe(subscribe_parent);\n\
     subscribe_parent(destination);\n\
-\n\
-    // Settings\n\
-    if (data && data.supplemental_configuration && data.supplemental_configuration.multicast_settings) {\n\
-        // Handle multicast setting reload from Calendar\n\
-        this.multicast_settings = new MulticastSettingsViewModel(data.supplemental_configuration.multicast_settings);\n\
-        this.multicast_settings.inflate(data.supplemental_configuration.multicast_settings);\n\
-    } else {\n\
-        this.multicast_settings = new MulticastSettingsViewModel(data.multicast_settings);\n\
-        this.multicast_settings.inflate(data.multicast_settings);\n\
-    }\n\
-    parent.multicast_settings = this.multicast_settings;\n\
 };\n\
 \n\
 MulticastTrafficPlayerDelegate.prototype.toFlatObject = function (obj) {\n\
@@ -75776,7 +72605,7 @@ function LineRateMessageViewModel() {\n\
     this.line_speed = undefined;\n\
     this.bandwidth = undefined;\n\
     this.strings = {\n\
-        \"Running a test at speeds near line-rate can result in unexpected or errant latency in the test results\": window.translate('Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href=\"https://support.spirentforbusiness.com/support/solutions/articles/1000060929-line-rate\" target=\"_blank\">line rate latency</a>.')\n\
+        \"Running a test at speeds near line-rate can result in unexpected or errant latency in the test results\": window.translate('Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href=\"https://www.ixiacom.com/support/solutions/articles/1000060929-line-rate\" target=\"_blank\">line rate latency</a>.')\n\
     };\n\
     this.show_icon = ko.observable(false);\n\
     this.show_message = ko.observable(false);\n\
@@ -76452,10 +73281,6 @@ module.exports = function (settings, callback) {\n\
         .then(queueImages.bind(this, settings.build_number))\n\
         .then(loadGlobals)\n\
         .then(loadRootViewModel.bind(this, settings));\n\
-\n\
-    if (-1 !== settings.features.indexOf('scheduler')) {\n\
-        load.then(bindScheduler);\n\
-    }\n\
 \n\
     load.then(closeLoadingLightbox)\n\
         .then(loadInfoPane)\n\

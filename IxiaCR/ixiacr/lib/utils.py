@@ -154,9 +154,10 @@ def get_build_number():
 
 def update_ixiacr_version_build_number():
     try:
-        cr = IxiaVersion.first()
-        cr.build = get_build_number_from_file()
-        transaction.commit()
+        # cr = IxiaVersion.first()
+        # cr.build = get_build_number_from_file()
+        # transaction.commit()
+        pass
     except Exception, e:
         log.exception('update_ixiacr_version_build_number: Exception. %s' % e)
         return "Unknown"

@@ -14,8 +14,8 @@ var domify = require('domify'),
     request = require('superagent'),
     no_cache = require('superagent-no-cache'),
     noop = function() {},
-    spirentEnterpriseVm = window.spirentEnterpriseVm,
-    results_status_observable = window.spirentEnterpriseVm.vmTest.vmResults.status,
+    ixiaCRVm = window.ixiaCRVm,
+    results_status_observable = window.ixiaCRVm.vmTest.vmResults.status,
     LoadingState = require('loading-state');
 
 // Extend interface model
@@ -26,13 +26,13 @@ function NetflowSettings(model) {
     this.$el = domify(template);
     this.globalSettingsPane = new GlobalSettings(model);
     this.interfacesPane = undefined;
-    this.ports_observable = spirentEnterpriseVm.availableDevices()[0].ports;
+    this.ports_observable = ixiaCRVm.availableDevices()[0].ports;
     this.loading_state = new LoadingState(this.$el);
     //this.init_render = true;
     this.graber = undefined;
 
     this.strings = {
-        "License invalid": window.translate("Your license is invalid. If you just updated, you may need a new license. Please upload a valid license or contact Spirent support at <a href='http://support.spirentforbusiness.com' target='_blank'>support.spirentforbusiness.com</a>."),
+        "License invalid": window.translate("Your license is invalid. If you just updated, you may need a new license. Please upload a valid license or contact Spirent support at <a href='http://www.ixiacom.com' target='_blank'>www.ixiacom.com</a>."),
         "Updating": window.translate("Updating"),
         "Loading": window.translate("Loading"),
         "Exporting has not yet started": window.translate("Exporting has not yet started"),
@@ -93,29 +93,12 @@ NetflowSettings.prototype.setModel = function (model) {
 
 NetflowSettings.prototype.render = function () {
     var updating = this.model.status() === 'updating',
-        license_invalid = this.model.license_status() === 'invalid',
-        $global = this.$el.querySelector('.global'),
-        chassis_id = window.spirentEnterpriseVm.vmGlobalSettings.chassisId(),
-        $flownba = this.$el.querySelector('#flownba');
-
-    $flownba.href += '&id=' + encodeURIComponent(chassis_id);
+        $global = this.$el.querySelector('.global');
 
     if (updating) {
         this.renderUpdating();
         return this.$el;
     }
-
-    if (license_invalid) {
-        this.renderInvalidLicense();
-        return this.$el;
-    }
-
-//    if(!this.init_render){
-//        this.transitionTo(results_status_observable());
-//        return;
-//    }
-
-//    this.init_render = false;
 
     // Enabling Netflow re-allocates ports
     // And port re-allocation interrupts tests

@@ -345,15 +345,6 @@
             "size": "115 Bytes"
         },
         {
-            "name": "endpoint-white.png",
-            "modified": "01/18/2013 01:03:24 PM",
-            "directory": false,
-            "path": "/local/web/Axon/axon/static/images/endpoint-white.png",
-            "children": [],
-            "parent_dir": "/local/web/Axon/axon/static/images",
-            "size": "355 Bytes"
-        },
-        {
             "name": "test-player-stop-button.png",
             "modified": "01/18/2013 01:03:24 PM",
             "directory": false,

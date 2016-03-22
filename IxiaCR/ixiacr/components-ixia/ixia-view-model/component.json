@@ -13,6 +13,5 @@
         "test-configurations-adapter.js"
     ],
     "local": [
-        "endpoint-view-model"
     ]
 }

@@ -11,13 +11,6 @@
 	require('mocha');
 	var p = './components-ixia/';
 	var canonical = [
-		'netflow-settings/views/global-settings.js',
-		'netflow-settings/views/interface-settings.js',
-		'netflow-settings/views/interfaces.js',
-		'netflow-settings/views/collector-list.js',
-		'netflow-settings/models/netflow-settings.js',
-		'netflow-settings/models/collector.js',
-		'netflow-settings/views/collector.js'
 	];
 	canonical.forEach(function (path) {
 		require.modules[path] = require.modules[p + path];
@@ -29,12 +22,6 @@
 <script src="test/logger/test.js"></script>
 <script src="test/interface-selector/index.js"></script>
 <script src="test/capture-filter-chooser/test.js"></script>
-<script src="test/netflow-settings/views/netflow-settings.js"></script>
-<script src="test/netflow-settings/views/global-settings.js"></script>
-<script src="test/netflow-settings/views/interfaces.js"></script>
-<script src="test/netflow-settings/views/interface-settings.js"></script>
-<script src="test/netflow-settings/views/collector-list.js"></script>
-<script src="test/netflow-settings/views/collector.js"></script>
 <script src="test/lightbox/test.js"></script>
 <script src="test/asset-manager/test.js"></script>
 <script src="test/dictionary-provider/test.js"></script>

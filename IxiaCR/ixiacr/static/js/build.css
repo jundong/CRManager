@@ -528,107 +528,6 @@ body {
 
 @charset "UTF-8";
 
-.transmit-receive-container .endpoint-container {
-    position: relative;
-    padding: 3px 3px 3px 3px;
-    background-color: #1c1c1d;
-    border-radius: 3px;
-    border-bottom: solid 1px #414142;
-    box-shadow: inset 0px 7px 7px #161616;
-}
-
-.endpoint-container .form {
-    background-color: #3c3c3d;
-    font-family: "open sans", arial, sans-serif;
-    font-size: 11px;
-    border-radius: 2px;
-    border-top: solid 1px #505050;
-    padding: 10px;
-    color: #dbdbdb;
-}
-
-.save-lightbox .save.small-round-button-outer {
-    display: none;
-}
-
-.test .expanded .endpoint-container .save {
-    float: right;
-}
-
-.test .expanded .endpoint-container .save a {
-    display: block;
-    height: 15px;
-    width: 15px;
-}
-
-.test .expanded .endpoint-container li:not(.enable) {
-    margin-top: 0.75em;
-    margin-bottom: 0.75em;
-    min-height: 4em;
-}
-
-.test .expanded .endpoint-container li:first-child {
-    margin-top: auto;
-}
-.test .expanded .endpoint-container li:last-child {
-    margin-bottom: auto;
-}
-
-.test .expanded .endpoint-container li.selector {
-    min-height: 2em;
-    line-height: 3em;
-}
-
-.test .expanded .endpoint-container li.enable label {
-    width: auto;
-    line-height: 2em;
-}
-
-.test .expanded .endpoint-container .enable + li {
-    margin-top: 1em;
-}
-
-.test .endpoint-container [type="radio"] {
-    margin-right: 0.1em;
-    vertical-align: -1px;
-}
-.test .endpoint-container [type="checkbox"] {
-    margin-right: 0.1em;
-}
-
-.test .expanded .endpoint-container li > label:first-child {
-    vertical-align: -1px;
-    display: inline-block;
-}
-
-.test .expanded .endpoint-container li > input {
-}
-
-.test .expanded .endpoint-container label:first-child {
-    width: 58px;
-}
-
-.test .expanded .dhcpContainer {
-    width: 100%;
-    white-space: nowrap;
-    line-height: 4em;
-}
-.test .expanded .dhcpContainer label {
-    width: auto;
-    margin-right: 1em;
-    font-size: 10px;
-}
-
-.test .expanded .endpoint-container input[type="text"]{
-    width: 109px;
-}
-
-.test .expanded .endpoint-container input.vlan {
-    width: 54px;
-}
-
-@charset "UTF-8";
-
 .capture-filter-chooser {
     position: absolute;
     top: 0;
@@ -675,26 +574,6 @@ body {
 
 @charset "UTF-8";
 
-input[type="text"].invalid,
-input[type="password"].invalid
-{
-    border-color: red;
-    color: red;
-}
-
-.validator-message {
-    display: block;
-    text-indent: 1em;
-    line-height: 2em;
-    color: #F45;
-    margin-bottom: 1em;
-    text-transform: none;
-    clear: both;
-}
-
-
-@charset "UTF-8";
-
 .interface-selector .interface { display: inline-block; margin: 5px; }
 
 .port-container .selected-port,
@@ -703,85 +582,6 @@ input[type="password"].invalid
     width: 48px;
     height: 40px;
     margin: 0;
-}
-
-@charset "UTF-8";
-
-.italic { font-style: italic; }
-
-.netflow-settings #lightbox-working { margin-top: 40px; }
-.netflow-settings #lightbox-working .loading { margin-right: 1em; }
-
-.netflow-settings li { clear: both !important; }
-.netflow-settings a { color: #dbdbdb; }
-.netflow-settings input { float: none !important; display: inline !important; }
-.netflow-settings.main .single-pane .export label {
-    color: #dbdbdb;
-    text-transform: none;
-}
-
-.netflow-settings.main a { color: #5691A1; }
-.netflow-settings.main .single-pane { display: inline-block; vertical-align: top; }
-.netflow-settings.main .global { width: 454px; margin-right: 20px; }
-.netflow-settings.main .tip { width: 254px; }
-.netflow-settings .tip p { margin: 10px; font-size: 12px; }
-
-.netflow-settings.main .single-pane .export label:after { content: ''; }
-.netflow-settings label:not(.validator-message) { float: none !important; display: inline !important; }
-.netflow-settings .global-settings,
-.netflow-settings .interfaces {
-    box-sizing: border-box;
-    overflow-y: hidden;
-    transition: all 200ms;
-}
-.netflow-settings .global-settings { max-height: 20em; }
-.netflow-settings .interfaces { max-height: 190em; }/*support displaying max 20 collectors, then hide Add Collector button*/
-.netflow-settings .hidden {
-    display: block !important;
-    overflow-y: hidden;
-    max-height: 0;
-    padding: 0 !important;
-    margin: 0 !important;
-    border-width: 0 !important;
-    box-shadow: 0 0 0 0 !important;
-}
-.netflow-settings .hidden.no-transition { display: none !important; }
-
-.netflow-settings .interfaces > ul > li:first-child { text-align: center; }
-.netflow-settings .interface-selector { display: inline-block; }
-.netflow-settings .interface-selector .player:not(.available),
-.interface-selector .available.flowmon, .port-container .unavailable-port.flowmon { margin: 0; width: 48px; height: 40px; background-image: url("/images/port-flowmon.png"); }
-.netflow-settings .interface-selector .player:not(.available) { background-image: url("/images/port-player.png"); }
-.netflow-settings .interfaces.single-pane .endpoint-container { float: none; color: #b8b8b8; }
-.netflow-settings .interfaces .endpoint-container p { width: 60%; margin: 1em auto; }
-
-.netflow-settings .interfaces .settings .form { padding: 0; }
-.netflow-settings .interfaces .settings > ul > li {
-    padding-left: 1em;
-    padding-right: 1em;
-    line-height: 4em;
-}
-.netflow-settings .interfaces .actions { float: right; }
-.netflow-settings .collectors,
-.netflow-settings .add-collector { border-top: 1px solid black; }
-.netflow-settings .add-collector { margin-top: 1em; text-align: right; }
-
-.netflow-settings .interfaces .collector-editor { position: relative; margin-top: 1em; }
-.netflow-settings .interfaces .collector-editor li { position: relative; }
-.netflow-settings .interfaces .collector-editor li:last-child { width: 31.975em; text-align: right; }
-.netflow-settings .interfaces .collector-editor label:first-child {
-    position: absolute;
-    left: 1em;
-    line-height: 42px;
-    text-transform: none;
-    color: black;
-}
-.netflow-settings .interfaces .collector-editor input[type="text"] { width: 17em; text-align: right; padding-left: 10em; padding-right: 2em; }
-.netflow-settings .interfaces .collector-editor .save { margin-left: 1em; }
-.netflow-settings .interfaces .collector-editor .validator-message:after { content: ''; }
-
-.netflow-settings.main {
-    min-height: 336px;
 }
 
 .calendar-agenda-container{
@@ -3223,7 +3023,7 @@ div.dhx_menu_head, div.dhx_menu_icon {
 
 
 #header .navigation .tabs li.calendar:before {
-    content: url("/static/js/scheduler/images/calendar.png");
+    content: url("/js/scheduler/images/calendar.png");
     position: absolute;
     left: 22px;
     top: 11px;
@@ -4081,6 +3881,105 @@ input.with-label {
     margin-left: 1em;
 }
 
+@charset "UTF-8";
+
+input[type="text"].invalid,
+input[type="password"].invalid
+{
+    border-color: red;
+    color: red;
+}
+
+.validator-message {
+    display: block;
+    text-indent: 1em;
+    line-height: 2em;
+    color: #F45;
+    margin-bottom: 1em;
+    text-transform: none;
+    clear: both;
+}
+
+
+@charset "UTF-8";
+
+.italic { font-style: italic; }
+
+.netflow-settings #lightbox-working { margin-top: 40px; }
+.netflow-settings #lightbox-working .loading { margin-right: 1em; }
+
+.netflow-settings li { clear: both !important; }
+.netflow-settings a { color: #dbdbdb; }
+.netflow-settings input { float: none !important; display: inline !important; }
+.netflow-settings.main .single-pane .export label {
+    color: #dbdbdb;
+    text-transform: none;
+}
+
+.netflow-settings.main a { color: #5691A1; }
+.netflow-settings.main .single-pane { display: inline-block; vertical-align: top; }
+.netflow-settings.main .global { width: 454px; margin-right: 20px; }
+.netflow-settings.main .tip { width: 254px; }
+.netflow-settings .tip p { margin: 10px; font-size: 12px; }
+
+.netflow-settings.main .single-pane .export label:after { content: ''; }
+.netflow-settings label:not(.validator-message) { float: none !important; display: inline !important; }
+.netflow-settings .global-settings,
+.netflow-settings .interfaces {
+    box-sizing: border-box;
+    overflow-y: hidden;
+    transition: all 200ms;
+}
+.netflow-settings .global-settings { max-height: 20em; }
+.netflow-settings .interfaces { max-height: 190em; }/*support displaying max 20 collectors, then hide Add Collector button*/
+.netflow-settings .hidden {
+    display: block !important;
+    overflow-y: hidden;
+    max-height: 0;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-width: 0 !important;
+    box-shadow: 0 0 0 0 !important;
+}
+.netflow-settings .hidden.no-transition { display: none !important; }
+
+.netflow-settings .interfaces > ul > li:first-child { text-align: center; }
+.netflow-settings .interface-selector { display: inline-block; }
+.netflow-settings .interface-selector .player:not(.available),
+.interface-selector .available.flowmon, .port-container .unavailable-port.flowmon { margin: 0; width: 48px; height: 40px; background-image: url("/images/port-flowmon.png"); }
+.netflow-settings .interface-selector .player:not(.available) { background-image: url("/images/port-player.png"); }
+.netflow-settings .interfaces.single-pane .endpoint-container { float: none; color: #b8b8b8; }
+.netflow-settings .interfaces .endpoint-container p { width: 60%; margin: 1em auto; }
+
+.netflow-settings .interfaces .settings .form { padding: 0; }
+.netflow-settings .interfaces .settings > ul > li {
+    padding-left: 1em;
+    padding-right: 1em;
+    line-height: 4em;
+}
+.netflow-settings .interfaces .actions { float: right; }
+.netflow-settings .collectors,
+.netflow-settings .add-collector { border-top: 1px solid black; }
+.netflow-settings .add-collector { margin-top: 1em; text-align: right; }
+
+.netflow-settings .interfaces .collector-editor { position: relative; margin-top: 1em; }
+.netflow-settings .interfaces .collector-editor li { position: relative; }
+.netflow-settings .interfaces .collector-editor li:last-child { width: 31.975em; text-align: right; }
+.netflow-settings .interfaces .collector-editor label:first-child {
+    position: absolute;
+    left: 1em;
+    line-height: 42px;
+    text-transform: none;
+    color: black;
+}
+.netflow-settings .interfaces .collector-editor input[type="text"] { width: 17em; text-align: right; padding-left: 10em; padding-right: 2em; }
+.netflow-settings .interfaces .collector-editor .save { margin-left: 1em; }
+.netflow-settings .interfaces .collector-editor .validator-message:after { content: ''; }
+
+.netflow-settings.main {
+    min-height: 336px;
+}
+
 .player-contents .footer {
     text-align: right;
     color: #ddd;
@@ -4310,23 +4209,6 @@ input.with-label {
     margin-top: 16px;
 }
 
-
-
-.multicast .transmit-receive-container {
-    clear: both;
-}
-
-.multicast .device .expand-collapse {
-    display: inline-block;
-    width: 30px;
-    height: 30px;
-    background-size: 30px;
-    background-image: url(/images/up-expander-dark.png);
-}
-
-.multicast .device .expand-collapse.collapsed {
-    background-image: url(/images/down-expander-dark.png);
-}
 
 
 .test .multicast .destination {

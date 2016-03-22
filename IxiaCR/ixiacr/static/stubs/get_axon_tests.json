@@ -258,20 +258,6 @@
                         "device_type_id":2,
                         "id":1
                     },
-                    "endpoint":{
-                        "dhcp_hosts":"",
-                        "name":"Default v4 Rx - Custom",
-                        "tags":{
-                            "user_defined":[]
-                        },
-                        "ip":"192.168.85.2",
-                        "id":-1,
-                        "prefix":"24",
-                        "end_ip":"",
-                        "use_dhcp":"false",
-                        "gateway":"192.168.85.1",
-                        "vlan_id":""
-                    },
                     "port":1,
                     "devicePorts":[0, 1, 2, 3],
                     "networks":[]

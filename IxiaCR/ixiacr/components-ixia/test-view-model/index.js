@@ -1,7 +1,5 @@
 var DefaultHeaderDelegate = require('player').delegates["test-view-model"],
     indefinite_modules = [
-        "axon.testcases.spirent.throughput_test",
-        "axon.testcases.spirent.multicast_aggregated_throughput"
     ],
     static_duration_modules = {
         "axon.testcases.spirent.multicast_join_leave_latency": 5 // Always runs for ~5 minutes
@@ -20,15 +18,10 @@ function TestViewModel(rootVModel, delegate) {
 
     self.rootVm = rootVModel;
 
-    self.getAvailableTracks = self.rootVm.getAvailableTracks;
-    self.getAvailablePlaylists = self.rootVm.getAvailablePlaylists;
     self.getAvailableDevices = self.rootVm.getAvailableDevices;
-    self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;
     self.getAvailableTests = self.rootVm.getAvailableTests;
     self.getAvailableDatapoints = self.rootVm.getAvailableDatapoints;
-    self.availablePlaylists = self.rootVm.availablePlaylists;
     self.availableDevices = self.rootVm.availableDevices;
-    self.availableEndpoints = self.rootVm.availableEndpoints;
     self.availableTests = self.rootVm.availableTests;
     self.availableTestsByCategory = self.rootVm.availableTestsByCategory;
     self.availableDatapointsMap = self.rootVm.availableDatapointsMap;
@@ -75,8 +68,6 @@ function TestViewModel(rootVModel, delegate) {
     self.startingTab = 'configuration';
 
     self.selectedTab(self.startingTab);
-
-//    self.selectedTab.subscribe(self.onSelectedTabUpdated.bind(self));
 
     self.isTestRunning = ko.observable(false);
     self.hasResults = ko.observable(false);

@@ -1,16 +1,9 @@
-<script id="lightbox-create-test-tmpl" type="text/html">
-    <div id="lightbox" class="create-test" data-bind="template : { name : 'lightbox-category-view', data : $data, templateEngine: new ko.nativeTemplateEngine }">
-    </div>
-</script>
-
 <script type="text/html" id="lightbox-category-view">
 <div class="header">
     <h2>{% trans %}Run a Test{% endtrans %}</h2>
     <button class="cancel-button" data-bind="click: closeTestSelection"><img src="images/light-close-icon.png" alt="x" title="x" /> {% trans %}Cancel{% endtrans %}</button>
 </div>
-<!--<div class="search">-->
-    <!--<input type="text" />-->
-<!--</div>-->
+
 <div class="lightbox-view category-view" data-bind="visible: view() == 'category'">
     <div>
         <ul class="categories" data-bind="foreach: categories.items">
@@ -156,148 +149,28 @@
     </div>
 </script>
 
-<script type="text/html" id="lightbox-save-playlist-template">
-    <div id="lightbox-save-playlist" class="save-lightbox">
-        <ul class="save-header">
-            <li><input type="text" data-bind="value: name" /></li>
-            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
-            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
-            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
-        </ul>
-        <div class="error section" data-bind="visible: (nameError() || noTrack())">
-            <div class="container" style="margin-bottom: 20px;">
-                <h2 data-bind="visible: nameError()">{% trans %}Playlist name is required.{% endtrans %}</h2>
-                <h2 data-bind="text: strings['Playlist requires at least one track'], visible: noTrack()"></h2>
-            </div>
-        </div>
-        <div class="clear"></div>
-        <ul class="save-footer">
-            <!--<li>
-                <label>CUSTOMER:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
-                </div>
-            </li>
-            <li>
-                <label>LOCATION:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
-                </div>
-            </li>-->
-            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
-        </ul>
-    </div>
-</script>
-
-<script type="text/html" id="lightbox-save-track-template">
-    <div id="lightbox-save-track" class="save-lightbox">
+<script type="text/html" id="lightbox-save-account-template">
+    <div id="lightbox-save-account" class="save-lightbox">
         <ul class="save-header">
             <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
-            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
             <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
             <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
         </ul>
         <div class="clear"></div>
         <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
             <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
-                <h2>{% trans %}There are validation errors with your track configuration:{% endtrans %}</h2>
+                <h2>{% trans %}Existing User Name:{% endtrans %}</h2>
                 <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
                     <li data-bind="text: $data"></li>
                 </ul>
             </div>
         </div>
-        <ul class="no-track-property" data-bind="visible: !shouldShowTrackProperties()">
-            <li>
-                <label data-bind="text: strings['There is no track property']"></label>
-            </li>
-        </ul>
-        <ul class="save-middle" data-bind="visible: (editable() && shouldShowTrackProperties())">
-            <!-- ko foreach: trackProperties -->
-
-            <!-- ko if: (type() == 'text') -->
-            <li class="text"><label data-bind="text: name"></label><input class="light-text-box2" type="text" data-bind="value: value, valueUpdate: 'input'"/></li>
-            <!-- /ko -->
-            <!-- ko if: (type() == 'radio') -->
-            <li class="radio">
-                <label data-bind="text: name"></label>
-                <div data-bind="foreach: options">
-                    <div>
-                        <input type="radio" data-bind="value: $data, checked: $parent.value" /><label data-bind="text: $data, click: function () { $parent.value($data); }"></label>
-                    </div>
-                </div>
-            </li>
-            <!-- /ko -->
-            <!-- ko if: (type() == 'checkbox') -->
-            <li class="checkbox">
-                <label data-bind="text: name"></label>
-                <div>
-                    <input type="checkbox" data-bind="checked: value" /><label data-bind="text: name, click: function () { value(!value()); }"></label>
-                </div>
-            </li>
-            <!-- /ko -->
-            <!-- ko if: (type() == 'select') -->
-            <li class="select">
-                <!-- ko if: (name().toLowerCase() != 'playlist') -->
-                <label data-bind="text: name"></label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': optionValue }">
-                    <select data-bind="options: options, value: selectedOption, optionsText: function (item) { return item.name; }"></select>
-                </div>
-                <!-- /ko -->
-            </li>
-            <!-- /ko -->
-            <!-- ko if: (type() == 'read_only') -->
-            <li class="read-only">
-                <label data-bind="text: name"></label><span data-bind="text: value"></span>
-            </li>
-            <!-- /ko -->
-
-            <!-- /ko -->
-        </ul>
-        <ul class="save-footer">
-            <!--<li>
-                <label>CUSTOMER:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
-                </div>
-            </li>
-            <li>
-                <label>LOCATION:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
-                </div>
-            </li>-->
-            <li><label>TAGS:</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
-        </ul>
-    </div>
-</script>
-
-
-<script type="text/html" id="lightbox-save-endpoint-template">
-    <div id="lightbox-save-endpoint" class="save-lightbox">
-        <ul class="save-header">
-            <li><input type="text" name="name" data-bind="value: name" /></li>
-            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
-            <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
-            <li class="button-container"><button class="save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
-        </ul>
-        <div class="clear"></div>
         <ul class="save-middle">
-            {% include 'endpoint/fields.jinja2' %}
-        </ul>
-        <ul class="save-footer">
-            <!--<li>
-                <label>CUSTOMER:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
-                </div>
+            <li><label>{% trans %}Password{% endtrans %}</label><input id="password" class="long" type="password" data-bind="validateNewPassword: $data" /></li>
+            <li id="newPasswordList"><label>{% trans %}Verify Password{% endtrans %}</label><input id="passwordVerify" class="long" type="password" data-bind="validateNewPassword: $data" />
+                <span class="error" data-bind="visible: validateNewPassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
+                <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
             </li>
-            <li>
-                <label>LOCATION:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
-                </div>
-            </li>-->
-            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
         </ul>
     </div>
 </script>
@@ -367,18 +240,6 @@
         <div class="clear"></div>
         <ul class="save-footer">
             <li>{% trans %}This is where the help stuff will go.{% endtrans %}</li>
-        </ul>
-    </div>
-</script>
-<script type="text/html" id="lightbox-timing-help-template">
-    <div id="lightbox-timing-help" class="save-lightbox">
-        <ul class="save-header">
-            <li>{% trans %}How to fix your time sync.{% endtrans %}</li>
-            <li class="cancel"><a class="cancel-button cancel-icon"></a></li>
-        </ul>
-        <div class="clear"></div>
-        <ul class="save-footer">
-            <li>{% trans %}If your Cyber Range says that it does not have time sync for one (or more) of your endpoints in a test, your timing results (latency and jitter) will not be accurate.  The clocks on the machines will be too far apart to provide any real measurments.  In this situation, you should connect your Axon(s) to an NTP server in the "System Settings" tab of the Administration section.  Each Axon will need to be connected to the NTP server in its own GUI, this cannot be done remotely. If possible, it is best if all Axons that you will be running site-to-site tests between are connected to the same NTP server.<br><br>If you are connected to an NTP server but are still receiving a large range for your timing accuracy, the internal clocks may not have been synced to the NTP server for a long enough time.  Please wait another 30 minutes while your clocks synchronize.{% endtrans %}</li>
         </ul>
     </div>
 </script>
@@ -501,6 +362,7 @@
         </div>
     </div>
 </script>
+
 <script type="text/html" id="lightbox-error-template">
     <div id="lightbox-error" class="error-lightbox">
         <ul class="header">
@@ -514,6 +376,7 @@
         </div>
     </div>
 </script>
+
 <script type="text/html" id="lightbox-error-warning-template">
     <div id="lightbox-error-warning" class="warning-lightbox">
         <ul class="header">
@@ -527,6 +390,7 @@
         </div>
     </div>
 </script>
+
 <script type="text/html" id="lightbox-alert-template">
     <div id="lightbox-alert" class="alert-lightbox">
         <ul class="header">
@@ -564,44 +428,5 @@
     <div id="lightbox-table-cell-chart" class="popin-chart">
         <a class="cancel-button cancel-icon"></a>
         <div data-bind="template : { name: 'chart-tmpl-' + moduleName, templateEngine: new ko.nativeTemplateEngine, data: $data }"></div>
-    </div>
-</script>
-
-<script type="text/html" id="lightbox-save-results-template">
-    <div id="lightbox-save-results" class="save-lightbox">
-        <ul class="save-header">
-            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
-            <li><input id="lightbox-save-results-favorite-check" class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><label for="lightbox-save-results-favorite-check">{% trans %}FAVORITE{% endtrans %}</label></li>
-            <li><button data-bind="click: $data.save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
-            <li><a class="delete-results" data-bind="click: $data.delete">{% trans %}lightbox.tmpl.jinja2.DELETE{% endtrans %}</a></li>
-        </ul>
-        <div class="clear"></div>
-        <div class="save-middle">
-            <h3 data-bind="text: endResult, attr: { 'class': endResult }"></h3>
-            <p>{% trans %}To save your results, please name the test and click SAVE, or click delete to abort and lose your results.{% endtrans %}</p>
-        </div>
-        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
-            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
-                <h2>{% trans %}There are validation errors with your test results:{% endtrans %}</h2>
-                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
-                    <li data-bind="text: $data"></li>
-                </ul>
-            </div>
-        </div>
-        <ul class="save-footer">
-            <!--<li>
-                <label>CUSTOMER:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one'  }">
-                    <select data-bind="options: rootVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
-                </div>
-            </li>
-            <li>
-                <label>LOCATION:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
-                    <select data-bind="options: rootVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
-                </div>
-            </li>-->
-            <li><label>{% trans %}TAGS:{% endtrans %}</label><input class="light-text-box2" type="text" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
-        </ul>
     </div>
 </script>

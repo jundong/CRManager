@@ -378,24 +378,9 @@ ConfiguredTestViewModel.prototype.loadTest = function (testConfiguration, loadCo
     self.datapoint_ids = testConfiguration.datapoint_ids();
 
     if(testConfiguration.traffic_players){
-        self.defaultPlaylistId = testConfiguration.traffic_players[0].playlist.id;
-        for(var i = 0; i < testConfiguration.traffic_players.length; i++){
-            self.addTrafficPlayer(testConfiguration.traffic_players[i], i > 0);
-        }
+        //
     } else {
-        var playlistIds = testConfiguration.playlist_ids();
-        self.defaultPlaylistId = playlistIds[0];
-
-        for (var i = 0; i < playlistIds.length; i++) {
-            var playlist = ko.utils.arrayFirst(self.testVm.availablePlaylists(), function (item) {
-                return item.id() == playlistIds[i];
-            });
-
-            if (playlist != null) {
-                var trafficPlayer = self.addTrafficPlayer();
-                trafficPlayer.playlist(playlist);
-            }
-        }
+        //
     }
 
     self.pollDevicesStatus();
@@ -421,9 +406,6 @@ ConfiguredTestViewModel.prototype.loadTest = function (testConfiguration, loadCo
 
 
     self.setStartState();
-    //self.rootVm.getAvailableEndpoints();
-    //self.rootVm.getAvailableTracks();
-    //self.rootVm.getAvailablePlaylists();
     //self.rootVm.getAvailableTests();
 
     self.updateConfig(self.startState);
@@ -521,20 +503,6 @@ ConfiguredTestViewModel.prototype.addTrafficPlayer = function (flatData, additio
     }
 
     if (additional && self.add_player_settings && self.add_player_settings === 'bandwidth') {
-        // Adding an additional player, and test definition says to show "Bandwidth" instead of supplemental
-        var playlist = self.rootVm.availablePlaylists().filter(function (playlist) {
-            return playlist.id() === 1;
-        })[0];
-        flatData.playlist = playlist.toFlatObject();
-        if (flatData.traffic_settings == undefined || !flatData.traffic_settings) {
-            flatData.traffic_settings = [
-                {
-                    type_id: 2,
-                    unit: "Mbps",
-                    value: "10"
-                }
-            ];
-        }
         supplemental_config.hasSupplementalConfiguration = false;
     }
 

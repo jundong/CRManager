@@ -73,7 +73,6 @@ TrafficPlayerViewModel.prototype.is_primary = function (val) {
 TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, datapoint_ids, is_multicast) {
     var self = TrafficPlayerViewModel.typesafe(this),
         supplementalConfig,
-        playlist,
         i,
         datapoint;
 
@@ -81,33 +80,7 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     self.delegate = is_multicast ? new MulticastDelegate(this) : new UnicastDelegate(this);
     self.delegate.inflate(data);
 
-    // Source and destination - delegated (see above)
-
-
-    // Playlist
-
-    if (data.playlist) {
-        playlist = new TestPlaylistViewModel(self.rootVm);
-        if (data.playlist) {
-            playlist.inflate(data.playlist);
-        } else {
-            playlist.inflate(self.playlist().toFlatObject());
-        }
-    } else {
-        playlist = ko.utils.arrayFirst(self.testVm.availablePlaylists(), function (item) {
-            return item.id() === default_playlist_id;
-        });
-
-        if (playlist === null) {
-            playlist = self.testVm.availablePlaylists()[0];
-        }
-    }
-
-    self.playlist(playlist);
-
-
     // Datapoints
-
     for (i = 0; i < datapoint_ids.length; i++) {
         datapoint = new DatapointViewModel(self.rootVm);
         datapoint.inflate(self.testVm.availableDatapointsMap()[datapoint_ids[i]]);
@@ -115,18 +88,12 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     }
 
     // Traffic setting
-
     self.traffic_setting(new TestTrafficSettingViewModel(self.testConfigVm, self));
     if (data.traffic_settings && data.traffic_settings.length > 0) {
         self.traffic_setting().inflate(data.traffic_settings[0]);
     }
 
     self.line_rate_subscription = self.source().lineRate.subscribe(self.changeLineRate.bind(self));
-
-    // Multicast settings - delegated (see above)
-
-
-    // Supplemental config
 
     if (data.supplemental_configuration) {
         supplementalConfig = new TestSupplementalConfigurationViewModel(self.rootVm);

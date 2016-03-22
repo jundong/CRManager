@@ -19,7 +19,6 @@
     "index.js"
   ],
   "local": [
-    "utility-functions",
-    "endpoint-view-model"
+    "utility-functions"
   ]
 }

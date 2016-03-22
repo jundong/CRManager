@@ -64,6 +64,13 @@ def view_includes(config):
     config.add_handler('save_device', '/ixia/save_device',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='save_device')
+    config.add_handler('check_updates', '/ixia/check_updates',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='check_updates')
+    config.add_handler('get_updates', '/ixia/upgrade_device',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='get_updates')
+
 
 class IxiaAdminHandler(base.Handler):
     """This is the class container holding the methods that perform the
@@ -323,6 +330,48 @@ class IxiaAdminHandler(base.Handler):
                                        'header': 'Failed',
                                        'content': str(e)}))
             return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def check_updates(self):
+        self.messages = []
+        ixiacrlogger.debug('Entering: check_updates')
+        try:
+            #force_offline_check = True if self.request.params.get('offline', '1') == '1' else False
+
+            #from ixiacr.lib.updater import Updater
+            #updater = Updater(db)
+            #available_updates, newest_build = updater.get_update_info()
+            updates = {'available_updates': '1.00.0001', 'newest_build': '1.00.0005'}
+
+            ixiacrlogger.debug('Exiting: check_updates')
+            return {'result': 'SUCCESS', 'updates': updates}
+
+        except Exception, e:
+            ixiacrlogger.exception('check_updates: Exception. %s' % e)
+            self.messages.append(dict(
+                {'is_error': True, 'header': 'Failed', 'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def get_updates(self):
+        """This function gets Axon Updates.
+
+        :returns:  JSON Object
+        :raises: Exception
+
+        """
+        self.messages = []
+        ixiacrlogger.debug('Entering: get_updates')
+        try:
+            ixiacrlogger.debug('Exiting: get_updates')
+            return {'task_id': '1.1.1'}
+
+        except Exception, e:
+            ixiacrlogger.exception('get_updates: Exception. %s' % e)
+            self.messages.append(dict(
+                {'is_error': True, 'header': 'Failed', 'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+
 
 def is_blank(string):
     return string is None or len(string) == 0 or string.isspace()

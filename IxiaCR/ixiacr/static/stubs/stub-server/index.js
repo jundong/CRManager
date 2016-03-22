@@ -23,7 +23,6 @@ handle["/ixia/get_datapoints.json"] = requestHandlers.getDatapoints;
 handle["/ixia/get_device_time_sync"] = requestHandlers.getDeviceTimeSync;
 handle["/ixia/get_devices_status.json"] = requestHandlers.getDevicesStatus;
 handle["/ixia/get_devices.json"] = requestHandlers.getDevices;
-handle["/ixia/get_endpoints.json"] = requestHandlers.getEndpoints;
 handle["/ixia/get_global_settings.json"] = requestHandlers.getGlobalSettings;
 handle["/ixia/get_images"] = requestHandlers.getImages;
 handle["/ixia/get_istestready"] = requestHandlers.getIsTestReady;

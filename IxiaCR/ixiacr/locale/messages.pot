@@ -42,14 +42,6 @@ msgstr ""
 msgid "Successfully deleted device."
 msgstr ""
 
-#: axon/handlers/admin.py:656
-msgid "Successfully saved endpoint."
-msgstr ""
-
-#: axon/handlers/admin.py:693
-msgid "Successfully deleted endpoint."
-msgstr ""
-
 #: axon/handlers/admin.py:722
 msgid "Successfully saved test template."
 msgstr ""
@@ -254,12 +246,6 @@ msgstr ""
 msgid ""
 "Destination MAC address learning for test traffic failed for ${par_0} of "
 "${par_1} tracks on ${chassis}, port ${port}"
-msgstr ""
-
-#: axon/lib/engines/stc/exceptions.py:266
-msgid ""
-"Gateway MAC address learning for test endpoints failed for ${par_0} of "
-"${par_1} ${par_2} on ${chassis}, port ${port}"
 msgstr ""
 
 #: axon/lib/engines/stc/exceptions.py:268
@@ -1051,12 +1037,6 @@ msgstr ""
 msgid "QoS"
 msgstr ""
 
-#: axon/scripts/initializedb.py:242
-msgid ""
-"All tests can be run using either IPv4 packets or IPv6 packets. Just input "
-"your endpoint addresses in the appropriate format."
-msgstr ""
-
 #: axon/scripts/initializedb.py:245
 msgid ""
 "Your test is currently running, aggregate results are displayed during the "
@@ -1351,49 +1331,29 @@ msgstr ""
 msgid "By agreeing, you will lose all data. Are you sure?"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:2
 #: axon/templates/html/administration.tmpl.jinja2:197
 msgid "VLAN ID"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:4
 #: axon/templates/html/administration.tmpl.jinja2:319
 #: axon/templates/html/administration.tmpl.jinja2:374
 #: axon/templates/html/administration.tmpl.jinja2:551
 msgid "Save"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:8
-#: axon/templates/html/administration.tmpl.jinja2:471
-msgid "No DHCP"
-msgstr ""
-
-#: axon/templates/endpoint/fields.jinja2:11
-msgid "DHCPv4"
-msgstr ""
-
-#: axon/templates/endpoint/fields.jinja2:14
-msgid "DHCPv6"
-msgstr ""
-
-#: axon/templates/endpoint/fields.jinja2:17
 msgid "Number of hosts"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:21
 msgid "test.configuration.tmpl.jinja2.Starting_IP"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:25
 msgid "test.configuration.tmpl.jinja2.Ending_IP"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:29
 #: axon/templates/html/administration.tmpl.jinja2:202
 msgid "Prefix"
 msgstr ""
 
-#: axon/templates/endpoint/fields.jinja2:33
 #: axon/templates/html/administration.tmpl.jinja2:203
 #: axon/templates/html/administration.tmpl.jinja2:481
 msgid "Gateway"
@@ -1552,22 +1512,6 @@ msgstr ""
 msgid "devices"
 msgstr ""
 
-#: axon/templates/html/administration.tmpl.jinja2:33
-msgid "endpoints"
-msgstr ""
-
-#: axon/templates/html/administration.tmpl.jinja2:41
-msgid "playlists"
-msgstr ""
-
-#: axon/templates/html/administration.tmpl.jinja2:49
-msgid "tracks"
-msgstr ""
-
-#: axon/templates/html/administration.tmpl.jinja2:57
-msgid "netflow"
-msgstr ""
-
 #: axon/templates/html/administration.tmpl.jinja2:65
 msgid "pulse"
 msgstr ""
@@ -1709,16 +1653,8 @@ msgstr ""
 msgid "Ending IP"
 msgstr ""
 
-#: axon/templates/html/administration.tmpl.jinja2:204
-msgid "Are you sure you want to delete this endpoint?"
-msgstr ""
-
 #: axon/templates/html/administration.tmpl.jinja2:284
 msgid "Clone &raquo;"
-msgstr ""
-
-#: axon/templates/html/administration.tmpl.jinja2:286
-msgid "Are you sure you want to delete this track?"
 msgstr ""
 
 #: axon/templates/html/administration.tmpl.jinja2:297
@@ -2342,22 +2278,6 @@ msgstr ""
 
 #: axon/templates/html/lightbox.tmpl.jinja2:381
 msgid "How to fix your time sync."
-msgstr ""
-
-#: axon/templates/html/lightbox.tmpl.jinja2:386
-msgid ""
-"If your Axon says that it does not have time sync for one (or more) of your "
-"endpoints in a test, your timing results (latency and jitter) will not be "
-"accurate.  The clocks on the machines will be too far apart to provide any "
-"real measurments.  In this situation, you should connect your Axon(s) to an "
-"NTP server in the \"System Settings\" tab of the Administration section.  "
-"Each Axon will need to be connected to the NTP server in its own GUI, this "
-"cannot be done remotely. If possible, it is best if all Axons that you will "
-"be running site-to-site tests between are connected to the same NTP server."
-"<br><br>If you are connected to an NTP server but are still receiving a "
-"large range for your timing accuracy, the internal clocks may not have been "
-"synced to the NTP server for a long enough time.  Please wait another 30 "
-"minutes while your clocks synchronize."
 msgstr ""
 
 #: axon/templates/html/lightbox.tmpl.jinja2:394

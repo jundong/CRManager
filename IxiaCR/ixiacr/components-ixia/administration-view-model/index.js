@@ -7,51 +7,31 @@ var noop = function () {},
     classes = require('classes'),
     validate = require('validate-form'),
     is_host = require('is-host'),
-    is_ip = require('is-ip-address'),
-    EndpointViewModel = require('endpoint-view-model').UnicastViewModel; // This should be a generic model
+    is_ip = require('is-ip-address');
 
 function AdministrationViewModel(rootVm) {
     var self = this;
-
-    self.strings = {
-        'Field is required': translate('Field is required'),
-        "SSID's must be 1 to 32 alphanumeric characters": translate("SSID's must be 1 to 32 alphanumeric characters"),
-        'WPA key must be at least 8 characters': translate('WPA key must be at least 8 characters')
-    };
 
     self.rootVm = rootVm;
     self.globalSettingsVm = rootVm.vmGlobalSettings;
     self.selectedTab = ko.observable();
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.devicesTabSelected = ko.computed(self.calculateDevicesTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.endpointsTabSelected = ko.computed(self.calculateEndpointsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.tracksTabSelected = ko.computed(self.calculateTracksTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.playlistsTabSelected = ko.computed(self.calculatePlaylistsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.systemBackupRestoreTabSelected = ko.computed(self.calculateSystemBackupRestoreTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.ntpServerTabSelected = ko.computed(self.calculateNtpServerTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.endpointsTabClass = ko.computed(self.calculateEndpointsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.tracksTabClass = ko.computed(self.calculateTracksTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.playlistsTabClass = ko.computed(self.calculatePlaylistsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.languageTabClass = ko.computed(self.calculateLanguageTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.systemBackupRestoreTabClass = ko.computed(self.calculateSystemBackupRestoreTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.ntpServerTabClass = ko.computed(self.calculateNtpServerTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.getAvailablePlaylists = self.rootVm.getAvailablePlaylists;
-    self.getAvailableTracks = self.rootVm.getAvailableTracks;
     self.getAvailableDevices = self.rootVm.getAvailableDevices;
-    self.getAvailableEndpoints = self.rootVm.getAvailableEndpoints;
     self.validateOldPassword = ko.observable();
     self.validateNewPassword = ko.observable();
     self.upgradeFile = ko.observable();
@@ -59,21 +39,9 @@ function AdministrationViewModel(rootVm) {
     self.fakeUpgradeStep = 0;
     self.okFunction = ko.observable();
     self.lightboxText = ko.observable();
-    self.availablePlaylists = ko.observableArray(self.rootVm.availablePlaylists());
-    self.availablePlaylistsSummary = ko.computed(function () {
-        return translate('Showing {number} Playlists', {
-            number: self.availablePlaylists().length
-        }, 'number');
-    });
 
     self.language = ko.observable(self.rootVm.language());
     self.languageDisplay = ko.observable();
-    self.availableEndpoints = ko.observableArray(self.rootVm.availableEndpoints());
-    self.availableEndpointsSummary = ko.computed(function () {
-        return translate('Showing {number} Endpoints', {
-            number: self.availableEndpoints().length
-        }, 'number');
-    });
     self.availableDevices = ko.observableArray(self.rootVm.availableDevices());
     self.availableDevicesSummary = ko.computed(function () {
         var length = self.availableDevices().length;
@@ -88,17 +56,9 @@ function AdministrationViewModel(rootVm) {
             number: length
         }, 'number');
     });
-    self.selectedBackup = ko.observable();
-    self.selectedBackupExternal = ko.observable();
     self.editDeviceVisible = ko.observable(false);
     self.deviceListVisible = ko.observable(true);
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));
-    self.editEndpointVisible = ko.observable(false);
-    self.endpointListVisible = ko.observable(true);
-    self.editPlaylistVisible = ko.observable(false);
-    self.playlistListVisible = ko.observable(true);
-    self.editTrackVisible = ko.observable(false);
-    self.trackListVisible = ko.observable(true);
     self.displayCustomers = ko.computed({
         read: self.displayCustomersRead.bind(self),
         write: self.displayCustomersWrite.bind(self)
@@ -142,11 +102,6 @@ function AdministrationViewModel(rootVm) {
         write: self.displaySelectedTagsWrite
     }, self).extend({ throttle: self.rootVm.defaultThrottleDuration });
 
-    self.rootVm.availablePlaylists.subscribe(function (playlists) {
-        self.applyFilters(self.rootVm.availablePlaylists, ko.observableArray(playlists));
-        self.availablePlaylists(playlists);
-    });
-
     self.rootVm.language.subscribe(function () {
         self.language(self.rootVm.language());
     });
@@ -159,25 +114,10 @@ function AdministrationViewModel(rootVm) {
         }
     });
 
-    self.rootVm.availableEndpoints.subscribe(function (newEndpoints) {
-        self.applyFilters(self.rootVm.availableEndpoints, ko.observableArray(newEndpoints));
-        self.availableEndpoints(newEndpoints);
-    });
-
     self.rootVm.availableDevices.subscribe(function (devices) {
         self.applyFilters(self.rootVm.availableDevices,ko.observableArray(devices));
         self.availableDevices(devices);
     });
-
-    self.selectedBackup.subscribe(function (selectedBackup) {
-        if (selectedBackup === undefined) {
-            self.selectedBackupExternal("");
-        } else if (selectedBackup.device === "chassis") {
-            self.selectedBackupExternal("False");
-        } else {
-            self.selectedBackupExternal("True");
-        }
-    }, self);
 
     self.selectedCustomer.subscribe(function (value) {
         self.applyFiltersForAll();
@@ -206,7 +146,10 @@ AdministrationViewModel.prototype.render = function ($parent, template) {
 };
 
 AdministrationViewModel.prototype.bind = function () {
-    var self = this;
+    var self = this,
+        $check_offline = this.$el.querySelector('.check-offline');
+
+    event.bind($check_offline, 'click', this.checkForOfflineUpdates.bind(this));
 };
 
 AdministrationViewModel.prototype.checkForOfflineUpdates = function () {
@@ -287,28 +230,11 @@ AdministrationViewModel.prototype.validateGlobalSettings = function () {
         host_message = window.translate("Must be an IP address or hostname"),
         success = false;
 
-    if (this.globalSettingsVm.dhcp() === 'false') {
-        validator.field('host')
+    validator.field('host')
             .is('required', window.translate('Field is required'))
             .is('ip', ip_message);
-//        validator.field('netmask');
-        validator.field('gateway')
+    validator.field('gateway')
             .is('ip', ip_message);
-    }
-
-    validator.field('primary_dns')
-            .is('ip', ip_message);
-    validator.field('secondary_dns')
-            .is('ip', ip_message);
-
-    validator.field('ntp1')
-        .is('host', host_message);
-    validator.field('ntp2')
-        .is('host', host_message);
-    validator.field('ntp3')
-        .is('host', host_message);
-    validator.field('ntp4')
-        .is('host', host_message);
 
     validator.validate(function (err, is_valid, reason) {
         if (err) {
@@ -466,8 +392,6 @@ AdministrationViewModel.prototype.applySearchFilter = function (searchString, so
 
 
 AdministrationViewModel.prototype.applyFiltersForAll = function () {
-    this.applyFilters(this.rootVm.availableEndpoints(), this.availableEndpoints);
-    this.applyFilters(this.rootVm.availablePlaylists(), this.availablePlaylists);
     this.applyFilters(this.rootVm.availableDevices(), this.availableDevices);
 };
 
@@ -554,21 +478,6 @@ AdministrationViewModel.prototype.calculateDevicesTabSelected = function () {
 
     return self.selectedTab() === "devices";
 };
-AdministrationViewModel.prototype.calculateEndpointsTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "endpoints";
-};
-AdministrationViewModel.prototype.calculateTracksTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "tracks";
-};
-AdministrationViewModel.prototype.calculatePlaylistsTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "playlists";
-};
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
 
@@ -594,42 +503,15 @@ AdministrationViewModel.prototype.calculateDatabaseTabSelected = function () {
 
     return self.selectedTab() === "database";
 };
-AdministrationViewModel.prototype.calculateSystemBackupRestoreTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "system backup restore";
-};
 AdministrationViewModel.prototype.calculateSystemSettingsTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
 
     return self.selectedTab() === "system settings";
 };
-AdministrationViewModel.prototype.calculateNtpServerTabSelected = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "ntp server";
-};
-
 AdministrationViewModel.prototype.calculateDevicesTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
 
     return self.selectedTab() === "devices" ? "devices selected" : "devices";
-};
-
-AdministrationViewModel.prototype.calculateEndpointsTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "endpoints" ? "endpoints selected" : "endpoints";
-};
-AdministrationViewModel.prototype.calculateTracksTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "tracks" ? "tracks selected" : "tracks";
-};
-AdministrationViewModel.prototype.calculatePlaylistsTabClass = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    return self.selectedTab() === "playlists" ? "playlists selected" : "playlists";
 };
 
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {
@@ -657,24 +539,33 @@ AdministrationViewModel.prototype.calculateDatabaseTabClass = function () {
 
     return self.selectedTab() === "database" ? "database selected" : "database";
 };
-AdministrationViewModel.prototype.calculateSystemBackupRestoreTabClass = function () {
+AdministrationViewModel.prototype.calculateDiskTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
 
-    return self.selectedTab() === "system backup restore" ? "backup-restore selected" : "backup-restore";
+    return self.selectedTab() === "disk" ? "disk selected" : "disk";
 };
-
-
 AdministrationViewModel.prototype.calculateSystemSettingsTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
 
     return self.selectedTab() === "system settings" ? "system selected" : "system";
 };
 
-AdministrationViewModel.prototype.addDevice = function () {
-    var self = AdministrationViewModel.typesafe(this),
-        device = new TestDeviceViewModel(self.rootVm);
+AdministrationViewModel.prototype.addAccount = function () {
+    var self = AdministrationViewModel.typesafe(this);
 
-    device.openSaveModal();
+    util.lightbox.open({
+        url : 'html/lightbox_tmpl',
+        selector : '#lightbox-save-account-template',
+        cancelSelector: '.cancel-button',
+        onOpenComplete: function(){
+            //self.startState = self.toFlatObject();
+            ko.applyBindings(self, document.getElementById('lightbox-save-account'));
+        },
+        onClose: function(){
+            //self.inflate(self.startState);
+        }
+    });
+    //device.openSaveModal();
 };
 
 AdministrationViewModel.prototype.editDevice = function () {
@@ -687,45 +578,6 @@ AdministrationViewModel.prototype.showDeviceList = function () {
 
     self.editDeviceVisible(false);
     self.deviceListVisible(true);
-};
-
-AdministrationViewModel.prototype.addEndpoint = function () {
-    var self = AdministrationViewModel.typesafe(this),
-        endpoint = new EndpointViewModel(self.rootVm);
-
-    endpoint.openSaveModal();
-};
-AdministrationViewModel.prototype.showEndpointList = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    self.editEndpointVisible(false);
-    self.endpointListVisible(true);
-};
-
-AdministrationViewModel.prototype.addPlaylist = function () {
-    var self = AdministrationViewModel.typesafe(this),
-        playlist = new TestPlaylistViewModel(self.rootVm);
-
-    playlist.openSaveModal();
-};
-AdministrationViewModel.prototype.showPlaylistList = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    self.editPlaylistVisible(false);
-    self.playlistListVisible(true);
-};
-
-AdministrationViewModel.prototype.addTrack = function () {
-    var self = AdministrationViewModel.typesafe(this),
-        track = new TestTrackViewModel(self.rootVm);
-
-    track.openSaveModal();
-};
-AdministrationViewModel.prototype.showTrackList = function () {
-    var self = AdministrationViewModel.typesafe(this);
-
-    self.editTrackVisible(false);
-    self.trackListVisible(true);
 };
 
 AdministrationViewModel.prototype.displayCustomersRead = function () {
@@ -1224,229 +1076,6 @@ AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm)
     });
 };
 
-AdministrationViewModel.prototype.beginBackupSystem = function () {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Starting system backup"), translate("Starting system backup...")));
-    var currentDate = new Date();
-
-    getCompletedPollingFunction = function (task_id) {
-        return function () {
-            var data = {'task_id': task_id};
-
-            globalSettingsCallback = function () {
-                $.ajax({
-                    url: util.getConfigSetting('get_backup_status'),
-                    cache: false,
-                    contentType: false,
-                    dataType: 'json',
-                    data: JSON.stringify(data),
-                    type: 'POST',
-                    success: function (data) {
-                        if (data.result === 'SUCCESS') {
-                            self.lightboxText = translate('Backup complete');
-                            util.lightbox.open({
-                                url: 'html/lightbox_tmpl',
-                                selector: '#lightbox-message-template',
-                                cancelSelector: '.ok-button',
-                                onOpenComplete: function () {
-                                    ko.applyBindings(self, document.getElementById('lightbox-message'));
-                                }
-                            });
-                            window.location = data.link;
-                        } else {
-                            util.lightbox.openError(translate('Backup failed'), data.message ? data.message : 'Unknown failure');
-                        }
-                    }
-                });
-            };
-
-            util.lightbox.working(new LightboxWorkingViewModel(translate("Refreshing backup list"), translate("Refreshing backup list")));
-            self.rootVm.getGlobalSettings(globalSettingsCallback, true);
-        };
-    };
-    $.ajax({
-        url: util.getConfigSetting('backup'),
-        cache: false,
-        contentType: false,
-        dataType: 'json',
-        processData: false,
-        type: util.getRequestMethod('backup'),
-        success: function (data) {
-            if (data.result === 'SUCCESS') {
-                self.showTaskStatus({ "status": "running", "messages": [
-                        {"header": translate("Starting system backup..."), "content": translate("Starting system backup...")}
-                    ]}, translate("System backup"), data.task_id,
-                    getCompletedPollingFunction(data.task_id));
-            } else {
-                util.lightbox.close();
-                util.lightbox.openError(translate('Request failed'), (data.messages && data.messages.length > 0) ? data.messages[0].content : 'Unknown failure');
-            }
-        }
-    });
-};
-
-AdministrationViewModel.prototype.beginRestoreSystem = function () {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Starting system restore"), translate("Starting system restore...")));
-    var currentDate = new Date();
-
-    completedPollingFunction = function (taskName) {
-        util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading app...')));
-        util.lightbox.close();
-        window.location = '/logout';
-    };
-    var ajaxRestoreData = JSON.stringify({"file": self.selectedBackup().filename, "device": self.selectedBackup().device});
-    $.ajax({
-        url: util.getConfigSetting('restore_backup'),
-        cache: false,
-        contentType: false,
-        data: ajaxRestoreData,
-        dataType: 'json',
-        processData: false,
-        type: util.getRequestMethod('restore_backup'),
-        success: function (data) {
-            if (data.result === 'SUCCESS') {
-                self.showTaskStatus({ "status": "running", "messages": [
-                    {"header": translate("Starting system restore..."), "content": translate("Starting system restore...")}
-                ]}, translate("System restore"), data.task_id, completedPollingFunction);
-            } else {
-                util.lightbox.close();
-                util.lightbox.openError(translate('Request failed'), (data.messages && data.messages.length > 0) ? data.messages[0].content : 'Unknown failure');
-            }
-        }
-    });
-};
-
-AdministrationViewModel.prototype.deleteSystemBackup = function () {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Deleting system backup"), translate("Deleting system backup...")));
-    var currentDate = new Date();
-
-    completedPollingFunction = function () {
-        util.lightbox.working(new LightboxWorkingViewModel(translate('Reloading backup list...'), translate('Reloading backup list...')));
-        self.rootVm.getGlobalSettings(function () {
-            util.lightbox.close();
-        }, true);
-    };
-    var ajaxDeleteData = JSON.stringify({"file": self.selectedBackup().filename, "device": self.selectedBackup().device});
-    $.ajax({
-        url: util.getConfigSetting('delete_backup'),
-        cache: false,
-        contentType: false,
-        data: ajaxDeleteData,
-        dataType: 'json',
-        processData: false,
-        type: util.getRequestMethod('delete_backup'),
-        success: function (data) {
-            self.showTaskStatus({ "status": "running", "messages": [
-                {"header": translate("Deleting system backup..."), "content": translate("Deleting system backup...")}
-            ]}, translate("Delete backup"), data.task_id, completedPollingFunction);
-        }
-    });
-};
-
-AdministrationViewModel.prototype.deleteAllSystemBackups = function (callback) {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Deleting system backup"), translate("Deleting system backup...")));
-    var currentDate = new Date();
-
-    completedPollingFunction = function () {
-        util.lightbox.working(new LightboxWorkingViewModel(translate('Reloading backup list...'), translate('Reloading backup list...')));
-        self.rootVm.getGlobalSettings(function () {
-            util.lightbox.close();
-            if(callback){
-                callback();
-            }
-        }, true);
-    };
-    $.ajax({
-        url: '/ixia/delete_all_backups',
-        cache: false,
-        contentType: false,
-        dataType: 'json',
-        processData: false,
-        type: 'DELETE',
-        success: function (data) {
-            self.showTaskStatus({ "status": "running", "messages": [
-                {"header": translate("Deleting system backup..."), "content": translate("Deleting system backup...")}
-            ]}, translate("Delete backup"), data.task_id, completedPollingFunction);
-        }
-    });
-};
-
-AdministrationViewModel.prototype.archiveSystemBackup = function () {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Archiving system backup"), translate("Archiving system backup...")));
-    var currentDate = new Date();
-
-    completedPollingFunction = function (taskName, data) {
-        if (data.messages[0].is_error === true) {
-            self.header = taskName;
-            self.message = data.messages[0].content;
-            util.lightbox.open({
-                url: 'html/lightbox_tmpl',
-                selector: '#lightbox-error-template',
-                cancelSelector: '.ok-button',
-                onOpenComplete: function () {
-                    ko.applyBindings(self, document.getElementById('lightbox-error'));
-                }
-            });
-        } else {
-            util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading backup list...')));
-            util.lightbox.close();
-            self.rootVm.getGlobalSettings();
-        }
-    };
-    var ajaxArchiveData = JSON.stringify({"file": self.selectedBackup().filename});
-    $.ajax({
-        url: util.getConfigSetting('archive_backup'),
-        cache: false,
-        contentType: false,
-        data: ajaxArchiveData,
-        dataType: 'json',
-        processData: false,
-        type: util.getRequestMethod('archive_backup'),
-        success: function (data) {
-            self.showTaskStatus({ "status": "running", "messages": [
-                {"header": translate("Archiving system backup..."), "content": translate("Archiving system backup...")}
-            ]}, translate("Archive backup"), data.task_id, completedPollingFunction);
-        }
-    });
-};
-
-AdministrationViewModel.prototype.importSystemBackup = function () {
-    var self = AdministrationViewModel.typesafe(this);
-    util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel(translate("Importing system backup"), translate("Importing system backup...")));
-    var currentDate = new Date();
-
-    completedPollingFunction = function (taskName) {
-        util.lightbox.working(new LightboxWorkingViewModel(taskName, translate('Reloading backup list...')));
-        util.lightbox.close();
-        self.rootVm.getGlobalSettings();
-    };
-    var ajaxImportData = JSON.stringify({"file": self.selectedBackup().filename});
-    $.ajax({
-        url: util.getConfigSetting('import_backup'),
-        cache: false,
-        contentType: false,
-        data: ajaxImportData,
-        dataType: 'json',
-        processData: false,
-        type: util.getRequestMethod('import_backup'),
-        success: function (data) {
-            self.showTaskStatus({ "status": "running", "messages": [
-                {"header": translate("Importing system backup..."), "content": translate("Importing system backup...")}
-            ]}, translate("Import backup"), data.task_id, completedPollingFunction);
-        }
-    });
-};
-
 AdministrationViewModel.prototype.runLightboxWarning = function (text, okFunction) {
     var self = AdministrationViewModel.typesafe(this);
 
@@ -1469,12 +1098,12 @@ AdministrationViewModel.prototype.getSystemLogs = function () {
     util.lightbox.close();
     util.lightbox.working(new LightboxWorkingViewModel(translate("Starting log compression..."), translate("Starting log compression...")));
     $.ajax({
-        url: util.getConfigSetting('get_ixia_logs'),
+        url: util.getConfigSetting('get_axon_logs'),
         cache: false,
         contentType: false,
         dataType: 'json',
         processData: false,
-        type: util.getRequestMethod('get_ixia_logs'),
+        type: util.getRequestMethod('get_axon_logs'),
         success: function (data) {
             if (data.result === 'SUCCESS') {
                 util.lightbox.close();

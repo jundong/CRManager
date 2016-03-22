@@ -1,5 +1,3 @@
-var MulticastSettingsViewModel = require('multicast-settings');
-
 /**
  * Saved configuration for a single test
  *

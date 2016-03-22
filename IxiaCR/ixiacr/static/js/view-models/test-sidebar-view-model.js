@@ -4,30 +4,16 @@ function TestSidebarViewModel(testVm) {
     self.testVm = testVm;
     self.rootVm = testVm.rootVm;
 
-    self.getAvailableTracks = self.testVm.getAvailableTracks;
-    self.getAvailablePlaylists = self.testVm.getAvailablePlaylists;
     self.getAvailableDevices = self.testVm.getAvailableDevices;
-    self.getAvailableEndpoints = self.testVm.getAvailableEndpoints;
     self.getAvailableTests = self.testVm.getAvailableTests;
     self.getAvailableDatapoints = self.testVm.getAvailableDatapoints;
-
-    self.availablePlaylists = ko.observableArray(self.testVm.availablePlaylists());
-    self.testVm.availablePlaylists.subscribe(function () {
-        self.applyFilters(self.testVm.availablePlaylists, self.availablePlaylists);
-    });
 
     self.availableTests = ko.observableArray(self.testVm.availableTests());
     self.testVm.availableTests.subscribe(function () {
         self.applyFilters(self.testVm.availableTests, self.availableTests);
     });
 
-    self.availableEndpoints = ko.observableArray(self.testVm.availableEndpoints());
-    self.testVm.availableEndpoints.subscribe(function () {
-        self.applyFilters(self.testVm.availableEndpoints, self.availableEndpoints);
-    });
-
     self.availableDevices = self.testVm.availableDevices;
-    self.getResultTypes = self.testVm.getResultTypes;
 
     self.toggleClass = ko.observable("all-items");
     self.showSearch = ko.observable(false);
@@ -211,8 +197,6 @@ function TestSidebarViewModel(testVm) {
     };
 
     self.applyFiltersForAll = function () {
-        self.applyFilters(self.testVm.availablePlaylists, self.availablePlaylists);
-        self.applyFilters(self.testVm.availableEndpoints, self.availableEndpoints);
         self.applyFilters(self.testVm.availableTests, self.availableTests);
     };
 
@@ -308,17 +292,6 @@ function TestSidebarViewModel(testVm) {
     self.startingTab = 'endpoints';
 
     self.filterMessage = ko.computed(function(){
-        if (self.selectedMenuItem() == 'playlists') {
-            return translate("showing {shown} of {total} playlists", {
-                shown: self.availablePlaylists().length,
-                total: self.rootVm.availablePlaylists().length
-            }, 'total');
-        } else if (self.selectedMenuItem() == 'endpoints') {
-            return translate("showing {shown} of {total} endpoints", {
-                shown: self.availableEndpoints().length,
-                total: self.rootVm.availableEndpoints().length
-            }, 'total');
-        }
     });
 
     self.lockTestNav = function () {
@@ -346,32 +319,8 @@ function TestSidebarViewModel(testVm) {
         return self.getTabClassFor('tests')
     }).extend({ throttle: self.rootVm.defaultThrottleDuration });
 
-    self.playlistsTabClass = ko.computed(function () {
-        return self.getTabClassFor('playlists')
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.tracksTabClass = ko.computed(function () {
-        return self.getTabClassFor('tracks')
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.endpointsTabClass = ko.computed(function () {
-        return self.getTabClassFor('endpoints')
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
     self.testsVisible = ko.computed(function () {
         return self.selectedMenuItem() == 'tests';
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.playlistsVisible = ko.computed(function () {
-        return self.selectedMenuItem() == 'playlists';
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.tracksVisible = ko.computed(function () {
-        return self.selectedMenuItem() == 'tracks';
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
-    self.endpointsVisible = ko.computed(function () {
-        return self.selectedMenuItem() == 'endpoints';
     }).extend({ throttle: self.rootVm.defaultThrottleDuration });
 
     self.showTests = function () {
@@ -379,29 +328,6 @@ function TestSidebarViewModel(testVm) {
         self.showCustom("all-items");
         $('#sidebarSearch').val("").change();
         $('#sidebarSearch').trigger('input')
-    };
-
-    self.showPlaylists = function () {
-        self.showCustom("recommended-items");
-        self.selectedMenuItem('playlists');
-        $('#sidebarSearch').val("").change();
-        $('#sidebarSearch').trigger('input')
-    };
-
-    self.showTracks = function () {
-        self.showCustom("recommended-items");
-        self.selectedMenuItem('tracks');
-        $('#sidebarSearch').val("").change();
-        $('#sidebarSearch').trigger('input')
-    };
-
-    self.showEndpoints = function () {
-        self.showCustom("all-items");
-        self.selectedMenuItem('endpoints');
-        $('#sidebarSearch').val("").change();
-        $('#sidebarSearch').trigger('input')
-        var $availableEndpoints = $('#available-endpoints');
-        $availableEndpoints.data('sortList', self.availableEndpoints); //attach meta-data
     };
 
 }

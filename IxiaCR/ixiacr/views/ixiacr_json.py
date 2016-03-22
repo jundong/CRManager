@@ -10,7 +10,7 @@ from sqlalchemy.sql import or_
 from pyramid.response import Response
 from pyramid.view import view_config
 from ixiacr.models import *
-from ixiacr.lib.utils import admin_helper
+from ixiacr.lib.utils import (admin_helper, get_build_number)
 from ixiacr.lib import ixiacr_logger
 
 ixiacrlogger = ixiacr_logger.IxiaLogger(__name__)
@@ -74,8 +74,35 @@ def get_global_settings(request):
     global_start = time.time()
     ixiacrlogger.debug('Start: get_global_settings')
     try:
-        config = Configs.by_id(1)
-        return {}
+        # (result, obj, err) = admin_helper('get-network-config', {})
+        # network_config = obj
+        #
+        # (result, obj, err) = admin_helper('get-network-status', {})
+        # network_status = obj
+        # network = network_status['ipv4']
+        # mac_address = network_status['ether']
+
+        items.update({'host': '192.168.0.100',
+                      'gateway': '192.168.0.1',
+                      'hostname': 'Local Host',
+                      'netmask': '255.255.255.0',
+                      'mac_address': 'FF-FF-FF-FF-FF-FF'})
+
+        build_number = get_build_number()
+        items.update(dict({'build_number': build_number or "Unknown"}))
+
+        # Check for updates
+        #updater = Updater(db)
+        #available_updates, newest_build = updater.get_update_info()
+        items['updates'] = {'available_updates': 'true', 'newest_build': '1.00.0002'}
+
+        stop = time.time()
+
+        ixiacrlogger.debug('End: get_global_settings completed at %.3f seconds' %
+                         float(stop - global_start))
+
+        request.session['global_settings'] = items
+        return items
 
     except Exception, e:
         ixiacrlogger.exception('Exception: get_global_settings -- ' + format(e))
@@ -158,7 +185,7 @@ def get_result_history(request):
 def get_ixiacr_tests(request):
     # JSON feed that is responsible for the ixiacr_tests.
     test_id = request.params.get('test_id', None)
-    tests = IxiaTest.query.filter(IxiaTest.active=='true').order_by(IxiaTest.id.desc()).all()
+    tests = TestCases.query.filter(TestCases.active=='true').order_by(TestCases.id.desc()).all()
 
     try:
         return tests

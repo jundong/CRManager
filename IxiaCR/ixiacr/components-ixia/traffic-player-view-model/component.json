@@ -17,7 +17,6 @@
     ],
     "local": [
         "device-collection-view-model",
-        "multicast-settings",
         "device-view-model"
     ]
 }

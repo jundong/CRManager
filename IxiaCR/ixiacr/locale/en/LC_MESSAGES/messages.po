@@ -32,14 +32,6 @@ msgstr "Saving device failed. Perhaps this host already exists?"
 msgid "Successfully deleted device."
 msgstr "Successfully deleted device."
 
-#: ixiacr/handlers/admin.py:720
-msgid "Successfully saved test template."
-msgstr "Successfully saved test template."
-
-#: ixiacr/handlers/admin.py:750 ixiacr/handlers/admin.py:855
-msgid "Successfully saved test."
-msgstr "Successfully saved test."
-
 #: ixiacr/handlers/admin.py:819
 msgid "Passwords do not match."
 msgstr "Passwords do not match."
@@ -59,23 +51,6 @@ msgstr "Failed to save admin password."
 #: ixiacr/handlers/admin.py:992
 msgid "Successfully set language."
 msgstr "Successfully set language."
-
-#: ixiacr/handlers/admin.py:1032 ixiacr/handlers/admin.py:1069
-#: ixiacr/handlers/admin.py:1195
-msgid "Unable to complete request while device is reserved."
-msgstr "Unable to complete request while device is reserved."
-
-#: ixiacr/handlers/admin.py:1275
-msgid "User Eulas were successfully reset."
-msgstr "User Eulas were successfully reset."
-
-#: ixiacr/handlers/admin.py:1320
-msgid "Successfully deleted EULAs and tests."
-msgstr "Successfully deleted EULAs and tests."
-
-#: ixiacr/handlers/admin.py:1349
-msgid "Error deleting EULAs and tests."
-msgstr "Error deleting EULAs and tests."
 
 #: ixiacr/handlers/admin.py:1508 ixiacr/handlers/admin.py:1523
 msgid "Successfully saved global settings."
@@ -105,10 +80,6 @@ msgstr "Please try again."
 msgid "Operation timed out."
 msgstr "Operation timed out."
 
-#: ixiacr/handlers/chassis.py:342
-msgid "Successfully authenticated remote device."
-msgstr "Successfully authenticated remote device."
-
 #: ixiacr/handlers/chassis.py:346
 msgid ""
 "We tried to authenticate on the remote device and failed. If you don't "
@@ -123,30 +94,6 @@ msgstr ""
 msgid "Warning"
 msgstr "Warning"
 
-#: ixiacr/handlers/chassis.py:424
-msgid "Successfully reserved ports on remote device."
-msgstr "Successfully reserved ports on remote device."
-
-#: ixiacr/handlers/chassis.py:427
-msgid ""
-"We tried to authenticate on the remote device and failed. Please check "
-"your username and/or password and try again."
-msgstr ""
-"We tried to authenticate on the remote device and failed. Please check "
-"your username and/or password and try again."
-
-#: ixiacr/handlers/chassis.py:485
-msgid "Successfully released ports on remote device."
-msgstr "Successfully released ports on remote device."
-
-#: ixiacr/handlers/chassis.py:487
-msgid "Failed to release ports on remote device."
-msgstr "Failed to release ports on remote device."
-
-#: ixiacr/handlers/chassis.py:489
-msgid "We tried to authenticate on the remote device and failed. "
-msgstr "We tried to authenticate on the remote device and failed. "
-
 #: ixiacr/handlers/tests.py:248
 msgid "Successfully saved Test: ${name}."
 msgstr "Successfully saved Test: ${name}."
@@ -159,13 +106,6 @@ msgstr "Starting Test"
 msgid "message"
 msgstr "message"
 
-#: ixiacr/handlers/tests.py:585
-msgid ""
-"Your test completed successfully.  Click Summary to view the results of "
-"your players."
-msgstr ""
-"Your test completed successfully.  Click Summary to view the results of "
-"your players."
 
 #: ixiacr/views/Cyber Range_json.py:1173
 msgid ""
@@ -198,102 +138,6 @@ msgstr "Test already running"
 #: ixiacr/lib/engines/stc/exceptions.py:166
 msgid "${message} on ${platform}"
 msgstr "${message} on ${platform}"
-
-#: ixiacr/lib/engines/stc/exceptions.py:225
-msgid "No PHY detected on ${chassis}, port ${port}"
-msgstr "No PHY detected on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:226
-msgid "No physical link detected on ${chassis}, port ${port}"
-msgstr "No physical link detected on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:227
-msgid ""
-"Aggregate traffic load exceeds current port PHY speed (${par_0} Mbps) on "
-"${chassis}, port ${port}"
-msgstr ""
-"Aggregate traffic load exceeds current port PHY speed (${par_0} Mbps) on "
-"${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:229
-msgid "Unable to acquire ${par_0} addresses on ${chassis}, port ${port}"
-msgstr "Unable to acquire ${par_0} addresses on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:230
-msgid ""
-"Destination MAC address learning for test traffic failed for ${par_0} of "
-"${par_1} tracks on ${chassis}, port ${port}"
-msgstr ""
-"Destination MAC address learning for test traffic failed for ${par_0} of "
-"${par_1} tracks on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:232
-msgid ""
-"Gateway MAC address learning for test endpoints failed for ${par_0} of "
-"${par_1} ${par_2} on ${chassis}, port ${port}"
-msgstr ""
-"Gateway MAC address learning for test endpoints failed for ${par_0} of "
-"${par_1} ${par_2} on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:234
-msgid ""
-"Test traffic load will exceed current port PHY speed (${par_0} Mbps) "
-"${par_1} seconds into the test on ${chassis}, port ${port}"
-msgstr ""
-"Test traffic load will exceed current port PHY speed (${par_0} Mbps) "
-"${par_1} seconds into the test on ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:236
-msgid ""
-"Test traffic load will drop below 0 ${par_0} seconds into the test on "
-"${chassis}, port ${port}"
-msgstr ""
-"Test traffic load will drop below 0 ${par_0} seconds into the test on "
-"${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:238
-msgid "Unable to attach to ${chassis}, port ${port}"
-msgstr "Unable to attach to ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:239
-msgid ""
-"Address resolution (ARP) failed for address ${par_0}. This address is "
-"unreachable from ${chassis}, port ${port}."
-msgstr ""
-"Address resolution (ARP) failed for address ${par_0}. This address is "
-"unreachable from ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:241
-msgid ""
-"Address resolution (ARP) failed for addresses ${par_0}. These addresses "
-"are unreachable from ${chassis}, port ${port}."
-msgstr ""
-"Address resolution (ARP) failed for addresses ${par_0}. These addresses "
-"are unreachable from ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:243
-msgid ""
-"Neighbor discovery (NDP) failed for address ${par_0}. This address is "
-"unreachable from ${chassis}, port ${port}."
-msgstr ""
-"Neighbor discovery (NDP) failed for address ${par_0}. This address is "
-"unreachable from ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:245
-msgid ""
-"Neighbor discovery (NDP) failed for addresses ${par_0}. These addresses "
-"are unreachable from ${chassis}, port ${port}."
-msgstr ""
-"Neighbor discovery (NDP) failed for addresses ${par_0}. These addresses "
-"are unreachable from ${chassis}, port ${port}."
-
-#: ixiacr/lib/engines/stc/exceptions.py:251
-msgid "File (${clip}) not found"
-msgstr "File (${clip}) not found."
-
-#: ixiacr/lib/engines/stc/exceptions.py:252
-msgid "Unable to upload ${clip} to ${chassis}, port ${port}"
-msgstr "Unable to upload ${clip} to ${chassis}, port ${port}."
 
 #: ixiacr/models/results.py:103 ixiacr/models/results.py:302
 #: ixiacr/models/results.py:1812
@@ -353,14 +197,6 @@ msgid "models.results.successful"
 msgstr "Successful"
 
 #: ixiacr/models/results.py:333 ixiacr/models/results.py:358
-#: ixiacr/models/results.py:638 ixiacr/models/results.py:654
-#: ixiacr/models/results.py:826 ixiacr/models/results.py:851
-#: ixiacr/models/results.py:971 ixiacr/models/results.py:976
-#: ixiacr/models/results.py:990 ixiacr/models/results.py:995
-#: ixiacr/models/results.py:1073 ixiacr/models/results.py:1089
-#: ixiacr/models/results.py:1313 ixiacr/models/results.py:1338
-#: ixiacr/models/results.py:1493 ixiacr/models/results.py:1494
-#: ixiacr/models/results.py:1570 ixiacr/models/results.py:1586
 msgid "models.results.unsuccessful"
 msgstr "Unsuccessful"
 
@@ -640,253 +476,6 @@ msgstr "This is the heading for the new Eula please check the checkbox."
 #: ixiacr/scripts/initializedb.py:117
 msgid "eula_version_1"
 msgstr ""
-"<h1>IXIA COMMUNICATIONS, INC.</h1><h1>Cyber Range SOFTWARE LICENSE "
-"AGREEMENT</h1><h2>Single Use License</h2><p>PLEASE READ THIS SOFTWARE "
-"LICENSE AGREEMENT (\"LICENSE\") CAREFULLY BEFORE USING YOUR AXON TEST "
-"APPLIANCE (\"AXON DEVICE\") OR DOWNLOADING THE SOFTWARE UPDATE "
-"ACCOMPANYING THIS LICENSE.  IXIA COMMUNICATIONS, INC. (\"IXIA\") IS"
-" WILLING TO LICENSE ITS SOFTWARE TO YOU ONLY UPON THE CONDITION THAT YOU "
-"ACCEPT ALL OF THE TERMS CONTAINED IN THIS LICENSE.</p><p>BY USING YOUR "
-"AXON DEVICE OR DOWNLOADING A SOFTWARE UPDATE, AS APPLICABLE, YOU, AND ANY"
-" BUSINESS ENTITY THAT YOU REPRESENT (COLLECTIVELY \"YOU\"), ARE AGREEING "
-"TO BE BOUND BY THE TERMS OF THIS LICENSE.  IF YOU DO NOT AGREE TO THE "
-"TERMS OF THIS LICENSE, DO NOT USE THE AXON DEVICE OR DOWNLOAD THE "
-"SOFTWARE UPDATE.</p><ol><li>General.<ol><li>The software, documentation, "
-"interfaces, content, and any data that came with your Cyber Range Device "
-"(\"Original Cyber Range Software\"), as may be updated or replaced by feature "
-"enhancements, software updates or system restore software provided by "
-"Ixia (\"Cyber Range Software Updates\"), whether in read only memory, on any "
-"other media or in any other form (the Original Cyber Range Software and Cyber Range "
-"Software Updates are collectively referred to as the \"Cyber Range Software\") "
-"are licensed, not sold, to you by Ixia for use only under the terms of"
-" this License. Ixia and its licensors retain ownership of the Cyber Range "
-"Software itself and reserve all rights not expressly granted to "
-"you.</li><li>Ixia may make available future Cyber Range Software Updates for "
-"your Cyber Range Device, under the limited warranty established in this License,"
-" or a Support Subscription (as described in Section 5) or, at Ixia's "
-"discretion, outside such warranty or subscription.  The Cyber Range Software "
-"Updates, if any, may not necessarily include all existing software "
-"features or new features that Ixia releases for newer or other models "
-"of Cyber Range Devices.  The terms of this License will govern any Cyber Range Software"
-" Updates provided by Ixia that replace and/or supplement the Original "
-"Cyber Range Software product, unless such Cyber Range Software Update is accompanied by"
-" a separate license in which case the terms of that license will "
-"govern.</li><li>Software installed on the Cyber Range Device also includes "
-"certain open source software components (\"Open Source Software\"). The "
-"Open Source Software is excluded from the definition of Cyber Range Software, "
-"and is subject to such open source software license terms.  Nothing in "
-"this License limits an end user's rights under, or grants the end user "
-"rights that supersede, the terms of any applicable Open Source Software "
-"end user license agreement.</li></ol></li><li>Permitted License Uses and "
-"Restrictions.<ol><li>Subject to the terms and conditions of this License,"
-" you are granted a limited non-exclusive license to use the Cyber Range Software"
-" on a single Cyber Range Device.  Except as permitted in Section 2(b) below, and"
-" unless as provided in a separate agreement between you and Ixia, this"
-" License does not allow the Cyber Range Software to exist on more than one Cyber Range "
-"Device at a time, and you may not distribute or make the Cyber Range Software "
-"available over a network where it could be used by multiple devices at "
-"the same time.</li><li>Subject to the terms and conditions of this "
-"License, you are granted a limited non-exclusive license to download Cyber Range"
-" Software Updates that may be made available by Ixia for your model of"
-" the Cyber Range Device to update or restore the software on any such Cyber Range "
-"Device that you own or control.  This License does not allow you to "
-"update or restore any Cyber Range Device that you do not control or own, and you"
-" may not distribute or make the Cyber Range Software Updates available over a "
-"network where they could be used by multiple devices or multiple "
-"computers at the same time.  If you download an Cyber Range Software Update to "
-"your computer, you may make one copy of the Cyber Range Software Updates stored "
-"on your computer in machine-readable form for backup purposes only, "
-"provided that the backup copy must include all copyright or other "
-"proprietary notices contained on the original.</li><li>You may not and "
-"you agree not to, or to enable others to, copy (except as expressly "
-"permitted by this License), decompile, reverse engineer, disassemble, "
-"attempt to derive the source code of, decrypt, modify, or create "
-"derivative works of the Cyber Range Software or any services provided by the "
-"Cyber Range Software, or any part thereof (except as and only to the extent any "
-"foregoing restriction is prohibited by applicable law or by licensing "
-"terms governing use of open-source components that may be included with "
-"the Cyber Range Software).  You agree not to publish any results of benchmark "
-"tests run on the Cyber Range Software.</li><li>You agree to use the Cyber Range "
-"Software and Cyber Range Device in compliance with all applicable laws, "
-"including local laws of the country or region in which you reside or in "
-"which you download or use the Cyber Range Software.</li></ol></li><li>Transfer. "
-"<span>You may not rent, lease, lend, sell, redistribute, or sublicense "
-"the Cyber Range Software.</span></li><li>Termination. <span>This License is "
-"eﬀective until terminated. Your rights under this License will terminate "
-"automatically or otherwise cease to be eﬀective without notice from "
-"Ixia if you fail to comply with any term(s) of this License. Upon the "
-"termination of this License, you shall cease all use of the Cyber Range "
-"Software.  Sections 2(c), 4, 7, 8, 9, 10, 11, 12, 13, 14, 15 and 16 of "
-"this License shall survive any such termination.</span></li><li>Support "
-"Subscription. <span>You may subscribe for additional support and "
-"maintenance of the Cyber Range Software, pursuant to a separate Support "
-"Subscription, on Ixia's then-applicable terms and conditions, as set "
-"forth at <a href=.http://axon.spirent.com.>axon.spirent.com</a>. "
-"</span></li><li>Limited Warranty.<ol><li>Subject to the limitations and "
-"conditions set forth herein, Ixia warrants that commencing from the "
-"date of shipment to you (but in case of resale by an authorized Ixia "
-"reseller, commencing not more than ninety (90) days after original "
-"shipment by Ixia), and continuing for a period of the longer of (a) "
-"ninety (90) days or (b) the warranty period (if any) expressly set forth "
-"as applicable specifically to software in the warranty card (if any) "
-"accompanying the Cyber Range Software:  (a) the media on which the Axpn Software"
-" is furnished will be free of defects in materials and workmanship under "
-"normal use; and (b) the Cyber Range Software substantially conforms to the "
-"accompanying documentation.  The date of shipment of the Cyber Range Software by"
-" Ixia is set forth on the packaging material in which the Cyber Range Product"
-" is shipped.  Except for the foregoing, the Cyber Range Software is provided "
-"\"AS IS\".  This limited warranty extends only to the end user who is the"
-" original registered licensee.  If you have not registered as the "
-"licensee, this limited warranty will not apply to you. Your sole and "
-"exclusive remedy and the entire liability of Ixia and its suppliers "
-"under this limited warranty will be (i) replacement of defective media "
-"and/or (ii) at Ixia's option, repair, replacement, or refund of the "
-"purchase price of the Cyber Range Product upon which such software operates, in "
-"both cases subject to the condition that any error or defect constituting"
-" a breach of this limited warranty is reported to Ixia or the party "
-"supplying the Cyber Range Product to you, if different than Ixia, within the "
-"limited warranty period.  Ixia or the party supplying the Cyber Range Product"
-" to you may, at its option, require return of the Cyber Range Product as a "
-"condition to the remedy.</li><li>This warranty does not apply if the Cyber Range"
-" Software or Cyber Range Device upon which the Cyber Range Software is authorized to be"
-" used (a) has been altered, except by Ixia or its authorized "
-"representative, (b) has not been installed, operated, repaired, or "
-"maintained in accordance with instructions supplied by Ixia, (c) has "
-"been subjected to abnormal physical or electrical stress, abnormal "
-"environmental conditions, misuse, negligence, or accident; or (d) is "
-"licensed for beta, evaluation, testing or demonstration purposes. The "
-"Cyber Range Software warranty also does not apply to (e) any temporary Cyber Range "
-"Software modules; or (f) any Cyber Range Software for which Ixia does not "
-"receive a license fee (other than Cyber Range Software Updates provided under a "
-"Support Subscription.</li></ol></li><li>Disclaimer of "
-"Warranties.<ol><li>YOU EXPRESSLY ACKNOWLEDGE AND AGREE THAT, TO THE "
-"EXTENT PERMITTED BY APPLICABLE LAW, USE OF THE AXON IS AT YOUR SOLE RISK "
-"AND THAT THE ENTIRE RISK AS TO SATISFACTORY QUALITY, PERFORMANCE, "
-"ACCURACY AND EFFORT IS WITH YOU.</li><li>EXCEPT AS EXPRESSLY PROVIDED IN "
-"THE LIMITED WARRANTY, THE AXON SOFTWARE IS PROVIDED \"AS IS\", WITH ALL "
-"FAULTS AND WITHOUT WARRANTY OF ANY KIND, AND IXIA AND IXIA'S "
-"LICENSORS (COLLECTIVELY REFERRED TO AS \"IXIA\" FOR THE PURPOSES OF "
-"SECTIONS 7 AND 8 HEREBY DISCLAIM ALL WARRANTIES AND CONDITIONS WITH "
-"RESPECT TO THE AXON SOFTWARE, EITHER EXPRESS, IMPLIED OR STATUTORY, "
-"INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES AND/OR CONDITIONS "
-"OF MERCHANTABILITY, SATISFACTORY QUALITY, FITNESS FOR A PARTICULAR "
-"PURPOSE, ACCURACY, QUIET ENJOYMENT, AND NON-INFRINGEMENT OF THIRD PARTY "
-"RIGHTS.</li><li>IXIA DOES NOT WARRANT AGAINST INTERFERENCE WITH YOUR "
-"ENJOYMENT OF THE AXON SOFTWARE, THAT THE FUNCTIONS CONTAINED IN, OR "
-"SERVICES PERFORMED OR PROVIDED BY, THE AXON SOFTWARE WILL MEET YOUR "
-"REQUIREMENTS, THAT THE OPERATION OF THE AXON SOFTWARE WILL BE "
-"UNINTERRUPTED OR ERROR-FREE, THAT DEFECTS IN THE AXON SOFTWARE WILL BE "
-"CORRECTED, OR THAT THE AXON SOFTWARE WILL BE COMPATIBLE OR WORK WITH ANY "
-"THIRD PARTY SOFTWARE, APPLICATIONS OR THIRD PARTY SERVICES.</li><li>YOU "
-"FURTHER ACKNOWLEDGE THAT THE AXON SOFTWARE IS NOT INTENDED OR SUITABLE "
-"FOR USE IN SITUATIONS OR ENVIRONMENTS WHERE THE FAILURE OR TIME DELAYS "
-"OF, OR ERRORS OR INACCURACIES IN, THE CONTENT, DATA OR INFORMATION "
-"PROVIDED BY THE AXON SOFTWARE COULD LEAD TO DEATH, PERSONAL INJURY, OR "
-"SEVERE PHYSICAL OR ENVIRONMENTAL DAMAGE, INCLUDING WITHOUT LIMITATION THE"
-" OPERATION OF NUCLEAR FACILITIES, AIRCRAFT NAVIGATION OR COMMUNICATION "
-"SYSTEMS, AIR TRAFFIC CONTROL, LIFE SUPPORT OR WEAPONS SYSTEMS.</li><li>NO"
-" ORAL OR WRITTEN INFORMATION OR ADVICE GIVEN BY IXIA OR A IXIA "
-"AUTHORIZED REPRESENTATIVE SHALL CREATE A "
-"WARRANTY.</li></ol></li><li>LIMITATION OF LIABILITY. <span>TO THE EXTENT "
-"NOT PROHIBITED BY APPLICABLE LAW, IN NO EVENT SHALL IXIA BE LIABLE FOR"
-" PERSONAL INJURY, OR ANY INCIDENTAL, SPECIAL, INDIRECT OR CONSEQUENTIAL "
-"DAMAGES WHATSOEVER, INCLUDING, WITHOUT LIMITATION, DAMAGES FOR LOSS OF "
-"PROFITS, CORRUPTION OR LOSS OF DATA, FAILURE TO TRANSMIT OR RECEIVE ANY "
-"DATA, BUSINESS INTERRUPTION OR ANY OTHER COMMERCIAL DAMAGES OR LOSSES, "
-"ARISING OUT OF OR RELATED TO YOUR USE OR INABILITY TO USE THE AXON "
-"SOFTWARE OR ANY THIRD PARTY SOFTWARE OR APPLICATIONS IN CONJUNCTION WITH "
-"THE AXON SOFTWARE, HOWEVER CAUSED, REGARDLESS OF THE THEORY OF LIABILITY "
-"(CONTRACT, TORT OR OTHERWISE) AND EVEN IF IXIA HAS BEEN ADVISED OF THE"
-" POSSIBILITY OF SUCH DAMAGES.</span></li><li>Infringement Indemnity. "
-"<span>Ixia will, and reserves the right to, defend, at its own "
-"expense, any claim, suit or proceeding brought against you to the extent "
-"it is based upon a claim that any Cyber Range Software licensed by you infringes"
-" upon any U.S. patent, copyright or trade secret of any third party; "
-"provided that you provide Ixia (i) notice thereof within ten (10) "
-"business days of receipt by you of such action or claim, (ii) full "
-"information and assistance in connection with the defense thereof, and "
-"(iii) sole control of the defense and settlement thereof.  If you comply "
-"with the provisions of this section, Ixia will pay all damages, costs "
-"and expenses finally awarded to third parties against you in such action."
-"  If Cyber Range Software is, or in Ixia's opinion might be, held to infringe"
-" as set forth above, Ixia may, at its option, replace or modify such "
-"Cyber Range Software so as to avoid infringement or procure the right for you to"
-" continue to use such Cyber Range Software.  If neither of such alternatives is "
-"in Ixia's opinion commercially reasonable, the infringing Cyber Range "
-"Software and Cyber Range Device shall be returned to Ixia and Ixia's sole "
-"liability, in addition to its obligation to reimburse awarded damages, "
-"costs and expenses as set forth above, shall be to refund the amount paid"
-" for such Cyber Range Software and Cyber Range Device by Buyer. Ixia will have no "
-"liability for any claim of infringement arising as a result of Buyer's "
-"use of the Cyber Range Software or Cyber Range Device in combination with any items not"
-" supplied by Ixia, any modification of Cyber Range Software or an Cyber Range Device"
-" by Buyer or third parties, or the use of other than the most recent "
-"release of any Cyber Range Software provided by Ixia to you, if such claim "
-"would have been avoided by the use of such release.</span></li><li>Export"
-" Control.<span>You may not use or otherwise export or re-export the Cyber Range "
-"Software except as authorized by United States law and the laws of the "
-"jurisdiction(s) in which the Cyber Range Software was obtained. In particular, "
-"but without limitation, the Cyber Range Software may not be exported or re-"
-"exported (a) into any U.S. embargoed countries or (b) to anyone on the "
-"U.S. Treasury Department's list of Specially Designated Nationals or the "
-"U.S. Department of Commerce Denied Person's List or Entity List. By using"
-" the Cyber Range Software, you represent and warrant that you are not located in"
-" any such country or on any such list. You also agree that you will not "
-"use the Cyber Range Software for any purposes prohibited by United States law, "
-"including, without limitation, the development, design, manufacture or "
-"production of missiles, nuclear, chemical or biological "
-"weapons.</span></li><li>Government End Users.<span>The Cyber Range Software and "
-"related documentation are \"Commercial Items\", as that term is deﬁned at"
-" 48 C.F.R. &sect;2.101, consisting of \"Commercial Computer Software\" "
-"and \"Commercial Computer Software Documentation\", as such terms are "
-"used in 48 C.F.R. &sect;12.212 or 48 C.F.R. &sect;227.7202, as "
-"applicable. Consistent with 48 C.F.R. &sect;12.212 or 48 C.F.R. "
-"&sect;227.7202-1 through 227.7202-4, as applicable, the Commercial "
-"Computer Software and Commercial Computer Software Documentation are "
-"being licensed to U.S. Government end users (a) only as Commercial Items "
-"and (b) with only those rights as are granted to all other end users "
-"pursuant to the terms and conditions herein. Unpublished-rights reserved "
-"under the copyright laws of the United States.</span></li><li>Controlling"
-" Law. <span>This License will be governed by and construed in accordance "
-"with the laws of the State of California, excluding its conﬂict of law "
-"principles. This License shall not be governed by the United Nations "
-"Convention on Contracts for the International Sale of Goods, the "
-"application of which is expressly excluded.  The federal and state courts"
-" within the State of California shall have exclusive jurisdiction to "
-"adjudicate any dispute arising out of this "
-"License.</span></li><li>Severability. <span>If for any reason a court of "
-"competent jurisdiction ﬁnds any provision, or portion thereof, to be "
-"unenforceable, the remainder of this License, or the application "
-"provision, shall continue in full force and "
-"effect.</span></li><li>Complete Agreement; Precedence of "
-"Documents.<span>This License constitutes the entire agreement between you"
-" and Ixia relating to the Cyber Range Software and supersedes all prior or "
-"contemporaneous understandings regarding such subject matter. No "
-"amendment to or modiﬁcation of this License will be binding unless in "
-"writing and signed by Ixia.  The terms and conditions of this License,"
-" insofar as they relate to the rights licensed to the Cyber Range Software, will"
-" control over any conflicting or inconsistent terms contained in any "
-"quotation, purchase order, acknowledgment or invoice unless otherwise "
-"mutually agreed to in writing by the parties.</span></li><li>Governing "
-"Language. <span>Any translation of this License is done for local "
-"requirements and in the event of a dispute between the English and any "
-"non-English versions, the English version of this License shall govern, "
-"to the extent not prohibited by local law in your "
-"jurisdiction.</span></li><li>Third Party Software Acknowledgements. "
-"<span>Portions of the Cyber Range Software may utilize or include third party "
-"software and other copyrighted material.  Acknowledgements, licensing "
-"terms and disclaimers for such material are contained in the electronic "
-"documentation for the Cyber Range Software, or otherwise referenced herein, and "
-"your use of such material is governed by their respective terms.  You "
-"agree that each thirty party supplier is third-party beneficiary of this "
-"Agreement with the right to enforce your obligations hereunder with "
-"respect to the individual components such supplier has "
-"supplied.</span></li></ol><p>Last Revised "
-"07/18/13</p><p>--------------------------------------------------------------</p><h3>NOTICES"
-" FROM IXIA</h3><p>If Ixia needs to contact you about your product "
-"or account, you consent to receive the notices by email. You agree that "
-"any such notices that we send you electronically will satisfy any "
-"communications requirements.</p>"
 
 #: ixiacr/scripts/initializedb.py:134
 msgid "localhost"
@@ -921,22 +510,6 @@ msgid "Traffic loss by player (playlist) and track (table)"
 msgstr "Traffic loss by player (playlist) and track (table)"
 
 #: ixiacr/scripts/initializedb.py:151
-#: ixiacr/templates/html/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:65
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:65
 msgid "Latency"
 msgstr "Latency"
 
@@ -945,22 +518,6 @@ msgid "Average Latency, in milliseconds, 1 histogram for each player"
 msgstr "Average Latency, in milliseconds, 1 histogram for each player"
 
 #: ixiacr/scripts/initializedb.py:155 ixiacr/scripts/initializedb.py:402
-#: ixiacr/templates/html/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:66
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:66
 msgid "Jitter"
 msgstr "Jitter"
 
@@ -982,21 +539,6 @@ msgstr ""
 
 #: ixiacr/scripts/initializedb.py:163
 #: ixiacr/templates/html/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:74
 msgid "Response Time"
 msgstr "Response Time"
 
@@ -1006,21 +548,6 @@ msgstr "Average Response time per URL in milliseconds for each player"
 
 #: ixiacr/scripts/initializedb.py:167
 #: ixiacr/templates/html/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:72
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:72
 msgid "Connections"
 msgstr "Connections"
 
@@ -1031,36 +558,6 @@ msgstr "Aggregate Connections (per second)"
 #: ixiacr/scripts/initializedb.py:171
 #: ixiacr/templates/html/test.results.tmpl.jinja2:73
 #: ixiacr/templates/html/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:97
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:73
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:97
 msgid "Transactions"
 msgstr "Transactions"
 
@@ -1069,90 +566,12 @@ msgid "Aggregate Transactions (per second)"
 msgstr "Aggregate Transactions (per second)"
 
 #: ixiacr/scripts/initializedb.py:175 ixiacr/scripts/initializedb.py:404
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:206
-#: ixiacr/templates/html/test.results.tmpl.jinja2:63
-#: ixiacr/templates/html/test.results.tmpl.jinja2:71
-#: ixiacr/templates/html/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:79
 #: ixiacr/views/results.py:217
 msgid "Bandwidth"
 msgstr "Bandwidth"
 
 #: ixiacr/scripts/initializedb.py:176
 #: ixiacr/templates/html/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:37
 msgid "Total Bandwidth"
 msgstr "Total Bandwidth"
 
@@ -1268,223 +687,77 @@ msgstr "App"
 msgid "Network Stress Test"
 msgstr "Network Stress Test"
 
+#: ixiacr/scripts/initializedb.py:463
+msgid "Enterprise Traffic Track"
+msgstr "Enterprise Traffic Track"
+
 #: ixiacr/scripts/initializedb.py:467
-msgid "axon_test_template.network_stess_test.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test determines the maximum bandwidth "
-"the network can support under the most stressful condition. The test is "
-"run using only small frames (128 bytes) of Layer 2/3 traffic to create "
-"the stress.  If you configure the endpoints to use IPv4, you can replace "
-"the 128 byte frames track with 64 byte frames for increased "
-"stress. <br><br>Cyber Range starts the test by sending test frames at the "
-"specified minimum bandwidth.  As the test progresses, Cyber Range steps the load"
-" up over the duration of the test until the maximum bandwidth load is "
-"reached. You can inspect the results and determine at which load(s) "
-"packet loss occurs.  You may then rerun the test with a narrower range of"
-" traffic loads to fine tune your results. <br><br>The results include "
-"packet loss, latency, and jitter at all loads.</p>"
+msgid "cr_test_template.enterprise_traffic_track.description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:496
-msgid "Site to Site with SLA"
-msgstr "Site to site with SLA"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.topology_description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:500
-msgid "axon_test_template.site_to_site_with_sla.description"
-msgstr ""
-"<p>This test measures how well your service provider is honoring your WAN"
-" SLAs in terms of committed information rate (CIR), latency, and jitter "
-"by sending Layer 2/3 traffic on your IPv4 or IPv6 network. <br><br>Cyber Range "
-"sends traffic of various packet sizes from one port to another over your "
-"WAN. Network performance is defined by comparing the CIR and burst "
-"speeds, and latency promised by your provider to the actual values "
-"reported during the test. If the bandwidth falls below, or the latency "
-"exceeds, the limits you set, your WAN link is not performing to "
-"spec. <br><br>Cyber Range records bandwidth, packet loss, latency, and jitter for"
-" all links.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:529
-msgid "QoS Site to Site"
-msgstr "QoS Site to Site"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:533
-msgid "axon_test_template.qos_site_to_site.description"
-msgstr ""
-"<p>This test measures the quality of service (QoS) performance for Layer "
-"2/3 traffic packets transmitted between sites on your IPv4 or IPv6 "
-"network. Traffic can be classified using DSCP 10 – 38 and 46.  If you "
-"want different DSCP values for different traffic or if you want to "
-"include Layer 4-7 traffic in the same test, use multiple "
-"players. <br><br>Cyber Range transmits the traffic at the bandwidth rate "
-"specified. As the congestion on the network increases any packet loss or "
-"increase in latency or jitter may indicate a QoS misconfiguration on the "
-"network. <br><br>The test measures latency, jitter, and packet loss. If "
-"voice, video, and/or data traffic are included in separate traffic "
-"players, those quality measures are also reported.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.attack_criteria"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:564
-msgid "Device QoS Test"
-msgstr "Device QoS Test"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:568
-msgid "axon_test_template.device_qos_test.description"
-msgstr ""
-"<p>This test measures the quality of service (QoS) performance for Layer "
-"4-7 traffic transmitted between sites on your IPv4 or IPv6 network. "
-"Traffic can be classified using DSCP 10 – 38 and 46.  If you want "
-"different DSCP values for different traffic or if you want to include "
-"Layer 2/3 traffic in the same test, use multiple players. <br><br>Cyber Range "
-"transmits the traffic to simulate the number of users specified for each "
-"track. As the congestion on the network increases any quality degradation"
-" in voice and video quality is an indicator of possible QoS "
-"misconfiguration or limited network performance capabilities. <br><br>The "
-"test measures bandwidth for each application and application-specific "
-"measurements such as response time, RTP packet loss, and MOS scores.  "
-"These measurements can be used to verify the QoS configuration and "
-"performance of the device/link.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:590
-msgid "Network Performance Modeling"
-msgstr "Network Performance Modeling"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.defense_criteria"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:593
-msgid "axon_test_template.network_performance_modeling.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks at Layer 2 and Layer 3, this test uses well-"
-"established standards to measure end-to-end performance and "
-"connectivity. <br><br>Cyber Range transmits the specified traffic between test "
-"ports at the bandwidth rate specified for the duration of the test. "
-"Network performance is defined by the maximum bandwidth with no packet "
-"loss and with latency and jitter at tolerable levels at that "
-"bandwidth. <br><br>Cyber Range records bandwidth, packet loss, latency, and "
-"jitter.</p>"
+#: ixiacr/scripts/initializedb.py:463
+msgid "Using Vulnerability Scanning Tool"
+msgstr "Using Vulnerability Scanning Tool"
 
-#: ixiacr/scripts/initializedb.py:624
-msgid "Network Performance Modeling (Enterprise Mix)"
-msgstr "Network Performance Modeling (Enterprise Mix)"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:627
-msgid "axon_test_template.network_performance_modeling_enterprise_mix.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test uses well-established standards "
-"to measure end-to-end performance and connectivity of voice, FTP, and "
-"HTTP traffic. <br><br>Cyber Range transmits the specified traffic between test "
-"ports to simulate the number of users specified for each track. Use this "
-"test to ensure successful connections, minimal to no packet loss, and "
-"expected MOS scores. <br><br>Cyber Range records bandwidth, connections "
-"attempted/successful/unsuccessful, connections per second, transactions "
-"per second, transaction response time, calls "
-"attempted/successful/unsuccessful, calls per second, voice quality Mean "
-"Opinion Score (MOS), and RTP packet loss.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.topology_description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:657
-msgid "Application Performance Modeling (HTTP)"
-msgstr "Application Performance Modeling (HTTP)"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:660
-msgid "axon_test_template.application_performance_modeling_http.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test uses well-established standards "
-"to measure end-to-end performance and connectivity of HTTP "
-"traffic. <br><br>Cyber Range transmits the HTTP traffic between test ports to "
-"simulate the number of users specified. Use this test to ensure "
-"successful HTTP connections. <br><br>Cyber Range records bandwidth, connections "
-"attempted/successful/unsuccessful, connections per second, transactions "
-"per second, and transaction response time.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:724
-msgid "Application Performance Modeling (Enterprise Mix)"
-msgstr "Application Performance Modeling (Enterprise Mix)"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.attack_criteria"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:727
-msgid "axon_test_template.application_performance_modeling_enterprise_mix.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test uses well-established standards "
-"to measure end-to-end performance and connectivity of voice, FTP, and "
-"HTTP traffic. <br><br>Cyber Range transmits the specified traffic between test "
-"ports to simulate the number of users specified for each track. Use this "
-"test to ensure successful connections, minimal to no packet loss, and "
-"expected MOS scores. <br><br>Cyber Range records bandwidth, connections "
-"attempted/successful/unsuccessful, connections per second, transactions "
-"per second, transaction response time, calls "
-"attempted/successful/unsuccessful, calls per second, voice quality Mean "
-"Opinion Score (MOS), voice RTP packet loss, video connections, video "
-"transactions per second, video quality MOS, and video RTP packet "
-"loss.</p>"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:792
-msgid "Application Performance Modeling (Voice, Video, and HTTP)"
-msgstr "Application Performance Modeling (Voice, Video, and HTTP)"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:795
-msgid "axon_test_template.application_performance_modeling_voice_video_http.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test uses well-established standards "
-"to measure end-to-end performance and connectivity of voice, video, and "
-"HTTP traffic. <br><br>Cyber Range transmits the specified traffic between test "
-"ports to simulate the number of users specified for each track. Use this "
-"test to ensure successful connections, minimal to no packet loss, and "
-"expected MOS scores. <br><br>Cyber Range records bandwidth, connections "
-"attempted/successful/unsuccessful, connections per second, transactions "
-"per second, transaction response time, calls "
-"attempted/successful/unsuccessful, calls per second, voice quality Mean "
-"Opinion Score (MOS), voice RTP packet loss, video connections, video "
-"transactions per second, video quality MOS, and video RTP packet "
-"loss.</p>"
-
-#: ixiacr/scripts/initializedb.py:858
-msgid "Network QoS Performance"
-msgstr "Network QoS Performance"
-
-#: ixiacr/scripts/initializedb.py:862
-msgid "axon_test_template.network_qos_performance.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test determines the QoS performance on"
-" the network under the stressful conditions. The test is run using a mix "
-"of Layer 2/3 traffic and applies DSCP configuration to each packet in the"
-" playlist. <br><br>If you want to configure different tracks to use "
-"different DSCP values, you can do so by using multiple traffic "
-"players. <br><br>Cyber Range sends frames at the specified bandwidth rate for, by"
-" default, one minute. You can inspect the results and if packet loss "
-"occurs, re-run the test at a decreased bandwidth rate.  Repeat this "
-"process until no packet loss occurs to determine the level of stress your"
-" network can handle. <br><br>The results include packet loss, latency, and"
-" jitter.</p>"
-
-#: ixiacr/scripts/initializedb.py:894
-msgid "Network QoS Performance (256 Byte Frames)"
-msgstr "Network QoS Performance (256 Byte Frames)"
-
-#: ixiacr/scripts/initializedb.py:898
-msgid "axon_test_template.network_qos_performance_256_byte_frames.description"
-msgstr ""
-"<p>For IPv4 or IPv6 networks, this test determines the QoS performance on"
-" the network under the stressful conditions. The test is run using only "
-"small frames (256 bytes) of Layer 2/3 traffic and applies DSCP "
-"configuration to each packet. <br><br>If you want to configure different "
-"tracks to use different DSCP values and/or an even more stressful "
-"configuration using smaller frames, you can do so by using multiple "
-"traffic players. <br><br>Cyber Range sends frames at the specified bandwidth rate"
-" for, by default, one minute. You can inspect the results and if packet "
-"loss occurs, re-run the test at a decreased bandwidth rate.  Repeat this "
-"process until no packet loss occurs to determine the level of stress your"
-" network can handle. <br><br>The results include packet loss, latency, and"
-" jitter.</p>"
-
-#: ixiacr/scripts/initializedb.py:928
-msgid "Throughput Test"
-msgstr "Throughput Test"
-
-#: ixiacr/scripts/initializedb.py:932
-msgid "axon_test_template.throughput_test.description"
-msgstr "Measures the maximum amount of L2/L3 (stateless) traffic that can be forwarded across the network with user configurable limits on packet loss, latency, and jitter. A search algorithm is used to find the maximum load that conforms to the user specified limits. Additionally, the original ratio of frame sizes is maintained for all test loads during the duration of the test."
-
-#: ixiacr/scripts/initializedb.py:965
-msgid ""
-"All tests can be run using either IPv4 packets or IPv6 packets. Just "
-"input your endpoint addresses in the appropriate format."
-msgstr ""
-"All tests can be run using either IPv4 packets or IPv6 packets. Just "
-"input your endpoint addresses in the appropriate format."
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_criteria"
+msgstr "<p></p>"
 
 #: ixiacr/scripts/initializedb.py:968
 msgid ""
@@ -1624,37 +897,37 @@ msgstr "<div class='get-started-image'><img src='static/images/get-started-ixia.
         "    </div>"
         "</div>"
         "<div style='left: 285px; top: 140px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 150px; height: 85px; border-radius: 39px;' data-handler='Aim' data-activeon='hover' data-dim='120,64,39' data-coord='285,140' class='invisible-spot' id='Kali'></div>"
+        "    <div style='width: 150px; height: 95px; border-radius: 39px;' data-handler='Aim' data-activeon='hover' data-dim='150,95,0' data-coord='285,140' class='invisible-spot' id='Kali'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 470px; top: 15px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 140px; height: 85px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='160,64,0' data-coord='470,15' class='invisible-spot' id='Splunk'></div>"
+        "    <div style='width: 140px; height: 95px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='140,95,0' data-coord='470,15' class='invisible-spot' id='Splunk'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 440px; top: 140px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 150px; height: 85px; border-radius: 16px;' data-handler='Aim' data-activeon='hover' data-dim='120,64,16' data-coord='440,140' class='invisible-spot' id='AttackTarget'></div>"
+        "    <div style='width: 150px; height: 95px; border-radius: 16px;' data-handler='Aim' data-activeon='hover' data-dim='150,95,0' data-coord='440,140' class='invisible-spot' id='AttackTarget'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 620px; top: 130px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 120px; height: 85px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='108,80,0' data-coord='620,130' class='invisible-spot' id='IPS'></div>"
+        "    <div style='width: 120px; height: 95px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='120,95,0' data-coord='620,130' class='invisible-spot' id='IPS'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 820px; top: 130px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 155px; height: 85px; border-radius: 15px;' data-handler='Aim' data-activeon='hover' data-dim='128,80,15' data-coord='820,130' class='invisible-spot' id='NGFW'></div>"
+        "    <div style='width: 155px; height: 95px; border-radius: 15px;' data-handler='Aim' data-activeon='hover' data-dim='155,95,0' data-coord='820,130' class='invisible-spot' id='NGFW'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 815px; top: 390px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 240px; height: 90px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='188,80,0' data-coord='815,390' class='invisible-spot' id='DLP'></div>"
+        "    <div style='width: 240px; height: 100px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='240,100,0' data-coord='815,390' class='invisible-spot' id='DLP'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
         "<div style='left: 295px; top: 380px; display: none;' class='hs-wrap'>"
-        "    <div style='width: 110px; height: 80px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='100,70,0' data-coord='295,380' class='invisible-spot' id='Windows'></div>"
+        "    <div style='width: 110px; height: 90px; border-radius: 3px;' data-handler='Aim' data-activeon='hover' data-dim='110,90,0' data-coord='295,380' class='invisible-spot' id='Windows'></div>"
         "    <div class='tt-wrap'>"
         "    </div>"
         "</div>"
@@ -1813,64 +1086,28 @@ msgstr "REMEMBER ME"
 msgid "OVERRIDE USER"
 msgstr "OVERRIDE USER"
 
-#: ixiacr/templates/manufacturing.jinja2:14
-msgid ""
-"Warning, by clicking the button below, this Cyber Range device will be reset to "
-"factory defaults. This reset includes\n"
-"            deleting all tests that have been run previously and "
-"resetting the EULA."
-msgstr ""
-"Warning, by clicking the button below, this Cyber Range device will be reset to "
-"factory defaults. This reset includes\n"
-"            deleting all tests that have been run previously and "
-"resetting the EULA."
-
 #: ixiacr/templates/manufacturing.jinja2:19
 msgid "By agreeing, you will lose all data. Are you sure?"
 msgstr "By agreeing, you will lose all data. Are you sure?"
 
-#: ixiacr/templates/endpoint/fields.jinja2:2
-#: ixiacr/templates/html/administration.tmpl.jinja2:197
-msgid "VLAN ID"
-msgstr "VLAN ID"
-
-#: ixiacr/templates/endpoint/fields.jinja2:7
-#: ixiacr/templates/html/administration.tmpl.jinja2:465
-msgid "No DHCP"
-msgstr "No DHCP"
-
-#: ixiacr/templates/endpoint/fields.jinja2:10
-msgid "DHCPv4"
-msgstr "DHCPv4"
-
-#: ixiacr/templates/endpoint/fields.jinja2:13
-msgid "DHCPv6"
-msgstr "DHCPv6"
-
-#: ixiacr/templates/endpoint/fields.jinja2:16
 msgid "Number of hosts"
 msgstr "Number of hosts"
 
-#: ixiacr/templates/endpoint/fields.jinja2:20
 msgid "test.configuration.tmpl.jinja2.Starting_IP"
 msgstr "Starting IP"
 
-#: ixiacr/templates/endpoint/fields.jinja2:24
 msgid "test.configuration.tmpl.jinja2.Ending_IP"
 msgstr "Ending IP"
 
-#: ixiacr/templates/endpoint/fields.jinja2:28
 #: ixiacr/templates/html/administration.tmpl.jinja2:202
 msgid "Prefix"
 msgstr "Prefix"
 
-#: ixiacr/templates/endpoint/fields.jinja2:32
 #: ixiacr/templates/html/administration.tmpl.jinja2:203
 #: ixiacr/templates/html/administration.tmpl.jinja2:475
 msgid "Gateway"
 msgstr "Gateway"
 
-#: ixiacr/templates/endpoint/traffic-player-pane.jinja2:6
 #: ixiacr/templates/html/administration.tmpl.jinja2:319
 #: ixiacr/templates/html/administration.tmpl.jinja2:374
 #: ixiacr/templates/html/administration.tmpl.jinja2:545
@@ -1878,93 +1115,16 @@ msgid "Save"
 msgstr "Save"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:4
-#: ixiacr/templates/html/administration.tmpl.jinja2:28
-#: ixiacr/templates/html/administration.tmpl.jinja2:123
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:134
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:181
 msgid "Devices"
 msgstr "Devices"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:5
-#: ixiacr/templates/html/administration.tmpl.jinja2:36
-#: ixiacr/templates/html/administration.tmpl.jinja2:167
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:5
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:5
-msgid "Endpoints"
-msgstr "Endpoints"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:6
-#: ixiacr/templates/html/administration.tmpl.jinja2:44
-#: ixiacr/templates/html/administration.tmpl.jinja2:215
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:7
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:7
-msgid "Playlists"
-msgstr "Playlists"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:7
-#: ixiacr/templates/html/administration.tmpl.jinja2:52
-#: ixiacr/templates/html/administration.tmpl.jinja2:258
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:6
-msgid "Tracks"
-msgstr "Tracks"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:8
-#: ixiacr/templates/html/administration.tmpl.jinja2:60
-msgid "NetFlow"
-msgstr "NetFlow"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:9
-#: ixiacr/templates/html/administration.tmpl.jinja2:68
-msgid "Pulse"
-msgstr "Pulse"
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:10
 #: ixiacr/templates/html/administration.tmpl.jinja2:76
-msgid "Change Password"
-msgstr "Change Password"
+msgid "Change Account"
+msgstr "Change Account"
+
+msgid "Existing User Name"
+msgstr "Existing User Name"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:12
 #: ixiacr/templates/html/administration.tmpl.jinja2:85
@@ -2031,12 +1191,8 @@ msgid "search"
 msgstr "search"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:145
-msgid "+ Add Device"
-msgstr "+ Add Device"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:146
-msgid "+ Add Another Device"
-msgstr "+ Add Another Device"
+msgid "+ Add Account"
+msgstr "+ Add Account"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:151
 #: ixiacr/templates/html/administration.tmpl.jinja2:195
@@ -2089,10 +1245,6 @@ msgstr "Starting Ip"
 msgid "Ending IP"
 msgstr "Ending IP"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:204
-msgid "Are you sure you want to delete this endpoint?"
-msgstr "Are you sure you want to delete this endpoint?"
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:284
 msgid "Clone &raquo;"
 msgstr "Clone &raquo;"
@@ -2141,6 +1293,14 @@ msgstr "New password"
 msgid "Verify new password"
 msgstr "Verify new password"
 
+#: ixiacr/templates/html/administration.tmpl.jinja2:313
+msgid "Password"
+msgstr "Password"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:314
+msgid "Verify Password"
+msgstr "Verify Password"
+
 #: ixiacr/templates/html/administration.tmpl.jinja2:315
 msgid "Your passwords do not match. Please try again."
 msgstr "Your passwords do not match. Please try again."
@@ -2151,8 +1311,8 @@ msgstr "Your passwords match. Click the \"Save\" button to save this password."
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:326
 #: ixiacr/templates/html/administration.tmpl.jinja2:343
-msgid "Update Cyber Range"
-msgstr "Update Cyber Range"
+msgid "Update System"
+msgstr "Update System"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:329
 #: ixiacr/templates/html/administration.tmpl.jinja2:347
@@ -2198,11 +1358,11 @@ msgstr "Back up the system"
 #: ixiacr/templates/html/administration.tmpl.jinja2:384
 msgid ""
 "Click the button to save the current state of the system (system settings"
-" and test and report data) to a file (.axon file format). The system "
+" and test and report data) to a file (.cr file format). The system "
 "provides a link to the file so you can save it locally for future use."
 msgstr ""
 "Click the button to save the current state of the system (system settings"
-" and test and report data) to a file (.axon file format). The system "
+" and test and report data) to a file (.cr file format). The system "
 "provides a link to the file so you can save it locally for future use."
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:385
@@ -2293,18 +1453,6 @@ msgstr ""
 msgid "DELETE"
 msgstr "DELETE"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:424
-msgid "Wifi Mode"
-msgstr "Wifi Mode"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:427
-msgid "Enable Wifi"
-msgstr "Enable Wifi"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:433
-msgid "Disable Wifi"
-msgstr "Disable Wifi"
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:439
 msgid "Security Settings"
 msgstr "Security Settings"
@@ -2345,42 +1493,6 @@ msgstr "Netmask/Prefix"
 #: ixiacr/templates/html/administration.tmpl.jinja2:476
 msgid "MAC Address"
 msgstr "MAC Address"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:480
-msgid "DNS Settings"
-msgstr "DNS Settings"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:482
-msgid "Primary DNS"
-msgstr "Primary DNS"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:483
-msgid "Secondary DNS"
-msgstr "Secondary DNS"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:487
-msgid "Time Synchronization"
-msgstr "Time Synchronization"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:489
-msgid "NTP Server Address 1"
-msgstr "NTP Server Address 1"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:490
-msgid "NTP Server Address 2"
-msgstr "NTP Server Address 2"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:491
-msgid "NTP Server Address 3"
-msgstr "NTP Server Address 3"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:492
-msgid "NTP Server Address 4"
-msgstr "NTP Server Address 4"
-
-#: ixiacr/templates/html/administration.tmpl.jinja2:493
-msgid "NTP Server Address 5"
-msgstr "NTP Server Address 5"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:497
 msgid "Licensing Info"
@@ -2562,81 +1674,21 @@ msgstr "ONLY SHOW FAVORITES"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:84
 #: ixiacr/templates/html/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:13
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:13
 msgid "Test Type:"
 msgstr "Test Type:"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:85
 #: ixiacr/templates/html/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:14
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:14
 msgid "Performance"
 msgstr "Performance"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:88
 #: ixiacr/templates/html/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:17
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:17
 msgid "Traffic Type:"
 msgstr "Traffic Type:"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:89
 #: ixiacr/templates/html/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.documentation.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.documentation.tmpl.jinja2:18
 msgid "Application"
 msgstr "Application"
 
@@ -2816,36 +1868,6 @@ msgstr "Help for configuring a test"
 msgid "How to fix your time sync."
 msgstr "How to fix your time sync."
 
-#: ixiacr/templates/html/lightbox.tmpl.jinja2:521
-msgid ""
-"If your Cyber Range says that it does not have time sync for one (or more) of "
-"your endpoints in a test, your timing results (latency and jitter) will "
-"not be accurate.  The clocks on the machines will be too far apart to "
-"provide any real measurments.  In this situation, you should connect your"
-" Cyber Range(s) to an NTP server in the \"System Settings\" tab of the "
-"Administration section.  Each Cyber Range will need to be connected to the NTP "
-"server in its own GUI, this cannot be done remotely. If possible, it is "
-"best if all Cyber Ranges that you will be running site-to-site tests between are"
-" connected to the same NTP server.<br><br>If you are connected to an NTP "
-"server but are still receiving a large range for your timing accuracy, "
-"the internal clocks may not have been synced to the NTP server for a long"
-" enough time.  Please wait another 30 minutes while your clocks "
-"synchronize."
-msgstr ""
-"If your Cyber Range says that it does not have time sync for one (or more) of "
-"your endpoints in a test, your timing results (latency and jitter) will "
-"not be accurate.  The clocks on the machines will be too far apart to "
-"provide any real measurments.  In this situation, you should connect your"
-" Cyber Range(s) to an NTP server in the \"System Settings\" tab of the "
-"Administration section.  Each Cyber Range will need to be connected to the NTP "
-"server in its own GUI, this cannot be done remotely. If possible, it is "
-"best if all Cyber Ranges that you will be running site-to-site tests between are"
-" connected to the same NTP server.<br><br>If you are connected to an NTP "
-"server but are still receiving a large range for your timing accuracy, "
-"the internal clocks may not have been synced to the NTP server for a long"
-" enough time.  Please wait another 30 minutes while your clocks "
-"synchronize."
-
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:529
 msgid "Test Validation"
 msgstr "Test Validation"
@@ -2923,110 +1945,20 @@ msgid "There are validation errors with your test results:"
 msgstr "There are validation errors with your test results:"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:8
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:8
 msgid "Tests"
 msgstr "Tests"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:18
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:24
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:24
 msgid "ALL ITEMS"
 msgstr "ALL ITEMS"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:19
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:26
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:19
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:26
 msgid "FAVORITES"
 msgstr "FAVORITES"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:20
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:20
 msgid "RECOMMENDED"
 msgstr "RECOMMENDED"
 
@@ -3034,903 +1966,126 @@ msgstr "RECOMMENDED"
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:41
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:55
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:281
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:277
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:292
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:33
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:41
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:55
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:254
 msgid "Configure"
 msgstr "Configure"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:71
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:142
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:135
 msgid "Traffic Player"
 msgstr "Traffic Player"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:74
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:145
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:74
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:138
 msgid "Delete"
 msgstr "Delete"
 
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:96
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:159
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:160
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:153
-msgid "Playlist"
-msgstr "Playlist"
-
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:107
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:205
-#: ixiacr/templates/html/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:204
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:10
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:10
 msgid "Traffic"
 msgstr "Traffic"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:161
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:155
 msgid "open"
 msgstr "open"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:162
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:163
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:156
 msgid "save"
 msgstr "save"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:209
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:210
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:210
 msgid "Mbps"
 msgstr "Mbps"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:243
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:248
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:259
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:223
 msgid "Timing Accuracy"
 msgstr "Timing Accuracy"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:244
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:249
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:245
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:260
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:224
 msgid "How do I fix my Time Sync?"
 msgstr "How do I fix my Time Sync?"
 
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:246
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:251
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:247
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:262
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:226
 msgid "ms"
 msgstr "ms"
 
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:267
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:263
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:278
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:241
-msgid "+ Add another traffic player"
-msgstr "+ Add another traffic player"
-
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:289
 #: ixiacr/templates/html/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:327
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:289
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:323
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:304
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:338
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:266
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:300
 msgid "remove"
 msgstr "remove"
 
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:293
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:297
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:338
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:293
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:334
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:308
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:349
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:270
-#: ixiacr/testcases/spirent/throughput_test/templates/test.configuration.tmpl.jinja2:311
-msgid "Track Options"
-msgstr "Track Options"
-
 #: ixiacr/templates/html/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:6
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:6
 msgid "Current Status"
 msgstr "Current Status"
 
-#: ixiacr/templates/html/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:18
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:18
-msgid "(You must first <a>pause</a> the test to apply a new traffic setting)"
-msgstr "(You must first <a>pause</a> the test to apply a new traffic setting)"
-
 #: ixiacr/templates/html/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:27
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:27
 msgid "Chart"
 msgstr "Chart"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:28
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:28
 msgid "Summary"
 msgstr "Summary"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:40
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:40
 msgid "Transport Data"
 msgstr "Transport Data"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:44
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:44
 msgid "Application Data"
 msgstr "Application Data"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:48
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:48
 msgid "Voice Quality Data"
 msgstr "Voice Quality Data"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:52
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:52
 msgid "Video Quality Data"
 msgstr "Video Quality Data"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:64
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:64
 msgid "Packet Loss"
 msgstr "Packet Loss"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:80
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:80
 msgid "Calls"
 msgstr "Calls"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:81
-#: ixiacr/templates/html/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:96
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:81
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:96
 msgid "Video Connections"
 msgstr "Video Connections"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:82
-#: ixiacr/templates/html/test.results.tmpl.jinja2:90
-#: ixiacr/templates/html/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:98
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:82
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:90
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:98
 msgid "Quality MOS Scores"
 msgstr "Quality MOS Scores"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:83
-#: ixiacr/templates/html/test.results.tmpl.jinja2:91
-#: ixiacr/templates/html/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:99
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:83
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:91
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:99
 msgid "RTP Packet Loss"
 msgstr "RTP Packet Loss"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:88
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:88
 msgid "Calls per Second"
 msgstr "Calls per Second"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:89
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:89
 msgid "Total Calls"
 msgstr "Total Calls"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:107
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:107
 msgid "Results Details"
 msgstr "Results Details"
 
-#: ixiacr/templates/html/test.results.tmpl.jinja2:118
-#: ixiacr/templates/test_results/results.jinja2:135
-#: ixiacr/templates/test_results/results.jinja2:256
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:118
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:118
-msgid "Track"
-msgstr "Track"
-
 #: ixiacr/templates/html/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:155
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:155
 msgid "Download Results"
 msgstr "Download Results"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:156
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:156
 msgid "print"
 msgstr "print"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:157
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:157
 msgid "csv"
 msgstr "csv"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:167
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:167
 msgid "You must first configure and run your test."
 msgstr "You must first configure and run your test."
 
@@ -4122,66 +2277,6 @@ msgstr "source name"
 #: ixiacr/views/results.py:56
 msgid "source host"
 msgstr "source host"
-
-#: ixiacr/views/results.py:56
-msgid "endpoint name"
-msgstr "endpoint name"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint ip"
-msgstr "endpoint ip"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint prefix"
-msgstr "endpoint prefix"
-
-#: ixiacr/views/results.py:57
-msgid "endpoint end ip"
-msgstr "endpoint end ip"
-
-#: ixiacr/views/results.py:58
-msgid "endpoint use dhcp"
-msgstr "endpoint use dhcp"
-
-#: ixiacr/views/results.py:58
-msgid "endpoint gateway"
-msgstr "endpoint gateway"
-
-#: ixiacr/views/results.py:59
-msgid "endpoint vlanid"
-msgstr "endpoint vlanid"
-
-#: ixiacr/views/results.py:59
-msgid "track name"
-msgstr "track name"
-
-#: ixiacr/views/results.py:59
-msgid "track id"
-msgstr "track id"
-
-#: ixiacr/views/results.py:60
-msgid "track object"
-msgstr "track object"
-
-#: ixiacr/views/results.py:60
-msgid "track percentage"
-msgstr "track percentage"
-
-#: ixiacr/views/results.py:61
-msgid "track traffic setting name"
-msgstr "track traffic setting name"
-
-#: ixiacr/views/results.py:62
-msgid "track traffic setting value"
-msgstr "track traffic setting value"
-
-#: ixiacr/views/results.py:62
-msgid "track properties name"
-msgstr "track properties name"
-
-#: ixiacr/views/results.py:63
-msgid "track properties value"
-msgstr "track properties value"
 
 #: ixiacr/views/results.py:63
 msgid "data name"

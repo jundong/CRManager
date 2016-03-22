@@ -189,10 +189,6 @@ module.exports = function (settings, callback) {
         .then(loadGlobals)
         .then(loadRootViewModel.bind(this, settings));
 
-    if (-1 !== settings.features.indexOf('scheduler')) {
-        load.then(bindScheduler);
-    }
-
     load.then(closeLoadingLightbox)
         .then(loadInfoPane)
         .then(callback, function (err) {

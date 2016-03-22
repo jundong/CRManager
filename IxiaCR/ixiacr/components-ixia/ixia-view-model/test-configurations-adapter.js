@@ -1,5 +1,4 @@
 /**
- * Translates JSON objects from REST endpoint into something UI code can use.
  * Provides an abstraction layer between REST API and UI code.
  *
  * @param config Array of test configuration JSON data (from REST API)

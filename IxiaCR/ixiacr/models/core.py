@@ -330,16 +330,6 @@ class TestResult(Base):
     error_reason = Column(UnicodeText, nullable=True)
 
 
-class TestCases(Base):
-    """
-    Test cases
-    """
-    __tablename__ = 'test_cases'
-
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    name = Column(Unicode(64), nullable=True)
-
-
 class User(Base):
     """User DB model
 
@@ -453,33 +443,52 @@ class TestMessage(Base):
         return cls.query.filter_by(test_id=0, ).first()
 
 
-class IxiaTest(Base):
+class TestCases(Base):
     """
     User created test
     """
-    __tablename__ = 'ixiacr_tests'
+    __tablename__ = 'test_cases'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     type = Column(Unicode(64), nullable=False)
+    name_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    topology_description_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    description_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    attack_task_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    attack_steps_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    attack_criteria_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    defense_task_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    defense_steps_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    defense_criteria_id = Column(Integer, ForeignKey('translatable_strings.id'))
+
     created_by = Column(Integer, ForeignKey('users.id',
                                             onupdate="CASCADE",
-                                            ondelete="CASCADE"),
-                        default=1)
+                                            ondelete="CASCADE"), default=1)
     created = Column(DateTime, default=datetime.now)
-    #Scenario name
-    name = Column(Unicode(128), nullable=True)
     #Scenario topology image name
     topology_image = Column(Unicode(128), nullable=True)
+    #Scenario name
+    name = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.name_id')
     #Scenario topology description
-    topology_description = Column(UnicodeText, nullable=True)
+    topology_description = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.topology_description_id')
     #Scenario description
-    description = Column(UnicodeText, nullable=True)
-    attack_task = Column(UnicodeText, nullable=True)
-    attack_steps = Column(UnicodeText, nullable=True)
-    attack_criteria = Column(UnicodeText, nullable=True)
-    defense_task = Column(UnicodeText, nullable=True)
-    defense_steps = Column(UnicodeText, nullable=True)
-    defense_criteria = Column(UnicodeText, nullable=True)
+    description = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.description_id')
+    attack_task = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.attack_task_id')
+    attack_steps = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.attack_steps_id')
+    attack_criteria = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.attack_criteria_id')
+    defense_task = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.defense_task_id')
+    defense_steps = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.defense_steps_id')
+    defense_criteria = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.defense_criteria_id')
+
     active = Column(Boolean, default=True)
 
     def __unicode__(self):

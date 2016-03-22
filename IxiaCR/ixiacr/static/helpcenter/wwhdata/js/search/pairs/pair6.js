@@ -103,9 +103,6 @@ x.t("section","select");
 x.t("section","click");
 x.t("format","disk");
 x.t("reports","axon\u2011format");
-x.t("endpoints","tracks");
-x.t("tracks","change");
-x.t("tracks","configure");
 x.t("restore","current");
 x.t("restore","delete");
 x.t("restore","back");
@@ -177,8 +174,5 @@ x.t("operations","administration");
 x.t("operations","using");
 x.t("operations","devices");
 x.t("definitions","test");
-x.t(".axon","format");
-x.t("devices","endpoints");
-x.t("update","axon");
 x.t("update","update");
 }

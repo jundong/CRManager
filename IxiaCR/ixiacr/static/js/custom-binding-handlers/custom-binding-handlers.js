@@ -34,54 +34,6 @@ $.fn.makeTooltip = function(tooltip_element, tooltip_text){
     });
 };
 
-ko.bindingHandlers.endpointDropTarget = { //it was not implemented but same functions for playlists and tracks were
-    init: function(element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery;
-        var $element = $(element);//$element = droppable
-        var draggableClass = mobile.isMobile ? 'draggableIcon' : 'endpoint';
-
-        $element.data('endpoint', valueAccessor); //attach meta-data
-        $element.droppable({
-            drop: function(event, ui) {
-                if (ui.draggable.hasClass(draggableClass)) {
-                    var endpoint = ui.helper.data('endpoint');
-
-                    if (endpoint) {
-                        var $endpoint = $element.data('endpoint');
-                        $endpoint(endpoint);
-                    }
-
-                }
-            },
-            accept: '.'+ draggableClass
-        });
-    }
-};
-
-ko.bindingHandlers.draggableEndpoint = {
-    init: function(element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery;
-        var $element = $(element);
-        var $draggableIcon = $element.find(".draggableIcon").first();
-        var $draggableElement = mobile.isMobile ? $draggableIcon : $element;
-
-        $element.data('endpoint', valueAccessor()); //attach meta-data
-        $draggableElement.draggable({
-            revert: 'invalid',
-            appendTo: '#main',
-            containment:'#main',
-            helper: function (event, ui) {
-                var $helper = $(document.createElement('li')).append($element.html());
-                $helper.data('endpoint', $element.data('endpoint'));
-                $helper.addClass('draggable');
-                return $helper;
-            }
-        });
-
-        $element.addClass('configured').addClass('endpoint');
-    }
-};
-
 ko.bindingHandlers.testDropTarget = {
     init: function(element, valueAccessor, allBindingsAccessor, context) {
         var $ = jQuery;
@@ -133,173 +85,6 @@ ko.bindingHandlers.render = {
         element.appendChild($vm);
 
         return { controlsDescendantBindings: true };
-    }
-};
-
-ko.bindingHandlers.playlistDropTarget = {
-    init: function (element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery,
-            $element = $(element),
-            draggableClass = mobile.isMobile ? 'draggableIcon' : 'playlist';
-
-        $element.data('playlist', valueAccessor()); //attach meta-data
-        $element.droppable({
-            drop: function (event, ui) {
-                if (ui.draggable.hasClass(draggableClass)) {
-                    var playlist = ui.helper.data('playlist'),
-                        player = context,
-                        layers,
-                        message;
-
-                    if (!playlist) {
-                        logger.error('Dropped a playlist onto traffic player, but draggable element did not contain a playlist object');
-                        return; // Short-circuit
-                    }
-
-                    // ENT-4396 - Block certain playlists for network stress test
-                    // ENT-4382 - Block certain playlists for throughput test
-                    if (!player.canAcceptPlaylist(playlist)) {
-                        // Show user an error message
-                        layers = playlist.getTrackLayers();
-                        message = translate('The "{playlistName}" playlist contains tracks with layer(s) {givenLayers}, but this test only supports layer(s): {acceptableLayers}. Please use a different playlist.', {
-                            playlistName: playlist.name(),
-                            givenLayers: layers.join(', '),
-                            acceptableLayers: "axon.testcases.spirent.network_stress" === player.testConfigVm.module ? '2' : '2 & 3'
-                        });
-
-                        util.lightbox.openError(translate('Invalid Playlist'), message);
-                        return; // Short-circuit
-                    }
-
-                    playlist.rootVm.getAvailableTracks();
-                    $element.data('playlist')(playlist);
-                }
-            },
-            accept: '.' + draggableClass
-        });
-    }
-};
-
-ko.bindingHandlers.draggablePlaylist = {
-    init: function(element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery;
-        var $element = $(element);
-        var playlist = valueAccessor();
-        var $draggableIcon = $element.find(".draggableIcon").first();
-        var $draggableElement = mobile.isMobile ? $draggableIcon : $element;
-
-        $element.data('playlist', playlist); //attach meta-data
-
-        $draggableElement.draggable({
-            revert: 'invalid',
-            appendTo: '#main',
-            containment:'#main',
-            helper: function (event, ui) {
-                var $helper = $(document.createElement('li')).append($element.html());
-                $helper.data('playlist', $element.data('playlist'));
-                $helper.addClass('draggable');
-                return $helper;
-            }
-        });
-        $element.addClass('configured').addClass('playlist');
-    }
-};
-
-ko.bindingHandlers.trackDropTarget = {
-    init: function(element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery;
-        var $element = $(element);
-        var draggableClass = mobile.isMobile ? 'draggableIcon' : 'track';
-        $element.data('playlist', valueAccessor()); //attach meta-data
-        $element.droppable({
-            tolerance: "touch",
-            drop: function(event, ui) {
-                if (ui.draggable.hasClass(draggableClass)) {
-                    var track = ui.helper.data('track');
-
-                    if (track) {
-                        var playlist = $element.data('playlist');
-                        playlist = playlist(); // get current value
-                        // searching for track in playlist already
-                        var foundTrack = ko.utils.arrayFirst(playlist.tracks(), function(item) {
-                            return item().id() == track.id();
-                        });
-
-                        if (!playlist.canAcceptTrack(track)) {
-                            var header = translate('Invalid Track');
-                            var message = translate('This playlist utilizes layer {requiredLayer} tracks; dragged track is layer {givenLayer}.', {
-                                requiredLayer: "axon.testcases.spirent.network_stress" === playlist.rootVm.vmTest.vmConfiguration.module ? '2' : '2 & 3',
-                                givenLayer: track.layer()
-                            });
-
-                            util.lightbox.openError(header, message);
-
-                            return;
-                        }
-                        if (playlist.tracks().length === 8) {
-                            var header = translate('Playlist at max capacity');
-                            var message = translate('This playlist cannot accept more than 8 tracks at one time.  If you wish to add more tracks to this test, please add a new player and add the tracks into the new playlist.');
-
-                            util.lightbox.openError(header, message);
-
-                            return;
-                        }
-
-                        // only add if track not in playlist
-                        if (foundTrack == null) {
-                            var observableTrack = new TestConfiguredTrackViewModel(playlist.rootVm);
-
-                            observableTrack.id = track.id;
-                            observableTrack.name = track.name;
-                            observableTrack.layer = track.layer;
-                            observableTrack.percentage(1);
-                            observableTrack.cloneTrackProperties(track.trackProperties());
-                            observableTrack.shouldShowTrackProperties(track.shouldShowTrackProperties());
-//                            observableTrack.trackBandwidth(track.trackBandwidth());
-                            observableTrack.cloneTrafficSettings(track.trafficSettings());
-                            observableTrack.js_bw_compute(track.js_bw_compute());
-                            observableTrack.subscribeTrackUpdated(playlist, playlist.trackUpdated.bind(playlist));
-                            observableTrack.trackResultType = track.trackResultType;
-                            observableTrack.trackTypeId = track.trackTypeId;
-                            observableTrack.trackObject = track.trackObject;
-                            observableTrack.attributes = track.attributes;
-                            observableTrack.colorId(playlist.getNextColorId());
-                            playlist.tracks.push(ko.observable(observableTrack));
-                            if(playlist.isReadOnly && playlist.name().indexOf(translate("[Custom]")) == -1){
-                                playlist.name(translate("[Custom]") + " " + playlist.name());
-                                playlist.isNameChanged = true;
-                            }
-                        }
-                    }
-                }
-            },
-            accept: '.' + draggableClass
-        });
-    }
-};
-
-ko.bindingHandlers.draggableTrack = {
-    init: function(element, valueAccessor, allBindingsAccessor, context) {
-        var $ = jQuery;
-        var $element = $(element);
-        var $draggableIcon = $element.find(".draggableIcon").first();
-        var $draggableElement = mobile.isMobile ? $draggableIcon : $element;
-
-        $element.data('track', valueAccessor()); //attach meta-data
-        $draggableElement.draggable({
-            revert: 'invalid',
-            appendTo: '#main',
-            containment:'#main',
-            helper: function (event, ui) {
-                var $helper = $(document.createElement('li')).append($element.html());
-                $helper.data('track', $element.data('track'));
-                $helper.addClass('draggable');
-                $helper.addClass('track');
-                return $helper;
-            }
-        });
-
-        $element.addClass('configured').addClass('track');
     }
 };
 
@@ -448,8 +233,6 @@ ko.bindingHandlers.chart = {
     }
 };
 
-
-
 ko.bindingHandlers.scrollPanel = {
     init : function(element, valueAccessor, allBindingAccessor, viewModel){
         var currentValue = valueAccessor(),
@@ -511,70 +294,25 @@ ko.bindingHandlers.blockUI = {
     update: function(element, valueAccessor, allBindingsAccessor, context) {
         var $ = jQuery;
         var $element = $(element);
-        var licenseStatus = context.rootVm.vmGlobalSettings.licenseStatus();
         if($element.attr("class") != 'test' && valueAccessor()() == 'running') {
             $element.block({ message: null, overlayCSS: { backgroundColor: '#000', opacity: 0.3 } });
-        } else{
-            if(licenseStatus != undefined && licenseStatus.valid != 1){
-                $element.unblock();
-            }
         }
     }
 };
+
 ko.bindingHandlers.blockUpdatesUI = {
     update: function(element, valueAccessor, allBindingsAccessor, context) {
         var $ = jQuery;
         var $element = $(element);
-        var licenseStatus = context.globalSettingsVm.licenseStatus();
-        if(licenseStatus != undefined && licenseStatus.valid != 1){
-            var msg = '';
-            var todaysDate = new Date().format('MM-dd-yy HH:mm');
-            if(licenseStatus.exists == 0){
-                msg = translate('There is no current/valid license installed on this Axon.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>' 
-                }); 
-            } else if(util.parseUnixTimestampStringToDate(licenseStatus.updates_expires) < todaysDate) {
-                msg = translate('The license we found on this Axon box has expired.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
-                });
-            } else {
-                msg = translate('The license we found on this Axon box is invalid.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
-                });
-            }
-            $.blockUI.defaults.css = {};
-            $element.block({ message: '<div class="lightbox-chrome">'+msg+'</div>', overlayCSS: { backgroundColor: '#000', opacity: 0.3, 'z-index': 10, cursor: null } });
-        } else {
             $element.unblock();
-        }
     } 
 };
+
 ko.bindingHandlers.rentalBlockUI = {
     update: function(element, valueAccessor, allBindingsAccessor, context) {
         var $ = jQuery;
         var $element = $(element);
-        var licenseStatus = context.rootVm.vmGlobalSettings.licenseStatus();
-        if(licenseStatus != undefined && licenseStatus.valid != 1){
-            var msg = '';
-            var todaysDate = new Date().format('MM-dd-yy HH:mm');
-            if(licenseStatus.exists == 0){
-                msg = translate('There is no current/valid license installed on this Axon.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>' 
-                }); 
-            } else if(util.parseUnixTimestampStringToDate(licenseStatus.usage_expires) < todaysDate) {
-                msg = translate('The license we found on this Axon box has expired.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
-                });
-            } else {
-                msg = translate('The license we found on this Axon box is invalid.  Please upload a valid license or contact Spirent support at {link}.', {
-                    link: '<a href="http://support.spirentforbusiness.com">support.spirentforbusiness.com</a>'
-                });
-            }
-            $.blockUI.defaults.css = {};
-            $('.test-controller > .container').block({ message: '<div class="lightbox-chrome">'+msg+'</div>', overlayCSS: { backgroundColor: '#000', opacity: 0.3, 'z-index': 10, cursor: null} });
-        } else {
-            $('.test-controller > .container').unblock();
-        }
+        $('.test-controller > .container').unblock();
     }
 };
 

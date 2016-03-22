@@ -61,28 +61,12 @@ ixiacr/components-ixia/device-model/error.js
 ixiacr/components-ixia/device-model/index.js
 ixiacr/components-ixia/device-view-model/index.js
 ixiacr/components-ixia/device-view-model/style.css
-ixiacr/components-ixia/device-view-model/multiple-port/style.css
-ixiacr/components-ixia/device-view-model/multiple-port/view-model.js
-ixiacr/components-ixia/device-view-model/multiple-port/templates/template.html
-ixiacr/components-ixia/device-view-model/multiple-port/templates/template.js
-ixiacr/components-ixia/device-view-model/single-port/view-model.js
-ixiacr/components-ixia/device-view-model/single-port/templates/template.html
-ixiacr/components-ixia/device-view-model/single-port/templates/template.js
 ixiacr/components-ixia/dictionary-provider/index.js
 ixiacr/components-ixia/dictionary-provider/test/test.js
 ixiacr/components-ixia/disk-management/disk-management.css
 ixiacr/components-ixia/disk-management/index.js
 ixiacr/components-ixia/disk-management/template.html
 ixiacr/components-ixia/disk-management/visualization.js
-ixiacr/components-ixia/endpoint-view-model/index.js
-ixiacr/components-ixia/endpoint-view-model/style.css
-ixiacr/components-ixia/endpoint-view-model/validator.js
-ixiacr/components-ixia/endpoint-view-model/multicast/view-model.js
-ixiacr/components-ixia/endpoint-view-model/multicast/templates/template.html
-ixiacr/components-ixia/endpoint-view-model/multicast/templates/template.js
-ixiacr/components-ixia/endpoint-view-model/unicast/template.html
-ixiacr/components-ixia/endpoint-view-model/unicast/template.js
-ixiacr/components-ixia/endpoint-view-model/unicast/view-model.js
 ixiacr/components-ixia/form-validation/form-validation.css
 ixiacr/components-ixia/info-pane/index.js
 ixiacr/components-ixia/info-pane/style.css
@@ -106,9 +90,6 @@ ixiacr/components-ixia/loading-state/template.js
 ixiacr/components-ixia/logger/index.js
 ixiacr/components-ixia/logger-jquery-ajax/index.js
 ixiacr/components-ixia/logger/test/test.js
-ixiacr/components-ixia/multicast-settings/template.html
-ixiacr/components-ixia/multicast-settings/template.js
-ixiacr/components-ixia/multicast-settings/view-model.js
 ixiacr/components-ixia/netflow-settings/netflow-settings.css
 ixiacr/components-ixia/netflow-settings/models/collector.js
 ixiacr/components-ixia/netflow-settings/models/netflow-settings.js
@@ -157,14 +138,6 @@ ixiacr/components-ixia/player/player.css
 ixiacr/components-ixia/player/delegates/test-view-model.js
 ixiacr/components-ixia/player/templates/header.html
 ixiacr/components-ixia/player/templates/header.js
-ixiacr/components-ixia/pulse/index.js
-ixiacr/components-ixia/pulse/pulse.css
-ixiacr/components-ixia/pulse/models/interface.js
-ixiacr/components-ixia/pulse/models/pulse.js
-ixiacr/components-ixia/pulse/templates/index.html
-ixiacr/components-ixia/pulse/templates/index.js
-ixiacr/components-ixia/pulse/templates/license.html
-ixiacr/components-ixia/pulse/templates/license.js
 ixiacr/components-ixia/scheduler/balloon.css
 ixiacr/components-ixia/scheduler/balloon.js
 ixiacr/components-ixia/scheduler/calendar-item.js
@@ -983,6 +956,7 @@ ixiacr/lib/__init__.py
 ixiacr/lib/component_registry.py
 ixiacr/lib/ixiacr_logger.py
 ixiacr/lib/session_key_value.py
+ixiacr/lib/updater.py
 ixiacr/lib/utils.py
 ixiacr/lib/wsgi_profiler.py
 ixiacr/lib/config/__init__.py
@@ -4624,14 +4598,11 @@ ixiacr/static/images/Applications Test.jpg
 ixiacr/static/images/Network Device Test.jpg
 ixiacr/static/images/Network Infrastructure Test.jpg
 ixiacr/static/images/Other.jpg
-ixiacr/static/images/Spirent_AXON_X_dark_grey_background.png
-ixiacr/static/images/Spirent_AXON_X_transparent_background.png
 ixiacr/static/images/aborted.png
 ixiacr/static/images/applications_test.png
 ixiacr/static/images/arrow-down-black.png
 ixiacr/static/images/arrow-down-grey.png
 ixiacr/static/images/axon.png
-ixiacr/static/images/axon_X_large.jpg
 ixiacr/static/images/balloon-cross.png
 ixiacr/static/images/beveled-button.png
 ixiacr/static/images/black-bolt.png
@@ -4656,6 +4627,7 @@ ixiacr/static/images/cog-gray.png
 ixiacr/static/images/cog-large.png
 ixiacr/static/images/cog-white.png
 ixiacr/static/images/cog.png
+ixiacr/static/images/cr_large.jpg
 ixiacr/static/images/csv.png
 ixiacr/static/images/dark-document.png
 ixiacr/static/images/dark-download.png
@@ -4689,7 +4661,6 @@ ixiacr/static/images/fail.png
 ixiacr/static/images/favicon.ico
 ixiacr/static/images/favicon.png
 ixiacr/static/images/get-started-ixia.jpg
-ixiacr/static/images/get-started-spirent.jpg
 ixiacr/static/images/globe-gray.png
 ixiacr/static/images/globe-white.png
 ixiacr/static/images/globe.png
@@ -4705,11 +4676,12 @@ ixiacr/static/images/gray-monitoring.png
 ixiacr/static/images/gray-pulse.png
 ixiacr/static/images/grid.png
 ixiacr/static/images/handle.png
-ixiacr/static/images/header-spirent-logo.png
 ixiacr/static/images/history.png
 ixiacr/static/images/history_link.png
 ixiacr/static/images/incomplete.png
 ixiacr/static/images/info.png
+ixiacr/static/images/ixia_cr_logo_black_large.png
+ixiacr/static/images/ixia_logo.png
 ixiacr/static/images/knob.png
 ixiacr/static/images/lang-gray.png
 ixiacr/static/images/lang-large.png
@@ -4731,7 +4703,6 @@ ixiacr/static/images/loading.gif
 ixiacr/static/images/lock-gray.png
 ixiacr/static/images/lock-large.png
 ixiacr/static/images/lock-white.png
-ixiacr/static/images/login-spirent-logo.png
 ixiacr/static/images/magnify-gray.png
 ixiacr/static/images/magnify.png
 ixiacr/static/images/monitoring-large.png
@@ -4746,7 +4717,6 @@ ixiacr/static/images/people-white.png
 ixiacr/static/images/people.png
 ixiacr/static/images/play-white.png
 ixiacr/static/images/port-available.png
-ixiacr/static/images/port-flowmon.png
 ixiacr/static/images/port-in-use.png
 ixiacr/static/images/port-player.png
 ixiacr/static/images/port-pulse.png
@@ -4771,10 +4741,6 @@ ixiacr/static/images/small_record.png
 ixiacr/static/images/small_record_red.png
 ixiacr/static/images/small_stop.png
 ixiacr/static/images/spinner.gif
-ixiacr/static/images/spirent_axon_logo_black_large.png
-ixiacr/static/images/spirent_axon_logo_grey.png
-ixiacr/static/images/spirent_axon_logo_large.png
-ixiacr/static/images/spirent_axon_logo_white_gradient.png
 ixiacr/static/images/star.png
 ixiacr/static/images/system-backup-restore-gray.png
 ixiacr/static/images/system-backup-restore-large.png
@@ -5041,10 +5007,8 @@ ixiacr/static/js/view-models/lightbox-error-view-model.js
 ixiacr/static/js/view-models/lightbox-view-model.js
 ixiacr/static/js/view-models/test-device-port-view-model.js
 ixiacr/static/js/view-models/test-documentation-view-model.js
-ixiacr/static/js/view-models/test-playlist-view-model.js
 ixiacr/static/js/view-models/test-results-view-model.js
 ixiacr/static/js/view-models/test-sidebar-view-model.js
-ixiacr/static/js/view-models/test-track-view-model.js
 ixiacr/static/js/view-models/test-traffic-setting-view-model.js
 ixiacr/static/js/view-models/test-view-model.js
 ixiacr/static/js/view-models/validation-results-view-model.js

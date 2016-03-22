@@ -1,5 +1,4 @@
-var translate_tests_configurations = require('./test-configurations-adapter.js'),
-    EndpointViewModel = require('endpoint-view-model').UnicastViewModel;
+var translate_tests_configurations = require('./test-configurations-adapter.js');
 
 function IxiaViewModel() {
     var self = this;
@@ -7,9 +6,7 @@ function IxiaViewModel() {
 
     self.user = ko.observable();
 
-    self.availablePlaylists = ko.observableArray();
     self.availableDevices = ko.observableArray();
-    self.availableEndpoints = ko.observableArray();
     self.availableTests = ko.observableArray();
     self.enterpriseTests = ko.observableArray();
     self.hostTests = ko.observableArray();
@@ -40,18 +37,6 @@ function IxiaViewModel() {
 
     self.dashboardTabClass = ko.computed(function () {
         return 'dashboard ' + self.getTabClassFor('dashboard');
-    }).extend({ throttle: self.defaultThrottleDuration });
-
-    self.testLibraryTabClass = ko.computed(function () {
-        return 'library ' + self.getTabClassFor('testLibrary');
-    }).extend({ throttle: self.defaultThrottleDuration });
-
-    self.testTabClass = ko.computed(function () {
-        return 'player ' + self.getTabClassFor('test');
-    }).extend({ throttle: self.defaultThrottleDuration });
-
-    self.calendarTabClass = ko.computed(function () {
-        return 'calendar ' + self.getTabClassFor('calendar');
     }).extend({ throttle: self.defaultThrottleDuration });
 
     self.historyTabClass = ko.computed(function () {
@@ -168,39 +153,6 @@ IxiaViewModel.prototype.init = function (callback) {
         .fail(function () {
             self.updateAppLoadMessage(self.ajaxModels[2], true);
         });
-//
-
-//    var enterpriseTestsAjax = self.getFavoriteTests()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[14]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[14], true);
-//        });
-//
-//    var historyResults = self.getResultHistory()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[15]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[15], true);
-//        });
-
-//    var resultTypesAjax = self.getResultTypes()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[6]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[6], true);
-//        });
-//
-//    var customersAjax = self.getAvailableCustomers()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[7]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[7], true);
-//        });
 
     var languageAjax = self.getLanguage()
         .done(function () {
@@ -266,11 +218,6 @@ IxiaViewModel.prototype.showTest = function () {
 IxiaViewModel.prototype.showDashboard = function () {
     var self = IxiaViewModel.typesafe(this);
     self.selectTab('dashboard');
-};
-
-IxiaViewModel.prototype.showCalendar = function () {
-    var self = IxiaViewModel.typesafe(this);
-    self.selectTab('calendar');
 };
 
 IxiaViewModel.prototype.showHistory = function () {
@@ -363,7 +310,7 @@ IxiaViewModel.prototype.getGlobalSettings = function (callback, reload) {
         url: url,
         dataType: 'json',
         success: function (data, textStatus, jqXhr) {
-            //self.vmGlobalSettings.inflate(data);
+            self.vmGlobalSettings.inflate(data);
             if (callback){
                 callback();
             }
@@ -748,28 +695,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
     self.testResultsHistory.sort(function(pre, next) {return (pre.result_id() > next.result_id() ? -1 : 1)});
 };
 
-IxiaViewModel.prototype.getAvailableDatapoints = function () {
-    var self = IxiaViewModel.typesafe(this);
-
-    self.availableDatapointsMap.removeAll();
-
-    var ajax = $.ajax({
-        type: "GET",
-        url: util.getConfigSetting("get_datapoints"),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            var availableDatapoints = data;
-
-            for (var i = 0; i < availableDatapoints.length; i++) {
-                var datapoint = availableDatapoints[i];
-                self.availableDatapointsMap()[datapoint.id] = datapoint;
-            }
-        }
-    });
-
-    return ajax;
-};
-
 IxiaViewModel.prototype.getAvailableDevices = function (callback, responseData) {
     var self = IxiaViewModel.typesafe(this);
 
@@ -808,33 +733,6 @@ IxiaViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {
     });
 };
 
-IxiaViewModel.prototype.getAvailableEndpoints = function (callback) {
-    var self = IxiaViewModel.typesafe(this);
-
-    self.availableEndpoints.removeAll();
-
-    var ajax = $.ajax({
-        type: "GET",
-        url: util.getConfigSetting("get_endpoints"),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            var availableEndpoints = data;
-
-            for (var i = 0; i < availableEndpoints.length; i++) {
-                var endpoint = new EndpointViewModel(self);
-                endpoint.inflate(availableEndpoints[i]);
-                self.availableEndpoints.push(endpoint);
-            }
-
-            self.availableEndpoints.sort(util.sortArrayByObjectKeyKoObservable("name", true));
-            if (callback){
-                callback();
-            }
-        }
-    });
-
-    return ajax;
-};
 IxiaViewModel.prototype.getResultTypes = function () {
     var self = IxiaViewModel.typesafe(this);
 
@@ -876,6 +774,7 @@ IxiaViewModel.prototype.getAvailableDisplayMessages = function () {
 
     return ajax;
 };
+
 IxiaViewModel.prototype.addToCategoryView = function (newTest) {
     var self = IxiaViewModel.typesafe(this)
     var categories = newTest.categories();
@@ -915,6 +814,7 @@ IxiaViewModel.prototype.addToCategoryView = function (newTest) {
         }
     }
 };
+
 IxiaViewModel.prototype.deleteTest = function () {
     var self = IxiaViewModel.typesafe(this);
     logger.info("removeFromCategoryView unimplemented");
@@ -922,10 +822,12 @@ IxiaViewModel.prototype.deleteTest = function () {
     //remove from array
     //removeFromCategoryView();
 };
+
 IxiaViewModel.prototype.openTestCreationLightbox = function () {
     var self = IxiaViewModel.typesafe(this);
     self.vmTest.openTestCreationLightbox();
 };
+
 IxiaViewModel.prototype.openTestCreationLightboxUnlessLoaded = function () {
     var self = IxiaViewModel.typesafe(this);
     if(!self.vmTest.vmConfiguration.isLoaded())

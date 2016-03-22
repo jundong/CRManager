@@ -9,7 +9,7 @@ function LineRateMessageViewModel() {
     this.line_speed = undefined;
     this.bandwidth = undefined;
     this.strings = {
-        "Running a test at speeds near line-rate can result in unexpected or errant latency in the test results": window.translate('Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href="https://support.spirentforbusiness.com/support/solutions/articles/1000060929-line-rate" target="_blank">line rate latency</a>.')
+        "Running a test at speeds near line-rate can result in unexpected or errant latency in the test results": window.translate('Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href="https://www.ixiacom.com/support/solutions/articles/1000060929-line-rate" target="_blank">line rate latency</a>.')
     };
     this.show_icon = ko.observable(false);
     this.show_message = ko.observable(false);

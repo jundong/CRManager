@@ -10,12 +10,10 @@ from celery.result import AsyncResult
 from celery.contrib.abortable import AbortableAsyncResult
 
 from ixiacr.handlers import base
-from ixiacr.models.core import (IxiaTest, TestResult)
+from ixiacr.models.core import (TestCases, TestResult)
 from ixiacr.lib import IxiaLogger
 
-from ixiacr.tasks import test
-from ixiacr.tasks.utils import (get_task_from_chain,
-                              task_chain_has_passed)
+from ixiacr.tasks.utils import get_task_from_chain
 from ixiacr.lib.session_key_value import SessionKeyValueStore
 from ixiacr.models import db
 from ixiacr.lib import component_registry
@@ -596,7 +594,7 @@ def run_test(ixiacr_test_id):
         config_factory = None
 
         ixiacrlogger.debug('run_test: loading IxiaTest; ixiacr_test_id={0}'.format(ixiacr_test_id))
-        ixiacr_test = IxiaTest.query.filter_by(id=ixiacr_test_id).one()
+        ixiacr_test = TestCases.query.filter_by(id=ixiacr_test_id).one()
 
         ixiacrlogger.debug('run_test: ixiacr_test_id={0} loaded; getting config'.format(ixiacr_test_id))
         test_case_config = config_factory.get_config(
