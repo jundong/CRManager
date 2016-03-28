@@ -152,25 +152,23 @@
 <script type="text/html" id="lightbox-save-account-template">
     <div id="lightbox-save-account" class="save-lightbox">
         <ul class="save-header">
-            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
+            <li><input id="username" type="text" data-bind="value: username, valueUpdate: 'input', validateUsername: $data" /></li>
             <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
-            <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
+            <li class="button-container"><button class="ok-button" data-bind="click: addUser">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
         </ul>
         <div class="clear"></div>
-        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
-            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
-                <h2>{% trans %}Existing User Name:{% endtrans %}</h2>
-                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
-                    <li data-bind="text: $data"></li>
-                </ul>
+        <div class="error section" data-bind="visible: validateUsername()==='error'">
+            <div class="container" data-bind="foreach: validateUsername()==='error'">
+                <h2>{% trans %}Duplicate User Name:{% endtrans %}</h2>
             </div>
         </div>
         <ul class="save-middle">
-            <li><label>{% trans %}Password{% endtrans %}</label><input id="password" class="long" type="password" data-bind="validateNewPassword: $data" /></li>
-            <li id="newPasswordList"><label>{% trans %}Verify Password{% endtrans %}</label><input id="passwordVerify" class="long" type="password" data-bind="validateNewPassword: $data" />
-                <span class="error" data-bind="visible: validateNewPassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
-                <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
+            <li><label>{% trans %}Password{% endtrans %}</label><input id="password" class="long" type="password" data-bind="validatePassword: $data" /></li>
+            <li id="newPasswordList"><label>{% trans %}Verify Password{% endtrans %}</label><input id="passwordVerify" class="long" type="password" data-bind="validatePassword: $data" />
+                <span class="error" data-bind="visible: validatePassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
+                <span class="validated" data-bind="visible: validatePassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
             </li>
+            <li><label>{% trans %}Email{% endtrans %}</label><input id="email" class="long" type="text" data-bind="validateEmail: $data" /></li>
         </ul>
     </div>
 </script>
@@ -240,53 +238,6 @@
         <div class="clear"></div>
         <ul class="save-footer">
             <li>{% trans %}This is where the help stuff will go.{% endtrans %}</li>
-        </ul>
-    </div>
-</script>
-
-<script type="text/html" id="lightbox-run-test-validation-template">
-    <div id="lightbox-run-test-validation" class="validation-lightbox">
-        <ul class="validation-header">
-            <li class="title">{% trans %}Test Validation{% endtrans %}</li>
-            <li class="return-button-container"><button class="cancel-button" data-bind="click: returnToTest, visible: !is_valid || warnings.length > 0">{% trans %}Return to Test{% endtrans %}</button></li>
-            <li class="continue-button-container"><button class="ok-button" data-bind="click: function () { ignore_warning = true; $('.cancel-button').click(); }, visible: is_valid && warnings.length > 0">{% trans %}OK to continue?{% endtrans %}</button></li>
-        </ul>
-        <ul class="validation-footer" data-bind="visible: messages.length > 0, foreach: messages">
-            <li>
-                <span data-bind="attr: { 'class': 'light-small-round-button-outer success-'+!is_error }"><span class="light-small-round-button"><img data-bind="visible: !is_error" src="images/blue-check.png" title="pass" alt="pass" /><img data-bind="visible: is_error" src="images/red-exclamation.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" /></span></span>
-                <span class="label" data-bind="text: header"></span>
-                <div class="error section" data-bind="visible: is_error">
-                    <p>
-                        <!-- ko if: content != undefined && content.length == 1 -->
-                            {% trans %}There was an error validating your test configuration{% endtrans %}
-                        <!-- /ko -->
-                        <!-- ko if: content != undefined && content.length > 1 -->
-                            {% trans %}There were errors validating your test configuration{% endtrans %}
-                        <!-- /ko -->
-                    </p>
-                    <ul data-bind="foreach: content">
-                        <li data-bind="html: $data.charAt(0).toUpperCase()+ $data.slice(1)"></li>
-                    </ul>
-                </div>
-            </li>
-        </ul>
-        <ul class="validation-footer" data-bind="visible: warnings.length > 0 && is_valid, foreach: warnings">
-            <li>
-                <span class="label" data-bind="text: header"></span>
-                <div class="error section">
-                    <p>
-                        <!-- ko if: content != undefined && content.length == 1 -->
-                            {% trans %}There was a warning validating your test configuration{% endtrans %}
-                        <!-- /ko -->
-                        <!-- ko if: content != undefined && content.length > 1 -->
-                            {% trans %}There were warnings validating your test configuration{% endtrans %}
-                        <!-- /ko -->
-                    </p>
-                    <ul data-bind="foreach: content">
-                        <li data-bind="text: $data.charAt(0).toUpperCase()+ $data.slice(1)"></li>
-                    </ul>
-                </div>
-            </li>
         </ul>
     </div>
 </script>

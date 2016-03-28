@@ -40,6 +40,10 @@ msgstr "Passwords do not match."
 msgid "Password matches input."
 msgstr "Password matches input."
 
+#: ixiacr/handlers/admin.py:825
+msgid "Username is valid."
+msgstr "Username is valid."
+
 #: ixiacr/handlers/admin.py:831
 msgid "Failed in verify passwords."
 msgstr "Failed in verify passwords."
@@ -97,6 +101,9 @@ msgstr "Warning"
 #: ixiacr/handlers/tests.py:248
 msgid "Successfully saved Test: ${name}."
 msgstr "Successfully saved Test: ${name}."
+
+msgid "Successfully added user."
+msgstr "Successfully added user."
 
 #: ixiacr/handlers/tests.py:459
 msgid "Starting Test"
@@ -1062,17 +1069,9 @@ msgstr "%(user)s is currently logged in to the system."
 msgid "Username:"
 msgstr "Username:"
 
-#: ixiacr/templates/login.jinja2:127
-msgid "Username"
-msgstr "Username"
-
 #: ixiacr/templates/login.jinja2:131
 msgid "Password:"
 msgstr "Password:"
-
-#: ixiacr/templates/login.jinja2:132
-msgid "Password"
-msgstr "Password"
 
 #: ixiacr/templates/login.jinja2:134
 msgid "LOGIN"
@@ -1123,8 +1122,11 @@ msgstr "Devices"
 msgid "Change Account"
 msgstr "Change Account"
 
-msgid "Existing User Name"
-msgstr "Existing User Name"
+msgid "Duplicate User Name"
+msgstr "Duplicate User Name"
+
+msgid "Email"
+msgstr "Email"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:12
 #: ixiacr/templates/html/administration.tmpl.jinja2:85
@@ -1165,8 +1167,8 @@ msgid "devices"
 msgstr "devices"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:73
-msgid "change password"
-msgstr "change password"
+msgid "Change Password"
+msgstr "Change Password"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:82
 msgid "update"

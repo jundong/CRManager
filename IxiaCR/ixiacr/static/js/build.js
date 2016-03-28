@@ -50998,6 +50998,8 @@ function getConfigSetting(key) {\n\
         \"save_customers\": rootPath + \"save_customers\",\n\
         \"save_locations\": rootPath + \"save_locations\",\n\
         \"save_global_settings\": rootPath + \"save_global_settings\",\n\
+        \"add_user\": rootPath + \"add_user.json\",\n\
+        \"verify_user\": rootPath + \"verify_user.json\",\n\
         \"verify_password\": rootPath + \"verify_password.json\",\n\
         \"set_admin_password\": rootPath + \"set_admin_password\",\n\
         \"backup\": rootPath + \"backup\",\n\
@@ -51005,7 +51007,7 @@ function getConfigSetting(key) {\n\
         \"reboot_axon\": rootPath + \"reboot_axon\",\n\
         \"shutdown_axon\": rootPath + \"shutdown_axon\",\n\
         \"get_task_status\": rootPath + \"get_task_status\",\n\
-        \"get_axon_logs\": rootPath + \"get_axon_logs\",\n\
+        \"get_cr_logs\": rootPath + \"get_axon_logs\",\n\
         \"delete_device\": rootPath + \"delete_device\",\n\
         \"get_device_time_sync\": rootPath + \"get_device_time_sync\",\n\
         \"get_timing_accuracies\": rootPath + \"get_timing_accuracies.json\",\n\
@@ -69981,6 +69983,9 @@ function AdministrationViewModel(rootVm) {\n\
     self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
     self.validateOldPassword = ko.observable();\n\
     self.validateNewPassword = ko.observable();\n\
+    self.validatePassword = ko.observable();\n\
+    self.validateUsername = ko.observable();\n\
+    self.validateEmail = ko.observable();\n\
     self.upgradeFile = ko.observable();\n\
     self.fakeUpgrade = false;\n\
     self.fakeUpgradeStep = 0;\n\
@@ -70497,11 +70502,26 @@ AdministrationViewModel.prototype.calculateSystemSettingsTabClass = function () 
     return self.selectedTab() === \"system settings\" ? \"system selected\" : \"system\";\n\
 };\n\
 \n\
-AdministrationViewModel.prototype.addDevice = function () {\n\
-    var self = AdministrationViewModel.typesafe(this),\n\
-        device = new TestDeviceViewModel(self.rootVm);\n\
+AdministrationViewModel.prototype.addAccount = function () {\n\
+    var self = AdministrationViewModel.typesafe(this);\n\
 \n\
-    device.openSaveModal();\n\
+    util.lightbox.open({\n\
+        url : 'html/lightbox_tmpl',\n\
+        selector : '#lightbox-save-account-template',\n\
+        cancelSelector: '.cancel-button',\n\
+        onOpenComplete: function(){\n\
+            //self.startState = self.toFlatObject();\n\
+            ko.applyBindings(self, document.getElementById('lightbox-save-account'));\n\
+            //ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
+            var account = document.getElementById('lightbox-save-account');\n\
+            var password = document.getElementById('password');\n\
+            var account = document.getElementById('passwordVerify');\n\
+        },\n\
+        onClose: function(){\n\
+            //self.inflate(self.startState);\n\
+        }\n\
+    });\n\
+    //device.openSaveModal();\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.editDevice = function () {\n\
@@ -70842,13 +70862,13 @@ AdministrationViewModel.prototype.rebootChassis = function () {\n\
 AdministrationViewModel.prototype.shutdownChassis = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
     util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(\"Shutting down Axon\", \"Shutting down Axon...\"));\n\
+    util.lightbox.working(new LightboxWorkingViewModel(\"Shutting down Cyber Range\", \"Shutting down Cyber Range...\"));\n\
     var currentDate = new Date();\n\
 \n\
     completedPollingFunction = function (taskName) {\n\
         clearAllIntervals();\n\
         util.lightbox.close();\n\
-        self.lightboxText = 'Axon successfully shutdown.';\n\
+        self.lightboxText = 'Cyber Range successfully shutdown.';\n\
         util.lightbox.open({\n\
             url: 'templates/lightbox.tmpl.html',\n\
             selector: '#lightbox-message-template',\n\
@@ -70867,14 +70887,15 @@ AdministrationViewModel.prototype.shutdownChassis = function () {\n\
         contentType: false,\n\
         dataType: 'json',\n\
         processData: false,\n\
-        type: util.getRequestMethod('shutdown_axon'),\n\
+        type: util.getRequestMethod('shutdown_cr'),\n\
         success: function (data) {\n\
             self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": \"Shutting down Axon\", \"content\": \"Shutting down Axon\"}\n\
+                {\"header\": \"Shutting down Cyber Range\", \"content\": \"Shutting down Cyber Range\"}\n\
             ]}, \"Shutdown\", data.task_id, completedPollingFunction, null, null, true);\n\
         }\n\
     });\n\
 };\n\
+\n\
 AdministrationViewModel.prototype.changePassword = function (password) {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
     var $oldPassword = $('#oldPassword');\n\
@@ -70917,6 +70938,40 @@ AdministrationViewModel.prototype.changePassword = function (password) {\n\
     }\n\
 };\n\
 \n\
+AdministrationViewModel.prototype.addUser = function (password) {\n\
+    var self = AdministrationViewModel.typesafe(this);\n\
+    if (self.validatePassword() === \"confirmed\") {\n\
+        var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
+        util.lightbox.close();\n\
+        util.lightbox.working(workingVm);\n\
+        $.ajax({\n\
+            type: 'POST',\n\
+            url: util.getConfigSetting('add_user'),\n\
+            data: '{\"password\": \"' + $('#password').val() + ', \"username\": \"' + $('#username').val() + ', \"password\": \"' + $('#password').val() +'}',\n\
+            dataType: 'json',\n\
+            cache: false,\n\
+            success: function (data, textStatus, jqXhr) {\n\
+                if (data.result === \"SUCCESS\") {\n\
+                    workingVm.status('success');\n\
+                    $('#password, #username, #passwordVerify').val('');\n\
+                    self.validatePassword(undefined);\n\
+                } else {\n\
+                    workingVm.status('error');\n\
+                    $('#password, #username, #passwordVerify').val('');\n\
+                    self.validatePassword(undefined);\n\
+                }\n\
+            },\n\
+            error: function (jqXhr, textStatus, errorThrown) {\n\
+                workingVm.status('error');\n\
+            }\n\
+        });\n\
+    } else {\n\
+        $('#password').val('').focus();\n\
+        $('#passwordVerify').val('');\n\
+        self.validatePassword('error');\n\
+    }\n\
+};\n\
+\n\
 AdministrationViewModel.prototype.showError = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 };\n\
@@ -70924,14 +70979,14 @@ AdministrationViewModel.prototype.showError = function () {\n\
 /**\n\
  * @param vm data bound to click target\n\
  * @param e click event\n\
- * @param confirm (Boolean) True if the user has confirmed it's ok to change IP/DHCP\n\
+ * @param confirm (Boolean) True if the user has confirmed it's ok to change IP\n\
  */\n\
 AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm) {\n\
     if (!this.validateGlobalSettings()) {\n\
         return; // Short-circuit\n\
     }\n\
 \n\
-    if (!confirm && (this.globalSettingsVm.changing_IP() || this.globalSettingsVm.changing_to_DHCP())) {\n\
+    if (!confirm && (this.globalSettingsVm.changing_IP())) {\n\
         var message = window.translate('Changing the IP address will require you to re-establish a web management session with this Axon.');\n\
         this.runLightboxWarning(message, this.saveGlobalSettings.bind(this, vm, e, true));\n\
         return; // Short-circuit\n\

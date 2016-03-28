@@ -5,11 +5,7 @@
 
 
 """
-import inspect
-import uuid
-import os
 import time
-from json import dumps
 
 import transaction
 from pyramid.i18n import TranslationStringFactory, get_locale_name
@@ -17,19 +13,14 @@ from sqlalchemy.exc import DBAPIError
 from pyramid.security import authenticated_userid
 from pyramid_handlers import action
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPBadRequest, HTTPServerError
 
 from ixiacr.handlers import base
-from ixiacr.testcases.config import TestCaseConfig
 from ixiacr.models import *
-from ixiacr.tasks import (update_task,
-                              reset_db_task,
+from ixiacr.tasks import (reset_db_task,
                               reboot_task,
                               shutdown_task)
-from celery.result import AsyncResult
 from ixiacr.lib import IxiaLogger
-from ixiacr.lib.utils import random_id, admin_helper
-
+from ixiacr.lib.utils import admin_helper
 ixiacrlogger = IxiaLogger(__name__)
 
 _ = TranslationStringFactory('messages')
@@ -40,6 +31,12 @@ def view_includes(config):
     config.add_handler('verify_password', '/ixia/verify_password.json',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='verify_password')
+    config.add_handler('add_user', '/ixia/add_user.json',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='add_user')
+    config.add_handler('verify_user', '/ixia/verify_user.json',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='verify_user')
     config.add_handler('set_admin_password', '/ixia/set_admin_password',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='set_admin_password')
@@ -163,6 +160,72 @@ class IxiaAdminHandler(base.Handler):
             self.messages.append(dict(
                 {'is_error': True, 'header': 'Failed', 'content': str(e)}))
             return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def add_user(self):
+        """Set admin password
+
+        """
+        ixiacrlogger.debug('Entering: add_user')
+        self.messages = []
+
+        try:
+            data = self.request.json_body
+            auth_group = Group.query.filter_by(name='auth').first()
+
+            # add them to the db session
+            auth_user = User(first_name=u'', last_name=u'', username=data['name'],
+                      email=data['email'], remote_addr=u'127.0.0.1')
+            auth_user.groups.append(auth_group)
+            auth_user._set_password(data['password'])
+            db.add(auth_user)
+            transaction.commit()
+
+            # do more here but for now just ...
+            ixiacrlogger.debug('Exiting: add_user')
+            self.messages.append(
+                {'is_error': False,
+                 'header': 'Success',
+                 'content': self.localizer.translate(
+                     _('Successfully added user.'))})
+            return {'result': 'SUCCESS', 'messages': self.messages}
+
+        except Exception, e:
+            ixiacrlogger.exception('add_user: Exception. %s' % e)
+            self.messages.append(dict(
+                {'is_error': True, 'header': 'Failed', 'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def verify_user(self):
+        """Verify password
+
+        """
+        self.messages = []
+        ixiacrlogger.info('Entering: verify_user')
+        try:
+            data = self.request.json_body
+            u = User.by_username(data['name'])
+
+            if not u:
+                ixiacrlogger.debug('Exiting: verify_user')
+                return {"result": "FAILURE",
+                        "messages": [{"header": "Failed",
+                                      "content": self.localizer.translate(
+                                          _("Duplicate User Name"))}]}
+
+            ixiacrlogger.debug('Exiting: verify_user')
+            return {"result": "SUCCESS",
+                    "messages": [{"header": "Success",
+                                  "content": self.localizer.translate(
+                                      _("Username is valid."))}]}
+
+        except Exception, e:
+            ixiacrlogger.exception('verify_user: Exception. %s' % e)
+            self.messages.append({'is_error': True, 'header': 'Success',
+                                  'content': self.localizer.translate(
+                                      _('Duplicate User Name'))})
+            return {'result': 'SUCCESS', 'messages': self.messages}
 
     @action(renderer='json')
     def get_language(self):

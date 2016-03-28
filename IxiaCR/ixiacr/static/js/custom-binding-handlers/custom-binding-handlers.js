@@ -496,133 +496,28 @@ ko.bindingHandlers.validateNewPassword = {
     }
 };
 
-ko.bindingHandlers.stcLicenseFileUpload = {
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel, context){
-        new qq.FileUploader({
-            // If we're using jQuery, there's another way of selecting the DOM node
-            element: $('#fine-uploader')[0],
-            action: '/spirent/set_stc_license',
-            debug: true,
-            multiple: false,
-            allowedExtensions: ['lic'],
-            sizeLimit: 102400, // 50 kB = 50 * 1024 bytes
-            uploadButtonText: translate('Upload license bundle'),
-            showMessage: function(message) {
-            // Using Bootstrap's classes and jQuery selector and DOM manipulation
-                $('#fine-uploader > div.error, #fine-uploader > div.validated').remove();
-                $('#fine-uploader').append('<div class="error">' + message + '</div>');
-            },
-            onComplete: function(id, fileName, responseJSON) {
-                var completedPollingFunction=function(taskname, data){
-                    $('#fine-uploader > div.error, #fine-uploader > div.validated').remove();
-
-                    if (data.status==='complete') {
-                        var message = data.messages[0];
-                        if (message.is_error) {
-                            util.lightbox.openError(message.header, message.content);
-                        } else {
-                            var workingVm = new LightboxWorkingViewModel(translate('Refreshing License Status'), translate('Refreshing License Status'));
-                            util.lightbox.working(workingVm);
-                            setTimeout(function(){
-                                $.ajax({
-                                    type: 'POST',
-                                    url: util.getConfigSetting('get_global_settings'),
-                                    dataType: 'json',
-                                    success: function (data, textStatus, jqXhr) {
-                                        viewModel.globalSettingsVm.inflate(data);
-                                        util.lightbox.close();
-                                    }
-                                });
-                            }, 10000);
-                        }
-                    }
-                }
-                viewModel.showTaskStatus({ "status": "running", "messages": [{"header": translate("Starting license upload"), "content": translate("Starting license upload")}]}, translate("License Upload"), responseJSON.task_id, completedPollingFunction);
-            },
-            failedUploadTextDisplay: {
-                mode: 'custom',
-                maxChars: 40,
-                isErrorPropertyCheck: 'is_error',
-                responseProperty: 'messages[0].content',
-                enableTooltip: true
-            }
-        });
-    }
-};
-
-ko.bindingHandlers.backupFileUpload = {
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel, context){
-        new qq.FileUploader({
-            // If we're using jQuery, there's another way of selecting the DOM node
-            element: $('#backup-uploader')[0],
-            action: '/spirent/upload_backup',
-            debug: true,
-            multiple: false,
-            allowedExtensions: ['axon'],
-            sizeLimit: 0,
-            uploadButtonText: translate('Upload backup'),
-            showMessage: function(message) {
-            // Using Bootstrap's classes and jQuery selector and DOM manipulation
-                $('#backup-uploader > div.error, #backup-uploader > div.validated').remove();
-                $('#backup-uploader').append('<div class="error">' + message + '</div>');
-            },
-            onSubmit: function(id, fileName) {
-                util.lightbox.close();
-                util.lightbox.working(new LightboxWorkingViewModel(translate("Uploading backup..."), translate("Uploading backup...")));
-            },
-            onComplete: function(id, fileName, responseJSON) {
-                $('#backup-uploader > div.error, #backup-uploader > div.validated').remove();
-
-                if (responseJSON.result === 'SUCCESS') {
-                    globalSettingsCallback = function(){
-                        self.lightboxText =translate('Success');
-                        util.lightbox.open({
-                            url : 'html/lightbox_tmpl',
-                            selector : '#lightbox-message-template',
-                            cancelSelector: '.ok-button',
-                            onOpenComplete: function(){
-                                ko.applyBindings(self, document.querySelector('#fade #lightbox-message'));
-                            }
-                        });
-                    };
-
-                    window.ixiaCRVm.getGlobalSettings(globalSettingsCallback, true);
-                    util.lightbox.working(new LightboxWorkingViewModel(translate("Refreshing backup list"), translate("Refreshing backup list")));
-                }
-                else {
-                    util.lightbox.openError(translate('Upload failed'), (responseJSON.messages & response.messages.length > 0) ? data.messages[0] : 'Unknown failure');
-                }
-            },
-            failedUploadTextDisplay: {
-                mode: 'custom',
-                maxChars: 40,
-                isErrorPropertyCheck: 'is_error',
-                responseProperty: 'messages[0].content',
-                enableTooltip: true
-            }
-        });
-    }
-};
-
-ko.bindingHandlers.refreshDhcpSettings = {
+ko.bindingHandlers.validatePassword = {
     update: function(element, valueAccessor, allBindingsAccessor, viewModel, context) {
         var $ = jQuery;
         var $element = $(element);
-        if($element.is(':checked')){
-            $.ajax({
-                type: 'GET',
-                url: util.getConfigSetting('get_global_settings'),
-                dataType: 'json',
-                invokeData: {
-                    viewModel:viewModel
-                },
-                success: function (data, textStatus, jqXhr) {
-                    this.invokeData.viewModel.globalSettingsVm.host(data.host);
-                    this.invokeData.viewModel.globalSettingsVm.chassisPrefix(data.chassis_prefix);
-                    this.invokeData.viewModel.globalSettingsVm.gateway(data.gateway);
+        var timer = 0;
+        var checkPasswords = function() {
+            if ($('#password').val() != "" && $('#passwordVerify').val() != ""){
+                if ($('#password').val() === $('#passwordVerify').val()){
+                    viewModel.validatePassword('confirmed');
+                } else {
+                    viewModel.validatePassword('error');
                 }
-            });
+            } else {
+                    viewModel.validatePassword(undefined);
+            }
         }
+        $element.on('keyup', function(){
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(checkPasswords, 400);
+        });
     }
 };
 

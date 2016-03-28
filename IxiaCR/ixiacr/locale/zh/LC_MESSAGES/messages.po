@@ -24,6 +24,9 @@ msgstr ""
 msgid "Successfully saved device."
 msgstr "设备保存成功。"
 
+msgid "Successfully added user."
+msgstr "成功添加用户."
+
 #: ixiacr/handlers/admin.py:525
 msgid "Saving device failed. Perhaps this host already exists?"
 msgstr "保存设备失败。可能该主机已存在？"
@@ -47,6 +50,10 @@ msgstr "密码未能匹配。"
 #: ixiacr/handlers/admin.py:825
 msgid "Password matches input."
 msgstr "密码输入正确。"
+
+#: ixiacr/handlers/admin.py:825
+msgid "Username is valid."
+msgstr "用户名可用。"
 
 #: ixiacr/handlers/admin.py:831
 msgid "Failed in verify passwords."
@@ -1495,18 +1502,6 @@ msgstr "%(user)s当前已登入系统。"
 msgid "Username:"
 msgstr "用户名称："
 
-#: ixiacr/templates/login.jinja2:127
-msgid "Username"
-msgstr "用户名称："
-
-#: ixiacr/templates/login.jinja2:131
-msgid "Password:"
-msgstr "密码:"
-
-#: ixiacr/templates/login.jinja2:132
-msgid "Password"
-msgstr "密码:"
-
 #: ixiacr/templates/login.jinja2:134
 msgid "LOGIN"
 msgstr "登录"
@@ -1562,8 +1557,11 @@ msgstr "设备"
 msgid "Change Account"
 msgstr "更改账号"
 
-msgid "Existing User Name"
+msgid "Duplicate User Name"
 msgstr "用户名已存在"
+
+msgid "Email"
+msgstr "邮件地址"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:12
 #: ixiacr/templates/html/administration.tmpl.jinja2:85
@@ -1598,7 +1596,7 @@ msgid "devices"
 msgstr "设备"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:73
-msgid "change password"
+msgid "Change Password"
 msgstr "更改密码"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:82

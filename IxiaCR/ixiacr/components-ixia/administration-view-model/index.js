@@ -34,6 +34,9 @@ function AdministrationViewModel(rootVm) {
     self.getAvailableDevices = self.rootVm.getAvailableDevices;
     self.validateOldPassword = ko.observable();
     self.validateNewPassword = ko.observable();
+    self.validatePassword = ko.observable();
+    self.validateUsername = ko.observable();
+    self.validateEmail = ko.observable();
     self.upgradeFile = ko.observable();
     self.fakeUpgrade = false;
     self.fakeUpgradeStep = 0;
@@ -558,14 +561,11 @@ AdministrationViewModel.prototype.addAccount = function () {
         selector : '#lightbox-save-account-template',
         cancelSelector: '.cancel-button',
         onOpenComplete: function(){
-            //self.startState = self.toFlatObject();
             ko.applyBindings(self, document.getElementById('lightbox-save-account'));
         },
         onClose: function(){
-            //self.inflate(self.startState);
         }
     });
-    //device.openSaveModal();
 };
 
 AdministrationViewModel.prototype.editDevice = function () {
@@ -906,13 +906,13 @@ AdministrationViewModel.prototype.rebootChassis = function () {
 AdministrationViewModel.prototype.shutdownChassis = function () {
     var self = AdministrationViewModel.typesafe(this);
     util.lightbox.close();
-    util.lightbox.working(new LightboxWorkingViewModel("Shutting down Axon", "Shutting down Axon..."));
+    util.lightbox.working(new LightboxWorkingViewModel("Shutting down Cyber Range", "Shutting down Cyber Range..."));
     var currentDate = new Date();
 
     completedPollingFunction = function (taskName) {
         clearAllIntervals();
         util.lightbox.close();
-        self.lightboxText = 'Axon successfully shutdown.';
+        self.lightboxText = 'Cyber Range successfully shutdown.';
         util.lightbox.open({
             url: 'templates/lightbox.tmpl.html',
             selector: '#lightbox-message-template',
@@ -931,14 +931,15 @@ AdministrationViewModel.prototype.shutdownChassis = function () {
         contentType: false,
         dataType: 'json',
         processData: false,
-        type: util.getRequestMethod('shutdown_axon'),
+        type: util.getRequestMethod('shutdown_cr'),
         success: function (data) {
             self.showTaskStatus({ "status": "running", "messages": [
-                {"header": "Shutting down Axon", "content": "Shutting down Axon"}
+                {"header": "Shutting down Cyber Range", "content": "Shutting down Cyber Range"}
             ]}, "Shutdown", data.task_id, completedPollingFunction, null, null, true);
         }
     });
 };
+
 AdministrationViewModel.prototype.changePassword = function (password) {
     var self = AdministrationViewModel.typesafe(this);
     var $oldPassword = $('#oldPassword');
@@ -981,6 +982,40 @@ AdministrationViewModel.prototype.changePassword = function (password) {
     }
 };
 
+AdministrationViewModel.prototype.addUser = function (password) {
+    var self = AdministrationViewModel.typesafe(this);
+    if (self.validatePassword() === "confirmed") {
+        var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));
+        util.lightbox.close();
+        util.lightbox.working(workingVm);
+        $.ajax({
+            type: 'POST',
+            url: util.getConfigSetting('add_user'),
+            data: '{"password": "' + $('#password').val() + ', "username": "' + $('#username').val() + ', "password": "' + $('#password').val() +'}',
+            dataType: 'json',
+            cache: false,
+            success: function (data, textStatus, jqXhr) {
+                if (data.result === "SUCCESS") {
+                    workingVm.status('success');
+                    $('#password, #username, #passwordVerify').val('');
+                    self.validatePassword(undefined);
+                } else {
+                    workingVm.status('error');
+                    $('#password, #username, #passwordVerify').val('');
+                    self.validatePassword(undefined);
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                workingVm.status('error');
+            }
+        });
+    } else {
+        $('#password').val('').focus();
+        $('#passwordVerify').val('');
+        self.validatePassword('error');
+    }
+};
+
 AdministrationViewModel.prototype.showError = function () {
     var self = AdministrationViewModel.typesafe(this);
 };
@@ -988,14 +1023,14 @@ AdministrationViewModel.prototype.showError = function () {
 /**
  * @param vm data bound to click target
  * @param e click event
- * @param confirm (Boolean) True if the user has confirmed it's ok to change IP/DHCP
+ * @param confirm (Boolean) True if the user has confirmed it's ok to change IP
  */
 AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm) {
     if (!this.validateGlobalSettings()) {
         return; // Short-circuit
     }
 
-    if (!confirm && (this.globalSettingsVm.changing_IP() || this.globalSettingsVm.changing_to_DHCP())) {
+    if (!confirm && (this.globalSettingsVm.changing_IP())) {
         var message = window.translate('Changing the IP address will require you to re-establish a web management session with this Axon.');
         this.runLightboxWarning(message, this.saveGlobalSettings.bind(this, vm, e, true));
         return; // Short-circuit
