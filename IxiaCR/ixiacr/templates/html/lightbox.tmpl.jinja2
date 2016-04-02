@@ -152,66 +152,47 @@
 <script type="text/html" id="lightbox-save-account-template">
     <div id="lightbox-save-account" class="save-lightbox">
         <ul class="save-header">
-            <li><input id="username" type="text" data-bind="value: username, valueUpdate: 'input', validateUsername: $data" /></li>
+            <li><input id="userName" type="text" data-bind="value: userName, valueUpdate: 'input', validateUserName: $data" /></li>
             <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
             <li class="button-container"><button class="ok-button" data-bind="click: addUser">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
         </ul>
         <div class="clear"></div>
-        <div class="error section" data-bind="visible: validateUsername()==='error'">
-            <div class="container" data-bind="foreach: validateUsername()==='error'">
+        <div class="error section" data-bind="visible: validateUserName()==='error'">
+            <div class="container" data-bind="foreach: validateUserName()==='error'">
                 <h2>{% trans %}Duplicate User Name:{% endtrans %}</h2>
             </div>
         </div>
         <ul class="save-middle">
-            <li><label>{% trans %}Password{% endtrans %}</label><input id="password" class="long" type="password" data-bind="validatePassword: $data" /></li>
-            <li id="newPasswordList"><label>{% trans %}Verify Password{% endtrans %}</label><input id="passwordVerify" class="long" type="password" data-bind="validatePassword: $data" />
-                <span class="error" data-bind="visible: validatePassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
-                <span class="validated" data-bind="visible: validatePassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
-            </li>
-            <li><label>{% trans %}Email{% endtrans %}</label><input id="email" class="long" type="text" data-bind="validateEmail: $data" /></li>
+            <li><label>{% trans %}First Name{% endtrans %}</label><input id="userFirstName" class="long" type="text" data-bind="value: userFirstName" /></li>
+            <li><label>{% trans %}Last Name{% endtrans %}</label><input id="userLastName" class="long" type="text" data-bind="value: userLastName" /></li>
+            <li><label>{% trans %}Password{% endtrans %}</label><input id="userPassword" class="long" type="password" data-bind="validateUserPassword: $data" /></li>
+            <li><label>{% trans %}Verify Password{% endtrans %}</label><input id="userPasswordVerify" class="long" type="password" data-bind="validateUserPasswordVerify: $data" /></li>
+            <li class="error" data-bind="visible: validateUserPasswordVerify()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</li>
+            <li class="validated" data-bind="visible: validateUserPasswordVerify()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</li>
+
         </ul>
+        <!-- <div class="clear"></div>
+        <div class="error section" data-bind="visible: validateUserPasswordVerify()==='error'">
+            <h2>{% trans %}Your passwords do not match. Please try again.{% endtrans %}</h2>
+        </div>
+        <div class="validated section" data-bind="visible: validateUserPasswordVerify()==='confirmed'">
+            <h2>{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</h2>
+        </div> -->
     </div>
 </script>
 
 <script type="text/html" id="lightbox-save-device-template">
     <div id="lightbox-save-device" class="save-lightbox">
         <ul class="save-header">
-            <li><input type="text" data-bind="value: name, valueUpdate: 'input'" /></li>
-            <li class="check-box-container"><input class="dark-checkbox" type="checkbox" data-bind="checked: favorite" /><a href="javascript:void(0);" data-bind="click: function () { favorite(!favorite()); }">{% trans %}FAVORITE{% endtrans %}</a></li>
+            <li><input type="text" disabled="disabled" data-bind="value: name, valueUpdate: 'input'" /></li>
             <li class="button-container"><button class="cancel-button">{% trans %}lightbox.tmpl.jinja2.CANCEL{% endtrans %}</button></li>
             <li class="button-container"><button class="ok-button" data-bind="click: save">{% trans %}lightbox.tmpl.jinja2.SAVE{% endtrans %}</button></li>
         </ul>
-        <div class="clear"></div>
-        <div class="error section" data-bind="visible: validationResult() && !validationResult().is_valid">
-            <div class="container" data-bind="foreach: validationResult() ? validationResult().messages : []">
-                <h2>{% trans %}There are validation errors with your device configuration:{% endtrans %}</h2>
-                <ul class="validation-list" data-bind="visible: content.length > 0, foreach: content">
-                    <li data-bind="text: $data"></li>
-                </ul>
-            </div>
-        </div>
         <ul class="save-middle">
-            <li><label>{% trans %}HOST ADDRESS:{% endtrans %}</label><input class="address light-text-box2" type="text" data-bind="value: host, valueUpdate: 'input'" /></li>
-            <li>{% trans %}Authentication{% endtrans %}
-                <div class="smallText blueVioletText">{% trans %}To authenticate, you must provide the same username and password used when logging into the UI of the remote box.{% endtrans %}</div>
-            </li>
-            <li><label>{% trans %}AUTH ID:{% endtrans %}</label><input class="username light-text-box2" type="text" data-bind="value: username, valueUpdate: 'input'" /></li>
-            <li><label>{% trans %}PASSWORD:{% endtrans %}</label><input class="password light-text-box2" type="password" data-bind="value: password, valueUpdate: 'input'" /></li>
+            <li><label>{% trans %}Device ADDRESS:{% endtrans %}</label><input class="address light-text-box2" type="text" data-bind="value: host, valueUpdate: 'input'" /></li>
+            <li><label>{% trans %}Access Link:{% endtrans %}</label><input class="username light-text-box2" type="text" data-bind="value: username, valueUpdate: 'input'" /></li>
         </ul>
         <ul class="save-footer">
-            <!--<li>
-                <label>CUSTOMER:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': customer() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableCustomers, value: customer, optionsCaption: 'select one'"></select>
-                </div>
-            </li>
-            <li>
-                <label>LOCATION:</label>
-                <div class="light-select2 option-wrapper" data-bind="attr: {'data-value': location() || 'select one' }">
-                    <select data-bind="options: ixiaCRVm.availableLocations, value: location, optionsCaption: 'select one'"></select>
-                </div>
-            </li>-->
-            <li><label>{% trans %}TAGS:{% endtrans %}</label><input type="text" class="light-text-box2" data-bind="value: displayTags, valueUpdate: 'input'" /></li>
         </ul>
     </div>
 </script>

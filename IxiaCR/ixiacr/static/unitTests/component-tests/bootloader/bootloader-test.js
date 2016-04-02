@@ -75,10 +75,10 @@ asyncTest("Preloads Images From Server", function(){
 	var response = {
 		files : [
 			{
-				name: "spirent-logo.png",
+				name: "ixia-logo.png",
 				modified: "01/18/2013 01:03:24 PM",
 				directory: false,
-				path: "spirent-logo.png",
+				path: "ixia-logo.png",
 				children: [],
 				parent_dir: "/local/web/Axon/axon/static/images",
 				size: "615 Bytes"

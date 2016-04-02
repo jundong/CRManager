@@ -69981,11 +69981,20 @@ function AdministrationViewModel(rootVm) {\n\
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
+\n\
     self.validateOldPassword = ko.observable();\n\
     self.validateNewPassword = ko.observable();\n\
-    self.validatePassword = ko.observable();\n\
-    self.validateUsername = ko.observable();\n\
-    self.validateEmail = ko.observable();\n\
+\n\
+    self.validateUserPassword = ko.observable();\n\
+    self.validateUserPasswordVerify = ko.observable();\n\
+    self.validateUserName = ko.observable();\n\
+\n\
+    self.userName = ko.observable();\n\
+    self.userFirstName = ko.observable();\n\
+    self.userLastName = ko.observable();\n\
+    self.userPassword = ko.observable();\n\
+    self.userPasswordVerify = ko.observable();\n\
+\n\
     self.upgradeFile = ko.observable();\n\
     self.fakeUpgrade = false;\n\
     self.fakeUpgradeStep = 0;\n\
@@ -70510,18 +70519,11 @@ AdministrationViewModel.prototype.addAccount = function () {\n\
         selector : '#lightbox-save-account-template',\n\
         cancelSelector: '.cancel-button',\n\
         onOpenComplete: function(){\n\
-            //self.startState = self.toFlatObject();\n\
             ko.applyBindings(self, document.getElementById('lightbox-save-account'));\n\
-            //ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
-            var account = document.getElementById('lightbox-save-account');\n\
-            var password = document.getElementById('password');\n\
-            var account = document.getElementById('passwordVerify');\n\
         },\n\
         onClose: function(){\n\
-            //self.inflate(self.startState);\n\
         }\n\
     });\n\
-    //device.openSaveModal();\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.editDevice = function () {\n\
@@ -70846,15 +70848,15 @@ AdministrationViewModel.prototype.rebootChassis = function () {\n\
     };\n\
 \n\
     $.ajax({\n\
-        url: util.getConfigSetting('reboot_axon'),\n\
+        url: util.getConfigSetting('reboot_cr'),\n\
         cache: false,\n\
         contentType: false,\n\
         dataType: 'json',\n\
         processData: false,\n\
-        type: util.getRequestMethod('reboot_axon'),\n\
+        type: util.getRequestMethod('reboot_cr'),\n\
         success: function (data) {\n\
             self.showTaskStatus({ \"status\": \"running\", \"messages\": [\n\
-                {\"header\": translate(\"Rebooting Axon\"), \"content\": translate(\"Rebooting Axon\")}\n\
+                {\"header\": translate(\"Rebooting Cyber Range\"), \"content\": translate(\"Rebooting Cyber Range\")}\n\
             ]}, translate(\"Reboot\"), data.task_id, completedPollingFunction);\n\
         }\n\
     });\n\
@@ -70940,25 +70942,28 @@ AdministrationViewModel.prototype.changePassword = function (password) {\n\
 \n\
 AdministrationViewModel.prototype.addUser = function (password) {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
-    if (self.validatePassword() === \"confirmed\") {\n\
+    var data = '{\"password\": \"' + $('#userPassword').val() + '\", \"username\": \"' + $('#userName').val() + '\", \"firstname\": \"' + $('#userFirstName').val() + '\", \"lastname\": \"' + $('#userLastName').val() + '\"}';\n\
+    if (self.validateUserPassword() === \"confirmed\" || self.validateUserPasswordVerify() === \"confirmed\") {\n\
         var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
         util.lightbox.close();\n\
         util.lightbox.working(workingVm);\n\
         $.ajax({\n\
             type: 'POST',\n\
             url: util.getConfigSetting('add_user'),\n\
-            data: '{\"password\": \"' + $('#password').val() + ', \"username\": \"' + $('#username').val() + ', \"password\": \"' + $('#password').val() +'}',\n\
+            data: data,\n\
             dataType: 'json',\n\
             cache: false,\n\
             success: function (data, textStatus, jqXhr) {\n\
                 if (data.result === \"SUCCESS\") {\n\
                     workingVm.status('success');\n\
-                    $('#password, #username, #passwordVerify').val('');\n\
-                    self.validatePassword(undefined);\n\
+                    $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');\n\
+                    self.validateUserPassword(undefined);\n\
+                    self.validateUserPasswordVerify(undefined);\n\
                 } else {\n\
                     workingVm.status('error');\n\
-                    $('#password, #username, #passwordVerify').val('');\n\
-                    self.validatePassword(undefined);\n\
+                    $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');\n\
+                    self.validateUserPassword(undefined);\n\
+                    self.validateUserPasswordVerify(undefined);\n\
                 }\n\
             },\n\
             error: function (jqXhr, textStatus, errorThrown) {\n\
@@ -70966,9 +70971,9 @@ AdministrationViewModel.prototype.addUser = function (password) {\n\
             }\n\
         });\n\
     } else {\n\
-        $('#password').val('').focus();\n\
-        $('#passwordVerify').val('');\n\
-        self.validatePassword('error');\n\
+        $('#userName').val('').focus();\n\
+        $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');\n\
+        self.validateUserPassword('error');\n\
     }\n\
 };\n\
 \n\

@@ -44,6 +44,14 @@ msgstr "Password matches input."
 msgid "Username is valid."
 msgstr "Username is valid."
 
+#: ixiacr/handlers/admin.py:825
+msgid "First Name"
+msgstr "First Name"
+
+#: ixiacr/handlers/admin.py:825
+msgid "Last Name"
+msgstr "Last Name"
+
 #: ixiacr/handlers/admin.py:831
 msgid "Failed in verify passwords."
 msgstr "Failed in verify passwords."
@@ -1213,7 +1221,7 @@ msgid "Delete &raquo;"
 msgstr "Delete &raquo;"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:154
-msgid "Host Address"
+msgid "Device Address"
 msgstr ""
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:157
@@ -1846,8 +1854,8 @@ msgstr ""
 "when logging into the UI of the remote box."
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:466
-msgid "AUTH ID:"
-msgstr "AUTH ID:"
+msgid "Access Link:"
+msgstr "Access Link:"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:467
 msgid "PASSWORD:"

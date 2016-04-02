@@ -171,11 +171,11 @@ class IxiaAdminHandler(base.Handler):
 
         try:
             data = self.request.json_body
-            auth_group = Group.query.filter_by(name='auth').first()
+            auth_group = Group.query.filter_by(name='admin').first()
 
             # add them to the db session
-            auth_user = User(first_name=u'', last_name=u'', username=data['name'],
-                      email=data['email'], remote_addr=u'127.0.0.1')
+            auth_user = User(username=data['username'], email=data['username'],
+                      first_name=data['firstname'], last_name=data['lastname'], remote_addr=u'127.0.0.1')
             auth_user.groups.append(auth_group)
             auth_user._set_password(data['password'])
             db.add(auth_user)

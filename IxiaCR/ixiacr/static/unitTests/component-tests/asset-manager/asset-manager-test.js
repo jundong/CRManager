@@ -10,7 +10,7 @@ test("Asset Manager is Created", function(){
 
 test("Asset Manager queues download", function(){
 	var assetManager = new AssetManager();
-	var assetPath = "../../assets/spirent-logo.png";
+	var assetPath = "../../assets/ixia-logo.png";
 	
 	assetManager.queueDownload(assetPath);
 	
@@ -19,7 +19,7 @@ test("Asset Manager queues download", function(){
 
 test("Asset Manager does not queue same download", function(){
 	var assetManager = new AssetManager();
-	var assetPath = "../../assets/spirent-logo.png";
+	var assetPath = "../../assets/ixia-logo.png";
 	
 	assetManager.queueDownload(assetPath);
 	assetManager.queueDownload(assetPath);
@@ -30,8 +30,8 @@ test("Asset Manager does not queue same download", function(){
 test("Asset Manager reports Done (all success)", function(){
 	var assetManager = new AssetManager();
 	
-	assetManager.queueDownload("../../assets/spirent-logo.png");
-	assetManager.queueDownload("../../assets/spirent-logo2.png");
+	assetManager.queueDownload("../../assets/ixia-logo.png");
+	assetManager.queueDownload("../../assets/ixia-logo2.png");
 	
 	assetManager.successCount = 2;
 	
@@ -41,8 +41,8 @@ test("Asset Manager reports Done (all success)", function(){
 test("Asset Manager reports Done (all fail)", function(){
 	var assetManager = new AssetManager();
 	
-	assetManager.queueDownload("../../assets/spirent-logo.png");
-	assetManager.queueDownload("../../assets/spirent-logo2.png");
+	assetManager.queueDownload("../../assets/ixia-logo.png");
+	assetManager.queueDownload("../../assets/ixia-logo2.png");
 	
 	assetManager.errorCount = 2;
 	
@@ -52,8 +52,8 @@ test("Asset Manager reports Done (all fail)", function(){
 test("Asset Manager reports Done (some succeed, some fail)", function(){
 	var assetManager = new AssetManager();
 	
-	assetManager.queueDownload("../../assets/spirent-logo.png");
-	assetManager.queueDownload("../../assets/spirent-logo2.png");
+	assetManager.queueDownload("../../assets/ixia-logo.png");
+	assetManager.queueDownload("../../assets/ixia-logo2.png");
 	
 	assetManager.successCount = 1;
 	assetManager.errorCount = 1;
@@ -63,7 +63,7 @@ test("Asset Manager reports Done (some succeed, some fail)", function(){
 
 asyncTest("Asset Manager downloads all (success)", function(){
 	var assetManager = new AssetManager();
-	var assetPath = "../../assets/spirent-logo.png";
+	var assetPath = "../../assets/ixia-logo.png";
 	
 	expect(2);
 	

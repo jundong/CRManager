@@ -94,11 +94,12 @@
                     <li id="oldPasswordList"><label>{% trans %}Old password{% endtrans %}</label>
                         <input class="long" type="password" id="oldPassword" data-bind="validateOldPassword: $data"/>
                         <span class="error" data-bind="visible: validateOldPassword()==='FAILURE'">X&nbsp;&nbsp;{% trans %}Your password is incorrect. Please try again.{% endtrans %}</span>
-                        <span class="validated" data-bind="visible: validateOldPassword()==='SUCCESS'">✔&nbsp;&nbsp;{% trans %}Your old password is correct.{% endtrans %}</span></li>
+                        <span class="validated" data-bind="visible: validateOldPassword()==='SUCCESS'">✔&nbsp;&nbsp;{% trans %}Your old password is correct.{% endtrans %}</span>
+                    </li>
                     <li><label>{% trans %}New password{% endtrans %}</label><input id="newPassword" class="long" type="password" data-bind="validateNewPassword: $data" /></li>
                     <li id="newPasswordList"><label>{% trans %}Verify new password{% endtrans %}</label><input id="newPasswordVerify" class="long" type="password" data-bind="validateNewPassword: $data" />
                         <span class="error" data-bind="visible: validateNewPassword()==='error'">X&nbsp;&nbsp;{% trans %}Your passwords do not match. Please try again.{% endtrans %}</span>
-                        <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span></li>
+                        <span class="validated" data-bind="visible: validateNewPassword()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</span>
                     </li>
                 </ul>
                 <a class="add-button" href="javascript:void(0);" data-bind="click: function () { addAccount(); }, clickBubble: false">

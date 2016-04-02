@@ -55,6 +55,14 @@ msgstr "密码输入正确。"
 msgid "Username is valid."
 msgstr "用户名可用。"
 
+#: ixiacr/handlers/admin.py:825
+msgid "First Name"
+msgstr "名字"
+
+#: ixiacr/handlers/admin.py:825
+msgid "Last Name"
+msgstr "姓"
+
 #: ixiacr/handlers/admin.py:831
 msgid "Failed in verify passwords."
 msgstr "密码验证失败。"
@@ -2237,8 +2245,8 @@ msgid "There are validation errors with your track configuration:"
 msgstr "测试数据模型配置验证出错："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:462
-msgid "HOST ADDRESS:"
-msgstr "主机地址："
+msgid "Device ADDRESS:"
+msgstr "设备地址："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:463
 msgid "Authentication"
@@ -2251,8 +2259,8 @@ msgid ""
 msgstr "验证过程需要您提供登录远程Cyber Range界面时所使用的用户名和密码。"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:466
-msgid "AUTH ID:"
-msgstr "认证ID："
+msgid "Access Link:"
+msgstr "访问链接："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:467
 msgid "PASSWORD:"

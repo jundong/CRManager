@@ -32,11 +32,20 @@ function AdministrationViewModel(rootVm) {
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.getAvailableDevices = self.rootVm.getAvailableDevices;
+
     self.validateOldPassword = ko.observable();
     self.validateNewPassword = ko.observable();
-    self.validatePassword = ko.observable();
-    self.validateUsername = ko.observable();
-    self.validateEmail = ko.observable();
+
+    self.validateUserPassword = ko.observable();
+    self.validateUserPasswordVerify = ko.observable();
+    self.validateUserName = ko.observable();
+
+    self.userName = ko.observable();
+    self.userFirstName = ko.observable();
+    self.userLastName = ko.observable();
+    self.userPassword = ko.observable();
+    self.userPasswordVerify = ko.observable();
+
     self.upgradeFile = ko.observable();
     self.fakeUpgrade = false;
     self.fakeUpgradeStep = 0;
@@ -890,15 +899,15 @@ AdministrationViewModel.prototype.rebootChassis = function () {
     };
 
     $.ajax({
-        url: util.getConfigSetting('reboot_axon'),
+        url: util.getConfigSetting('reboot_cr'),
         cache: false,
         contentType: false,
         dataType: 'json',
         processData: false,
-        type: util.getRequestMethod('reboot_axon'),
+        type: util.getRequestMethod('reboot_cr'),
         success: function (data) {
             self.showTaskStatus({ "status": "running", "messages": [
-                {"header": translate("Rebooting Axon"), "content": translate("Rebooting Axon")}
+                {"header": translate("Rebooting Cyber Range"), "content": translate("Rebooting Cyber Range")}
             ]}, translate("Reboot"), data.task_id, completedPollingFunction);
         }
     });
@@ -984,25 +993,28 @@ AdministrationViewModel.prototype.changePassword = function (password) {
 
 AdministrationViewModel.prototype.addUser = function (password) {
     var self = AdministrationViewModel.typesafe(this);
-    if (self.validatePassword() === "confirmed") {
+    var data = '{"password": "' + $('#userPassword').val() + '", "username": "' + $('#userName').val() + '", "firstname": "' + $('#userFirstName').val() + '", "lastname": "' + $('#userLastName').val() + '"}';
+    if (self.validateUserPassword() === "confirmed" || self.validateUserPasswordVerify() === "confirmed") {
         var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));
         util.lightbox.close();
         util.lightbox.working(workingVm);
         $.ajax({
             type: 'POST',
             url: util.getConfigSetting('add_user'),
-            data: '{"password": "' + $('#password').val() + ', "username": "' + $('#username').val() + ', "password": "' + $('#password').val() +'}',
+            data: data,
             dataType: 'json',
             cache: false,
             success: function (data, textStatus, jqXhr) {
                 if (data.result === "SUCCESS") {
                     workingVm.status('success');
-                    $('#password, #username, #passwordVerify').val('');
-                    self.validatePassword(undefined);
+                    $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');
+                    self.validateUserPassword(undefined);
+                    self.validateUserPasswordVerify(undefined);
                 } else {
                     workingVm.status('error');
-                    $('#password, #username, #passwordVerify').val('');
-                    self.validatePassword(undefined);
+                    $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');
+                    self.validateUserPassword(undefined);
+                    self.validateUserPasswordVerify(undefined);
                 }
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -1010,9 +1022,9 @@ AdministrationViewModel.prototype.addUser = function (password) {
             }
         });
     } else {
-        $('#password').val('').focus();
-        $('#passwordVerify').val('');
-        self.validatePassword('error');
+        $('#userName').val('').focus();
+        $('#userPassword, #userName, #userPasswordVerify, #userFirstName, #userLastName').val('');
+        self.validateUserPassword('error');
     }
 };
 

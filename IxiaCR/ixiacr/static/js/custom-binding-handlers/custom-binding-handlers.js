@@ -496,20 +496,82 @@ ko.bindingHandlers.validateNewPassword = {
     }
 };
 
-ko.bindingHandlers.validatePassword = {
+ko.bindingHandlers.validateUserName = {
+//    update: function(element, valueAccessor, allBindingsAccessor, viewModel, context) {
+//        var $ = jQuery;
+//        var $element = $(element);
+//        var timer = 0;
+//        var checkPassword = function() {
+//            if ($element.val() != ""){
+//                $.ajax({
+//                    type: 'POST',
+//                    url: util.getConfigSetting('verify_password'),
+//                    data: '{"password": "'+$element.val()+'"}',
+//                    dataType: 'json',
+//                    invokeData: {
+//                        viewModel:viewModel
+//                    },
+//                    success: function (data, textStatus, jqXhr) {
+//                            this.invokeData.viewModel.validateOldPassword(data.result);
+//                    }
+//                });
+//            }
+//        }
+//
+//        $element.on('keyup', function(){
+//            if (timer) {
+//                clearTimeout(timer);
+//            }
+//            timer = setTimeout(checkPassword, 400);
+//        });
+//    }
+};
+
+ko.bindingHandlers.validateUserPassword = {
     update: function(element, valueAccessor, allBindingsAccessor, viewModel, context) {
         var $ = jQuery;
         var $element = $(element);
         var timer = 0;
         var checkPasswords = function() {
-            if ($('#password').val() != "" && $('#passwordVerify').val() != ""){
-                if ($('#password').val() === $('#passwordVerify').val()){
-                    viewModel.validatePassword('confirmed');
+            if ($('#userPassword').val() != "" && $('#userPasswordVerify').val() != ""){
+                if ($('#userPassword').val() === $('#userPasswordVerify').val()){
+                    viewModel.validateUserPasswordVerify('confirmed');
+                    viewModel.validateUserPassword('confirmed');
                 } else {
-                    viewModel.validatePassword('error');
+                    viewModel.validateUserPasswordVerify('error');
+                    viewModel.validateUserPassword('error');
                 }
             } else {
-                    viewModel.validatePassword(undefined);
+                viewModel.validateUserPasswordVerify(undefined);
+                viewModel.validateUserPassword('undefined');
+            }
+        }
+        $element.on('keyup', function(){
+            if (timer) {
+                clearTimeout(timer);
+            }
+            timer = setTimeout(checkPasswords, 400);
+        });
+    }
+};
+
+ko.bindingHandlers.validateUserPasswordVerify = {
+    update: function(element, valueAccessor, allBindingsAccessor, viewModel, context) {
+        var $ = jQuery;
+        var $element = $(element);
+        var timer = 0;
+        var checkPasswords = function() {
+            if ($('#userPassword').val() != "" && $('#userPasswordVerify').val() != ""){
+                if ($('#userPassword').val() === $('#userPasswordVerify').val()){
+                    viewModel.validateUserPasswordVerify('confirmed');
+                    viewModel.validateUserPassword('confirmed');
+                } else {
+                    viewModel.validateUserPasswordVerify('error');
+                    viewModel.validateUserPassword('error');
+                }
+            } else {
+                viewModel.validateUserPasswordVerify(undefined);
+                viewModel.validateUserPassword('undefined');
             }
         }
         $element.on('keyup', function(){

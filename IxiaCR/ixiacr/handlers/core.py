@@ -63,7 +63,6 @@ class IxiaCoreHandler(base.Handler):
     '''
     @action(renderer='index.jinja2', permission='all_access')
     def index(self):
-
         # Get current authenticated user object.
         user = User.by_id(self.user_id)
         username = user.username

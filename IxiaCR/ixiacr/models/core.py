@@ -338,8 +338,8 @@ class User(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     username = Column(Unicode(128), unique=True, nullable=False)
-    first_name = Column(Unicode(128), nullable=True)
-    last_name = Column(Unicode(128), nullable=True)
+    first_name = Column(Unicode(128), nullable=True, default='')
+    last_name = Column(Unicode(128), nullable=True, default='')
     password = Column(Unicode(255), nullable=False)
     active = Column(Boolean, default=True)
     email = Column(Unicode(128), nullable=True)
@@ -401,8 +401,7 @@ class User(Base):
         self.last_login = datetime.now()
 
     def __repr__(self):
-        return "<User({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}," \
-               "{12})>" \
+        return "<User({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10}>" \
             .format(self.id, self.first_name, self.last_name, self.username, self.password, self.active,
                     self.email, self.show_intro, self.session_id, self.remote_addr, self.last_login)
 
