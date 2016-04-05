@@ -67818,26 +67818,8 @@ function DashboardViewModel(rootVm) {\n\
                 var currDevice = self.rootVm.availableDevices().filter(function (device) {\n\
                         return device.name() === e.srcElement.id;\n\
                     })[0];\n\
-                if (currDevice.name() === 'BPS') {\n\
-                    window.open('http://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'ATIP') {\n\
-                    window.open('http://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'Splunk') {\n\
-                    window.open('http://' + currDevice.host() + ':8000/en-US/app/launcher/home');\n\
-                } else if (currDevice.name() === 'Kali') {\n\
-                    window.open('ssh://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'AttackTarget') {\n\
-                    window.open('ssh://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'IPS') {\n\
-                    window.open('https://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'NGFW') {\n\
-                    window.open('https://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'DLP') {\n\
-                    window.open('https://' + currDevice.host());\n\
-                } else if (currDevice.name() === 'Windows') {\n\
-                    window.open('ssh://' + currDevice.host());\n\
-                }\n\
 \n\
+                window.open(currDevice.link());\n\
             });\n\
         }\n\
     };\n\
@@ -70940,6 +70922,13 @@ AdministrationViewModel.prototype.changePassword = function (password) {\n\
     }\n\
 };\n\
 \n\
+AdministrationViewModel.prototype.addDevice = function () {\n\
+    var self = AdministrationViewModel.typesafe(this),\n\
+        device = new TestDeviceViewModel(self.rootVm);\n\
+\n\
+    device.openSaveModal();\n\
+};\n\
+\n\
 AdministrationViewModel.prototype.addUser = function (password) {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
     var data = '{\"password\": \"' + $('#userPassword').val() + '\", \"username\": \"' + $('#userName').val() + '\", \"firstname\": \"' + $('#userFirstName').val() + '\", \"lastname\": \"' + $('#userLastName').val() + '\"}';\n\
@@ -72343,6 +72332,7 @@ function TestDeviceViewModel (rootVm) {\r\n\
     self.description = ko.observable();\r\n\
     self.device_type_id = ko.observable();\r\n\
     self.host = ko.observable();\r\n\
+    self.link = ko.observable();\r\n\
     self.displayNameCssId = ko.observable();\r\n\
     self.username = ko.observable();\r\n\
     self.password = ko.observable();\r\n\
@@ -72415,6 +72405,7 @@ TestDeviceViewModel.prototype.inflate = function (data) {\r\n\
     self.name(data.name);\r\n\
     self.description(data.description);\r\n\
     self.host(data.host);\r\n\
+    self.link(data.link);\r\n\
     self.device_type_id(data.device_type_id);\r\n\
     self.username(data.username);\r\n\
     self.password(data.password);\r\n\
@@ -72429,6 +72420,7 @@ TestDeviceViewModel.prototype.toFlatObject = function () {\r\n\
         description: self.description,\r\n\
         device_type_id: self.device_type_id(),\r\n\
         host: self.host(),\r\n\
+        link: self.link(),\r\n\
         username: self.username(),\r\n\
         password: self.password(),\r\n\
         active: self.active()\r\n\
@@ -72500,8 +72492,6 @@ TestDeviceViewModel.prototype.validate = function (result, targetName) {\r\n\
 TestDeviceViewModel.prototype.clone = function (source) {\r\n\
     var destination = new TestDeviceViewModel(this.rootVm),\r\n\
         cloned_properties = [\r\n\
-            'is_aonic',\r\n\
-            'supports_flowmon'\r\n\
         ],\r\n\
         cloned_observable_properties = [\r\n\
             'id',\r\n\
@@ -72509,6 +72499,7 @@ TestDeviceViewModel.prototype.clone = function (source) {\r\n\
             'description',\r\n\
             'device_type_id',\r\n\
             'host',\r\n\
+            'link',\r\n\
             'username',\r\n\
             'password'\r\n\
         ];\r\n\
@@ -72536,30 +72527,12 @@ TestDeviceViewModel.prototype.save = function () {\r\n\
             util.lightbox.openError(errorData.messages[0].header, errorData.messages[0].content);\r\n\
         };\r\n\
 \r\n\
-    self.tags().length > 0 ? self.unqualifiedTags(self.tags().join(', ')) : self.unqualifiedTags(\"\");\r\n\
-\r\n\
-    // Validate\r\n\
-    validationResult = new ValidationResultsViewModel(self);\r\n\
-    self.validate(validationResult, self.name());\r\n\
-    self.validationResult(validationResult);\r\n\
-    if(!validationResult.is_valid){\r\n\
-        return;\r\n\
-    }\r\n\
-\r\n\
     // Prevent duplicates\r\n\
     foundExisting = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {\r\n\
-        return self.name() == item.name();\r\n\
+        return self.link() == item.link();\r\n\
     });\r\n\
     if (foundExisting && foundExisting != self) {\r\n\
-        var iteration = 0;\r\n\
-\r\n\
-        do {\r\n\
-            self.name(self.name() + ' [' + (iteration++) + ']');\r\n\
-\r\n\
-            foundExisting = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {\r\n\
-                return self.name() == item.name();\r\n\
-            });\r\n\
-        } while (foundExisting != null && foundExisting != self);\r\n\
+        show_error(\"Saving device failed. Perhaps this link already exists?\");\r\n\
     }\r\n\
 \r\n\
     util.lightbox.close();\r\n\

@@ -37,7 +37,7 @@ No ipv6 data returned at this time, to be investigated later after manual config
 =cut
 
 # Use require, keep in same namespace
-require "/local/admin/common.pl";
+require "common.pl";
 &init();
 
 my ( $in, $hn, $gw );

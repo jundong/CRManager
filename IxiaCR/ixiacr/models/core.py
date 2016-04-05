@@ -210,9 +210,10 @@ class Device(Base):
                                                 ondelete="CASCADE"))
     name = Column(Unicode(64), unique=True, nullable=True)
     description = Column(UnicodeText, nullable=True)
-    host = Column(Unicode(64), nullable=False, unique=True)
-    username = Column(Unicode(64), nullable=True, unique=False)
-    password = Column(Unicode(64), nullable=True, unique=False)
+    host = Column(Unicode(64), nullable=False, unique=False)
+    link = Column(Unicode(256), nullable=False, unique=True)
+    username = Column(Unicode(64), nullable=False, unique=False)
+    password = Column(Unicode(64), nullable=False, unique=False)
     active = Column(Boolean, default=True)
 
     @property
@@ -275,35 +276,6 @@ class Portlet(Base):
 
     def __unicode__(self):
         return self.name
-
-
-class Configs(Base):
-    """
-    System global configuration
-    """
-    __tablename__ = 'configs'
-
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    bps = Column(Unicode(15), unique=True, nullable=False)
-    atip = Column(Unicode(15), unique=True, nullable=True)
-    splunk = Column(Unicode(15), unique=True, nullable=True)
-    kali = Column(Unicode(15), unique=True, nullable=True)
-    metasploit = Column(Unicode(15), unique=True, nullable=True)
-    ips = Column(Unicode(15), unique=True, nullable=True)
-    ngfw = Column(Unicode(15), unique=True, nullable=True)
-    dlp = Column(Unicode(15), unique=True, nullable=True)
-    windows = Column(Unicode(15), unique=True, nullable=True)
-
-    @classmethod
-    def by_id(cls, id):
-        return db.query(Configs).filter_by(id=id).first()
-
-    def __repr__(self):
-        return "<User({0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10})>" \
-            .format(self.id, self.bps, self.atip,
-                    self.splunk, self.kali, self.metasploit,
-                    self.ips, self.ngfw,
-                    self.dlp, self.windos)
 
 
 class TestResult(Base):

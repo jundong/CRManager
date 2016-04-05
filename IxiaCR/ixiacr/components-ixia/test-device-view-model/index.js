@@ -19,6 +19,7 @@ function TestDeviceViewModel (rootVm) {
     self.description = ko.observable();
     self.device_type_id = ko.observable();
     self.host = ko.observable();
+    self.link = ko.observable();
     self.displayNameCssId = ko.observable();
     self.username = ko.observable();
     self.password = ko.observable();
@@ -91,6 +92,7 @@ TestDeviceViewModel.prototype.inflate = function (data) {
     self.name(data.name);
     self.description(data.description);
     self.host(data.host);
+    self.link(data.link);
     self.device_type_id(data.device_type_id);
     self.username(data.username);
     self.password(data.password);
@@ -105,6 +107,7 @@ TestDeviceViewModel.prototype.toFlatObject = function () {
         description: self.description,
         device_type_id: self.device_type_id(),
         host: self.host(),
+        link: self.link(),
         username: self.username(),
         password: self.password(),
         active: self.active()
@@ -176,8 +179,6 @@ TestDeviceViewModel.prototype.validate = function (result, targetName) {
 TestDeviceViewModel.prototype.clone = function (source) {
     var destination = new TestDeviceViewModel(this.rootVm),
         cloned_properties = [
-            'is_aonic',
-            'supports_flowmon'
         ],
         cloned_observable_properties = [
             'id',
@@ -185,6 +186,7 @@ TestDeviceViewModel.prototype.clone = function (source) {
             'description',
             'device_type_id',
             'host',
+            'link',
             'username',
             'password'
         ];
@@ -212,30 +214,12 @@ TestDeviceViewModel.prototype.save = function () {
             util.lightbox.openError(errorData.messages[0].header, errorData.messages[0].content);
         };
 
-    self.tags().length > 0 ? self.unqualifiedTags(self.tags().join(', ')) : self.unqualifiedTags("");
-
-    // Validate
-    validationResult = new ValidationResultsViewModel(self);
-    self.validate(validationResult, self.name());
-    self.validationResult(validationResult);
-    if(!validationResult.is_valid){
-        return;
-    }
-
     // Prevent duplicates
     foundExisting = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {
-        return self.name() == item.name();
+        return self.link() == item.link();
     });
     if (foundExisting && foundExisting != self) {
-        var iteration = 0;
-
-        do {
-            self.name(self.name() + ' [' + (iteration++) + ']');
-
-            foundExisting = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {
-                return self.name() == item.name();
-            });
-        } while (foundExisting != null && foundExisting != self);
+        show_error("Saving device failed. Perhaps this link already exists?");
     }
 
     util.lightbox.close();

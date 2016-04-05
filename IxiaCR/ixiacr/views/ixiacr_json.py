@@ -74,20 +74,19 @@ def get_global_settings(request):
     global_start = time.time()
     ixiacrlogger.debug('Start: get_global_settings')
     try:
-        # (result, obj, err) = admin_helper('get-network-config', {})
-        # network_config = obj
-        #
-        # (result, obj, err) = admin_helper('get-network-status', {})
-        # network_status = obj
-        # network = network_status['ipv4']
-        # mac_address = network_status['ether']
+        (result, obj, err) = admin_helper('get-network-config', {})
+        network_config = obj
 
-        items.update({'host': '192.168.0.100',
-                      'gateway': '192.168.0.1',
-                      'hostname': 'Local Host',
-                      'netmask': '255.255.255.0',
-                      'mac_address': 'FF-FF-FF-FF-FF-FF'})
+        (result, obj, err) = admin_helper('get-network-status', {})
+        network_status = obj
+        network = network_status['ipv4']
+        mac_address = network_status['ether']
 
+        items.update({'host': network['address'],
+                      'chassis_prefix': network['netmask'],
+                      'gateway': network['gateway'],
+                      'hostname': network_status['hostname'],
+                      'mac_address': mac_address})
         build_number = get_build_number()
         items.update(dict({'build_number': build_number or "Unknown"}))
 
@@ -361,6 +360,7 @@ def get_devices(request):
                       'description': device.description,
                       'device_type_id': device.device_type_id,
                       'host': device.host,
+                      'link': device.link,
                       'username': device.username,
                       'password': device.password,
                       'active': device.active})

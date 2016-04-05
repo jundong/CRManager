@@ -28,8 +28,12 @@ msgid "Successfully added user."
 msgstr "成功添加用户."
 
 #: ixiacr/handlers/admin.py:525
-msgid "Saving device failed. Perhaps this host already exists?"
-msgstr "保存设备失败。可能该主机已存在？"
+msgid "Saving device failed. Perhaps this device already exists?"
+msgstr "保存设备失败。可能该设备已存在？"
+
+#: ixiacr/handlers/admin.py:525
+msgid "Saving device failed. Perhaps this link already exists?"
+msgstr "保存设备失败。可能该链接已存在？"
 
 #: ixiacr/handlers/admin.py:572
 msgid "Successfully deleted device."
@@ -1650,10 +1654,6 @@ msgstr "确定删除该设备？"
 msgid "Delete &raquo;"
 msgstr "删除 &raquo;"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:154
-msgid "Host Address"
-msgstr "主机地址"
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:157
 #: ixiacr/templates/html/administration.tmpl.jinja2:207
 #: ixiacr/templates/html/administration.tmpl.jinja2:289
@@ -1704,6 +1704,9 @@ msgstr "客户"
 #: ixiacr/templates/html/administration.tmpl.jinja2:301
 msgid "Locations"
 msgstr "位置"
+
+msgid "Access Link"
+msgstr "访问链接"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:307
 msgid "Change system password"
@@ -1883,8 +1886,8 @@ msgid "There are validation errors with your device configuration:"
 msgstr "测试设备配置验证出错："
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:462
-msgid "Cyber Range Network Settings"
-msgstr "Cyber Range网络设置"
+msgid "Cyber Range Network Information"
+msgstr "Cyber Range网络信息"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:470
 msgid "Hostname"
@@ -1908,7 +1911,7 @@ msgstr "网络掩码/前缀"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:476
 msgid "MAC Address"
-msgstr "媒体访问控制地址"
+msgstr "MAC 地址"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:480
 msgid "DNS Settings"
@@ -1967,7 +1970,7 @@ msgid "Download system logs"
 msgstr "下载系统日志"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:511
-msgid "Reboot Cyber Range"
+msgid "Reboot CYBER RANGE"
 msgstr "重启Cyber Range"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:514
@@ -2248,6 +2251,10 @@ msgstr "测试数据模型配置验证出错："
 msgid "Device ADDRESS:"
 msgstr "设备地址："
 
+#: ixiacr/templates/html/lightbox.tmpl.jinja2:462
+msgid "Device Address"
+msgstr "设备地址"
+
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:463
 msgid "Authentication"
 msgstr "身份验证"
@@ -2261,6 +2268,10 @@ msgstr "验证过程需要您提供登录远程Cyber Range界面时所使用的�
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:466
 msgid "Access Link:"
 msgstr "访问链接："
+
+#: ixiacr/templates/html/lightbox.tmpl.jinja2:466
+msgid "Device Name:"
+msgstr "设备名字："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:467
 msgid "PASSWORD:"

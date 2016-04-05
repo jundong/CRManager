@@ -58,20 +58,20 @@
             <div class="item-list" data-bind="visible: deviceListVisible">
                 <h3>{% trans %}Devices{% endtrans %}</h3>
                 <h4 data-bind="text: availableDevicesSummary"></h4>
+                <!--
                 <div class="filters box">
                     <div class="searchContainer">
                         <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
                         <img class="search" src="static/images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
                     </div>
-                </div>
-
+                </div> -->
                 <ul data-bind="foreach: availableDevices">
                     <li class="item" data-bind="attr: { 'id': displayNameCssId }, css: { hidden: id() == 1}">
                         <ul>
                             <li class="edit-link"><a data-bind="click: openSaveModal, clickBubble: false">{% trans %}Edit &raquo;{% endtrans %}</a></li>
                             <li class="delete-link"><a data-bind="click: util.warningLightbox.bind(ixiaCRVm.vmAdministration, '{% trans %}Are you sure you want to delete this device?{% endtrans %}', deleteDevice.bind($data)), clickBubble : false">{% trans %}Delete &raquo;{% endtrans %}</a></li>
-                            <li><label>{% trans %}Host Address{% endtrans %}</label><span data-bind="text: host"></span></li>
-                            <li><label>Location</label><span data-bind="text: location"></span></li>-->
+                            <li><label>{% trans %}Device Address{% endtrans %}</label><span data-bind="text: host"></span></li>
+                            <li><label>{% trans %}Access Link{% endtrans %}</label><span data-bind="text: link"></span></li>
                         </ul>
                     </li>
                 </ul>
@@ -173,12 +173,12 @@
                     </div>
                 </div>
                 <div  class="single-pane no-padding">
-                    <h4>{% trans %}Cyber Range Network Settings{% endtrans %}</h4>
+                    <h4>{% trans %}Cyber Range Network Information{% endtrans %}</h4>
                     <ul>
-                        <li><label>{% trans %}Hostname{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.hostname" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway" /></li>
+                        <li><label>{% trans %}Hostname{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.hostname, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway, attr: { 'disabled': 'disabled' }" /></li>
                         <li><label>{% trans %}MAC Address{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.mac_address, attr: { 'disabled': 'disabled' }" /></li>
                     </ul>
                 </div>
@@ -214,7 +214,7 @@
                         </li>
                     </ul>
                 </div>
-                <a class="save-button" href="javascript:void(0);" data-bind="click: saveGlobalSettings, clickBubble: false">{% trans %}Save{% endtrans %}</a>
+                <!--<a class="save-button" href="javascript:void(0);" data-bind="click: saveGlobalSettings, clickBubble: false">{% trans %}Save{% endtrans %}</a>-->
             </div>
         </div>
     </div>

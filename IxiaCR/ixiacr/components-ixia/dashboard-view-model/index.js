@@ -135,26 +135,8 @@ function DashboardViewModel(rootVm) {
                 var currDevice = self.rootVm.availableDevices().filter(function (device) {
                         return device.name() === e.srcElement.id;
                     })[0];
-                if (currDevice.name() === 'BPS') {
-                    window.open('http://' + currDevice.host());
-                } else if (currDevice.name() === 'ATIP') {
-                    window.open('http://' + currDevice.host());
-                } else if (currDevice.name() === 'Splunk') {
-                    window.open('http://' + currDevice.host() + ':8000/en-US/app/launcher/home');
-                } else if (currDevice.name() === 'Kali') {
-                    window.open('ssh://' + currDevice.host());
-                } else if (currDevice.name() === 'AttackTarget') {
-                    window.open('ssh://' + currDevice.host());
-                } else if (currDevice.name() === 'IPS') {
-                    window.open('https://' + currDevice.host());
-                } else if (currDevice.name() === 'NGFW') {
-                    window.open('https://' + currDevice.host());
-                } else if (currDevice.name() === 'DLP') {
-                    window.open('https://' + currDevice.host());
-                } else if (currDevice.name() === 'Windows') {
-                    window.open('ssh://' + currDevice.host());
-                }
 
+                window.open(currDevice.link());
             });
         }
     };

@@ -25,8 +25,12 @@ msgid "Successfully saved device."
 msgstr "Successfully saved device."
 
 #: ixiacr/handlers/admin.py:525
-msgid "Saving device failed. Perhaps this host already exists?"
-msgstr "Saving device failed. Perhaps this host already exists?"
+msgid "Saving device failed. Perhaps this device already exists?"
+msgstr "Saving device failed. Perhaps this device already exists?"
+
+#: ixiacr/handlers/admin.py:525
+msgid "Saving device failed. Perhaps this link already exists?"
+msgstr "Saving device failed. Perhaps this link already exists?"
 
 #: ixiacr/handlers/admin.py:572
 msgid "Successfully deleted device."
@@ -1220,10 +1224,6 @@ msgstr "Are you sure you want to delete this device?"
 msgid "Delete &raquo;"
 msgstr "Delete &raquo;"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:154
-msgid "Device Address"
-msgstr ""
-
 #: ixiacr/templates/html/administration.tmpl.jinja2:157
 #: ixiacr/templates/html/administration.tmpl.jinja2:207
 #: ixiacr/templates/html/administration.tmpl.jinja2:289
@@ -1278,6 +1278,9 @@ msgstr "Customers"
 #: ixiacr/templates/html/administration.tmpl.jinja2:301
 msgid "Locations"
 msgstr "Locations"
+
+msgid "Access Link"
+msgstr "Access Link"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:307
 msgid "Change system password"
@@ -1477,8 +1480,8 @@ msgid "There are validation errors with your device configuration:"
 msgstr "There are validation errors with your device configuration:"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:462
-msgid "Cyber Range Network Settings"
-msgstr "Cyber Range Network Settings"
+msgid "Cyber Range Network Information"
+msgstr "Cyber Range Network Information"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:470
 msgid "Hostname"
@@ -1525,7 +1528,7 @@ msgid "Download system logs"
 msgstr "Download system logs"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:511
-msgid "Reboot Cyber Range"
+msgid "Reboot CYBER RANGE"
 msgstr "Reboot Cyber Range"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:514
@@ -1838,8 +1841,12 @@ msgid "There are validation errors with your track configuration:"
 msgstr "There are validation errors with your track configuration:"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:462
-msgid "HOST ADDRESS:"
-msgstr "HOST ADDRESS:"
+msgid "Device Address"
+msgstr "Device Address"
+
+#: ixiacr/templates/html/lightbox.tmpl.jinja2:462
+msgid "Device ADDRESS:"
+msgstr "设备地址："
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:463
 msgid "Authentication"
@@ -1852,6 +1859,10 @@ msgid ""
 msgstr ""
 "To authenticate, you must provide the same username and password used "
 "when logging into the UI of the remote box."
+
+#: ixiacr/templates/html/lightbox.tmpl.jinja2:466
+msgid "Device Name:"
+msgstr "Device Name:"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:466
 msgid "Access Link:"

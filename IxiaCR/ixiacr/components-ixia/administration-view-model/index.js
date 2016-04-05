@@ -991,6 +991,13 @@ AdministrationViewModel.prototype.changePassword = function (password) {
     }
 };
 
+AdministrationViewModel.prototype.addDevice = function () {
+    var self = AdministrationViewModel.typesafe(this),
+        device = new TestDeviceViewModel(self.rootVm);
+
+    device.openSaveModal();
+};
+
 AdministrationViewModel.prototype.addUser = function (password) {
     var self = AdministrationViewModel.typesafe(this);
     var data = '{"password": "' + $('#userPassword').val() + '", "username": "' + $('#userName').val() + '", "firstname": "' + $('#userFirstName').val() + '", "lastname": "' + $('#userLastName').val() + '"}';
@@ -1043,7 +1050,7 @@ AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm)
     }
 
     if (!confirm && (this.globalSettingsVm.changing_IP())) {
-        var message = window.translate('Changing the IP address will require you to re-establish a web management session with this Axon.');
+        var message = window.translate('Changing the IP address will require you to re-establish a web management session with this Cyber Range.');
         this.runLightboxWarning(message, this.saveGlobalSettings.bind(this, vm, e, true));
         return; // Short-circuit
     }
@@ -1069,12 +1076,6 @@ AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm)
             if (self.globalSettingsVm.changing_IP()) {
                 // IP changed, so tell user to try the new IP
                 show_IP_changed_message(self.globalSettingsVm.host());
-                return;
-            }
-
-            if (self.globalSettingsVm.changing_to_DHCP()) {
-                // IP *may* have changed, so tell user
-                show_DHCP_enabled_message();
                 return;
             }
 
@@ -1109,12 +1110,6 @@ AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm)
             if (self.globalSettingsVm.changing_IP()) {
                 // IP changed, so tell user to try the new IP
                 show_IP_changed_message(self.globalSettingsVm.host());
-                return;
-            }
-
-            if (self.globalSettingsVm.changing_to_DHCP()) {
-                // IP changed, so tell user to try the new IP
-                show_DHCP_enabled_message();
                 return;
             }
 

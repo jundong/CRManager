@@ -171,13 +171,8 @@
             <li class="validated" data-bind="visible: validateUserPasswordVerify()==='confirmed'">✔&nbsp;&nbsp;{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</li>
 
         </ul>
-        <!-- <div class="clear"></div>
-        <div class="error section" data-bind="visible: validateUserPasswordVerify()==='error'">
-            <h2>{% trans %}Your passwords do not match. Please try again.{% endtrans %}</h2>
-        </div>
-        <div class="validated section" data-bind="visible: validateUserPasswordVerify()==='confirmed'">
-            <h2>{% trans %}Your passwords match. Click the "Save" button to save this password.{% endtrans %}</h2>
-        </div> -->
+        <ul class="save-footer">
+        </ul>
     </div>
 </script>
 
@@ -190,7 +185,7 @@
         </ul>
         <ul class="save-middle">
             <li><label>{% trans %}Device ADDRESS:{% endtrans %}</label><input class="address light-text-box2" type="text" data-bind="value: host, valueUpdate: 'input'" /></li>
-            <li><label>{% trans %}Access Link:{% endtrans %}</label><input class="username light-text-box2" type="text" data-bind="value: username, valueUpdate: 'input'" /></li>
+            <li><label>{% trans %}Access Link:{% endtrans %}</label><input class="username light-text-box2" type="text" data-bind="value: link, valueUpdate: 'input'" /></li>
         </ul>
         <ul class="save-footer">
         </ul>

@@ -359,10 +359,27 @@ class IxiaAdminHandler(base.Handler):
         """Save device
 
         """
+        self.messages = []
+        self.items = []
 
         try:
             if 'devices' in self.request.session:
-                pass
+                # Bust cache
+                del self.request.session['devices']
+
+            data = self.request.json_body
+            if 'id' in data:
+                device = Device.query.filter_by(id=data['id']).first()
+            else:
+                device = Device.query.filter_by(name=data['name']).first()
+
+            if device:
+                device.host = data['host']
+                device.link = data['link']
+                db.add(device)
+                db.flush()
+
+            self.items.append({"id": device.id})
 
             if len(self.messages) == 0:
                 self.messages.append({'is_error': False,
@@ -384,7 +401,7 @@ class IxiaAdminHandler(base.Handler):
             self.messages.append(dict({'is_error': True, 'header': 'Failed',
                                        'content': self.localizer.translate(
                                            _('Saving device failed. '
-                                             'Perhaps this host already '
+                                             'Perhaps this device already '
                                              'exists?'))}))
             return {'result': 'FAILURE', 'messages': self.messages}
         except Exception, e:
