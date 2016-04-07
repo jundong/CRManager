@@ -53,7 +53,7 @@ function DashboardViewModel(rootVm) {
             if (!self.$enterpriseTestsPaginator) {
                 self.enterpriseTestsPaginator.on('change', page_changed.bind(self));
             }
-            self.$enterpriseTestsPaginator = document.querySelector('.enterprise-tests-paginator');
+            self.$enterpriseTestsPaginator = document.querySelector('.security-cases-paginator');
             reset();
         }
 

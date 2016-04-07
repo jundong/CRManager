@@ -67736,7 +67736,7 @@ function DashboardViewModel(rootVm) {\n\
             if (!self.$enterpriseTestsPaginator) {\n\
                 self.enterpriseTestsPaginator.on('change', page_changed.bind(self));\n\
             }\n\
-            self.$enterpriseTestsPaginator = document.querySelector('.enterprise-tests-paginator');\n\
+            self.$enterpriseTestsPaginator = document.querySelector('.security-cases-paginator');\n\
             reset();\n\
         }\n\
 \n\
@@ -70968,97 +70968,6 @@ AdministrationViewModel.prototype.addUser = function (password) {\n\
 \n\
 AdministrationViewModel.prototype.showError = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
-};\n\
-\n\
-/**\n\
- * @param vm data bound to click target\n\
- * @param e click event\n\
- * @param confirm (Boolean) True if the user has confirmed it's ok to change IP\n\
- */\n\
-AdministrationViewModel.prototype.saveGlobalSettings = function (vm, e, confirm) {\n\
-    if (!this.validateGlobalSettings()) {\n\
-        return; // Short-circuit\n\
-    }\n\
-\n\
-    if (!confirm && (this.globalSettingsVm.changing_IP())) {\n\
-        var message = window.translate('Changing the IP address will require you to re-establish a web management session with this Axon.');\n\
-        this.runLightboxWarning(message, this.saveGlobalSettings.bind(this, vm, e, true));\n\
-        return; // Short-circuit\n\
-    }\n\
-\n\
-    var self = AdministrationViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    var data = self.globalSettingsVm.toFlatObject();\n\
-    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-\n\
-    util.lightbox.working(workingVm);\n\
-    $.ajax({\n\
-        type: util.getRequestMethod('save_global_settings'),\n\
-        url: util.getConfigSetting('save_global_settings'),\n\
-        data: util.formatRequestData('save_global_settings', data),\n\
-        dataType: 'json',\n\
-        timeout: 30000,\n\
-        success: function (data) {\n\
-            if (data.messages[0].is_error === true) {\n\
-                workingVm.status('error');\n\
-                return;\n\
-            }\n\
-\n\
-            if (self.globalSettingsVm.changing_IP()) {\n\
-                // IP changed, so tell user to try the new IP\n\
-                show_IP_changed_message(self.globalSettingsVm.host());\n\
-                return;\n\
-            }\n\
-\n\
-            if (self.globalSettingsVm.changing_to_DHCP()) {\n\
-                // IP *may* have changed, so tell user\n\
-                show_DHCP_enabled_message();\n\
-                return;\n\
-            }\n\
-\n\
-            //update local chassis new name at front-end\n\
-            self.rootVm.availableDevices().some(function(device){\n\
-                if(device.id() == 1){\n\
-                    device.name(self.globalSettingsVm.device_name());\n\
-                    return true;\n\
-                }\n\
-                return false;\n\
-            });\n\
-\n\
-            globalSettingsCallback = function () {\n\
-                self.lightboxText = translate('Success');\n\
-                util.lightbox.open({\n\
-                    url: 'html/lightbox_tmpl',\n\
-                    selector: '#lightbox-message-template',\n\
-                    cancelSelector: '.ok-button',\n\
-                    onOpenComplete: function () {\n\
-                        ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
-                    }\n\
-                });\n\
-            };\n\
-            self.rootVm.getGlobalSettings(globalSettingsCallback);\n\
-        },\n\
-        error: function (jqXHR, textStatus) {\n\
-            if (textStatus !== \"timeout\") {\n\
-                workingVm.status('error');\n\
-                return;\n\
-            }\n\
-\n\
-            if (self.globalSettingsVm.changing_IP()) {\n\
-                // IP changed, so tell user to try the new IP\n\
-                show_IP_changed_message(self.globalSettingsVm.host());\n\
-                return;\n\
-            }\n\
-\n\
-            if (self.globalSettingsVm.changing_to_DHCP()) {\n\
-                // IP changed, so tell user to try the new IP\n\
-                show_DHCP_enabled_message();\n\
-                return;\n\
-            }\n\
-\n\
-            workingVm.status('error');\n\
-        }\n\
-    });\n\
 };\n\
 \n\
 AdministrationViewModel.prototype.runLightboxWarning = function (text, okFunction) {\n\

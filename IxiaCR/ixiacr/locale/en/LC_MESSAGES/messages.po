@@ -953,28 +953,27 @@ msgstr "<div class='get-started-image'><img src='static/images/get-started-ixia.
         "</div>"
 
 #: ixiacr/scripts/initializedb.py:1019
-msgid "Recent Results"
-msgstr "Recent Results"
+msgid "Recent News"
+msgstr "Recent News"
 
-#: ixiacr/scripts/initializedb.py:1019
-msgid "portlet.recent_results.content"
-msgstr "recent_tests"
-
-#: ixiacr/scripts/initializedb.py:1020
-msgid "Favorite Tests"
-msgstr "Favorite Tests"
+msgid "portlet.recent_news.content"
+msgstr "recent_news"
 
 #: ixiacr/scripts/initializedb.py:1020
-msgid "portlet.favorite_tests.content"
-msgstr "favorite_tests"
+msgid "Enterprise Security Cases"
+msgstr "Enterprise Security Cases"
+
+#: ixiacr/scripts/initializedb.py:1020
+msgid "portlet.enterprise_security_cases.content"
+msgstr "enterprise_security_cases"
 
 #: ixiacr/scripts/initializedb.py:1021
-msgid "Test Library"
-msgstr "Test Library"
+msgid "Host Security Cases"
+msgstr "Host Security Cases"
 
 #: ixiacr/scripts/initializedb.py:1021
-msgid "portlet.test_library.content"
-msgstr "all_tests"
+msgid "portlet.host_security_cases.content"
+msgstr "host_security_cases"
 
 #: ixiacr/templates/error_page.jinja2:4
 msgid "Cyber Range - Page Not Found"
@@ -1480,12 +1479,20 @@ msgid "There are validation errors with your device configuration:"
 msgstr "There are validation errors with your device configuration:"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:462
-msgid "Cyber Range Network Information"
-msgstr "Cyber Range Network Information"
+msgid "CYBER RANGE Network Information"
+msgstr "CYBER RANGE Network Information"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:470
 msgid "Hostname"
 msgstr "Hostname"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:470
+msgid "Host Address"
+msgstr "Host Address"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:470
+msgid "Address"
+msgstr "Address"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:473
 #: ixiacr/templates/html/administration.tmpl.jinja2:474
@@ -1529,7 +1536,7 @@ msgstr "Download system logs"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:511
 msgid "Reboot CYBER RANGE"
-msgstr "Reboot Cyber Range"
+msgstr "Reboot CYBER RANGE"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:514
 msgid ""
@@ -1552,8 +1559,8 @@ msgid "Reboot"
 msgstr "Reboot"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:524
-msgid "Shutdown Cyber Range"
-msgstr "Shutdown Cyber Range"
+msgid "Shutdown CYBER RANGE"
+msgstr "Shutdown CYBER RANGE"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:527
 msgid "This will physically shutdown your Cyber Range box."
@@ -2123,8 +2130,8 @@ msgid "Test Description"
 msgstr "Test Description"
 
 #: ixiacr/templates/test_results/results.jinja2:25
-msgid "Cyber Range Test Name:"
-msgstr "Cyber Range Test Name:"
+msgid "CYBER RANGE Test Name:"
+msgstr "CYBER RANGE Test Name:"
 
 #: ixiacr/templates/test_results/results.jinja2:27
 msgid "Executed by:"

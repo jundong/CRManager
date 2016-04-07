@@ -1,0 +1,386 @@
+<script id="test-configuration" type="text/html">
+<div class="sidebar" data-bind="with: vmSidebar">
+    <div class="container" data-bind="testConfigSidebar: selectedMenuItem">
+        <ul class="menu">
+            <li data-bind="attr: { 'class': endpointsTabClass }, click: function () { showEndpoints() }" id="endpointsTab">{% trans %}Endpoints{% endtrans %}</li>
+            <li data-bind="attr: { 'class': tracksTabClass }, click: function () { showTracks() }" id="tracksTab">{% trans %}Tracks{% endtrans %}</li>
+            <li data-bind="attr: { 'class': playlistsTabClass }, click: function () { showPlaylists() }" id="playlistsTab">{% trans %}Playlists{% endtrans %}</li>
+            <!-- <li data-bind="attr: { 'class': testsTabClass }, click: function () { showTests() }" id="testsTab">{% trans %}Tests{% endtrans %}</li> -->
+            <li data-bind="text: filterMessage" id="customInfoTab"></li>
+       </ul>
+
+        <ul class="filters">
+            <li>
+                <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" id="sidebarSearch"/>
+                <img class="search" src="images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
+            </li>
+            <li class="toggleTracks" data-bind="visible: (selectedMenuItem() == 'tracks' || selectedMenuItem() == 'playlists')">
+                <div id="allItemsToggle" data-bind="click: function () { showCustom('all-items'); } ">{% trans %}ALL ITEMS{% endtrans %}</div>
+                <div id="favoriteItemsToggle" data-bind="click: function () { showCustom('favorite-items'); } ">{% trans %}FAVORITES{% endtrans %}</div>
+                <div id="recommendedItemsToggle" data-bind="click: function(){showCustom('recommended-items');}">{% trans %}RECOMMENDED{% endtrans %}</div>
+                <span data-bind="attr: { 'class': toggleClass }"></span>
+            </li>
+            <li class="toggleOthers" data-bind="visible: (selectedMenuItem() == 'endpoints' || selectedMenuItem() == 'tests')">
+                <div id="allItemsTwoToggle" data-bind="click: function () { showCustom('all-items'); } ">{% trans %}ALL ITEMS{% endtrans %}</div>
+                <span data-bind="attr: { 'class': toggleClass }"></span>
+                <div id="favoriteItemsTwoToggle" data-bind="click: function () { showCustom('favorite-items'); } ">{% trans %}FAVORITES{% endtrans %}</div>
+            </li>
+        </ul>
+        <div class="clear"></div>
+
+        <div class="items-container" data-bind="scrollPanel : { settings: { orientation: 'horizontal'}, boundObservables: [availableTests, availablePlaylists, availableTracks, availableEndpoints] }">
+            <ul id="available-tests" class="items tests" data-bind="visible: testsVisible, foreach: availableTests">
+                <li data-bind="draggableTest: $data"><span class="inner"><span data-bind="text: name"></span><img data-bind="click: openSaveModal, clickBubble: false" src="images/cog-black.png" alt="{% trans %}Configure{% endtrans %}" title="{% trans %}Configure{% endtrans %}" /></span></li>
+            </ul>
+
+            <ul id="available-playlists" class="items playlists" data-bind="visible: playlistsVisible, foreach: availablePlaylists">
+                <li data-bind="draggablePlaylist: $data">
+                    <span class="inner">
+                        <img class="draggableIcon" title="Click and hold to drag" src="images/draggable.png" style="left:13px;"/>
+                        <span data-bind="text: name"></span>
+                        <img class="configure" data-bind="click: openSaveModal, clickBubble: false" src="images/cog-black.png" alt="{% trans %}Configure{% endtrans %}" title="{% trans %}Configure{% endtrans %}" />
+                    </span>
+                </li>
+            </ul>
+
+            <ul id="available-tracks" class="items tracks"
+                data-bind="visible: tracksVisible, template: { name: 'available-track-template', foreach: availableTracks, templateOptions: { parentList: availableTracks} }">
+            </ul>
+
+            <ul id="available-endpoints" class="items endpoints" data-bind="visible: endpointsVisible, foreach: availableEndpoints">
+                <li data-bind="draggableEndpoint: $data">
+                    <span class="inner">
+                        <img class="draggableIcon" title="Click and hold to drag" src="images/draggable.png" style="left:13px;"/>
+                        <span data-bind="text: name"></span>
+                        <img class="configure" data-bind="click: openSaveModal, clickBubble: false" src="images/cog-black.png" alt="{% trans %}Configure{% endtrans %}" title="{% trans %}Configure{% endtrans %}" />
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="sidebar-placeholder"></div>
+
+<div class="clear"></div>
+
+<div class="config" data-bind="with: vmConfiguration, testDropTarget: $data">
+<ul data-bind="foreach: traffic_players" class="traffic-players">
+<!-- ko if: showCollapsed -->
+<li class="network-map collapsed">
+    <div class="container">
+        <h3>{% trans %}Traffic Player{% endtrans %} <span data-bind="text: ($index()+1)"></span></h3>
+        <span class="round-button-outer" style="padding: 1px 3px 5px 3px;" data-bind="visible: $parent.traffic_players().length > 1">
+            <a class="round-button" style="padding: 4px 0px 4px 7px;" href="javascript:void(0);" data-bind="click: function(){deleteTrafficPlayer($index)}">
+                <img src="images/light-close-icon.png" alt="x" title="x" style="bottom: -4px; position: relative;"/><span style="bottom: -1px;" class="round-button-text">{% trans %}Delete{% endtrans %}</span>
+            </a>
+        </span>
+        <div class="round-button-outer expander">
+            <div class="round-button" data-bind="click: function () { isExpanded(true); }">
+                <div class="triangle"></div>
+            </div>
+        </div>
+    <ul class="detail">
+        <li class="transmit-container" data-bind="with: source">
+            <div class="inner">
+                <h5 data-bind="text: deviceName"></h5>
+                <h6 data-bind="text: label"></h6>
+                <table>
+                    <tbody>
+                    <!-- ko if: !has_enabled_endpoints() -->
+                    <tr>
+                        <td class="message" data-bind="text: strings['No ports enabled']">No ports enabled</td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko foreach: endpoints -->
+                    <tr data-bind="visible: enabled, template: { name: 'collapsed-multiple-port-endpoint-template'}"></tr>
+                    <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </li>
+
+        <li class="middle-container">
+            <ul>
+                <li class="playlist-container" data-bind="playlistDropTarget: playlist">
+                    <ul class="header">
+                        <li class="name">{% trans %}Playlist{% endtrans %}</li>
+                        <li class="value" data-bind="text: playlist().name"></li>
+                    </ul>
+                    <div class="playlist">
+                        <ul data-bind="collapsedPlaylistSlider: playlist"></ul>
+                        <div class="tooltip" style="display: none;"></div>
+                    </div>
+                </li>
+
+                <li class="traffic-container" data-bind="with: traffic_setting">
+                    <ul class="header">
+                        <li class="name">{% trans %}Traffic{% endtrans %}</li>
+                        <li class="value"><span data-bind="text: value"></span> <span data-bind="text: unit"></span></li>
+                    </ul>
+                </li>
+
+                <!-- ko if: additionalConfigurationVisible -->
+                <!-- ko foreach: datapoints -->
+                <li class="additional-configuration">
+                    <ul class="header">
+                        <li class="name" data-bind="text: name"></li>
+                        <li class="value" data-bind="text: value"></li>
+                    </ul>
+                </li>
+                <!-- /ko -->
+                <!-- /ko -->
+
+            </ul>
+        </li>
+
+        <li class="receive-container" data-bind="with: destination">
+            <div class="inner">
+                <h5 data-bind="text: deviceName"></h5>
+                <h6 data-bind="text: label"></h6>
+                <table>
+                    <tbody>
+                    <!-- ko if: !has_enabled_endpoints() -->
+                    <tr>
+                        <td class="message" data-bind="text: strings['No ports enabled']">No ports enabled</td>
+                    </tr>
+                    <!-- /ko -->
+                    <!-- ko foreach: endpoints -->
+                    <tr data-bind="visible: enabled, template: { name: 'collapsed-multiple-port-endpoint-template'}"></tr>
+                    <!-- /ko -->
+                    </tbody>
+                </table>
+            </div>
+        </li>
+    </ul>
+    </div>
+</li>
+<!-- /ko -->
+<!-- ko if: isExpanded -->
+<li class="network-map expanded">
+    <div class="player-header">
+        <div class="container">
+            <h3>{% trans %}Traffic Player{% endtrans %} <span data-bind="text: ($index()+1)"></span></h3>
+            <span class="round-button-outer" data-bind="visible: $parent.traffic_players().length > 1" style="padding: 1px 3px 5px 3px;">
+                <a class="round-button" style="padding: 4px 0px 4px 7px;" href="javascript:void(0);" data-bind="click: function(){deleteTrafficPlayer($index)}">
+                    <img src="images/light-close-icon.png" alt="x" title="x" style="bottom: -4px; position: relative;"/><span style="bottom: -1px;" class="round-button-text">{% trans %}Delete{% endtrans %}</span>
+                </a>
+            </span>
+            <div class="expander" data-bind="click: function () { playlistIsEdit(false); playlist().isEdit(false); isExpanded(false); }">
+                <div class="triangle"></div>
+            </div>
+        </div>
+    </div>
+    <div class="player-content">
+        <ul class="container">
+            <li class="source" data-bind="render: source()"></li>
+            <li class="middle-container">
+                <ul>
+                    <li class="playlist-container" data-bind="playlistDropTarget: playlist">
+                        <ul class="header">
+                            <li class="label">{% trans %}Playlist{% endtrans %}</li>
+                            <li class="name" data-bind="attr: {'title': playlist().name}, text: playlist().name"></li>
+                            <li class="expand" data-bind="visible: openPlaylistVisible, click: editPlaylist"><img src="images/down-expander.png" alt="{% trans %}open{% endtrans %}" title="{% trans %}open{% endtrans %}"></li>
+                            <li class="save" data-bind="visible: closePlaylistVisible, click: playlist().openSaveModal.bind(playlist()), clickBubble: false"><img src="images/save-dark.png" alt="{% trans %}save{% endtrans %}" title="{% trans %}save{% endtrans %}"></li>
+                            <li class="collapse" data-bind="visible: closePlaylistVisible, click: closePlaylist"><img src="images/up-expander.png" alt="close" title="close"></li>
+                            <li class="clear"></li>
+                        </ul>
+                        <div class="playlist">
+                            <div class="playlist-bar">
+                                <ul data-bind="playlistSlider: playlist"></ul>
+                            </div>
+                            <ul class="track-list-container" data-bind="visible: !(trackContainerVisible() || applicationTrackContainerVisible()), foreach: playlist().tracks">
+                                <li class="track"><span
+                                        data-bind="attr: { 'class': 'swatch color' + (colorId() + 1) }"></span> <span
+                                        data-bind="text: name"></span></li>
+                            </ul>
+                            <div data-bind="visible: trackContainerVisible, trackDropTarget: playlist" class="track-container">
+                                <ul data-bind="template: { name: 'track-template', foreach: playlist().tracks, templateOptions: { parentList: playlist().tracks, networkMapVm: $data, playlist: playlist, index: $index } }">
+                                </ul>
+                            </div>
+                            <div data-bind="visible: applicationTrackContainerVisible, trackDropTarget: playlist" class="application-track-container">
+                                <ul data-bind="template: { name: 'application-track-template', foreach: playlist().tracks, templateOptions: { parentList: playlist().tracks, networkMapVm: $data, playlist: playlist, index: $index }, templateEngine: new ko.nativeTemplateEngine }">
+                                </ul>
+                            </div>
+                            <div class="knob-tooltip" style="display: none;">
+                                <div>
+                                    <span data-bind="attr: { 'class': 'swatch color' + ((playlist().sliderTooltip.value1Index()) + 1) }"></span>
+                                    <span data-bind="text: playlist().sliderTooltip.value1Name"></span>
+                                    <span data-bind="text: playlist().sliderTooltip.value1Percentage"></span>
+                                </div>
+                                <div>
+                                    <span data-bind="attr: { 'class': 'swatch color' + ((playlist().sliderTooltip.value2Index()) + 1) }"></span>
+                                    <span data-bind="text: playlist().sliderTooltip.value2Name"></span>
+                                    <span data-bind="text: playlist().sliderTooltip.value2Percentage"></span>
+                                </div>
+                            </div>
+                            <div class="tooltip" style="display: none;"></div>
+                        </div>
+                    </li>
+                    <!-- ko if: $parent.spirent_test_id() != 1 -->
+                    <!-- ko if: $parent.spirent_test_id() != 2 -->
+                    <!-- ko if: playlist().getTrackLayer() < 4 -->
+                    <li class="traffic-configuration" data-bind="with: traffic_setting">
+                        <ul class="header">
+
+                            <li class="label">{% trans %}Traffic{% endtrans %}</li>
+                            <li class="name">{% trans %}Bandwidth{% endtrans %}</li>
+                        </ul>
+                        <div class="traffic-setting">
+                            <div class="container">
+                                <p class="tip" data-bind="if: $parent.show_traffic_tip">Traffic will be evenly distributed among enabled ports.</p>
+                                <label>{% trans %}Mbps{% endtrans %}</label><input class="dark-inverted-text-box" type="text" data-bind="value: value, valueUpdate: 'input'"/>
+                                <span class="info icon" data-bind="visible: lineRateVm.show_icon, click: lineRateVm.toggle">i</span>
+                                <p class="tooltip modal" data-bind="visible: lineRateVm.show_message, click: lineRateVm.toggle, html: lineRateVm.message"></p>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <!-- /ko -->
+                    <!-- ko if: hasSupplementalConfiguration() -->
+                        <!-- ko foreach: supplementalConfiguration().playlistSettings -->
+                    <li class="additional-configuration">
+                        <div class="header">
+                            <span class="label" data-bind="text: title"></span>
+                        </div>
+                        <div class="additional-settings">
+                            <div class="container">
+                                <ul data-bind="foreach: fields">
+                                    <!-- ko if: type == 'text' -->
+                                    <li><label data-bind="text: label"></label><input class="dark-inverted-text-box" type="text" data-bind="value: value"/></li>
+                                    <!-- /ko -->
+                                    <!-- ko if: type == 'select' -->
+                                    <li><label data-bind="text: label"></label><div class="light-select option-wrapper" data-bind="attr: {'data-value': displayKey }"><select data-bind="options: options, value: value, optionsText: 'key'"></select></div></li>
+                                    <!--<li><label data-bind="text: label"></label><div class="light-select option-wrapper" data-bind="attr: {'data-value': displayKey }"><select data-bind="options: options, value: displayKey, optionsText: 'key', optionsValue: 'key' "></select></div></li>-->
+                                    <!-- /ko -->
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                        <!-- /ko -->
+                    <!-- /ko -->
+                    <li class="time-sync-configuration">
+                        <ul class="header">
+                            <li class="label">
+                                <div class="timing">{% trans %}Timing Accuracy{% endtrans %}</div>
+                                <div class="link" data-bind="click: launchTimingHelp, clickBubble: false">{% trans %}How do I fix my Time Sync?{% endtrans %}</div>
+                            </li>
+                            <li class="value">+/- <span data-bind="text: timingAccuracy"></span> {% trans %}ms{% endtrans %}</li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="destination" data-bind="render: destination()"></li>
+            <li class="clear"></li>
+        </ul>
+    </div>
+</li>
+<!-- /ko -->
+</ul>
+<!-- ko if: spirent_test_id() != 1 -->
+    <!-- ko if: spirent_test_id() != 2 -->
+        <div class="add-a-player" data-bind="visible: traffic_players().length <= 3">
+            <a class="add-a-player-button" href="javascript:void(0);" data-bind="click: addTrafficPlayer">{% trans %}+ Add another traffic player{% endtrans %}</a>
+            </div>
+    <!-- /ko -->
+<!-- /ko -->
+</div>
+
+</script>
+
+<script id="available-track-template" type="text/html">
+    <li class="track" data-bind="draggableTrack: $data">
+        <span class="inner">
+            <img class="draggableIcon" title="Click and hold to drag" src="images/draggable.png" style="left:13px;"/>
+            [<span data-bind="text: layer"></span>]
+            <span data-bind="text: name"></span>
+            <img class="configure" data-bind="click: openSaveModal, clickBubble: false" src="images/cog-black.png" alt="{% trans %}Configure{% endtrans %}" title="{% trans %}Configure{% endtrans %}" />
+        </span>
+    </li>
+</script>
+
+<script id="track-template" type="text/html">
+    <li>
+        <div class="track-and-slider">
+            <div class="track">
+                <span class="inner">
+                    <span data-bind="attr: { 'class': 'swatch color' + (colorId() + 1) }"></span>
+                    <span class="name" data-bind="text: name, attr: {'title': name}"></span>
+                    <img class="remove" src="images/close-icon.png" alt="{% trans %}remove{% endtrans %}" title="{% trans %}remove{% endtrans %}" data-bind="click: function () { $parent.removeTrack($parent.playlist, $data); }" />
+                </span>
+            </div>
+            <div class="slider-and-options" data-bind="if: (trackProperties() != undefined && trackProperties() != null)">
+                <div data-bind="attr: { 'class': optionsExpandedClass }, click: onOptionsExpanderClick">{% trans %}Track Options{% endtrans %}</div>
+            </div>
+        </div>
+        <div data-bind="visible: (!shouldShowTrackProperties() && expanded())" class="no-track-option" >
+            <label data-bind="text: strings['There is no track option']"></label>
+        </div>
+        <div class="track-options" data-bind="visible: (shouldShowTrackProperties() && expanded())">
+            <ul>
+            <!-- ko foreach: trackProperties -->
+                <!-- ko if: (name().toLowerCase() != 'playlist') -->
+                <li class="select">
+                    <label data-bind="text: name"></label>
+                    <div class="dark-select option-wrapper" data-bind="attr: {'data-value': optionValue }">
+                        <select data-bind="options: options, value: selectedOption, optionsText: function (item) { return item.name; }"></select>
+                    </div>
+                </li>
+                <!-- /ko -->
+            <!-- /ko -->
+            </ul>
+        </div>
+    </li>
+</script>
+
+<script id="application-track-template" type="text/html">
+    <li>
+        <div class="track-and-slider">
+            <div class="track">
+                <span class="inner">
+                    <span data-bind="attr: { 'class': 'swatch color' + (colorId() + 1) }"></span>
+                    <span class="name" data-bind="text: name, attr: {'title': name}"></span>
+                    <img class="remove" src="images/close-icon.png" alt="{% trans %}remove{% endtrans %}" title="{% trans %}remove{% endtrans %}" data-bind="click: function () { $parent.removeTrack($parent.playlist, $data); }" />
+                </span>
+            </div>
+            <div class="slider-and-options" data-bind="if: (trafficSettings() != undefined && trafficSettings() != null)">
+                <div class="min-max">
+                    <div class="min" data-bind="text: trafficSettings().min"></div>
+                    <div class="max" data-bind="text: trafficSettings().max"></div>
+                </div>
+                <div class="track-slider">
+                    <div data-bind="attr: { 'class': 'the-slider' }, trafficSettingSlider: { trafficSettings: trafficSettings, index: colorId }"></div>
+                </div>
+                <div data-bind="attr: { 'class': optionsExpandedClass }, click: onOptionsExpanderClick">{% trans %}Track Options{% endtrans %}</div>
+            </div>
+        </div>
+        <div data-bind="visible: (!shouldShowTrackProperties() && expanded())" class="no-track-option" >
+            <label data-bind="text: strings['There is no track option']"></label>
+        </div>
+        <div class="track-options" data-bind="visible: (shouldShowTrackProperties() && expanded())">
+            <ul>
+            <!-- ko foreach: trackProperties -->
+                <!-- ko if: (name().toLowerCase() != 'playlist') -->
+                <li class="select">
+                    <label data-bind="text: name"></label>
+                    <div class="dark-select option-wrapper" data-bind="attr: {'data-value': optionValue }">
+                        <select data-bind="options: options, value: selectedOption, optionsText: function (item) { return item.name; }"></select>
+                    </div>
+                </li>
+                <!-- /ko -->
+            <!-- /ko -->
+            </ul>
+        </div>
+    </li>
+</script>
+
+<script id="collapsed-multiple-port-endpoint-template" type="text/html">
+    <td data-bind="text: portLabel"></td>
+    <!-- ko if: vlan_id -->
+    <td data-bind="text: vlanLabel"></td>
+    <!-- /ko -->
+    <td data-bind="attr: {colspan: vlan_id() ? 1 : 2}"><span data-bind="text: strings['IP details']"></span> <img src="images/info.png"  data-bind="tooltip: ipDetails, attr: { 'title': ipDetails, 'alt': ipDetails, 'data-title': ipDetails}" /><div class="tooltip" style="display: none;" data-bind="text: ipDetails"></div></td>
+</script>
+
+{% include 'endpoint/traffic-player-pane.jinja2' %}

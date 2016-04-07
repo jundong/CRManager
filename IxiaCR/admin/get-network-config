@@ -37,52 +37,40 @@ No ipv6 data returned at this time, to be investigated later after manual config
 =cut
 
 # Use require, keep in same namespace
-require "common.pl";
+use File::Basename;
+use Cwd qw/abs_path/;
+require(dirname(abs_path($0))."/common.pl");
+
 &init();
 
-my ( $in, $hn, $gw );
-
-$in = &open_cmd_hide( "/usr/bin/ssh", "-F", "/local/admin/files/ssh_config",
-    "hypervisor", "cat", "/etc/sysconfig/network" );
+my ( $in, @fields, $hn, $gw, $mode, $addr, $netmask, $network );
+$in = &open_cmd_hide( "ip route show" );
 while ( defined( my $line = <$in> ) ) {
     chomp($line);
-    if ( $line =~ /^HOSTNAME=(.*?)$/sgmo ) {
-        $hn = &strip($1);
+    if ( $line =~ /^default/ ) {
+        @fields = split(/ /, $line);
+        $gw = @fields[2];
     }
-    elsif ( $line =~ /^GATEWAY=(.*?)$/sgmo ) {
-        $gw = &strip($1);
+    elsif ( $line =~ /scope link  src/ ) {
+        @fields = split(/ /, $line);
+        $addr = @fields[11];
+
+        @fields = split(/\//, @fields[0]);
+        $netmask = @fields[1];
+        $network = @fields[0];
     }
 }
 close($in);
 
-my ( $mode, $addr, $netmask );
-$in = &open_cmd_hide( "/usr/bin/ssh", "-F", "/local/admin/files/ssh_config",
-    "hypervisor", "cat", "/etc/sysconfig/network-scripts/ifcfg-em1" );
+$in = &open_cmd_hide( "hostname" );
 while ( defined( my $line = <$in> ) ) {
     chomp($line);
-    if ( $line =~ /^BOOTPROTO=(.*?)$/sgmo ) {
-        my $bp = &strip($1);
-        if ( $bp eq "dhcp" ) {
-            $mode = "dhcp";
-        }
-        else {
-            $mode = "static";
-        }
-    }
-    elsif ( $line =~ /^IPADDR=(.*?)$/sgmo ) {
-        $addr = &strip($1);
-    }
-    elsif ( $line =~ /^GATEWAY=(.*?)$/sgmo ) {
-        $gateway = &strip($1);
-    }
-    elsif ( $line =~ /^NETMASK=(.*?)$/sgmo ) {
-        $netmask = &strip($1);
-    }
+    $hn = $line;
 }
 close($in);
 
 $res->{result} = "SUCCESS";
 $res->{object}
-    = { "hostname" => $hn, ipv4 => { mode => $mode, address => $addr, netmask => $netmask, gateway => $gw } };
+    = { "hostname" => $hn, address => $addr, netmask => $netmask, gateway => $gw, network => $network };
 
 &finish();

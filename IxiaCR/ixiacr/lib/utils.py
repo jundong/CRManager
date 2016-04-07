@@ -219,13 +219,13 @@ def admin_helper(command, data, task_name=False, debug_raw=False):
 
     try:
         if data:
-            sp = subprocess.Popen(['/local/admin/' + command],
+            sp = subprocess.Popen([os.path.join(os.getenv('IXIACR'), 'admin/') + command],
                                   shell=False,
                                   stdin=subprocess.PIPE,
                                   stdout=subprocess.PIPE,
                                   stderr=subprocess.PIPE)
         else:
-            sp = subprocess.Popen(['/local/admin/' + command, '-d'],
+            sp = subprocess.Popen([os.path.join(os.getenv('IXIACR'), 'admin/') + command, '-d'],
                                   shell=False,
                                   stdin=None,
                                   stdout=subprocess.PIPE,
@@ -236,7 +236,7 @@ def admin_helper(command, data, task_name=False, debug_raw=False):
                 sessionmaker(extension=ZopeTransactionExtension()))
             db_sess.configure(
                 bind=create_engine(
-                    'postgresql://ixia:ixia@127.0.0.1/ixia'))
+                    'sqlite:///%(here)s/cyberrange.sqlite'))
 
             progress = 0
             message = ""

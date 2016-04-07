@@ -1392,28 +1392,27 @@ msgstr "<div class='get-started-image'><img src='static/images/get-started-ixia.
         "</div>"
 
 #: ixiacr/scripts/initializedb.py:1019
-msgid "Recent Results"
-msgstr "最近结果"
+msgid "Recent News"
+msgstr "最新动态"
 
-#: ixiacr/scripts/initializedb.py:1019
-msgid "portlet.recent_results.content"
-msgstr "recent_tests"
-
-#: ixiacr/scripts/initializedb.py:1020
-msgid "Favorite Tests"
-msgstr "收藏测试例"
+msgid "portlet.recent_news.content"
+msgstr "recent_news"
 
 #: ixiacr/scripts/initializedb.py:1020
-msgid "portlet.favorite_tests.content"
-msgstr "favorite_tests"
+msgid "Enterprise Security Cases"
+msgstr "企业安全案例库"
+
+#: ixiacr/scripts/initializedb.py:1020
+msgid "portlet.enterprise_security_cases.content"
+msgstr "enterprise_security_cases"
 
 #: ixiacr/scripts/initializedb.py:1021
-msgid "Test Library"
-msgstr "测试案例库"
+msgid "Host Security Cases"
+msgstr "主机安全案例库"
 
 #: ixiacr/scripts/initializedb.py:1021
-msgid "portlet.test_library.content"
-msgstr "all_tests"
+msgid "portlet.host_security_cases.content"
+msgstr "host_security_cases"
 
 #: ixiacr/templates/error_page.jinja2:4
 msgid "Cyber Range - Page Not Found"
@@ -1886,8 +1885,16 @@ msgid "There are validation errors with your device configuration:"
 msgstr "测试设备配置验证出错："
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:462
-msgid "Cyber Range Network Information"
-msgstr "Cyber Range网络信息"
+msgid "CYBER RANGE Network Information"
+msgstr "CYBER RANGE网络信息"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:470
+msgid "Host Address"
+msgstr "主机地址"
+
+#: ixiacr/templates/html/administration.tmpl.jinja2:470
+msgid "Address"
+msgstr "地址"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:470
 msgid "Hostname"
@@ -1971,7 +1978,7 @@ msgstr "下载系统日志"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:511
 msgid "Reboot CYBER RANGE"
-msgstr "重启Cyber Range"
+msgstr "重启CYBER RANGE"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:514
 msgid ""
@@ -1990,20 +1997,20 @@ msgid "Reboot"
 msgstr "重启"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:524
-msgid "Shutdown Cyber Range"
-msgstr "Cyber Range关机"
+msgid "Shutdown CYBER RANGE"
+msgstr "CYBER RANGE关机"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:527
 msgid "This will physically shutdown your Cyber Range box."
-msgstr "这将强制关闭Cyber Range设备。"
+msgstr "这将强制关闭CYBER RANGE设备。"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:530
 msgid "Are you sure you want to shutdown Cyber Range?"
-msgstr "确定关闭Cyber Range？"
+msgstr "确定关闭CYBER RANGE？"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:531
 msgid "Shutdown"
-msgstr "Cyber Range关机"
+msgstr "CYBER RANGE关机"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:537
 msgid "SSL"
@@ -2017,7 +2024,7 @@ msgstr ""
 msgid ""
 "Changing the IP address will require you to re-establish a web management"
 " session with this Cyber Range."
-msgstr "更改IP地址需重新建立与Cyber Range的Web管理会话。"
+msgstr "更改IP地址需重新建立与CYBER RANGE的Web管理会话。"
 
 #: ixiacr/templates/html/dashboard.tmpl.jinja2:58
 msgid ""
@@ -2263,7 +2270,7 @@ msgstr "身份验证"
 msgid ""
 "To authenticate, you must provide the same username and password used "
 "when logging into the UI of the remote box."
-msgstr "验证过程需要您提供登录远程Cyber Range界面时所使用的用户名和密码。"
+msgstr "验证过程需要您提供登录远程CYBER RANGE界面时所使用的用户名和密码。"
 
 #: ixiacr/templates/html/lightbox.tmpl.jinja2:466
 msgid "Access Link:"
@@ -2531,8 +2538,8 @@ msgid "Test Description"
 msgstr "测试描述"
 
 #: ixiacr/templates/test_results/results.jinja2:25
-msgid "Cyber Range Test Name:"
-msgstr "Cyber Range测试名称："
+msgid "CYBER RANGE Test Name:"
+msgstr "CYBER RANGE测试名称："
 
 #: ixiacr/templates/test_results/results.jinja2:27
 msgid "Executed by:"

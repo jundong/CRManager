@@ -9,26 +9,26 @@
     },
     {
 		"id": 2,
-        "name": "Recent Results",
+        "name": "Recent News",
         "content_type": 4,
-		"portlet_content": "recent_tests",
+		"portlet_content": "recent_news",
 		"default_column": ".l-portlet-column",
-		"div_id_name": "recent-tests-template"
+		"div_id_name": "recent-news-template"
     },
     {
 		"id": 3,
-        "name": "Favorite Tests",
+        "name": "Enterprise Security Cases",
         "content_type": 4,
-		"portlet_content": "favorite_tests",
+		"portlet_content": "enterprise-security-cases",
 		"default_column": ".r-portlet-column",
-		"div_id_name": "enterprise-tests-template"
+		"div_id_name": "enterprise-security-cases-template"
     },
     {
         "id": 5,
-        "name": "Spirent Library",
+        "name": "Host Security Cases",
         "content_type": 4,
-        "portlet_content": "all_tests",
+        "portlet_content": "host_security_cases",
         "default_column": ".r-portlet-column",
-        "div_id_name": "enterprise-tests-template"
+        "div_id_name": "host_security_cases-template"
     }
 ]

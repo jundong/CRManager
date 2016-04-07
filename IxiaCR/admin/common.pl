@@ -3,7 +3,7 @@ use Sys::Syslog;
 use Fcntl qw(:flock);
 
 # Set path so it's always available
-$ENV{PATH} = "/usr/pgsql-9.1/bin:/sbin:/bin:/usr/sbin:/usr/bin";
+$ENV{PATH} = "/sbin:/bin:/usr/sbin:/usr/bin";
 
 # Cannot use yet, leave here as reminder for future though
 #use strict;

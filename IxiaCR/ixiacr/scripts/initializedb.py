@@ -196,7 +196,7 @@ def import_db(cmd):
                           description=translatable_string(_(u'Our local Axon chassis.'))))
         transaction.commit()
 
-        tests = [
+        cases = [
             {'name': translatable_string(_(u'Enterprise Traffic Track')),
              'type': u'ENTERPRISE',
              'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
@@ -223,18 +223,18 @@ def import_db(cmd):
             }
         ]
 
-        for test in tests:
-            db.add(TestCases(name=test['name'],
-                type=test['type'],
-                description=test['description'],
-                topology_image=test['topology_image'],
-                topology_description=test['topology_description'],
-                attack_task=test['attack_task'],
-                attack_steps=test['attack_steps'],
-                attack_criteria=test['attack_criteria'],
-                defense_task=test['defense_task'],
-                defense_steps=test['defense_steps'],
-                defense_criteria=test['defense_criteria']))
+        for case in cases:
+            db.add(TestCases(name=case['name'],
+                type=case['type'],
+                description=case['description'],
+                topology_image=case['topology_image'],
+                topology_description=case['topology_description'],
+                attack_task=case['attack_task'],
+                attack_steps=case['attack_steps'],
+                attack_criteria=case['attack_criteria'],
+                defense_task=case['defense_task'],
+                defense_steps=case['defense_steps'],
+                defense_criteria=case['defense_criteria']))
             transaction.commit()
 
         db.add(TestMessage(test_id=0,
@@ -243,9 +243,9 @@ def import_db(cmd):
         transaction.commit()
 
         db.add(Portlet(name=translatable_string(_(u'Welcome')), content_type=1, portlet_content=translatable_string(_(u'portlet.welcome.content')), default_column=u'.l-portlet-column', div_id_name=u'welcome'))
-        db.add(Portlet(name=translatable_string(_(u'Recent Results')), content_type=4, portlet_content=translatable_string(_(u'portlet.recent_results.content')), default_column=u'.l-portlet-column', div_id_name=u'recent-tests-template'))
-        db.add(Portlet(name=translatable_string(_(u'Favorite Tests')), content_type=4, portlet_content=translatable_string(_(u'portlet.favorite_tests.content')), default_column=u'.r-portlet-column', div_id_name=u'enterprise-tests-template'))
-        db.add(Portlet(name=translatable_string(_(u'Test Library')), content_type=4, portlet_content=translatable_string(_(u'portlet.test_library.content')), default_column=u'.r-portlet-column', div_id_name=u'all-tests-template'))
+        db.add(Portlet(name=translatable_string(_(u'Recent News')), content_type=4, portlet_content=translatable_string(_(u'portlet.recent_news.content')), default_column=u'.l-portlet-column', div_id_name=u'recent-news-template'))
+        db.add(Portlet(name=translatable_string(_(u'Enterprise Security Cases')), content_type=4, portlet_content=translatable_string(_(u'portlet.enterprise_security_cases.content')), default_column=u'.r-portlet-column', div_id_name=u'enterprise-security-cases-template'))
+        db.add(Portlet(name=translatable_string(_(u'Host Security Cases')), content_type=4, portlet_content=translatable_string(_(u'portlet.host_security_cases.content')), default_column=u'.r-portlet-column', div_id_name=u'host-security-cases-template'))
         transaction.commit()
 
         db.add(IxiaVersion(version=unicode(ixiacr_version),

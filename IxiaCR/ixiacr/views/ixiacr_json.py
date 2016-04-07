@@ -65,8 +65,8 @@ def get_global_settings(request):
     do_reload = request.params.get('reload', 0)
 
     # Try cache first
-    if not do_reload and 'global_settings' in request.session:
-        return request.session['global_settings']
+    #if not do_reload and 'global_settings' in request.session:
+    #    return request.session['global_settings']
 
     items = {}
 
@@ -77,16 +77,11 @@ def get_global_settings(request):
         (result, obj, err) = admin_helper('get-network-config', {})
         network_config = obj
 
-        (result, obj, err) = admin_helper('get-network-status', {})
-        network_status = obj
-        network = network_status['ipv4']
-        mac_address = network_status['ether']
-
-        items.update({'host': network['address'],
-                      'chassis_prefix': network['netmask'],
-                      'gateway': network['gateway'],
-                      'hostname': network_status['hostname'],
-                      'mac_address': mac_address})
+        items.update({'host': network_config['address'],
+                      'netmask': network_config['netmask'],
+                      'gateway': network_config['gateway'],
+                      'hostname': network_config['hostname'],
+                      'mac_address': ''})
         build_number = get_build_number()
         items.update(dict({'build_number': build_number or "Unknown"}))
 

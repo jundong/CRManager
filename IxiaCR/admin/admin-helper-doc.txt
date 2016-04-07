@@ -120,15 +120,9 @@ OUTPUT JSON
       "result": "SUCCESS|FAILURE", 
       "object" : { 
          "hostname": "...",
-           "ipv4": {
-             "mode": "static|dhcp",
-             "address": "",
-             "netmask": "...",
-             "gateway": "...."
-           },
-           "ipv6": {
-             "mode": ""
-           } 
+         "address": "",
+         "netmask": "...",
+         "gateway": "...."
         } 
      }
 
@@ -136,51 +130,6 @@ NOTES
     No ipv6 data returned at this time, to be investigated later after
     manual configuration and validation of supporting network
     infrastructure.
-
-
------------------------------
-get-network-status:
------------------------------
-DESCRIPTION
-    Retrieve the current network status. This will return the current state
-    of the networking at this point in time, which may be different than
-    what is configured.
-
-INPUT JSON
-      {
-  
-      }
-
-OUTPUT JSON
-      {
-        "result": "SUCCESS|FAILURE",
-        "object": {
-            "hostname": "...",
-            "ipv4": {
-                "address": "...",
-                "netmask": "...",
-                "gateway": "..."
-            },
-            "status": {
-                "duplex": "full",
-                "link": 1,
-                "rx": {
-                    "dropped": "1",
-                    "errors": "0",
-                    "frame": "0",
-                    "overruns": "0"
-                },
-                "speed": "1000",
-                "tx": {
-                    "carrier": "0",
-                    "collisions": "0",
-                    "dropped": "0",
-                    "errors": "0",
-                    "overruns": "0"
-                }
-            }
-        }
-      }
 
 -----------------------------
 get-system-data:

@@ -1518,7 +1518,7 @@ Dashboard
     width: 11px;
     top: 1px;
 }
-.dashboard .portlet .enterprise-tests {
+.dashboard .portlet .security-cases {
     border: solid 1px #161617;
     border-radius: 2px;
     box-shadow: 0px 1px 1px #434344;
@@ -1527,44 +1527,44 @@ Dashboard
 }
 
 /* "No favorite tests" message */
-.dashboard div.enterprise-tests {
+.dashboard div.security-cases {
     padding: 0.5em;
 }
 
-.dashboard .portlet .enterprise-tests li,
-.dashboard .portlet .enterprise-tests span {
+.dashboard .portlet .security-cases li,
+.dashboard .portlet .security-cases span {
     border-top: solid 1px #282829;
     border-bottom: solid 1px #141414;
     cursor: pointer;
     padding: 12px 14px;
 }
 
-.dashboard .portlet .enterprise-tests li:hover,
-.dashboard .portlet .enterprise-tests span:hover {
+.dashboard .portlet .security-cases li:hover,
+.dashboard .portlet .security-cases span:hover {
     background-color: #141414;
     border-top: solid 1px #141414;
 }
 
-.dashboard .portlet .enterprise-tests li:first-of-type {
+.dashboard .portlet .security-cases li:first-of-type {
     border-top: none;
 }
 
-.dashboard .portlet .enterprise-tests li:last-of-type {
+.dashboard .portlet .security-cases li:last-of-type {
     border-bottom: none;
 }
 
-.dashboard .portlet .enterprise-tests li h3 {
+.dashboard .portlet .security-cases li h3 {
     color: #f5f5f5;
     font-size: 12px;
     line-height: 14px;
     margin: 0;
 }
 
-.dashboard .portlet .enterprise-tests li p {
+.dashboard .portlet .security-cases li p {
     font-size: 10px;
     line-height: 12px;
 }
-.dashboard .portlet .enterprise-tests .show-more {
+.dashboard .portlet .security-cases .show-more {
     text-align: center;
     cursor: pointer;
     font-weight: bold;
@@ -1572,7 +1572,7 @@ Dashboard
     color: #f5f5f5;
     display:block;
 }
-.dashboard .portlet .enterprise-tests-paginator {
+.dashboard .portlet .security-cases-paginator {
     text-align: right;
     border: solid 1px #161617;
     border-radius: 2px;
@@ -1580,7 +1580,7 @@ Dashboard
     background-color: #1c1c1d;
     z-index: 1;
 }
-.dashboard .portlet .recent-tests, .history .box .test-list {
+.dashboard .portlet .recent-news, .history .box .test-list {
     margin: 0;
     border: solid 1px #161617;
     border-radius: 2px;
@@ -1590,15 +1590,15 @@ Dashboard
     display: block;
 }
 
-.dashboard .portlet .recent-tests table, .history .box .test-list  table{
+.dashboard .portlet .recent-news table, .history .box .test-list  table{
     width: 100%;
     border-collapse: separate;
 }
 
-.dashboard .portlet .recent-tests tbody {
+.dashboard .portlet .recent-news tbody {
 }
 
-.dashboard .portlet .recent-tests thead, .history .box .test-list thead {
+.dashboard .portlet .recent-news thead, .history .box .test-list thead {
     background: #3c3c3d; /* Old browsers */
     background: -moz-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3d), color-stop(100%, #2e2e30)); /* Chrome,Safari4+ */
@@ -1611,63 +1611,63 @@ Dashboard
     color: #dfdfdf;
 }
 
-.dashboard .portlet .recent-tests thead tr td, .history .box .test-list thead tr td {
+.dashboard .portlet .recent-news thead tr td, .history .box .test-list thead tr td {
     padding: 12px 14px;
 }
 
-.dashboard .portlet .recent-tests tbody tr, .history .box .test-list tbody tr {
+.dashboard .portlet .recent-news tbody tr, .history .box .test-list tbody tr {
     cursor: pointer;
     /*display: block;*/
 }
 
-.dashboard .portlet .recent-tests tbody tr td, .history .box .test-list tbody tr td {
+.dashboard .portlet .recent-news tbody tr td, .history .box .test-list tbody tr td {
     border-top: solid 1px #282829;
     border-bottom: solid 1px #141414;
     padding: 12px 14px;
 }
 
-.dashboard .portlet .recent-tests tbody tr:hover, .history .box .test-list tbody tr:hover {
+.dashboard .portlet .recent-news tbody tr:hover, .history .box .test-list tbody tr:hover {
     background-color: #141414;
 }
 
-.dashboard .portlet .recent-tests tbody tr:hover td, .history .box .test-list tbody tr:hover td {
+.dashboard .portlet .recent-news tbody tr:hover td, .history .box .test-list tbody tr:hover td {
     border-top: solid 1px #141414;
 }
 
-.dashboard .portlet .recent-tests tbody tr:first-of-type, .history .box .test-list tbody tr:first-of-type {
+.dashboard .portlet .recent-news tbody tr:first-of-type, .history .box .test-list tbody tr:first-of-type {
     border-top: none;
 }
 
-.dashboard .portlet .recent-tests tbody tr:last-of-type, .history .box .test-list tbody tr:last-of-type {
+.dashboard .portlet .recent-news tbody tr:last-of-type, .history .box .test-list tbody tr:last-of-type {
     border-bottom: none;
 }
 
-.dashboard .portlet .recent-tests tr td:nth-child(1), .history .box .test-list tr td:nth-child(1) {
+.dashboard .portlet .recent-news tr td:nth-child(1), .history .box .test-list tr td:nth-child(1) {
     width: 5%;
     padding-right: 0;
 }
 
-.dashboard .portlet .recent-tests tr td:nth-child(2), .history .box .test-list tr td:nth-child(2) {
+.dashboard .portlet .recent-news tr td:nth-child(2), .history .box .test-list tr td:nth-child(2) {
     width: 70%;
 }
 
-.dashboard .portlet .recent-tests tr td:nth-child(3), .history .box .test-list tr td:nth-child(3) {
+.dashboard .portlet .recent-news tr td:nth-child(3), .history .box .test-list tr td:nth-child(3) {
     width: 25%;
 }
 
-.dashboard .portlet .recent-tests td h4, .history .box .test-list td h4 {
+.dashboard .portlet .recent-news td h4, .history .box .test-list td h4 {
     color: #f5f5f5;
     font-size: 12px;
     line-height: 14px;
     margin: 0;
 }
 
-.dashboard .recent-tests .incomplete .name, .history .test-list .incomplete .name {
+.dashboard .recent-news .incomplete .name, .history .test-list .incomplete .name {
     font-style: italic;
     color: #999;
 }
 
-.dashboard .portlet .recent-tests td p, .history .box .test-list td p {
+.dashboard .portlet .recent-news td p, .history .box .test-list td p {
     font-size: 10px;
     line-height: 12px;
 }

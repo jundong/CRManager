@@ -173,13 +173,12 @@
                     </div>
                 </div>
                 <div  class="single-pane no-padding">
-                    <h4>{% trans %}Cyber Range Network Information{% endtrans %}</h4>
+                    <h4>{% trans %}CYBER RANGE Network Information{% endtrans %}</h4>
                     <ul>
                         <li><label>{% trans %}Hostname{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.hostname, attr: { 'disabled': 'disabled' }" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Host{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host, attr: { 'disabled': 'disabled' }" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix, attr: { 'disabled': 'disabled' }" /></li>
-                        <li><label>{% trans %}Chassis{% endtrans %} {% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway, attr: { 'disabled': 'disabled' }" /></li>
-                        <li><label>{% trans %}MAC Address{% endtrans %}</label><input type="text" data-bind="value: globalSettingsVm.mac_address, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Address{% endtrans %}</label><input type="text" name="host" data-bind="value: globalSettingsVm.host, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Netmask/Prefix{% endtrans %}</label><input type="text" name="netmask" data-bind="value: globalSettingsVm.chassisPrefix, attr: { 'disabled': 'disabled' }" /></li>
+                        <li><label>{% trans %}Gateway{% endtrans %}</label><input type="text" name="gateway" data-bind="value: globalSettingsVm.gateway, attr: { 'disabled': 'disabled' }" /></li>
                     </ul>
                 </div>
                 <div class="single-pane no-padding half-width last no-top-margin">
@@ -202,7 +201,7 @@
                     </ul>
                 </div>
                 <div class="single-pane no-padding">
-                    <h4>{% trans %}Shutdown Cyber Range{% endtrans %}</h4>
+                    <h4>{% trans %}Shutdown CYBER RANGE{% endtrans %}</h4>
                     <ul>
                         <li>
                             <p>{% trans %}This will physically shutdown your Cyber Range box.{% endtrans %}</p>
