@@ -2,10 +2,10 @@
     <div class="container">
         <div class="l-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: leftPortlets, templateEngine: new ko.nativeTemplateEngine}">
         </div>
-
+        <!--
         <div class="r-portlet-column column" data-bind="template: {name: 'portlet-column-template', foreach: rightPortlets, templateEngine: new ko.nativeTemplateEngine }">
         </div>
-
+        -->
         <div class="clear"></div>
         <div id="preloadImages"></div>
     </div>
@@ -26,7 +26,7 @@
     </div>
     <!-- /ko -->
     <!-- ko if: templateId() == 'host-security-cases-template' -->
-    <div class="portlet box" data-bind="template: {name: 'host-security-cases-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
+    <div class="portlet box" data-bind="template: {name: 'all-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
     </div>
     <!-- /ko -->
     <!-- /ko -->
@@ -42,43 +42,12 @@
     <div class="clear"></div>
 </script>
 
-<script id="enterprise-security-cases-portlet-template" type="text/html">
-    <h2>
-        <span data-bind="text: name"></span>
-    </h2>
-    <div class="portlet-content">
-        <ul class="security-cases" data-bind="visible: dashboardVm.enterpriseTests().length > 0, foreach: dashboardVm.enterpriseTests">
-            <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
-                <h3 data-bind="text: name"></h3>
-                <p data-bind="text: template_name"></p>
-            </li>
-        </ul>
-        <div class="security-cases-paginator" data-bind="visible: dashboardVm.totalEnterpriseTests > dashboardVm.enterpriseTestsPerPage"></div>
-    </div>
-</script>
-
-<script id="host-security-cases-portlet-template" type="text/html">
-    <h2>
-        <span data-bind="text: name"></span>
-    </h2>
-    <div class="portlet-content">
-        <ul class="security-cases" data-bind="foreach: dashboardVm.hostTests">
-            <!-- ko if: $index() < 10 -->
-            <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
-                <h3 data-bind="text: name"></h3>
-                <p data-bind="text: categories()[0].name"></p>
-            </li>
-            <!-- /ko -->
-        </ul>
-    </div>
-</script>
-
 <script id="recent-news-portlet-template" type="text/html">
     <h2>
         <span data-bind="text: name"></span>
     </h2>
     <div class="portlet-content">
-        <div class="recent-news" data-bind="visible: $root.testResultsHistory().length > 0">
+        <div class="recent-tests" data-bind="visible: $root.testResultsHistory().length > 0">
         <table>
             <thead>
                 <tr>

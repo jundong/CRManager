@@ -5,84 +5,19 @@ function DashboardViewModel(rootVm) {
     self.rootVm = rootVm;
 
     self.portlets = ko.observableArray();
-
     self.leftPortlets = ko.observableArray();
     self.rightPortlets = ko.observableArray();
 
-    self.enterpriseTestsPaginator = new Paginator();
     self.enterpriseTests = ko.observableArray();
-    self.enterpriseTests.extend({ rateLimit: 50 });
-    self.enterpriseTestsPerPage = 5;
-    self.$enterpriseTestsPaginator = undefined;
-    self.totalEnterpriseTests = ko.observable(0);
-
+    self.rootVm.enterpriseTests.subscribe(function () {
+        self.enterpriseTests(self.rootVm.enterpriseTests());
+    });
     self.hostTests = ko.observableArray();
+    self.rootVm.hostTests.subscribe(function () {
+        self.hostTests(self.rootVm.hostTests());
+    });
     self.testResultsHistory = ko.observableArray();
     self.totalHistoryResults = ko.observable(0);
-
-    self.showEnterpriseTestsPaginator = function() {
-        // If Enterprise Tests records less than one page shows count, hide the paginator
-        if (self.totalEnterpriseTests < 5) {
-            return ;
-        }
-
-        function get_enterprise_tests(page) {
-            var page_enterprise_tests = self.rootVm.enterpriseTests.slice((page - 1) * 5, page * 5);
-            var needRequestData = false;
-            for (var i = 0; i < page_enterprise_tests.length; i++) {
-                if (page_enterprise_tests[i] === undefined) {
-                    needRequestData = true
-                    reset();
-                    break;
-                }
-            }
-            if (!needRequestData) {
-                self.enterpriseTests.removeAll();
-                for (var i = 0; i < page_enterprise_tests.length; i++) {
-                    self.enterpriseTests.push(page_enterprise_tests[i]);
-                }
-            }
-        }
-
-        function page_changed(page) {
-            get_enterprise_tests(page);
-            render_page();
-        }
-
-        function render() {
-            if (!self.$enterpriseTestsPaginator) {
-                self.enterpriseTestsPaginator.on('change', page_changed.bind(self));
-            }
-            self.$enterpriseTestsPaginator = document.querySelector('.security-cases-paginator');
-            reset();
-        }
-
-        function reset() {
-            var pages = Math.ceil(self.totalEnterpriseTests / self.enterpriseTestsPerPage);
-
-            if (pages !== self.enterpriseTestsPaginator.pages()) {
-                self.enterpriseTestsPaginator.pages(pages);
-            }
-
-            self.enterpriseTestsPaginator.render();
-            render_page();
-        };
-
-        /*
-         * Re-renders list of favorite tests
-         *
-         * @param page 1-indexed (typically from a paginator)
-         */
-
-        function render_page() {
-            while (self.$enterpriseTestsPaginator.firstChild) {
-                self.$enterpriseTestsPaginator.removeChild(self.$enterpriseTestsPaginator.firstChild);
-            }
-            self.$enterpriseTestsPaginator.appendChild(self.enterpriseTestsPaginator.$el);
-        };
-
-        render();
-    };
 
     self.getPortlets = function () {
         self.portlets.removeAll();
@@ -158,6 +93,15 @@ function PortletViewModel(dashboardVm) {
     self.selectedFilter = ko.observable();
     self.availableFilters = ko.observableArray();
     self.testResultsHistory = self.dashboardVm.testResultsHistory;
+
+    self.enterpriseTests = ko.observableArray(self.dashboardVm.enterpriseTests());
+    self.dashboardVm.enterpriseTests.subscribe(function () {
+        self.enterpriseTests(self.dashboardVm.enterpriseTests());
+    });
+    self.hostTests = ko.observableArray(self.dashboardVm.hostTests());
+    self.dashboardVm.hostTests.subscribe(function () {
+        self.hostTests(self.dashboardVm.hostTests());
+    });
 
     self.inflate = function (portlet) {
         self.id(portlet.id);

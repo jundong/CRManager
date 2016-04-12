@@ -35,31 +35,13 @@ PlayerTestViewModelDelegate.prototype.validate = function (result) {
 
 PlayerTestViewModelDelegate.prototype.loadTest = function(testConfiguration, testEvent) {
     var self = this;
-    var deactiveDevices = testConfiguration.getDeactiveDevices();
-    if (deactiveDevices.length > 0) {
-        var lightbox_text = translate("Warning: Below Remote Device(s) have been deleted from this Axon: <br />{devices}<br />If you continue to load the test, we'll use the 'Local Chassis' to replace deleted ones",
-                                        {devices: util.array_to_string(deactiveDevices, "", "<br />")});
-        util.lightbox.confirmation_dialog(self,lightbox_text,function() {
-            var resetConfiguration = testConfiguration.clone();
-            resetConfiguration.resetDevices();
-            self.executeLoadTest(resetConfiguration);
-        })
-    } else {
-        self.executeLoadTest(testConfiguration);
-    }
+    self.executeLoadTest(testConfiguration);
 };
 
 PlayerTestViewModelDelegate.prototype.executeLoadTest = function(testConfiguration) {
     var self = this;
     var callback = function () {
-        self.parent.hasResults(false);
-        self.parent.vmResults.percentComplete(null);
-        //this.testResultsTemplateName('placeholder-template');
-        //this.vmResults.reset();
-        self.parent.vmDocumentation.loadTest(testConfiguration);
-        self.parent.vmConfiguration.loadTest(testConfiguration);
-        self.parent.rootVm.selectTab('test');
-        self.parent.selectTab('configuration');
+        self.parent.selectTab('testLibrary');
     }.bind(self);
 
     self.parent.ensureUnreservedOrFail(callback);

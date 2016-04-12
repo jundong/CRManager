@@ -80,13 +80,6 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     self.delegate = is_multicast ? new MulticastDelegate(this) : new UnicastDelegate(this);
     self.delegate.inflate(data);
 
-    // Datapoints
-    for (i = 0; i < datapoint_ids.length; i++) {
-        datapoint = new DatapointViewModel(self.rootVm);
-        datapoint.inflate(self.testVm.availableDatapointsMap()[datapoint_ids[i]]);
-        self.datapoints.push(datapoint);
-    }
-
     // Traffic setting
     self.traffic_setting(new TestTrafficSettingViewModel(self.testConfigVm, self));
     if (data.traffic_settings && data.traffic_settings.length > 0) {
@@ -201,12 +194,6 @@ TrafficPlayerViewModel.prototype.getPlayerLayer = function () {
     var self = TrafficPlayerViewModel.typesafe(this);
 
     return self.playlist().getTrackLayer();
-};
-
-TrafficPlayerViewModel.prototype.getTrackResultTypes = function () {
-    var self = TrafficPlayerViewModel.typesafe(this);
-
-    return self.playlist().getTrackResultTypes();
 };
 
 TrafficPlayerViewModel.prototype.hasHTTPTrack = function () {

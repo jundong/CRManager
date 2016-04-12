@@ -51578,7 +51578,7 @@ function IxiaViewModel() {\n\
 \n\
     self.selectedTab = ko.observable();\n\
 \n\
-    self.testTemplateName = ko.observable('placeholder-template');\n\
+    self.testLibraryTemplateName = ko.observable('placeholder-template');\n\
     self.dashboardTemplateName = ko.observable('placeholder-template');\n\
     self.administrationTemplateName = ko.observable('placeholder-template');\n\
     self.historyTemplateName = ko.observable('placeholder-template');\n\
@@ -51588,6 +51588,10 @@ function IxiaViewModel() {\n\
 \n\
     self.dashboardTabClass = ko.computed(function () {\n\
         return 'dashboard ' + self.getTabClassFor('dashboard');\n\
+    }).extend({ throttle: self.defaultThrottleDuration });\n\
+\n\
+    self.testLibraryTabClass = ko.computed(function () {\n\
+        return 'library ' + self.getTabClassFor('testLibrary');\n\
     }).extend({ throttle: self.defaultThrottleDuration });\n\
 \n\
     self.historyTabClass = ko.computed(function () {\n\
@@ -51761,9 +51765,9 @@ IxiaViewModel.prototype.getTabClassFor = function (tabName) {\n\
     return '';\n\
 };\n\
 \n\
-IxiaViewModel.prototype.showTest = function () {\n\
+IxiaViewModel.prototype.showTestLibrary = function () {\n\
     var self = IxiaViewModel.typesafe(this);\n\
-    self.selectTab('test');\n\
+    self.selectTab('testLibrary');\n\
 };\n\
 \n\
 IxiaViewModel.prototype.showDashboard = function () {\n\
@@ -51809,7 +51813,6 @@ IxiaViewModel.prototype.selectTab = function (tabName, done) {\n\
                 done();\n\
             });\n\
             break\n\
-        case 'test':\n\
         case 'history':\n\
             showTab(function () {\n\
                 appHistory.push(self);\n\
@@ -51836,15 +51839,11 @@ IxiaViewModel.prototype.selectTab = function (tabName, done) {\n\
                 done();\n\
             }\n\
             break;\n\
-        case 'calendar':\n\
-            self.selectedTab(tabName);\n\
-            self.getResultHistory();\n\
-            appHistory.push(self);\n\
-            done();\n\
-            break;\n\
         case 'testLibrary':\n\
-            appHistory.push(self);\n\
-            done();\n\
+            showTab(function () {\n\
+                appHistory.push(self);\n\
+                done();\n\
+            });\n\
             break;\n\
     }\n\
 };\n\
@@ -51966,206 +51965,18 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
         });\n\
         if (existingTest === null) {\n\
             self.availableTests.push(test);\n\
-        }\n\
-    }\n\
 \n\
-    self.availableTests.sort(util.sortArrayByObjectKeyKoObservable(\"name\", true));\n\
-\n\
-    if (self.vmTest.startingTab == 'tests') {\n\
-        self.vmTest.initializeAvailableTestsDraggable();\n\
-    }\n\
-};\n\
-\n\
-IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){\n\
-    var self = IxiaViewModel.typesafe(this);\n\
-    var enterpriseTests = data = translate_tests_configurations(data);\n\
-    var existingTest;\n\
-\n\
-    // Keep favorite test number is consistent with DB in FrontEnd cache\n\
-    if (self.vmDashboard.totalEnterpriseTests > self.enterpriseTests().length) {\n\
-        for (var i = self.enterpriseTests().length; i < self.vmDashboard.totalEnterpriseTests; i++) {\n\
-            self.enterpriseTests.push(undefined);\n\
-        }\n\
-    } else if (self.vmDashboard.totalEnterpriseTests < self.enterpriseTests().length) {\n\
-        for (var i = self.enterpriseTests().length - 1; i >= 0; i--) {\n\
-            if (self.enterpriseTests()[i] == undefined) {\n\
-                self.enterpriseTests.splice(i, 1);\n\
-            }\n\
-        }\n\
-    }\n\
-\n\
-    for (var i = 0; i < enterpriseTests.length; i++) {\n\
-        var test = new TestTemplateViewModel(self);\n\
-        test.inflate(enterpriseTests[i]);\n\
-\n\
-        if (offset != undefined) {\n\
-            // If offset is set, we query favorite tests from DB, so the favorite property has already been set\n\
-            self.enterpriseTests()[offset + i] = test;\n\
-            if (i < 5) {\n\
-                self.vmDashboard.enterpriseTests.push(test);\n\
-            }\n\
-        } else {\n\
-            // Make sure self.enterpriseTests() has value before we use it\n\
-            if (self.enterpriseTests().length == 0 && test.favorite()) {\n\
+            if (test.type() === \"HOST\") {\n\
+                self.hostTests.push(test);\n\
+            } else {\n\
                 self.enterpriseTests.push(test);\n\
-                self.vmDashboard.totalEnterpriseTests += 1;\n\
-            }\n\
-\n\
-            // Update favorite tests list\n\
-            existingTest = ko.utils.arrayFirst(self.enterpriseTests(), function (item) {\n\
-                if (item != undefined) {\n\
-                    return item.id() === test.id();\n\
-                }\n\
-                return false;\n\
-            });\n\
-            if (existingTest !== null) {\n\
-                var index = self.enterpriseTests.indexOf(existingTest);\n\
-                // Update\n\
-                if (test.favorite()) {\n\
-                    if (index != -1) {\n\
-                        self.enterpriseTests()[index] = test;\n\
-                    }\n\
-                } else {\n\
-                    // Remove\n\
-                    if (index != -1) {\n\
-                        self.enterpriseTests.remove(existingTest);\n\
-                        if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {\n\
-                            if (self.enterpriseTests().length > index) {\n\
-                                if (self.enterpriseTests()[index] !== undefined) {\n\
-                                    if (self.vmDashboard.enterpriseTests.indexOf(self.enterpriseTests()[index]) == -1) {\n\
-                                        self.vmDashboard.enterpriseTests.push(self.enterpriseTests()[index])\n\
-                                    }\n\
-                                }\n\
-                            }\n\
-                        }\n\
-                        self.vmDashboard.totalEnterpriseTests -= 1;\n\
-                    }\n\
-                }\n\
-            } else {\n\
-                // Do nothing if the Frontend cache is empty here\n\
-                if (self.enterpriseTests().length == 0 && !test.favorite()) {\n\
-                    continue;\n\
-                }\n\
-                if (self.enterpriseTests()[0].id() < test.id() && test.favorite()) {\n\
-                    self.enterpriseTests.unshift(test);\n\
-                    self.vmDashboard.totalEnterpriseTests += 1;\n\
-                } else if (self.enterpriseTests()[0].id() > test.id() && test.favorite()) {\n\
-                    var position = undefined;\n\
-                    // First loop to determine whether there is a proper position for insert\n\
-                    for (var k = 0; k < self.enterpriseTests().length; k++) {\n\
-                        if (self.enterpriseTests()[k] == undefined) {\n\
-                            continue;\n\
-                        }\n\
-                        if (self.enterpriseTests()[k].id() > test.id()) {\n\
-                            continue;\n\
-                        } else {\n\
-                            position = k;\n\
-                            break;\n\
-                        }\n\
-                    }\n\
-                    if (position == undefined) {\n\
-                        if (self.enterpriseTests()[self.enterpriseTests().length - 1] != undefined) {\n\
-                            self.enterpriseTests.push(test);\n\
-                        } else {\n\
-                            self.enterpriseTests()[self.enterpriseTests().length - 1] = test;\n\
-                        }\n\
-                    } else {\n\
-                        // Second loop to determine the insert position\n\
-                        var slice = self.enterpriseTests.slice(position, self.enterpriseTests().length);\n\
-                        slice.unshift(test);\n\
-                        self.enterpriseTests = self.enterpriseTests.slice(0, position).concat(slice);\n\
-\n\
-                    }\n\
-                    self.vmDashboard.totalEnterpriseTests += 1;\n\
-                }\n\
-            }\n\
-\n\
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {\n\
-                return item.id() === test.id();\n\
-            });\n\
-            if (existingTest !== null) {\n\
-                // Update\n\
-                if (test.favorite()) {\n\
-                    var index = self.vmDashboard.enterpriseTests.indexOf(existingTest);\n\
-                    self.vmDashboard.enterpriseTests()[index] = test;\n\
-                } else {\n\
-                    // Remove\n\
-                    if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {\n\
-                        self.vmDashboard.enterpriseTests.remove(existingTest);\n\
-                    }\n\
-                }\n\
-            } else {\n\
-                if (self.vmDashboard.enterpriseTests().length == 0 && test.favorite()) {\n\
-                    self.vmDashboard.enterpriseTests.push(test);\n\
-                    continue;\n\
-                }\n\
-                if (self.vmDashboard.enterpriseTests()[0].id() < test.id() && test.favorite()) {\n\
-                    self.vmDashboard.enterpriseTests.unshift(test);\n\
-                    if (self.vmDashboard.enterpriseTests().length > 5) {\n\
-                        self.vmDashboard.enterpriseTests.pop();\n\
-                    }\n\
-                }\n\
             }\n\
         }\n\
     }\n\
-};\n\
 \n\
-IxiaViewModel.prototype.insertUserTest = function (userTest){\n\
-    var self = IxiaViewModel.typesafe(this),\n\
-        existingUserTest,\n\
-        userTestId,\n\
-        flatUserTest;\n\
-\n\
-    userTestId = userTest.id();\n\
-\n\
-    self.updateTestNameInRecentTests(userTest);\n\
-\n\
-    flatUserTest = userTest.toFlatObject();\n\
-    self.fillAvailableTests([flatUserTest]);\n\
-};\n\
-\n\
-IxiaViewModel.prototype.removeUserTest = function (userTest){\n\
-    var self = IxiaViewModel.typesafe(this),\n\
-        existingUserTest;\n\
-\n\
-    existingUserTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
-        return userTest.id() === item.id() && !item.isTemplate();\n\
-    });\n\
-\n\
-    if (existingUserTest !== null) {\n\
-        self.availableTests.remove(existingUserTest);\n\
-    }\n\
-\n\
-    if (existingUserTest !== null) {\n\
-        self.enterpriseTests.remove(existingUserTest);\n\
-    }\n\
-\n\
-    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {\n\
-        return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();\n\
-    });\n\
-\n\
-    if (existingUserTest !== null) {\n\
-        self.vmDashboard.enterpriseTests.remove(existingUserTest);\n\
-    }\n\
-};\n\
-\n\
-IxiaViewModel.prototype.updateTestNameInRecentTests = function (userTest){\n\
-    var self = IxiaViewModel.typesafe(this),\n\
-        userTestId,\n\
-        userTestName,\n\
-        testResultsHistory,\n\
-        i;\n\
-\n\
-    userTestId = userTest.id();\n\
-    userTestName = userTest.name();\n\
-\n\
-    testResultsHistory = self.testResultsHistory();\n\
-\n\
-    for (i = 0; i < testResultsHistory.length; i += 1) {\n\
-        if (testResultsHistory[i].test_id == userTestId) {\n\
-            testResultsHistory[i].categories.unshift(userTestName);\n\
-        }\n\
-    }\n\
+    //self.availableTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
+    //self.hostTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
+    //self.enterpriseTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
 };\n\
 \n\
 IxiaViewModel.prototype.getResultHistory = function (params, callback) {\n\
@@ -52716,31 +52527,13 @@ PlayerTestViewModelDelegate.prototype.validate = function (result) {\n\
 \n\
 PlayerTestViewModelDelegate.prototype.loadTest = function(testConfiguration, testEvent) {\n\
     var self = this;\n\
-    var deactiveDevices = testConfiguration.getDeactiveDevices();\n\
-    if (deactiveDevices.length > 0) {\n\
-        var lightbox_text = translate(\"Warning: Below Remote Device(s) have been deleted from this Axon: <br />{devices}<br />If you continue to load the test, we'll use the 'Local Chassis' to replace deleted ones\",\n\
-                                        {devices: util.array_to_string(deactiveDevices, \"\", \"<br />\")});\n\
-        util.lightbox.confirmation_dialog(self,lightbox_text,function() {\n\
-            var resetConfiguration = testConfiguration.clone();\n\
-            resetConfiguration.resetDevices();\n\
-            self.executeLoadTest(resetConfiguration);\n\
-        })\n\
-    } else {\n\
-        self.executeLoadTest(testConfiguration);\n\
-    }\n\
+    self.executeLoadTest(testConfiguration);\n\
 };\n\
 \n\
 PlayerTestViewModelDelegate.prototype.executeLoadTest = function(testConfiguration) {\n\
     var self = this;\n\
     var callback = function () {\n\
-        self.parent.hasResults(false);\n\
-        self.parent.vmResults.percentComplete(null);\n\
-        //this.testResultsTemplateName('placeholder-template');\n\
-        //this.vmResults.reset();\n\
-        self.parent.vmDocumentation.loadTest(testConfiguration);\n\
-        self.parent.vmConfiguration.loadTest(testConfiguration);\n\
-        self.parent.rootVm.selectTab('test');\n\
-        self.parent.selectTab('configuration');\n\
+        self.parent.selectTab('testLibrary');\n\
     }.bind(self);\n\
 \n\
     self.parent.ensureUnreservedOrFail(callback);\n\
@@ -52885,17 +52678,25 @@ function TestViewModel(rootVModel, delegate) {\n\
     var self = this;\n\
 \n\
     self.rootVm = rootVModel;\n\
-\n\
+    self.vmDashboard = rootVModel.vmDashboard\n\
     self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
     self.getAvailableTests = self.rootVm.getAvailableTests;\n\
-    self.getAvailableDatapoints = self.rootVm.getAvailableDatapoints;\n\
     self.availableDevices = self.rootVm.availableDevices;\n\
     self.availableTests = self.rootVm.availableTests;\n\
     self.availableTestsByCategory = self.rootVm.availableTestsByCategory;\n\
-    self.availableDatapointsMap = self.rootVm.availableDatapointsMap;\n\
     self.getResultTypes = self.rootVm.getResultTypes;\n\
     self.availableCustomers = self.rootVm.availableCustomers;\n\
     self.availableLocations = self.rootVm.availableLocations;\n\
+\n\
+    self.leftPortlets = ko.observableArray(self.vmDashboard.leftPortlets());\n\
+    self.vmDashboard.leftPortlets.subscribe(function () {\n\
+        self.leftPortlets(self.vmDashboard.leftPortlets());\n\
+    });\n\
+\n\
+    self.rightPortlets = ko.observableArray(self.vmDashboard.rightPortlets());\n\
+    self.vmDashboard.rightPortlets.subscribe(function () {\n\
+        self.rightPortlets(self.vmDashboard.rightPortlets());\n\
+    });\n\
 \n\
     self.strings = {\n\
         \"save\": translate('Save'),\n\
@@ -53280,18 +53081,7 @@ TestViewModel.prototype.loadRecentTest = function (historyItem) {\n\
 };\n\
 \n\
 TestViewModel.prototype.loadingTest = function(self, historyItem, testConfiguration) {\n\
-    var deactiveDevices = testConfiguration.getDeactiveDevices();\n\
-    if (deactiveDevices.length > 0) {\n\
-        var lightbox_text = translate(\"Warning: Below Remote Device(s) have been deleted from this Axon: <br />{devices}<br />If you continue to load the test, we'll use the 'Local Chassis' to replace deleted ones\",\n\
-                                        {devices: util.array_to_string(deactiveDevices, \"\", \"<br />\")});\n\
-        util.lightbox.confirmation_dialog(self,lightbox_text,function() {\n\
-            var resetConfiguration = testConfiguration.clone();\n\
-            resetConfiguration.resetDevices();\n\
-            self.executeLoadTest(self, historyItem, resetConfiguration);\n\
-        })\n\
-    } else {\n\
-        self.executeLoadTest(self, historyItem, testConfiguration);\n\
-    }\n\
+    self.executeLoadTest(self, historyItem, testConfiguration);\n\
 };\n\
 \n\
 /**\n\
@@ -53301,111 +53091,10 @@ TestViewModel.prototype.loadingTest = function(self, historyItem, testConfigurat
  * @param matchedTest TestTemplateViewModel\n\
  */\n\
 TestViewModel.prototype.executeLoadTest = function (self, historyItem, matchedTest) {\n\
-    //self.showResults();\n\
     self.vmDocumentation.loadTest(matchedTest);\n\
     self.vmConfiguration.loadTest(matchedTest, function(){\n\
-        self.vmResults.status(historyItem.endResult());\n\
-        //self.vmResults.displayMessage(historyItem.displayMessage());\n\
-        self.showResults();\n\
-        self.hasResults(true);\n\
-        self.loadChartsWithResults(historyItem);\n\
-        self.refreshActiveChartOnVisible();\n\
-        self.rootVm.selectTab('test');\n\
+        self.rootVm.selectTab('testLibrary');\n\
     }.bind(self));\n\
-};\n\
-\n\
-TestViewModel.prototype.loadChartsWithResults = function(historyItem){\n\
-    var self = TestViewModel.typesafe(this);\n\
-    if(!historyItem.chartData && !historyItem.result_sets){\n\
-        self.getTestResults(historyItem);\n\
-    }\n\
-    else if(historyItem.chartData && !historyItem.result_sets){\n\
-        self.fillResultSetFromChartData(historyItem);\n\
-    }\n\
-\n\
-    if(historyItem.result_sets){\n\
-        var chartVms = [],\n\
-            trafficTotalLabel = self.vmConfiguration.getTotalTrafficLabel(),\n\
-            moduleName = self.vmConfiguration.module.split('.').pop(),\n\
-            resultsTemplateRoute = \"test_module/test_results_tmpl/\" + moduleName,\n\
-            resultsTemplateName = \"results-chart-tmpl-\" + moduleName;\n\
-\n\
-        self.vmConfiguration.result_types = self.getDynamicResultTypes();\n\
-\n\
-        for(var i = 0; i < 23; i++){\n\
-            var resultType = self.vmConfiguration.result_types[i];\n\
-            if (resultType == null || resultType == undefined) {\n\
-                continue;\n\
-            }\n\
-\n\
-            var chart = new Chart(resultType);\n\
-            var table = new ResultsTable();\n\
-            chartVms[i] = new ChartViewModel(self.vmResults, { chart : chart, table : table });\n\
-            chartVms[i].label = trafficTotalLabel;\n\
-        }\n\
-\n\
-        self.vmResults.hydrate(chartVms);\n\
-        self.vmResults.getSavedDetailsTable(historyItem.detail_table);\n\
-        self.vmResults.resultId(historyItem.result_id());\n\
-\n\
-        if (self.testResultsTemplateName() !== resultsTemplateName) {\n\
-            util.lightbox.close();\n\
-            util.lightbox.working(new LightboxWorkingViewModel(translate(\"Loading\"), translate(\"Loading\")));\n\
-            util.getTemplate(resultsTemplateRoute, \"#\" + resultsTemplateName, function(template){\n\
-                template.tmpl().appendTo($(\".results\").empty());\n\
-                self.testResultsTemplateName(resultsTemplateName);\n\
-                self.showResults(true);\n\
-                util.lightbox.close();\n\
-            }, true);\n\
-        } else {\n\
-            self.showResults(true);\n\
-        }\n\
-\n\
-        for(var resultSetIndex = 0; resultSetIndex < historyItem.result_sets.length; resultSetIndex++){\n\
-            for(var chartIndex = 0; chartIndex < 23; chartIndex++){\n\
-                if(chartVms[chartIndex] && chartIndex == historyItem.result_sets[resultSetIndex].tab_id){\n\
-                    chartVms[chartIndex].chart().update(historyItem.result_sets[resultSetIndex].series_list);\n\
-                    break;\n\
-                }\n\
-            }\n\
-        }\n\
-    }\n\
-};\n\
-\n\
-TestViewModel.prototype.fillResultSetFromChartData = function(historyItem){\n\
-    var self = TestViewModel.typesafe(this);\n\
-    historyItem.result_sets = new Array();\n\
-\n\
-    for(var i = 0; i < historyItem.chartData.length; i++){\n\
-        var data = {name: historyItem.chartData[i].name};\n\
-        for(var j = 0; j < historyItem.chartData[i].series.length; j++){\n\
-            var graphSeries = historyItem.chartData[i].series[j];\n\
-            data[graphSeries.label] = new Array();\n\
-            for(var d = 0; d < graphSeries.data.length; d++){\n\
-                data[graphSeries.label].push({ x: graphSeries.data[d][0], y: graphSeries.data[d][1] });\n\
-            }\n\
-        }\n\
-        historyItem.result_sets.push(data);\n\
-    }\n\
-};\n\
-\n\
-TestViewModel.prototype.getTestResults = function(historyItem){\n\
-    var self = TestViewModel.typesafe(this);\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Loading test results\"), translate(\"Loading test results...\")));\n\
-    $.ajax({\n\
-        type: \"GET\",\n\
-        url: util.getConfigSetting(\"get_results\")+\"/\"+historyItem.result_id(),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            historyItem.result_sets = data.result_sets;\n\
-            historyItem.detail_table = data.detail_table;\n\
-            self.loadChartsWithResults(historyItem);\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            util.logData(textStatus);\n\
-        }\n\
-    });\n\
 };\n\
 \n\
 TestViewModel.prototype.openTestCreationLightbox = function(){\n\
@@ -53420,9 +53109,9 @@ TestViewModel.prototype.runTest = function () {\n\
 \n\
     /**\n\
      * Scenarios:\n\
-     *  1. Test player is running - always allow test to stop (immediately)\n\
-     *  2. Test player is not running and chassis is reserved - prevent test from starting and show error\n\
-     *  3. Test player is not running and chassis is not reserved - start test\n\
+     *  1. Test is running - always allow test to stop (immediately)\n\
+     *  2. Test is not running and chassis is reserved - prevent test from starting and show error\n\
+     *  3. Test is not running and chassis is not reserved - start test\n\
      */\n\
 \n\
     var self = TestViewModel.typesafe(this),\n\
@@ -53436,7 +53125,6 @@ TestViewModel.prototype.runTest = function () {\n\
         self.vmConfiguration.cancelTest(function() {\n\
             self.isTestRunning(false);\n\
             self.rootVm.getResultHistory();\n\
-            self.showResults();\n\
         });\n\
         return; // Short-circuit\n\
     }\n\
@@ -53448,28 +53136,7 @@ TestViewModel.prototype.runTest = function () {\n\
             return; // Short-circuit\n\
         }\n\
 \n\
-        var reserved_info = data.reserved_remotely;\n\
-        if (reserved_info.reserved) {\n\
-            self.lightboxText = translate('This Axon chassis is currently reserved.<br/><br/>' +\n\
-                'User: {user}<br/>From: {from}<br/>Since: {since}<br/><br/>' +\n\
-                'Please wait for the chassis to become available before loading a test.<br><br>', {\n\
-                user: reserved_info.reserved_by,\n\
-                from: reserved_info.reserved_addr,\n\
-                since: reserved_info.reserved_since\n\
-            });\n\
-            util.lightbox.open({\n\
-                url: 'html/lightbox_tmpl',\n\
-                selector: '#lightbox-reserved-template',\n\
-                cancelSelector: '.ok-button',\n\
-                onOpenComplete: function () {\n\
-                    ko.applyBindings(self, document.getElementById('lightbox-message'));\n\
-                }\n\
-            });\n\
-            return; // Short-circuit\n\
-        }\n\
-\n\
         // Start the test\n\
-        self.showConfiguration();\n\
         util.lightbox.working(new LightboxWorkingViewModel(translate(\"Start\"), translate(\"Validating Test...\")));\n\
         self.hasResults(false);\n\
         self.testResultsTemplateName(\"placeholder-template\");\n\
@@ -53479,17 +53146,6 @@ TestViewModel.prototype.runTest = function () {\n\
             self.vmConfiguration.runTest();\n\
         }) }, 1000);\n\
     };\n\
-\n\
-    util.get_chassis_reservationa_status(run_test);\n\
-};\n\
-\n\
-TestViewModel.prototype.beginTesting = function () {\n\
-    var self = this;\n\
-    util.lightbox.close();\n\
-    self.isTestRunning(true);\n\
-    self.vmResults.status('running');\n\
-    self.vmResults.testCompleted(false);\n\
-    self.loadCharts();\n\
 };\n\
 \n\
 TestViewModel.prototype.abortTestWithError = function (data) {\n\
@@ -53497,8 +53153,6 @@ TestViewModel.prototype.abortTestWithError = function (data) {\n\
 \n\
     self.vmResults.status('aborted');\n\
     util.applyFunction(self.vmResults.charts(), \"dispose\");\n\
-    self.showResults();\n\
-\n\
     util.lightbox.openError(data.messages[0].header, data.messages[0].content);\n\
 };\n\
 \n\
@@ -53517,328 +53171,6 @@ TestViewModel.prototype.validate = function(success, error){\n\
     }else{\n\
         error(result);\n\
     }\n\
-};\n\
-\n\
-TestViewModel.prototype.getPlayerLayers = function(){\n\
-    var self = TestViewModel.typesafe(this);\n\
-\n\
-    return self.vmConfiguration.getPlayerLayers();\n\
-};\n\
-\n\
-TestViewModel.prototype.getTrackResultTypes = function(){\n\
-    var self = TestViewModel.typesafe(this);\n\
-\n\
-    return self.vmConfiguration.getTrackResultTypes();\n\
-};\n\
-\n\
-TestViewModel.prototype.getDynamicResultTypes = function(){\n\
-    var self = TestViewModel.typesafe(this);\n\
-\n\
-    var dynamicResultTypes = new Array();\n\
-    var durationInMilliseconds = (self.vmConfiguration.duration()*60)*1000;\n\
-    var resultTypes = [\n\
-        null, // place holder so that array is now 1 based.\n\
-        {\n\
-            id: 1,\n\
-            name: translate('Total Bandwidth'),\n\
-            description: translate('Total Bandwidth'),\n\
-            url: '/ixia/get_result_series/1/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: \"Mbps\",\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 2,\n\
-            name: translate('Bandwidth'),\n\
-            description: translate('Bandwidth for Transport Data'),\n\
-            url: '/ixia/ixiat_result_series/2/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Mbps\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 3,\n\
-            name: translate('Packet Loss'),\n\
-            description: translate('Packet Loss for Transport Data'),\n\
-            url: '/ixia/get_result_series/2/2',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Packets\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 4,\n\
-            name: translate('Latency'),\n\
-            description: translate('Latency for Transport Data'),\n\
-            url: '/ixia/get_result_series/2/3',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Latency\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 5,\n\
-            name: translate('Jitter'),\n\
-            description: translate('Jitter for Transport Data'),\n\
-            url: '/ixia/get_result_series/2/4',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Jitter\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 6,\n\
-            name: translate('Bandwidth'),\n\
-            description: translate('Bandwidth for Application Data'),\n\
-            url: '/spirent/get_result_series/3/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Mbps\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 7,\n\
-            name: translate('Connections'),\n\
-            description: translate('Connections for Application Data'),\n\
-            url: '/ixia/get_result_series/3/2',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Connections per second\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 8,\n\
-            name: translate('Transactions'),\n\
-            description: translate('Transactions for Application Data'),\n\
-            url: '/ixia/get_result_series/3/3',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Transactions per second\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 9,\n\
-            name: translate('Response Time'),\n\
-            description: translate('Response Time for Application Data'),\n\
-            url: '/spirent/get_result_series/3/4',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Milliseconds\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 10,\n\
-            name: translate('Bandwidth'),\n\
-            description: translate('Bandwidth for Voice/Video Quality Data'),\n\
-            url: '/spirent/get_result_series/4/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Bandwidth\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 11,\n\
-            name: translate('Calls'),\n\
-            description: translate('Calls for Voice/Video Quality Data'),\n\
-            url: '/spirent/get_result_series/4/2',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Calls\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 12,\n\
-            name: translate('Video Connections'),\n\
-            description: translate('Video Connections for Voice/Video Quality Data'),\n\
-            url: '/spirent/get_result_series/4/3',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Connections\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 13,\n\
-            name: translate('Quality MOS Scores'),\n\
-            description: translate('Quality MOS Scores for Voice/Video Quality Data'),\n\
-            url: '/spirent/get_result_series/4/4',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"MOS Score\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 14,\n\
-            name: translate('RTP Packet Loss'),\n\
-            description: translate('RTP Packet Loss for Voice/Video Quality Data'),\n\
-            url: '/spirent/get_result_series/4/5',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Packets\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 15,\n\
-            name: translate('Calls per Second'),\n\
-            description: translate('Calls per Second for Voice Quality Data'),\n\
-            url: '/spirent/get_result_series/5/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Calls/sec\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 16,\n\
-            name: translate('Total Calls'),\n\
-            description: translate('Total Calls for Voice Quality Data'),\n\
-            url: '/spirent/get_result_series/5/2',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Calls\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 17,\n\
-            name: translate('Quality MOS Scores'),\n\
-            description: translate('Quality MOS Scores for Voice Quality Data'),\n\
-            url: '/spirent/get_result_series/5/3',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"MOS Score\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 18,\n\
-            name: translate('RTP Packet Loss'),\n\
-            description: translate('RTP Packet Loss for Voice Quality Data'),\n\
-            url: '/spirent/get_result_series/5/4',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Packets\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 19,\n\
-            name: translate('Video Connections'),\n\
-            description: translate('Video Connections for Video Quality Data'),\n\
-            url: '/spirent/get_result_series/6/1',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Connections\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 20,\n\
-            name: translate('Transactions'),\n\
-            description: translate('Transactions for Video Quality Data'),\n\
-            url: '/spirent/get_result_series/6/2',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Transactions\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 21,\n\
-            name: translate('Quality MOS Scores'),\n\
-            description: translate('Quality MOS Scores for Video Quality Data'),\n\
-            url: '/spirent/get_result_series/6/3',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"MOS Score\"),\n\
-            duration: durationInMilliseconds\n\
-        },\n\
-        {\n\
-            id: 22,\n\
-            name: translate('RTP Packet Loss'),\n\
-            description: translate('RTP Packet Loss for Video Quality Data'),\n\
-            url: '/spirent/get_result_series/6/4',\n\
-            frequency: 1000,\n\
-            yAxisLabel: translate(\"Packets\"),\n\
-            duration: durationInMilliseconds\n\
-        }\n\
-    ];\n\
-\n\
-    dynamicResultTypes[1] = resultTypes[1];\n\
-\n\
-    var trackTypes = self.vmConfiguration.getTrackResultTypes();\n\
-\n\
-    if (trackTypes.indexOf('DataTestResult') !== -1) { // if we *only* show data when a data specific player exists\n\
-        dynamicResultTypes[2] = resultTypes[2];\n\
-        dynamicResultTypes[3] = resultTypes[3];\n\
-        dynamicResultTypes[4] = resultTypes[4];\n\
-        dynamicResultTypes[5] = resultTypes[5];\n\
-    }\n\
-\n\
-//    if (trackTypes.indexOf('VoiceTestResult') !== -1\n\
-//        || trackTypes.indexOf('VideoTestResult') !== -1) { // if we *only* show voice/video when a voice/video layer specific player exists\n\
-//        dynamicResultTypes[10] = resultTypes[10];\n\
-//        dynamicResultTypes[11] = resultTypes[11];\n\
-//        dynamicResultTypes[12] = resultTypes[12];\n\
-//        dynamicResultTypes[13] = resultTypes[13];\n\
-//        dynamicResultTypes[14] = resultTypes[14];\n\
-//    }\n\
-\n\
-    if (trackTypes.indexOf('VoiceTestResult') !== -1) { // if we *only* show voice/video when a voice/video layer specific player exists\n\
-        dynamicResultTypes[15] = resultTypes[15];\n\
-        dynamicResultTypes[16] = resultTypes[16];\n\
-        dynamicResultTypes[17] = resultTypes[17];\n\
-        dynamicResultTypes[18] = resultTypes[18];\n\
-    }\n\
-\n\
-    if (trackTypes.indexOf('VideoTestResult') !== -1) { // if we *only* show voice/video when a voice/video layer specific player exists\n\
-        dynamicResultTypes[19] = resultTypes[19];\n\
-        dynamicResultTypes[20] = resultTypes[20];\n\
-        dynamicResultTypes[21] = resultTypes[21];\n\
-        dynamicResultTypes[22] = resultTypes[22];\n\
-    }\n\
-\n\
-    if (trackTypes.indexOf('ALPTestResult') !== -1\n\
-        || trackTypes.indexOf('RawSocketTestResult') !== -1\n\
-        || trackTypes.indexOf('DPGTestResult') !== -1) { // if we *only* show application when an application specific player exists\n\
-        dynamicResultTypes[6] = resultTypes[6];\n\
-        dynamicResultTypes[7] = resultTypes[7];\n\
-        dynamicResultTypes[8] = resultTypes[8];\n\
-\n\
-        if (self.vmConfiguration.hasHTTPTrack()) {\n\
-            dynamicResultTypes[9] = resultTypes[9]; // Show response time\n\
-        }\n\
-    }\n\
-\n\
-    return dynamicResultTypes;\n\
-};\n\
-\n\
-TestViewModel.prototype.loadCharts = function () {\n\
-    var self = TestViewModel.typesafe(this),\n\
-        moduleName = self.vmConfiguration.module.split('.').pop(),\n\
-        resultsTemplateName = \"results-chart-tmpl-\" + moduleName;\n\
-\n\
-    //TODO: Check Test Status and that polling Url exists.\n\
-    var trafficTotalLabel = self.vmConfiguration.getTotalTrafficLabel();\n\
-    self.vmConfiguration.result_types = self.getDynamicResultTypes();\n\
-    self.selectTab(\"results\", function(){\n\
-        //Here is where we will kick off the graphs\n\
-        if(!self.vmConfiguration.result_types || self.vmConfiguration.result_types.length == 0)\n\
-            util.logData(\"There were no result types configured for test: \" + self.vmConfiguration.name());\n\
-        else{\n\
-            var chartVms = new Array();\n\
-            for(var i = 0; i < 23; i++){\n\
-                var resultType = self.vmConfiguration.result_types[i];\n\
-                if (resultType == null || resultType == undefined) {\n\
-                    continue;\n\
-                }\n\
-\n\
-//                var resultType = ko.utils.arrayFirst(self.rootVm.availableResultTypes, function(item){\n\
-//                    return item.id == self.vmConfiguration.result_types[i];\n\
-//                });\n\
-\n\
-                if(resultType){\n\
-                    var chart = new Chart(resultType);\n\
-                    var table = new ResultsTable();\n\
-                    var chartPoller = new ChartPoller(\n\
-                        chart,\n\
-                        table,\n\
-                        {\n\
-                            pollDuration : (self.vmConfiguration.duration() * 60 * 1000),\n\
-                            pollFrequency : resultType.frequency,\n\
-                            url: resultType.url,\n\
-                            onFinish : function () {\n\
-                                self.isTestRunning(false);\n\
-                                self.vmResults.logToHistory()\n\
-                            }\n\
-                        },\n\
-                        self.vmResults);\n\
-                    chartVms[i] = new ChartViewModel(self.vmResults, { chart : chart, chartPoller : chartPoller, table : table });\n\
-                    chartVms[i].label(trafficTotalLabel);\n\
-                }else{\n\
-                    util.logData(\"Result Type for: \" + self.vmConfiguration.result_types[i] + \" was not found\");\n\
-                }\n\
-            }\n\
-            self.vmResults.kickOffDisplayMessageRotation();\n\
-            self.vmResults.hydrate(chartVms);\n\
-        }\n\
-\n\
-        self.testResultsTemplateName(resultsTemplateName);\n\
-    });\n\
 };\n\
 \n\
 TestViewModel.prototype.getJsonConfiguration = function () {\n\
@@ -67688,84 +67020,19 @@ function DashboardViewModel(rootVm) {\n\
     self.rootVm = rootVm;\n\
 \n\
     self.portlets = ko.observableArray();\n\
-\n\
     self.leftPortlets = ko.observableArray();\n\
     self.rightPortlets = ko.observableArray();\n\
 \n\
-    self.enterpriseTestsPaginator = new Paginator();\n\
     self.enterpriseTests = ko.observableArray();\n\
-    self.enterpriseTests.extend({ rateLimit: 50 });\n\
-    self.enterpriseTestsPerPage = 5;\n\
-    self.$enterpriseTestsPaginator = undefined;\n\
-    self.totalEnterpriseTests = ko.observable(0);\n\
-\n\
+    self.rootVm.enterpriseTests.subscribe(function () {\n\
+        self.enterpriseTests(self.rootVm.enterpriseTests());\n\
+    });\n\
     self.hostTests = ko.observableArray();\n\
+    self.rootVm.hostTests.subscribe(function () {\n\
+        self.hostTests(self.rootVm.hostTests());\n\
+    });\n\
     self.testResultsHistory = ko.observableArray();\n\
     self.totalHistoryResults = ko.observable(0);\n\
-\n\
-    self.showEnterpriseTestsPaginator = function() {\n\
-        // If Enterprise Tests records less than one page shows count, hide the paginator\n\
-        if (self.totalEnterpriseTests < 5) {\n\
-            return ;\n\
-        }\n\
-\n\
-        function get_enterprise_tests(page) {\n\
-            var page_enterprise_tests = self.rootVm.enterpriseTests.slice((page - 1) * 5, page * 5);\n\
-            var needRequestData = false;\n\
-            for (var i = 0; i < page_enterprise_tests.length; i++) {\n\
-                if (page_enterprise_tests[i] === undefined) {\n\
-                    needRequestData = true\n\
-                    reset();\n\
-                    break;\n\
-                }\n\
-            }\n\
-            if (!needRequestData) {\n\
-                self.enterpriseTests.removeAll();\n\
-                for (var i = 0; i < page_enterprise_tests.length; i++) {\n\
-                    self.enterpriseTests.push(page_enterprise_tests[i]);\n\
-                }\n\
-            }\n\
-        }\n\
-\n\
-        function page_changed(page) {\n\
-            get_enterprise_tests(page);\n\
-            render_page();\n\
-        }\n\
-\n\
-        function render() {\n\
-            if (!self.$enterpriseTestsPaginator) {\n\
-                self.enterpriseTestsPaginator.on('change', page_changed.bind(self));\n\
-            }\n\
-            self.$enterpriseTestsPaginator = document.querySelector('.security-cases-paginator');\n\
-            reset();\n\
-        }\n\
-\n\
-        function reset() {\n\
-            var pages = Math.ceil(self.totalEnterpriseTests / self.enterpriseTestsPerPage);\n\
-\n\
-            if (pages !== self.enterpriseTestsPaginator.pages()) {\n\
-                self.enterpriseTestsPaginator.pages(pages);\n\
-            }\n\
-\n\
-            self.enterpriseTestsPaginator.render();\n\
-            render_page();\n\
-        };\n\
-\n\
-        /*\n\
-         * Re-renders list of favorite tests\n\
-         *\n\
-         * @param page 1-indexed (typically from a paginator)\n\
-         */\n\
-\n\
-        function render_page() {\n\
-            while (self.$enterpriseTestsPaginator.firstChild) {\n\
-                self.$enterpriseTestsPaginator.removeChild(self.$enterpriseTestsPaginator.firstChild);\n\
-            }\n\
-            self.$enterpriseTestsPaginator.appendChild(self.enterpriseTestsPaginator.$el);\n\
-        };\n\
-\n\
-        render();\n\
-    };\n\
 \n\
     self.getPortlets = function () {\n\
         self.portlets.removeAll();\n\
@@ -67841,6 +67108,15 @@ function PortletViewModel(dashboardVm) {\n\
     self.selectedFilter = ko.observable();\n\
     self.availableFilters = ko.observableArray();\n\
     self.testResultsHistory = self.dashboardVm.testResultsHistory;\n\
+\n\
+    self.enterpriseTests = ko.observableArray(self.dashboardVm.enterpriseTests());\n\
+    self.dashboardVm.enterpriseTests.subscribe(function () {\n\
+        self.enterpriseTests(self.dashboardVm.enterpriseTests());\n\
+    });\n\
+    self.hostTests = ko.observableArray(self.dashboardVm.hostTests());\n\
+    self.dashboardVm.hostTests.subscribe(function () {\n\
+        self.hostTests(self.dashboardVm.hostTests());\n\
+    });\n\
 \n\
     self.inflate = function (portlet) {\n\
         self.id(portlet.id);\n\
@@ -68439,39 +67715,18 @@ function TestTemplateViewModel(rootVm) {\n\
 \n\
     self.id = ko.observable();\n\
     self.name = ko.observable();\n\
+    self.type = ko.observable();\n\
     self.description = ko.observable();\n\
     self.duration = ko.observable();\n\
-    self.bandwidth = ko.observable();\n\
-    self.isTemplate = ko.observable(false);\n\
-    self.isFactoryTest = ko.observable(false);\n\
-    self.categories = ko.observableArray();\n\
-    self.template_name = ko.observable();\n\
-    self.playlist_ids = ko.observableArray();\n\
-    self.datapoint_ids = ko.observableArray();\n\
-    self.spirent_test_id = ko.observable();\n\
+    self.topology_image = ko.observable();\n\
+    self.topology_description = ko.observable();\n\
+    self.attack_task = ko.observable();\n\
+    self.attack_steps = ko.observableArray();\n\
+    self.attack_criteria = ko.observable();\n\
+    self.defense_task = ko.observableArray();\n\
+    self.defense_steps = ko.observableArray();\n\
+    self.defense_criteria = ko.observable();\n\
 \n\
-    self.engine = null;\n\
-    self.module = null;\n\
-    self.diagram = null;\n\
-    self.isUserSave = false;\n\
-    self.recommendedTrackIds = null;\n\
-\n\
-    self.isMulticast = undefined;\n\
-    self.multicast_settings = undefined;\n\
-    self.supplementalConfiguration = null;\n\
-    self.add_player_settings = undefined; // What settings should additional players have (e.g. \"same\", \"bandwidth\", etc.)\n\
-\n\
-    self.favorite = ko.observable();\n\
-    self.customer = ko.observable();\n\
-    self.location = ko.observable();\n\
-    self.tags = ko.observableArray();\n\
-    self.unqualifiedTags = ko.observable();\n\
-\n\
-    self.displayTags = ko.computed({\n\
-        read: self.displayTagsRead.bind(self),\n\
-        write: self.displayTagsWrite.bind(self)\n\
-    });\n\
-    self.attributes = undefined;\n\
     self.result_id = undefined; //this is used to tell if the template is correct for a test result which the test is created using user saved test\n\
 }\n\
 \n\
@@ -68516,27 +67771,11 @@ TestTemplateViewModel.prototype.openSaveModal = function () {\n\
         selector : '#lightbox-save-test-alternate-template',\n\
         cancelSelector: '.cancel-button',\n\
         onOpenComplete: function(){\n\
-            self.startState = {\n\
-                name: self.name(),\n\
-                tags: self.tags(),\n\
-                favorite: self.favorite(),\n\
-                customer: self.customer(),\n\
-                location: self.location()\n\
-            };\n\
             ko.applyBindings(self, document.getElementById('lightbox-save-test-alternate'));\n\
         },\n\
         onClose: function(){\n\
             if (self.name() === '') {\n\
                 refreshDraggables = true;\n\
-            }\n\
-            self.name(self.startState.name);\n\
-            self.tags(self.startState.tags);\n\
-            self.favorite(self.startState.favorite);\n\
-            self.customer(self.startState.customer);\n\
-            self.location(self.startState.location);\n\
-\n\
-            if (refreshDraggables) {\n\
-                self.rootVm.refreshTestDraggables();\n\
             }\n\
         }\n\
     });\n\
@@ -68547,198 +67786,42 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {\n\
 \n\
     self.id(flatTest.id);\n\
     self.name(flatTest.name);\n\
+    self.type(flatTest.type);\n\
     self.description(flatTest.description);\n\
-    self.duration(flatTest.duration);\n\
-    self.bandwidth(flatTest.bandwidth);\n\
-    self.isTemplate(flatTest.is_template)\n\
-    self.isFactoryTest(flatTest.isFactoryTest);\n\
-    self.spirent_test_id(flatTest.spirent_test_id);\n\
+    //self.duration(flatTest.duration);\n\
+    self.topology_image(flatTest.topology_image);\n\
+    self.topology_description(flatTest.topology_description);\n\
+    self.attack_task(flatTest.attack_task);\n\
+    self.attack_steps(flatTest.attack_steps);\n\
+    self.attack_criteria(flatTest.attack_criteria);\n\
+    self.defense_task(flatTest.defense_task);\n\
+    self.defense_steps(flatTest.defense_steps);\n\
+    self.defense_criteria(flatTest.defense_criteria);\n\
 \n\
-    self.engine = flatTest.engine;\n\
-    self.module = flatTest.module;\n\
-    if (flatTest.test_type) {\n\
-        self.diagram = {\n\
-            test_type: flatTest.test_type,\n\
-            test_type_display_name: flatTest.test_type_display_name,\n\
-            traffic_type: flatTest.traffic_type,\n\
-            traffic_type_display_name: flatTest.traffic_type_display_name,\n\
-            traffic_direction: flatTest.traffic_direction\n\
-        };\n\
-    } else {\n\
-        // Make sure we initialize the diagram\n\
-        if (self.diagram === null) {\n\
-            var tmplTest = ko.utils.arrayFirst(self.vmDashboard.hostTests(), function (item) {\n\
-                return item.template_name() === flatTest.template_name;\n\
-            });\n\
-            if (tmplTest !== null && self.diagram === null) {\n\
-                self.diagram = {\n\
-                    test_type: tmplTest.diagram.test_type,\n\
-                    test_type_display_name: tmplTest.diagram.test_type_display_name,\n\
-                    traffic_type: tmplTest.diagram.traffic_type,\n\
-                    traffic_type_display_name: tmplTest.diagram.traffic_type_display_name,\n\
-                    traffic_direction: tmplTest.diagram.traffic_direction\n\
-                }\n\
-            }\n\
-        }\n\
-    }\n\
-    self.isUserSave = flatTest.is_user_save;\n\
-    self.recommendedTrackIds = flatTest.recommended_track_ids;\n\
-    self.template_name(flatTest.template_name);\n\
-\n\
-    self.isMulticast = flatTest.default_player_type && flatTest.default_player_type === 'multicast';\n\
-\n\
-    self.supplementalConfiguration = new TestSupplementalConfigurationViewModel(self.rootVm);\n\
-    self.supplementalConfiguration.inflate(flatTest.supplemental_configuration);\n\
-    self.add_player_settings = flatTest.add_player_settings;\n\
-\n\
-    util.setObservableArray(self.categories, flatTest.categories);\n\
-    util.setObservableArray(self.playlist_ids, flatTest.playlist_ids);\n\
-    util.setObservableArray(self.datapoint_ids, []);\n\
-\n\
-    if(flatTest.traffic_players){\n\
-        self.traffic_players = flatTest.traffic_players;\n\
-    }\n\
-    if(flatTest.result_types){\n\
-        self.result_types = flatTest.result_types;\n\
-    }\n\
-\n\
-    util.setTags(self, flatTest.tags);\n\
-\n\
-    self.attributes = flatTest.attributes;\n\
-    if(flatTest.result_id){\n\
-        self.result_id = parseInt(flatTest.result_id);\n\
-    }\n\
-\n\
-    if (flatTest.example_configuration) {\n\
-        self.merge_example_configuration(flatTest.example_configuration);\n\
-    }\n\
-};\n\
-\n\
-TestTemplateViewModel.prototype.merge_example_configuration = function (configuration) {\n\
-    configuration = configuration || {};\n\
-\n\
-    this.traffic_players = this.traffic_players || configuration.traffic_players;\n\
-};\n\
-\n\
-TestTemplateViewModel.prototype.displayTagsRead = function () {\n\
-    var self = TestTemplateViewModel.typesafe(this);\n\
-\n\
-    if (!self.unqualifiedTags()) {\n\
-        self.unqualifiedTags(self.tags().join(', '));\n\
-    }\n\
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());\n\
-};\n\
-\n\
-TestTemplateViewModel.prototype.displayTagsWrite = function (value) {\n\
-    var self = TestTemplateViewModel.typesafe(this);\n\
-\n\
-    if (value == null) {\n\
-        return;\n\
-    }\n\
-\n\
-    var newArray = value.split(',');\n\
-\n\
-    self.tags.removeAll();\n\
-    for (var i = 0; i < newArray.length; i++) {\n\
-        var trimmedValue = util.trimTag(newArray[i]);\n\
-\n\
-        if (trimmedValue == '') {\n\
-            continue;\n\
-        }\n\
-\n\
-        if (self.tags().indexOf(trimmedValue) == -1) {\n\
-            self.tags.push(trimmedValue);\n\
-        }\n\
-\n\
-    }\n\
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
-    self.unqualifiedTags.valueHasMutated();\n\
+    //util.setObservableArray(self.name, flatTest.name);\n\
+    //util.setObservableArray(self.name, flatTest.name);\n\
+    //util.setObservableArray(self.namename, []);\n\
 };\n\
 \n\
 TestTemplateViewModel.prototype.save = function (options) {\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
-    options.success = options.success || $.noop;\n\
-    options.error = options.error || $.noop;\n\
-\n\
-    var name = self.name();\n\
-    self.unqualifiedTags(self.tags().join(', '));\n\
-\n\
-    var foundExisting = ko.utils.arrayFirst(self.rootVm.availableTests(), function (item) {\n\
-        return name == item.name();\n\
-    });\n\
-\n\
-    if (foundExisting != null && foundExisting != self) {\n\
-        var iteration = 0;\n\
-\n\
-        do {\n\
-            self.name(name + ' [' + (iteration++) + ']');\n\
-\n\
-            foundExisting = ko.utils.arrayFirst(self.rootVm.availableTests(), function (item) {\n\
-                return self.name() == item.name();\n\
-            });\n\
-        } while (foundExisting != null && foundExisting != self);\n\
-    }\n\
-\n\
-    var data = self.toFlatObject();\n\
-    data = ko.toJSON(data);\n\
-\n\
-    util.logData(data);\n\
-\n\
-    util.lightbox.close();\n\
-\n\
-    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-    util.lightbox.working(workingVm);\n\
-\n\
-    $.ajax({\n\
-        type: 'POST',\n\
-        url: util.getConfigSetting('save_test_template'),\n\
-        data: data,\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            if(data.result == \"SUCCESS\"){\n\
-                //TODO: this shouldn't be necessary- the save method should eventually return items & the id.\n\
-                if (data.items !== undefined\n\
-                    && data.items !== null) {\n\
-                    self.id(data.items[0].id);\n\
-                }\n\
-\n\
-                options.success(self);\n\
-                var completedPollingFunction = function(){\n\
-                    util.lightbox.working(new LightboxWorkingViewModel(translate('Refreshing test list...'), translate('Refreshing test list...')));\n\
-                    util.lightbox.close();\n\
-                };\n\
-                self.rootVm.getAvailableTests(completedPollingFunction);\n\
-            }else{\n\
-                options.error(textStatus);\n\
-                workingVm.status('error');\n\
-            }\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            options.error(textStatus);\n\
-            logger.error(errorThrown);\n\
-            workingVm.status('error');\n\
-        }\n\
-    });\n\
 };\n\
 \n\
 TestTemplateViewModel.prototype.toFlatObject = function(){\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
     var flatTemplate = {\n\
         id: self.id(),\n\
-        default_player_type: self.isMulticast ? 'multicast' : 'unicast',\n\
-        tags: {\n\
-            favorite: self.favorite(),\n\
-            company: self.customer(),\n\
-            location: self.location(),\n\
-            user_defined: self.tags()\n\
-        },\n\
-        engine: self.engine,\n\
-        module: self.module,\n\
-        is_template: self.isTemplate,\n\
-        is_user_save: self.isUserSave,\n\
-        spirent_test_id: self.spirent_test_id,\n\
-        recommended_track_ids: self.recommendedTrackIds,\n\
-        supplemental_configuration: self.supplementalConfiguration.toFlatObject()\n\
+        name: self.name,\n\
+        type: self.type(),\n\
+        description: self.description(),\n\
+        topology_image: self.topology_image(),\n\
+        topology_description: self.topology_description(),\n\
+        attack_task: self.attack_task(),\n\
+        attack_steps: self.attack_steps(),\n\
+        attack_criteria: self.attack_criteria(),\n\
+        defense_task: self.defense_task(),\n\
+        defense_steps: self.defense_steps(),\n\
+        defense_criteria: self.defense_criteria()\n\
     };\n\
 \n\
     return flatTemplate;\n\
@@ -68749,125 +67832,21 @@ TestTemplateViewModel.prototype.clone = function(){\n\
 \n\
     var newTest = new TestTemplateViewModel(self.rootVm);\n\
 \n\
-    newTest.isMulticast = self.isMulticast;\n\
-    newTest.name(self.name());\n\
-    newTest.description(self.description());\n\
-    newTest.duration(self.duration());\n\
-    newTest.bandwidth(self.bandwidth());\n\
-    newTest.spirent_test_id(self.spirent_test_id());\n\
-\n\
-    newTest.engine = self.engine;\n\
-    newTest.module = self.module;\n\
-    newTest.isTemplate = self.isTemplate;\n\
-    newTest.isUserSave = self.isUserSave;\n\
-    newTest.recommendedTrackIds = self.recommendedTrackIds;\n\
-\n\
-    newTest.categories(self.categories());\n\
-    newTest.template_name(self.template_name());\n\
-    newTest.playlist_ids(self.playlist_ids());\n\
-    newTest.datapoint_ids(self.datapoint_ids());\n\
-\n\
-    if(self.traffic_players){\n\
-        newTest.traffic_players = self.traffic_players;\n\
-    }\n\
-    if(self.result_types){\n\
-        newTest.result_types = self.result_types;\n\
-    }\n\
-\n\
-    newTest.supplementalConfiguration = new TestSupplementalConfigurationViewModel(self.rootVm);\n\
-    newTest.supplementalConfiguration.inflate(self.supplementalConfiguration.toFlatObject());\n\
-\n\
-    newTest.tags(self.tags());\n\
+    newTest.id(self.id);\n\
+    newTest.name(self.id);\n\
+    newTest.type(self.id);\n\
+    newTest.description(self.id);\n\
+    //newTest.duration(self.id);\n\
+    newTest.topology_image(self.topology_image);\n\
+    newTest.topology_description(self.topology_description);\n\
+    newTest.attack_task(self.attack_task);\n\
+    newTest.attack_steps(self.attack_steps);\n\
+    newTest.attack_criteria(self.attack_criteria);\n\
+    newTest.defense_task(self.defense_task);\n\
+    newTest.defense_steps(self.defense_steps);\n\
+    newTest.defense_criteria(self.defense_criteria);\n\
 \n\
     return newTest;\n\
-};\n\
-\n\
-TestTemplateViewModel.prototype.getDeactiveDevices = function () {\n\
-    var self = TestTemplateViewModel.typesafe(this);\n\
-    if (self.isTemplate()) {\n\
-        return []\n\
-    }\n\
-\n\
-    var traffic_players = self.traffic_players,\n\
-        active_devices = self.rootVm.availableDevices().filter(function (device) { return device.active(); }),\n\
-        active_ids = active_devices.map(function (device) { return device.id(); }),\n\
-        deactiveDevices = [];\n\
-\n\
-    traffic_players.forEach(function(player, i) {\n\
-        var deactive_str,\n\
-            index = i + 1,\n\
-            source_devices = player.source.devices || [player.source],\n\
-            destination_devices = player.destination.devices || [player.destination];\n\
-\n\
-        source_devices.forEach(function (device) {\n\
-            var id = device.device.id;\n\
-\n\
-            if (active_ids.indexOf(id) === -1) {\n\
-                deactive_str = \"Traffic Player \" + index + \" destination Device \" + device.device.name;\n\
-                deactiveDevices.push(deactive_str);\n\
-            }\n\
-        });\n\
-\n\
-        destination_devices.forEach(function (device) {\n\
-            var id = device.device.id;\n\
-\n\
-            if (active_ids.indexOf(id) === -1) {\n\
-                deactive_str = \"Traffic Player \" + index + \" destination Device \" + device.device.name;\n\
-                deactiveDevices.push(deactive_str);\n\
-            }\n\
-        });\n\
-    });\n\
-\n\
-    return deactiveDevices;\n\
-};\n\
-\n\
-TestTemplateViewModel.prototype.resetDevices = function() {\n\
-    var self = TestTemplateViewModel.typesafe(this);\n\
-    if (self.isTemplate()) {\n\
-        return []\n\
-    }\n\
-\n\
-    var localDevice,\n\
-        devices,\n\
-        active_devices = self.rootVm.availableDevices().filter(function (device) { return device.active(); }),\n\
-        active_ids = active_devices.map(function (device) { return device.id(); });\n\
-\n\
-    localDevice = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {\n\
-        return (item.id() == 1);\n\
-    });\n\
-\n\
-    for(var i = 0; i < self.traffic_players.length; i++) {\n\
-        devices = self.traffic_players[i].source.devices || [self.traffic_players[i].source.device];\n\
-\n\
-        self.traffic_players[i].source.devices = devices.map(function (device) {\n\
-            if (active_ids.indexOf(device.device.id) !== -1) {\n\
-                device.device.name = localDevice.name();\n\
-                device.device.auth_id = localDevice.username();\n\
-                device.device.device_type_id = localDevice.device_type_id();\n\
-                device.device.host = localDevice.host();\n\
-                device.device.id = localDevice.id();\n\
-                device.device.password = localDevice.password();\n\
-                device.device.ports = localDevice.ports();\n\
-            }\n\
-\n\
-            return device;\n\
-        });\n\
-\n\
-        devices = self.traffic_players[i].destination.devices || [self.traffic_players[i].destination];\n\
-        self.traffic_players[i].destination.devices = devices.map(function (device) {\n\
-            if (active_ids.indexOf(device.device.id) === -1) {\n\
-                device.device.name = localDevice.name();\n\
-                device.device.auth_id = localDevice.username();\n\
-                device.device.device_type_id = localDevice.device_type_id();\n\
-                device.device.host = localDevice.host();\n\
-                device.device.id = localDevice.id();\n\
-                device.device.password = localDevice.password();\n\
-                device.device.ports = localDevice.ports();\n\
-            }\n\
-\n\
-            return device;\n\
-        });\n\
-    }\n\
 };\n\
 \n\
 module.exports = TestTemplateViewModel;\n\
@@ -69420,41 +68399,6 @@ ConfiguredTestViewModel.prototype.getDefaultPlaylistId = function () {\r\n\
     }\r\n\
 };\r\n\
 \r\n\
-ConfiguredTestViewModel.prototype.getPlayerLayers = function () {\r\n\
-    var self = ConfiguredTestViewModel.typesafe(this);\r\n\
-\r\n\
-    var playerLayers = new Array();\r\n\
-\r\n\
-    var trafficPlayers = self.traffic_players();\r\n\
-    for (var i = 0; i < trafficPlayers.length; i++) {\r\n\
-        var playerLayer = trafficPlayers[i].getPlayerLayer();\r\n\
-\r\n\
-        if (playerLayer != null) {\r\n\
-            playerLayers.push(playerLayer);\r\n\
-        }\r\n\
-    }\r\n\
-\r\n\
-    return playerLayers;\r\n\
-};\r\n\
-\r\n\
-ConfiguredTestViewModel.prototype.getTrackResultTypes = function () {\r\n\
-    var self = ConfiguredTestViewModel.typesafe(this),\r\n\
-        trackResultTypes = [],\r\n\
-        trafficPlayers = self.traffic_players(),\r\n\
-        i,\r\n\
-        playerTrackResultTypes;\r\n\
-\r\n\
-    for (i = 0; i < trafficPlayers.length; i += 1) {\r\n\
-        playerTrackResultTypes = trafficPlayers[i].getTrackResultTypes();\r\n\
-\r\n\
-        if (playerTrackResultTypes.length > 0) {\r\n\
-            trackResultTypes = self.mergeTrackResultTypes(trackResultTypes, playerTrackResultTypes);\r\n\
-        }\r\n\
-    }\r\n\
-\r\n\
-    return trackResultTypes;\r\n\
-};\r\n\
-\r\n\
 ConfiguredTestViewModel.prototype.hasHTTPTrack = function () {\r\n\
     var self = ConfiguredTestViewModel.typesafe(this),\r\n\
         trafficPlayers = self.traffic_players();\r\n\
@@ -69605,7 +68549,6 @@ ConfiguredTestViewModel.prototype.parseValidationResults = function (data, textS
     if (data.items !== undefined) {\r\n\
         if (data.items.length > 0) {\r\n\
             self.id(data.items[0].id);\r\n\
-            self.rootVm.insertUserTest(self)\r\n\
         }\r\n\
     }\r\n\
     var validation_results = new ValidationResultsViewModel(self);\r\n\
@@ -69618,7 +68561,6 @@ ConfiguredTestViewModel.prototype.setValidationResults = function (data) {\r\n\
         $lb,\r\n\
         begin_testing = function () {\r\n\
             self.startingTest = false;\r\n\
-            self.testVm.beginTesting();\r\n\
         },\r\n\
         show_invalid = function(result) {\r\n\
             $lb = document.getElementById('lightbox-run-test-validation');\r\n\
@@ -69841,15 +68783,12 @@ ConfiguredTestViewModel.prototype.save = function (obj, event) {\r\n\
                 self.isDirty = false;\r\n\
                 logger.info('Updated axon user test id: ' + data.items[0].id);\r\n\
                 self.isUserSave = true;\r\n\
-                self.rootVm.fillFavoriteTests([self.toFlatObject()]);\r\n\
-                self.rootVm.insertUserTest(self);\r\n\
                 self.startState = self.toFlatObject();\r\n\
                 self.startStateLessNameAndTags = self.getNormalizedFlatObject(self.toFlatObject());\r\n\
                 var completedPollingFunction = function(){\r\n\
                     util.lightbox.working(new LightboxWorkingViewModel(translate('Refreshing test list...'), translate('Refreshing test list...')));\r\n\
                     util.lightbox.close();\r\n\
                 };\r\n\
-                // Already insertUserTest, so needn't refresh the tests here\r\n\
                 //self.rootVm.getAvailableTests(completedPollingFunction);\r\n\
                 completedPollingFunction()\r\n\
             } else {\r\n\
@@ -71447,13 +70386,6 @@ TrafficPlayerViewModel.prototype.inflate = function (data, default_playlist_id, 
     self.delegate = is_multicast ? new MulticastDelegate(this) : new UnicastDelegate(this);\n\
     self.delegate.inflate(data);\n\
 \n\
-    // Datapoints\n\
-    for (i = 0; i < datapoint_ids.length; i++) {\n\
-        datapoint = new DatapointViewModel(self.rootVm);\n\
-        datapoint.inflate(self.testVm.availableDatapointsMap()[datapoint_ids[i]]);\n\
-        self.datapoints.push(datapoint);\n\
-    }\n\
-\n\
     // Traffic setting\n\
     self.traffic_setting(new TestTrafficSettingViewModel(self.testConfigVm, self));\n\
     if (data.traffic_settings && data.traffic_settings.length > 0) {\n\
@@ -71568,12 +70500,6 @@ TrafficPlayerViewModel.prototype.getPlayerLayer = function () {\n\
     var self = TrafficPlayerViewModel.typesafe(this);\n\
 \n\
     return self.playlist().getTrackLayer();\n\
-};\n\
-\n\
-TrafficPlayerViewModel.prototype.getTrackResultTypes = function () {\n\
-    var self = TrafficPlayerViewModel.typesafe(this);\n\
-\n\
-    return self.playlist().getTrackResultTypes();\n\
 };\n\
 \n\
 TrafficPlayerViewModel.prototype.hasHTTPTrack = function () {\n\
@@ -73161,11 +72087,6 @@ function bindScheduler(ixiaCRVm) {\n\
     return promise(function(resolve) {\n\
         try {\n\
             ixiaCRVm.selectedTab.subscribe(function(name) {\n\
-                if ('calendar' == name) {\n\
-                    var scheduler = require('./components-ixia/scheduler').create(ixiaCRVm);\n\
-                    window.calendar = scheduler;\n\
-                    scheduler.render();\n\
-                }\n\
             });\n\
             resolve(ixiaCRVm);\n\
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }\n\

@@ -154,6 +154,7 @@ def get_display_messages(request):
 
 @view_config(name='get_result_history', renderer='json')
 def get_result_history(request):
+    lang = get_locale_name(request)
     # JSON feed that is responsible for getting the
     # result history used in the dashboard area.
     items = {
@@ -177,12 +178,32 @@ def get_result_history(request):
 
 @view_config(name='get_ixiacr_tests', renderer='json')
 def get_ixiacr_tests(request):
+    lang = get_locale_name(request)
     # JSON feed that is responsible for the ixiacr_tests.
     test_id = request.params.get('test_id', None)
-    tests = TestCases.query.filter(TestCases.active=='true').order_by(TestCases.id.desc()).all()
 
+    tests = TestCases.query.filter(TestCases.active=='1').order_by(TestCases.id.desc()).all()
+    items = []
     try:
-        return tests
+        for test in tests:
+            config = {
+                "id": test.id,
+                "name": test.name.get_translation(lang),
+                "type": test.type,
+                "description": test.description.get_translation(lang),
+                #"duration": test.duration,
+                "topology_image": test.topology_image,
+                "topology_description": test.topology_description.get_translation(lang),
+                "attack_task": test.attack_task.get_translation(lang),
+                "attack_steps": test.attack_steps.get_translation(lang),
+                "attack_criteria": test.attack_criteria.get_translation(lang),
+                "defense_task": test.defense_task.get_translation(lang),
+                "defense_steps": test.defense_steps.get_translation(lang),
+                "defense_criteria": test.defense_criteria.get_translation(lang)
+            }
+            items.append(config)
+
+        return items
 
     except DBAPIError, e:
         return Response("Error: DB Error: {0}".format(e),

@@ -40,6 +40,9 @@
 							<li data-bind="attr: { 'class': dashboardTabClass }, click: showDashboard">
                                 {% trans %}DASHBOARD{% endtrans %}
                             </li>
+                            <li data-bind="attr: { 'class': testLibraryTabClass }, click: showTestLibrary">
+	                            {% trans %}TEST LIBRARY{% endtrans %}
+                            </li>
                             <li data-bind="attr: { 'class': historyTabClass }, click: showHistory">
 	                            {% trans %}HISTORY{% endtrans %}
                             </li>
@@ -58,9 +61,8 @@
 			</div>
 		</div>
 		<div class="dashboard" data-bind="visible: selectedTab() == 'dashboard', template: {name: dashboardTemplateName(), data: vmDashboard, templateEngine: new ko.nativeTemplateEngine }"></div>
-		<div class="test" data-bind="visible: selectedTab() == 'test', template: {name: testTemplateName(), templateEngine: new ko.nativeTemplateEngine, data: vmTest, afterRender: vmTest.afterRender}"></div>
-		<div class="calendar" data-bind="visible: selectedTab() == 'calendar'"></div>
-		<div class="history" data-bind="visible: selectedTab() == 'history', template: {name: historyTemplateName(), templateEngine: new ko.nativeTemplateEngine, data: vmHistory }"></div>
+		<div class="testLibrary" data-bind="visible: selectedTab() == 'testLibrary', template: {name: testLibraryTemplateName(), data: vmTest, templateEngine: new ko.nativeTemplateEngine }"></div>
+		<div class="history" data-bind="visible: selectedTab() == 'history', template: {name: historyTemplateName(), data: vmHistory, templateEngine: new ko.nativeTemplateEngine }"></div>
 		<div class="administration" data-bind="visible: selectedTab() == 'administration'"></div>
 	</div>
 	<div class="ie-initialization" style="display: none;">

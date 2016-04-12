@@ -90,25 +90,6 @@ TestResultsViewModel.prototype.reset = function(){
     self.rotatorTimeout = null;
 };
 
-TestResultsViewModel.prototype.setTabVisibility = function(){
-    var self = TestResultsViewModel.typesafe(this);
-
-    var trackResultTypes = self.testVm.getTrackResultTypes();
-
-    self.showDataTab(trackResultTypes.indexOf('DataTestResult') !== -1);
-    self.showApplicationTab(trackResultTypes.indexOf('ALPTestResult') !== -1);
-    self.showVoiceVideoTab(trackResultTypes.indexOf('VoiceTestResult') !== -1 || trackResultTypes.indexOf('VideoTestResult') !== -1);
-    self.showVoiceTab(trackResultTypes.indexOf('VoiceTestResult') !== -1);
-    self.showVideoTab(trackResultTypes.indexOf('VideoTestResult') !== -1);
-    self.showResponseTimeTab(trackResultTypes.indexOf('ALPTestResult') !== -1 && self.testVm.vmConfiguration.hasHTTPTrack());
-
-//    var playerLayers = self.testVm.getPlayerLayers();
-
-//    self.showDataTab(playerLayers.indexOf(2) != -1);
-//    self.showApplicationTab(playerLayers.indexOf(7) != -1);
-//    self.showVoiceVideoTab(playerLayers.indexOf(4) != -1);
-};
-
 TestResultsViewModel.prototype.computeDisplayStatus = function(){
     var self = TestResultsViewModel.typesafe(this);
 
@@ -258,9 +239,7 @@ TestResultsViewModel.prototype.hydrate = function(chartArray){
         }
     }
 
-    self.setTabVisibility();
     self.selectedGroup('Total Bandwidth');
-    //self.zoomVisible(true);
 };
 
 TestResultsViewModel.prototype.logToHistory = function(){

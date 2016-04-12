@@ -126,11 +126,6 @@ function bindScheduler(ixiaCRVm) {
     return promise(function(resolve) {
         try {
             ixiaCRVm.selectedTab.subscribe(function(name) {
-                if ('calendar' == name) {
-                    var scheduler = require('scheduler').create(ixiaCRVm);
-                    window.calendar = scheduler;
-                    scheduler.render();
-                }
             });
             resolve(ixiaCRVm);
         } catch(e) { window.logger.error( e + ' trace: ' + e.stack().toString()); }

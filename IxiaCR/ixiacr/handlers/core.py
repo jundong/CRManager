@@ -28,13 +28,13 @@ def view_includes(config):
                        action='administration_tmpl')
     config.add_handler('dashboard_tmpl', '/html/dashboard_tmpl',
                        'ixiacr.handlers.core:IxiaTemplateHandler',
-                       action='dashboard_tmpl')    
+                       action='dashboard_tmpl')
+    config.add_handler('testLibrary_tmpl', '/html/testLibrary_tmpl',
+                       'ixiacr.handlers.core:IxiaTemplateHandler',
+                       action='testLibrary_tmpl')
     config.add_handler('helpcenter_tmpl', '/html/helpcenter_tmpl',
                        'ixiacr.handlers.core:IxiaTemplateHandler',
                        action='helpcenter_tmpl')
-    config.add_handler('calendar_tmpl', '/html/calendar_tmpl',
-                       'ixiacr.handlers.core:IxiaTemplateHandler',
-                       action='calendar_tmpl')    
     config.add_handler('history_tmpl', '/html/history_tmpl',
                        'ixiacr.handlers.core:IxiaTemplateHandler',
                        action='history_tmpl')    
@@ -103,19 +103,14 @@ class IxiaTemplateHandler(base.Handler):
 
     @action(renderer='html/dashboard.tmpl.jinja2', permission='all_access')
     def dashboard_tmpl(self):
-        # devices = {}
-        # for device in Device.query.all():
-        #     devices[device.name] = device.host
-        #
-        # return {'devices': devices}
+        return {}
+
+    @action(renderer='html/testlibrary.tmpl.jinja2', permission='all_access')
+    def testLibrary_tmpl(self):
         return {}
 
     @action(renderer='html/helpcenter.tmpl.jinja2', permission='all_access')
     def helpcenter_tmpl(self):
-        return {}
-
-    @action(renderer='html/calendar.tmpl.jinja2', permission='all_access')
-    def calendar_tmpl(self):
         return {}
 
     @action(renderer='html/history.tmpl.jinja2', permission='all_access')

@@ -1405,7 +1405,7 @@ Dashboard
 }
 
 .dashboard .l-portlet-column {
-    width: 1160px;
+    width: 1600px;
     float: left;
     margin: 0 24px 0 0;
 }
@@ -1693,926 +1693,306 @@ Dashboard
 }
 
 /*
-Test
+TestLibrary
 */
 
-.test .test-header {
-    background-color: #323233;
-    background-image: url("../images/texture-small.png");
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
+.testLibrary {
+    background-color: #d8d8d8;
 }
 
-.test .test-header > .container {
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-.test .results .header > .container {
-    padding: 7px 0;
-}
-
-.test .test-controller .header.player {
-    padding: 6px 7px 5px 7px;
-}
-
-.test .test-controller .header {
-    border-radius: 7px;
-    border-bottom: solid 1px #49494a;
-    border-top: solid 1px #262626;
-    border-right: solid 1px #303031;
-    border-left: solid 1px #303031;
-    background-color: #363637;
-    box-shadow:inset 0px 2px 3px 1px #262626;
-}
-
-.test .test-header .header > .container {
-    background-image: url("../images/texture-small.png");
-    border-radius: 4px;
-    border-bottom: solid 1px #232324;
-    border-top: solid 1px #3c3c3d;
-    border-right: solid 1px #282829;
-    border-left: solid 1px #282829;
-    padding: 6px 7px 5px 7px;
-    background-color: #363637;
-    box-shadow: 0px 1px 2px 0px #282829;
-}
-
-.test .test-header .test-controller .test-player {
-    width: 697px;
-    height: 140px;
-    background-image: url("../images/test-player.png");
-    background-repeat: no-repeat;
-    position: relative;
-    margin: 0px;
-    float: left;
-}
-
-.test .test-header .test-controller .header.indefinite .test-player,
-.test .test-header .test-controller .header.static_duration .test-player {
-    background-image: url("../images/test-player-indefinite.gif");
-}
-
-.test .test-header .test-controller .header.no-duration .duration {
-    display: none;
-}
-
-.test .test-header .test-controller .test-player .run{
-    position: absolute;
-    /*background-color: orange;*/
-    width: 88px;
-    height: 88px;
-    z-index: 0;
-    border-radius: 44px;
-    top: 18px;
-    left: 33px;
-    cursor: pointer;
-}
-.test .test-header .test-controller .test-player .run .test-play-button {
-    left: 36px;
-    position: absolute;
-    top: 32px;
-}
-.test .test-header .test-controller .test-player .run .test-stop-button {
-    left: 31px;
-    position: absolute;
-    top: 32px;
-}
-.test .test-header .test-controller .test-player .recycle{
-    position: absolute;
-    /*background-color: green;*/
-    width: 36px;
-    height: 36px;
-    z-index: 1;
-    border-radius: 18px;
-    top: 102px;
-    left: 8px;
-    cursor: pointer;
-}
-
-.test .test-header .test-controller .header:not(.indefinite) .test-player .duration.indefinite,
-.test .test-header .test-controller .header.indefinite .test-player .duration:not(.indefinite),
-.test .test-header .test-controller .header:not(.static_duration) .test-player .duration.static,
-.test .test-header .test-controller .header.static_duration .test-player .duration:not(.static) {
-    display: none;
-}
-.test .test-header .test-controller .test-player .duration{
-    position: absolute;
-    /*background-color: green;*/
-    width: 105px;
-    height: 55px;
-    top: 37px;
-    left: 585px;
-}
-
-.test .test-header .test-controller .test-player .duration select{
-    width: 105px;
-    height: 55px;
-    top: 37px;
-    left: 585px;
-    opacity: 0;
-    cursor: pointer;
-    background-color: #222222;
-    color: #d6d6d6;
-}
-.test .test-header .test-controller .test-player .duration p.duration-header {
-    color: #D6D6D6;
-    font-family: "open sans light";
-    position: absolute;
-    font-size: 12px;
-    top: 13px;
-    left: 17px;
-}
-
-/* style for duration on tests with indefinite durations like the throughput test */
-.test .test-header .test-controller .test-player .duration.indefinite p.duration-header {
-    font-size: 10px;
-    top: 15px;
-    left: 13px;
-    width: 85px;
-}
-
-/* style for duration on tests with static durations like the multicast join/leave test */
-.test .test-header .test-controller .test-player .duration.static p.duration-header {
-    font-size: 10px;
-    top: 23px;
-    left: 26px;
-    max-width: 65px;
-}
-.test .test-header .test-controller .test-player .duration p.duration-text{
-    position: absolute;
-    color: #d6d6d6;
-    font-family: "open sans light";
-    font-size: 10px;
-    top: 27px;
-    left: 27px;
-}
-
-.test .test-header .test-controller .test-player .duration p.duration-text:after {
-    content: url("../images/arrow-down-grey.png");
-    position: absolute;
-    right: -25px;
-    top: -2px;
-}
-
-.test .test-header .test-controller .test-player .duration select.disabled {
-    cursor: not-allowed;
-}
-
-.test .test-header .test-controller .test-player .progress {
-    position: absolute;
-    top: 13px;
-    left: 133px;
-}
-
-.test .test-header .test-controller .test-player .bar-segments {
-    position: absolute;
-    width: 415px;
-    height: 31px;
-    left: 14px;
-    top: 38px;
-}
-.test .test-header .test-controller .test-player .bar-segments {
-    background: url("../images/test-bars.png") 0 -31px;
-}
-
-.test .test-header .test-controller .header.indefinite .test-player .bar-segments {
-    background: url("../images/test-bars-animated.gif") 0 -32px;
-}
-
-.test .test-header .test-controller .header.indefinite.running .test-player .bar-segments {
-    background-position: 0 0;
-}
-
-.test .test-header .test-controller .test-player .top-dots,
-.test .test-header .test-controller .test-player .top-middle-dots,
-.test .test-header .test-controller .test-player .bottom-middle-dots,
-.test .test-header .test-controller .test-player .bottom-dots {
-    position: absolute;
-    height: 5px;
-    background: url("../images/test-dots.png") 0 -5px;
-}
-
-.test .test-header .test-controller .test-player .top-middle-dots,
-.test .test-header .test-controller .test-player .bottom-middle-dots {
-    width: 438px;
-    left: 3px;
-}
-
-.test .test-header .test-controller .test-player .top-dots,
-.test .test-header .test-controller .test-player .bottom-dots {
-    width: 446px;
-    left: 0px;
-}
-
-.test .test-header .test-controller .test-player .top-dots {
-    top: 0px;
-}
-
-.test .test-header .test-controller .test-player .top-middle-dots {
-    top: 7px;
-}
-
-.test .test-header .test-controller .test-player .bottom-middle-dots {
-    top: 94px;
-}
-
-.test .test-header .test-controller .test-player .bottom-dots {
-    top: 101px;
-}
-
-.test .test-header .test-controller .test-player .progress .fill{
-    height: 100%;
-    width: 0;
-}
-
-.test .test-header .test-controller .indefinite .test-player .fill { display: none; }
-.test .test-header .test-controller .test-player .progress .bar-segments .fill{
-    background: url("../images/test-bars.png") 0 0;
-}
-
-.test .test-header .test-controller .test-player .top-dots .fill,
-.test .test-header .test-controller .test-player .top-middle-dots .fill,
-.test .test-header .test-controller .test-player .bottom-middle-dots .fill,
-.test .test-header .test-controller .test-player .bottom-dots .fill {
-    background: url("../images/test-dots.png") 0 0;
-}
-
-
-.test .test-header .test-controller .test-detail {
-    display: block;
-    float: right;
-    width: 268px;
-    overflow: hidden;
-}
-
-.test .test-header .test-controller .test-detail ul {
-    margin: 0 10px 0 0;
-}
-
-.test .test-header .test-controller .test-detail ul li {
-    text-align: right;
-}
-
-.test .test-header .test-controller h2 {
-    font-family: "open sans light", arial, sans-serif;
-    font-size: 17px;
-    line-height: 24px;
-    color: #ffffff;
-    text-transform: uppercase;
-    margin-top: 10px;
-    margin-bottom: 4px;
-    word-wrap: break-word;
-}
-
-.test .test-header .test-controller h3 {
-    font-family: "open sans light", arial, sans-serif;
-    font-size: 11px;
-    line-height: 13px;
-    color: #b3b3b3;
-    text-transform: uppercase;
-    margin-bottom: 14px;
-}
-
-.test .test-header .test-controller .test-detail li:last-of-type {
-    margin: 0 0 10px 0;
-}
-
-.test .test-header .test-navigation {
-    position: relative;
-    overflow: hidden;
-    text-align: center;
-    top: -22px;
-}
-
-.test .test-header .test-navigation ul {
-    display: inline-block;
-
-    border-radius: 7px;
-    border-bottom: solid 1px #49494a;
-    border-top: solid 1px #262626;
-    border-right: solid 1px #303031;
-    border-left: solid 1px #303031;
-    padding: 6px 7px 5px 7px;
-    background-color: #363637;
-    box-shadow:inset 0px 2px 3px 1px #262626;
-    }
-
-.test .test-header .test-navigation li {
-    border-top: solid 1px #545455;
-    border-bottom: solid 2px #262627;
-
-    border-right: solid 1px #262627;
-    border-left: solid 1px #4f4f52;
-
-    padding: 6px 16px;
-
-    background-color: #363637;
-
-    background: -moz-linear-gradient(top, #484849 0%, #3b3b3c 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#484849), color-stop(100%,#3b3b3c)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #484849 0%,#3b3b3c 100%); /* W3C */
-
-    color: #dddddd;
-    font-family: arial, helvetica, sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    position: relative;
-}
-
-.test .test-header .test-navigation li:hover {
-    background-color: #262627;
-
-    background: -moz-linear-gradient(top, #3b3b3c 0%, #484849 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3b3b3c), color-stop(100%,#484849)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #3b3b3c 0%,#484849 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #3b3b3c 0%,#484849 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #3b3b3c 0%,#484849 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #3b3b3c 0%,#484849 100%); /* W3C */
-}
-
-.test .test-header .test-navigation li:first-of-type {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.test .test-header .test-navigation li:last-of-type {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-.test .test-header .test-navigation li.selected {
-    -webkit-box-shadow: inset -1px 0px 30px #151516;
-    -moz-box-shadow:    inset -1px 0px 30px #151516;
-    box-shadow:         inset -1px 0px 30px #151516;
-
-    border-top: solid 1px #151516;
-    border-left: solid 1px #151516;
-    border-right: solid 1px #151516;
-    border-bottom: solid 1px #454546;
-
-    padding-bottom: 7px;
-
-    background: none;
-    background-color: #2c2c2d;
-
-    color: #adadad;
-}
-.test .test-header .test-navigation li.disabled,
-.test .test-header .test-navigation li.disabled:hover {
-    color: #555555;
-    cursor: not-allowed;
-    text-shadow: 1px 1px #888888;
-
-
-    background-color: #363637;
-
-    background: -moz-linear-gradient(top, #484849 0%, #3b3b3c 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#484849), color-stop(100%,#3b3b3c)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top, #484849 0%,#3b3b3c 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #484849 0%,#3b3b3c 100%); /* W3C */
-
-    /*
-    color: #666666;
-    cursor: not-allowed;
-    text-shadow: 1px 1px #999999;
-    background-color: #ccc !important;
-    background: none;
-    -webkit-box-shadow: inset -1px 0px 45px #151516;
-    -moz-box-shadow:    inset -1px 0px 45px #151516;
-    box-shadow:         inset -1px 0px 45px #151516;
-
-    border-top: solid 1px #151516;
-    border-left: solid 1px #151516;
-    border-right: solid 1px #151516;
-    border-bottom: solid 1px #151516;
-    */
-}
-.test .test-navigation li {
-    position: relative;
-    background-color: white;
-    margin: 0;
-    padding: 5px;
-    display: inline-block;
-}
-
-.test .test-navigation li.selected {
-    background-color: lightblue;
-}
-
-.test .test-navigation li a{
-    color: black;
-    text-decoration: none;
-}
-
-    /*
-    Sidebar
-    */
-.test .configuration .sidebar {
-    background-color: #323233;
-    background-image: url("../images/texture-small.png");
-    border-bottom: solid 1px #1b1b1c;
-    position: relative;
-    z-index: 3;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    -o-user-select: none;
-}
-
-.test .configuration .sidebar .container {
-    height: 137px;
-    padding: 0;
-    z-index: 3;
-    position: relative;
-    width: 1024px;
+.testLibrary .container {
+    width: 1624px;
+    margin-left: auto;
+    margin-right: auto;
     margin: 0 auto;
 }
-
-.test .configuration .sidebar.locked {
-    position: fixed;
-    top: 0;
+.testLibrary .l-portlet-column {
+    width: 1160px;
+    float: left;
+    margin: 0 24px 0 0;
 }
 
-
-.test .configuration .sidebar-placeholder.locked {
-    height: 137px;
-}
-
-.test .configuration .sidebar .items {
-    display: block;
-    overflow: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-.test .configuration .sidebar .menu {
-
-    display: block;
-    margin: 0;
-    padding: 0;
-    z-index: 1;
+.testLibrary .r-portlet-column {
+    width: 440px;
     float: left;
 }
 
-.test .configuration .sidebar .menu li {
-    list-style-type: none;
-    display: inline-block;
-    padding: 15px 20px 15px 38px;
-    color: #ffffff;
-    font-family: "open sans bold", arial, sans-serif;
-    font-size: 11px;
-    line-height: 13px;
-    text-transform: uppercase;
-    cursor: pointer;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-    position: absolute;
+.testLibrary .portlet, .history .box {
+    margin: 27px 0;
+    font-size: 12px;
+    font-family: "open sans light";
+    font-weight: bold;
+    color: #CCC;
 }
 
-.test .configuration .sidebar .menu li#customInfoTab {
-    left: 335px;
-    width: 150px;
-    font-size: 10px;
-    color: #d8d8d8;
-    font-family: "open sans light", arial, sans-serif;
-    cursor: auto;
-    text-align: center;
+.testLibrary .portlet a, .history .box a {
+    color: #96cfde;
     text-decoration: none;
 }
-/*.test .configuration .sidebar .menu li#testsTab {
-    left: 335px;
-    display: none;
-}*/
 
-.test .configuration .sidebar .menu li:nth-child(1):before {
-    content: url("../images/document.png");
-    position: absolute;
-    left: 18px;
-    top: 13px;
-}
-.test .configuration .sidebar .menu li:nth-child(2):before {
-    content: url("../images/white-grid.png");
-    position: absolute;
-    left: 18px;
-    top: 14px;
-}
-.test .configuration .sidebar .menu li:nth-child(3):before {
-    content: url("../images/list.png");
-    position: absolute;
-    left: 18px;
-    top: 14px;
+.testLibrary .portlet h2, .history .box h2 {
+    background-color: #1b1b1c;
+    font-size: 14px;
+    color: #dddddd;
+    font-family: "open sans bold";
+    padding: 14px 12px;
 }
 
-.test .configuration .sidebar .menu li.selected {
-    background-color: #262627;
-    color: #c4c4c4;
-    /*box-shadow: inset 0px 7px 20px -5px #000000;*/
-    box-shadow: inset 3px 7px 7px #161616;
-    z-index: 23;
-    cursor: default;
-    height: 14px;
-    border-bottom: 5px solid #262627;
-}
-.test .configuration .sidebar .menu li.selected:nth-child(1){
-    border-bottom: none;
-    height: 16px;
-    box-shadow: inset 3px 3px 5px #161616
-}
-.test .configuration .sidebar .menu li.selected:nth-child(2){
-    box-shadow: inset 1px 3px 3px #161616;
-}
-.test .configuration .sidebar .menu li.selected:nth-child(3){
-    box-shadow: inset 1px 3px 3px #161616;
-}
-/*.test .configuration .sidebar .menu li.selected:nth-child(4){
-    box-shadow: inset 1px 3px 3px #161616;
-}*/
-.test .configuration .sidebar .menu li.selected:after {
-    /*background-color: red;
-    background-color: #262627;
-    width: 100%;
-    height: 10px;
-    position: absolute;
-    bottom: -10px;
-    left: 0px;
-    content: "";*/
-
+.testLibrary .portlet h3, .history .box h3 {
+    margin: 0 0 12px 0;
+    font-size: 13px;
+    font-family: "open sans bold";
 }
 
-.test .configuration .sidebar .menu li.selected:nth-child(1):after {
-    box-shadow: inset 6px 0 5px -5px #19191a;
+.testLibrary .portlet .portlet-content, .history .box .content {
+    margin: 12px 12px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
 }
 
-
-.test .configuration .sidebar .menu li.selected:nth-child(1):before {
-    content: url("../images/gray-document.png");
-    position: absolute;
-    left: 18px;
-    top: 13px;
-}
-.test .configuration .sidebar .menu li.selected:nth-child(2):before {
-    content: url("../images/gray-grid.png");
-    position: absolute;
-    left: 18px;
-    top: 14px;
-}
-.test .configuration .sidebar .menu li.selected:nth-child(3):before {
-    content: url("../images/gray-list.png");
-    position: absolute;
-    left: 18px;
-    top: 14px;
+.testLibrary .portlet .portlet-filter, .history .box .filter {
+    margin: 12px 12px;
 }
 
-.test .configuration .sidebar .filters {
-    float: right;
-}
-
-.test .configuration .sidebar .filters li {
+.testLibrary .portlet .get-started-image {
     float: left;
-    margin-right: 1em;
+    margin: 0 30px 0 0;
+}
+
+.testLibrary .portlet .get-started-content h3 {
+    margin: 20px 0;
+    font-size: 33px;
+    line-height: 36px;
+    font-family: "open sans lighter";
+    font-weight: normal;
+    color: #dddddd;
+}
+
+.testLibrary .portlet .get-started-content p {
+    margin: 0 0 20px 0;
+    font-size: 12px;
+    line-height: 15px;
+}
+
+.testLibrary .portlet .get-started-content a {
+    color: #dddddd;
+    font-family: "open sans light";
+    font-weight: normal;
+    padding-left: 50px;
     position: relative;
 }
 
-.test .configuration .sidebar .filters li.last {
-    margin: 0;
+.testLibrary .portlet .get-started-content a:before {
+    content: url("../images/small_play.png");
+    position: absolute;
+    left: 25px;
+    top: 5px;
 }
-
-.test .configuration .sidebar .filters li input.shaded.tags {
-    width: 81px;
-}
-
-.test .configuration .sidebar .filters li input.shaded.search {
-    width: 200px;
-    position: relative;
-}
-
-.test .configuration .sidebar .filters li .mobile-clear-text-button{
-	z-index: 9;
-	background-position: 50% 0px;
-}
-
-.test .configuration .sidebar .filters li a.rectangular-button.list {
-    padding: 8px 7px;
-}
-
-.test .configuration .sidebar .filters li a.rectangular-button.search  {
-    padding: 7px 9px 8px 8px;
-}
-
-.test .configuration .sidebar .scroll-panel{
-	height: 78px;
+.testLibrary .portlet .scroll-panel{
+    max-height: 507px;
     top:5px;
-	position: relative;
+    position: relative;
 }
 
-.test .configuration .sidebar .scroll-container{
-	height: 78px;
+.testLibrary .portlet .scroll-container{
+    height: 490px;
     z-index:1;
+    margin-top: 10px;
 }
-.test .configuration .sidebar .scroll-fader-left{
-    z-index:22;
-    position:absolute;
-    top:0px;
-    left:0px;
-    width:9px;
-    height: 78px;
-    box-shadow: inset 4px 0px 7px -2px #161616;
-    -moz-box-shadow: inset 4px 0px 7px -2px #161616;
-    -webkit-box-shadow: inset 4px 0px 7px -2px #161616;
-}
-.test .configuration .sidebar .scroll-fader-right{
-    z-index:22;
-    position:absolute;
-    top:0px;
+
+.testLibrary .portlet .scroller{
+    height: 490px;
+    position: absolute;
+    width: 11px;
+    top: 0px;
     right:0px;
-    width:9px;
-    height: 78px;
-    box-shadow: inset -6px 0px 7px -2px #161616;
-    -moz-box-shadow: inset -6px 0px 7px -2px #161616;
-    -webkit-box-shadow: inset -6px 0px 7px -2px #161616;
-}
-.test .configuration .sidebar .scroller{
-	height: 11px;
-	position: absolute;
-	width: 1008px;
-	width: -webkit-calc(100% - 16px);
-	width: -moz-calc(100% - 16px);
-	width: -ms-calc(100% - 16px);
-	width: -o-calc(100% - 16px);
-	width: calc(100% - 16px);
-	bottom: 0px;
-	margin: 8px;
+    margin: 0px 5px 0px 0px;
     z-index:2;
 }
 
-.test .configuration .sidebar .scroll-track{
-	height: 11px;
-	z-index: 2;
-}
-
-.test .configuration .sidebar .scroll-handle{
-	width: 50px;
-	top: 1px;
-}
-.test .configuration .sidebar .filters .toggleTracks {
-    margin: 0 9px 0 4px;
-    width:189px;
-}
-
-
-.test .configuration .sidebar .filters .toggleTracks div {
-    font-size: 10px;
-    color: #d8d8d8;
-    font-family: "open sans light", arial, sans-serif;
-    text-decoration: none;
-    display: block;
-    float: left;
-    margin: 11px 0 0 0;
-}
-.test .configuration .sidebar .filters .toggleTracks div#allItemsToggle {
-    position: absolute;
-    cursor: pointer;
-    width: 69px;
-    z-index: 3;
-}
-
-.test .configuration .sidebar .filters .toggleTracks div#recommendedItemsToggle {
-    position: absolute;
-    left: 101px;
-    text-align: right;
-    cursor: pointer;
-    width: 95px;
-    z-index: 3;
-}
-
-.test .configuration .sidebar .filters .toggleTracks div#favoriteItemsToggle {
-    position: absolute;
-    left: 57px;
-    top: -15px;
-    cursor: pointer;
-    vertical-align: top;
-    height: 30px;
+.testLibrary .portlet .scroll-track{
+    height: 490px;
     z-index: 2;
 }
-.test .configuration .sidebar .filters .toggleTracks .recommended-items,
-.test .configuration .sidebar .filters .toggleTracks .all-items,
-.test .configuration .sidebar .filters .toggleTracks .favorite-items {
-    height: 17px;
-    width: 62px;
-    display: block;
-    margin: 11px 4px 0 4px;
-    float: left;
+
+.testLibrary .portlet .scroll-handle{
+    width: 11px;
+    top: 1px;
+}
+.testLibrary .portlet .security-cases {
+    border: solid 1px #161617;
+    border-radius: 2px;
+    box-shadow: 0px 1px 1px #434344;
+    background-color: #1c1c1d;
+    z-index:1;
+}
+
+/* "No favorite tests" message */
+.testLibrary div.security-cases {
+    padding: 0.5em;
+}
+
+.testLibrary .portlet .security-cases li,
+.testLibrary .portlet .security-cases span {
+    border-top: solid 1px #282829;
+    border-bottom: solid 1px #141414;
     cursor: pointer;
-    position: absolute;
-    left:49px;
-    z-index: 1;
-}
-.test .configuration .sidebar .filters .toggleTracks .recommended-items {
-    background: url(../images/toggle-three-way-right.png) 0px no-repeat;
+    padding: 12px 14px;
 }
 
-.test .configuration .sidebar .filters .toggleTracks .all-items {
-    background: url(../images/toggle-three-way-left.png) 0px no-repeat;
+.testLibrary .portlet .security-cases li:hover,
+.testLibrary .portlet .security-cases span:hover {
+    background-color: #141414;
+    border-top: solid 1px #141414;
 }
 
-.test .configuration .sidebar .filters .toggleTracks .favorite-items {
-    background: url(../images/toggle-three-way-center.png) 0px no-repeat;
+.testLibrary .portlet .security-cases li:first-of-type {
+    border-top: none;
 }
 
-.test .configuration .sidebar .filters .toggleOthers {
-    margin: 0 9px 0 4px;
-    width:134px;
+.testLibrary .portlet .security-cases li:last-of-type {
+    border-bottom: none;
 }
 
+.testLibrary .portlet .security-cases li h3 {
+    color: #f5f5f5;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+}
 
-.test .configuration .sidebar .filters .toggleOthers div {
-    cursor: pointer;
+.testLibrary .portlet .security-cases li p {
     font-size: 10px;
-    color: #d8d8d8;
-    font-family: "open sans light", arial, sans-serif;
-    text-decoration: none;
-    display: block;
-    float: left;
-    margin: 10px 0 0 0;
-    width: 69px;
-    position: absolute;
+    line-height: 12px;
 }
-.test .configuration .sidebar .filters .toggleOthers div#favoriteItemsTwoToggle {
-    left: 70px;
+.testLibrary .portlet .security-cases .show-more {
+    text-align: center;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    color: #f5f5f5;
+    display:block;
+}
+.testLibrary .portlet .security-cases-paginator {
     text-align: right;
+    border: solid 1px #161617;
+    border-radius: 2px;
+    box-shadow: 0px 1px 1px #434344;
+    background-color: #1c1c1d;
+    z-index: 1;
 }
-.test .configuration .sidebar .filters .toggleOthers .all-items,
-.test .configuration .sidebar .filters .toggleOthers .favorite-items {
-    height: 17px;
-    width: 30px;
+.testLibrary .portlet .test-cases, .history .box .test-list {
+    margin: 0;
+    border: solid 1px #161617;
+    border-radius: 2px;
+    box-shadow: 0px 1px 1px #434344;
+    background-color: #1c1c1d;
+    position: relative;
     display: block;
-    margin: 10px 4px 0 4px;
-    float: left;
+}
+
+.testLibrary .portlet .test-cases table, .history .box .test-list  table{
+    width: 100%;
+    border-collapse: separate;
+}
+
+.testLibrary .portlet .test-cases tbody {
+}
+
+.testLibrary .portlet .test-cases thead, .history .box .test-list thead {
+    background: #3c3c3d; /* Old browsers */
+    background: -moz-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3d), color-stop(100%, #2e2e30)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #3c3c3d 0%, #2e2e30 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3c3c3d', endColorstr='#2e2e30', GradientType=0); /* IE6-9 */
+    padding: 12px 14px;
+    color: #dfdfdf;
+}
+
+.testLibrary .portlet .test-cases thead tr td, .history .box .test-list thead tr td {
+    padding: 12px 14px;
+}
+
+.testLibrary .portlet .test-cases tbody tr, .history .box .test-list tbody tr {
     cursor: pointer;
+    /*display: block;*/
+}
+
+.testLibrary .portlet .test-cases tbody tr td, .history .box .test-list tbody tr td {
+    border-top: solid 1px #282829;
+    border-bottom: solid 1px #141414;
+    padding: 12px 14px;
+}
+
+.testLibrary .portlet .test-cases tbody tr:hover, .history .box .test-list tbody tr:hover {
+    background-color: #141414;
+}
+
+.testLibrary .portlet .test-cases tbody tr:hover td, .history .box .test-list tbody tr:hover td {
+    border-top: solid 1px #141414;
+}
+
+.testLibrary .portlet .test-cases tbody tr:first-of-type, .history .box .test-list tbody tr:first-of-type {
+    border-top: none;
+}
+
+.testLibrary .portlet .test-cases tbody tr:last-of-type, .history .box .test-list tbody tr:last-of-type {
+    border-bottom: none;
+}
+
+.testLibrary .portlet .test-cases tr td:nth-child(1), .history .box .test-list tr td:nth-child(1) {
+    width: 5%;
+    padding-right: 0;
+}
+
+.testLibrary .portlet .test-cases tr td:nth-child(2), .history .box .test-list tr td:nth-child(2) {
+    width: 70%;
+}
+
+.testLibrary .portlet .test-cases tr td:nth-child(3), .history .box .test-list tr td:nth-child(3) {
+    width: 25%;
+}
+
+.testLibrary .portlet .test-cases td h4, .history .box .test-list td h4 {
+    color: #f5f5f5;
+    font-size: 12px;
+    line-height: 14px;
+    margin: 0;
+}
+
+.testLibrary .test-cases .incomplete .name, .history .test-list .incomplete .name {
+    font-style: italic;
+    color: #999;
+}
+
+.testLibrary .portlet .test-cases td p, .history .box .test-list td p {
+    font-size: 10px;
+    line-height: 12px;
+}
+
+.testLibrary .portlet .portlet-content.tweet li{
+    margin: 20px 0;
+    font-family: "open sans light";
+    font-weight: normal;
+}
+
+.testLibrary .portlet .portlet-content.tweet li .tweet_time{
+    margin: 0 0 0 10px;
+    vertical-align: middle;
+}
+
+.testLibrary .portlet .portlet-content.tweet li .tweet_text a{
+    font-family: "open sans bold";
+}
+.testLibrary #preloadImages{
     position: absolute;
-    left: 49px;
+    top: -5000px;
+    left: -5000px;
 }
-
-.test .configuration .sidebar .filters .toggleOthers  .all-items {
-    background: url(../images/toggle-left.png) 0px no-repeat;
-}
-.test .configuration .sidebar .filters .toggleOthers  div#allItemsTwoToggle {
-    z-index: 1;
-}
-
-.test .configuration .sidebar .filters .toggleOthers .favorite-items {
-    background: url(../images/toggle-right.png) 0px no-repeat;
-}
-
-.test .configuration .sidebar .filters .toggleOthers input[type="checkbox"] {
-    display: none;
-}
-.test .configuration .sidebar .items-container {
-    position: relative;
-    padding: 10px 0;
-    box-shadow: inset 0px 0 5px #19191a;
-    background-color: #262627;
-    overflow: hidden;
-    border-bottom: solid 1px #3d3d3e;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    min-height: 59px;
-	min-width: 1024px;
-}
-
-.test .configuration .sidebar .items-container .items:before {
-    box-shadow: inset 6px 0 5px -5px #19191a;
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 78px;
-    width: 10px;
-    background-color: transparent;
-    content: "";
-    z-index: 1;
-}
-
-.test .configuration .sidebar .items-container .items:after {
-    box-shadow: inset -6px 0 5px -5px #19191a;
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 78px;
-    width: 10px;
-    background-color: transparent;
-    content: "";
-    z-index: 1;
-}
-
-.test .configuration .sidebar .items {
-    padding: 5px 7px 10px 7px;
-    white-space: nowrap;
-}
-
-.test .configuration .sidebar .draggable {
-    z-index: 10;
-    white-space: nowrap;
-}
-
-.test .configuration .sidebar .items li {
-    margin: 0 3px;
-    white-space: nowrap;
-}
-
-.test .configuration .sidebar .items li,
-#main .draggable {
-    -moz-box-shadow:inset 0px 1px 0px 0px #1b1b1c;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #1b1b1c;
-    box-shadow:inset 0px 1px 0px 0px #1b1b1c;
-    background-color: #222223;
-    padding: 5px 3px;
-    /*display: inline-block;*/
-    display: inline-block;
-    /*float: left;*/
-    border-radius: 3px;
-    border-bottom: solid 1px #464648;
-    text-transform: uppercase;
-
-    -webkit-user-select : none;
-    -moz-user-select : none;
-    -ms-user-select : none;
-    -o-user-select : none;
-    user-select : none;
-
-}
-
-#main .draggable {
-    cursor: move;
-}
-
-.draggableIcon {
-    cursor: move;
-}
-
-.test .configuration .sidebar .items li .configure ,
-#main .draggable .configure {
-    cursor: pointer;
-}
-
-@-moz-document url-prefix() {
-    .test .configuration .sidebar .items li,
-    #main .draggable {
-        padding: 4px 3px 6px 3px;
-    }
-}
-
-.test .configuration .sidebar .items li .inner,
-#main .draggable .inner {
-    -moz-box-shadow:inset 0px 1px 0px 0px #4d4d4d;
-    -webkit-box-shadow:inset 0px 1px 0px 0px #4d4d4d;
-    box-shadow:inset 0px 1px 0px 0px #4d4d4d;
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d3d3e), color-stop(1, #2d2d2f) );
-    background:-moz-linear-gradient( center top, #3d3d3e 5%, #2d2d2f 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d3d3e', endColorstr='#2d2d2f');
-    background-color:#3d3d3e;
-    border-radius: 3px;
-    display: inline;
-    color:#dddddd;
-    font-family:"open sans light";
-    font-size:11px;
-    line-height: 24px;
-    padding: 7px 34px 7px 38px;
-    text-decoration:none;
-    text-shadow:1px 1px 0px #1d1d1e;
-    border-bottom: solid 1px #222223;
-    position: relative;
-    cursor: move;
-}
-.test .configuration .sidebar .items li .inner:hover {
-    background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #2d2d2f), color-stop(1, #3d3d3e) );
-    background:-moz-linear-gradient( center top, #2d2d2f 5%, #3d3d3e 100% );
-    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#2d2d2f', endColorstr='#3d3d3e');
-    background-color:#2d2d2f;
-}
-
-
-.test .configuration .sidebar .items li img,
-.test .configuration .sidebar .draggable img {
-    position: absolute;
-    right: 13px;
-    top: 7px;
-}
-
-/*.test .configuration .sidebar .items li .inner:before,
-.test .configuration .sidebar .draggable .inner:before {
-    content: url("../images/draggable.png");
-    position: absolute;
-    left: 13px;
-    top: 8px;
-}*/
 
 body .draggable {
     z-index: 10;

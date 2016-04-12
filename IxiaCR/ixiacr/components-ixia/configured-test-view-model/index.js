@@ -540,41 +540,6 @@ ConfiguredTestViewModel.prototype.getDefaultPlaylistId = function () {
     }
 };
 
-ConfiguredTestViewModel.prototype.getPlayerLayers = function () {
-    var self = ConfiguredTestViewModel.typesafe(this);
-
-    var playerLayers = new Array();
-
-    var trafficPlayers = self.traffic_players();
-    for (var i = 0; i < trafficPlayers.length; i++) {
-        var playerLayer = trafficPlayers[i].getPlayerLayer();
-
-        if (playerLayer != null) {
-            playerLayers.push(playerLayer);
-        }
-    }
-
-    return playerLayers;
-};
-
-ConfiguredTestViewModel.prototype.getTrackResultTypes = function () {
-    var self = ConfiguredTestViewModel.typesafe(this),
-        trackResultTypes = [],
-        trafficPlayers = self.traffic_players(),
-        i,
-        playerTrackResultTypes;
-
-    for (i = 0; i < trafficPlayers.length; i += 1) {
-        playerTrackResultTypes = trafficPlayers[i].getTrackResultTypes();
-
-        if (playerTrackResultTypes.length > 0) {
-            trackResultTypes = self.mergeTrackResultTypes(trackResultTypes, playerTrackResultTypes);
-        }
-    }
-
-    return trackResultTypes;
-};
-
 ConfiguredTestViewModel.prototype.hasHTTPTrack = function () {
     var self = ConfiguredTestViewModel.typesafe(this),
         trafficPlayers = self.traffic_players();
@@ -725,7 +690,6 @@ ConfiguredTestViewModel.prototype.parseValidationResults = function (data, textS
     if (data.items !== undefined) {
         if (data.items.length > 0) {
             self.id(data.items[0].id);
-            self.rootVm.insertUserTest(self)
         }
     }
     var validation_results = new ValidationResultsViewModel(self);
@@ -738,7 +702,6 @@ ConfiguredTestViewModel.prototype.setValidationResults = function (data) {
         $lb,
         begin_testing = function () {
             self.startingTest = false;
-            self.testVm.beginTesting();
         },
         show_invalid = function(result) {
             $lb = document.getElementById('lightbox-run-test-validation');
@@ -961,15 +924,12 @@ ConfiguredTestViewModel.prototype.save = function (obj, event) {
                 self.isDirty = false;
                 logger.info('Updated axon user test id: ' + data.items[0].id);
                 self.isUserSave = true;
-                self.rootVm.fillFavoriteTests([self.toFlatObject()]);
-                self.rootVm.insertUserTest(self);
                 self.startState = self.toFlatObject();
                 self.startStateLessNameAndTags = self.getNormalizedFlatObject(self.toFlatObject());
                 var completedPollingFunction = function(){
                     util.lightbox.working(new LightboxWorkingViewModel(translate('Refreshing test list...'), translate('Refreshing test list...')));
                     util.lightbox.close();
                 };
-                // Already insertUserTest, so needn't refresh the tests here
                 //self.rootVm.getAvailableTests(completedPollingFunction);
                 completedPollingFunction()
             } else {

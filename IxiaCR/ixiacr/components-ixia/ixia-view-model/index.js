@@ -27,7 +27,7 @@ function IxiaViewModel() {
 
     self.selectedTab = ko.observable();
 
-    self.testTemplateName = ko.observable('placeholder-template');
+    self.testLibraryTemplateName = ko.observable('placeholder-template');
     self.dashboardTemplateName = ko.observable('placeholder-template');
     self.administrationTemplateName = ko.observable('placeholder-template');
     self.historyTemplateName = ko.observable('placeholder-template');
@@ -37,6 +37,10 @@ function IxiaViewModel() {
 
     self.dashboardTabClass = ko.computed(function () {
         return 'dashboard ' + self.getTabClassFor('dashboard');
+    }).extend({ throttle: self.defaultThrottleDuration });
+
+    self.testLibraryTabClass = ko.computed(function () {
+        return 'library ' + self.getTabClassFor('testLibrary');
     }).extend({ throttle: self.defaultThrottleDuration });
 
     self.historyTabClass = ko.computed(function () {
@@ -210,9 +214,9 @@ IxiaViewModel.prototype.getTabClassFor = function (tabName) {
     return '';
 };
 
-IxiaViewModel.prototype.showTest = function () {
+IxiaViewModel.prototype.showTestLibrary = function () {
     var self = IxiaViewModel.typesafe(this);
-    self.selectTab('test');
+    self.selectTab('testLibrary');
 };
 
 IxiaViewModel.prototype.showDashboard = function () {
@@ -258,7 +262,6 @@ IxiaViewModel.prototype.selectTab = function (tabName, done) {
                 done();
             });
             break
-        case 'test':
         case 'history':
             showTab(function () {
                 appHistory.push(self);
@@ -285,15 +288,11 @@ IxiaViewModel.prototype.selectTab = function (tabName, done) {
                 done();
             }
             break;
-        case 'calendar':
-            self.selectedTab(tabName);
-            self.getResultHistory();
-            appHistory.push(self);
-            done();
-            break;
         case 'testLibrary':
-            appHistory.push(self);
-            done();
+            showTab(function () {
+                appHistory.push(self);
+                done();
+            });
             break;
     }
 };
@@ -415,206 +414,18 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){
         });
         if (existingTest === null) {
             self.availableTests.push(test);
-        }
-    }
 
-    self.availableTests.sort(util.sortArrayByObjectKeyKoObservable("name", true));
-
-    if (self.vmTest.startingTab == 'tests') {
-        self.vmTest.initializeAvailableTestsDraggable();
-    }
-};
-
-IxiaViewModel.prototype.fillFavoriteTests = function (data, offset){
-    var self = IxiaViewModel.typesafe(this);
-    var enterpriseTests = data = translate_tests_configurations(data);
-    var existingTest;
-
-    // Keep favorite test number is consistent with DB in FrontEnd cache
-    if (self.vmDashboard.totalEnterpriseTests > self.enterpriseTests().length) {
-        for (var i = self.enterpriseTests().length; i < self.vmDashboard.totalEnterpriseTests; i++) {
-            self.enterpriseTests.push(undefined);
-        }
-    } else if (self.vmDashboard.totalEnterpriseTests < self.enterpriseTests().length) {
-        for (var i = self.enterpriseTests().length - 1; i >= 0; i--) {
-            if (self.enterpriseTests()[i] == undefined) {
-                self.enterpriseTests.splice(i, 1);
-            }
-        }
-    }
-
-    for (var i = 0; i < enterpriseTests.length; i++) {
-        var test = new TestTemplateViewModel(self);
-        test.inflate(enterpriseTests[i]);
-
-        if (offset != undefined) {
-            // If offset is set, we query favorite tests from DB, so the favorite property has already been set
-            self.enterpriseTests()[offset + i] = test;
-            if (i < 5) {
-                self.vmDashboard.enterpriseTests.push(test);
-            }
-        } else {
-            // Make sure self.enterpriseTests() has value before we use it
-            if (self.enterpriseTests().length == 0 && test.favorite()) {
+            if (test.type() === "HOST") {
+                self.hostTests.push(test);
+            } else {
                 self.enterpriseTests.push(test);
-                self.vmDashboard.totalEnterpriseTests += 1;
-            }
-
-            // Update favorite tests list
-            existingTest = ko.utils.arrayFirst(self.enterpriseTests(), function (item) {
-                if (item != undefined) {
-                    return item.id() === test.id();
-                }
-                return false;
-            });
-            if (existingTest !== null) {
-                var index = self.enterpriseTests.indexOf(existingTest);
-                // Update
-                if (test.favorite()) {
-                    if (index != -1) {
-                        self.enterpriseTests()[index] = test;
-                    }
-                } else {
-                    // Remove
-                    if (index != -1) {
-                        self.enterpriseTests.remove(existingTest);
-                        if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {
-                            if (self.enterpriseTests().length > index) {
-                                if (self.enterpriseTests()[index] !== undefined) {
-                                    if (self.vmDashboard.enterpriseTests.indexOf(self.enterpriseTests()[index]) == -1) {
-                                        self.vmDashboard.enterpriseTests.push(self.enterpriseTests()[index])
-                                    }
-                                }
-                            }
-                        }
-                        self.vmDashboard.totalEnterpriseTests -= 1;
-                    }
-                }
-            } else {
-                // Do nothing if the Frontend cache is empty here
-                if (self.enterpriseTests().length == 0 && !test.favorite()) {
-                    continue;
-                }
-                if (self.enterpriseTests()[0].id() < test.id() && test.favorite()) {
-                    self.enterpriseTests.unshift(test);
-                    self.vmDashboard.totalEnterpriseTests += 1;
-                } else if (self.enterpriseTests()[0].id() > test.id() && test.favorite()) {
-                    var position = undefined;
-                    // First loop to determine whether there is a proper position for insert
-                    for (var k = 0; k < self.enterpriseTests().length; k++) {
-                        if (self.enterpriseTests()[k] == undefined) {
-                            continue;
-                        }
-                        if (self.enterpriseTests()[k].id() > test.id()) {
-                            continue;
-                        } else {
-                            position = k;
-                            break;
-                        }
-                    }
-                    if (position == undefined) {
-                        if (self.enterpriseTests()[self.enterpriseTests().length - 1] != undefined) {
-                            self.enterpriseTests.push(test);
-                        } else {
-                            self.enterpriseTests()[self.enterpriseTests().length - 1] = test;
-                        }
-                    } else {
-                        // Second loop to determine the insert position
-                        var slice = self.enterpriseTests.slice(position, self.enterpriseTests().length);
-                        slice.unshift(test);
-                        self.enterpriseTests = self.enterpriseTests.slice(0, position).concat(slice);
-
-                    }
-                    self.vmDashboard.totalEnterpriseTests += 1;
-                }
-            }
-
-            existingTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {
-                return item.id() === test.id();
-            });
-            if (existingTest !== null) {
-                // Update
-                if (test.favorite()) {
-                    var index = self.vmDashboard.enterpriseTests.indexOf(existingTest);
-                    self.vmDashboard.enterpriseTests()[index] = test;
-                } else {
-                    // Remove
-                    if (self.vmDashboard.enterpriseTests.indexOf(existingTest) != -1) {
-                        self.vmDashboard.enterpriseTests.remove(existingTest);
-                    }
-                }
-            } else {
-                if (self.vmDashboard.enterpriseTests().length == 0 && test.favorite()) {
-                    self.vmDashboard.enterpriseTests.push(test);
-                    continue;
-                }
-                if (self.vmDashboard.enterpriseTests()[0].id() < test.id() && test.favorite()) {
-                    self.vmDashboard.enterpriseTests.unshift(test);
-                    if (self.vmDashboard.enterpriseTests().length > 5) {
-                        self.vmDashboard.enterpriseTests.pop();
-                    }
-                }
             }
         }
     }
-};
 
-IxiaViewModel.prototype.insertUserTest = function (userTest){
-    var self = IxiaViewModel.typesafe(this),
-        existingUserTest,
-        userTestId,
-        flatUserTest;
-
-    userTestId = userTest.id();
-
-    self.updateTestNameInRecentTests(userTest);
-
-    flatUserTest = userTest.toFlatObject();
-    self.fillAvailableTests([flatUserTest]);
-};
-
-IxiaViewModel.prototype.removeUserTest = function (userTest){
-    var self = IxiaViewModel.typesafe(this),
-        existingUserTest;
-
-    existingUserTest = ko.utils.arrayFirst(self.availableTests(), function (item) {
-        return userTest.id() === item.id() && !item.isTemplate();
-    });
-
-    if (existingUserTest !== null) {
-        self.availableTests.remove(existingUserTest);
-    }
-
-    if (existingUserTest !== null) {
-        self.enterpriseTests.remove(existingUserTest);
-    }
-
-    existingUserTest = ko.utils.arrayFirst(self.vmDashboard.enterpriseTests(), function (item) {
-        return userTest.id() === item.id() && userTest.isUserSave && userTest.favorite();
-    });
-
-    if (existingUserTest !== null) {
-        self.vmDashboard.enterpriseTests.remove(existingUserTest);
-    }
-};
-
-IxiaViewModel.prototype.updateTestNameInRecentTests = function (userTest){
-    var self = IxiaViewModel.typesafe(this),
-        userTestId,
-        userTestName,
-        testResultsHistory,
-        i;
-
-    userTestId = userTest.id();
-    userTestName = userTest.name();
-
-    testResultsHistory = self.testResultsHistory();
-
-    for (i = 0; i < testResultsHistory.length; i += 1) {
-        if (testResultsHistory[i].test_id == userTestId) {
-            testResultsHistory[i].categories.unshift(userTestName);
-        }
-    }
+    //self.availableTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
+    //self.hostTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
+    //self.enterpriseTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
 };
 
 IxiaViewModel.prototype.getResultHistory = function (params, callback) {
