@@ -17,11 +17,12 @@ function TestTemplateViewModel(rootVm) {
     self.topology_image = ko.observable();
     self.topology_description = ko.observable();
     self.attack_task = ko.observable();
-    self.attack_steps = ko.observableArray();
+    self.attack_steps = ko.observable();
     self.attack_criteria = ko.observable();
-    self.defense_task = ko.observableArray();
-    self.defense_steps = ko.observableArray();
+    self.defense_task = ko.observable();
+    self.defense_steps = ko.observable();
     self.defense_criteria = ko.observable();
+    self.traffic_direction = ko.observable();
 
     self.result_id = undefined; //this is used to tell if the template is correct for a test result which the test is created using user saved test
 }
@@ -93,6 +94,7 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {
     self.defense_task(flatTest.defense_task);
     self.defense_steps(flatTest.defense_steps);
     self.defense_criteria(flatTest.defense_criteria);
+    self.traffic_direction(flatTest.traffic_direction);
 
     //util.setObservableArray(self.name, flatTest.name);
     //util.setObservableArray(self.name, flatTest.name);
@@ -117,7 +119,8 @@ TestTemplateViewModel.prototype.toFlatObject = function(){
         attack_criteria: self.attack_criteria(),
         defense_task: self.defense_task(),
         defense_steps: self.defense_steps(),
-        defense_criteria: self.defense_criteria()
+        defense_criteria: self.defense_criteria(),
+        traffic_direction: self.traffic_direction()
     };
 
     return flatTemplate;
@@ -141,6 +144,7 @@ TestTemplateViewModel.prototype.clone = function(){
     newTest.defense_task(self.defense_task);
     newTest.defense_steps(self.defense_steps);
     newTest.defense_criteria(self.defense_criteria);
+    newTest.traffic_direction(self.traffic_direction);
 
     return newTest;
 };

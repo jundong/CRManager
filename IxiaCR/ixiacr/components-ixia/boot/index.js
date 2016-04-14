@@ -87,6 +87,7 @@ function loadGlobals() {
     window.DeviceModel = require('device-model');
     window.IxiaViewModel = require('ixia-view-model');
     window.TestHistoryViewModel = require('test-history-view-model');
+    window.RecentNewsViewModel = require('recent-news-view-model');
     window.DashboardViewModel = require('dashboard-view-model');
     window.TestViewModel = require('test-view-model');
     window.TestTemplateViewModel = require('test-template-view-model');

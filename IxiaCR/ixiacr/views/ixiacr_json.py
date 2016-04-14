@@ -23,6 +23,9 @@ def view_includes(config):
     config.add_route('get_ixiacr_tests', '/ixia/get_ixiacr_tests.json')
     config.add_view(get_ixiacr_tests, route_name='get_ixiacr_tests',
                     renderer='json', permission='all_access')
+    config.add_route('get_recent_news', '/ixia/get_recent_news.json')
+    config.add_view(get_recent_news, route_name='get_recent_news',
+                    renderer='json', permission='all_access')
     config.add_route('get_users', '/ixia/get_users.json')
     config.add_view(get_users, route_name='get_users', renderer='json',
                     permission='all_access')
@@ -199,7 +202,37 @@ def get_ixiacr_tests(request):
                 "attack_criteria": test.attack_criteria.get_translation(lang),
                 "defense_task": test.defense_task.get_translation(lang),
                 "defense_steps": test.defense_steps.get_translation(lang),
-                "defense_criteria": test.defense_criteria.get_translation(lang)
+                "defense_criteria": test.defense_criteria.get_translation(lang),
+                "traffic_direction": test.traffic_direction.get_translation(lang)
+            }
+            items.append(config)
+
+        return items
+
+    except DBAPIError, e:
+        return Response("Error: DB Error: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+    except Exception, e:
+        return Response("Exception: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+
+
+@view_config(name='get_recent_news', renderer='json')
+def get_recent_news(request):
+    lang = get_locale_name(request)
+
+    items = []
+    try:
+        recent_news = RecentNews.query.filter(RecentNews.id >= 0).order_by(RecentNews.id).all()
+        for news in recent_news:
+            config = {
+                "id": news.id,
+                "title": news.title.get_translation(lang),
+                "link": news.link,
+                "description": news.description.get_translation(lang),
+                "date": str(news.date)
             }
             items.append(config)
 

@@ -1214,6 +1214,9 @@ msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员�
 msgid "cr_test_template.enterprise_traffic_track.defense_criteria"
 msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
 
+msgid "cr_test_template.enterprise_traffic_track.traffic_direction"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，对于业务流量的控制和防范攻击都是一个有效的手段。</p>"
+
 #: ixiacr/scripts/initializedb.py:463
 msgid "Using Vulnerability Scanning Tool"
 msgstr "漏洞扫描工具的运用"
@@ -1248,6 +1251,9 @@ msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_criteria"
+msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
+
+msgid "cr_test_template.host_vulnerablity_scanning_tool.traffic_direction"
 msgstr "<p>系统入侵活动无论是来自内部还是外部网络，都是通过利用系统的某些漏洞来达到攻击目的的，并入侵网络的。然而现在的主要的防护设备都是基于访问控制规则来达到防范目的的，一旦防火墙被攻破，整个网络便陷入威胁中。</p>"
 
 #: ixiacr/scripts/initializedb.py:968
@@ -1397,6 +1403,18 @@ msgstr "最新动态"
 
 msgid "portlet.recent_news.content"
 msgstr "recent_news"
+
+msgid "Introduce CYBER RANGE"
+msgstr "介绍CYBER RANGE"
+
+msgid "recent_news_introduce.description"
+msgstr "介绍CYBER RANGE"
+
+msgid "How to use CYBER RANGE"
+msgstr "如何使用CYBER RANGE"
+
+msgid "recent_news_use.description"
+msgstr "如何使用CYBER RANGE"
 
 #: ixiacr/scripts/initializedb.py:1020
 msgid "Enterprise Security Cases"
@@ -2034,9 +2052,6 @@ msgstr "您未收藏过任何测试。当您保存测试时，选中“添加至
 
 #: ixiacr/templates/html/dashboard.tmpl.jinja2:89
 #: ixiacr/templates/html/history.tmpl.jinja2:69
-#: ixiacr/templates/test_results/results.jinja2:80
-#: ixiacr/templates/test_results/results.jinja2:143
-#: ixiacr/templates/test_results/results.jinja2:204
 msgid "Name"
 msgstr "名称"
 
@@ -2553,9 +2568,41 @@ msgstr "日期："
 msgid "Categories:"
 msgstr "类别："
 
-#: ixiacr/templates/test_results/results.jinja2:32
 msgid "Description:"
 msgstr "描述："
+
+msgid "Description"
+msgstr "描述"
+
+msgid "Red Team"
+msgstr "红队"
+
+msgid "Blue Team"
+msgstr "蓝队"
+
+msgid "Red Team Objective"
+msgstr "红队目标"
+
+msgid "Blue Team Objective"
+msgstr "蓝队目标"
+
+msgid "Red Team Key Artifacts"
+msgstr "红队关键步骤"
+
+msgid "Blue Team Key Artifacts"
+msgstr "蓝队关键步骤"
+
+msgid "Red Team Quiz"
+msgstr "红队目标检验"
+
+msgid "Blue Team Quiz"
+msgstr "蓝队目标检验"
+
+msgid "Traffic Directions"
+msgstr "流量流向"
+
+msgid "Topology"
+msgstr "用例拓扑图"
 
 #: ixiacr/templates/test_results/results.jinja2:35
 msgid "Test Configuration"

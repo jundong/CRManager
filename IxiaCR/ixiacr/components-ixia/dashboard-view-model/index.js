@@ -16,8 +16,16 @@ function DashboardViewModel(rootVm) {
     self.rootVm.hostTests.subscribe(function () {
         self.hostTests(self.rootVm.hostTests());
     });
-    self.testResultsHistory = ko.observableArray();
-    self.totalHistoryResults = ko.observable(0);
+    self.recentNews = ko.observableArray(self.rootVm.recentNews());
+    self.rootVm.recentNews.subscribe(function () {
+        self.recentNews(self.rootVm.recentNews());
+    });
+    self.totalRecentNews = ko.observable(0);
+
+    self.selectedTest = ko.observableArray(self.rootVm.selectedTest());
+    self.rootVm.selectedTest.subscribe(function () {
+        self.selectedTest(self.rootVm.selectedTest());
+    });
 
     self.getPortlets = function () {
         self.portlets.removeAll();
@@ -92,8 +100,6 @@ function PortletViewModel(dashboardVm) {
     self.templateId = ko.observable();
     self.selectedFilter = ko.observable();
     self.availableFilters = ko.observableArray();
-    self.testResultsHistory = self.dashboardVm.testResultsHistory;
-
     self.enterpriseTests = ko.observableArray(self.dashboardVm.enterpriseTests());
     self.dashboardVm.enterpriseTests.subscribe(function () {
         self.enterpriseTests(self.dashboardVm.enterpriseTests());
@@ -101,6 +107,14 @@ function PortletViewModel(dashboardVm) {
     self.hostTests = ko.observableArray(self.dashboardVm.hostTests());
     self.dashboardVm.hostTests.subscribe(function () {
         self.hostTests(self.dashboardVm.hostTests());
+    });
+    self.recentNews = ko.observableArray(self.dashboardVm.recentNews());
+    self.dashboardVm.recentNews.subscribe(function () {
+        self.recentNews(self.dashboardVm.recentNews());
+    });
+    self.selectedTest = ko.observableArray(self.dashboardVm.selectedTest());
+    self.dashboardVm.selectedTest.subscribe(function () {
+        self.selectedTest(self.dashboardVm.selectedTest());
     });
 
     self.inflate = function (portlet) {
@@ -111,33 +125,8 @@ function PortletViewModel(dashboardVm) {
         self.defaultColumn(portlet.default_column);
         self.templateId(portlet.div_id_name);
 
-        self.handleSpecialCases();
+        self.selectedFilter('All Statuses');
     };
-
-    self.handleSpecialCases = function () {
-        switch (self.name()) {
-            case 'Recent Results':
-                self.selectedFilter('All Statuses');
-                break;
-        }
-    };
-
-    self.filteredRecentTests = ko.computed(function () {
-        var selectedFilter = self.selectedFilter(); //86400000 = 1 day in milliseconds
-        var filteredResults = self.testResultsHistory();
-        var oldestDate = new Date();
-
-        oldestDate.setTime(oldestDate.getTime() - (86400000 * 30)); // 30 days ago
-
-
-        filteredResults = self.rootVm.vmHistory.applyDateGreaterThanFilter(oldestDate, filteredResults);
-        if (selectedFilter == translate('All Statuses') || selectedFilter == undefined) {
-            return filteredResults;
-        }
-
-        return self.rootVm.vmHistory.applyStatusFilter(selectedFilter, filteredResults);
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
-
 }
 
 module.exports = DashboardViewModel;

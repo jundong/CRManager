@@ -21,14 +21,6 @@
     <div class="portlet box" data-bind="template: {name: 'recent-news-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
     </div>
     <!-- /ko -->
-    <!-- ko if: templateId() == 'enterprise-security-cases-template' -->
-    <div class="portlet box" data-bind="template: {name: 'enterprise-security-cases-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.showEnterpriseTestsPaginator(); }}">
-    </div>
-    <!-- /ko -->
-    <!-- ko if: templateId() == 'host-security-cases-template' -->
-    <div class="portlet box" data-bind="template: {name: 'all-tests-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine }">
-    </div>
-    <!-- /ko -->
     <!-- /ko -->
     <!-- ko if: contentType() == 5 -->
     <div class="portlet box" data-bind="template: {name: 'twitter-portlet-template', data: $data, templateEngine: new ko.nativeTemplateEngine, afterRender: function () { $data.dashboardVm.initializeTwitterPortlets(); }}">
@@ -44,36 +36,36 @@
 
 <script id="recent-news-portlet-template" type="text/html">
     <h2>
-        <span data-bind="text: name"></span>
+        <span data-bind="text: name" style="text-align:left"></span>
     </h2>
     <div class="portlet-content">
-        <div class="recent-tests" data-bind="visible: $root.testResultsHistory().length > 0">
-        <table>
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>{% trans %}Name{% endtrans %}</td>
-                    <td>{% trans %}Date{% endtrans %}</td>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: testResultsHistory">
-                <!-- ko if: $index() < 10 -->
-                <tr data-bind="click: function () { loadRecentTest(); }, clickBubble: false, attr: {class: endResult() == 'error' ? 'fail' : endResult}">
-                    <td>
-                        <img data-bind="visible: endResult() == 'pass', attr: {alt: endResult}" src="static/images/pass-light.png" />
-                        <img data-bind="visible: endResult() == 'completed', attr: {alt: endResult}" src="static/images/unrated-light.png" />
-                        <img data-bind="visible: endResult() == 'fail' || endResult() == 'error', attr: {alt: endResult}" src="static/images/fail-light.png" />
-                        <img data-bind="visible: endResult() == 'aborted' || endResult() == 'incomplete', attr: {alt: endResult}" src="static/images/no-light.png" />
-                    </td>
-                    <td>
-                        <h4 data-bind="text: name" class="name"></h4>
-                        <p data-bind="text: template_name" class="category"></p>
-                    </td>
-                    <td data-bind="text: dateFormatted" class="date"></td>
-                </tr>
-                <!-- /ko -->
-            </tbody>
-        </table>
+        <div class="recent-news" data-bind="visible: recentNews().length > 0">
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>{% trans %}Description{% endtrans %}</td>
+                        <td>{% trans %}Date{% endtrans %}</td>
+                    </tr>
+                </thead>
+                <tbody data-bind="foreach: recentNews">
+                    <!-- ko if: $index() < 20 -->
+                    <tr data-bind="click: function () { rootVm.openUrl(link()); }, clickBubble: false">
+                        <td>
+                            <img data-bind="visible: priority() == 0" src="static/images/pass-light.png" />
+                            <img data-bind="visible: priority() == 1" src="static/images/unrated-light.png" />
+                            <img data-bind="visible: priority() == 2" src="static/images/fail-light.png" />
+                            <img data-bind="visible: priority() == 3" src="static/images/no-light.png" />
+                        </td>
+                        <td>
+                            <h4 data-bind="text: title" class="name"></h4>
+                            <!--<p data-bind="text: description" class="category"></p>-->
+                        </td>
+                        <td data-bind="text: dateFormatted" class="date"></td>
+                    </tr>
+                    <!-- /ko -->
+                </tbody>
+            </table>
         </div>
     </div>
 </script>

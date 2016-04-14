@@ -742,6 +742,10 @@ msgstr "<p></p>"
 msgid "cr_test_template.enterprise_traffic_track.defense_criteria"
 msgstr "<p></p>"
 
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_traffic_track.traffic_direction"
+msgstr "<p></p>"
+
 #: ixiacr/scripts/initializedb.py:463
 msgid "Using Vulnerability Scanning Tool"
 msgstr "Using Vulnerability Scanning Tool"
@@ -776,6 +780,10 @@ msgstr "<p></p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.host_vulnerablity_scanning_tool.defense_criteria"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.host_vulnerablity_scanning_tool.traffic_direction"
 msgstr "<p></p>"
 
 #: ixiacr/scripts/initializedb.py:968
@@ -958,6 +966,18 @@ msgstr "Recent News"
 
 msgid "portlet.recent_news.content"
 msgstr "recent_news"
+
+msgid "Introduce CYBER RANGE"
+msgstr "Introduce CYBER RANGE"
+
+msgid "recent_news_introduce.description"
+msgstr "Introduce CYBER RANGE"
+
+msgid "How to use CYBER RANGE"
+msgstr "How to use CYBER RANGE"
+
+msgid "recent_news_use.description"
+msgstr "How to use CYBER RANGE"
 
 #: ixiacr/scripts/initializedb.py:1020
 msgid "Enterprise Security Cases"
@@ -2145,9 +2165,41 @@ msgstr "Date:"
 msgid "Categories:"
 msgstr "Categories:"
 
-#: ixiacr/templates/test_results/results.jinja2:32
 msgid "Description:"
 msgstr "Description:"
+
+msgid "Description"
+msgstr "Description"
+
+msgid "Red Team"
+msgstr "Red Team"
+
+msgid "Blue Team"
+msgstr "Blue Team"
+
+msgid "Red Team Objective"
+msgstr "Red Team Objective"
+
+msgid "Blue Team Objective"
+msgstr "Blue Team Objective"
+
+msgid "Red Team Key Artifacts"
+msgstr "Red Team Key Artifacts"
+
+msgid "Blue Team Key Artifacts"
+msgstr "Blue Team Key Artifacts"
+
+msgid "Red Team Quiz"
+msgstr "Red Team Quiz"
+
+msgid "Blue Team Quiz"
+msgstr "Blue Team Quiz"
+
+msgid "Traffic Directions"
+msgstr "Traffic Directions"
+
+msgid "Topology"
+msgstr "Topology"
 
 #: ixiacr/templates/test_results/results.jinja2:35
 msgid "Test Configuration"

@@ -118,7 +118,7 @@ function getConfigSetting(key) {
 
     var config = {
         "get_ixiacr_tests": rootPath + "get_ixiacr_tests.json",
-        "get_datapoints": rootPath + "get_datapoints.json",
+        "get_recent_news": rootPath + "get_recent_news.json",
         "devices_status": rootPath + "devices/status",
         "time_sync_status": rootPath + "status/time_sync",
         "get_results": rootPath + "get_results.json",

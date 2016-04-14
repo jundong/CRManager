@@ -20,12 +20,13 @@ function IxiaViewModel() {
     self.testResultsHistory = ko.observableArray();
     self.testResultsHistoryHandlers = new Array();
     self.availableDiskSpace = ko.observable(); //will be updated by disk management
+    self.recentNews = ko.observableArray();
 
     self.startingTab = 'dashboard';
-
     self.defaultThrottleDuration = 1;
-
     self.selectedTab = ko.observable();
+
+    self.selectedTest = ko.observable(null);
 
     self.testLibraryTemplateName = ko.observable('placeholder-template');
     self.dashboardTemplateName = ko.observable('placeholder-template');
@@ -63,7 +64,7 @@ function IxiaViewModel() {
     self.ajaxModels = new Array(translate("Global Settings"),
         translate("Devices"),
         translate("Tests"),
-        translate("Result Types"),
+        translate("Recent News"),
         translate("Customers"),
         translate("Locations"),
         translate("Languages"),
@@ -158,6 +159,14 @@ IxiaViewModel.prototype.init = function (callback) {
             self.updateAppLoadMessage(self.ajaxModels[2], true);
         });
 
+    var newsAjax = self.getRecentNews()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[3]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[3], true);
+        });
+
     var languageAjax = self.getLanguage()
         .done(function () {
             self.updateAppLoadMessage(self.ajaxModels[6]);
@@ -182,7 +191,8 @@ IxiaViewModel.prototype.init = function (callback) {
         settingsAjax,
         devicesAjax,
         languageAjax,
-        testsAjax
+        testsAjax,
+        newsAjax
     );
 };
 
@@ -198,11 +208,17 @@ IxiaViewModel.prototype.refreshTestDraggables = function () {
 
 IxiaViewModel.prototype.loadTest = function (test) {
     var self = IxiaViewModel.typesafe(this);
-    self.vmTest.loadTest(test);
+    self.selectedTest(test);
 };
+
 IxiaViewModel.prototype.loadRecentTest = function (historyItem) {
     var self = IxiaViewModel.typesafe(this);
     self.vmTest.loadRecentTest(historyItem);
+};
+
+IxiaViewModel.prototype.openUrl = function (url) {
+    var self = IxiaViewModel.typesafe(this);
+    window.open(url);
 };
 
 IxiaViewModel.prototype.getTabClassFor = function (tabName) {
@@ -408,6 +424,9 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){
         var existingTest = null,
             test = new TestTemplateViewModel(self);
         test.inflate(availableTests[i]);
+        if (i == 0) {
+            self.selectedTest(test);
+        }
 
         existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {
             return (test.id() === item.id());
@@ -426,6 +445,37 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){
     //self.availableTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
     //self.hostTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
     //self.enterpriseTests.sort(util.sortArrayByObjectKeyKoObservable("id", true));
+};
+
+IxiaViewModel.prototype.getRecentNews = function (params, callback) {
+    var self = IxiaViewModel.typesafe(this);
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_recent_news"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            self.recentNews.removeAll();
+            for (var i = 0; i < data.length; i++) {
+                var existingNews = null,
+                    news = new RecentNewsViewModel(self);
+                news.inflate(data[i]);
+
+                existingNews = ko.utils.arrayFirst(self.recentNews(), function (item) {
+                    return (news.id() === item.id());
+                });
+                if (existingNews === null) {
+                    self.recentNews.push(news);
+                }
+            }
+
+            if (callback){
+                callback();
+            }
+        }
+    });
+
+    return ajax;
 };
 
 IxiaViewModel.prototype.getResultHistory = function (params, callback) {
@@ -476,9 +526,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
     var self = IxiaViewModel.typesafe(this);
     var recentTests = data;
     var existingHistoryResult;
-    if (isRefreshDashboard) {
-        self.vmDashboard.testResultsHistory.removeAll();
-    }
 
     for (var i = 0; i < recentTests.length; i++) {
         var recentTest = new TestHistoryViewModel(self.vmDashboard);
@@ -493,14 +540,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
         } else {
             // Update the latest one in the Array
             self.testResultsHistory.replace(existingHistoryResult, recentTest);
-        }
-
-        if (isRefreshDashboard) {
-            self.vmDashboard.testResultsHistory.push(recentTest);
-        } else {
-            if (self.vmDashboard.testResultsHistory()[0].result_id() < recentTest.result_id()) {
-                self.vmDashboard.testResultsHistory.unshift(recentTest);
-            }
         }
     }
     self.testResultsHistory.sort(function(pre, next) {return (pre.result_id() > next.result_id() ? -1 : 1)});

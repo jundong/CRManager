@@ -98,10 +98,6 @@
         "This schedule would conflict with a test on {chassis}, {test} at {datetime}.": "This schedule would conflict with a test on {chassis}, {test} at {datetime}.",
         "This schedule would conflict with an existing test, {name} at {datetime}.": "This schedule would conflict with an existing test, {name} at {datetime}.",
         "Cannot schedule events in the past. Server time is {datetime}.": "Cannot schedule events in the past. Server time is {datetime}.",
-        "Calls for Voice/Video Quality Data": "Calls for Voice/Video Quality Data",
-        "Calls per Second": "Calls per Second",
-        "Calls per Second for Voice Quality Data": "Calls per Second for Voice Quality Data",
-        "Calls/sec": "Calls/sec",
         "Canceling scheduled test": "Canceling scheduled test",
         "Canceling test": "Canceling test",
         "Cannot capture more than 10GB (10,737,418,240 bytes)": "Cannot capture more than 10GB (10,737,418,240 bytes)",
@@ -128,7 +124,7 @@
         " device": " device",
         "Device is missing configuration for: {errorMessage}": "Device is missing configuration for: {errorMessage}",
         "Device Settings": "Device Settings",
-        "dhcp hosts": "dhcp hosts",
+        "Recent News": "Recent News",
         "Disambiguating systems...": "Disambiguating systems...",
         "Display Messages": "Display Messages",
         "Duration is based on configuration": "Duration is based on configuration",
@@ -150,11 +146,6 @@
         "host": "host",
         "{host} is not a valid hostname, IPv4, or IPv6 address": "{host} is not a valid hostname, IPv4, or IPv6 address",
         "{host} is not a valid IP address": "{host} is not a valid IP address",
-        "If you have AxonPoint devices on your network, you can enable and configure this Axon Core to participate as an AxonPoint Server for TCP throughput tests. From the AxonCloud Control portal, configure your AxonPoint devices to use this AxonPoint Server.": "If you have AxonPoint devices on your network, you can enable and configure this Axon Core to participate as an AxonPoint Server for TCP throughput tests. From the AxonCloud Control portal, configure your AxonPoint devices to use this AxonPoint Server.",
-        "If you have AxonPoint devices on your network, you can enable and configure this AxonCore to participate as an AxonPulse Endpoint for TCP throughput tests. From the AxonCloud Control portal, configure your AxonPoint devices to use this AxonPulse Endpoint.": "If you have AxonPoint devices on your network, you can enable and configure this AxonCore to participate as an AxonPulse Endpoint for TCP throughput tests. From the AxonCloud Control portal, configure your AxonPoint devices to use this AxonPulse Endpoint.",
-        "IGMP v1": "IGMP v1",
-        "IGMP v2": "IGMP v2",
-        "IGMP v3": "IGMP v3",
         "Import backup": "Import backup",
         "Importing system backup": "Importing system backup",
         "Importing system backup...": "Importing system backup...",
@@ -212,8 +203,6 @@
         "{name} endpoint is invalid": "{name} endpoint is invalid",
         "{name} endpoint missing configuration for: {errors}": "{name} endpoint missing configuration for: {errors}",
         "{name} gateway is not a valid IP address": "{name} gateway is not a valid IP address",
-        "{name} has traffic settings that are not numeric": "{name} has traffic settings that are not numeric",
-        "{name} is missing a Playlist": "{name} is missing a Playlist",
         "{name} is missing a port selection": "{name} is missing a port selection",
         "{name} is missing configuration for: {errors}": "{name} is missing configuration for: {errors}",
         "{name} is missing its traffic settings": "{name} is missing its traffic settings",
@@ -265,10 +254,6 @@
         "Packets Received (Rx)": "Packets Received (Rx)",
         "Packets Sent (Tx)": "Packets Sent (Tx)",
         "password": "password",
-        "Playlist at max capacity": "Playlist at max capacity",
-        "Playlist contains deleted track: ": "Playlist contains deleted track: ",
-        "Playlist contains deleted tracks: ": "Playlist contains deleted tracks: ",
-        "Playlist requires at least one track": "Playlist requires at least one track",
         "Please allow approximately three minutes for exporting to begin.": "Please allow approximately three minutes for exporting to begin.",
         "Please enter a number of 1 or more": "Please enter a number of 1 or more",
         "Please enter a timeout in seconds": "Please enter a timeout in seconds",
@@ -285,8 +270,8 @@
         "Quality MOS Scores for Voice/Video Quality Data": "Quality MOS Scores for Voice/Video Quality Data",
         "Reallocating this port to Netflow will stop AxonPoint Server on this port.": "Reallocating this port to Netflow will stop AxonPoint Server on this port.",
         "Reallocating this port to Pulse will stop exporting Netflow data on this port.": "Reallocating this port to Pulse will stop exporting Netflow data on this port.",
-        "Rebooting Axon": "Rebooting Axon",
-        "Rebooting Axon...": "Rebooting Axon...",
+        "Rebooting CYBER RANGE": "Rebooting CYBER RANGE",
+        "Rebooting CYBER RANGE...": "Rebooting CYBER RANGE...",
         "Recent Results": "Recent Results",
         "Refreshing backup list": "Refreshing backup list",
         "Refreshing device list...": "Refreshing device list...",
@@ -300,10 +285,6 @@
         "Response Time": "Response Time",
         "Response Time for Application Data": "Response Time for Application Data",
         "Result Types": "Result Types",
-        "RTP Packet Loss": "RTP Packet Loss",
-        "RTP Packet Loss for Video Quality Data": "RTP Packet Loss for Video Quality Data",
-        "RTP Packet Loss for Voice Quality Data": "RTP Packet Loss for Voice Quality Data",
-        "RTP Packet Loss for Voice/Video Quality Data": "RTP Packet Loss for Voice/Video Quality Data",
         "Run on": "Run on",
         "Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href=\"https://www.ixiacom.com/support/solutions/articles/1000060929-line-rate\" target=\"_blank\">line rate latency</a>.": "Running a test at speeds near line-rate can result in unexpected or errant latency in the test results. To learn more about what causes this, read <a href=\"https://support.spirentwww.ixiacom.comons/articles/1000060929-line-rate\" target=\"_blank\">line rate latency</a>.",
         "Running {task}...": "Running {task}...",
@@ -326,26 +307,6 @@
         "Showing {number} Endpoints": {
             "0": "Showing {number} Endpoint",
             "1": "Showing {number} Endpoints"
-        },
-        "Showing {number} Playlists": {
-            "0": "Showing {number} Playlist",
-            "1": "Showing {number} Playlists"
-        },
-        "Showing {number} Tracks": {
-            "0": "Showing {number} Track",
-            "1": "Showing {number} Tracks"
-        },
-        "showing {shown} of {total} endpoints": {
-            "0": "showing {shown} of {total} endpoint",
-            "1": "showing {shown} of {total} endpoints"
-        },
-        "showing {shown} of {total} playlists": {
-            "0": "showing {shown} of {total} playlist",
-            "1": "showing {shown} of {total} playlists"
-        },
-        "showing {shown} of {total} tracks": {
-            "0": "showing {shown} of {total} track",
-            "1": "showing {shown} of {total} tracks"
         },
         "SSID's must be 1 to 32 alphanumeric characters": "SSID's must be 1 to 32 alphanumeric characters",
         "starting in {number} seconds...": {

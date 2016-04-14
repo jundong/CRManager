@@ -1,0 +1,16 @@
+{
+    "name": "recent-news-view-model",
+    "repo": "components-ixia/recent-news-view-model",
+    "description": "View Model for recent news",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {
+        "johntron/moment": "3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68"
+    },
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js"
+    ]
+}

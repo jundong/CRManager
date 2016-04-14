@@ -197,29 +197,33 @@ def import_db(cmd):
         transaction.commit()
 
         cases = [
-            {'name': translatable_string(_(u'Enterprise Traffic Track')),
-             'type': u'ENTERPRISE',
-             'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
-             'topology_image': u'ixia_log.png',
-             'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
-             'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
-             'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
-             'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
-             'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
-             'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
-             'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria'))
+            {
+                'name': translatable_string(_(u'Enterprise Traffic Track')),
+                'type': u'ENTERPRISE',
+                'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
+                'topology_image': u'static/images/enterprise_traffic_track.jpg',
+                'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
+                'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
+                'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
+                'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
+                'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
+                'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
+                'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria')),
+                'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_traffic_track.traffic_direction'))
             },
-            {'name': translatable_string(_(u'Using Vulnerability Scanning Tool')),
-             'type': u'HOST',
-             'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
-             'topology_image': u'ixia_log.png',
-             'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
-             'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
-             'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
-             'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
-             'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
-             'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
-             'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria'))
+            {
+                'name': translatable_string(_(u'Using Vulnerability Scanning Tool')),
+                'type': u'HOST',
+                'description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.description')),
+                'topology_image': u'static/images/host_vulnerablity_scanning_tool.jpg',
+                'topology_description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.topology_description')),
+                'attack_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_task')),
+                'attack_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_steps')),
+                'attack_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_criteria')),
+                'defense_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_task')),
+                'defense_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_steps')),
+                'defense_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_criteria')),
+                'traffic_direction': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.traffic_direction'))
             }
         ]
 
@@ -234,7 +238,30 @@ def import_db(cmd):
                 attack_criteria=case['attack_criteria'],
                 defense_task=case['defense_task'],
                 defense_steps=case['defense_steps'],
+                traffic_direction=case['traffic_direction'],
                 defense_criteria=case['defense_criteria']))
+            transaction.commit()
+
+        recent_news = [
+            {
+                'title': translatable_string(_(u'Introduce CYBER RANGE')),
+                'description': translatable_string(_(u'recent_news_introduce.description')),
+                'link': u'http://www.ixiacom.com',
+                'date': datetime.now()
+            },
+            {
+                'title': translatable_string(_(u'How to use CYBER RANGE')),
+                'description': translatable_string(_(u'recent_news_use.description')),
+                'link': u'http://www.ixiacom.com',
+                'date': datetime.now()
+            }
+        ]
+
+        for news in recent_news:
+            db.add(RecentNews(title=news['title'],
+                description=news['description'],
+                link=news['link'],
+                date=news['date']))
             transaction.commit()
 
         db.add(TestMessage(test_id=0,

@@ -279,7 +279,7 @@ class Portlet(Base):
 
 
 class TestResult(Base):
-    """ Spirent test result table
+    """ Ixia test result table
 
     """
     __tablename__='test_results'
@@ -300,6 +300,26 @@ class TestResult(Base):
     config_object = Column(LargeBinary, nullable=True)
     end_result = Column(Unicode(16), nullable=True, default=u'incomplete')
     error_reason = Column(UnicodeText, nullable=True)
+
+
+class RecentNews(Base):
+    """ Ixia test result table
+
+    """
+    __tablename__='recent_news'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    title_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    description_id = Column(Integer, ForeignKey('translatable_strings.id'))
+
+    title = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==RecentNews.title_id')
+    description = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==RecentNews.description_id')
+    link = Column(UnicodeText, nullable=True)
+    date = Column(DateTime, default=datetime.now())
+    # 0 - Recommendation, 1 - Hot, 2 - Common, 3 - Out Of Date
+    priority = Column(Integer, default=1)
 
 
 class User(Base):
@@ -431,6 +451,7 @@ class TestCases(Base):
     defense_task_id = Column(Integer, ForeignKey('translatable_strings.id'))
     defense_steps_id = Column(Integer, ForeignKey('translatable_strings.id'))
     defense_criteria_id = Column(Integer, ForeignKey('translatable_strings.id'))
+    traffic_direction_id = Column(Integer, ForeignKey('translatable_strings.id'))
 
     created_by = Column(Integer, ForeignKey('users.id',
                                             onupdate="CASCADE",
@@ -459,6 +480,8 @@ class TestCases(Base):
                         primaryjoin='TranslatableString.id==TestCases.defense_steps_id')
     defense_criteria = relationship('TranslatableString',
                         primaryjoin='TranslatableString.id==TestCases.defense_criteria_id')
+    traffic_direction = relationship('TranslatableString',
+                        primaryjoin='TranslatableString.id==TestCases.traffic_direction_id')
 
     active = Column(Boolean, default=True)
 

@@ -1882,7 +1882,7 @@ TestLibrary
     background-color: #1c1c1d;
     z-index: 1;
 }
-.testLibrary .portlet .test-cases, .history .box .test-list {
+.testLibrary .portlet .test-case {
     margin: 0;
     border: solid 1px #161617;
     border-radius: 2px;
@@ -1892,15 +1892,16 @@ TestLibrary
     display: block;
 }
 
-.testLibrary .portlet .test-cases table, .history .box .test-list  table{
+.testLibrary .portlet .test-case table {
     width: 100%;
     border-collapse: separate;
+    cellspacing: 5px;
 }
 
-.testLibrary .portlet .test-cases tbody {
+.testLibrary .portlet .test-case tbody {
 }
 
-.testLibrary .portlet .test-cases thead, .history .box .test-list thead {
+.testLibrary .portlet .test-case thead {
     background: #3c3c3d; /* Old browsers */
     background: -moz-linear-gradient(top, #3c3c3d 0%, #2e2e30 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #3c3c3d), color-stop(100%, #2e2e30)); /* Chrome,Safari4+ */
@@ -1913,63 +1914,68 @@ TestLibrary
     color: #dfdfdf;
 }
 
-.testLibrary .portlet .test-cases thead tr td, .history .box .test-list thead tr td {
+.testLibrary .portlet .test-case thead tr td {
     padding: 12px 14px;
+    text-align:center;
 }
 
-.testLibrary .portlet .test-cases tbody tr, .history .box .test-list tbody tr {
+.testLibrary .portlet .test-case thead tr th {
+    text-align:center;
+}
+
+.testLibrary .portlet .test-case tbody tr {
     cursor: pointer;
     /*display: block;*/
 }
 
-.testLibrary .portlet .test-cases tbody tr td, .history .box .test-list tbody tr td {
+.testLibrary .portlet .test-case tbody tr td {
     border-top: solid 1px #282829;
     border-bottom: solid 1px #141414;
     padding: 12px 14px;
+    text-align:center;
 }
 
-.testLibrary .portlet .test-cases tbody tr:hover, .history .box .test-list tbody tr:hover {
+.testLibrary .portlet .test-case tbody tr th {
+    text-align:center;
+}
+
+.testLibrary .portlet .test-case tbody tr:hover {
     background-color: #141414;
 }
 
-.testLibrary .portlet .test-cases tbody tr:hover td, .history .box .test-list tbody tr:hover td {
+.testLibrary .portlet .test-case tbody tr:hover td {
     border-top: solid 1px #141414;
 }
 
-.testLibrary .portlet .test-cases tbody tr:first-of-type, .history .box .test-list tbody tr:first-of-type {
+.testLibrary .portlet .test-case tbody tr:first-of-type {
     border-top: none;
 }
 
-.testLibrary .portlet .test-cases tbody tr:last-of-type, .history .box .test-list tbody tr:last-of-type {
+.testLibrary .portlet .test-case tbody tr:last-of-type {
     border-bottom: none;
 }
 
-.testLibrary .portlet .test-cases tr td:nth-child(1), .history .box .test-list tr td:nth-child(1) {
-    width: 5%;
-    padding-right: 0;
+.testLibrary .portlet .test-case tr td:nth-child(1) {
+    width: 50%;
 }
 
-.testLibrary .portlet .test-cases tr td:nth-child(2), .history .box .test-list tr td:nth-child(2) {
-    width: 70%;
+.testLibrary .portlet .test-case tr td:nth-child(2) {
+    width: 50%;
 }
 
-.testLibrary .portlet .test-cases tr td:nth-child(3), .history .box .test-list tr td:nth-child(3) {
-    width: 25%;
-}
-
-.testLibrary .portlet .test-cases td h4, .history .box .test-list td h4 {
+.testLibrary .portlet .test-case td h4 {
     color: #f5f5f5;
     font-size: 12px;
     line-height: 14px;
     margin: 0;
 }
 
-.testLibrary .test-cases .incomplete .name, .history .test-list .incomplete .name {
+.testLibrary .test-case .incomplete .name {
     font-style: italic;
     color: #999;
 }
 
-.testLibrary .portlet .test-cases td p, .history .box .test-list td p {
+.testLibrary .portlet .test-case td p {
     font-size: 10px;
     line-height: 12px;
 }

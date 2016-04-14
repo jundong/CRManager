@@ -40,7 +40,7 @@ machine api.github.com
 
 
 ## Creating a module
-1. `component create components-ixia/<module name>` (lowercase with hypens)
+1. `component create components-ixia/<module name>` (lowercase with hyphens)
 2. Include your component by explicitly listing it as a "local" dependency in another component: update this other
 components `component.json` (see components-ixia/boot/component.json for an example)
 3. Build (see above)

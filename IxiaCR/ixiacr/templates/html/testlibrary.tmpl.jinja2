@@ -35,7 +35,6 @@
         <ul class="security-cases" data-bind="visible: enterpriseTests().length > 0, foreach: enterpriseTests">
             <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
                 <h3 data-bind="text: name"></h3>
-                <p data-bind="text: type"></p>
             </li>
         </ul>
     </div>
@@ -46,11 +45,10 @@
         <span data-bind="text: name"></span>
     </h2>
     <div class="portlet-content">
-        <ul class="security-cases" data-bind="visible: enterpriseTests().length > 0, foreach: hostTests">
+        <ul class="security-cases" data-bind="visible: hostTests().length > 0, foreach: hostTests">
             <!-- ko if: $index() < 10 -->
             <li data-bind="click: function () { rootVm.loadTest($data) }, clickBubble: false">
                 <h3 data-bind="text: name"></h3>
-                <p data-bind="text: type"></p>
             </li>
             <!-- /ko -->
         </ul>
@@ -58,37 +56,57 @@
 </script>
 
 <script id="test-cases-portlet-template" type="text/html">
-    <h2>
-        <span data-bind="text: name"></span>
+    <h2 style="text-align:center">
+        <span data-bind="text: selectedTest().name"></span>
     </h2>
     <div class="portlet-content">
-        <div class="test-cases" data-bind="visible: $root.testResultsHistory().length > 0">
-        <table>
-            <thead>
-                <tr>
-                    <td></td>
-                    <td>{% trans %}Name{% endtrans %}</td>
-                    <td>{% trans %}Date{% endtrans %}</td>
-                </tr>
-            </thead>
-            <tbody data-bind="foreach: testResultsHistory">
-                <!-- ko if: $index() < 10 -->
-                <tr data-bind="click: function () { loadRecentTest(); }, clickBubble: false, attr: {class: endResult() == 'error' ? 'fail' : endResult}">
-                    <td>
-                        <img data-bind="visible: endResult() == 'pass', attr: {alt: endResult}" src="static/images/pass-light.png" />
-                        <img data-bind="visible: endResult() == 'completed', attr: {alt: endResult}" src="static/images/unrated-light.png" />
-                        <img data-bind="visible: endResult() == 'fail' || endResult() == 'error', attr: {alt: endResult}" src="static/images/fail-light.png" />
-                        <img data-bind="visible: endResult() == 'aborted' || endResult() == 'incomplete', attr: {alt: endResult}" src="static/images/no-light.png" />
-                    </td>
-                    <td>
-                        <h4 data-bind="text: name" class="name"></h4>
-                        <p data-bind="text: template_name" class="category"></p>
-                    </td>
-                    <td data-bind="text: dateFormatted" class="date"></td>
-                </tr>
-                <!-- /ko -->
-            </tbody>
-        </table>
+        <div class="test-case" data-bind="visible: selectedTest() != 'null'">
+            <table>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><h2>{% trans %}Red Team Objective{% endtrans %}</h2></td>
+                        <td><h2>{% trans %}Blue Team Objective{% endtrans %}</h2></td>
+                    </tr>
+                    <tr>
+                        <td data-bind="html: selectedTest().attack_task" class="name" ></td>
+                        <td data-bind="html: selectedTest().defense_task" class="name" ></td>
+                    </tr>
+                    <tr>
+                        <td><h2>{% trans %}Red Team Key Artifacts{% endtrans %}</h2></td>
+                        <td><h2>{% trans %}Blue Team Key Artifacts{% endtrans %}</h2></td>
+                    </tr>
+                    <tr>
+                        <td data-bind="html: selectedTest().attack_steps" class="name" ></td>
+                        <td data-bind="html: selectedTest().defense_steps" class="name" ></td>
+                    </tr>
+                    <tr>
+                        <td><h2>{% trans %}Red Team Quiz{% endtrans %}</h2></td>
+                        <td><h2>{% trans %}Blue Team Quiz{% endtrans %}</h2></td>
+                    </tr>
+                    <tr>
+                        <td data-bind="html: selectedTest().attack_criteria" class="name" ></td>
+                        <td data-bind="html: selectedTest().defense_criteria" class="name" ></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><h2>{% trans %}Traffic Directions{% endtrans %}</h2></th>
+                    </tr>
+                    <tr>
+                        <th data-bind="html: selectedTest().traffic_direction" class="name" colspan="2"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><h2>{% trans %}Topology{% endtrans %}</h2></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2"><img data-bind="attr: {'src':selectedTest().topology_image, 'alt':'Topology', 'title':selectedTest().name}"/></th>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </script>

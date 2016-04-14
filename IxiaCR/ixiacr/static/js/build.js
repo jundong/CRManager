@@ -50967,7 +50967,7 @@ function getConfigSetting(key) {\n\
 \n\
     var config = {\n\
         \"get_ixiacr_tests\": rootPath + \"get_ixiacr_tests.json\",\n\
-        \"get_datapoints\": rootPath + \"get_datapoints.json\",\n\
+        \"get_recent_news\": rootPath + \"get_recent_news.json\",\n\
         \"devices_status\": rootPath + \"devices/status\",\n\
         \"time_sync_status\": rootPath + \"status/time_sync\",\n\
         \"get_results\": rootPath + \"get_results.json\",\n\
@@ -51571,12 +51571,13 @@ function IxiaViewModel() {\n\
     self.testResultsHistory = ko.observableArray();\n\
     self.testResultsHistoryHandlers = new Array();\n\
     self.availableDiskSpace = ko.observable(); //will be updated by disk management\n\
+    self.recentNews = ko.observableArray();\n\
 \n\
     self.startingTab = 'dashboard';\n\
-\n\
     self.defaultThrottleDuration = 1;\n\
-\n\
     self.selectedTab = ko.observable();\n\
+\n\
+    self.selectedTest = ko.observable(null);\n\
 \n\
     self.testLibraryTemplateName = ko.observable('placeholder-template');\n\
     self.dashboardTemplateName = ko.observable('placeholder-template');\n\
@@ -51614,7 +51615,7 @@ function IxiaViewModel() {\n\
     self.ajaxModels = new Array(translate(\"Global Settings\"),\n\
         translate(\"Devices\"),\n\
         translate(\"Tests\"),\n\
-        translate(\"Result Types\"),\n\
+        translate(\"Recent News\"),\n\
         translate(\"Customers\"),\n\
         translate(\"Locations\"),\n\
         translate(\"Languages\"),\n\
@@ -51709,6 +51710,14 @@ IxiaViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[2], true);\n\
         });\n\
 \n\
+    var newsAjax = self.getRecentNews()\n\
+        .done(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[3]);\n\
+        })\n\
+        .fail(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[3], true);\n\
+        });\n\
+\n\
     var languageAjax = self.getLanguage()\n\
         .done(function () {\n\
             self.updateAppLoadMessage(self.ajaxModels[6]);\n\
@@ -51733,7 +51742,8 @@ IxiaViewModel.prototype.init = function (callback) {\n\
         settingsAjax,\n\
         devicesAjax,\n\
         languageAjax,\n\
-        testsAjax\n\
+        testsAjax,\n\
+        newsAjax\n\
     );\n\
 };\n\
 \n\
@@ -51749,11 +51759,17 @@ IxiaViewModel.prototype.refreshTestDraggables = function () {\n\
 \n\
 IxiaViewModel.prototype.loadTest = function (test) {\n\
     var self = IxiaViewModel.typesafe(this);\n\
-    self.vmTest.loadTest(test);\n\
+    self.selectedTest(test);\n\
 };\n\
+\n\
 IxiaViewModel.prototype.loadRecentTest = function (historyItem) {\n\
     var self = IxiaViewModel.typesafe(this);\n\
     self.vmTest.loadRecentTest(historyItem);\n\
+};\n\
+\n\
+IxiaViewModel.prototype.openUrl = function (url) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
+    window.open(url);\n\
 };\n\
 \n\
 IxiaViewModel.prototype.getTabClassFor = function (tabName) {\n\
@@ -51959,6 +51975,9 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
         var existingTest = null,\n\
             test = new TestTemplateViewModel(self);\n\
         test.inflate(availableTests[i]);\n\
+        if (i == 0) {\n\
+            self.selectedTest(test);\n\
+        }\n\
 \n\
         existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
             return (test.id() === item.id());\n\
@@ -51977,6 +51996,37 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
     //self.availableTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
     //self.hostTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
     //self.enterpriseTests.sort(util.sortArrayByObjectKeyKoObservable(\"id\", true));\n\
+};\n\
+\n\
+IxiaViewModel.prototype.getRecentNews = function (params, callback) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
+\n\
+    var ajax = $.ajax({\n\
+        type: \"GET\",\n\
+        url: util.getConfigSetting(\"get_recent_news\"),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+            self.recentNews.removeAll();\n\
+            for (var i = 0; i < data.length; i++) {\n\
+                var existingNews = null,\n\
+                    news = new RecentNewsViewModel(self);\n\
+                news.inflate(data[i]);\n\
+\n\
+                existingNews = ko.utils.arrayFirst(self.recentNews(), function (item) {\n\
+                    return (news.id() === item.id());\n\
+                });\n\
+                if (existingNews === null) {\n\
+                    self.recentNews.push(news);\n\
+                }\n\
+            }\n\
+\n\
+            if (callback){\n\
+                callback();\n\
+            }\n\
+        }\n\
+    });\n\
+\n\
+    return ajax;\n\
 };\n\
 \n\
 IxiaViewModel.prototype.getResultHistory = function (params, callback) {\n\
@@ -52027,9 +52077,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
     var self = IxiaViewModel.typesafe(this);\n\
     var recentTests = data;\n\
     var existingHistoryResult;\n\
-    if (isRefreshDashboard) {\n\
-        self.vmDashboard.testResultsHistory.removeAll();\n\
-    }\n\
 \n\
     for (var i = 0; i < recentTests.length; i++) {\n\
         var recentTest = new TestHistoryViewModel(self.vmDashboard);\n\
@@ -52044,14 +52091,6 @@ IxiaViewModel.prototype.fillHistoryTestsResults = function (data, isRefreshDashb
         } else {\n\
             // Update the latest one in the Array\n\
             self.testResultsHistory.replace(existingHistoryResult, recentTest);\n\
-        }\n\
-\n\
-        if (isRefreshDashboard) {\n\
-            self.vmDashboard.testResultsHistory.push(recentTest);\n\
-        } else {\n\
-            if (self.vmDashboard.testResultsHistory()[0].result_id() < recentTest.result_id()) {\n\
-                self.vmDashboard.testResultsHistory.unshift(recentTest);\n\
-            }\n\
         }\n\
     }\n\
     self.testResultsHistory.sort(function(pre, next) {return (pre.result_id() > next.result_id() ? -1 : 1)});\n\
@@ -67031,8 +67070,16 @@ function DashboardViewModel(rootVm) {\n\
     self.rootVm.hostTests.subscribe(function () {\n\
         self.hostTests(self.rootVm.hostTests());\n\
     });\n\
-    self.testResultsHistory = ko.observableArray();\n\
-    self.totalHistoryResults = ko.observable(0);\n\
+    self.recentNews = ko.observableArray(self.rootVm.recentNews());\n\
+    self.rootVm.recentNews.subscribe(function () {\n\
+        self.recentNews(self.rootVm.recentNews());\n\
+    });\n\
+    self.totalRecentNews = ko.observable(0);\n\
+\n\
+    self.selectedTest = ko.observableArray(self.rootVm.selectedTest());\n\
+    self.rootVm.selectedTest.subscribe(function () {\n\
+        self.selectedTest(self.rootVm.selectedTest());\n\
+    });\n\
 \n\
     self.getPortlets = function () {\n\
         self.portlets.removeAll();\n\
@@ -67107,8 +67154,6 @@ function PortletViewModel(dashboardVm) {\n\
     self.templateId = ko.observable();\n\
     self.selectedFilter = ko.observable();\n\
     self.availableFilters = ko.observableArray();\n\
-    self.testResultsHistory = self.dashboardVm.testResultsHistory;\n\
-\n\
     self.enterpriseTests = ko.observableArray(self.dashboardVm.enterpriseTests());\n\
     self.dashboardVm.enterpriseTests.subscribe(function () {\n\
         self.enterpriseTests(self.dashboardVm.enterpriseTests());\n\
@@ -67116,6 +67161,14 @@ function PortletViewModel(dashboardVm) {\n\
     self.hostTests = ko.observableArray(self.dashboardVm.hostTests());\n\
     self.dashboardVm.hostTests.subscribe(function () {\n\
         self.hostTests(self.dashboardVm.hostTests());\n\
+    });\n\
+    self.recentNews = ko.observableArray(self.dashboardVm.recentNews());\n\
+    self.dashboardVm.recentNews.subscribe(function () {\n\
+        self.recentNews(self.dashboardVm.recentNews());\n\
+    });\n\
+    self.selectedTest = ko.observableArray(self.dashboardVm.selectedTest());\n\
+    self.dashboardVm.selectedTest.subscribe(function () {\n\
+        self.selectedTest(self.dashboardVm.selectedTest());\n\
     });\n\
 \n\
     self.inflate = function (portlet) {\n\
@@ -67126,33 +67179,8 @@ function PortletViewModel(dashboardVm) {\n\
         self.defaultColumn(portlet.default_column);\n\
         self.templateId(portlet.div_id_name);\n\
 \n\
-        self.handleSpecialCases();\n\
+        self.selectedFilter('All Statuses');\n\
     };\n\
-\n\
-    self.handleSpecialCases = function () {\n\
-        switch (self.name()) {\n\
-            case 'Recent Results':\n\
-                self.selectedFilter('All Statuses');\n\
-                break;\n\
-        }\n\
-    };\n\
-\n\
-    self.filteredRecentTests = ko.computed(function () {\n\
-        var selectedFilter = self.selectedFilter(); //86400000 = 1 day in milliseconds\n\
-        var filteredResults = self.testResultsHistory();\n\
-        var oldestDate = new Date();\n\
-\n\
-        oldestDate.setTime(oldestDate.getTime() - (86400000 * 30)); // 30 days ago\n\
-\n\
-\n\
-        filteredResults = self.rootVm.vmHistory.applyDateGreaterThanFilter(oldestDate, filteredResults);\n\
-        if (selectedFilter == translate('All Statuses') || selectedFilter == undefined) {\n\
-            return filteredResults;\n\
-        }\n\
-\n\
-        return self.rootVm.vmHistory.applyStatusFilter(selectedFilter, filteredResults);\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-\n\
 }\n\
 \n\
 module.exports = DashboardViewModel;\n\
@@ -67433,6 +67461,153 @@ module.exports = TestHistoryViewModel;\n\
 ));
 
 require.modules["test-history-view-model"] = require.modules["./components-ixia/test-history-view-model"];
+
+
+require.register("./components-ixia/recent-news-view-model", Function("exports, module",
+"var moment = require('johntron~moment@3c4e06cc012a0fc6a1aed16e1c8cb86998bb4b68');\n\
+\n\
+function RecentNewsViewModel(rootVm) {\n\
+    var self = this;\n\
+    self.dashboardVm = rootVm.vmDashboard;\n\
+    self.rootVm = rootVm;\n\
+\n\
+    self.id = ko.observable();\n\
+    self.title = ko.observable();\n\
+    self.date = ko.observable();\n\
+    self.dateFormatted = ko.computed(function () {\n\
+        var d = self.date();\n\
+        if (!d) {\n\
+            return '';\n\
+        }\n\
+\n\
+        return moment(d).format('lll');\n\
+    });\n\
+    self.link = ko.observable();\n\
+    self.description = ko.observable();\n\
+    self.priority = ko.observable();\n\
+\n\
+    self.loadRecentTest = function () {\n\
+        self.rootVm.loadRecentTest(self);\n\
+    };\n\
+};\n\
+\n\
+RecentNewsViewModel.typesafe = function (that) {\n\
+    if (!(that instanceof RecentNewsViewModel)) {\n\
+        throw 'This method must be executed on a RecentNewsViewModel';\n\
+    }\n\
+\n\
+    return that;\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.toFlatObject = function () {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+\n\
+    var news = {\n\
+        id: self.id(),\n\
+        title: self.title(),\n\
+        description: self.description(),\n\
+        date: self.date(),\n\
+        link: self.link(),\n\
+        priority: self.priority()\n\
+    };\n\
+\n\
+    return news;\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.inflate = function (news) {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+\n\
+    var thisDate = news.date+\" UTC\";\n\
+    thisDate = thisDate.replace(/-/g,\"/\");\n\
+    thisDate = new Date(thisDate).format('yyyy-MM-dd HH:mm:ss');\n\
+    thisDate = String(thisDate);\n\
+\n\
+    self.id(news.id);\n\
+    self.title(news.title);\n\
+    self.date(thisDate);\n\
+    self.description(news.description);\n\
+    self.link(news.link);\n\
+    self.priority(news.priority);\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.openSaveModal = function () {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.save = function () {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+\n\
+    var title = self.title();\n\
+    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
+    util.lightbox.close();\n\
+    util.lightbox.working(workingVm);\n\
+    var data = self.toFlatObject();\n\
+    $.ajax({\n\
+        type: util.getRequestMethod('save_news'),\n\
+        url: util.getConfigSetting('save_news'),\n\
+        data: util.formatRequestData('save_news', data),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+            workingVm.status('success');\n\
+        },\n\
+        error: function (jqXhr, textStatus, errorThrown) {\n\
+            workingVm.status('error');\n\
+        }\n\
+    });\n\
+\n\
+    util.lightbox.close();\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.matchesSearch = function (searchString) {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+\n\
+    var searchTerms = searchString.split(' ');\n\
+\n\
+    if (searchTerms.length == 0) {\n\
+        return true;\n\
+    }\n\
+\n\
+    var name = self.name().toUpperCase();\n\
+\n\
+    for (var i = 0; i < searchTerms.length; i++) {\n\
+        if (searchTerms[i] == '' || searchTerms[i] == null) {\n\
+            continue;\n\
+        }\n\
+\n\
+        if (name.indexOf(searchTerms[i].toUpperCase()) == -1) {\n\
+            return false;\n\
+        }\n\
+    }\n\
+\n\
+    return true;\n\
+};\n\
+\n\
+RecentNewsViewModel.prototype.delete = function () {\n\
+    var self = RecentNewsViewModel.typesafe(this);\n\
+\n\
+    var workingVm = new LightboxWorkingViewModel(translate('Delete'), translate('Deleting...'));\n\
+    util.lightbox.close();\n\
+    util.lightbox.working(workingVm);\n\
+    $.ajax({\n\
+        type: util.getRequestMethod('delete_news'),\n\
+        url: util.getConfigSetting('delete_news'),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+            workingVm.status('success');\n\
+        },\n\
+        error: function (jqXhr, textStatus, errorThrown) {\n\
+            workingVm.status('error');\n\
+        }\n\
+    });\n\
+\n\
+    util.lightbox.close();\n\
+};\n\
+\n\
+module.exports = RecentNewsViewModel;\n\
+//# sourceURL=components-ixia/recent-news-view-model/index.js"
+));
+
+require.modules["recent-news-view-model"] = require.modules["./components-ixia/recent-news-view-model"];
 
 
 require.register("./components-ixia/test-results-final-table-view-model", Function("exports, module",
@@ -67721,11 +67896,12 @@ function TestTemplateViewModel(rootVm) {\n\
     self.topology_image = ko.observable();\n\
     self.topology_description = ko.observable();\n\
     self.attack_task = ko.observable();\n\
-    self.attack_steps = ko.observableArray();\n\
+    self.attack_steps = ko.observable();\n\
     self.attack_criteria = ko.observable();\n\
-    self.defense_task = ko.observableArray();\n\
-    self.defense_steps = ko.observableArray();\n\
+    self.defense_task = ko.observable();\n\
+    self.defense_steps = ko.observable();\n\
     self.defense_criteria = ko.observable();\n\
+    self.traffic_direction = ko.observable();\n\
 \n\
     self.result_id = undefined; //this is used to tell if the template is correct for a test result which the test is created using user saved test\n\
 }\n\
@@ -67797,6 +67973,7 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {\n\
     self.defense_task(flatTest.defense_task);\n\
     self.defense_steps(flatTest.defense_steps);\n\
     self.defense_criteria(flatTest.defense_criteria);\n\
+    self.traffic_direction(flatTest.traffic_direction);\n\
 \n\
     //util.setObservableArray(self.name, flatTest.name);\n\
     //util.setObservableArray(self.name, flatTest.name);\n\
@@ -67821,7 +67998,8 @@ TestTemplateViewModel.prototype.toFlatObject = function(){\n\
         attack_criteria: self.attack_criteria(),\n\
         defense_task: self.defense_task(),\n\
         defense_steps: self.defense_steps(),\n\
-        defense_criteria: self.defense_criteria()\n\
+        defense_criteria: self.defense_criteria(),\n\
+        traffic_direction: self.traffic_direction()\n\
     };\n\
 \n\
     return flatTemplate;\n\
@@ -67845,6 +68023,7 @@ TestTemplateViewModel.prototype.clone = function(){\n\
     newTest.defense_task(self.defense_task);\n\
     newTest.defense_steps(self.defense_steps);\n\
     newTest.defense_criteria(self.defense_criteria);\n\
+    newTest.traffic_direction(self.traffic_direction);\n\
 \n\
     return newTest;\n\
 };\n\
@@ -72048,6 +72227,7 @@ function loadGlobals() {\n\
     window.DeviceModel = require('./components-ixia/device-model');\n\
     window.IxiaViewModel = require('./components-ixia/ixia-view-model');\n\
     window.TestHistoryViewModel = require('./components-ixia/test-history-view-model');\n\
+    window.RecentNewsViewModel = require('./components-ixia/recent-news-view-model');\n\
     window.DashboardViewModel = require('./components-ixia/dashboard-view-model');\n\
     window.TestViewModel = require('./components-ixia/test-view-model');\n\
     window.TestTemplateViewModel = require('./components-ixia/test-template-view-model');\n\
