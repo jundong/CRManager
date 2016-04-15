@@ -51975,10 +51975,6 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
         var existingTest = null,\n\
             test = new TestTemplateViewModel(self);\n\
         test.inflate(availableTests[i]);\n\
-        if (i == 0) {\n\
-            self.selectedTest(test);\n\
-        }\n\
-\n\
         existingTest = ko.utils.arrayFirst(self.availableTests(), function (item) {\n\
             return (test.id() === item.id());\n\
         });\n\
@@ -51988,6 +51984,9 @@ IxiaViewModel.prototype.fillAvailableTests = function (data){\n\
             if (test.type() === \"HOST\") {\n\
                 self.hostTests.push(test);\n\
             } else {\n\
+                if (self.selectedTest() == null) {\n\
+                    self.selectedTest(test);\n\
+                }\n\
                 self.enterpriseTests.push(test);\n\
             }\n\
         }\n\

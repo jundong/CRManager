@@ -70,28 +70,34 @@
                 </thead>
                 <tbody>
                     <tr>
+                        <th colspan="2"><h2>{% trans %}Description{% endtrans %}</h2></th>
+                    </tr>
+                    <tr>
+                        <th colspan="2" data-bind="html: selectedTest().description" ></th>
+                    </tr>
+                    <tr>
                         <td><h2>{% trans %}Red Team Objective{% endtrans %}</h2></td>
                         <td><h2>{% trans %}Blue Team Objective{% endtrans %}</h2></td>
                     </tr>
                     <tr>
-                        <td data-bind="html: selectedTest().attack_task" class="name" ></td>
-                        <td data-bind="html: selectedTest().defense_task" class="name" ></td>
+                        <td data-bind="html: selectedTest().attack_task" style="text-align:left" ></td>
+                        <td data-bind="html: selectedTest().defense_task" style="text-align:left" ></td>
                     </tr>
                     <tr>
                         <td><h2>{% trans %}Red Team Key Artifacts{% endtrans %}</h2></td>
                         <td><h2>{% trans %}Blue Team Key Artifacts{% endtrans %}</h2></td>
                     </tr>
                     <tr>
-                        <td data-bind="html: selectedTest().attack_steps" class="name" ></td>
-                        <td data-bind="html: selectedTest().defense_steps" class="name" ></td>
+                        <td data-bind="html: selectedTest().attack_steps" style="text-align:left" ></td>
+                        <td data-bind="html: selectedTest().defense_steps" style="text-align:left" ></td>
                     </tr>
                     <tr>
                         <td><h2>{% trans %}Red Team Quiz{% endtrans %}</h2></td>
                         <td><h2>{% trans %}Blue Team Quiz{% endtrans %}</h2></td>
                     </tr>
                     <tr>
-                        <td data-bind="html: selectedTest().attack_criteria" class="name" ></td>
-                        <td data-bind="html: selectedTest().defense_criteria" class="name" ></td>
+                        <td data-bind="html: selectedTest().attack_criteria" style="text-align:left" ></td>
+                        <td data-bind="html: selectedTest().defense_criteria" style="text-align:left" ></td>
                     </tr>
                     <tr>
                         <th colspan="2"><h2>{% trans %}Traffic Directions{% endtrans %}</h2></th>

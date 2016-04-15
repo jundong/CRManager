@@ -2572,7 +2572,7 @@ msgid "Description:"
 msgstr "描述："
 
 msgid "Description"
-msgstr "描述"
+msgstr "用例描述"
 
 msgid "Red Team"
 msgstr "红队"
