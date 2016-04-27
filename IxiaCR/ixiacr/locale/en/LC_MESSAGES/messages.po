@@ -662,49 +662,119 @@ msgstr "Servers"
 msgid "QoS"
 msgstr "QoS"
 
-#: ixiacr/scripts/initializedb.py:416
-msgid "test_type.Stress_Test"
-msgstr "Stress Test"
+msgid "Mixture Application Traffic Analyze"
+msgstr "Mixture Application Traffic Analyze"
 
-#: ixiacr/scripts/initializedb.py:418
-msgid "traffic_type.Stress"
-msgstr "Stress"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:424
-msgid "test_type.SLA_Test"
-msgstr "SLA Test"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.topology_description"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:426
-msgid "traffic_type.SLA"
-msgstr "SLA"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:432
-msgid "test_type.Quality_of_Service"
-msgstr "Quality of Service"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:434
-msgid "traffic_type.QoS"
-msgstr "QoS"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_criteria"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:440
-msgid "test_type.Performance_Test"
-msgstr "Performance Test"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_task"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:442
-msgid "traffic_type.Packet"
-msgstr "Packet"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_steps"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:448
-msgid "test_type.Application_Performance"
-msgstr "Application Performance"
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_criteria"
+msgstr "<p></p>"
 
-#: ixiacr/scripts/initializedb.py:450
-msgid "traffic_type.App"
-msgstr "App"
+msgid "cr_test_template.enterprise_application_traffic_analyze.traffic_direction"
+msgstr "<p>BreakPoint</p>"
 
-#: ixiacr/scripts/initializedb.py:463
-msgid "Network Stress Test"
-msgstr "Network Stress Test"
+msgid "DDoS Attack Analyze"
+msgstr "DDoS Attack Analyze"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.topology_description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_task"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_steps"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_criteria"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_task"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_steps"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_criteria"
+msgstr "<p></p>"
+
+msgid "cr_test_template.enterprise_ddos_attack_analyze.traffic_direction"
+msgstr "<p></p>"
+
+msgid "APT Attack Analyze"
+msgstr "APT Attack Analyze"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.topology_description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_task"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_steps"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_criteria"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_task"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_steps"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_criteria"
+msgstr "<p></p>"
+
+msgid "cr_test_template.enterprise_apt_attack_analyze.traffic_direction"
+msgstr "<p></p>"
 
 #: ixiacr/scripts/initializedb.py:463
 msgid "Enterprise Traffic Track"

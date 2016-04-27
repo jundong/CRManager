@@ -1345,7 +1345,7 @@ Dashboard
 }
 
 .dashboard .l-portlet-column {
-    width: 1300px;
+    width: 1200px;
     float: left;
     margin: 0 24px 0 0;
 }
@@ -1641,19 +1641,19 @@ TestLibrary
 }
 
 .testLibrary .container {
-    width: 1624px;
+    width: 1524px;
     margin-left: auto;
     margin-right: auto;
     margin: 0 auto;
 }
 .testLibrary .l-portlet-column {
-    width: 1160px;
+    width: 1024px;
     float: left;
     margin: 0 24px 0 0;
 }
 
 .testLibrary .r-portlet-column {
-    width: 440px;
+    width: 340px;
     float: left;
 }
 

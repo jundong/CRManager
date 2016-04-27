@@ -1023,108 +1023,11 @@ msgid "Aggregate Transactions (per second)"
 msgstr "总事务数 (每秒)"
 
 #: ixiacr/scripts/initializedb.py:175 ixiacr/scripts/initializedb.py:404
-#: ixiacr/templates/html/test.configuration.tmpl.jinja2:206
-#: ixiacr/templates/html/test.results.tmpl.jinja2:63
-#: ixiacr/templates/html/test.results.tmpl.jinja2:71
-#: ixiacr/templates/html/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.configuration.tmpl.jinja2:205
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/application_response_time/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/device_failover/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/device_qos/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_performance/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_stress/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/network_validation/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.configuration.tmpl.jinja2:206
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:79
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:63
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:71
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:79
-#: ixiacr/views/results.py:217
 msgid "Bandwidth"
 msgstr "带宽"
 
-#: ixiacr/scripts/initializedb.py:176
-#: ixiacr/templates/html/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_performance_modeling_enterprise/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/application_response_time/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/device_failover/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/device_qos/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_performance/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_qos_performance/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_stress/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/network_validation/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/qos_site_to_site/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_performance_modeling/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_with_application/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/site_to_site_with_sla/templates/test.results.tmpl.jinja2:37
-#: ixiacr/testcases/spirent/throughput_test/templates/test.results.tmpl.jinja2:37
 msgid "Total Bandwidth"
 msgstr "总带宽"
-
-#: ixiacr/scripts/initializedb.py:179
-msgid "RTP Calls (per second)"
-msgstr "RTP呼叫数 (每秒)"
-
-#: ixiacr/scripts/initializedb.py:180
-msgid "Attempted Calls vs. Successful and Failed plus RTP Packet Loss"
-msgstr "尝试呼叫数 vs. 呼叫成功/失败数与RTP丢包数"
-
-#: ixiacr/scripts/initializedb.py:183
-msgid "Video Connections (per second)"
-msgstr "视频连接数 (每秒)"
-
-#: ixiacr/scripts/initializedb.py:184
-msgid "Attempted Video Connections vs. Successful and Failed."
-msgstr "尝试视频连接数 vs. 连接成功/失败数"
 
 #: ixiacr/scripts/initializedb.py:207
 msgid "Frames"
@@ -1177,6 +1080,167 @@ msgstr "服务器"
 #: ixiacr/scripts/initializedb.py:407
 msgid "QoS"
 msgstr "QoS"
+
+msgid "Mixture Application Traffic Analyze"
+msgstr "混合应用层流量的分析"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.description"
+msgstr "<p>现网中的流量之大，业务流量的复杂对于任何IT人员都是一个极其大的挑战，如果能在短时间内分析出流量的源头，"
+"对于业务流量的控制和防范攻击都是一个有效的手段。种类繁多的应用层业务层出不穷，为了应对突发流量的分析和在线业务的区分，"
+"需要IT人员能够在较短的时间内，将业务识别并区分开，从而更高效的完成业务的维护。X公司为了有效提升本公司IT人员的技术水平，"
+"决定对整体IT员工的技能做一个较为全面的考察。</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.topology_description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_task"
+msgstr "<p>企业网E与internet一般有十几种业务流量，企业内某员工打算发送一个重要的word文件到外部邮箱…</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_steps"
+msgstr "<p>该员工把word文件，通过邮件向外部邮箱发送</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.attack_criteria"
+msgstr "<p>Word文件发出去后没有被公司IT系统检查出来</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_task"
+msgstr "<p>1 可以识别出企业网内外通信的所有业务，找出top10的十种业务<br>"
+"2 找到外发的word文件<br>"
+"3 找到word文件的发送者，并抓包接下来一段时间的所有的他向外发送的流量</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_steps"
+msgstr "<p>1 列出该企业Top10的业务类型<br>"
+"2 在混合流量种找出发送word文件的源邮箱和目的邮箱。找出发送者的IP地址<br>"
+"3 近一步分析解码该word文件<br>"
+"4 确定发送者IP以后，把该IP的流量所有的都导入服务器进行抓包</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_application_traffic_analyze.defense_criteria"
+msgstr "<p>正确列出E企业前10种业务流量的名称（40分）<br>"
+"可以找到并阻断发送word附件的邮件（30分）<br>"
+"分析出word文件的名称内容（15分）<br>"
+"对发送者的IP地址进行正确的导流和镜像（15分）</p>"
+
+msgid "cr_test_template.enterprise_application_traffic_analyze.traffic_direction"
+msgstr "<p>BreakPoint -> ATIP <br>"
+"ATIP -> NGFW <br>"
+"ATIP -> DLP <br>"
+"ATIP -> Windows</p>"
+
+msgid "DDoS Attack Analyze"
+msgstr "DDoS攻击的分析"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.description"
+msgstr "<p>现网中最为直接的就是DDoS攻击，它看起来与正常业务没有什么区别，但是也正是因为它，"
+"经常让IT管理人员防不胜防。X公司员工反馈经常从外网访问公司主页出现卡顿、无法刷新等问题，"
+"通过IT的详细排查，发现某些时刻服务器异常繁忙的日志。</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.topology_description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_task"
+msgstr "<p>企业网E与internet一般有十几种业务流量，恶意主机攻击公司主页网站，导致出现访问不了或者反应很慢的情况…</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_steps"
+msgstr "<p>模拟主机发生多种混合多变的应用层业务流量和DDoS攻击</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.attack_criteria"
+msgstr "<p>DDoS攻击模拟产生以后没有被检查出来</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_task"
+msgstr "<p>1 可以识别出企业网内外通信的所有业务，找出top3的三种业务<br>"
+"2 找到服务器出现卡顿的原因<br>"
+"3 找到DDoS攻击的源<br>"
+"4 通过ATIP把DDoS的源进行过滤</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_steps"
+msgstr "<p>1 列出该企业Top3的业务类型<br>"
+"2 在混合流量种找出产生DDoS攻击的主机<br>"
+"3 近一步分析混合流量的协议类型以及DDoS的攻击类型<br>"
+"4 确定DDoS发送者IP以后，把产生攻击的流量进行过滤，只保证正常业务流量通过<br>"
+"5 收集NGFW上报的告警日志</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_ddos_attack_analyze.defense_criteria"
+msgstr "<p>正确列出E企业前3种业务流量的名称（40分）<br>"
+"可以找到并阻断发送DDoS的主机（40分）<br>"
+"分析出DDoS的攻击类型（30分）<br>"
+"对正常业务流量进行镜像转发（15分）<br>"
+"通过日志分析出网络状态情况（5分）</p>"
+
+msgid "cr_test_template.enterprise_ddos_attack_analyze.traffic_direction"
+msgstr "<p>BreakPoint -> ATIP <br>"
+"ATIP -> NGFW <br>"
+"ATIP -> DLP <br>"
+"ATIP -> Windows</p>"
+
+msgid "APT Attack Analyze"
+msgstr "真实的APT攻击的分析"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.description"
+msgstr "<p>正常的办公环境经常使用到多种途径作为交流和沟通的工具，而频繁的沟通非常容易被恶意攻击所利用，同时，"
+"病毒的攻击，不仅仅只是为了将网络基础设备弄瘫痪，更多时候，病毒攻击是为了窃取机密文件或者商业信息。"
+"所以发现识别攻击和病毒并变得尤为重要。X公司发现公司高级机密被不知情的情况下流露到竞争对手手中，"
+"这是个非常严重的问题，决定让IT部彻查此事。</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.topology_description"
+msgstr "<p></p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_task"
+msgstr "<p>向企业网E进行恶意链接发送，使得受感染者自动下载大量可执行病毒文件，窃取受感染者的文件发往外部服务器，之后再扩大受感染范围…</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_steps"
+msgstr "<p>模拟主机发生多种混合多变的应用层业务流量、恶意网站链接和病毒</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.attack_criteria"
+msgstr "<p>所有的攻击模拟产生以后没有被检查出来</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_task"
+msgstr "<p>1 可以识别出企业网内外通信的所有业务，找出top3的三种业务<br>"
+"2 找到恶意攻击及源<br>"
+"3 找到恶意病毒及源<br>"
+"4 通过ATIP把发生攻击的源进行过滤</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_steps"
+msgstr "<p>1 列出该企业Top3的业务类型<br>"
+"2 在混合流量中找出产生恶意网站链接及病毒攻击的主机<br>"
+"3 近一步分析混合流量的协议类型以及攻击的类型<br>"
+"4 确定攻击发送者IP以后，把产生攻击的流量进行过滤，只保证正常业务流量通过<br>"
+"5 收集NGFW上报的告警日志</p>"
+
+#: ixiacr/scripts/initializedb.py:467
+msgid "cr_test_template.enterprise_apt_attack_analyze.defense_criteria"
+msgstr "<p>正确列出E企业前3种业务流量的名称（5分）<br>"
+"可以找到并阻断发送各类攻击的主机（70分）<br>"
+"分析出各类正常业务和攻击类型（10分）<br>"
+"对正常业务流量进行镜像转发（10分）<br>"
+"通过日志分析出网络状态情况（5分）</p>"
+
+msgid "cr_test_template.enterprise_apt_attack_analyze.traffic_direction"
+msgstr "<p>BreakPoint -> ATIP <br>"
+"ATIP -> NGFW <br>"
+"ATIP -> DLP <br>"
+"ATIP -> Windows</p>"
 
 #: ixiacr/scripts/initializedb.py:463
 msgid "Enterprise Traffic Track"
@@ -1466,7 +1530,7 @@ msgstr "控制面板"
 
 #: ixiacr/templates/index.jinja2:58
 msgid "TEST LIBRARY"
-msgstr "测试案例库"
+msgstr "案例库"
 
 #: ixiacr/templates/index.jinja2:60
 msgid "TRAFFIC PLAYER"
@@ -2480,41 +2544,9 @@ msgstr "传输数据"
 msgid "Application Data"
 msgstr "应用数据"
 
-#: ixiacr/templates/html/test.results.tmpl.jinja2:48
-msgid "Voice Quality Data"
-msgstr "语音质量数据"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:52
-msgid "Video Quality Data"
-msgstr "视频质量数据"
-
 #: ixiacr/templates/html/test.results.tmpl.jinja2:64
 msgid "Packet Loss"
 msgstr "丢包"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:80
-msgid "Calls"
-msgstr "每秒呼叫数"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:81
-msgid "Video Connections"
-msgstr "视频连接数 (每秒)"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:82
-msgid "Quality MOS Scores"
-msgstr "语音质量MOS值"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:83
-msgid "RTP Packet Loss"
-msgstr "RTP丢包"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:88
-msgid "Calls per Second"
-msgstr "每秒呼叫数"
-
-#: ixiacr/templates/html/test.results.tmpl.jinja2:89
-msgid "Total Calls"
-msgstr "总呼叫数"
 
 #: ixiacr/templates/html/test.results.tmpl.jinja2:107
 msgid "Results Details"

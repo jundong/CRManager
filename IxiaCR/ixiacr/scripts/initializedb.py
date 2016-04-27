@@ -197,33 +197,75 @@ def import_db(cmd):
         transaction.commit()
 
         cases = [
+            # {
+            #     'name': translatable_string(_(u'Enterprise Traffic Track')),
+            #     'type': u'ENTERPRISE',
+            #     'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
+            #     'topology_image': u'static/images/enterprise_traffic_track.jpg',
+            #     'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
+            #     'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
+            #     'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
+            #     'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
+            #     'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
+            #     'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
+            #     'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria')),
+            #     'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_traffic_track.traffic_direction'))
+            # },
+            # {
+            #     'name': translatable_string(_(u'Using Vulnerability Scanning Tool')),
+            #     'type': u'HOST',
+            #     'description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.description')),
+            #     'topology_image': u'static/images/host_vulnerablity_scanning_tool.jpg',
+            #     'topology_description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.topology_description')),
+            #     'attack_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_task')),
+            #     'attack_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_steps')),
+            #     'attack_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_criteria')),
+            #     'defense_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_task')),
+            #     'defense_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_steps')),
+            #     'defense_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_criteria')),
+            #     'traffic_direction': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.traffic_direction'))
+            # },
             {
-                'name': translatable_string(_(u'Enterprise Traffic Track')),
+                'name': translatable_string(_(u'Mixture Application Traffic Analyze')),
                 'type': u'ENTERPRISE',
-                'description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.description')),
-                'topology_image': u'static/images/enterprise_traffic_track.jpg',
-                'topology_description': translatable_string(_(u'cr_test_template.enterprise_traffic_track.topology_description')),
-                'attack_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_task')),
-                'attack_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_steps')),
-                'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.attack_criteria')),
-                'defense_task': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_task')),
-                'defense_steps': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_steps')),
-                'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_traffic_track.defense_criteria')),
-                'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_traffic_track.traffic_direction'))
+                'description': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.description')),
+                'topology_image': u'static/images/enterprise_application_traffic_analyze.jpg',
+                'topology_description': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.topology_description')),
+                'attack_task': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.attack_task')),
+                'attack_steps': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.attack_steps')),
+                'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.attack_criteria')),
+                'defense_task': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.defense_task')),
+                'defense_steps': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.defense_steps')),
+                'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.defense_criteria')),
+                'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.traffic_direction'))
             },
             {
-                'name': translatable_string(_(u'Using Vulnerability Scanning Tool')),
-                'type': u'HOST',
-                'description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.description')),
-                'topology_image': u'static/images/host_vulnerablity_scanning_tool.jpg',
-                'topology_description': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.topology_description')),
-                'attack_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_task')),
-                'attack_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_steps')),
-                'attack_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.attack_criteria')),
-                'defense_task': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_task')),
-                'defense_steps': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_steps')),
-                'defense_criteria': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.defense_criteria')),
-                'traffic_direction': translatable_string(_(u'cr_test_template.host_vulnerablity_scanning_tool.traffic_direction'))
+                'name': translatable_string(_(u'DDoS Attack Analyze')),
+                'type': u'ENTERPRISE',
+                'description': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.description')),
+                'topology_image': u'static/images/enterprise_ddos_attack_analyze.jpg',
+                'topology_description': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.topology_description')),
+                'attack_task': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.attack_task')),
+                'attack_steps': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.attack_steps')),
+                'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.attack_criteria')),
+                'defense_task': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.defense_task')),
+                'defense_steps': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.defense_steps')),
+                'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.defense_criteria')),
+                'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.traffic_direction'))
+            },
+            {
+                'name': translatable_string(_(u'APT Attack Analyze')),
+                'type': u'ENTERPRISE',
+                'description': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.description')),
+                'topology_image': u'static/images/enterprise_apt_attack_analyze.jpg',
+                'topology_description': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.topology_description')),
+                'attack_task': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.attack_task')),
+                'attack_steps': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.attack_steps')),
+                'attack_criteria': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.attack_criteria')),
+                'defense_task': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.defense_task')),
+                'defense_steps': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.defense_steps')),
+                'defense_criteria': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.defense_criteria')),
+                'traffic_direction': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.traffic_direction'))
             }
         ]
 
