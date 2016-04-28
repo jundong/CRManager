@@ -1107,7 +1107,7 @@ body { background-color: #d8d8d8; }
     margin-right: auto;
 }
 .dashboard .container {
-    width: 1340px;
+    width: 1260px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -1345,7 +1345,7 @@ Dashboard
 }
 
 .dashboard .l-portlet-column {
-    width: 1200px;
+    width: 1250px;
     float: left;
     margin: 0 24px 0 0;
 }
@@ -1641,19 +1641,19 @@ TestLibrary
 }
 
 .testLibrary .container {
-    width: 1524px;
+    width: 1260px;
     margin-left: auto;
     margin-right: auto;
     margin: 0 auto;
 }
 .testLibrary .l-portlet-column {
-    width: 1024px;
+    width: 1000px;
     float: left;
     margin: 0 24px 0 0;
 }
 
 .testLibrary .r-portlet-column {
-    width: 340px;
+    width: 230px;
     float: left;
 }
 
@@ -1822,6 +1822,29 @@ TestLibrary
     background-color: #1c1c1d;
     z-index: 1;
 }
+.testLibrary .portlet .test-case .run{
+    /*position: absolute;*/
+    background-color: #1a1815;
+    /*width: 88px;*/
+    height: 26px;
+    z-index: 0;
+    border-radius: 44px;
+    /*top: 18px;*/
+    /*left: 33px;*/
+    cursor: pointer;
+}
+/*
+.testLibrary .portlet .test-case .run .test-play-button {
+    left: 36px;
+    position: absolute;
+    top: 32px;
+}
+.testLibrary .portlet .test-case .run .test-stop-button {
+    left: 31px;
+    position: absolute;
+    top: 32px;
+}
+*/
 .testLibrary .portlet .test-case {
     margin: 0;
     border: solid 1px #161617;
@@ -1916,8 +1939,13 @@ TestLibrary
 }
 
 .testLibrary .portlet .test-case td p {
-    font-size: 10px;
-    line-height: 12px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.testLibrary .portlet .test-case th p {
+    font-size: 14px;
+    line-height: 16px;
 }
 
 .testLibrary .portlet .portlet-content.tweet li{

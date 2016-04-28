@@ -64,8 +64,17 @@
             <table>
                 <thead>
                     <tr>
-                        <td></td>
-                        <td></td>
+                        <td>
+                            <div class="run">
+                                <img src="static/images/test-player-play-button.png" class="test-play-button" data-bind="click: selectedTest().runTest, clickBubble: false, visible: selectedTest().status() != 'FINISHED'">
+                                <img src="static/images/test-player-stop-button.png" class="test-stop-button" data-bind="click: selectedTest().cancelTest, clickBubble: false, visible: selectedTest().status() == 'RUNNING'">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="run">
+                                <img src="static/images/dark-download.png" class="test-play-button" data-bind="click: selectedTest().downloadReports, clickBubble: false">
+                            </div>
+                        </td>
                     </tr>
                 </thead>
                 <tbody>
@@ -73,7 +82,7 @@
                         <th colspan="2"><h2>{% trans %}Description{% endtrans %}</h2></th>
                     </tr>
                     <tr>
-                        <th colspan="2" data-bind="html: selectedTest().description" ></th>
+                        <th colspan="2" data-bind="html: selectedTest().description" style="text-align:left" ></th>
                     </tr>
                     <tr>
                         <td><h2>{% trans %}Red Team Objective{% endtrans %}</h2></td>

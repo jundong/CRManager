@@ -52895,6 +52895,7 @@ TestViewModel.prototype.getTabClassFor = function (tabName) {\n\
 \n\
     return '';\n\
 };\n\
+\n\
 TestViewModel.prototype.getTabClassForResults = function (tabName) {\n\
     var self = TestViewModel.typesafe(this);\n\
 \n\
@@ -67129,7 +67130,11 @@ function DashboardViewModel(rootVm) {\n\
         for (var i = 0; i < self.rootVm.availableDevices().length; i++) {\n\
             $('#' + self.rootVm.availableDevices()[i].name()).on('click',function(e){\n\
                 var currDevice = self.rootVm.availableDevices().filter(function (device) {\n\
-                        return device.name() === e.srcElement.id;\n\
+                        if (e.srcElement != undefined) {\n\
+                            return device.name() === e.srcElement.id;\n\
+                        } else {\n\
+                            return device.name() === e.target.id;\n\
+                        }\n\
                     })[0];\n\
 \n\
                 window.open(currDevice.link());\n\
@@ -67902,6 +67907,9 @@ function TestTemplateViewModel(rootVm) {\n\
     self.defense_criteria = ko.observable();\n\
     self.traffic_direction = ko.observable();\n\
 \n\
+    //IDLE, RUNNING, STOPPED, ABORTED, FINISHED\n\
+    self.status = ko.observable(\"IDLE\");\n\
+    self.hasResults = ko.observable(false);\n\
     self.result_id = undefined; //this is used to tell if the template is correct for a test result which the test is created using user saved test\n\
 }\n\
 \n\
@@ -67980,6 +67988,18 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {\n\
 };\n\
 \n\
 TestTemplateViewModel.prototype.save = function (options) {\n\
+    var self = TestTemplateViewModel.typesafe(this);\n\
+};\n\
+\n\
+TestTemplateViewModel.prototype.runTest = function (options) {\n\
+    var self = TestTemplateViewModel.typesafe(this);\n\
+};\n\
+\n\
+TestTemplateViewModel.prototype.stopTest = function (options) {\n\
+    var self = TestTemplateViewModel.typesafe(this);\n\
+};\n\
+\n\
+TestTemplateViewModel.prototype.downloadReports = function (options) {\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
 };\n\
 \n\

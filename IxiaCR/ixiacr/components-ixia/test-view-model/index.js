@@ -196,6 +196,7 @@ TestViewModel.prototype.getTabClassFor = function (tabName) {
 
     return '';
 };
+
 TestViewModel.prototype.getTabClassForResults = function (tabName) {
     var self = TestViewModel.typesafe(this);
 

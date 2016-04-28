@@ -24,6 +24,9 @@ function TestTemplateViewModel(rootVm) {
     self.defense_criteria = ko.observable();
     self.traffic_direction = ko.observable();
 
+    //IDLE, RUNNING, STOPPED, ABORTED, FINISHED
+    self.status = ko.observable("IDLE");
+    self.hasResults = ko.observable(false);
     self.result_id = undefined; //this is used to tell if the template is correct for a test result which the test is created using user saved test
 }
 
@@ -102,6 +105,18 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {
 };
 
 TestTemplateViewModel.prototype.save = function (options) {
+    var self = TestTemplateViewModel.typesafe(this);
+};
+
+TestTemplateViewModel.prototype.runTest = function (options) {
+    var self = TestTemplateViewModel.typesafe(this);
+};
+
+TestTemplateViewModel.prototype.cancelTest = function (options) {
+    var self = TestTemplateViewModel.typesafe(this);
+};
+
+TestTemplateViewModel.prototype.downloadReports = function (options) {
     var self = TestTemplateViewModel.typesafe(this);
 };
 

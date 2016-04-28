@@ -286,20 +286,41 @@ class TestResult(Base):
 
     id = Column(Integer, autoincrement=True, primary_key=True)
     name = Column(Unicode(255), nullable=True)
-    description = Column(UnicodeText, nullable=True)
 
     created_by = Column(Integer, ForeignKey('users.id',
                                             onupdate="CASCADE",
                                             ondelete="CASCADE"))
-    test_message_id = Column(Integer, default=0)
     created = Column(DateTime, default=datetime.now)
+    run_id = Column(Unicode(255), nullable=True)
     test_id = Column(Integer, ForeignKey('test_cases.id',
                                               onupdate="CASCADE",
                                               ondelete="CASCADE"))
-    config_json = Column(UnicodeText, nullable=True)
-    config_object = Column(LargeBinary, nullable=True)
+    #incomplete, complete
     end_result = Column(Unicode(16), nullable=True, default=u'incomplete')
     error_reason = Column(UnicodeText, nullable=True)
+
+
+class CurrentTests(Base):
+    """ Current test for checking states and more...
+    """
+    __tablename__ = 'current_tests'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id',
+                                         onupdate="CASCADE",
+                                         ondelete="CASCADE"))
+    test_id = Column(Integer, ForeignKey('test_cases.id',
+                                              onupdate="CASCADE",
+                                              ondelete="CASCADE"))
+
+    #IDLE, RUNNING, STOPPED, ABORTED, FINISHED
+    state = Column(Integer, default=1)
+    is_canceled = Column(Boolean, default=False)
+    run_id = Column(Integer, default=0)
+    last_updated = Column(DateTime, default=datetime.now())
+
+    def __unicode__(self):
+        return self.name
 
 
 class RecentNews(Base):

@@ -76,7 +76,11 @@ function DashboardViewModel(rootVm) {
         for (var i = 0; i < self.rootVm.availableDevices().length; i++) {
             $('#' + self.rootVm.availableDevices()[i].name()).on('click',function(e){
                 var currDevice = self.rootVm.availableDevices().filter(function (device) {
-                        return device.name() === e.srcElement.id;
+                        if (e.srcElement != undefined) {
+                            return device.name() === e.srcElement.id;
+                        } else {
+                            return device.name() === e.target.id;
+                        }
                     })[0];
 
                 window.open(currDevice.link());

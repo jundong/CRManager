@@ -12,6 +12,7 @@ from celery.contrib.abortable import AbortableAsyncResult
 from ixiacr.handlers import base
 from ixiacr.models.core import (TestCases, TestResult)
 from ixiacr.lib import IxiaLogger
+from ixiacr.lib.bps.bpsTest import aTestBpt
 
 from ixiacr.tasks.utils import get_task_from_chain
 from ixiacr.lib.session_key_value import SessionKeyValueStore
@@ -109,70 +110,8 @@ def is_valid_config(user_id, config, errors, session):
 
         ixiacrlogger.debug('Creating test validation chain; for temporary ixiacr_test_id={0}'.format(
             config.ixiacr_test_id))
-
         test = config.make_test()
-
-        locations = ixiacr.tasks.port.locations_from_test(test)
-        ixiacrlogger.debug('RSVP: is_valid_config: locations_from_test={0}'.format(locations))
-
-        def link_error():
-            return [ixiacr.tasks.reservations.handle_test_error.s(),
-                    ixiacr.tasks.cleanup.cleanup_temporary_test_error.subtask((config.ixiacr_test_id, ))]
-
-        cleanup_temporary_test_error = \
-            ixiacr.tasks.cleanup.cleanup_temporary_test_error.subtask(
-                (config.ixiacr_test_id, ))
-
-        chain = (ixiacr.tasks.reservations.create.subtask(
-                    link_error=[cleanup_temporary_test_error]) |
-                 ixiacr.tasks.port.attach_from_test.subtask(
-                     link_error=[ixiacr.tasks.reservations.handle_test_error.s() |
-                                 cleanup_temporary_test_error]) |
-                 ixiacr.tasks.test.create.subtask(
-                     link_error=[ixiacr.tasks.reservations.handle_test_error.s() |
-                                 ixiacr.tasks.port.detach_ports.subtask(args=(locations, ), immutable=True) |
-                                 cleanup_temporary_test_error]) |
-                 ixiacr.tasks.test.validate.subtask(
-                     link_error=[ixiacr.tasks.reservations.handle_test_error.s() |
-                                 ixiacr.tasks.port.detach_ports.subtask(args=(locations, ), immutable=True) |
-                                 cleanup_temporary_test_error]) |
-                 ixiacr.tasks.test.destroy.subtask(
-                     link_error=[ixiacr.tasks.reservations.handle_test_error.s() |
-                                 ixiacr.tasks.port.detach_ports.subtask(args=(locations, ), immutable=True) |
-                                 cleanup_temporary_test_error]) |
-                 ixiacr.tasks.port.detach_ports.subtask(args=(locations, ),
-                     link_error=[ixiacr.tasks.reservations.handle_test_error.s() |
-                                 cleanup_temporary_test_error], immutable=True) |
-                 ixiacr.tasks.reservations.destroy.subtask(
-                     link_error=[cleanup_temporary_test_error], immutable=True) |
-                 ixiacr.tasks.cleanup.cleanup_temporary_test.subtask((config.ixiacr_test_id, ), immutable=True))
-
-        result = chain(test)
-
-        validate_result = get_task_from_chain(result,
-                                              'ixiacr.tasks.test.validate')
-        assert validate_result, 'No reservation task result!'
-
-        rsvp_result = get_task_from_chain(
-            result, 'ixiacr.tasks.reservations.create')
-        assert rsvp_result, 'No reservation task result!'
-
-        with transaction.manager:
-            kv_store = SessionKeyValueStore(db, session._session().id)
-            kv_store.set_value('validate_task_ids', cPickle.dumps(
-                                   get_tasks_from_results(validate_result)))
-
-        ixiacrlogger.debug('is_valid_config: starting poll for task_id={0}'.format(validate_result.task_id))
-        while True:
-            time.sleep(1)
-            if check_result_chain(rsvp_result):
-                ixiacrlogger.info('is_valid_config: task_id={0} succeeded'.format(validate_result.task_id))
-                break
-
     except Exception, e:
-        # Make sure we delete the invalid test configuration
-        ixiacr.tasks.cleanup.cleanup_temporary_test.delay(config.ixiacr_test_id)
-
         ixiacrlogger.exception('Exception: is_valid_config: {0}'.format(str(e)))
         errors.append(str(e))
         return False
@@ -242,156 +181,30 @@ class IxiaTestHandler(base.Handler):
     @action(renderer='json')
     def run_test(self):
         '''
-        Create a test task chain and hand it off to the task engine.
-        Make sure that the first task succeeds before returning
+        Call BPS RestfulApi to run test
         '''
         ixiacr_test_id = None
         messages = list()
-        items = list()
-        is_ready = is_valid = False
-        rsvp_result = None
-
-        # Clear out all of the old test data in this session
-        def clear_session_test_data():
-            if 'global_settings' in self.request.session:
-                del self.request.session['global_settings']
-
-            # Clear cached results
-            for k, v in self.request.session.items():
-                if (k.endswith("_track_count")
-                        or k.startswith('resultType_')
-                        or k.startswith('result_types')):
-                    ixiacrlogger.debug(
-                        'Clearing {0} from request.session'.format(k)
-                    )
-                    del self.request.session[k]
-
-            # XXX Bust flowmon cache to give it a chance to update its
-            # ports available.  Hopefully we can come to a more elegant
-            # solution once we use memcache
-            if 'flowmon' in self.session:
-                del self.session['flowmon']
-
-            # Clear out previous test start time
-            if 'test_start' in self.session:
-                del self.session['test_start']
-
-        # Check if the exception has message headers we can use
-        # to specify the error to the UI
-        def parse_exception(exc):
-            # Setup some defaults in case we can't find anything better
-            msg_header = 'Failed'
-            msg_content = str(exc)
-
-            try:
-                error = None
-                if isinstance(exc.args[0], dict):
-                    error = exc.args[0]
-                elif isinstance(exc.args[0], list):
-                    error = exc.args[0][0]
-
-                if (error and 'header' in error and 'content' in error):
-                    msg_header = error['header']
-                    msg_content = error['content']
-
-            except:
-                ixiacrlogger.exception('parse_exception: {0}'.format(exc))
-
-            finally:
-                return msg_header, msg_content
 
         try:
             data = self.request.json_body
-            config = self.config_factory.get_config(data, self.user_id)
-
-            if ('is_dirty' in data or
-                'id' not in data or
-               ('id' in data and data['id'] < 0)):
-                # If the test configuration is 'dirty', then we cleary
-                # need to save it.
-                # If the incoming data doesn't have an 'id', then we
-                # clearly can't complete the else branch.
-                # If the incoming data isn't marked dirty, but has
-                # an id of -1, then the config.make_test() call below
-                # will fail.
-
-                # XXX: Should we always just save here?  The UI doesn't
-                # appear to actually set the id.  Did it ever? -- tcp
-                config.save_ixiacr_test(self.user_id)
-                ixiacrlogger.warn('run_test: saving ixiacr test; ixiacr_test_id={0}'.
-                                format(config.ixiacr_test_id))
-            else:
-                config.ixiacr_test_id = data['id']
-                ixiacrlogger.warn('run_test: not saving ixiacr test; '
-                                'ixiacr_test_id={0}'.format(config.ixiacr_test_id))
-
-            clear_session_test_data()
-
-            ixiacr_test_id = config.ixiacr_test_id
-
-            # Kick off the test
-            result = start_run_test(config, ixiacr_test_id,
-                                    remove_failed_test=True)
-
-            # Retreive some specific task results necessary for test
-            # monitoring.  A separte function generates the chain, and
-            # hence these names, so assert them to make sure we're in
-            # sync with our dependencies.
-            rsvp_result = get_task_from_chain(
-                result, 'ixiacr.tasks.reservations.create')
-            assert rsvp_result, 'No reservation task result!'
-
-            validate_result = get_task_from_chain(
-                result, 'ixiacr.tasks.test.validate')
-            assert validate_result, 'No validate task result!'
-
-            test_result = get_task_from_chain(
-                result, 'ixiacr.tasks.test.execute')
-            assert test_result, 'No execute task result!'
-
-            # Set/update test related session variables
-            with transaction.manager:
-                kv_store = SessionKeyValueStore(db, self.session._session().id)
-                kv_store.set_value('validate_task_ids', cPickle.dumps(get_tasks_from_results(validate_result)))
-                kv_store.set_value('test_task_id', test_result.task_id)
-
-            while True:
-                msg = ('run_test: rsvp_result state = {0}, '
-                       'ixiacr_test_id={1}'.format(rsvp_result.state,
-                                                 ixiacr_test_id))
-                ixiacrlogger.debug(msg)
-
-                if not check_result_chain(rsvp_result):
-                    time.sleep(0.1)
-                    continue
-
-                items.append({'id': config.ixiacr_test_id})
-                ready_msg = self.localizer.translate(_('Starting Test'))
-                is_valid = True
-
-                messages.append({
-                    'header': ready_msg,
-                    'content': None,
-                    'is_error': False})
-
-                break
+            aTestBpt.runURTest()
 
         except Exception, e:
             msg = ('run_test: ixiacr_test_id={0}; e={1}'
                    .format(ixiacr_test_id, str(e)))
             ixiacrlogger.exception(msg)
 
-            msg_header, msg_content = parse_exception(e)
+            msg_header, msg_content = str(e)
 
             messages.append({
                 'header': self.localizer.translate(_(msg_header)),
                 'content': self.localizer.translate(_(msg_content)),
                 'is_error': True})
         finally:
-            return {'is_ready': is_ready,
-                    'is_valid': is_valid,
-                    'task_id': rsvp_result.id if rsvp_result else None,
-                    'items': items,
+            return {'is_ready': True,
+                    'is_valid': True,
+                    'items': [],
                     'messages': messages}
 
     @action(renderer='json')
@@ -560,23 +373,6 @@ class IxiaTestHandler(base.Handler):
             pass
 
 
-def start_run_test(config, ixiacr_test_id, remove_failed_test):
-    """ Start the test chain, returns result
-    """
-    ixiacrlogger.debug('Creating test chain; ixiacr_test_id={0}; remove_failed_test={1}'.format(ixiacr_test_id,
-                                                                                            remove_failed_test))
-
-    test = config.make_test()
-    ixiacrlogger.info('test_id={0}; result_id={1}; test_config={2}'.format(
-        ixiacr_test_id, config.result_id, config.config_json))
-
-    chain = (ixiacr.tasks.test.create.subtask())
-
-    result = chain(test)
-    ixiacrlogger.debug("Test chain task_id = {0}; ixiacr_test_id={1}".format(result.task_id, ixiacr_test_id))
-    return result
-
-
 def is_test_running():
     """ Determine if a test is currently running by looking at the relevent tasks.
     """
@@ -608,7 +404,7 @@ def run_test(ixiacr_test_id):
             raise Exception(_('Test already running'))
 
         ixiacrlogger.debug('run_test: starting ixiacr_test_id={0} task chain'.format(ixiacr_test_id))
-        result = start_run_test(test_case_config, ixiacr_test_id, remove_failed_test=False)
+        result = None
 
         ixiacrlogger.debug('run_test: started ixiacr_test_id={0} task chain; task_id={1}'.format(
             ixiacr_test_id, result.task_id))
