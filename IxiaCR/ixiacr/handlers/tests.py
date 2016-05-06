@@ -12,7 +12,7 @@ from celery.contrib.abortable import AbortableAsyncResult
 from ixiacr.handlers import base
 from ixiacr.models.core import (TestCases, TestResult)
 from ixiacr.lib import IxiaLogger
-from ixiacr.lib.bps.bpsTest import aTestBpt
+#from ixiacr.lib.bps.bpsTest import aTestBpt
 
 from ixiacr.tasks.utils import get_task_from_chain
 from ixiacr.lib.session_key_value import SessionKeyValueStore
@@ -188,7 +188,7 @@ class IxiaTestHandler(base.Handler):
 
         try:
             data = self.request.json_body
-            aTestBpt.runURTest()
+            #aTestBpt.runURTest()
 
         except Exception, e:
             msg = ('run_test: ixiacr_test_id={0}; e={1}'

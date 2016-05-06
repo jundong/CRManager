@@ -28218,6 +28218,167 @@ require.modules["segmentio~model-defaults"] = require.modules["segmentio~model-d
 require.modules["model-defaults"] = require.modules["segmentio~model-defaults@1.0.6"];
 
 
+require.register("johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68", Function("exports, module",
+"module.exports = trigger;\n\
+\n\
+/** \n\
+  Event type mappings.\n\
+  This is not an exhaustive list, feel free to fork and contribute more.\n\
+  Namely keyboard events are not currently supported.\n\
+*/\n\
+var eventTypes = {\n\
+  load:        'HTMLEvents', \n\
+  unload:      'HTMLEvents', \n\
+  abort:       'HTMLEvents', \n\
+  error:       'HTMLEvents', \n\
+  select:      'HTMLEvents', \n\
+  change:      'HTMLEvents', \n\
+  submit:      'HTMLEvents', \n\
+  reset:       'HTMLEvents', \n\
+  focus:       'HTMLEvents', \n\
+  blur:        'HTMLEvents', \n\
+  resize:      'HTMLEvents', \n\
+  scroll:      'HTMLEvents', \n\
+  input:       'HTMLEvents',\n\
+\n\
+  keyup:\t   'KeyboardEvent',\n\
+  keydown:\t   'KeyboardEvent',\n\
+  \n\
+  click:       'MouseEvents',\n\
+  dblclick:    'MouseEvents', \n\
+  mousedown:   'MouseEvents', \n\
+  mouseup:     'MouseEvents', \n\
+  mouseover:   'MouseEvents', \n\
+  mousemove:   'MouseEvents', \n\
+  mouseout:    'MouseEvents',\n\
+  contextmenu: 'MouseEvents'\n\
+};\n\
+\n\
+// Default event properties:\n\
+var defaults = {\n\
+  clientX: 0,\n\
+  clientY: 0,\n\
+  button: 0,\n\
+  ctrlKey: false,\n\
+  altKey: false,\n\
+  shiftKey: false,\n\
+  metaKey: false,\n\
+  bubbles: true,\n\
+  cancelable: true,\n\
+  view: null,\n\
+  key: '',\n\
+  location: 0,\n\
+  modifiers: '',\n\
+  repeat: 0,\n\
+  locale: ''\n\
+};\n\
+\n\
+/**\n\
+ * Trigger a DOM event.\n\
+ * \n\
+ *    trigger(document.body, \"click\", {clientX: 10, clientY: 35});\n\
+ *\n\
+ * Where sensible, sane defaults will be filled in.  See the list of event\n\
+ * types for supported events.\n\
+ *\n\
+ * Loosely based on:\n\
+ * https://github.com/kangax/protolicious/blob/master/event.simulate.js\n\
+ */\n\
+function trigger(el, name, options){\n\
+  var event, type;\n\
+  \n\
+  options = options || {};\n\
+  for (var attr in defaults) {\n\
+\t  if (!options.hasOwnProperty(attr)) {\n\
+\t\t  options[attr] = defaults[attr];\n\
+\t  }\n\
+  }\n\
+  \n\
+  if (document.createEvent) {\n\
+    // Standard Event\n\
+    type = eventTypes[name] || 'CustomEvent';\n\
+    event = document.createEvent(type);\n\
+    initializers[type](el, name, event, options);\n\
+    el.dispatchEvent(event);\n\
+  } else {\n\
+    // IE Event\n\
+    event = document.createEventObject();\n\
+    for (var key in options){\n\
+      event[key] = options[key];\n\
+    }\n\
+    el.fireEvent('on' + name, event);\n\
+  }\n\
+}\n\
+\n\
+var initializers = {\n\
+  HTMLEvents: function(el, name, event, o){\n\
+    return event.initEvent(name, o.bubbles, o.cancelable);\n\
+  },\n\
+  KeyboardEvent: function(el, name, event, o){\n\
+\t// This is still incomplete, but useful for unit testing\n\
+    if (event.initKeyboardEvent) {\n\
+\t\treturn event.initKeyboardEvent(\n\
+\t\t\tname,\n\
+\t\t\to.bubbles,\n\
+\t\t\to.cancelable,\n\
+\t\t\to.view,\n\
+\t\t\t'' + o.key,\n\
+\t\t\to.location,\n\
+\t\t\to.modifiers,\n\
+\t\t\to.repeat,\n\
+\t\t\to.locale\n\
+\t\t);\n\
+\t} else {\n\
+\t\treturn event.initKeyEvent(\n\
+\t\t\tname,\n\
+\t\t\to.bubbles,\n\
+\t\t\to.cancelable,\n\
+\t\t\to.view,\n\
+\t\t\to.ctrlKey,\n\
+\t\t\to.altKey,\n\
+\t\t\to.shiftKey,\n\
+\t\t\to.metaKey,\n\
+\t\t\to.key,\n\
+\t\t\to.key\n\
+\t\t);\n\
+\t}\n\
+  },\n\
+  MouseEvents: function(el, name, event, o){\n\
+    var screenX = ('screenX' in o) ? o.screenX : o.clientX;\n\
+    var screenY = ('screenY' in o) ? o.screenY : o.clientY;\n\
+    var clicks;\n\
+    var button;\n\
+    \n\
+    if ('detail' in o) {\n\
+      clicks = o.detail;\n\
+    } else if (name === 'dblclick') {\n\
+      clicks = 2;\n\
+    } else {\n\
+      clicks = 1;\n\
+    }\n\
+    \n\
+    // Default context menu to be a right click\n\
+    if (name === 'contextmenu') {\n\
+      button = button = o.button || 2;\n\
+    }\n\
+    \n\
+    return event.initMouseEvent(name, o.bubbles, o.cancelable, document.defaultView, \n\
+          clicks, screenX, screenY, o.clientX, o.clientY,\n\
+          o.ctrlKey, o.altKey, o.shiftKey, o.metaKey, button, el);\n\
+  },\n\
+  CustomEvent: function(el, name, event, o){\n\
+    return event.initCustomEvent(name, o.bubbles, o.cancelable, o.detail);\n\
+  }\n\
+};\n\
+\n\
+//# sourceURL=components/johntron/trigger-event/edf8b02871143c7beedd732614226038f8938b68/index.js"
+));
+
+require.modules["johntron-trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
+require.modules["johntron~trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
+require.modules["trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
+
+
 require.register("component~domify@1.1.1", Function("exports, module",
 "\n\
 /**\n\
@@ -28418,167 +28579,6 @@ function parse(html, doc) {\n\
 require.modules["component-domify"] = require.modules["component~domify@1.3.1"];
 require.modules["component~domify"] = require.modules["component~domify@1.3.1"];
 require.modules["domify"] = require.modules["component~domify@1.3.1"];
-
-
-require.register("johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68", Function("exports, module",
-"module.exports = trigger;\n\
-\n\
-/** \n\
-  Event type mappings.\n\
-  This is not an exhaustive list, feel free to fork and contribute more.\n\
-  Namely keyboard events are not currently supported.\n\
-*/\n\
-var eventTypes = {\n\
-  load:        'HTMLEvents', \n\
-  unload:      'HTMLEvents', \n\
-  abort:       'HTMLEvents', \n\
-  error:       'HTMLEvents', \n\
-  select:      'HTMLEvents', \n\
-  change:      'HTMLEvents', \n\
-  submit:      'HTMLEvents', \n\
-  reset:       'HTMLEvents', \n\
-  focus:       'HTMLEvents', \n\
-  blur:        'HTMLEvents', \n\
-  resize:      'HTMLEvents', \n\
-  scroll:      'HTMLEvents', \n\
-  input:       'HTMLEvents',\n\
-\n\
-  keyup:\t   'KeyboardEvent',\n\
-  keydown:\t   'KeyboardEvent',\n\
-  \n\
-  click:       'MouseEvents',\n\
-  dblclick:    'MouseEvents', \n\
-  mousedown:   'MouseEvents', \n\
-  mouseup:     'MouseEvents', \n\
-  mouseover:   'MouseEvents', \n\
-  mousemove:   'MouseEvents', \n\
-  mouseout:    'MouseEvents',\n\
-  contextmenu: 'MouseEvents'\n\
-};\n\
-\n\
-// Default event properties:\n\
-var defaults = {\n\
-  clientX: 0,\n\
-  clientY: 0,\n\
-  button: 0,\n\
-  ctrlKey: false,\n\
-  altKey: false,\n\
-  shiftKey: false,\n\
-  metaKey: false,\n\
-  bubbles: true,\n\
-  cancelable: true,\n\
-  view: null,\n\
-  key: '',\n\
-  location: 0,\n\
-  modifiers: '',\n\
-  repeat: 0,\n\
-  locale: ''\n\
-};\n\
-\n\
-/**\n\
- * Trigger a DOM event.\n\
- * \n\
- *    trigger(document.body, \"click\", {clientX: 10, clientY: 35});\n\
- *\n\
- * Where sensible, sane defaults will be filled in.  See the list of event\n\
- * types for supported events.\n\
- *\n\
- * Loosely based on:\n\
- * https://github.com/kangax/protolicious/blob/master/event.simulate.js\n\
- */\n\
-function trigger(el, name, options){\n\
-  var event, type;\n\
-  \n\
-  options = options || {};\n\
-  for (var attr in defaults) {\n\
-\t  if (!options.hasOwnProperty(attr)) {\n\
-\t\t  options[attr] = defaults[attr];\n\
-\t  }\n\
-  }\n\
-  \n\
-  if (document.createEvent) {\n\
-    // Standard Event\n\
-    type = eventTypes[name] || 'CustomEvent';\n\
-    event = document.createEvent(type);\n\
-    initializers[type](el, name, event, options);\n\
-    el.dispatchEvent(event);\n\
-  } else {\n\
-    // IE Event\n\
-    event = document.createEventObject();\n\
-    for (var key in options){\n\
-      event[key] = options[key];\n\
-    }\n\
-    el.fireEvent('on' + name, event);\n\
-  }\n\
-}\n\
-\n\
-var initializers = {\n\
-  HTMLEvents: function(el, name, event, o){\n\
-    return event.initEvent(name, o.bubbles, o.cancelable);\n\
-  },\n\
-  KeyboardEvent: function(el, name, event, o){\n\
-\t// This is still incomplete, but useful for unit testing\n\
-    if (event.initKeyboardEvent) {\n\
-\t\treturn event.initKeyboardEvent(\n\
-\t\t\tname,\n\
-\t\t\to.bubbles,\n\
-\t\t\to.cancelable,\n\
-\t\t\to.view,\n\
-\t\t\t'' + o.key,\n\
-\t\t\to.location,\n\
-\t\t\to.modifiers,\n\
-\t\t\to.repeat,\n\
-\t\t\to.locale\n\
-\t\t);\n\
-\t} else {\n\
-\t\treturn event.initKeyEvent(\n\
-\t\t\tname,\n\
-\t\t\to.bubbles,\n\
-\t\t\to.cancelable,\n\
-\t\t\to.view,\n\
-\t\t\to.ctrlKey,\n\
-\t\t\to.altKey,\n\
-\t\t\to.shiftKey,\n\
-\t\t\to.metaKey,\n\
-\t\t\to.key,\n\
-\t\t\to.key\n\
-\t\t);\n\
-\t}\n\
-  },\n\
-  MouseEvents: function(el, name, event, o){\n\
-    var screenX = ('screenX' in o) ? o.screenX : o.clientX;\n\
-    var screenY = ('screenY' in o) ? o.screenY : o.clientY;\n\
-    var clicks;\n\
-    var button;\n\
-    \n\
-    if ('detail' in o) {\n\
-      clicks = o.detail;\n\
-    } else if (name === 'dblclick') {\n\
-      clicks = 2;\n\
-    } else {\n\
-      clicks = 1;\n\
-    }\n\
-    \n\
-    // Default context menu to be a right click\n\
-    if (name === 'contextmenu') {\n\
-      button = button = o.button || 2;\n\
-    }\n\
-    \n\
-    return event.initMouseEvent(name, o.bubbles, o.cancelable, document.defaultView, \n\
-          clicks, screenX, screenY, o.clientX, o.clientY,\n\
-          o.ctrlKey, o.altKey, o.shiftKey, o.metaKey, button, el);\n\
-  },\n\
-  CustomEvent: function(el, name, event, o){\n\
-    return event.initCustomEvent(name, o.bubbles, o.cancelable, o.detail);\n\
-  }\n\
-};\n\
-\n\
-//# sourceURL=components/johntron/trigger-event/edf8b02871143c7beedd732614226038f8938b68/index.js"
-));
-
-require.modules["johntron-trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
-require.modules["johntron~trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
-require.modules["trigger-event"] = require.modules["johntron~trigger-event@edf8b02871143c7beedd732614226038f8938b68"];
 
 
 require.register("samsonjs~strftime@v0.8.3", Function("exports, module",
@@ -67987,15 +67987,78 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {\n\
     //util.setObservableArray(self.namename, []);\n\
 };\n\
 \n\
+TestTemplateViewModel.prototype.getNormalizedFlatObject = function (flatObject) {\n\
+    var self = ConfiguredTestViewModel.typesafe(this);\n\
+\n\
+    flatObject.name = null;\n\
+    flatObject.description = null;\n\
+    flatObject.customer = null;\n\
+    flatObject.company = null;\n\
+    flatObject.location = null;\n\
+    flatObject.favorite = null;\n\
+    flatObject.tags = null;\n\
+\n\
+    return flatObject;\n\
+};\n\
+\n\
 TestTemplateViewModel.prototype.save = function (options) {\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
 };\n\
 \n\
 TestTemplateViewModel.prototype.runTest = function (options) {\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
+\n\
+    if (self.status() == \"RUNNING\") {\n\
+        return; // Short-circuit\n\
+    }\n\
+\n\
+    var currentConfig = self.toFlatObject();\n\
+    var normalizedCurrentConfig = self.getNormalizedFlatObject(self.toFlatObject());\n\
+    var formatRequestData = util.formatRequestData('run_test', currentConfig);\n\
+    var run_handler = function(){\n\
+        self.startingTest = true;\n\
+        util.lightbox.working(new LightboxWorkingViewModel(translate(\"Start\"), translate(\"Validating Test...\")));\n\
+        $.ajax({\n\
+            type: util.getRequestMethod('run_test'),\n\
+            url: util.getConfigSetting('run_test'),\n\
+            data: formatRequestData,\n\
+            dataType: 'json',\n\
+            success: function(data, textStatus, jqXhr){\n\
+                        if(util.lightbox.isOpen)\n\
+                            util.lightbox.close();\n\
+\n\
+                        self.startingTest = false;\n\
+\n\
+                        if ($.type(callback) == 'function') {\n\
+                            callback();\n\
+                        }\n\
+\n\
+                        //If we have results, we should show the results table\n\
+                        var results = self.testVm.vmResults;\n\
+                        if (results.percentComplete() > 0) {\n\
+                            results.getFinalTable(results.onGotFinalTable.bind(results));\n\
+                        }\n\
+                    }\n\
+        }).fail(function () {\n\
+            logger.error('Validation failed due to HTTP error');\n\
+            util.lightbox.error(translate(\"Validating test\"));\n\
+            self.startingTest = false;\n\
+        });\n\
+    };\n\
+\n\
+    self.startingTest = true;\n\
+    util.lightbox.working(new LightboxWorkingViewModel(translate(\"Start\"), translate(\"Validating Test...\")));\n\
+\n\
+    if (self.isDirty || ko.toJSON(normalizedCurrentConfig) !== ko.toJSON(self.startStateLessNameAndTags)) {\n\
+        currentConfig.is_dirty = true;\n\
+        currentConfig.id = -1;\n\
+        self.id(-1);\n\
+    }\n\
+\n\
+    self.check_for_conflicts_with_upcoming(formatRequestData, run_handler);\n\
 };\n\
 \n\
-TestTemplateViewModel.prototype.stopTest = function (options) {\n\
+TestTemplateViewModel.prototype.cancelTest = function (options) {\n\
     var self = TestTemplateViewModel.typesafe(this);\n\
 };\n\
 \n\

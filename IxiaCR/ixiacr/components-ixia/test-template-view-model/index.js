@@ -104,12 +104,75 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {
     //util.setObservableArray(self.namename, []);
 };
 
+TestTemplateViewModel.prototype.getNormalizedFlatObject = function (flatObject) {
+    var self = ConfiguredTestViewModel.typesafe(this);
+
+    flatObject.name = null;
+    flatObject.description = null;
+    flatObject.customer = null;
+    flatObject.company = null;
+    flatObject.location = null;
+    flatObject.favorite = null;
+    flatObject.tags = null;
+
+    return flatObject;
+};
+
 TestTemplateViewModel.prototype.save = function (options) {
     var self = TestTemplateViewModel.typesafe(this);
 };
 
 TestTemplateViewModel.prototype.runTest = function (options) {
     var self = TestTemplateViewModel.typesafe(this);
+
+    if (self.status() == "RUNNING") {
+        return; // Short-circuit
+    }
+
+    var currentConfig = self.toFlatObject();
+    var normalizedCurrentConfig = self.getNormalizedFlatObject(self.toFlatObject());
+    var formatRequestData = util.formatRequestData('run_test', currentConfig);
+    var run_handler = function(){
+        self.startingTest = true;
+        util.lightbox.working(new LightboxWorkingViewModel(translate("Start"), translate("Validating Test...")));
+        $.ajax({
+            type: util.getRequestMethod('run_test'),
+            url: util.getConfigSetting('run_test'),
+            data: formatRequestData,
+            dataType: 'json',
+            success: function(data, textStatus, jqXhr){
+                        if(util.lightbox.isOpen)
+                            util.lightbox.close();
+
+                        self.startingTest = false;
+
+                        if ($.type(callback) == 'function') {
+                            callback();
+                        }
+
+                        //If we have results, we should show the results table
+                        var results = self.testVm.vmResults;
+                        if (results.percentComplete() > 0) {
+                            results.getFinalTable(results.onGotFinalTable.bind(results));
+                        }
+                    }
+        }).fail(function () {
+            logger.error('Validation failed due to HTTP error');
+            util.lightbox.error(translate("Validating test"));
+            self.startingTest = false;
+        });
+    };
+
+    self.startingTest = true;
+    util.lightbox.working(new LightboxWorkingViewModel(translate("Start"), translate("Validating Test...")));
+
+    if (self.isDirty || ko.toJSON(normalizedCurrentConfig) !== ko.toJSON(self.startStateLessNameAndTags)) {
+        currentConfig.is_dirty = true;
+        currentConfig.id = -1;
+        self.id(-1);
+    }
+
+    self.check_for_conflicts_with_upcoming(formatRequestData, run_handler);
 };
 
 TestTemplateViewModel.prototype.cancelTest = function (options) {
