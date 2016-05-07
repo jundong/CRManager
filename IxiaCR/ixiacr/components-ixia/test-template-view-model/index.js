@@ -11,6 +11,7 @@ function TestTemplateViewModel(rootVm) {
 
     self.id = ko.observable();
     self.name = ko.observable();
+    self.bpt_name = ko.observable();
     self.type = ko.observable();
     self.description = ko.observable();
     self.duration = ko.observable();
@@ -90,6 +91,7 @@ TestTemplateViewModel.prototype.inflate = function (flatTest) {
     self.description(flatTest.description);
     //self.duration(flatTest.duration);
     self.topology_image(flatTest.topology_image);
+    self.bpt_name(flatTest.bpt_name);
     self.topology_description(flatTest.topology_description);
     self.attack_task(flatTest.attack_task);
     self.attack_steps(flatTest.attack_steps);
@@ -122,61 +124,102 @@ TestTemplateViewModel.prototype.save = function (options) {
     var self = TestTemplateViewModel.typesafe(this);
 };
 
-TestTemplateViewModel.prototype.runTest = function (options) {
+TestTemplateViewModel.prototype.getRunTestData = function () {
     var self = TestTemplateViewModel.typesafe(this);
+    var bpsDevice = ko.utils.arrayFirst(self.rootVm.availableDevices(), function (item) {
+            return (item.name() === "BPS");
+        });
+    var data = {
+        id: self.id(),
+        name: self.name,
+        bpt_name: self.bpt_name,
+        host: bpsDevice.host,
+        username: bpsDevice.username,
+        password: bpsDevice.password
+    };
+
+    return data;
+};
+
+TestTemplateViewModel.prototype.runTest = function (options) {
+    if (this instanceof TestTemplateViewModel) {
+        var self = TestTemplateViewModel.typesafe(this);
+    } else {
+        var self = TestTemplateViewModel.typesafe(this.selectedTest());
+    }
 
     if (self.status() == "RUNNING") {
         return; // Short-circuit
     }
 
-    var currentConfig = self.toFlatObject();
-    var normalizedCurrentConfig = self.getNormalizedFlatObject(self.toFlatObject());
+    var currentConfig = self.getRunTestData();
     var formatRequestData = util.formatRequestData('run_test', currentConfig);
-    var run_handler = function(){
-        self.startingTest = true;
-        util.lightbox.working(new LightboxWorkingViewModel(translate("Start"), translate("Validating Test...")));
-        $.ajax({
-            type: util.getRequestMethod('run_test'),
-            url: util.getConfigSetting('run_test'),
-            data: formatRequestData,
-            dataType: 'json',
-            success: function(data, textStatus, jqXhr){
-                        if(util.lightbox.isOpen)
-                            util.lightbox.close();
-
-                        self.startingTest = false;
-
-                        if ($.type(callback) == 'function') {
-                            callback();
-                        }
-
-                        //If we have results, we should show the results table
-                        var results = self.testVm.vmResults;
-                        if (results.percentComplete() > 0) {
-                            results.getFinalTable(results.onGotFinalTable.bind(results));
-                        }
-                    }
-        }).fail(function () {
-            logger.error('Validation failed due to HTTP error');
-            util.lightbox.error(translate("Validating test"));
-            self.startingTest = false;
-        });
-    };
-
     self.startingTest = true;
     util.lightbox.working(new LightboxWorkingViewModel(translate("Start"), translate("Validating Test...")));
+    $.ajax({
+        type: util.getRequestMethod('run_test'),
+        url: util.getConfigSetting('run_test'),
+        data: formatRequestData,
+        dataType: 'json',
+        success: function(data, textStatus, jqXhr){
+            self.status("FINISHED");
+            if(util.lightbox.isOpen) {
+                util.lightbox.close();
+            }
 
-    if (self.isDirty || ko.toJSON(normalizedCurrentConfig) !== ko.toJSON(self.startStateLessNameAndTags)) {
-        currentConfig.is_dirty = true;
-        currentConfig.id = -1;
-        self.id(-1);
+            self.startingTest = false;
+
+            //If we have results, we should show the results table
+//            var results = self.testVm.vmResults;
+//            if (results.percentComplete() > 0) {
+//                results.getFinalTable(results.onGotFinalTable.bind(results));
+//            }
+        }
+    }).fail(function () {
+        self.status("ERROR");
+        logger.error('Validation failed due to HTTP error');
+        util.lightbox.error(translate("Validating test"));
+        self.startingTest = false;
+    });
+    self.status("RUNNING");
+    if(util.lightbox.isOpen) {
+        util.lightbox.close();
     }
-
-    self.check_for_conflicts_with_upcoming(formatRequestData, run_handler);
+    //util.lightbox.working(new LightboxWorkingViewModel(translate("Start"), translate("Validating Test...")));
 };
 
 TestTemplateViewModel.prototype.cancelTest = function (options) {
-    var self = TestTemplateViewModel.typesafe(this);
+    if (this instanceof TestTemplateViewModel) {
+        var self = TestTemplateViewModel.typesafe(this);
+    } else {
+        var self = TestTemplateViewModel.typesafe(this.selectedTest());
+    }
+
+    if (self.status() != "RUNNING") {
+        return; // Short-circuit
+    }
+
+    var currentConfig = self.getRunTestData();
+    var formatRequestData = util.formatRequestData('cancel_test', currentConfig);
+    self.startingTest = true;
+
+    $.ajax({
+        type: util.getRequestMethod('cancel_test'),
+        url: util.getConfigSetting('cancel_test'),
+        data: formatRequestData,
+        dataType: 'json',
+        success: function(data, textStatus, jqXhr){
+            self.status("STOPPED");
+            self.startingTest = false;
+        }
+    }).fail(function () {
+        self.status("ERROR");
+        logger.error('Validation failed due to HTTP error');
+        util.lightbox.error(translate("Validating test"));
+        self.startingTest = false;
+    });
+
+    self.status("STOPPED");
 };
 
 TestTemplateViewModel.prototype.downloadReports = function (options) {
@@ -188,6 +231,7 @@ TestTemplateViewModel.prototype.toFlatObject = function(){
     var flatTemplate = {
         id: self.id(),
         name: self.name,
+        bpt_name: self.bpt_name,
         type: self.type(),
         description: self.description(),
         topology_image: self.topology_image(),
@@ -211,6 +255,7 @@ TestTemplateViewModel.prototype.clone = function(){
 
     newTest.id(self.id);
     newTest.name(self.id);
+    newTest.bpt_name(self.bpt_name);
     newTest.type(self.id);
     newTest.description(self.id);
     //newTest.duration(self.id);

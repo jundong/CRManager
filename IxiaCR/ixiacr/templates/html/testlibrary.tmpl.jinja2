@@ -66,7 +66,7 @@
                     <tr>
                         <td>
                             <div class="run">
-                                <img src="static/images/test-player-play-button.png" class="test-play-button" data-bind="click: selectedTest().runTest, clickBubble: false, visible: selectedTest().status() != 'FINISHED'">
+                                <img src="static/images/test-player-play-button.png" class="test-play-button" data-bind="click: selectedTest().runTest, clickBubble: false, visible: selectedTest().status() != 'RUNNING'">
                                 <img src="static/images/test-player-stop-button.png" class="test-stop-button" data-bind="click: selectedTest().cancelTest, clickBubble: false, visible: selectedTest().status() == 'RUNNING'">
                             </div>
                         </td>
@@ -107,12 +107,6 @@
                     <tr>
                         <td data-bind="html: selectedTest().attack_criteria" style="text-align:left" ></td>
                         <td data-bind="html: selectedTest().defense_criteria" style="text-align:left" ></td>
-                    </tr>
-                    <tr>
-                        <th colspan="2"><h2>{% trans %}Traffic Directions{% endtrans %}</h2></th>
-                    </tr>
-                    <tr>
-                        <th data-bind="html: selectedTest().traffic_direction" colspan="2"></td>
                     </tr>
                     <tr>
                         <th colspan="2"><h2>{% trans %}Topology{% endtrans %}</h2></th>

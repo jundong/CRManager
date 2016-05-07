@@ -15,4 +15,4 @@ __all__ = ['User', 'Group', 'Permission', 'TestMessage', 'UIMessage', 'RecentNew
            'TestCases', 'user_groups', 'group_permissions', 'TranslatableString',
            'user_groups', 'IxiaACLFactory', 'metadata', 'Base', 'db', 'has_group',
            'CommonBase', 'IxiaVersion', 'Translation', 'Eula',
-           'user_eulas', 'DeviceType', 'Device', 'Portlet']
+           'user_eulas', 'DeviceType', 'Device', 'Portlet', 'TestResult']

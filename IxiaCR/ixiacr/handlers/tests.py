@@ -1,7 +1,4 @@
-import cPickle
 import time
-
-from json import loads, dumps
 
 from pyramid.i18n import TranslationStringFactory
 import transaction
@@ -10,14 +7,12 @@ from celery.result import AsyncResult
 from celery.contrib.abortable import AbortableAsyncResult
 
 from ixiacr.handlers import base
-from ixiacr.models.core import (TestCases, TestResult)
 from ixiacr.lib import IxiaLogger
-#from ixiacr.lib.bps.bpsTest import aTestBpt
+from ixiacr.lib.bps.bpsTest import aTestBpt
 
-from ixiacr.tasks.utils import get_task_from_chain
 from ixiacr.lib.session_key_value import SessionKeyValueStore
-from ixiacr.models import db
 from ixiacr.lib import component_registry
+from ixiacr.models import *
 
 ixiacrlogger = IxiaLogger(__name__)
 
@@ -183,16 +178,29 @@ class IxiaTestHandler(base.Handler):
         '''
         Call BPS RestfulApi to run test
         '''
-        ixiacr_test_id = None
         messages = list()
 
         try:
             data = self.request.json_body
-            #aTestBpt.runURTest()
+            # tcr = TestResult(created_by=1,
+            #     test_id=data['id'],
+            #     end_result='IDLE')
+            # db.add(tcr)
+            # transaction.commit()
+
+            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0', forceful='true', test_id=data['id'], created_by=1)
+            bpsTest.runURTest(data['bpt_name'])
 
         except Exception, e:
+            tcr = TestResult(created_by=1,
+                         test_id=data['id'],
+                         end_result='ERROR',
+                         error_reason=str(e))
+            db.add(tcr)
+            transaction.commit()
+
             msg = ('run_test: ixiacr_test_id={0}; e={1}'
-                   .format(ixiacr_test_id, str(e)))
+                   .format(data['id'], str(e)))
             ixiacrlogger.exception(msg)
 
             msg_header, msg_content = str(e)
@@ -316,52 +324,15 @@ class IxiaTestHandler(base.Handler):
         '''
         try:
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
+            data = self.request.json_body
+            # tcr = TestResult(created_by=1,
+            #     test_id=data['id'],
+            #     end_result='IDLE')
+            # db.add(tcr)
+            # transaction.commit()
 
-            kv_store = SessionKeyValueStore(db, self.session._session().id)
-            test_task_id = kv_store.get_value('test_task_id')
-
-            if test_task_id is not None:
-                result = AbortableAsyncResult(test_task_id)
-
-                if not result:
-                    raise RuntimeError('No task to abort!')
-
-                # If the test is currently executing, notify it that it should abort, and
-                # wait for confirmation that it has aborted
-                wait_count = 30
-                while result.status == 'EXECUTING' and wait_count > 0:
-                    ixiacrlogger.debug('cancel_test: aborting task %s' % result.id)
-                    result.abort()
-                    wait_count -= 1
-                    time.sleep(1)
-
-                # Wait for the test to react...
-                while result.status == 'ABORTED' and wait_count > 0:
-                    ixiacrlogger.debug('cancel_test: task %s is aborting...' %
-                                     result.id)
-                    wait_count -= 1
-                    time.sleep(1)
-
-                # Wait for the task engine to cleanly stop
-                while result.status == 'STOPPING' and wait_count > 0:
-                    ixiacrlogger.debug('IxiaMainHandler.cancel_test: '
-                                     'task %s is stopping...' % result.id)
-                    wait_count -= 1
-                    time.sleep(1)
-
-                # We've either exhausted our wait or successfully aborted.
-                # Let the caller know.
-                if result.status == 'SUCCESS':
-                    ixiacrlogger.debug('cancel_test: task %s has completed' %
-                                     result.id)
-                    return self.success()
-                else:
-                    ixiacrlogger.error('cancel_test: unable to abort task %s' %
-                                     result.id)
-                    return self.fail()
-
-            else:
-                raise RuntimeError('missing \'test_task_id\' in session data')
+            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0')
+            bpsTest.bps.stopTest()
 
         except KeyError as e:
             ixiacrlogger.exception('%s' % e)
@@ -382,52 +353,3 @@ def is_test_running():
         'ixiacr.tasks.test.validate',
         'ixiacr.tasks.test.execute'
     ])
-
-
-def run_test(ixiacr_test_id):
-    try:
-        ixiacrlogger.debug('run_test: creating ConfigFactory')
-        config_factory = None
-
-        ixiacrlogger.debug('run_test: loading IxiaTest; ixiacr_test_id={0}'.format(ixiacr_test_id))
-        ixiacr_test = TestCases.query.filter_by(id=ixiacr_test_id).one()
-
-        ixiacrlogger.debug('run_test: ixiacr_test_id={0} loaded; getting config'.format(ixiacr_test_id))
-        test_case_config = config_factory.get_config(
-            loads(ixiacr_test.config_json),
-            ixiacr_test.created_by)
-        test_case_config.ixiacr_test_id = ixiacr_test_id
-        test_case_config.config_json['id'] = ixiacr_test_id
-
-        if is_test_running():
-            test_case_config.make_result()
-            raise Exception(_('Test already running'))
-
-        ixiacrlogger.debug('run_test: starting ixiacr_test_id={0} task chain'.format(ixiacr_test_id))
-        result = None
-
-        ixiacrlogger.debug('run_test: started ixiacr_test_id={0} task chain; task_id={1}'.format(
-            ixiacr_test_id, result.task_id))
-
-        test_result = get_task_from_chain(result, 'ixiacr.tasks.test.execute')
-
-        while True:
-            ixiacrlogger.debug('run_test: polling ixiacr_test_id={0} task chain; test task_id={1}'.format(
-                ixiacr_test_id, test_result.task_id))
-
-            time.sleep(5)
-            if check_result_chain(test_result):
-                ixiacrlogger.debug('run_test: ixiacr_test_id={0} task chain completed; test task_id={1}'.format(
-                    ixiacr_test_id, test_result.task_id))
-                break
-
-    except Exception as e:
-        ixiacrlogger.exception('run_test: exception handling ixiacr_test_id={0}'.format(ixiacr_test_id))
-
-        try:
-            test_result = TestResult.query.filter(TestResult.ixiacr_test_id == ixiacr_test_id).one()
-            test_result.end_result = 'error'
-            test_result.error_reason = str(e)
-            transaction.commit()
-        except Exception as dbe:
-            ixiacrlogger.exception(dbe)

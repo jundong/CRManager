@@ -2,7 +2,10 @@ from bpsRest import *
 import statThread
 import Queue,time, sys
 from optparse import OptionParser
+
 from ixiacr.lib import IxiaLogger
+import transaction
+from ixiacr.models import *
 
 ixiacrlogger = IxiaLogger(__name__)
 
@@ -45,15 +48,15 @@ class usingWebApi(object):
             print e     
             return None
     
-    def checkProposedSlotValues(self, checkSlot_dict):
-        print "\ncheckProposedSlotValues ::"
-        try:         
-            checkSlotList = []
-            checkSlotList.append(checkSlot_dict)
-            checkProposedSlotValues = self.connectObj.httpPost("admin/vmdeployment/controller/validateProposedSlotValues", WebObject(checkSlotList))
-            print checkProposedSlotValues
-        except Exception as e:
-            print e 
+    # def checkProposedSlotValues(self, checkSlot_dict):
+    #     print "\ncheckProposedSlotValues ::"
+    #     try:
+    #         checkSlotList = []
+    #         checkSlotList.append(checkSlot_dict)
+    #         checkProposedSlotValues = self.connectObj.httpPost("admin/vmdeployment/controller/validateProposedSlotValues", WebObject(checkSlotList))
+    #         print checkProposedSlotValues
+    #     except Exception as e:
+    #         print e
 
     def validateProposedSlotValues(self):
         print "\nValidateProposedSlotValues ::"
@@ -71,37 +74,37 @@ class usingWebApi(object):
         except Exception as e:
             print e   
            
-    def unassignSlotsFromController(self, unassignedSlotDict):
-        print "\nUnassignSlotsFromController ::"
-        try:
-            unassignedSlotList = []
-            unassignedSlotList.append(unassignedSlotDict)
-            unassignSlotsFromController = self.connectObj.httpPost("admin/vmdeployment/controller/unassignSlotsFromController", WebObject(unassignedSlotList))
-            print unassignSlotsFromController
-        except Exception as e:
-            print e   
-                    
-    def assignSlotsToController(self, assignedSlotDict):
-        print "\nAssignSlotsToController ::"
-        try:
-            assignedSlotLis = []
-            assignedSlotLis.append(assignedSlotDict)
-            assignSlotsToController = self.connectObj.httpPost("admin/vmdeployment/controller/assignSlotsToController", WebObject(assignedSlotLis))
-            print assignSlotsToController
-        except Exception as e:
-            print e
-
-    def createNetworkObject(self,nicNum,testNet):
-        #print "got nic number %s", nicNum
-        nicNum=int(nicNum)
-        nicObjList=[]
-        nic=1
-        while nic <= nicNum:
-                adptName= "Network Adapter " + str(nic)
-                netObject=WebObject(adapter = adptName,network=testNet)
-                nicObjList.append(netObject)
-                nic=nic+1
-        return(nicObjList)
+    # def unassignSlotsFromController(self, unassignedSlotDict):
+    #     print "\nUnassignSlotsFromController ::"
+    #     try:
+    #         unassignedSlotList = []
+    #         unassignedSlotList.append(unassignedSlotDict)
+    #         unassignSlotsFromController = self.connectObj.httpPost("admin/vmdeployment/controller/unassignSlotsFromController", WebObject(unassignedSlotList))
+    #         print unassignSlotsFromController
+    #     except Exception as e:
+    #         print e
+    #
+    # def assignSlotsToController(self, assignedSlotDict):
+    #     print "\nAssignSlotsToController ::"
+    #     try:
+    #         assignedSlotLis = []
+    #         assignedSlotLis.append(assignedSlotDict)
+    #         assignSlotsToController = self.connectObj.httpPost("admin/vmdeployment/controller/assignSlotsToController", WebObject(assignedSlotLis))
+    #         print assignSlotsToController
+    #     except Exception as e:
+    #         print e
+    #
+    # def createNetworkObject(self,nicNum,testNet):
+    #     #print "got nic number %s", nicNum
+    #     nicNum=int(nicNum)
+    #     nicObjList=[]
+    #     nic=1
+    #     while nic <= nicNum:
+    #             adptName= "Network Adapter " + str(nic)
+    #             netObject=WebObject(adapter = adptName,network=testNet)
+    #             nicObjList.append(netObject)
+    #             nic=nic+1
+    #     return(nicObjList)
 
     def queryIPDefaultSettings(self):
         print "\nqueryIPDefaultSettings ::"
@@ -118,38 +121,38 @@ class usingWebApi(object):
         
         return vmSlots
     
-    def VEDeployment(self, hy_dict, vmName, mgmNet, testNet, staticNetworkDictList):
-        print "\nVEDeployment ::"
-        try:
-            hvObj = WebObject(hy_dict)
-            print "going to connect Hypervisor "
-            self.connectObj.httpPost("admin/vmdeployment/hypervisor",hvObj)
-            print "Connected successfully to Hypervisor......"
-            dsObj=self.connectObj.httpPost("admin/vmdeployment/hypervisor/datastores",hvObj)
-            dsList=json.loads(dsObj)
-            print "dsList : %s" %(dsList)
-            datastore=dsList[0]["name"]
-            print "dataStore : %s" %(datastore) 
-           
-            nicObjList=self.createNetworkObject(2,testNet)
-            print "nicObjList : %s" %(nicObjList)
-                        
-            #NetworkConfigurationObjList = []
-            #NetworkConfigurationObjList.append(staticNetworkDict)
-            createObj=WebObject(hostInfo=hvObj,defaultVmName= vmName,vmNo=2,datastore=datastore,mngmNetwork=mgmNet,testNetworks=nicObjList, ipConfigs=WebObject(staticNetworkDictList))
-            
-            placeJobs = self.connectObj.httpPost("admin/vmdeployment/operation",createObj)
-            print "placeJobs : " ,placeJobs
-            VEDeployment = self.connectObj.httpPost("admin/vmdeployment/operation/create")
-            print "VEDeployment :",VEDeployment
-            
-        except Exception as e:
-            print e 
+    # def VEDeployment(self, hy_dict, vmName, mgmNet, testNet, staticNetworkDictList):
+    #     print "\nVEDeployment ::"
+    #     try:
+    #         hvObj = WebObject(hy_dict)
+    #         print "going to connect Hypervisor "
+    #         self.connectObj.httpPost("admin/vmdeployment/hypervisor",hvObj)
+    #         print "Connected successfully to Hypervisor......"
+    #         dsObj=self.connectObj.httpPost("admin/vmdeployment/hypervisor/datastores",hvObj)
+    #         dsList=json.loads(dsObj)
+    #         print "dsList : %s" %(dsList)
+    #         datastore=dsList[0]["name"]
+    #         print "dataStore : %s" %(datastore)
+    #
+    #         nicObjList=self.createNetworkObject(2,testNet)
+    #         print "nicObjList : %s" %(nicObjList)
+    #
+    #         #NetworkConfigurationObjList = []
+    #         #NetworkConfigurationObjList.append(staticNetworkDict)
+    #         createObj=WebObject(hostInfo=hvObj,defaultVmName= vmName,vmNo=2,datastore=datastore,mngmNetwork=mgmNet,testNetworks=nicObjList, ipConfigs=WebObject(staticNetworkDictList))
+    #
+    #         placeJobs = self.connectObj.httpPost("admin/vmdeployment/operation",createObj)
+    #         print "placeJobs : " ,placeJobs
+    #         VEDeployment = self.connectObj.httpPost("admin/vmdeployment/operation/create")
+    #         print "VEDeployment :",VEDeployment
+    #
+    #     except Exception as e:
+    #         print e
 
 
 class aTestBpt(object):
 
-    def __init__(self, ip, user, passw, slot, portList, group, force="false"):
+    def __init__(self, ip, user, passw, slot, portList, group, **kwargs):
         self.ip = ip
         self.user = user
         self.passw = passw
@@ -159,7 +162,14 @@ class aTestBpt(object):
         self.slot = slot
         self.bps = BPS(self.ip, self.user, self.passw)
         self.bps.login()
-        self.forceful = force
+        self.forceful = 'false'
+        self.test_id = 1
+        self.created_by = 1
+
+        for key, value in kwargs.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
+
         if not self.bps.getResponse()["responseCode"] == 200:
             print "Login Unsuccessful"
             return None
@@ -168,7 +178,6 @@ class aTestBpt(object):
          
         # logging out
         self.bps.logout()
-      
       
     def networkOperations(self,method,operation=None,**opts):
         
@@ -184,7 +193,6 @@ class aTestBpt(object):
             print "response Code = %s" %response["responseCode"]
             print "Response Text = %s" %response["responseText"]
       
-      
     def initLabAndModify(self,typeLab,template, nameLab, typeParams, opts, operation=None):
         
         self.bps.runCustomCommand("/api/v1/bps/%s/" %typeLab,"patch",template=template)
@@ -197,48 +205,47 @@ class aTestBpt(object):
         self.bps.runCustomCommand("/api/v1/bps/%s/" %typeLab,"get")
         response = self.bps.getResponse()
         if response:
-           print "Operation = %s" %response["Operation"]
-           print "response Code = %s" %response["responseCode"]
-           print "Response Text = %s" %response["responseText"]
+            print "Operation = %s" %response["Operation"]
+            print "response Code = %s" %response["responseCode"]
+            print "Response Text = %s" %response["responseText"]
         
         if operation == None:
-                for kys in opts:
-                    optionDict = {}
-                    if len(kys.split("=")) > 2:
-                       optionDict['elementId'] = kys.split("=")[0]
-                       optionDict['paramId'] = kys.split("=")[1]
-                       optionDict['value'] = kys.split("=")[2]
-                    else:
-                       optionDict['elementId'] = kys.split("=")[0]
-                       optionDict['value'] = kys.split("=")[1]
-                    
-                    expr = {}
-                    expr[typeParams] = optionDict
-                    self.bps.runCustomCommand("/api/v1/bps/%s/" %typeLab,"patch",**expr)
-                    response = self.bps.getResponse()
-                    if response:
-                       print "Operation = %s" %response["Operation"]
-                       print "response Code = %s" %response["responseCode"]
-                       print "Response Text = %s" %response["responseText"]
+            for kys in opts:
+                optionDict = {}
+                if len(kys.split("=")) > 2:
+                   optionDict['elementId'] = kys.split("=")[0]
+                   optionDict['paramId'] = kys.split("=")[1]
+                   optionDict['value'] = kys.split("=")[2]
+                else:
+                   optionDict['elementId'] = kys.split("=")[0]
+                   optionDict['value'] = kys.split("=")[1]
+
+                expr = {}
+                expr[typeParams] = optionDict
+                self.bps.runCustomCommand("/api/v1/bps/%s/" %typeLab,"patch",**expr)
+                response = self.bps.getResponse()
+                if response:
+                   print "Operation = %s" %response["Operation"]
+                   print "response Code = %s" %response["responseCode"]
+                   print "Response Text = %s" %response["responseText"]
 
         else:
-              optionDict = {}
-              for kys in opts:
-                  optionDict[kys.split("=")[0]] = kys.split("=")[1]
-              self.bps.runCustomCommand("/api/v1/bps/%s/operations/%s" %(typeLab,operation),"post",**optionDict) 
-              response = self.bps.getResponse()
-              if response:
-                 print "Operation = %s" %response["Operation"]
-                 print "response Code = %s" %response["responseCode"]
-                 print "Response Text = %s" %response["responseText"]
-               
+            optionDict = {}
+            for kys in opts:
+                optionDict[kys.split("=")[0]] = kys.split("=")[1]
+                self.bps.runCustomCommand("/api/v1/bps/%s/operations/%s" %(typeLab,operation),"post",**optionDict)
+                response = self.bps.getResponse()
+                if response:
+                    print "Operation = %s" %response["Operation"]
+                    print "response Code = %s" %response["responseCode"]
+                    print "Response Text = %s" %response["responseText"]
         
         self.bps.runCustomCommand("/api/v1/bps/%s/operations/saveas" %typeLab,"post",name=nameLab,force='true')
         response = self.bps.getResponse()
         if response:
-               print "Operation = %s" %response["Operation"]
-               print "response Code = %s" %response["responseCode"]
-               print "Response Text = %s" %response["responseText"]
+            print "Operation = %s" %response["Operation"]
+            print "response Code = %s" %response["responseCode"]
+            print "Response Text = %s" %response["responseText"]
 
         self.bps.runCustomCommand("/api/v1/bps/%s/" %typeLab,"get")
         response = self.bps.getResponse()
@@ -246,7 +253,6 @@ class aTestBpt(object):
            print "Operation = %s" %response["Operation"]
            print "response Code = %s" %response["responseCode"]
            print "Response Text = %s" %response["responseText"]
-
     
     def runLab(self,bptName):
         self.bps.runCustomCommand("/api/v1/bps/ports/operations/reserve","post",slot=self.slot,portList=self.portList,group=self.group, force=self.forceful)
@@ -306,29 +312,29 @@ class aTestBpt(object):
         self.bps.runCustomCommand("/api/v1/bps/upload","post","uploadBpt",filePath=bptName,force='true')
         response = self.bps.getResponse()
         if response:
-           print "Operation = %s" %response["Operation"]
-           print "response Code = %s" %response["responseCode"]
-           print "Response Text = %s" %response["responseText"]
+            print "Operation = %s" %response["Operation"]
+            print "response Code = %s" %response["responseCode"]
+            print "Response Text = %s" %response["responseText"]
         
         if not response["responseCode"] == 200:
-           print "Bpt upload unsuccessful"
-           return -1
+            print "Bpt upload unsuccessful"
+            return -1
         
         # Get & Patch testing.
         self.bps.runCustomCommand("/api/v1/bps/workingmodel","patch",template=os.path.splitext(os.path.basename(bptName))[0])
         response = self.bps.getResponse()
         if response:
-           print "Operation = %s" %response["Operation"]
-           print "response Code = %s" %response["responseCode"]
-           print "Response Text = %s" %response["responseText"]
+            print "Operation = %s" %response["Operation"]
+            print "response Code = %s" %response["responseCode"]
+            print "Response Text = %s" %response["responseText"]
 
         # View the settings
         self.bps.runCustomCommand("/api/v1/bps/workingmodel/settings","get")
         response = self.bps.getResponse()
         if response:
-           print "Operation = %s" %response["Operation"]
-           print "response Code = %s" %response["responseCode"]
-           print "Response Text = %s" %response["responseText"]
+            print "Operation = %s" %response["Operation"]
+            print "response Code = %s" %response["responseCode"]
+            print "Response Text = %s" %response["responseText"]
 
     def runTheTest(self,bptName,**opts):
         self.bps.runCustomCommand("/api/v1/bps/ports/operations/reserve","post",slot=self.slot,portList=self.portList,group=self.group, force=self.forceful)
@@ -389,7 +395,6 @@ class aTestBpt(object):
               print "response Code = %s" %response["responseCode"]
               print "Response Text = %s" %response["responseText"]
 
-
         #self.bps.runCustomCommand("/api/v1/bps/workingmodel","patch",newParams={"componentId":"appsim_1","elementId":"rampDist","paramId":"steady","value":"24:01:10"})
         #response = self.bps.getResponse()
         #if response:
@@ -404,78 +409,80 @@ class aTestBpt(object):
         #   print "response Code = %s" %response["responseCode"]
         #   print "Response Text = %s" %response["responseText"]
 
-        
         self.statsObj = statThread.statThread(os.path.splitext(os.path.basename(bptName))[0],self.statQueue)
         self.statsObj.kickStart(1)
         self.statsObj.setDaemon(True)
         self.statsObj.start()
 
-        
         self.bps.runCustomCommand("/api/v1/bps/tests/operations/start","post",modelname=os.path.splitext(os.path.basename(bptName))[0],group=self.group,neighborhood=None)
         response = self.bps.getResponse()
         if response and response["responseCode"] == 200:
-           runId = response["responseText"].get('testid')
-           print "Test Id = %s" %runId
+            runId = response["responseText"].get('testid')
+            print "Test Id = %s" %runId
+            tcr = TestResult.query.filter_by(id=self.user_id).first()
+            if not tcr:
+                tcr = TestResult(created_by=self.created_by,
+                             test_id=self.test_id,
+                             run_id=runId,
+                             end_result='RUNNING')
+                db.add(tcr)
+                transaction.commit()
 
         progress = 0
         while True:
-              
-              groupDetailStats = {}
-              for groupStats in ['summary','iface','l4Stats','sslStats','ipsecStats','l7Stats','clientStats','attackStats','gtp','resource']:
-                  self.bps.runCustomCommand("/api/v1/bps/tests/operations/getRTS","post",runid=runId,statsGroup=groupStats) 
-                  response = self.bps.getResponse()
-                  if response and response["responseCode"] == 200:
-                       progress = response["responseText"].get('progress')
-                       rts = response["responseText"].get('rts')
-                       groupDetailStats[groupStats] = rts
-                     
-                       print "RTS == %s" %rts
-                     
-                  else:
-                       print "Coming out"
-              
-              self.statQueue.put(groupDetailStats)
-              
-              if progress == 100:
-                 print "Test done"
-                 self.statQueue.put("QUIT")
-                 break
-              time.sleep(2)  
+            groupDetailStats = {}
+            for groupStats in ['summary','iface','l4Stats','sslStats','ipsecStats','l7Stats','clientStats','attackStats','gtp','resource']:
+                self.bps.runCustomCommand("/api/v1/bps/tests/operations/getRTS","post",runid=runId,statsGroup=groupStats)
+                response = self.bps.getResponse()
+                if response and response["responseCode"] == 200:
+                    progress = response["responseText"].get('progress')
+                    rts = response["responseText"].get('rts')
+                    groupDetailStats[groupStats] = rts
+
+                    print "RTS == %s" %rts
+
+                else:
+                    print "Coming out"
+
+            self.statQueue.put(groupDetailStats)
+
+            tcr = TestResult.query.filter_by(run_id=runId).first()
+            if tcr:
+                tcr.progress = progress
+                db.add(tcr)
+                db.flush()
+
+            if progress == 100:
+                print "Test done"
+                tcr = TestResult.query.filter_by(run_id=runId).first()
+                if tcr:
+                    tcr.progress = progress
+                    tcr.end_result = 'FINISHED'
+                    db.add(tcr)
+                    db.flush()
+
+                self.statQueue.put("QUIT")
+                break
+            time.sleep(2)
 
         self.statsObj.join()
         self.bps.exportTestReport(runId, "%s.pdf" %os.path.splitext(os.path.basename(bptName))[0], self.statsObj.getResultLocation())
         self.bps.exportTestBPT(os.path.basename(bptName), testId=runId,location=self.statsObj.getResultLocation())
 
-
         self.bps.runCustomCommand("/api/v1/bps/ports/operations/unreserve","post","createResult",slot=self.slot,portList=self.portList,group=self.group)
         response = self.bps.getResponse()
 
-    def runURTest(self,bptName,**opts):
-        scip = "127.0.0.1"
-        user = "admin"
-        passwd = "admin"
-        group = "1"
-        slot = "0"
-        ports = "0,1"
-        force = "true"
+        tcr.result_path = self.statsObj.getResultLocation()
+        db.add(tcr)
+        db.flush()
 
-        for key, value in opts.items():
-            if hasattr(self, key):
-                setattr(self, key, value)
-
-        # Try to find an empty slot
-        (options,args) = parser.parse_args()
-        print "option = %s, args = %s" %(options, args)
-        print "ports are %s" %options.ports.split(",")
-
-        test = aTestBpt(scip, user, passwd, slot, ports.split(","), group, force)
-
-        bptName = os.path.join(os.getcwd(), bptName)
+    def runURTest(self,bptName):
+        bptName = os.path.join(os.getenv('IXIACR'), 'ixiacr/lib/bps/bpt', bptName)
         #optionsDict = {"componentId":"appsim_1","elementId":"delayStart","value":"00:00:10"}
         #optionsDict = {"componentId":"appsim_1","elementId":"rampDist","paramId":"steady","value":"00:12:10","elementId":"delayStart","value":"00:00:10"}
-        test.uploadAndShowParams(bptName)
-        test.runTheTest(bptName,componentId="appsim_1",elementId="rampDist",paramId="steady",value="00:00:10")
-        test.logout()
+        self.uploadAndShowParams(bptName)
+        self.runTheTest(bptName)
+        self.logout()
 
 
 if __name__ == "__main__":

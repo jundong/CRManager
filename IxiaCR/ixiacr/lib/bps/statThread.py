@@ -22,7 +22,6 @@ class statThread(threading.Thread):
           self.toRun = value
       
       def run(self):
-          
           while self.toRun == 1:
                stats = self.statQueue.get()
                if stats == "QUIT":
@@ -63,11 +62,11 @@ class statThread(threading.Thread):
           
           for lns in stats.split("\n"):
               #print "lns == %s" %lns   
-              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", lns.strip())
-              matchGrProgress = re.search("Progress:([a-z,A-Z,0-9,\[,\],\.,\%,\ ]+)", lns.strip())
+              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", lns.strip())
+              matchGrProgress = re.search("Progress:([a-z,A-Z,0-9,\[,\],\.,%,\ ]+)", lns.strip())
               
               if matchGrRTS:
-                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
+                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
                  if matchGrValues:
                     actualStats = matchGrValues.group(1).strip()[1:-1]
                  else:
@@ -117,11 +116,11 @@ class statThread(threading.Thread):
           
           for lns in stats.split("\n"):
               #print "lns == %s" %lns 
-              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", lns.strip())
+              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", lns.strip())
               matchGrProgress = re.search("Progress:([a-z,A-Z,0-9,\[,\],\.]+)", lns.strip())
               
               if matchGrRTS:
-                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
+                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
                  if matchGrValues:
                     actualStats = matchGrValues.group(1).strip()[1:-1]
                  else:
@@ -167,11 +166,11 @@ class statThread(threading.Thread):
           
           for lns in stats.split("\n"):
               #print "lns == %s" %lns 
-              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", lns.strip())
+              matchGrRTS = re.search("RTS:([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", lns.strip())
               matchGrProgress = re.search("Progress:([a-z,A-Z,0-9,\[,\],\.]+)", lns.strip())
               
               if matchGrRTS:
-                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,\%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
+                 matchGrValues = re.search("values=([a-z,A-Z,0-9,\[,\],\.,%,\ ,\=,\',:,_]+)", matchGrRTS.group(1).strip())
                  if matchGrValues:
                     actualStats = matchGrValues.group(1).strip()[1:-1]
                  else:
@@ -281,12 +280,10 @@ class statThread(threading.Thread):
           fp.write(statStr)
           fp.write("\n")
           fp.close()
-          
-             
-          
+
       
       def createResultDir(self):
-          self.resultDir = os.path.join(os.getcwd(),"%s_%s" %(self.runId,time.strftime("%a%d%b%Y%H%M%S")))
+          self.resultDir = os.path.join(os.getenv('IXIACR'),"data/results","%s_%s" %(self.runId,time.strftime("%a%d%b%Y%H%M%S")))
           os.makedirs(self.resultDir)
           self.csvFileName = os.path.join(self.resultDir, "Results.csv")
           fd = open(os.path.join(self.resultDir, "Results.csv"), "w+")

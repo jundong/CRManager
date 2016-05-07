@@ -192,6 +192,7 @@ def get_ixiacr_tests(request):
             config = {
                 "id": test.id,
                 "name": test.name.get_translation(lang),
+                "bpt_name": test.bpt_name,
                 "type": test.type,
                 "description": test.description.get_translation(lang),
                 #"duration": test.duration,

@@ -119,8 +119,8 @@ def import_db(cmd):
             {'name': u'BPS',
              'description': u'BPS',
              'device_type_id': u'1',
-             'host': u'192.168.100.132',
-             'link': u'http://192.168.100.132',
+             'host': u'192.168.0.132',
+             'link': u'http://192.168.0.132',
              'username': u'admin',
              'password': u'admin'},
             {'name': u'ATIP',
@@ -227,6 +227,7 @@ def import_db(cmd):
             # },
             {
                 'name': translatable_string(_(u'Mixture Application Traffic Analyze')),
+                'bpt_name': 'CR-Exercise1.bpt',
                 'type': u'ENTERPRISE',
                 'description': translatable_string(_(u'cr_test_template.enterprise_application_traffic_analyze.description')),
                 'topology_image': u'static/images/enterprise_application_traffic_analyze.jpg',
@@ -241,6 +242,7 @@ def import_db(cmd):
             },
             {
                 'name': translatable_string(_(u'DDoS Attack Analyze')),
+                'bpt_name': 'CR-Exercise2.bpt',
                 'type': u'ENTERPRISE',
                 'description': translatable_string(_(u'cr_test_template.enterprise_ddos_attack_analyze.description')),
                 'topology_image': u'static/images/enterprise_ddos_attack_analyze.jpg',
@@ -255,6 +257,7 @@ def import_db(cmd):
             },
             {
                 'name': translatable_string(_(u'APT Attack Analyze')),
+                'bpt_name': 'Exercise3/CR_Exercise3-1_Basic_Benchmark.bpt,Exercise3/CR_Exercise3-2_Spam_Download.bpt,Exercise3/CR_Exercise3-3_Mal_URL_Access.bpt,Exercise3/CR_Exercise3-3_URL_Clicks.bpt,Exercise3/CR_Exercise3-4_Compromise_Adobe.bpt,Exercise3/CR_Exercise3-4_Compromise_Microsoft_ph2.bpt,Exercise3/CR_Exercise3-5_Botmaster_Callback.bpt,Exercise3/CR_Exercise3-6_CXO_Data_Loss.bpt',
                 'type': u'ENTERPRISE',
                 'description': translatable_string(_(u'cr_test_template.enterprise_apt_attack_analyze.description')),
                 'topology_image': u'static/images/enterprise_apt_attack_analyze.jpg',
@@ -272,6 +275,7 @@ def import_db(cmd):
         for case in cases:
             db.add(TestCases(name=case['name'],
                 type=case['type'],
+                bpt_name=case['bpt_name'],
                 description=case['description'],
                 topology_image=case['topology_image'],
                 topology_description=case['topology_description'],

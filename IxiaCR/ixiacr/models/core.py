@@ -285,8 +285,6 @@ class TestResult(Base):
     __tablename__='test_results'
 
     id = Column(Integer, autoincrement=True, primary_key=True)
-    name = Column(Unicode(255), nullable=True)
-
     created_by = Column(Integer, ForeignKey('users.id',
                                             onupdate="CASCADE",
                                             ondelete="CASCADE"))
@@ -295,32 +293,11 @@ class TestResult(Base):
     test_id = Column(Integer, ForeignKey('test_cases.id',
                                               onupdate="CASCADE",
                                               ondelete="CASCADE"))
-    #incomplete, complete
-    end_result = Column(Unicode(16), nullable=True, default=u'incomplete')
-    error_reason = Column(UnicodeText, nullable=True)
-
-
-class CurrentTests(Base):
-    """ Current test for checking states and more...
-    """
-    __tablename__ = 'current_tests'
-
-    id = Column(Integer, autoincrement=True, primary_key=True)
-    user_id = Column(Integer, ForeignKey('users.id',
-                                         onupdate="CASCADE",
-                                         ondelete="CASCADE"))
-    test_id = Column(Integer, ForeignKey('test_cases.id',
-                                              onupdate="CASCADE",
-                                              ondelete="CASCADE"))
-
+    progress = Column(Integer, default=0)
+    result_path = Column(Unicode(255), nullable=True)
     #IDLE, RUNNING, STOPPED, ABORTED, FINISHED
-    state = Column(Integer, default=1)
-    is_canceled = Column(Boolean, default=False)
-    run_id = Column(Integer, default=0)
-    last_updated = Column(DateTime, default=datetime.now())
-
-    def __unicode__(self):
-        return self.name
+    end_result = Column(Unicode(16), nullable=True, default=u'RUNNING')
+    error_reason = Column(UnicodeText, nullable=True)
 
 
 class RecentNews(Base):
@@ -483,6 +460,7 @@ class TestCases(Base):
     #Scenario name
     name = relationship('TranslatableString',
                         primaryjoin='TranslatableString.id==TestCases.name_id')
+    bpt_name = Column(UnicodeText, nullable=False);
     #Scenario topology description
     topology_description = relationship('TranslatableString',
                         primaryjoin='TranslatableString.id==TestCases.topology_description_id')

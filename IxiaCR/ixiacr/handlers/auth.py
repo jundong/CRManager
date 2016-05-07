@@ -47,7 +47,6 @@ class AuthHandler(base.Handler):
                 user = User.by_username(username)
                 if user and user.validate_password(password):
                     headers = remember(self.request, user.id)
-
                     elapsed_time = datetime.now() - user.last_login
                     another_user_logged_in = (
                         user.session_id and
