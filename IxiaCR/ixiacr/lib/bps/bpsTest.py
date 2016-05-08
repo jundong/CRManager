@@ -420,12 +420,7 @@ class aTestBpt(object):
         if response and response["responseCode"] == 200:
             runId = response["responseText"].get('testid')
             print "Test Id = %s" %runId
-            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
-            if not tcr:
-                tcr.run_id=runId
-                tcr.end_result='RUNNING'
-                db.add(tcr)
-                transaction.commit()
+            self.updateTestResults(run_id=runId, end_result='RUNNING')
 
         progress = 0
         while True:
@@ -445,21 +440,11 @@ class aTestBpt(object):
 
             self.statQueue.put(groupDetailStats)
 
-            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
-            if tcr:
-                tcr.progress = progress
-                db.add(tcr)
-                transaction.commit()
+            self.updateTestResults(progress=progress)
 
             if progress == 100:
                 print "Test done"
-                tcr = TestResult.query.filter_by(id=self.test_result_id).first()
-                if tcr:
-                    tcr.progress = progress
-                    tcr.end_result = 'FINISHED'
-                    db.add(tcr)
-                    transaction.commit()
-
+                self.updateTestResults(progress=progress, end_result='FINISHED')
                 self.statQueue.put("QUIT")
                 break
             time.sleep(2)
@@ -471,11 +456,7 @@ class aTestBpt(object):
         self.bps.runCustomCommand("/api/v1/bps/ports/operations/unreserve","post","createResult",slot=self.slot,portList=self.portList,group=self.group)
         response = self.bps.getResponse()
 
-        tcr = TestResult.query.filter_by(id=self.test_result_id).first()
-        if tcr:
-            tcr.result_path = self.statsObj.getResultLocation()
-            db.add(tcr)
-            transaction.commit()
+        self.updateTestResults(result_path=self.statsObj.getResultLocation())
 
     def runURTest(self,bptName):
         bptName = os.path.join(os.getenv('IXIACR'), 'ixiacr/lib/bps/bpt', bptName)
@@ -485,6 +466,22 @@ class aTestBpt(object):
         self.runTheTest(bptName)
         self.logout()
 
+    def updateTestResults(self, **kwargs):
+        if self.test_result_id:
+            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
+            if tcr:
+                for key, value in kwargs.items():
+                    if key == 'result_path':
+                        tcr.result_path = value
+                    elif key == 'end_result':
+                        tcr.end_result = value
+                    elif key == 'run_id':
+                        tcr.run_id = value
+                    elif key == 'progress':
+                        tcr.progress = value
+
+                db.add(tcr)
+                transaction.commit()
 
 if __name__ == "__main__":
    

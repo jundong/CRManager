@@ -33,4 +33,6 @@ steps to run the test.
     python bpsTest.py --SCIP <BPs WEbUI IP> --User <Username> --Passwd <password> --RFC 1 --slot <slot Id, e.g. 2> --ports <comma separated ports, e.g. 0,1> --force true
 
 Example:
-$VENV/bin/python bpsTest.py --SCIP 192.168.0.132 --User admin --Passwd admin --UR 1 --slot 0 --port 0,1 --bptName simple_appsim.bpt --force true
+$VENV/bin/python bpsTest.py --SCIP 192.168.0.132 --User admin --Passwd admin --UR 1 --slot 0 --port 0,1 --bptName Simple_AppSim.bpt --force true
+$VENV/bin/python bpsTest.py --SCIP 192.168.0.132 --User admin --Passwd admin --UR 1 --slot 0 --port 0,1 --bptName $IXIACR/ixiacr/lib/bps/bpt/CR-Exercise1.bpt --force true
+$VENV/bin/python bpsTest.py --SCIP 192.168.0.132 --User admin --Passwd admin --UR 1 --slot 0 --port 0,1 --bptName $IXIACR/ixiacr/lib/bps/bpt/CR-Exercise2.bpt --force true
