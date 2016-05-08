@@ -173,6 +173,23 @@ class IxiaTestHandler(base.Handler):
         finally:
             ixiacrlogger.debug('Exiting: config_test')
 
+    def updateTestResults(self, **kwargs):
+        if self.test_result_id:
+            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
+            if tcr:
+                for key, value in kwargs.items():
+                    if key == 'result_path':
+                        tcr.result_path = value
+                    elif key == 'end_result':
+                        tcr.end_result = value
+                    elif key == 'run_id':
+                        tcr.run_id = value
+                    elif key == 'progress':
+                        tcr.progress = value
+
+                db.add(tcr)
+                transaction.commit()
+
     @action(renderer='json')
     def run_test(self):
         '''
@@ -206,12 +223,7 @@ class IxiaTestHandler(base.Handler):
                    .format(data['id'], str(e)))
             ixiacrlogger.exception(msg)
 
-            tr = TestResult.query.filter_by(id=result_id).first()
-            if tcr:
-                tr.end_result='ERROR'
-                tr.error_reason=str(e)
-                db.add(tr)
-                transaction.commit()
+            self.updateTestResults(end_result='ERROR', error_reason=str(e))
 
             msg_header, msg_content = str(e)
 
@@ -221,18 +233,9 @@ class IxiaTestHandler(base.Handler):
                 'is_error': True})
         finally:
             if success:
-                tcr = TestResult.query.filter_by(id=result_id).first()
-                if tcr:
-                    tcr.end_result='FINISHED'
-                    db.add(tcr)
-                    transaction.commit()
+                self.updateTestResults(end_result='FINISHED')
             else:
-                tcr = TestResult.query.filter_by(id=result_id).first()
-                if tcr:
-                    tcr.end_result='ERROR'
-                    tcr.error_reason=str(e)
-                    db.add(tcr)
-                    transaction.commit()
+                self.updateTestResults(end_result='ERROR')
 
             return {'is_ready': True,
                     'is_valid': success,
@@ -356,48 +359,25 @@ class IxiaTestHandler(base.Handler):
             bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0')
             bpsTest.bps.stopTest()
 
-            tcr = TestResult.query.filter_by(id=test_result_id).first()
-            if tcr:
-                tcr.end_result='STOPPED'
-                db.add(tcr)
-                transaction.commit()
+            self.updateTestResults(end_result='STOPPED')
 
         except KeyError as e:
             success = False
-            tcr = TestResult.query.filter_by(id=test_result_id).first()
-            if tcr:
-                tcr.end_result='ERROR'
-                tcr.error_reason=str(e)
-                db.add(tcr)
-                transaction.commit()
+            self.updateTestResults(end_result='ERROR', error_reason=str(e))
 
             ixiacrlogger.exception('%s' % e)
             return self.success()
         except Exception as e:
             success = False
-            tcr = TestResult.query.filter_by(id=test_result_id).first()
-            if tcr:
-                tcr.end_result='ERROR'
-                tcr.error_reason=str(e)
-                db.add(tcr)
-                transaction.commit()
+            self.updateTestResults(end_result='ERROR', error_reason=str(e))
 
             ixiacrlogger.exception('%s' % e)
             return self.fail()
         finally:
             if success:
-                tcr = TestResult.query.filter_by(id=test_result_id).first()
-                if tcr:
-                    tcr.end_result='STOPPED'
-                    db.add(tcr)
-                    transaction.commit()
+                self.updateTestResults(end_result='STOPPED')
             else:
-                tcr = TestResult.query.filter_by(id=test_result_id).first()
-                if tcr:
-                    tcr.end_result='ERROR'
-                    tcr.error_reason=str(e)
-                    db.add(tcr)
-                    transaction.commit()
+                self.updateTestResults(end_result='ERROR')
 
 
 def is_test_running():
