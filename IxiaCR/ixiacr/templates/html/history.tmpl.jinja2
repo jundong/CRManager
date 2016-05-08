@@ -73,15 +73,12 @@
                 <tbody data-bind="foreach: filteredHistoryItems">
                 <tr data-bind="click: function () { loadRecentTest(); }">
                     <td>
-                        <img data-bind="visible: endResult() == 'pass'" src="static/images/pass-light.png" title="{% trans %}pass{% endtrans %}" alt="{% trans %}pass{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'unrated'" src="static/images/unrated-light.png" title="{% trans %}unrated{% endtrans %}" alt="{% trans %}unrated{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'fail'" src="static/images/fail-light.png" title="{% trans %}fail{% endtrans %}" alt="{% trans %}fail{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'error'" src="static/images/fail-light.png" title="{% trans %}error{% endtrans %}" alt="{% trans %}error{% endtrans %}" />
-                        <img data-bind="visible: endResult() == 'aborted'" src="static/images/no-light.png" title="{% trans %}aborted{% endtrans %}" alt="{% trans %}aborted{% endtrans %}" />
+                        <img data-bind="visible: end_result() == 'FINISHED'" src="static/images/pass-light.png" title="{% trans %}pass{% endtrans %}" alt="{% trans %}pass{% endtrans %}" />
+                        <img data-bind="visible: end_result() == 'ERROR'" src="static/images/fail-light.png" title="{% trans %}error{% endtrans %}" alt="{% trans %}error{% endtrans %}" />
+                        <img data-bind="visible: end_result() == 'STOPPED'" src="static/images/no-light.png" title="{% trans %}aborted{% endtrans %}" alt="{% trans %}aborted{% endtrans %}" />
                     </td>
                     <td>
                         <h4 data-bind="text: name" class="name"></h4>
-                        <p data-bind="text: template_name" class="category"></p>
                     </td>
                     <td data-bind="text: Date.parseString(date()).format('MM-dd-yyyy HH:mm')"></td>
                 </tr>

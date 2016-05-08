@@ -165,6 +165,7 @@ class aTestBpt(object):
         self.forceful = 'false'
         self.test_id = 1
         self.created_by = 1
+        self.test_result_id = None
 
         for key, value in kwargs.items():
             if hasattr(self, key):
@@ -419,12 +420,10 @@ class aTestBpt(object):
         if response and response["responseCode"] == 200:
             runId = response["responseText"].get('testid')
             print "Test Id = %s" %runId
-            tcr = TestResult.query.filter_by(id=self.user_id).first()
+            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
             if not tcr:
-                tcr = TestResult(created_by=self.created_by,
-                             test_id=self.test_id,
-                             run_id=runId,
-                             end_result='RUNNING')
+                tcr.run_id=runId
+                tcr.end_result='RUNNING'
                 db.add(tcr)
                 transaction.commit()
 
@@ -446,20 +445,20 @@ class aTestBpt(object):
 
             self.statQueue.put(groupDetailStats)
 
-            tcr = TestResult.query.filter_by(run_id=runId).first()
+            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
             if tcr:
                 tcr.progress = progress
                 db.add(tcr)
-                db.flush()
+                transaction.commit()
 
             if progress == 100:
                 print "Test done"
-                tcr = TestResult.query.filter_by(run_id=runId).first()
+                tcr = TestResult.query.filter_by(id=self.test_result_id).first()
                 if tcr:
                     tcr.progress = progress
                     tcr.end_result = 'FINISHED'
                     db.add(tcr)
-                    db.flush()
+                    transaction.commit()
 
                 self.statQueue.put("QUIT")
                 break
@@ -472,9 +471,11 @@ class aTestBpt(object):
         self.bps.runCustomCommand("/api/v1/bps/ports/operations/unreserve","post","createResult",slot=self.slot,portList=self.portList,group=self.group)
         response = self.bps.getResponse()
 
-        tcr.result_path = self.statsObj.getResultLocation()
-        db.add(tcr)
-        db.flush()
+        tcr = TestResult.query.filter_by(id=self.test_result_id).first()
+        if tcr:
+            tcr.result_path = self.statsObj.getResultLocation()
+            db.add(tcr)
+            transaction.commit()
 
     def runURTest(self,bptName):
         bptName = os.path.join(os.getenv('IXIACR'), 'ixiacr/lib/bps/bpt', bptName)

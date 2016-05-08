@@ -24,6 +24,7 @@ function TestTemplateViewModel(rootVm) {
     self.defense_steps = ko.observable();
     self.defense_criteria = ko.observable();
     self.traffic_direction = ko.observable();
+    self.test_result_id = ko.observable(null);
 
     //IDLE, RUNNING, STOPPED, ABORTED, FINISHED
     self.status = ko.observable("IDLE");
@@ -135,6 +136,7 @@ TestTemplateViewModel.prototype.getRunTestData = function () {
         bpt_name: self.bpt_name,
         host: bpsDevice.host,
         username: bpsDevice.username,
+        test_result_id: self.test_result_id,
         password: bpsDevice.password
     };
 
@@ -151,7 +153,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {
     if (self.status() == "RUNNING") {
         return; // Short-circuit
     }
-
+    self.status("RUNNING");
     var currentConfig = self.getRunTestData();
     var formatRequestData = util.formatRequestData('run_test', currentConfig);
     self.startingTest = true;
@@ -166,14 +168,11 @@ TestTemplateViewModel.prototype.runTest = function (options) {
             if(util.lightbox.isOpen) {
                 util.lightbox.close();
             }
-
+            self.test_result_id = data['test_result_id'];
             self.startingTest = false;
 
             //If we have results, we should show the results table
-//            var results = self.testVm.vmResults;
-//            if (results.percentComplete() > 0) {
-//                results.getFinalTable(results.onGotFinalTable.bind(results));
-//            }
+            self.rootVm.getResultHistory({"result_id" : self.test_result_id},function(){});
         }
     }).fail(function () {
         self.status("ERROR");
@@ -181,7 +180,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {
         util.lightbox.error(translate("Validating test"));
         self.startingTest = false;
     });
-    self.status("RUNNING");
+    //self.status("RUNNING");
     if(util.lightbox.isOpen) {
         util.lightbox.close();
     }
@@ -198,10 +197,13 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {
     if (self.status() != "RUNNING") {
         return; // Short-circuit
     }
-
+    if (self.test_result_id == null) {
+        self.status("STOPPED");
+        return;
+    }
+    self.status("STOPPED");
     var currentConfig = self.getRunTestData();
     var formatRequestData = util.formatRequestData('cancel_test', currentConfig);
-    self.startingTest = true;
 
     $.ajax({
         type: util.getRequestMethod('cancel_test'),
@@ -218,8 +220,6 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {
         util.lightbox.error(translate("Validating test"));
         self.startingTest = false;
     });
-
-    self.status("STOPPED");
 };
 
 TestTemplateViewModel.prototype.downloadReports = function (options) {

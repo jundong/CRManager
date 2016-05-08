@@ -295,7 +295,7 @@ class TestResult(Base):
                                               ondelete="CASCADE"))
     progress = Column(Integer, default=0)
     result_path = Column(Unicode(255), nullable=True)
-    #IDLE, RUNNING, STOPPED, ABORTED, FINISHED
+    #IDLE, RUNNING, STOPPED, ABORTED, FINISHED, ERROR
     end_result = Column(Unicode(16), nullable=True, default=u'RUNNING')
     error_reason = Column(UnicodeText, nullable=True)
 

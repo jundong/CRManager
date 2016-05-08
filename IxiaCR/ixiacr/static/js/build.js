@@ -67202,10 +67202,17 @@ function TestHistoryViewModel(dashboardVm) {\n\
     self.dashboardVm = dashboardVm;\n\
     self.rootVm = dashboardVm.rootVm;\n\
 \n\
-    self.result_id = ko.observable();\n\
-    self.test_id = 0;\n\
+    self.id = ko.observable();\n\
     self.name = ko.observable();\n\
+    self.result_id = ko.observable();\n\
+    self.test_id = ko.observable();\n\
+    self.created_by = ko.observable();\n\
+    self.progress = ko.observable();\n\
+    self.result_path = ko.observable();\n\
+    self.end_result = ko.observable();\n\
+    self.error_reason = ko.observable();\n\
     self.date = ko.observable();\n\
+\n\
     self.dateFormatted = ko.computed(function () {\n\
         var d = self.date();\n\
 \n\
@@ -67215,22 +67222,6 @@ function TestHistoryViewModel(dashboardVm) {\n\
 \n\
         return moment(d).format('lll');\n\
     });\n\
-    self.description = ko.observable();\n\
-    self.endResult = ko.observable();\n\
-    self.displayMessage = ko.observable();\n\
-    self.categories = ko.observableArray();\n\
-    self.template_name = ko.observable();\n\
-    self.customer = ko.observable();\n\
-    self.location = ko.observable();\n\
-    self.favorite = ko.observable(false);\n\
-    self.tags = ko.observableArray();\n\
-    self.unqualifiedTags = ko.observable();\n\
-    self.validationResult = ko.observable();\n\
-\n\
-    self.displayTags = ko.computed({\n\
-        read: self.displayTagsRead.bind(self),\n\
-        write: self.displayTagsWrite.bind(self)\n\
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
 \n\
     self.loadRecentTest = function () {\n\
         self.rootVm.loadRecentTest(self);\n\
@@ -67245,53 +67236,21 @@ TestHistoryViewModel.typesafe = function (that) {\n\
     return that;\n\
 };\n\
 \n\
-TestHistoryViewModel.prototype.setState = function(testVm){\n\
-    var self = TestHistoryViewModel.typesafe(this);\n\
-\n\
-    self.endResult(testVm.vmResults.status());\n\
-    self.displayMessage(testVm.vmResults.displayMessage());\n\
-    self.test_id = testVm.vmConfiguration.id();\n\
-    self.name(testVm.name());\n\
-    self.template_name(testVm.vmConfiguration.template_name());\n\
-    var date = new Date();\n\
-    self.date((date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear());\n\
-    self.description(testVm.description());\n\
-\n\
-    var categories = testVm.vmConfiguration.categories();\n\
-    for (var i = 0; i < categories.length; i++) {\n\
-        self.categories.push(categories[i]);\n\
-    }\n\
-    self.chartData = new Array();\n\
-    self.tableData = new Array();\n\
-    var charts = testVm.vmResults.charts();\n\
-    for(var chartIndex = 0; chartIndex < charts.length; chartIndex++){\n\
-        if(charts[chartIndex]){\n\
-            self.chartData.push({ name: charts[chartIndex].chart().name, series: charts[chartIndex].chart().series() });\n\
-            self.tableData.push(charts[chartIndex].table().data());\n\
-        }\n\
-    }\n\
-};\n\
-\n\
 TestHistoryViewModel.prototype.toFlatObject = function () {\n\
     var self = TestHistoryViewModel.typesafe(this);\n\
 \n\
     var history = {\n\
-        result_id: self.result_id(),\n\
-        test_id: self.test_id,\n\
+        id: self.id(),\n\
         name: self.name(),\n\
-        description: self.description(),\n\
-        date: self.date,\n\
-        end_result: self.endResult(),\n\
-        display_message: self.displayMessage(),\n\
-        tags: util.getTags(self),\n\
-        categories: new Array(),\n\
-        template_name: self.template_name()\n\
+        result_id: self.result_id(),\n\
+        test_id: self.test_id(),\n\
+        created_by: self.created_by(),\n\
+        date: self.date(),\n\
+        progress: self.progress(),\n\
+        end_result: self.end_result(),\n\
+        result_path: self.result_path(),\n\
+        error_reason: self.error_reason()\n\
     };\n\
-\n\
-    var categories = self.categories();\n\
-    for (var i = 0; i < categories.length; i++) {\n\
-        history.categories.push(categories[i]);\n\
-    }\n\
 \n\
     return history;\n\
 };\n\
@@ -67299,21 +67258,16 @@ TestHistoryViewModel.prototype.toFlatObject = function () {\n\
 TestHistoryViewModel.prototype.inflate = function (recentTest) {\n\
     var self = TestHistoryViewModel.typesafe(this);\n\
 \n\
-    var thisDate = recentTest.date+\" UTC\";\n\
-    thisDate = thisDate.replace(/-/g,\"/\");\n\
-    thisDate = new Date(thisDate).format('yyyy-MM-dd HH:mm:ss');\n\
-    thisDate = String(thisDate);\n\
-\n\
-    self.result_id(recentTest.result_id);\n\
-    self.test_id = recentTest.test_id;\n\
+    self.id(recentTest.id);\n\
     self.name(recentTest.name);\n\
-    self.date(thisDate);\n\
-    self.description(recentTest.description);\n\
-    self.endResult(recentTest.end_result);\n\
-    self.displayMessage(recentTest.display_message);\n\
-    self.categories(recentTest.categories);\n\
-    self.template_name(recentTest.template_name);\n\
-    util.setTags(self, recentTest.tags);\n\
+    self.result_id(recentTest.result_id);\n\
+    self.test_id(recentTest.test_id);\n\
+    self.created_by(recentTest.created_by);\n\
+    self.date(recentTest.date);\n\
+    self.progress(recentTest.progress);\n\
+    self.end_result(recentTest.end_result);\n\
+    self.result_path(recentTest.result_path);\n\
+    self.error_reason(recentTest.error_reason);\n\
 };\n\
 \n\
 TestHistoryViewModel.prototype.openSaveModal = function () {\n\
@@ -67332,53 +67286,10 @@ TestHistoryViewModel.prototype.openSaveModal = function () {\n\
 \n\
 TestHistoryViewModel.prototype.validate = function (result, targetName) {\n\
     var self = TestHistoryViewModel.typesafe(this);\n\
-\n\
-    if(util.isNullOrEmpty(targetName))\n\
-        result.addCheckResults(translate(\"Test Results Validation\"), false, translate(\"The name field is required in order to save your test results\"));\n\
-    else{\n\
-        var foundExisting = ko.utils.arrayFirst(self.rootVm.testResultsHistory, function (item) {\n\
-            return targetName == item.name();\n\
-        });\n\
-\n\
-        if(foundExisting)\n\
-            result.addCheckResults(translate(\"Test Results Validation\"), false, translate('The name: {name} is already in use, please set a unique name for this test result', {\n\
-                target: targetName\n\
-            }));\n\
-    }\n\
 };\n\
 \n\
 TestHistoryViewModel.prototype.save = function () {\n\
     var self = TestHistoryViewModel.typesafe(this);\n\
-\n\
-    var name = self.name();\n\
-    self.unqualifiedTags(self.tags().join(', '));\n\
-    var validationResult = new ValidationResultsViewModel(self);\n\
-    self.validate(validationResult, name);\n\
-    self.validationResult(validationResult);\n\
-    if(!validationResult.is_valid){\n\
-        return;\n\
-    }\n\
-\n\
-    self.rootVm.testResultsHistory.push(self);\n\
-\n\
-    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));\n\
-    util.lightbox.close();\n\
-    util.lightbox.working(workingVm);\n\
-    var data = self.toFlatObject();\n\
-    $.ajax({\n\
-        type: util.getRequestMethod('save_result'),\n\
-        url: util.getConfigSetting('save_result'),\n\
-        data: util.formatRequestData('save_result', data),\n\
-        dataType: 'json',\n\
-        success: function (data, textStatus, jqXhr) {\n\
-            workingVm.status('success');\n\
-        },\n\
-        error: function (jqXhr, textStatus, errorThrown) {\n\
-            workingVm.status('error');\n\
-        }\n\
-    });\n\
-\n\
-    util.lightbox.close();\n\
 };\n\
 \n\
 TestHistoryViewModel.prototype.matchesSearch = function (searchString) {\n\
@@ -67424,40 +67335,6 @@ TestHistoryViewModel.prototype.delete = function () {\n\
     });\n\
 \n\
     util.lightbox.close();\n\
-};\n\
-\n\
-TestHistoryViewModel.prototype.displayTagsRead = function () {\n\
-    var self = TestHistoryViewModel.typesafe(this);\n\
-\n\
-    if (!self.unqualifiedTags()) {\n\
-        self.unqualifiedTags(self.tags().join(', '));\n\
-    }\n\
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());\n\
-};\n\
-\n\
-TestHistoryViewModel.prototype.displayTagsWrite = function (value) {\n\
-    var self = TestHistoryViewModel.typesafe(this);\n\
-\n\
-    if (value == null) {\n\
-        return;\n\
-    }\n\
-\n\
-    var newArray = value.split(',');\n\
-\n\
-    self.tags.removeAll();\n\
-    for (var i = 0; i < newArray.length; i++) {\n\
-        var trimmedValue = util.trimTag(newArray[i]);\n\
-\n\
-        if (trimmedValue == '') {\n\
-            continue;\n\
-        }\n\
-\n\
-        if (self.tags().indexOf(trimmedValue) == -1) {\n\
-            self.tags.push(trimmedValue);\n\
-        }\n\
-    }\n\
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));\n\
-    self.unqualifiedTags.valueHasMutated();\n\
 };\n\
 \n\
 module.exports = TestHistoryViewModel;\n\
@@ -67907,6 +67784,7 @@ function TestTemplateViewModel(rootVm) {\n\
     self.defense_steps = ko.observable();\n\
     self.defense_criteria = ko.observable();\n\
     self.traffic_direction = ko.observable();\n\
+    self.test_result_id = ko.observable(null);\n\
 \n\
     //IDLE, RUNNING, STOPPED, ABORTED, FINISHED\n\
     self.status = ko.observable(\"IDLE\");\n\
@@ -68018,6 +67896,7 @@ TestTemplateViewModel.prototype.getRunTestData = function () {\n\
         bpt_name: self.bpt_name,\n\
         host: bpsDevice.host,\n\
         username: bpsDevice.username,\n\
+        test_result_id: self.test_result_id,\n\
         password: bpsDevice.password\n\
     };\n\
 \n\
@@ -68034,7 +67913,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {\n\
     if (self.status() == \"RUNNING\") {\n\
         return; // Short-circuit\n\
     }\n\
-\n\
+    self.status(\"RUNNING\");\n\
     var currentConfig = self.getRunTestData();\n\
     var formatRequestData = util.formatRequestData('run_test', currentConfig);\n\
     self.startingTest = true;\n\
@@ -68049,14 +67928,11 @@ TestTemplateViewModel.prototype.runTest = function (options) {\n\
             if(util.lightbox.isOpen) {\n\
                 util.lightbox.close();\n\
             }\n\
-\n\
+            self.test_result_id = data['test_result_id'];\n\
             self.startingTest = false;\n\
 \n\
             //If we have results, we should show the results table\n\
-//            var results = self.testVm.vmResults;\n\
-//            if (results.percentComplete() > 0) {\n\
-//                results.getFinalTable(results.onGotFinalTable.bind(results));\n\
-//            }\n\
+            self.rootVm.getResultHistory({\"result_id\" : self.test_result_id},function(){});\n\
         }\n\
     }).fail(function () {\n\
         self.status(\"ERROR\");\n\
@@ -68064,7 +67940,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {\n\
         util.lightbox.error(translate(\"Validating test\"));\n\
         self.startingTest = false;\n\
     });\n\
-    self.status(\"RUNNING\");\n\
+    //self.status(\"RUNNING\");\n\
     if(util.lightbox.isOpen) {\n\
         util.lightbox.close();\n\
     }\n\
@@ -68081,10 +67957,13 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {\n\
     if (self.status() != \"RUNNING\") {\n\
         return; // Short-circuit\n\
     }\n\
-\n\
+    if (self.test_result_id == null) {\n\
+        self.status(\"STOPPED\");\n\
+        return;\n\
+    }\n\
+    self.status(\"STOPPED\");\n\
     var currentConfig = self.getRunTestData();\n\
     var formatRequestData = util.formatRequestData('cancel_test', currentConfig);\n\
-    self.startingTest = true;\n\
 \n\
     $.ajax({\n\
         type: util.getRequestMethod('cancel_test'),\n\
@@ -68101,8 +67980,6 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {\n\
         util.lightbox.error(translate(\"Validating test\"));\n\
         self.startingTest = false;\n\
     });\n\
-\n\
-    self.status(\"STOPPED\");\n\
 };\n\
 \n\
 TestTemplateViewModel.prototype.downloadReports = function (options) {\n\

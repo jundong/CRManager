@@ -5,10 +5,17 @@ function TestHistoryViewModel(dashboardVm) {
     self.dashboardVm = dashboardVm;
     self.rootVm = dashboardVm.rootVm;
 
-    self.result_id = ko.observable();
-    self.test_id = 0;
+    self.id = ko.observable();
     self.name = ko.observable();
+    self.result_id = ko.observable();
+    self.test_id = ko.observable();
+    self.created_by = ko.observable();
+    self.progress = ko.observable();
+    self.result_path = ko.observable();
+    self.end_result = ko.observable();
+    self.error_reason = ko.observable();
     self.date = ko.observable();
+
     self.dateFormatted = ko.computed(function () {
         var d = self.date();
 
@@ -18,22 +25,6 @@ function TestHistoryViewModel(dashboardVm) {
 
         return moment(d).format('lll');
     });
-    self.description = ko.observable();
-    self.endResult = ko.observable();
-    self.displayMessage = ko.observable();
-    self.categories = ko.observableArray();
-    self.template_name = ko.observable();
-    self.customer = ko.observable();
-    self.location = ko.observable();
-    self.favorite = ko.observable(false);
-    self.tags = ko.observableArray();
-    self.unqualifiedTags = ko.observable();
-    self.validationResult = ko.observable();
-
-    self.displayTags = ko.computed({
-        read: self.displayTagsRead.bind(self),
-        write: self.displayTagsWrite.bind(self)
-    }).extend({ throttle: self.rootVm.defaultThrottleDuration });
 
     self.loadRecentTest = function () {
         self.rootVm.loadRecentTest(self);
@@ -48,53 +39,21 @@ TestHistoryViewModel.typesafe = function (that) {
     return that;
 };
 
-TestHistoryViewModel.prototype.setState = function(testVm){
-    var self = TestHistoryViewModel.typesafe(this);
-
-    self.endResult(testVm.vmResults.status());
-    self.displayMessage(testVm.vmResults.displayMessage());
-    self.test_id = testVm.vmConfiguration.id();
-    self.name(testVm.name());
-    self.template_name(testVm.vmConfiguration.template_name());
-    var date = new Date();
-    self.date((date.getMonth()+1) + '/' + date.getDate() + '/' + date.getFullYear());
-    self.description(testVm.description());
-
-    var categories = testVm.vmConfiguration.categories();
-    for (var i = 0; i < categories.length; i++) {
-        self.categories.push(categories[i]);
-    }
-    self.chartData = new Array();
-    self.tableData = new Array();
-    var charts = testVm.vmResults.charts();
-    for(var chartIndex = 0; chartIndex < charts.length; chartIndex++){
-        if(charts[chartIndex]){
-            self.chartData.push({ name: charts[chartIndex].chart().name, series: charts[chartIndex].chart().series() });
-            self.tableData.push(charts[chartIndex].table().data());
-        }
-    }
-};
-
 TestHistoryViewModel.prototype.toFlatObject = function () {
     var self = TestHistoryViewModel.typesafe(this);
 
     var history = {
-        result_id: self.result_id(),
-        test_id: self.test_id,
+        id: self.id(),
         name: self.name(),
-        description: self.description(),
-        date: self.date,
-        end_result: self.endResult(),
-        display_message: self.displayMessage(),
-        tags: util.getTags(self),
-        categories: new Array(),
-        template_name: self.template_name()
+        result_id: self.result_id(),
+        test_id: self.test_id(),
+        created_by: self.created_by(),
+        date: self.date(),
+        progress: self.progress(),
+        end_result: self.end_result(),
+        result_path: self.result_path(),
+        error_reason: self.error_reason()
     };
-
-    var categories = self.categories();
-    for (var i = 0; i < categories.length; i++) {
-        history.categories.push(categories[i]);
-    }
 
     return history;
 };
@@ -102,21 +61,16 @@ TestHistoryViewModel.prototype.toFlatObject = function () {
 TestHistoryViewModel.prototype.inflate = function (recentTest) {
     var self = TestHistoryViewModel.typesafe(this);
 
-    var thisDate = recentTest.date+" UTC";
-    thisDate = thisDate.replace(/-/g,"/");
-    thisDate = new Date(thisDate).format('yyyy-MM-dd HH:mm:ss');
-    thisDate = String(thisDate);
-
-    self.result_id(recentTest.result_id);
-    self.test_id = recentTest.test_id;
+    self.id(recentTest.id);
     self.name(recentTest.name);
-    self.date(thisDate);
-    self.description(recentTest.description);
-    self.endResult(recentTest.end_result);
-    self.displayMessage(recentTest.display_message);
-    self.categories(recentTest.categories);
-    self.template_name(recentTest.template_name);
-    util.setTags(self, recentTest.tags);
+    self.result_id(recentTest.result_id);
+    self.test_id(recentTest.test_id);
+    self.created_by(recentTest.created_by);
+    self.date(recentTest.date);
+    self.progress(recentTest.progress);
+    self.end_result(recentTest.end_result);
+    self.result_path(recentTest.result_path);
+    self.error_reason(recentTest.error_reason);
 };
 
 TestHistoryViewModel.prototype.openSaveModal = function () {
@@ -135,53 +89,10 @@ TestHistoryViewModel.prototype.openSaveModal = function () {
 
 TestHistoryViewModel.prototype.validate = function (result, targetName) {
     var self = TestHistoryViewModel.typesafe(this);
-
-    if(util.isNullOrEmpty(targetName))
-        result.addCheckResults(translate("Test Results Validation"), false, translate("The name field is required in order to save your test results"));
-    else{
-        var foundExisting = ko.utils.arrayFirst(self.rootVm.testResultsHistory, function (item) {
-            return targetName == item.name();
-        });
-
-        if(foundExisting)
-            result.addCheckResults(translate("Test Results Validation"), false, translate('The name: {name} is already in use, please set a unique name for this test result', {
-                target: targetName
-            }));
-    }
 };
 
 TestHistoryViewModel.prototype.save = function () {
     var self = TestHistoryViewModel.typesafe(this);
-
-    var name = self.name();
-    self.unqualifiedTags(self.tags().join(', '));
-    var validationResult = new ValidationResultsViewModel(self);
-    self.validate(validationResult, name);
-    self.validationResult(validationResult);
-    if(!validationResult.is_valid){
-        return;
-    }
-
-    self.rootVm.testResultsHistory.push(self);
-
-    var workingVm = new LightboxWorkingViewModel(translate('Save'), translate('Saving...'));
-    util.lightbox.close();
-    util.lightbox.working(workingVm);
-    var data = self.toFlatObject();
-    $.ajax({
-        type: util.getRequestMethod('save_result'),
-        url: util.getConfigSetting('save_result'),
-        data: util.formatRequestData('save_result', data),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-            workingVm.status('success');
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            workingVm.status('error');
-        }
-    });
-
-    util.lightbox.close();
 };
 
 TestHistoryViewModel.prototype.matchesSearch = function (searchString) {
@@ -227,40 +138,6 @@ TestHistoryViewModel.prototype.delete = function () {
     });
 
     util.lightbox.close();
-};
-
-TestHistoryViewModel.prototype.displayTagsRead = function () {
-    var self = TestHistoryViewModel.typesafe(this);
-
-    if (!self.unqualifiedTags()) {
-        self.unqualifiedTags(self.tags().join(', '));
-    }
-    return util.sanitizeUnqualifiedTagGroup(self.unqualifiedTags());
-};
-
-TestHistoryViewModel.prototype.displayTagsWrite = function (value) {
-    var self = TestHistoryViewModel.typesafe(this);
-
-    if (value == null) {
-        return;
-    }
-
-    var newArray = value.split(',');
-
-    self.tags.removeAll();
-    for (var i = 0; i < newArray.length; i++) {
-        var trimmedValue = util.trimTag(newArray[i]);
-
-        if (trimmedValue == '') {
-            continue;
-        }
-
-        if (self.tags().indexOf(trimmedValue) == -1) {
-            self.tags.push(trimmedValue);
-        }
-    }
-    self.unqualifiedTags(util.sanitizeUnqualifiedTagGroup(value));
-    self.unqualifiedTags.valueHasMutated();
 };
 
 module.exports = TestHistoryViewModel;

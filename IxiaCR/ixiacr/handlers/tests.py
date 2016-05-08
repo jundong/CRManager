@@ -1,5 +1,5 @@
 import time
-
+from datetime import datetime
 from pyramid.i18n import TranslationStringFactory
 import transaction
 from pyramid_handlers import action
@@ -179,29 +179,39 @@ class IxiaTestHandler(base.Handler):
         Call BPS RestfulApi to run test
         '''
         messages = list()
-
+        result_id = None
+        success = True
+        start_date = datetime.now()
         try:
             data = self.request.json_body
-            # tcr = TestResult(created_by=1,
-            #     test_id=data['id'],
-            #     end_result='IDLE')
-            # db.add(tcr)
-            # transaction.commit()
-
-            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0', forceful='true', test_id=data['id'], created_by=1)
-            bpsTest.runURTest(data['bpt_name'])
-
-        except Exception, e:
             tcr = TestResult(created_by=1,
-                         test_id=data['id'],
-                         end_result='ERROR',
-                         error_reason=str(e))
+                test_id=data['id'],
+                progress=0,
+                created=start_date,
+                end_result='RUNNING')
             db.add(tcr)
             transaction.commit()
 
+            tcr = TestResult.query.filter_by(created=start_date).first()
+            if tcr:
+                result_id = tcr.id
+
+            bpsFiles = data['bpt_name'].split(',')
+            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0', forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
+            bpsTest.runURTest(bpsFiles[0])
+
+        except Exception, e:
+            success = False
             msg = ('run_test: ixiacr_test_id={0}; e={1}'
                    .format(data['id'], str(e)))
             ixiacrlogger.exception(msg)
+
+            tr = TestResult.query.filter_by(id=result_id).first()
+            if tcr:
+                tr.end_result='ERROR'
+                tr.error_reason=str(e)
+                db.add(tr)
+                transaction.commit()
 
             msg_header, msg_content = str(e)
 
@@ -210,9 +220,24 @@ class IxiaTestHandler(base.Handler):
                 'content': self.localizer.translate(_(msg_content)),
                 'is_error': True})
         finally:
+            if success:
+                tcr = TestResult.query.filter_by(id=result_id).first()
+                if tcr:
+                    tcr.end_result='FINISHED'
+                    db.add(tcr)
+                    transaction.commit()
+            else:
+                tcr = TestResult.query.filter_by(id=result_id).first()
+                if tcr:
+                    tcr.end_result='ERROR'
+                    tcr.error_reason=str(e)
+                    db.add(tcr)
+                    transaction.commit()
+
             return {'is_ready': True,
-                    'is_valid': True,
+                    'is_valid': success,
                     'items': [],
+                    'test_result_id': result_id,
                     'messages': messages}
 
     @action(renderer='json')
@@ -322,34 +347,60 @@ class IxiaTestHandler(base.Handler):
         '''Cancel the test.  Will abort a currently running test task
 
         '''
+        success = True
         try:
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
             data = self.request.json_body
-            # tcr = TestResult(created_by=1,
-            #     test_id=data['id'],
-            #     end_result='IDLE')
-            # db.add(tcr)
-            # transaction.commit()
+            test_result_id = data['test_result_id']
 
             bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0')
             bpsTest.bps.stopTest()
 
+            tcr = TestResult.query.filter_by(id=test_result_id).first()
+            if tcr:
+                tcr.end_result='STOPPED'
+                db.add(tcr)
+                transaction.commit()
+
         except KeyError as e:
+            success = False
+            tcr = TestResult.query.filter_by(id=test_result_id).first()
+            if tcr:
+                tcr.end_result='ERROR'
+                tcr.error_reason=str(e)
+                db.add(tcr)
+                transaction.commit()
+
             ixiacrlogger.exception('%s' % e)
             return self.success()
         except Exception as e:
+            success = False
+            tcr = TestResult.query.filter_by(id=test_result_id).first()
+            if tcr:
+                tcr.end_result='ERROR'
+                tcr.error_reason=str(e)
+                db.add(tcr)
+                transaction.commit()
+
             ixiacrlogger.exception('%s' % e)
             return self.fail()
         finally:
-            pass
+            if success:
+                tcr = TestResult.query.filter_by(id=test_result_id).first()
+                if tcr:
+                    tcr.end_result='STOPPED'
+                    db.add(tcr)
+                    transaction.commit()
+            else:
+                tcr = TestResult.query.filter_by(id=test_result_id).first()
+                if tcr:
+                    tcr.end_result='ERROR'
+                    tcr.error_reason=str(e)
+                    db.add(tcr)
+                    transaction.commit()
 
 
 def is_test_running():
     """ Determine if a test is currently running by looking at the relevent tasks.
     """
-    from ixiacr.tasks.utils import is_any_task_running
-    return is_any_task_running(['bps.test'], [
-        'ixiacr.tasks.test.create',
-        'ixiacr.tasks.test.validate',
-        'ixiacr.tasks.test.execute'
-    ])
+    pass

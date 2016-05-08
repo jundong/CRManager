@@ -12,6 +12,7 @@ from pyramid.view import view_config
 from ixiacr.models import *
 from ixiacr.lib.utils import (admin_helper, get_build_number)
 from ixiacr.lib import ixiacr_logger
+from ixiacr.views.utils import Paginator
 
 ixiacrlogger = ixiacr_logger.IxiaLogger(__name__)
 
@@ -166,7 +167,36 @@ def get_result_history(request):
     }
     result_id = request.params.get('result_id', None)
     results = []
+    if result_id is not None:
+        result = TestResult.query.filter_by(id=result_id).first()
+        if result:
+            results.append(result)
+    else:
+        all_history_results = TestResult.query.order_by(
+                TestResult.id.desc()).all()
+        items['total_number'] = len(all_history_results)
+        if request.params.get('page_size') == 'unlimited':
+            results = all_history_results
+        else:
+            paginator = Paginator(request.params.get('page', 1), request.params.get('page_size', 10))
+            results = all_history_results[paginator.start : paginator.stop]
     try:
+        for test_result in results:
+            tc = TestCases.query.filter_by(id=test_result.test_id).first()
+
+            strformat = "%Y-%m-%d %H:%M:%S"
+            history = dict({'id': test_result.id,
+                            'date': test_result.created.strftime(strformat),
+                            'end_result': test_result.end_result,
+                            'result_id': test_result.id,
+                            'test_id': test_result.test_id,
+                            'name': tc.name.get_translation(lang),
+                            'progress': test_result.progress,
+                            'result_path': test_result.result_path,
+                            'error_reason': test_result.error_reason})
+
+            items['data'].append(history)
+
         return items
 
     except DBAPIError, e:
