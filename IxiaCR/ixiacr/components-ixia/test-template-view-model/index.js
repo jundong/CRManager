@@ -223,7 +223,34 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {
 };
 
 TestTemplateViewModel.prototype.downloadReports = function (options) {
-    var self = TestTemplateViewModel.typesafe(this);
+    if (this instanceof TestTemplateViewModel) {
+        var self = TestTemplateViewModel.typesafe(this);
+    } else {
+        var self = TestTemplateViewModel.typesafe(this.selectedTest());
+    }
+
+    var max_result_id = 0;
+    var result_path = null;
+    for (var i = 0; i < self.rootVm.testResultsHistory().length; i++) {
+        if (self.rootVm.testResultsHistory()[i].result_id() > max_result_id) {
+            if (self.rootVm.testResultsHistory()[i].end_result != 'RUNNING' && self.rootVm.testResultsHistory()[i].result_path() != '') {
+                max_result_id = self.rootVm.testResultsHistory()[i].result_id();
+                result_path  = self.rootVm.testResultsHistory()[i].result_path();
+            }
+        }
+    }
+
+//    if (result_path != null) {
+//        $.ajax({
+//            type: util.getRequestMethod('cancel_test'),
+//            url: util.getConfigSetting('cancel_test'),
+//            data: ko.toJSON({'result_path': result_path}),
+//            dataType: 'json',
+//            success: function(data, textStatus, jqXhr){
+//            }
+//        }).fail(function () {
+//        });
+//    }
 };
 
 TestTemplateViewModel.prototype.toFlatObject = function(){

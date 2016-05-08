@@ -120,6 +120,7 @@ class IxiaTestHandler(base.Handler):
     '''
     messages = []
     _config_factory = None
+    sessions = {}
 
     @property
     def config_factory(self):
@@ -173,9 +174,9 @@ class IxiaTestHandler(base.Handler):
         finally:
             ixiacrlogger.debug('Exiting: config_test')
 
-    def updateTestResults(self, **kwargs):
-        if self.test_result_id:
-            tcr = TestResult.query.filter_by(id=self.test_result_id).first()
+    def updateTestResults(self, test_result_id, **kwargs):
+        if test_result_id:
+            tcr = TestResult.query.filter_by(id=test_result_id).first()
             if tcr:
                 for key, value in kwargs.items():
                     if key == 'result_path':
@@ -214,7 +215,8 @@ class IxiaTestHandler(base.Handler):
                 result_id = tcr.id
 
             bpsFiles = data['bpt_name'].split(',')
-            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0', forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
+            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '12', forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
+            self.sessions.update({data['id']: bpsTest})
             bpsTest.runURTest(bpsFiles[0])
 
         except Exception, e:
@@ -223,7 +225,7 @@ class IxiaTestHandler(base.Handler):
                    .format(data['id'], str(e)))
             ixiacrlogger.exception(msg)
 
-            self.updateTestResults(end_result='ERROR', error_reason=str(e))
+            self.updateTestResults(result_id, end_result='ERROR', error_reason=str(e))
 
             msg_header, msg_content = str(e)
 
@@ -233,9 +235,9 @@ class IxiaTestHandler(base.Handler):
                 'is_error': True})
         finally:
             if success:
-                self.updateTestResults(end_result='FINISHED')
+                self.updateTestResults(result_id, end_result='FINISHED')
             else:
-                self.updateTestResults(end_result='ERROR')
+                self.updateTestResults(result_id, end_result='ERROR')
 
             return {'is_ready': True,
                     'is_valid': success,
@@ -354,30 +356,47 @@ class IxiaTestHandler(base.Handler):
         try:
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
             data = self.request.json_body
+            test_id = data['id']
             test_result_id = data['test_result_id']
 
-            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '0')
-            bpsTest.bps.stopTest()
+            bpsTest = self.sessions.pop(test_id)
+            bpsTest.stopTest()
 
-            self.updateTestResults(end_result='STOPPED')
+            self.updateTestResults(test_result_id, end_result='STOPPED')
 
         except KeyError as e:
             success = False
-            self.updateTestResults(end_result='ERROR', error_reason=str(e))
+            self.updateTestResults(test_result_id, end_result='ERROR', error_reason=str(e))
 
             ixiacrlogger.exception('%s' % e)
             return self.success()
         except Exception as e:
             success = False
-            self.updateTestResults(end_result='ERROR', error_reason=str(e))
+            self.updateTestResults(test_result_id, end_result='ERROR', error_reason=str(e))
 
             ixiacrlogger.exception('%s' % e)
             return self.fail()
         finally:
             if success:
-                self.updateTestResults(end_result='STOPPED')
+                self.updateTestResults(test_result_id, end_result='STOPPED')
             else:
-                self.updateTestResults(end_result='ERROR')
+                self.updateTestResults(test_result_id, end_result='ERROR')
+
+    @action(renderer='json')
+    def download_reports(self):
+        '''Cancel the test.  Will abort a currently running test task
+
+        '''
+        try:
+            pass
+            # size = os.path.getsize(Path + dFile)
+            # response = Response(content_type='application/force-download', content_disposition='attachment; filename=' + dFile)
+            # response.app_iter = open(Path + dFile, 'rb')
+            # response.content_length = size
+        except Exception as e:
+            pass
+        finally:
+            pass
 
 
 def is_test_running():

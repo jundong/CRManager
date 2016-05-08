@@ -134,12 +134,11 @@ class BPS(object):
             except:
                 print "Some Exception"
                 raise
-        
 
-    def stopTest(self):
+    def stopTest(self, testid):
         print 'Currently running tests:'
-        self.runningTestInfo()
-        testid = raw_input('Enter the complete testid to cancel the running test: ')
+        #self.runningTestInfo()
+        #testid = raw_input('Enter the complete testid to cancel the running test: ')
         service = 'https://' + self.ipstr + '/api/v1/bps/tests/operations/stop'
         jheaders = {'content-type': 'application/json'}
         jdata = json.dumps({'testid':testid})

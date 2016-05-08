@@ -163,8 +163,7 @@ class aTestBpt(object):
         self.bps = BPS(self.ip, self.user, self.passw)
         self.bps.login()
         self.forceful = 'false'
-        self.test_id = 1
-        self.created_by = 1
+        self.test_id = None
         self.test_result_id = None
 
         for key, value in kwargs.items():
@@ -276,6 +275,7 @@ class aTestBpt(object):
         response = self.bps.getResponse()
         if response and response["responseCode"] == 200:
            runId = response["responseText"].get('testid')
+           self.test_id = runId
            print "Test Id = %s" %runId
 
         
@@ -419,6 +419,7 @@ class aTestBpt(object):
         response = self.bps.getResponse()
         if response and response["responseCode"] == 200:
             runId = response["responseText"].get('testid')
+            self.test_id = runId
             print "Test Id = %s" %runId
             self.updateTestResults(run_id=runId, end_result='RUNNING')
 
@@ -442,7 +443,7 @@ class aTestBpt(object):
 
             self.updateTestResults(progress=progress)
 
-            if progress == 100:
+            if progress >= 100:
                 print "Test done"
                 self.updateTestResults(progress=progress, end_result='FINISHED')
                 self.statQueue.put("QUIT")
@@ -465,6 +466,10 @@ class aTestBpt(object):
         self.uploadAndShowParams(bptName)
         self.runTheTest(bptName)
         self.logout()
+
+    def stopTest(self):
+        if self.test_id:
+            self.bps.stopTest(self.test_id)
 
     def updateTestResults(self, **kwargs):
         if self.test_result_id:

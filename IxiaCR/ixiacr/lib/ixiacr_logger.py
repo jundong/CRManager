@@ -4,6 +4,7 @@ import logging.handlers
 import ConfigParser
 import sys
 import os
+import datetime
 #from diagnostics import CommandDispatcher
 
 
@@ -18,6 +19,17 @@ def UiLogger(name, **kwargs):
 def get_ui_log_level():
     """ Return effective log level for ixiacr.ui namespace """
     return logging.getLevelName(logging.getLogger('ixiacr.ui').getEffectiveLevel())
+
+
+def logging_to_path(path, msg):
+    try:
+        fhd = open(path, 'a')
+        fhd.write('%s - %s' % ((datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')),msg))
+        fhd.close()
+    except Exception, e:
+        fhd.close()
+    finally:
+        pass
 
 
 # This will be executed once for each Python interpreter

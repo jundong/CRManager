@@ -126,8 +126,8 @@ def import_db(cmd):
             {'name': u'ATIP',
              'description': u'ATIP',
              'device_type_id': u'2',
-             'host': u'192.168.0.171',
-             'link': u'http://192.168.0.171',
+             'host': u'192.168.0.170',
+             'link': u'http://192.168.0.170',
              'username': u'',
              'password': u''},
             {'name': u'IPS',
@@ -175,8 +175,8 @@ def import_db(cmd):
             {'name': u'Windows',
              'description': u'Windows',
              'device_type_id': u'9',
-             'host': u'192.168.0.172',
-             'link': u'ssh://192.168.0.172',
+             'host': u'192.168.1.103',
+             'link': u'ssh://192.168.1.103',
              'username': u'',
              'password': u''}
         ]
