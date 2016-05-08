@@ -23247,6 +23247,405 @@ require.modules["johntron~sinon"] = require.modules["johntron~sinon@f6c79fdb53d7
 require.modules["sinon"] = require.modules["johntron~sinon@f6c79fdb53d73ff7e2ad06f096b16eaf4add68eb"];
 
 
+require.register("johntron~asap@master", Function("exports, module",
+"\"use strict\";\n\
+\n\
+// Use the fastest possible means to execute a task in a future turn\n\
+// of the event loop.\n\
+\n\
+// linked list of tasks (single, with head node)\n\
+var head = {task: void 0, next: null};\n\
+var tail = head;\n\
+var flushing = false;\n\
+var requestFlush = void 0;\n\
+var hasSetImmediate = typeof setImmediate === \"function\";\n\
+var domain;\n\
+\n\
+if (typeof global != 'undefined') {\n\
+\t// Avoid shims from browserify.\n\
+\t// The existence of `global` in browsers is guaranteed by browserify.\n\
+\tvar process = global.process;\n\
+}\n\
+\n\
+// Note that some fake-Node environments,\n\
+// like the Mocha test runner, introduce a `process` global.\n\
+var isNodeJS = !!process && ({}).toString.call(process) === \"[object process]\";\n\
+\n\
+function flush() {\n\
+    /* jshint loopfunc: true */\n\
+\n\
+    while (head.next) {\n\
+        head = head.next;\n\
+        var task = head.task;\n\
+        head.task = void 0;\n\
+\n\
+        try {\n\
+            task();\n\
+\n\
+        } catch (e) {\n\
+            if (isNodeJS) {\n\
+                // In node, uncaught exceptions are considered fatal errors.\n\
+                // Re-throw them to interrupt flushing!\n\
+\n\
+                // Ensure continuation if an uncaught exception is suppressed\n\
+                // listening process.on(\"uncaughtException\") or domain(\"error\").\n\
+                requestFlush();\n\
+\n\
+                throw e;\n\
+\n\
+            } else {\n\
+                // In browsers, uncaught exceptions are not fatal.\n\
+                // Re-throw them asynchronously to avoid slow-downs.\n\
+                setTimeout(function () {\n\
+                    throw e;\n\
+                }, 0);\n\
+            }\n\
+        }\n\
+    }\n\
+\n\
+    flushing = false;\n\
+}\n\
+\n\
+if (isNodeJS) {\n\
+    // Node.js\n\
+    requestFlush = function () {\n\
+        // Ensure flushing is not bound to any domain.\n\
+        var currentDomain = process.domain;\n\
+        if (currentDomain) {\n\
+            domain = domain || (1,require)(\"domain\");\n\
+            domain.active = process.domain = null;\n\
+        }\n\
+\n\
+        // Avoid tick recursion - use setImmediate if it exists.\n\
+        if (flushing && hasSetImmediate) {\n\
+            setImmediate(flush);\n\
+        } else {\n\
+            process.nextTick(flush);\n\
+        }\n\
+\n\
+        if (currentDomain) {\n\
+            domain.active = process.domain = currentDomain;\n\
+        }\n\
+    };\n\
+\n\
+} else if (hasSetImmediate) {\n\
+    // In IE10, or https://github.com/NobleJS/setImmediate\n\
+    requestFlush = function () {\n\
+        setImmediate(flush);\n\
+    };\n\
+\n\
+} else if (typeof MessageChannel !== \"undefined\") {\n\
+    // modern browsers\n\
+    // http://www.nonblocking.io/2011/06/windownexttick.html\n\
+    var channel = new MessageChannel();\n\
+    // At least Safari Version 6.0.5 (8536.30.1) intermittently cannot create\n\
+    // working message ports the first time a page loads.\n\
+    channel.port1.onmessage = function () {\n\
+        requestFlush = requestPortFlush;\n\
+        channel.port1.onmessage = flush;\n\
+        flush();\n\
+    };\n\
+    var requestPortFlush = function () {\n\
+        // Opera requires us to provide a message payload, regardless of\n\
+        // whether we use it.\n\
+        channel.port2.postMessage(0);\n\
+    };\n\
+    requestFlush = function () {\n\
+        setTimeout(flush, 0);\n\
+        requestPortFlush();\n\
+    };\n\
+\n\
+} else {\n\
+    // old browsers\n\
+    requestFlush = function () {\n\
+        setTimeout(flush, 0);\n\
+    };\n\
+}\n\
+\n\
+function asap(task) {\n\
+    if (isNodeJS && process.domain) {\n\
+        task = process.domain.bind(task);\n\
+    }\n\
+\n\
+    tail = tail.next = {task: task, next: null};\n\
+\n\
+    if (!flushing) {\n\
+        requestFlush();\n\
+        flushing = true;\n\
+    }\n\
+};\n\
+\n\
+module.exports = asap;\n\
+\n\
+//# sourceURL=components/johntron/asap/master/asap.js"
+));
+
+require.modules["johntron-asap"] = require.modules["johntron~asap@master"];
+require.modules["johntron~asap"] = require.modules["johntron~asap@master"];
+require.modules["asap"] = require.modules["johntron~asap@master"];
+
+
+require.register("then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7", Function("exports, module",
+"'use strict'\n\
+\n\
+//This file contains then/promise specific extensions to the core promise API\n\
+\n\
+var Promise = require('then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js')\n\
+var asap = require('johntron~asap@master')\n\
+\n\
+module.exports = Promise\n\
+\n\
+/* Static Functions */\n\
+\n\
+function ValuePromise(value) {\n\
+  this.then = function (onFulfilled) {\n\
+    if (typeof onFulfilled !== 'function') return this\n\
+    return new Promise(function (resolve, reject) {\n\
+      asap(function () {\n\
+        try {\n\
+          resolve(onFulfilled(value))\n\
+        } catch (ex) {\n\
+          reject(ex);\n\
+        }\n\
+      })\n\
+    })\n\
+  }\n\
+}\n\
+ValuePromise.prototype = Object.create(Promise.prototype)\n\
+\n\
+var TRUE = new ValuePromise(true)\n\
+var FALSE = new ValuePromise(false)\n\
+var NULL = new ValuePromise(null)\n\
+var UNDEFINED = new ValuePromise(undefined)\n\
+var ZERO = new ValuePromise(0)\n\
+var EMPTYSTRING = new ValuePromise('')\n\
+\n\
+Promise.from = function (value) {\n\
+  if (value instanceof Promise) return value\n\
+\n\
+  if (value === null) return NULL\n\
+  if (value === undefined) return UNDEFINED\n\
+  if (value === true) return TRUE\n\
+  if (value === false) return FALSE\n\
+  if (value === 0) return ZERO\n\
+  if (value === '') return EMPTYSTRING\n\
+\n\
+  if (typeof value === 'object' || typeof value === 'function') {\n\
+    try {\n\
+      var then = value.then\n\
+      if (typeof then === 'function') {\n\
+        return new Promise(then.bind(value))\n\
+      }\n\
+    } catch (ex) {\n\
+      return new Promise(function (resolve, reject) {\n\
+        reject(ex)\n\
+      })\n\
+    }\n\
+  }\n\
+\n\
+  return new ValuePromise(value)\n\
+}\n\
+Promise.denodeify = function (fn) {\n\
+  return function () {\n\
+    var self = this\n\
+    var args = Array.prototype.slice.call(arguments)\n\
+    return new Promise(function (resolve, reject) {\n\
+      args.push(function (err, res) {\n\
+        if (err) reject(err)\n\
+        else resolve(res)\n\
+      })\n\
+      fn.apply(self, args)\n\
+    })\n\
+  }\n\
+}\n\
+Promise.nodeify = function (fn) {\n\
+  return function () {\n\
+    var args = Array.prototype.slice.call(arguments)\n\
+    var callback = typeof args[args.length - 1] === 'function' ? args.pop() : null\n\
+    try {\n\
+      return fn.apply(this, arguments).nodeify(callback)\n\
+    } catch (ex) {\n\
+      if (callback == null) {\n\
+        return new Promise(function (resolve, reject) { reject(ex) })\n\
+      } else {\n\
+        asap(function () {\n\
+          callback(ex)\n\
+        })\n\
+      }\n\
+    }\n\
+  }\n\
+}\n\
+\n\
+Promise.all = function () {\n\
+  var args = Array.prototype.slice.call(arguments.length === 1 && Array.isArray(arguments[0]) ? arguments[0] : arguments)\n\
+\n\
+  return new Promise(function (resolve, reject) {\n\
+    if (args.length === 0) return resolve([])\n\
+    var remaining = args.length\n\
+    function res(i, val) {\n\
+      try {\n\
+        if (val && (typeof val === 'object' || typeof val === 'function')) {\n\
+          var then = val.then\n\
+          if (typeof then === 'function') {\n\
+            then.call(val, function (val) { res(i, val) }, reject)\n\
+            return\n\
+          }\n\
+        }\n\
+        args[i] = val\n\
+        if (--remaining === 0) {\n\
+          resolve(args);\n\
+        }\n\
+      } catch (ex) {\n\
+        reject(ex)\n\
+      }\n\
+    }\n\
+    for (var i = 0; i < args.length; i++) {\n\
+      res(i, args[i])\n\
+    }\n\
+  })\n\
+}\n\
+\n\
+/* Prototype Methods */\n\
+\n\
+Promise.prototype.done = function (onFulfilled, onRejected) {\n\
+  var self = arguments.length ? this.then.apply(this, arguments) : this\n\
+  self.then(null, function (err) {\n\
+    asap(function () {\n\
+      throw err\n\
+    })\n\
+  })\n\
+}\n\
+Promise.prototype.nodeify = function (callback) {\n\
+  if (callback == null) return this\n\
+\n\
+  this.then(function (value) {\n\
+    asap(function () {\n\
+      callback(null, value)\n\
+    })\n\
+  }, function (err) {\n\
+    asap(function () {\n\
+      callback(err)\n\
+    })\n\
+  })\n\
+}\n\
+//# sourceURL=components/then/promise/d0bab8d4e8a704bb71d83d48eabebacc360651c7/index.js"
+));
+
+require.register("then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js", Function("exports, module",
+"'use strict'\n\
+\n\
+var asap = require('johntron~asap@master')\n\
+\n\
+module.exports = Promise\n\
+function Promise(fn) {\n\
+  if (!(this instanceof Promise)) return new Promise(fn)\n\
+  if (typeof fn !== 'function') throw new TypeError('not a function')\n\
+  var state = null\n\
+  var value = null\n\
+  var deferreds = []\n\
+  var self = this\n\
+\n\
+  this.then = function(onFulfilled, onRejected) {\n\
+    return new Promise(function(resolve, reject) {\n\
+      handle(new Handler(onFulfilled, onRejected, resolve, reject))\n\
+    })\n\
+  }\n\
+\n\
+  function handle(deferred) {\n\
+    if (state === null) {\n\
+      deferreds.push(deferred)\n\
+      return\n\
+    }\n\
+    asap(function() {\n\
+      var cb = state ? deferred.onFulfilled : deferred.onRejected\n\
+      if (cb === null) {\n\
+        (state ? deferred.resolve : deferred.reject)(value)\n\
+        return\n\
+      }\n\
+      var ret\n\
+      try {\n\
+        ret = cb(value)\n\
+      }\n\
+      catch (e) {\n\
+        deferred.reject(e)\n\
+        return\n\
+      }\n\
+      deferred.resolve(ret)\n\
+    })\n\
+  }\n\
+\n\
+  function resolve(newValue) {\n\
+    try { //Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure\n\
+      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.')\n\
+      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {\n\
+        var then = newValue.then\n\
+        if (typeof then === 'function') {\n\
+          doResolve(then.bind(newValue), resolve, reject)\n\
+          return\n\
+        }\n\
+      }\n\
+      state = true\n\
+      value = newValue\n\
+      finale()\n\
+    } catch (e) { reject(e) }\n\
+  }\n\
+\n\
+  function reject(newValue) {\n\
+    state = false\n\
+    value = newValue\n\
+    finale()\n\
+  }\n\
+\n\
+  function finale() {\n\
+    for (var i = 0, len = deferreds.length; i < len; i++)\n\
+      handle(deferreds[i])\n\
+    deferreds = null\n\
+  }\n\
+\n\
+  doResolve(fn, resolve, reject)\n\
+}\n\
+\n\
+\n\
+function Handler(onFulfilled, onRejected, resolve, reject){\n\
+  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null\n\
+  this.onRejected = typeof onRejected === 'function' ? onRejected : null\n\
+  this.resolve = resolve\n\
+  this.reject = reject\n\
+}\n\
+\n\
+/**\n\
+ * Take a potentially misbehaving resolver function and make sure\n\
+ * onFulfilled and onRejected are only called once.\n\
+ *\n\
+ * Makes no guarantees about asynchrony.\n\
+ */\n\
+function doResolve(fn, onFulfilled, onRejected) {\n\
+  var done = false;\n\
+  try {\n\
+    fn(function (value) {\n\
+      if (done) return\n\
+      done = true\n\
+      onFulfilled(value)\n\
+    }, function (reason) {\n\
+      if (done) return\n\
+      done = true\n\
+      onRejected(reason)\n\
+    })\n\
+  } catch (ex) {\n\
+    if (done) return\n\
+    done = true\n\
+    onRejected(ex)\n\
+  }\n\
+}\n\
+\n\
+//# sourceURL=components/then/promise/d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js"
+));
+
+require.modules["then-promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
+require.modules["then~promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
+require.modules["promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
+
+
 require.register("pillarjs~path-to-regexp@v1.0.1", Function("exports, module",
 "/**\n\
  * Expose `pathtoRegexp`.\n\
@@ -24021,405 +24420,6 @@ require.register("visionmedia~page.js@1.6.1", Function("exports, module",
 require.modules["visionmedia-page.js"] = require.modules["visionmedia~page.js@1.6.1"];
 require.modules["visionmedia~page.js"] = require.modules["visionmedia~page.js@1.6.1"];
 require.modules["page.js"] = require.modules["visionmedia~page.js@1.6.1"];
-
-
-require.register("johntron~asap@master", Function("exports, module",
-"\"use strict\";\n\
-\n\
-// Use the fastest possible means to execute a task in a future turn\n\
-// of the event loop.\n\
-\n\
-// linked list of tasks (single, with head node)\n\
-var head = {task: void 0, next: null};\n\
-var tail = head;\n\
-var flushing = false;\n\
-var requestFlush = void 0;\n\
-var hasSetImmediate = typeof setImmediate === \"function\";\n\
-var domain;\n\
-\n\
-if (typeof global != 'undefined') {\n\
-\t// Avoid shims from browserify.\n\
-\t// The existence of `global` in browsers is guaranteed by browserify.\n\
-\tvar process = global.process;\n\
-}\n\
-\n\
-// Note that some fake-Node environments,\n\
-// like the Mocha test runner, introduce a `process` global.\n\
-var isNodeJS = !!process && ({}).toString.call(process) === \"[object process]\";\n\
-\n\
-function flush() {\n\
-    /* jshint loopfunc: true */\n\
-\n\
-    while (head.next) {\n\
-        head = head.next;\n\
-        var task = head.task;\n\
-        head.task = void 0;\n\
-\n\
-        try {\n\
-            task();\n\
-\n\
-        } catch (e) {\n\
-            if (isNodeJS) {\n\
-                // In node, uncaught exceptions are considered fatal errors.\n\
-                // Re-throw them to interrupt flushing!\n\
-\n\
-                // Ensure continuation if an uncaught exception is suppressed\n\
-                // listening process.on(\"uncaughtException\") or domain(\"error\").\n\
-                requestFlush();\n\
-\n\
-                throw e;\n\
-\n\
-            } else {\n\
-                // In browsers, uncaught exceptions are not fatal.\n\
-                // Re-throw them asynchronously to avoid slow-downs.\n\
-                setTimeout(function () {\n\
-                    throw e;\n\
-                }, 0);\n\
-            }\n\
-        }\n\
-    }\n\
-\n\
-    flushing = false;\n\
-}\n\
-\n\
-if (isNodeJS) {\n\
-    // Node.js\n\
-    requestFlush = function () {\n\
-        // Ensure flushing is not bound to any domain.\n\
-        var currentDomain = process.domain;\n\
-        if (currentDomain) {\n\
-            domain = domain || (1,require)(\"domain\");\n\
-            domain.active = process.domain = null;\n\
-        }\n\
-\n\
-        // Avoid tick recursion - use setImmediate if it exists.\n\
-        if (flushing && hasSetImmediate) {\n\
-            setImmediate(flush);\n\
-        } else {\n\
-            process.nextTick(flush);\n\
-        }\n\
-\n\
-        if (currentDomain) {\n\
-            domain.active = process.domain = currentDomain;\n\
-        }\n\
-    };\n\
-\n\
-} else if (hasSetImmediate) {\n\
-    // In IE10, or https://github.com/NobleJS/setImmediate\n\
-    requestFlush = function () {\n\
-        setImmediate(flush);\n\
-    };\n\
-\n\
-} else if (typeof MessageChannel !== \"undefined\") {\n\
-    // modern browsers\n\
-    // http://www.nonblocking.io/2011/06/windownexttick.html\n\
-    var channel = new MessageChannel();\n\
-    // At least Safari Version 6.0.5 (8536.30.1) intermittently cannot create\n\
-    // working message ports the first time a page loads.\n\
-    channel.port1.onmessage = function () {\n\
-        requestFlush = requestPortFlush;\n\
-        channel.port1.onmessage = flush;\n\
-        flush();\n\
-    };\n\
-    var requestPortFlush = function () {\n\
-        // Opera requires us to provide a message payload, regardless of\n\
-        // whether we use it.\n\
-        channel.port2.postMessage(0);\n\
-    };\n\
-    requestFlush = function () {\n\
-        setTimeout(flush, 0);\n\
-        requestPortFlush();\n\
-    };\n\
-\n\
-} else {\n\
-    // old browsers\n\
-    requestFlush = function () {\n\
-        setTimeout(flush, 0);\n\
-    };\n\
-}\n\
-\n\
-function asap(task) {\n\
-    if (isNodeJS && process.domain) {\n\
-        task = process.domain.bind(task);\n\
-    }\n\
-\n\
-    tail = tail.next = {task: task, next: null};\n\
-\n\
-    if (!flushing) {\n\
-        requestFlush();\n\
-        flushing = true;\n\
-    }\n\
-};\n\
-\n\
-module.exports = asap;\n\
-\n\
-//# sourceURL=components/johntron/asap/master/asap.js"
-));
-
-require.modules["johntron-asap"] = require.modules["johntron~asap@master"];
-require.modules["johntron~asap"] = require.modules["johntron~asap@master"];
-require.modules["asap"] = require.modules["johntron~asap@master"];
-
-
-require.register("then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7", Function("exports, module",
-"'use strict'\n\
-\n\
-//This file contains then/promise specific extensions to the core promise API\n\
-\n\
-var Promise = require('then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js')\n\
-var asap = require('johntron~asap@master')\n\
-\n\
-module.exports = Promise\n\
-\n\
-/* Static Functions */\n\
-\n\
-function ValuePromise(value) {\n\
-  this.then = function (onFulfilled) {\n\
-    if (typeof onFulfilled !== 'function') return this\n\
-    return new Promise(function (resolve, reject) {\n\
-      asap(function () {\n\
-        try {\n\
-          resolve(onFulfilled(value))\n\
-        } catch (ex) {\n\
-          reject(ex);\n\
-        }\n\
-      })\n\
-    })\n\
-  }\n\
-}\n\
-ValuePromise.prototype = Object.create(Promise.prototype)\n\
-\n\
-var TRUE = new ValuePromise(true)\n\
-var FALSE = new ValuePromise(false)\n\
-var NULL = new ValuePromise(null)\n\
-var UNDEFINED = new ValuePromise(undefined)\n\
-var ZERO = new ValuePromise(0)\n\
-var EMPTYSTRING = new ValuePromise('')\n\
-\n\
-Promise.from = function (value) {\n\
-  if (value instanceof Promise) return value\n\
-\n\
-  if (value === null) return NULL\n\
-  if (value === undefined) return UNDEFINED\n\
-  if (value === true) return TRUE\n\
-  if (value === false) return FALSE\n\
-  if (value === 0) return ZERO\n\
-  if (value === '') return EMPTYSTRING\n\
-\n\
-  if (typeof value === 'object' || typeof value === 'function') {\n\
-    try {\n\
-      var then = value.then\n\
-      if (typeof then === 'function') {\n\
-        return new Promise(then.bind(value))\n\
-      }\n\
-    } catch (ex) {\n\
-      return new Promise(function (resolve, reject) {\n\
-        reject(ex)\n\
-      })\n\
-    }\n\
-  }\n\
-\n\
-  return new ValuePromise(value)\n\
-}\n\
-Promise.denodeify = function (fn) {\n\
-  return function () {\n\
-    var self = this\n\
-    var args = Array.prototype.slice.call(arguments)\n\
-    return new Promise(function (resolve, reject) {\n\
-      args.push(function (err, res) {\n\
-        if (err) reject(err)\n\
-        else resolve(res)\n\
-      })\n\
-      fn.apply(self, args)\n\
-    })\n\
-  }\n\
-}\n\
-Promise.nodeify = function (fn) {\n\
-  return function () {\n\
-    var args = Array.prototype.slice.call(arguments)\n\
-    var callback = typeof args[args.length - 1] === 'function' ? args.pop() : null\n\
-    try {\n\
-      return fn.apply(this, arguments).nodeify(callback)\n\
-    } catch (ex) {\n\
-      if (callback == null) {\n\
-        return new Promise(function (resolve, reject) { reject(ex) })\n\
-      } else {\n\
-        asap(function () {\n\
-          callback(ex)\n\
-        })\n\
-      }\n\
-    }\n\
-  }\n\
-}\n\
-\n\
-Promise.all = function () {\n\
-  var args = Array.prototype.slice.call(arguments.length === 1 && Array.isArray(arguments[0]) ? arguments[0] : arguments)\n\
-\n\
-  return new Promise(function (resolve, reject) {\n\
-    if (args.length === 0) return resolve([])\n\
-    var remaining = args.length\n\
-    function res(i, val) {\n\
-      try {\n\
-        if (val && (typeof val === 'object' || typeof val === 'function')) {\n\
-          var then = val.then\n\
-          if (typeof then === 'function') {\n\
-            then.call(val, function (val) { res(i, val) }, reject)\n\
-            return\n\
-          }\n\
-        }\n\
-        args[i] = val\n\
-        if (--remaining === 0) {\n\
-          resolve(args);\n\
-        }\n\
-      } catch (ex) {\n\
-        reject(ex)\n\
-      }\n\
-    }\n\
-    for (var i = 0; i < args.length; i++) {\n\
-      res(i, args[i])\n\
-    }\n\
-  })\n\
-}\n\
-\n\
-/* Prototype Methods */\n\
-\n\
-Promise.prototype.done = function (onFulfilled, onRejected) {\n\
-  var self = arguments.length ? this.then.apply(this, arguments) : this\n\
-  self.then(null, function (err) {\n\
-    asap(function () {\n\
-      throw err\n\
-    })\n\
-  })\n\
-}\n\
-Promise.prototype.nodeify = function (callback) {\n\
-  if (callback == null) return this\n\
-\n\
-  this.then(function (value) {\n\
-    asap(function () {\n\
-      callback(null, value)\n\
-    })\n\
-  }, function (err) {\n\
-    asap(function () {\n\
-      callback(err)\n\
-    })\n\
-  })\n\
-}\n\
-//# sourceURL=components/then/promise/d0bab8d4e8a704bb71d83d48eabebacc360651c7/index.js"
-));
-
-require.register("then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js", Function("exports, module",
-"'use strict'\n\
-\n\
-var asap = require('johntron~asap@master')\n\
-\n\
-module.exports = Promise\n\
-function Promise(fn) {\n\
-  if (!(this instanceof Promise)) return new Promise(fn)\n\
-  if (typeof fn !== 'function') throw new TypeError('not a function')\n\
-  var state = null\n\
-  var value = null\n\
-  var deferreds = []\n\
-  var self = this\n\
-\n\
-  this.then = function(onFulfilled, onRejected) {\n\
-    return new Promise(function(resolve, reject) {\n\
-      handle(new Handler(onFulfilled, onRejected, resolve, reject))\n\
-    })\n\
-  }\n\
-\n\
-  function handle(deferred) {\n\
-    if (state === null) {\n\
-      deferreds.push(deferred)\n\
-      return\n\
-    }\n\
-    asap(function() {\n\
-      var cb = state ? deferred.onFulfilled : deferred.onRejected\n\
-      if (cb === null) {\n\
-        (state ? deferred.resolve : deferred.reject)(value)\n\
-        return\n\
-      }\n\
-      var ret\n\
-      try {\n\
-        ret = cb(value)\n\
-      }\n\
-      catch (e) {\n\
-        deferred.reject(e)\n\
-        return\n\
-      }\n\
-      deferred.resolve(ret)\n\
-    })\n\
-  }\n\
-\n\
-  function resolve(newValue) {\n\
-    try { //Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure\n\
-      if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.')\n\
-      if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {\n\
-        var then = newValue.then\n\
-        if (typeof then === 'function') {\n\
-          doResolve(then.bind(newValue), resolve, reject)\n\
-          return\n\
-        }\n\
-      }\n\
-      state = true\n\
-      value = newValue\n\
-      finale()\n\
-    } catch (e) { reject(e) }\n\
-  }\n\
-\n\
-  function reject(newValue) {\n\
-    state = false\n\
-    value = newValue\n\
-    finale()\n\
-  }\n\
-\n\
-  function finale() {\n\
-    for (var i = 0, len = deferreds.length; i < len; i++)\n\
-      handle(deferreds[i])\n\
-    deferreds = null\n\
-  }\n\
-\n\
-  doResolve(fn, resolve, reject)\n\
-}\n\
-\n\
-\n\
-function Handler(onFulfilled, onRejected, resolve, reject){\n\
-  this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null\n\
-  this.onRejected = typeof onRejected === 'function' ? onRejected : null\n\
-  this.resolve = resolve\n\
-  this.reject = reject\n\
-}\n\
-\n\
-/**\n\
- * Take a potentially misbehaving resolver function and make sure\n\
- * onFulfilled and onRejected are only called once.\n\
- *\n\
- * Makes no guarantees about asynchrony.\n\
- */\n\
-function doResolve(fn, onFulfilled, onRejected) {\n\
-  var done = false;\n\
-  try {\n\
-    fn(function (value) {\n\
-      if (done) return\n\
-      done = true\n\
-      onFulfilled(value)\n\
-    }, function (reason) {\n\
-      if (done) return\n\
-      done = true\n\
-      onRejected(reason)\n\
-    })\n\
-  } catch (ex) {\n\
-    if (done) return\n\
-    done = true\n\
-    onRejected(ex)\n\
-  }\n\
-}\n\
-\n\
-//# sourceURL=components/then/promise/d0bab8d4e8a704bb71d83d48eabebacc360651c7/core.js"
-));
-
-require.modules["then-promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
-require.modules["then~promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
-require.modules["promise"] = require.modules["then~promise@d0bab8d4e8a704bb71d83d48eabebacc360651c7"];
 
 
 require.register("component~event@0.1.2", Function("exports, module",
