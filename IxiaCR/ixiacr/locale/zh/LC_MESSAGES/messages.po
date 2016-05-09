@@ -1097,34 +1097,34 @@ msgstr "<p></p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.attack_task"
-msgstr "<p>企业网E与internet一般有十几种业务流量，企业内某员工打算发送一个重要的word文件到外部邮箱…</p>"
+msgstr "<p>企业网E与internet一般有十几种业务流量，企业内某员工打算发送一个重要的pdf文件到外部邮箱…</p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.attack_steps"
-msgstr "<p>该员工把word文件，通过邮件向外部邮箱发送</p>"
+msgstr "<p>该员工把pdf文件，通过邮件向外部邮箱发送</p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.attack_criteria"
-msgstr "<p>Word文件发出去后没有被公司IT系统检查出来</p>"
+msgstr "<p>pdf文件发出去后没有被公司IT系统检查出来</p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.defense_task"
 msgstr "<p>1 可以识别出企业网内外通信的所有业务，找出top10的十种业务<br>"
-"2 找到外发的word文件<br>"
-"3 找到word文件的发送者，并抓包接下来一段时间的所有的他向外发送的流量</p>"
+"2 找到外发的pdf文件<br>"
+"3 找到pdf文件的发送者，并抓包接下来一段时间的所有的他向外发送的流量</p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.defense_steps"
 msgstr "<p>1 列出该企业Top10的业务类型<br>"
-"2 在混合流量种找出发送word文件的源邮箱和目的邮箱。找出发送者的IP地址<br>"
-"3 近一步分析解码该word文件<br>"
+"2 在混合流量种找出发送pdf文件的源邮箱和目的邮箱。找出发送者的IP地址<br>"
+"3 近一步分析解码该pdf文件<br>"
 "4 确定发送者IP以后，把该IP的流量所有的都导入服务器进行抓包</p>"
 
 #: ixiacr/scripts/initializedb.py:467
 msgid "cr_test_template.enterprise_application_traffic_analyze.defense_criteria"
 msgstr "<p>正确列出E企业前10种业务流量的名称（40分）<br>"
-"可以找到并阻断发送word附件的邮件（30分）<br>"
-"分析出word文件的名称内容（15分）<br>"
+"可以找到并阻断发送pdf附件的邮件（30分）<br>"
+"分析出pdf文件的名称内容（15分）<br>"
 "对发送者的IP地址进行正确的导流和镜像（15分）</p>"
 
 msgid "cr_test_template.enterprise_application_traffic_analyze.traffic_direction"
