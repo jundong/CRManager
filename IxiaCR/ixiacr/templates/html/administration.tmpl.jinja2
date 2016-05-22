@@ -2,6 +2,7 @@
     <div class="container">
         <ul class="nav box">
             <li class="devices" data-bind="attr: {'class': devicesTabClass}, click: function () { refreshDevices(); }">{% trans %}Devices{% endtrans %}</li>
+            <li class="ports" data-bind="attr: {'class': portTabClass}, click: function () { selectTab('ports'); }">{% trans %}Ports{% endtrans %}</li>
             <li class="change-password" data-bind="attr: {'class': changePasswordTabClass}, click: function () { selectTab('change password'); }">{% trans %}Change Account{% endtrans %}</li>
             <li class="update" data-bind="attr: {'class': upgradeLocationTabClass}, click: function () { selectTab('upgrade location'); }">
                 <div class="admin_update_notification" data-bind="visible: globalSettingsVm.admin_notifier() != 0, text: globalSettingsVm.admin_notifier()"></div>{% trans %}Update{% endtrans %}
@@ -18,6 +19,14 @@
                         </a>
                     </span>
                     <h4>{% trans %}Devices{% endtrans %}</h4>
+                </li>
+                <li data-bind="attr: {'class': portTabClass}">
+                    <span class="light-round-button-outer">
+                        <a class="light-round-button" href="javascript:void(0);" data-bind="click: function () { selectTab('ports'); }">
+                            <img src="static/images/monitoring-large.png" alt="{% trans %}ports{% endtrans %}" title="{% trans %}ports{% endtrans %}" />
+                        </a>
+                    </span>
+                    <h4>{% trans %}Ports{% endtrans %}</h4>
                 </li>
                 <li>
                     <span class="light-round-button-outer">
@@ -58,13 +67,6 @@
             <div class="item-list" data-bind="visible: deviceListVisible">
                 <h3>{% trans %}Devices{% endtrans %}</h3>
                 <h4 data-bind="text: availableDevicesSummary"></h4>
-                <!--
-                <div class="filters box">
-                    <div class="searchContainer">
-                        <input class="shaded search" type="text" data-bind="value: searchString, valueUpdate: 'input'" placeholder="{% trans %}Search{% endtrans %}" />
-                        <img class="search" src="static/images/magnify-gray.png" alt="{% trans %}search{% endtrans %}" title="{% trans %}search{% endtrans %}" />
-                    </div>
-                </div> -->
                 <ul data-bind="foreach: availableDevices">
                     <li class="item" data-bind="attr: { 'id': displayNameCssId }, css: { hidden: id() == 1}">
                         <ul>
@@ -77,14 +79,45 @@
                 </ul>
             </div>
         </div>
-        <div class="main" data-bind="visible: customersAndLocationsTabSelected">
-            <div>
-                <h3>{% trans %}Customers & Locations{% endtrans %}</h3>
-                <h5>{% trans %}Customers and locations will save automatically as you type them.{% endtrans %}</h5>
-                <ul class="single-pane">
-                    <li><label>{% trans %}Customers{% endtrans %}</label><input class="long" type="text" data-bind="value: displayCustomers" /></li>
-                    <li><label>{% trans %}Locations{% endtrans %}</label><input class="long" type="text" data-bind="value: displayLocations" /></li>
-                </ul>
+        <div class="main" data-bind="visible: portsTabSelected">
+            <div class="port-table">
+                <h3>{% trans %}Ports{% endtrans %}</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <td>Slot #</td>
+                            <td>Port 1</td>
+                            <td>Port 2</td>
+                            <td>Port 3</td>
+                            <td>Port 4</td>
+                        </tr>
+                    </thead>
+                    <tbody data-bind="foreach: availablePorts">
+                        <tr>
+                            <td data-bind="text: slot"></td>
+                            <td>
+                                <img src="static/images/port-available.png" data-bind="click: selectedPort, clickBubble: false, visible: port0 == 'available' && status()[0] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort, clickBubble: false, visible: port0 == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'selected' || status()[0] == '1'">
+                            </td>
+                            <td>
+                                <img src="static/images/port-available.png" data-bind="click: selectedPort, clickBubble: false, visible: port1 == 'available' && status()[1] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort, clickBubble: false, visible: port1 == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'selected' || status()[1] == '1'">
+                            </td>
+                            <td>
+                                <img src="static/images/port-available.png" data-bind="click: selectedPort, clickBubble: false, visible: port2 == 'available' && status()[2] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort, clickBubble: false, visible: port2 == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'selected' || status()[2] == '1'">
+                            </td>
+                            <td>
+                                <img src="static/images/port-available.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'available' && status()[3] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="click: selectedPort, clickBubble: false, visible: port3 == 'selected' || status()[3] == '1'">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="main" id="changePasswordMain" data-bind="visible: changePasswordTabSelected">
@@ -135,9 +168,6 @@
                             <p>{% trans %}Current Build:{% endtrans %} <span data-bind="text:globalSettingsVm.currentBuild()"></span></p>
                             <p>{% trans %}Newest Build:{% endtrans %} <span data-bind="text:globalSettingsVm.availableUpdate().newest_build"></span></p>
                         </li>
-                        <!--<li>-->
-                            <!--<p>{% trans %}To update your Axon software to the latest revision, ensure that you have a working Internet connection and then click Begin update. Do not close the browser or turn off the Axon device until the update process is complete. The process can take as long as 15 minutes.{% endtrans %}</p>-->
-                        <!--</li>-->
                         <li style="width:98%">
                             <div class="admin-button" data-bind="click: runLightboxWarning.bind($data, 'Warning:<br /><br />Updating can take up to 45 minutes. After the update begins you will be logged out. During this time, please avoid shutting down the Axon. You will be able to log in again after the update has completed.<br /><br />If you have problems, please <a href=\'http://www.ixiacom.com\' target=\'_blank\'>contact support</a>.<br />', beginUpgrade.bind($data)), clickBubble: false">
                                 <span>{% trans %}Begin update{% endtrans %}</span>

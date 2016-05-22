@@ -124,6 +124,7 @@ function getConfigSetting(key) {
         "get_results": rootPath + "get_results.json",
         "get_endpoints": rootPath + "get_endpoints.json",
         "get_devices": rootPath + "get_devices.json",
+        "get_ports": rootPath + "get_ports.json",
         "get_customers": rootPath + "get_customer_tags.json",
         "get_locations": rootPath + "get_location_tags.json",
         "get_language": rootPath + "get_language",

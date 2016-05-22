@@ -206,6 +206,7 @@ exports.getReport = getReport;
 exports.deleteDevice = mapJsonStub.bind(this, "delete_device");
 exports.getDeviceTimeSync = mapJsonStub.bind(this, "get_device_time_sync");
 exports.getDevices = mapJsonStub.bind(this, "get_devices");
+exports.getPorts = mapJsonStub.bind(this, "get_ports");
 exports.getDatapoints = mapJsonStub.bind(this, "get_datapoints");
 exports.getResultTypes = mapJsonStub.bind(this, "get_result_types");
 exports.getIxiaTests = mapJsonStub.bind(this, "get_ixiacr_tests");

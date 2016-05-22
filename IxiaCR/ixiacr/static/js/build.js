@@ -50973,6 +50973,7 @@ function getConfigSetting(key) {\n\
         \"get_results\": rootPath + \"get_results.json\",\n\
         \"get_endpoints\": rootPath + \"get_endpoints.json\",\n\
         \"get_devices\": rootPath + \"get_devices.json\",\n\
+        \"get_ports\": rootPath + \"get_ports.json\",\n\
         \"get_customers\": rootPath + \"get_customer_tags.json\",\n\
         \"get_locations\": rootPath + \"get_location_tags.json\",\n\
         \"get_language\": rootPath + \"get_language\",\n\
@@ -51558,6 +51559,7 @@ function IxiaViewModel() {\n\
     self.user = ko.observable();\n\
 \n\
     self.availableDevices = ko.observableArray();\n\
+    self.availablePorts = ko.observableArray();\n\
     self.availableTests = ko.observableArray();\n\
     self.enterpriseTests = ko.observableArray();\n\
     self.hostTests = ko.observableArray();\n\
@@ -51621,7 +51623,8 @@ function IxiaViewModel() {\n\
         translate(\"Languages\"),\n\
         translate(\"Display Messages\"),\n\
         translate(\"Test Library\"),\n\
-        translate(\"Recent Results\"));\n\
+        translate(\"Recent Results\"),\n\
+        translate(\"Ports\"));\n\
     self.ajaxModelsToComplete = self.ajaxModels.slice(0);\n\
     self.failedAjaxModels = new Array();\n\
 };\n\
@@ -51702,6 +51705,14 @@ IxiaViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[1], true);\n\
         });\n\
 \n\
+    var portsAjax = self.getAvailablePorts()\n\
+        .done(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[10]);\n\
+        })\n\
+        .fail(function () {\n\
+            self.updateAppLoadMessage(self.ajaxModels[10], true);\n\
+        });\n\
+\n\
     var testsAjax = self.getAvailableTests()\n\
         .done(function () {\n\
             self.updateAppLoadMessage(self.ajaxModels[2]);\n\
@@ -51726,14 +51737,6 @@ IxiaViewModel.prototype.init = function (callback) {\n\
             self.updateAppLoadMessage(self.ajaxModels[6], true);\n\
         });\n\
 \n\
-//    var messageAjax = self.getAvailableDisplayMessages()\n\
-//        .done(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[11]);\n\
-//        })\n\
-//        .fail(function () {\n\
-//            self.updateAppLoadMessage(self.ajaxModels[11], true);\n\
-//        });\n\
-\n\
         self.selectTab(self.startingTab);\n\
 \n\
         self.initStart = (new Date()).getTime();\n\
@@ -51741,6 +51744,7 @@ IxiaViewModel.prototype.init = function (callback) {\n\
     return $.when(\n\
         settingsAjax,\n\
         devicesAjax,\n\
+        portsAjax,\n\
         languageAjax,\n\
         testsAjax,\n\
         newsAjax\n\
@@ -52131,6 +52135,32 @@ IxiaViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {\n\
     self.availableDevices().forEach(function(device) {\n\
         device.updateTimeSyncCapability(data); // Handles mapping of devices\n\
     });\n\
+};\n\
+\n\
+IxiaViewModel.prototype.getAvailablePorts = function (callback, responseData) {\n\
+    var self = IxiaViewModel.typesafe(this);\n\
+\n\
+    self.availablePorts.removeAll();\n\
+\n\
+    var ajax = $.ajax({\n\
+        type: \"GET\",\n\
+        url: util.getConfigSetting(\"get_ports\"),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+            var availablePorts = data;\n\
+            for (var i = 0; i < availablePorts.length; i++) {\n\
+                var port = new PortViewModel(self);\n\
+                port.inflate(availablePorts[i]);\n\
+\n\
+                self.availablePorts.push(port);\n\
+            }\n\
+            if (callback){\n\
+                callback(responseData);\n\
+            }\n\
+        }\n\
+    });\n\
+\n\
+    return ajax;\n\
 };\n\
 \n\
 IxiaViewModel.prototype.getResultTypes = function () {\n\
@@ -68066,6 +68096,131 @@ module.exports = TestTemplateViewModel;\n\
 require.modules["test-template-view-model"] = require.modules["./components-ixia/test-template-view-model"];
 
 
+require.register("./components-ixia/port-view-model", Function("exports, module",
+"/**\n\
+ * Saved configuration for a single test\n\
+ *\n\
+ * @param rootVm IxiaCRViewModel\n\
+ * @constructor\n\
+ */\n\
+function PortViewModel(rootVm) {\n\
+    var self = this;\n\
+    self.rootVm = rootVm;\n\
+\n\
+    self.id = ko.observable();\n\
+    self.device_id = ko.observable();\n\
+    self.slot = ko.observable();\n\
+    //available, reserved, selected\n\
+    self.port0 = ko.observable();\n\
+    self.port1 = ko.observable();\n\
+    self.port2 = ko.observable();\n\
+    self.port3 = ko.observable();\n\
+    self.selected = ko.observable();\n\
+    self.status = ko.observableArray();\n\
+}\n\
+\n\
+PortViewModel.typesafe = function (that) {\n\
+    if (!(that instanceof PortViewModel)) {\n\
+        throw 'This method must be executed on a PortViewModel';\n\
+    }\n\
+\n\
+    return that;\n\
+};\n\
+\n\
+PortViewModel.prototype.save = function () {\n\
+    var self = PortViewModel.typesafe(this),\n\
+        refreshDraggables = false;\n\
+\n\
+    util.lightbox.open({\n\
+        url : 'html/lightbox_tmpl',\n\
+        selector : '#lightbox-save-test-alternate-template',\n\
+        cancelSelector: '.cancel-button',\n\
+        onOpenComplete: function(){\n\
+            ko.applyBindings(self, document.getElementById('lightbox-save-test-alternate'));\n\
+        },\n\
+        onClose: function(){\n\
+            if (self.name() === '') {\n\
+                refreshDraggables = true;\n\
+            }\n\
+        }\n\
+    });\n\
+};\n\
+\n\
+PortViewModel.prototype.selectedPort = function (e) {\n\
+    var self = PortViewModel.typesafe(this);\n\
+}\n\
+\n\
+PortViewModel.prototype.inflate = function (flatPort) {\n\
+    var self = PortViewModel.typesafe(this);\n\
+\n\
+    self.id(flatPort.id);\n\
+    self.device_id(flatPort.device_id);\n\
+    self.slot(flatPort.slot);\n\
+    self.port0(flatPort.port0);\n\
+    self.port1(flatPort.port1);\n\
+    self.port2(flatPort.port2);\n\
+    self.port3(flatPort.port3);\n\
+    self.selected(flatPort.selected);\n\
+    self.status(flatPort.status);\n\
+};\n\
+\n\
+PortViewModel.prototype.getNormalizedFlatObject = function (flatObject) {\n\
+    var self = ConfiguredTestViewModel.typesafe(this);\n\
+\n\
+    flatObject.device_id = null;\n\
+    flatObject.slot = null;\n\
+    flatObject.port0 = null;\n\
+    flatObject.port1 = null;\n\
+    flatObject.port2 = null;\n\
+    flatObject.port3 = null;\n\
+    flatObject.selected = null;\n\
+    flatObject.status = null;\n\
+\n\
+    return flatObject;\n\
+};\n\
+\n\
+PortViewModel.prototype.toFlatObject = function(){\n\
+    var self = PortViewModel.typesafe(this);\n\
+    var flatTemplate = {\n\
+        id: self.id(),\n\
+        device_id: self.device_id(),\n\
+        slot: self.slot(),\n\
+        port0: self.port0(),\n\
+        port1: self.port1(),\n\
+        port2: self.port2(),\n\
+        port3: self.port3(),\n\
+        selected: self.selected(),\n\
+        status: self.status()\n\
+    };\n\
+\n\
+    return flatTemplate;\n\
+};\n\
+\n\
+PortViewModel.prototype.clone = function(){\n\
+    var self = PortViewModel.typesafe(this);\n\
+\n\
+    var newTest = new PortViewModel(self.rootVm);\n\
+\n\
+    newTest.id(self.id);\n\
+    newTest.device_id(self.device_id);\n\
+    newTest.slot(self.slot);\n\
+    newTest.port0(self.port0);\n\
+    newTest.port1(self.port1);\n\
+    newTest.port2(self.port2);\n\
+    newTest.port3(self.port3);\n\
+    newTest.selected(self.selected);\n\
+    newTest.status(self.status);\n\
+\n\
+    return newTest;\n\
+};\n\
+\n\
+module.exports = PortViewModel;\n\
+//# sourceURL=components-ixia/port-view-model/index.js"
+));
+
+require.modules["port-view-model"] = require.modules["./components-ixia/port-view-model"];
+
+
 require.register("./components-ixia/configured-test-view-model", Function("exports, module",
 "var emitter = require('component~emitter@1.0.1'),\r\n\
     debounce = require('./components-ixia/utility-functions').debounce,\r\n\
@@ -69097,13 +69252,14 @@ function AdministrationViewModel(rootVm) {\n\
     self.selectedTab = ko.observable();\n\
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.devicesTabSelected = ko.computed(self.calculateDevicesTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
+    self.portsTabSelected = ko.computed(self.calculatePortsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
+    self.portTabClass = ko.computed(self.calculatePortTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
@@ -69111,7 +69267,6 @@ function AdministrationViewModel(rootVm) {\n\
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });\n\
-    self.getAvailableDevices = self.rootVm.getAvailableDevices;\n\
 \n\
     self.validateOldPassword = ko.observable();\n\
     self.validateNewPassword = ko.observable();\n\
@@ -69151,6 +69306,13 @@ function AdministrationViewModel(rootVm) {\n\
     self.editDeviceVisible = ko.observable(false);\n\
     self.deviceListVisible = ko.observable(true);\n\
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));\n\
+\n\
+    self.availablePorts = ko.observableArray(self.rootVm.availablePorts());\n\
+    self.rootVm.availablePorts.subscribe(function (ports) {\n\
+        self.applyFilters(self.rootVm.availablePorts,ko.observableArray(ports));\n\
+        self.availablePorts(ports);\n\
+    });\n\
+\n\
     self.displayCustomers = ko.computed({\n\
         read: self.displayCustomersRead.bind(self),\n\
         write: self.displayCustomersWrite.bind(self)\n\
@@ -69570,10 +69732,10 @@ AdministrationViewModel.prototype.calculateDevicesTabSelected = function () {\n\
 \n\
     return self.selectedTab() === \"devices\";\n\
 };\n\
-AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {\n\
+AdministrationViewModel.prototype.calculatePortsTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
-    return self.selectedTab() === \"customers and locations\";\n\
+    return self.selectedTab() === \"ports\";\n\
 };\n\
 AdministrationViewModel.prototype.calculateChangePasswordTabSelected = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
@@ -69605,7 +69767,11 @@ AdministrationViewModel.prototype.calculateDevicesTabClass = function () {\n\
 \n\
     return self.selectedTab() === \"devices\" ? \"devices selected\" : \"devices\";\n\
 };\n\
+AdministrationViewModel.prototype.calculatePortTabClass = function () {\n\
+    var self = AdministrationViewModel.typesafe(this);\n\
 \n\
+    return self.selectedTab() === \"ports\" ? \"ports selected\" : \"ports\";\n\
+};\n\
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {\n\
     var self = AdministrationViewModel.typesafe(this);\n\
 \n\
@@ -72262,6 +72428,7 @@ function loadGlobals() {\n\
     window.DashboardViewModel = require('./components-ixia/dashboard-view-model');\n\
     window.TestViewModel = require('./components-ixia/test-view-model');\n\
     window.TestTemplateViewModel = require('./components-ixia/test-template-view-model');\n\
+    window.PortViewModel = require('./components-ixia/port-view-model');\n\
     window.ConfiguredTestViewModel = require('./components-ixia/configured-test-view-model');\n\
     window.AdministrationViewModel = require('./components-ixia/administration-view-model');\n\
     window.TrafficPlayerViewModel = require('./components-ixia/traffic-player-view-model');\n\

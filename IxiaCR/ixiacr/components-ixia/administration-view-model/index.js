@@ -17,13 +17,14 @@ function AdministrationViewModel(rootVm) {
     self.selectedTab = ko.observable();
     self.noTabSelected = ko.computed(self.calculateNoTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.devicesTabSelected = ko.computed(self.calculateDevicesTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.customersAndLocationsTabSelected = ko.computed(self.calculateCustomersAndLocationsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
+    self.portsTabSelected = ko.computed(self.calculatePortsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabSelected = ko.computed(self.calculateChangePasswordTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabSelected = ko.computed(self.calculateUpgradeLocationTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.languageTabSelected = ko.computed(self.calculateLanguageTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.databaseTabSelected = ko.computed(self.calculateDatabaseTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabSelected = ko.computed(self.calculateSystemSettingsTabSelected.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.devicesTabClass = ko.computed(self.calculateDevicesTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
+    self.portTabClass = ko.computed(self.calculatePortTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.customersAndLocationsTabClass = ko.computed(self.calculateCustomersAndLocationsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.changePasswordTabClass = ko.computed(self.calculateChangePasswordTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.upgradeLocationTabClass = ko.computed(self.calculateUpgradeLocationTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
@@ -31,7 +32,6 @@ function AdministrationViewModel(rootVm) {
     self.databaseTabClass = ko.computed(self.calculateDatabaseTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.diskTabClass = ko.computed(self.calculateDiskTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
     self.systemSettingsTabClass = ko.computed(self.calculateSystemSettingsTabClass.bind(self)).extend({ throttle: self.rootVm.defaultThrottleDuration });
-    self.getAvailableDevices = self.rootVm.getAvailableDevices;
 
     self.validateOldPassword = ko.observable();
     self.validateNewPassword = ko.observable();
@@ -71,6 +71,13 @@ function AdministrationViewModel(rootVm) {
     self.editDeviceVisible = ko.observable(false);
     self.deviceListVisible = ko.observable(true);
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));
+
+    self.availablePorts = ko.observableArray(self.rootVm.availablePorts());
+    self.rootVm.availablePorts.subscribe(function (ports) {
+        self.applyFilters(self.rootVm.availablePorts,ko.observableArray(ports));
+        self.availablePorts(ports);
+    });
+
     self.displayCustomers = ko.computed({
         read: self.displayCustomersRead.bind(self),
         write: self.displayCustomersWrite.bind(self)
@@ -490,10 +497,10 @@ AdministrationViewModel.prototype.calculateDevicesTabSelected = function () {
 
     return self.selectedTab() === "devices";
 };
-AdministrationViewModel.prototype.calculateCustomersAndLocationsTabSelected = function () {
+AdministrationViewModel.prototype.calculatePortsTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
 
-    return self.selectedTab() === "customers and locations";
+    return self.selectedTab() === "ports";
 };
 AdministrationViewModel.prototype.calculateChangePasswordTabSelected = function () {
     var self = AdministrationViewModel.typesafe(this);
@@ -525,7 +532,11 @@ AdministrationViewModel.prototype.calculateDevicesTabClass = function () {
 
     return self.selectedTab() === "devices" ? "devices selected" : "devices";
 };
+AdministrationViewModel.prototype.calculatePortTabClass = function () {
+    var self = AdministrationViewModel.typesafe(this);
 
+    return self.selectedTab() === "ports" ? "ports selected" : "ports";
+};
 AdministrationViewModel.prototype.calculateCustomersAndLocationsTabClass = function () {
     var self = AdministrationViewModel.typesafe(this);
 

@@ -1645,8 +1645,25 @@ msgstr "保存"
 msgid "Devices"
 msgstr "设备"
 
+msgid "Ports"
+msgstr "端口"
+
+msgid "Slot #"
+msgstr "槽位号"
+
+msgid "Port 1"
+msgstr "端口 1"
+
+msgid "Port 2"
+msgstr "端口 2"
+
+msgid "Port 3"
+msgstr "端口 3"
+
+msgid "Port 4"
+msgstr "端口 4"
+
 #: ixiacr/templates/html/administration.tmpl.jinja2:10
-#: ixiacr/templates/html/administration.tmpl.jinja2:76
 msgid "Change Account"
 msgstr "更改账号"
 

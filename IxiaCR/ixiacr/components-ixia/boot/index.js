@@ -91,6 +91,7 @@ function loadGlobals() {
     window.DashboardViewModel = require('dashboard-view-model');
     window.TestViewModel = require('test-view-model');
     window.TestTemplateViewModel = require('test-template-view-model');
+    window.PortViewModel = require('port-view-model');
     window.ConfiguredTestViewModel = require('configured-test-view-model');
     window.AdministrationViewModel = require('administration-view-model');
     window.TrafficPlayerViewModel = require('traffic-player-view-model');

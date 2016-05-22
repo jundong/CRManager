@@ -1208,8 +1208,6 @@ msgstr "Prefix"
 msgid "Gateway"
 msgstr "Gateway"
 
-#: ixiacr/templates/html/administration.tmpl.jinja2:319
-#: ixiacr/templates/html/administration.tmpl.jinja2:374
 #: ixiacr/templates/html/administration.tmpl.jinja2:545
 msgid "Save"
 msgstr "Save"
@@ -1217,6 +1215,24 @@ msgstr "Save"
 #: ixiacr/templates/html/administration.tmpl.jinja2:4
 msgid "Devices"
 msgstr "Devices"
+
+msgid "Ports"
+msgstr "Ports"
+
+msgid "Slot #"
+msgstr "Slot #"
+
+msgid "Port 1"
+msgstr "Port 1"
+
+msgid "Port 2"
+msgstr "Port 2"
+
+msgid "Port 3"
+msgstr "Port 3"
+
+msgid "Port 4"
+msgstr "Port 4"
 
 #: ixiacr/templates/html/administration.tmpl.jinja2:10
 #: ixiacr/templates/html/administration.tmpl.jinja2:76

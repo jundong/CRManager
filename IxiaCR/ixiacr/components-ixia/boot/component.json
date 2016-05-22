@@ -38,6 +38,7 @@
       "test-view-model",
       "test-results-final-table-view-model",
       "test-template-view-model",
+      "port-view-model",
       "configured-test-view-model",
       "administration-view-model",
       "traffic-player-view-model",

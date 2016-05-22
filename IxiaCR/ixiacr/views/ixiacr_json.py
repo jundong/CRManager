@@ -24,6 +24,9 @@ def view_includes(config):
     config.add_route('get_ixiacr_tests', '/ixia/get_ixiacr_tests.json')
     config.add_view(get_ixiacr_tests, route_name='get_ixiacr_tests',
                     renderer='json', permission='all_access')
+    config.add_route('get_ports', '/ixia/get_ports.json')
+    config.add_view(get_ports, route_name='get_ports',
+                    renderer='json', permission='all_access')
     config.add_route('get_recent_news', '/ixia/get_recent_news.json')
     config.add_view(get_recent_news, route_name='get_recent_news',
                     renderer='json', permission='all_access')
@@ -431,7 +434,7 @@ def get_results(request):
 
 @view_config(name='get_devices', renderer='json')
 def get_devices(request):
-    # JSON feed for tracks
+    # JSON feed for devices
     devices = []
 
     try:
@@ -446,6 +449,34 @@ def get_devices(request):
                       'active': device.active})
 
         return devices
+
+    except DBAPIError, e:
+        return Response("Error: DB Error: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+    except Exception, e:
+        return Response("Exception: {0}".format(e),
+                        content_type='text/plain',
+                        status_int=500)
+
+@view_config(name='get_ports', renderer='json')
+def get_ports(request):
+    # JSON feed for ports
+    ports = []
+
+    try:
+        for port in Port.query.all():
+            ports.append({'id': port.id,
+                        'device_id': port.device_id,
+                        'slot': port.slot,
+                        'port0': port.port0,
+                        'port1': port.port1,
+                        'port2': port.port2,
+                        'port3': port.port3,
+                        'selected': port.selected,
+                        'status': port.status})
+
+        return ports
 
     except DBAPIError, e:
         return Response("Error: DB Error: {0}".format(e),

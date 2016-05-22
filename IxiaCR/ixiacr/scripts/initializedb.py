@@ -108,12 +108,10 @@ def import_db(cmd):
         db.add(su)
         transaction.commit()
 
-        # Make a fake EULA for testing...
-        # db.add(Eula(name=translatable_string(_(u'License Update....')),
-        #             build=u"1.00.0001",
-        #             heading=translatable_string(_(u'This is the heading for the new Eula please check the checkbox.')),
-        #             content=translatable_string(_(u'eula_version_1'))))
-        # transaction.commit()
+        # Create some generic static device types
+        db.add(DeviceType(name=translatable_string(_(u'localhost')),
+                          description=translatable_string(_(u'Our local Axon chassis.'))))
+        transaction.commit()
 
         devices = [
             {'name': u'BPS',
@@ -127,7 +125,7 @@ def import_db(cmd):
              'description': u'ATIP',
              'device_type_id': u'2',
              'host': u'192.168.0.170',
-             'link': u'http://192.168.0.170',
+             'link': u'http://192.168.0.170/atie',
              'username': u'',
              'password': u''},
             {'name': u'IPS',
@@ -191,10 +189,25 @@ def import_db(cmd):
                 password=device['password']))
             transaction.commit()
 
-        # Create some generic static device types
-        db.add(DeviceType(name=translatable_string(_(u'localhost')),
-                          description=translatable_string(_(u'Our local Axon chassis.'))))
-        transaction.commit()
+        ports = [
+            {'device_id': u'1',
+             'slot': u'0',
+             'port0': u'available',
+             'port1': u'available',
+             'port2': u'available',
+             'port3': u'available',
+             'selected': u'0:0:0:0'}
+        ]
+
+        for port in ports:
+            db.add(Port(device_id=port['device_id'],
+                slot=port['slot'],
+                port0=port['port0'],
+                port1=port['port1'],
+                port2=port['port2'],
+                port3=port['port3'],
+                selected=port['selected']))
+            transaction.commit()
 
         cases = [
             # {

@@ -7,6 +7,7 @@ function IxiaViewModel() {
     self.user = ko.observable();
 
     self.availableDevices = ko.observableArray();
+    self.availablePorts = ko.observableArray();
     self.availableTests = ko.observableArray();
     self.enterpriseTests = ko.observableArray();
     self.hostTests = ko.observableArray();
@@ -70,7 +71,8 @@ function IxiaViewModel() {
         translate("Languages"),
         translate("Display Messages"),
         translate("Test Library"),
-        translate("Recent Results"));
+        translate("Recent Results"),
+        translate("Ports"));
     self.ajaxModelsToComplete = self.ajaxModels.slice(0);
     self.failedAjaxModels = new Array();
 };
@@ -151,6 +153,14 @@ IxiaViewModel.prototype.init = function (callback) {
             self.updateAppLoadMessage(self.ajaxModels[1], true);
         });
 
+    var portsAjax = self.getAvailablePorts()
+        .done(function () {
+            self.updateAppLoadMessage(self.ajaxModels[10]);
+        })
+        .fail(function () {
+            self.updateAppLoadMessage(self.ajaxModels[10], true);
+        });
+
     var testsAjax = self.getAvailableTests()
         .done(function () {
             self.updateAppLoadMessage(self.ajaxModels[2]);
@@ -175,14 +185,6 @@ IxiaViewModel.prototype.init = function (callback) {
             self.updateAppLoadMessage(self.ajaxModels[6], true);
         });
 
-//    var messageAjax = self.getAvailableDisplayMessages()
-//        .done(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[11]);
-//        })
-//        .fail(function () {
-//            self.updateAppLoadMessage(self.ajaxModels[11], true);
-//        });
-
         self.selectTab(self.startingTab);
 
         self.initStart = (new Date()).getTime();
@@ -190,6 +192,7 @@ IxiaViewModel.prototype.init = function (callback) {
     return $.when(
         settingsAjax,
         devicesAjax,
+        portsAjax,
         languageAjax,
         testsAjax,
         newsAjax
@@ -580,6 +583,32 @@ IxiaViewModel.prototype.updateDeviceTimeSyncCapabilities = function (data) {
     self.availableDevices().forEach(function(device) {
         device.updateTimeSyncCapability(data); // Handles mapping of devices
     });
+};
+
+IxiaViewModel.prototype.getAvailablePorts = function (callback, responseData) {
+    var self = IxiaViewModel.typesafe(this);
+
+    self.availablePorts.removeAll();
+
+    var ajax = $.ajax({
+        type: "GET",
+        url: util.getConfigSetting("get_ports"),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            var availablePorts = data;
+            for (var i = 0; i < availablePorts.length; i++) {
+                var port = new PortViewModel(self);
+                port.inflate(availablePorts[i]);
+
+                self.availablePorts.push(port);
+            }
+            if (callback){
+                callback(responseData);
+            }
+        }
+    });
+
+    return ajax;
 };
 
 IxiaViewModel.prototype.getResultTypes = function () {

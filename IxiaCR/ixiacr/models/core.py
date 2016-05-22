@@ -216,12 +216,30 @@ class Device(Base):
     password = Column(Unicode(64), nullable=False, unique=False)
     active = Column(Boolean, default=True)
 
-    @property
-    def type(self):
-        return self.type
-
     def __unicode__(self):
         return self.name
+
+
+class Port(Base):
+    """Ports are in BPS Device
+
+    """
+    __tablename__ = 'ports'
+
+    id = Column(Integer, autoincrement=True, primary_key=True)
+    device_id = Column(Integer, ForeignKey('devices.id',
+                                                onupdate="CASCADE",
+                                                ondelete="CASCADE"))
+    slot = Column(Integer, nullable=False, unique=True)
+    port0 = Column(Unicode(64), nullable=False, unique=False)
+    port1 = Column(Unicode(64), nullable=False, unique=False)
+    port2 = Column(Unicode(64), nullable=False, unique=False)
+    port3 = Column(Unicode(64), nullable=False, unique=False)
+    selected = Column(Unicode(64), nullable=False, unique=False)
+
+    @property
+    def status(self):
+        return self.selected.split(':')
 
 
 class DeviceHistory(Base):

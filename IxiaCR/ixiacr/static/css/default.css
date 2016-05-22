@@ -3575,7 +3575,15 @@ body .draggable img {
 .administration .nav .devices.selected:before {
     content: url("../images/table-gray.png");
 }
-
+.administration .nav .ports:before {
+    content: url("../images/white-monitoring.png");
+    position: absolute;
+    top: 14px;
+    left: 12px;
+}
+.administration .nav .ports.selected:before {
+    content: url("../images/gray-monitoring.png");
+}
 .administration .nav .change-password:before {
     content: url("../images/lock-white.png");
     position: absolute;
@@ -3675,6 +3683,7 @@ body .draggable img {
     color: #1c1c1d;
     margin-top: 0.25em;
 }
+
 
 .administration .main .single-pane.ssl > ul > li { min-height: 0; }
 .administration .single-pane.usage a,
@@ -3981,12 +3990,12 @@ body .draggable img {
     margin-top: 5px;
     text-align: right;
 }
-
-
 .administration .main .single-pane label:not('.validator-message'):after {
     content: ":";
 }
-
+.administration .main .port-table {
+    height: 150px;
+}
 .single-pane input[type="text"],
 .single-pane input[type="password"]{
     font-size: 12px;
