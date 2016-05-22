@@ -47,8 +47,39 @@ PortViewModel.prototype.save = function () {
     });
 };
 
-PortViewModel.prototype.selectedPort = function (e) {
+PortViewModel.prototype.selectedPort = function (index) {
     var self = PortViewModel.typesafe(this);
+
+    if (index == 0) {
+        if (self.port0 == 'selected') {
+            self.port0('available');
+        } else {
+            self.port0('selected');
+        }
+    }
+    else if (index == 1) {
+        if (self.port1 == 'selected') {
+            self.port1('available');
+        } else {
+            self.port1('selected');
+        }
+    }
+    else if (index == 2) {
+        if (self.port2 == 'selected') {
+            self.port2('available');
+        } else {
+            self.port2('selected');
+        }
+    }
+    else if (index == 3) {
+        if (self.port3 == 'selected') {
+            self.port3('available');
+        } else {
+            self.port3('selected');
+        }
+    }
+
+    //We need to update DB here
 }
 
 PortViewModel.prototype.inflate = function (flatPort) {

@@ -68146,8 +68146,39 @@ PortViewModel.prototype.save = function () {\n\
     });\n\
 };\n\
 \n\
-PortViewModel.prototype.selectedPort = function (e) {\n\
+PortViewModel.prototype.selectedPort = function (index) {\n\
     var self = PortViewModel.typesafe(this);\n\
+\n\
+    if (index == 0) {\n\
+        if (self.port0 == 'selected') {\n\
+            self.port0('available');\n\
+        } else {\n\
+            self.port0('selected');\n\
+        }\n\
+    }\n\
+    else if (index == 1) {\n\
+        if (self.port1 == 'selected') {\n\
+            self.port1('available');\n\
+        } else {\n\
+            self.port1('selected');\n\
+        }\n\
+    }\n\
+    else if (index == 2) {\n\
+        if (self.port2 == 'selected') {\n\
+            self.port2('available');\n\
+        } else {\n\
+            self.port2('selected');\n\
+        }\n\
+    }\n\
+    else if (index == 3) {\n\
+        if (self.port3 == 'selected') {\n\
+            self.port3('available');\n\
+        } else {\n\
+            self.port3('selected');\n\
+        }\n\
+    }\n\
+\n\
+    //We need to update DB here\n\
 }\n\
 \n\
 PortViewModel.prototype.inflate = function (flatPort) {\n\
