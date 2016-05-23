@@ -474,6 +474,7 @@ def get_ports(request):
                         'port2': port.port2,
                         'port3': port.port3,
                         'selected': port.selected,
+                        'group': port.group,
                         'status': port.status})
 
         return ports

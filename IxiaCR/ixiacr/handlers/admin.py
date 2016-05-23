@@ -61,6 +61,9 @@ def view_includes(config):
     config.add_handler('save_device', '/ixia/save_device',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='save_device')
+    config.add_handler('save_port', '/ixia/save_port',
+                       'ixiacr.handlers.admin:IxiaAdminHandler',
+                       action='save_port')
     config.add_handler('check_updates', '/ixia/check_updates',
                        'ixiacr.handlers.admin:IxiaAdminHandler',
                        action='check_updates')
@@ -401,6 +404,63 @@ class IxiaAdminHandler(base.Handler):
             self.messages.append(dict({'is_error': True, 'header': 'Failed',
                                        'content': self.localizer.translate(
                                            _('Saving device failed. '
+                                             'Perhaps this device already '
+                                             'exists?'))}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+        except Exception, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True,
+                                       'header': 'Failed',
+                                       'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+
+    @action(renderer='json')
+    def save_port(self):
+        """Save device
+
+        """
+        self.messages = []
+        id = None
+        try:
+            if 'ports' in self.request.session:
+                # Bust cache
+                del self.request.session['ports']
+
+            data = self.request.json_body
+            if 'id' in data:
+                port = Port.query.filter_by(id=data['id']).first()
+                if port:
+                    port.port0 = data['port0']
+                    port.port1 = data['port1']
+                    port.port2 = data['port2']
+                    port.port3 = data['port3']
+                    port.group = data['group']
+                    port.selected = data['selected']
+                    db.add(port)
+                    db.flush()
+
+                    id = port.id
+
+            if len(self.messages) == 0:
+                self.messages.append({'is_error': False,
+                                      'header': 'Success',
+                                      'content': self.localizer.translate(
+                                          _('Successfully saved port.'))})
+
+            return {'result': 'SUCCESS', 'messages': self.messages,
+                    'id': id}
+
+        except KeyError, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True,
+                                       'header': 'Failed',
+                                       'content': str(e)}))
+            return {'result': 'FAILURE', 'messages': self.messages}
+        except DBAPIError, e:
+            transaction.abort()
+            self.messages.append(dict({'is_error': True, 'header': 'Failed',
+                                       'content': self.localizer.translate(
+                                           _('Saving port failed. '
                                              'Perhaps this device already '
                                              'exists?'))}))
             return {'result': 'FAILURE', 'messages': self.messages}

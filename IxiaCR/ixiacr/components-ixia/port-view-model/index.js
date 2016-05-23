@@ -16,6 +16,7 @@ function PortViewModel(rootVm) {
     self.port1 = ko.observable();
     self.port2 = ko.observable();
     self.port3 = ko.observable();
+    self.group = ko.observable();
     self.selected = ko.observable();
     self.status = ko.observableArray();
 }
@@ -28,58 +29,96 @@ PortViewModel.typesafe = function (that) {
     return that;
 };
 
-PortViewModel.prototype.save = function () {
-    var self = PortViewModel.typesafe(this),
-        refreshDraggables = false;
+PortViewModel.prototype.saveGroup = function () {
+    var self = PortViewModel.typesafe(this);
+        self.save();
+}
 
-    util.lightbox.open({
-        url : 'html/lightbox_tmpl',
-        selector : '#lightbox-save-test-alternate-template',
-        cancelSelector: '.cancel-button',
-        onOpenComplete: function(){
-            ko.applyBindings(self, document.getElementById('lightbox-save-test-alternate'));
-        },
-        onClose: function(){
-            if (self.name() === '') {
-                refreshDraggables = true;
+PortViewModel.prototype.save = function () {
+    var self = PortViewModel.typesafe(this);
+
+    $.ajax({
+        type: util.getRequestMethod('save_port'),
+        url: util.getConfigSetting('save_port'),
+        data: util.formatRequestData('save_port', self.toFlatObject()),
+        dataType: 'json',
+        success: function (data, textStatus, jqXhr) {
+            if (data.result == "SUCCESS") {
+                self.updatePorts();
             }
+        },
+        error: function (jqXhr, textStatus, errorThrown) {
+            logger.error(errorThrown);
         }
     });
 };
 
-PortViewModel.prototype.selectedPort = function (index) {
+PortViewModel.prototype.updatePorts = function () {
     var self = PortViewModel.typesafe(this);
+    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {
+        return self.id() == item.id();
+    });
 
-    if (index == 0) {
-        if (self.port0 == 'selected') {
+    if (foundExisting !== null) {
+        self.rootVm.availablePorts.remove(foundExisting);
+        ports = self.rootVm.availablePorts();
+        ports.push(self);
+        self.rootVm.availablePorts(ports);
+    }
+}
+
+PortViewModel.prototype.selectedPort = function (port, event) {
+    var self = PortViewModel.typesafe(this),
+        id = event.currentTarget.id;
+
+    if (id == 'port0') {
+        if (self.port0() == 'selected') {
             self.port0('available');
+            self.status()[0] = 0;
         } else {
             self.port0('selected');
+            self.status()[0] = 1;
         }
     }
-    else if (index == 1) {
-        if (self.port1 == 'selected') {
+    else if (id == 'port1') {
+        if (self.port1() == 'selected') {
             self.port1('available');
+            self.status()[1] = 0;
         } else {
             self.port1('selected');
+            self.status()[1] = 1;
         }
     }
-    else if (index == 2) {
-        if (self.port2 == 'selected') {
+    else if (id == 'port2') {
+        if (self.port2() == 'selected') {
             self.port2('available');
+            self.status()[2] = 0;
         } else {
             self.port2('selected');
+            self.status()[2] = 1;
         }
     }
-    else if (index == 3) {
-        if (self.port3 == 'selected') {
+    else if (id == 'port3') {
+        if (self.port3() == 'selected') {
             self.port3('available');
+            self.status()[3] = 0;
         } else {
             self.port3('selected');
+            self.status()[3] = 1;
         }
     }
 
     //We need to update DB here
+    var selected = '';
+    for (var i = 0; i < self.status().length; i++) {
+        if (i == 0) {
+            selected = selected + self.status()[i];
+        } else {
+            selected = selected + ':' + self.status()[i];
+        }
+    }
+    self.selected(selected);
+    self.updatePorts();
 }
 
 PortViewModel.prototype.inflate = function (flatPort) {
@@ -93,6 +132,7 @@ PortViewModel.prototype.inflate = function (flatPort) {
     self.port2(flatPort.port2);
     self.port3(flatPort.port3);
     self.selected(flatPort.selected);
+    self.group(flatPort.group);
     self.status(flatPort.status);
 };
 
@@ -107,6 +147,7 @@ PortViewModel.prototype.getNormalizedFlatObject = function (flatObject) {
     flatObject.port3 = null;
     flatObject.selected = null;
     flatObject.status = null;
+    flatObject.group = null;
 
     return flatObject;
 };
@@ -122,7 +163,8 @@ PortViewModel.prototype.toFlatObject = function(){
         port2: self.port2(),
         port3: self.port3(),
         selected: self.selected(),
-        status: self.status()
+        status: self.status(),
+        group: self.group()
     };
 
     return flatTemplate;
@@ -142,6 +184,7 @@ PortViewModel.prototype.clone = function(){
     newTest.port3(self.port3);
     newTest.selected(self.selected);
     newTest.status(self.status);
+    newTest.group(self.group);
 
     return newTest;
 };

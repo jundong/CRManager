@@ -11,6 +11,7 @@ handle["/upload"] = requestHandlers.upload;
 handle["unknown"] = requestHandlers.unknown;
 handle["/get-report"] = requestHandlers.getReport;
 handle["/ixia/save_device"] = requestHandlers.saveItem;
+handle["/ixia/save_port"] = requestHandlers.saveItem;
 handle["/ixia/save_test_template"] = requestHandlers.saveItem;
 handle["/ixia/save_axon_test"] = requestHandlers.saveItem;
 handle["/ixia/update_config"] = requestHandlers.updateConfig;

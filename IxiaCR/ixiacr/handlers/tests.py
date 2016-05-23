@@ -198,6 +198,9 @@ class IxiaTestHandler(base.Handler):
         '''
         messages = list()
         result_id = None
+        host = None
+        ports = []
+
         success = True
         start_date = datetime.now()
         try:
@@ -214,10 +217,28 @@ class IxiaTestHandler(base.Handler):
             if tcr:
                 result_id = tcr.id
 
+            device = Device.query.filter_by(name='BPS').first()
+            if not device:
+                raise 'No Device found'
+
+            port = Port.query.filter_by(device_id=device.id).first()
+            if port:
+                for index in range(4):
+                    if port.status[index] == '1':
+                        ports.append(index)
+            else:
+                raise 'No Port found'
+
             bpsFiles = data['bpt_name'].split(',')
-            bpsTest = aTestBpt(data['host'], data['username'], data['password'], '0', '0,1', '12', forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
+            bpsTest = aTestBpt(device.host, device.username, device.password, port.slot, ports, port.group, forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
             self.sessions.update({data['id']: bpsTest})
-            bpsTest.runURTest(bpsFiles[0])
+            for file in bpsFiles:
+                try:
+                    bpsTest.runURTest(file)
+                except Exception, e:
+                    msg = ('run_test: bpsFile={0}; e={1}'
+                           .format(file, str(e)))
+                    ixiacrlogger.exception(msg)
 
         except Exception, e:
             success = False

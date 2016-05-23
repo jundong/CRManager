@@ -235,6 +235,7 @@ class Port(Base):
     port1 = Column(Unicode(64), nullable=False, unique=False)
     port2 = Column(Unicode(64), nullable=False, unique=False)
     port3 = Column(Unicode(64), nullable=False, unique=False)
+    group = Column(Integer, nullable=False, unique=False)
     selected = Column(Unicode(64), nullable=False, unique=False)
 
     @property

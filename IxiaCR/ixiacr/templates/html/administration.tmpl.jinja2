@@ -95,26 +95,38 @@
                     <tbody data-bind="foreach: availablePorts">
                         <tr>
                             <td data-bind="text: slot"></td>
-                            <td>
-                                <img src="static/images/port-available.png" data-bind="click: selectedPort(0), clickBubble: false, visible: port0() == 'available' && status()[0] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort(0), clickBubble: false, visible: port0() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="click: selectedPort(0), clickBubble: false, visible: port0() == 'selected' || status()[0] == '1'">
+                            <td data-bind="click: selectedPort, clickBubble: false" id="port0">
+                                <img src="static/images/port-available.png" data-bind="visible: port0() == 'available' && status()[0] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="visible: port0() == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="visible: port0() == 'selected' || status()[0] == '1'">
                             </td>
-                            <td>
-                                <img src="static/images/port-available.png" data-bind="click: selectedPort(1), clickBubble: false, visible: port1() == 'available' && status()[1] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort(1), clickBubble: false, visible: port1() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="click: selectedPort(1), clickBubble: false, visible: port1() == 'selected' || status()[1] == '1'">
+                            <td data-bind="click: selectedPort, clickBubble: false" id="port1">
+                                <img src="static/images/port-available.png" data-bind="visible: port1() == 'available' && status()[1] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="visible: port1() == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="visible: port1() == 'selected' || status()[1] == '1'">
                             </td>
-                            <td>
-                                <img src="static/images/port-available.png" data-bind="click: selectedPort(2), clickBubble: false, visible: port2() == 'available' && status()[2] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort(2), clickBubble: false, visible: port2() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="click: selectedPort(2), clickBubble: false, visible: port2() == 'selected' || status()[2] == '1'">
+                            <td data-bind="click: selectedPort, clickBubble: false" id="port2">
+                                <img src="static/images/port-available.png" data-bind="visible: port2() == 'available' && status()[2] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="visible: port2() == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="visible: port2() == 'selected' || status()[2] == '1'">
                             </td>
-                            <td>
-                                <img src="static/images/port-available.png" data-bind="click: selectedPort(3), clickBubble: false, visible: port3() == 'available' && status()[3] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="click: selectedPort(3), clickBubble: false, visible: port3() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="click: selectedPort(3), clickBubble: false, visible: port3() == 'selected' || status()[3] == '1'">
+                            <td data-bind="click: selectedPort, clickBubble: false" id="port3">
+                                <img src="static/images/port-available.png" data-bind="visible: port3() == 'available' && status()[3] == '0'">
+                                <img src="static/images/port-pulse.png" data-bind="visible: port3() == 'reserved'">
+                                <img src="static/images/port-selected.png" data-bind="visible: port3() == 'selected' || status()[3] == '1'">
                             </td>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <ul class="single-pane">
+                                    <li><label>{% trans %}Port Group{% endtrans %}</label><input class="long" type="text" data-bind="value: group" /></li>
+                                </ul>
+                            </th>
+                        </tr>
+                        <tr>
+                            <th colspan="5">
+                                <td><a class="save-button" href="javascript:void(0);" data-bind="click: saveGroup, clickBubble: false">{% trans %}Save{% endtrans %}</a></td>
+                            </th>
                         </tr>
                     </tbody>
                 </table>

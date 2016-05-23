@@ -136,6 +136,7 @@ function getConfigSetting(key) {
         "save_test_template": rootPath + "save_test_template",
         "save_endpoint": rootPath + "save_endpoint",
         "save_device": rootPath + "save_device",
+        "save_port": rootPath + "save_port",
         "save_result": rootPath + "save_result",
         "config_test": rootPath + "config_test",
         "run_test": rootPath + "run_test",

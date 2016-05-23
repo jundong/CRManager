@@ -24,9 +24,15 @@ msgstr ""
 msgid "Successfully saved device."
 msgstr "Successfully saved device."
 
+msgid "Successfully saved port."
+msgstr "Successfully saved port."
+
 #: ixiacr/handlers/admin.py:525
 msgid "Saving device failed. Perhaps this device already exists?"
 msgstr "Saving device failed. Perhaps this device already exists?"
+
+msgid "Saving port failed. Perhaps this port already exists?"
+msgstr "Saving port failed. Perhaps this port already exists?"
 
 #: ixiacr/handlers/admin.py:525
 msgid "Saving device failed. Perhaps this link already exists?"
@@ -2518,4 +2524,6 @@ msgstr "Goodput Bytes (Tx)"
 msgid "models.results.avg_transmit_rate_bps"
 msgstr "Avg Transmit Rate (bps)"
 
+msgid "Port Group"
+msgstr "Port Group"
 

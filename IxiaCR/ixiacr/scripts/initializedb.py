@@ -196,6 +196,7 @@ def import_db(cmd):
              'port1': u'available',
              'port2': u'available',
              'port3': u'available',
+             'group': u'1',
              'selected': u'0:0:0:0'}
         ]
 
@@ -206,6 +207,7 @@ def import_db(cmd):
                 port1=port['port1'],
                 port2=port['port2'],
                 port3=port['port3'],
+                group=port['group'],
                 selected=port['selected']))
             transaction.commit()
 

@@ -50985,6 +50985,7 @@ function getConfigSetting(key) {\n\
         \"save_test_template\": rootPath + \"save_test_template\",\n\
         \"save_endpoint\": rootPath + \"save_endpoint\",\n\
         \"save_device\": rootPath + \"save_device\",\n\
+        \"save_port\": rootPath + \"save_port\",\n\
         \"save_result\": rootPath + \"save_result\",\n\
         \"config_test\": rootPath + \"config_test\",\n\
         \"run_test\": rootPath + \"run_test\",\n\
@@ -68115,6 +68116,7 @@ function PortViewModel(rootVm) {\n\
     self.port1 = ko.observable();\n\
     self.port2 = ko.observable();\n\
     self.port3 = ko.observable();\n\
+    self.group = ko.observable();\n\
     self.selected = ko.observable();\n\
     self.status = ko.observableArray();\n\
 }\n\
@@ -68127,58 +68129,96 @@ PortViewModel.typesafe = function (that) {\n\
     return that;\n\
 };\n\
 \n\
-PortViewModel.prototype.save = function () {\n\
-    var self = PortViewModel.typesafe(this),\n\
-        refreshDraggables = false;\n\
+PortViewModel.prototype.saveGroup = function () {\n\
+    var self = PortViewModel.typesafe(this);\n\
+        self.save();\n\
+}\n\
 \n\
-    util.lightbox.open({\n\
-        url : 'html/lightbox_tmpl',\n\
-        selector : '#lightbox-save-test-alternate-template',\n\
-        cancelSelector: '.cancel-button',\n\
-        onOpenComplete: function(){\n\
-            ko.applyBindings(self, document.getElementById('lightbox-save-test-alternate'));\n\
-        },\n\
-        onClose: function(){\n\
-            if (self.name() === '') {\n\
-                refreshDraggables = true;\n\
+PortViewModel.prototype.save = function () {\n\
+    var self = PortViewModel.typesafe(this);\n\
+\n\
+    $.ajax({\n\
+        type: util.getRequestMethod('save_port'),\n\
+        url: util.getConfigSetting('save_port'),\n\
+        data: util.formatRequestData('save_port', self.toFlatObject()),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+            if (data.result == \"SUCCESS\") {\n\
+                self.updatePorts();\n\
             }\n\
+        },\n\
+        error: function (jqXhr, textStatus, errorThrown) {\n\
+            logger.error(errorThrown);\n\
         }\n\
     });\n\
 };\n\
 \n\
-PortViewModel.prototype.selectedPort = function (index) {\n\
+PortViewModel.prototype.updatePorts = function () {\n\
     var self = PortViewModel.typesafe(this);\n\
+    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {\n\
+        return self.id() == item.id();\n\
+    });\n\
 \n\
-    if (index == 0) {\n\
-        if (self.port0 == 'selected') {\n\
+    if (foundExisting !== null) {\n\
+        self.rootVm.availablePorts.remove(foundExisting);\n\
+        ports = self.rootVm.availablePorts();\n\
+        ports.push(self);\n\
+        self.rootVm.availablePorts(ports);\n\
+    }\n\
+}\n\
+\n\
+PortViewModel.prototype.selectedPort = function (port, event) {\n\
+    var self = PortViewModel.typesafe(this),\n\
+        id = event.currentTarget.id;\n\
+\n\
+    if (id == 'port0') {\n\
+        if (self.port0() == 'selected') {\n\
             self.port0('available');\n\
+            self.status()[0] = 0;\n\
         } else {\n\
             self.port0('selected');\n\
+            self.status()[0] = 1;\n\
         }\n\
     }\n\
-    else if (index == 1) {\n\
-        if (self.port1 == 'selected') {\n\
+    else if (id == 'port1') {\n\
+        if (self.port1() == 'selected') {\n\
             self.port1('available');\n\
+            self.status()[1] = 0;\n\
         } else {\n\
             self.port1('selected');\n\
+            self.status()[1] = 1;\n\
         }\n\
     }\n\
-    else if (index == 2) {\n\
-        if (self.port2 == 'selected') {\n\
+    else if (id == 'port2') {\n\
+        if (self.port2() == 'selected') {\n\
             self.port2('available');\n\
+            self.status()[2] = 0;\n\
         } else {\n\
             self.port2('selected');\n\
+            self.status()[2] = 1;\n\
         }\n\
     }\n\
-    else if (index == 3) {\n\
-        if (self.port3 == 'selected') {\n\
+    else if (id == 'port3') {\n\
+        if (self.port3() == 'selected') {\n\
             self.port3('available');\n\
+            self.status()[3] = 0;\n\
         } else {\n\
             self.port3('selected');\n\
+            self.status()[3] = 1;\n\
         }\n\
     }\n\
 \n\
     //We need to update DB here\n\
+    var selected = '';\n\
+    for (var i = 0; i < self.status().length; i++) {\n\
+        if (i == 0) {\n\
+            selected = selected + self.status()[i];\n\
+        } else {\n\
+            selected = selected + ':' + self.status()[i];\n\
+        }\n\
+    }\n\
+    self.selected(selected);\n\
+    self.updatePorts();\n\
 }\n\
 \n\
 PortViewModel.prototype.inflate = function (flatPort) {\n\
@@ -68192,6 +68232,7 @@ PortViewModel.prototype.inflate = function (flatPort) {\n\
     self.port2(flatPort.port2);\n\
     self.port3(flatPort.port3);\n\
     self.selected(flatPort.selected);\n\
+    self.group(flatPort.group);\n\
     self.status(flatPort.status);\n\
 };\n\
 \n\
@@ -68206,6 +68247,7 @@ PortViewModel.prototype.getNormalizedFlatObject = function (flatObject) {\n\
     flatObject.port3 = null;\n\
     flatObject.selected = null;\n\
     flatObject.status = null;\n\
+    flatObject.group = null;\n\
 \n\
     return flatObject;\n\
 };\n\
@@ -68221,7 +68263,8 @@ PortViewModel.prototype.toFlatObject = function(){\n\
         port2: self.port2(),\n\
         port3: self.port3(),\n\
         selected: self.selected(),\n\
-        status: self.status()\n\
+        status: self.status(),\n\
+        group: self.group()\n\
     };\n\
 \n\
     return flatTemplate;\n\
@@ -68241,6 +68284,7 @@ PortViewModel.prototype.clone = function(){\n\
     newTest.port3(self.port3);\n\
     newTest.selected(self.selected);\n\
     newTest.status(self.status);\n\
+    newTest.group(self.group);\n\
 \n\
     return newTest;\n\
 };\n\
