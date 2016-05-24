@@ -378,7 +378,7 @@ class IxiaTestHandler(base.Handler):
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
             data = self.request.json_body
             test_id = data['id']
-            session_map = self.sessions.pop(test_id)[0]
+            session_map = self.sessions.pop(test_id)
 
             test_result_id = session_map[1]
             bpsTest = session_map[0]
