@@ -231,7 +231,7 @@ class IxiaTestHandler(base.Handler):
 
             bpsFiles = data['bpt_name'].split(',')
             bpsTest = aTestBpt(device.host, device.username, device.password, port.slot, ports, port.group, forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)
-            self.sessions.update({data['id']: bpsTest})
+            self.sessions.update({data['id']: [bpsTest, result_id]})
             for file in bpsFiles:
                 try:
                     bpsTest.runURTest(file)
@@ -378,9 +378,10 @@ class IxiaTestHandler(base.Handler):
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
             data = self.request.json_body
             test_id = data['id']
-            test_result_id = data['test_result_id']
+            session_map = self.sessions.pop(test_id)[0]
 
-            bpsTest = self.sessions.pop(test_id)
+            test_result_id = session_map[1]
+            bpsTest = session_map[0]
             bpsTest.stopTest()
 
             self.updateTestResults(test_result_id, end_result='STOPPED')
