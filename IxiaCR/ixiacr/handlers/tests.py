@@ -198,10 +198,8 @@ class IxiaTestHandler(base.Handler):
         '''
         messages = list()
         result_id = None
-        host = None
         ports = []
 
-        success = True
         start_date = datetime.now()
         try:
             data = self.request.json_body
@@ -240,8 +238,14 @@ class IxiaTestHandler(base.Handler):
                            .format(file, str(e)))
                     ixiacrlogger.exception(msg)
 
+            self.updateTestResults(result_id, end_result='FINISHED')
+            return {'is_ready': True,
+                    'is_valid': True,
+                    'items': [],
+                    'test_result_id': result_id,
+                    'messages': messages}
+
         except Exception, e:
-            success = False
             msg = ('run_test: ixiacr_test_id={0}; e={1}'
                    .format(data['id'], str(e)))
             ixiacrlogger.exception(msg)
@@ -254,17 +258,9 @@ class IxiaTestHandler(base.Handler):
                 'header': self.localizer.translate(_(msg_header)),
                 'content': self.localizer.translate(_(msg_content)),
                 'is_error': True})
-        finally:
-            if success:
-                self.updateTestResults(result_id, end_result='FINISHED')
-            else:
-                self.updateTestResults(result_id, end_result='ERROR')
+            self.updateTestResults(result_id, end_result='ERROR')
+            return self.fail(self.messages)
 
-            return {'is_ready': True,
-                    'is_valid': success,
-                    'items': [],
-                    'test_result_id': result_id,
-                    'messages': messages}
 
     @action(renderer='json')
     def check_for_conflicts_with_upcoming(self):
@@ -373,7 +369,6 @@ class IxiaTestHandler(base.Handler):
         '''Cancel the test.  Will abort a currently running test task
 
         '''
-        success = True
         try:
             ixiacrlogger.debug('cancel_test: self.session = %s' % self.session)
             data = self.request.json_body
@@ -385,24 +380,18 @@ class IxiaTestHandler(base.Handler):
             bpsTest.stopTest()
 
             self.updateTestResults(test_result_id, end_result='STOPPED')
+            return self.success()
 
         except KeyError as e:
-            success = False
             self.updateTestResults(test_result_id, end_result='ERROR', error_reason=str(e))
-
-            ixiacrlogger.exception('%s' % e)
-            return self.success()
-        except Exception as e:
-            success = False
-            self.updateTestResults(test_result_id, end_result='ERROR', error_reason=str(e))
-
             ixiacrlogger.exception('%s' % e)
             return self.fail()
-        finally:
-            if success:
-                self.updateTestResults(test_result_id, end_result='STOPPED')
-            else:
-                self.updateTestResults(test_result_id, end_result='ERROR')
+
+        except Exception as e:
+            self.updateTestResults(test_result_id, end_result='ERROR', error_reason=str(e))
+            ixiacrlogger.exception('%s' % e)
+            return self.fail()
+
 
     @action(renderer='json')
     def download_reports(self):

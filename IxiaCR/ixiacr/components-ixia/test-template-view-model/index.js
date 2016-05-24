@@ -179,6 +179,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {
         logger.error('Validation failed due to HTTP error');
         util.lightbox.error(translate("Validating test"));
         self.startingTest = false;
+        self.rootVm.getResultHistory();
     });
     //self.status("RUNNING");
     if(util.lightbox.isOpen) {
@@ -213,12 +214,14 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {
         success: function(data, textStatus, jqXhr){
             self.status("STOPPED");
             self.startingTest = false;
+            self.rootVm.getResultHistory();
         }
     }).fail(function () {
         self.status("ERROR");
         logger.error('Validation failed due to HTTP error');
         util.lightbox.error(translate("Validating test"));
         self.startingTest = false;
+        self.rootVm.getResultHistory();
     });
 };
 

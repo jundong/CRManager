@@ -181,7 +181,7 @@ def get_result_history(request):
         if request.params.get('page_size') == 'unlimited':
             results = all_history_results
         else:
-            paginator = Paginator(request.params.get('page', 1), request.params.get('page_size', 10))
+            paginator = Paginator(request.params.get('page', 1), request.params.get('page_size', 20))
             results = all_history_results[paginator.start : paginator.stop]
     try:
         for test_result in results:

@@ -506,6 +506,9 @@ IxiaViewModel.prototype.getResultHistory = function (params, callback) {
         url: url,
         dataType: 'json',
         success: function (data, textStatus, jqXhr) {
+            if (isRefreshDashboard) {
+                self.testResultsHistory.removeAll();
+            }
             if (data['total_number']) {
                 self.vmDashboard.totalHistoryResults = data['total_number'];
             }

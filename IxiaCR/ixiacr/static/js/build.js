@@ -6513,126 +6513,6 @@ require.modules["mochajs~mocha"] = require.modules["mochajs~mocha@2.1.0"];
 require.modules["mocha"] = require.modules["mochajs~mocha@2.1.0"];
 
 
-require.register("chaijs~assertion-error@1.0.0", Function("exports, module",
-"/*!\n\
- * assertion-error\n\
- * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>\n\
- * MIT Licensed\n\
- */\n\
-\n\
-/*!\n\
- * Return a function that will copy properties from\n\
- * one object to another excluding any originally\n\
- * listed. Returned function will create a new `{}`.\n\
- *\n\
- * @param {String} excluded properties ...\n\
- * @return {Function}\n\
- */\n\
-\n\
-function exclude () {\n\
-  var excludes = [].slice.call(arguments);\n\
-\n\
-  function excludeProps (res, obj) {\n\
-    Object.keys(obj).forEach(function (key) {\n\
-      if (!~excludes.indexOf(key)) res[key] = obj[key];\n\
-    });\n\
-  }\n\
-\n\
-  return function extendExclude () {\n\
-    var args = [].slice.call(arguments)\n\
-      , i = 0\n\
-      , res = {};\n\
-\n\
-    for (; i < args.length; i++) {\n\
-      excludeProps(res, args[i]);\n\
-    }\n\
-\n\
-    return res;\n\
-  };\n\
-};\n\
-\n\
-/*!\n\
- * Primary Exports\n\
- */\n\
-\n\
-module.exports = AssertionError;\n\
-\n\
-/**\n\
- * ### AssertionError\n\
- *\n\
- * An extension of the JavaScript `Error` constructor for\n\
- * assertion and validation scenarios.\n\
- *\n\
- * @param {String} message\n\
- * @param {Object} properties to include (optional)\n\
- * @param {callee} start stack function (optional)\n\
- */\n\
-\n\
-function AssertionError (message, _props, ssf) {\n\
-  var extend = exclude('name', 'message', 'stack', 'constructor', 'toJSON')\n\
-    , props = extend(_props || {});\n\
-\n\
-  // default values\n\
-  this.message = message || 'Unspecified AssertionError';\n\
-  this.showDiff = false;\n\
-\n\
-  // copy from properties\n\
-  for (var key in props) {\n\
-    this[key] = props[key];\n\
-  }\n\
-\n\
-  // capture stack trace\n\
-  ssf = ssf || arguments.callee;\n\
-  if (ssf && Error.captureStackTrace) {\n\
-    Error.captureStackTrace(this, ssf);\n\
-  }\n\
-}\n\
-\n\
-/*!\n\
- * Inherit from Error.prototype\n\
- */\n\
-\n\
-AssertionError.prototype = Object.create(Error.prototype);\n\
-\n\
-/*!\n\
- * Statically set name\n\
- */\n\
-\n\
-AssertionError.prototype.name = 'AssertionError';\n\
-\n\
-/*!\n\
- * Ensure correct constructor\n\
- */\n\
-\n\
-AssertionError.prototype.constructor = AssertionError;\n\
-\n\
-/**\n\
- * Allow errors to be converted to JSON for static transfer.\n\
- *\n\
- * @param {Boolean} include stack (default: `true`)\n\
- * @return {Object} object that can be `JSON.stringify`\n\
- */\n\
-\n\
-AssertionError.prototype.toJSON = function (stack) {\n\
-  var extend = exclude('constructor', 'toJSON', 'stack')\n\
-    , props = extend({ name: this.name }, this);\n\
-\n\
-  // include stack if exists and not turned off\n\
-  if (false !== stack && this.stack) {\n\
-    props.stack = this.stack;\n\
-  }\n\
-\n\
-  return props;\n\
-};\n\
-\n\
-//# sourceURL=components/chaijs/assertion-error/1.0.0/index.js"
-));
-
-require.modules["chaijs-assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
-require.modules["chaijs~assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
-require.modules["assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
-
-
 require.register("chaijs~type-detect@0.1.1", Function("exports, module",
 "/*!\n\
  * type-detect\n\
@@ -7050,6 +6930,126 @@ function objectEqual(a, b, m) {\n\
 require.modules["chaijs-deep-eql"] = require.modules["chaijs~deep-eql@0.1.3"];
 require.modules["chaijs~deep-eql"] = require.modules["chaijs~deep-eql@0.1.3"];
 require.modules["deep-eql"] = require.modules["chaijs~deep-eql@0.1.3"];
+
+
+require.register("chaijs~assertion-error@1.0.0", Function("exports, module",
+"/*!\n\
+ * assertion-error\n\
+ * Copyright(c) 2013 Jake Luer <jake@qualiancy.com>\n\
+ * MIT Licensed\n\
+ */\n\
+\n\
+/*!\n\
+ * Return a function that will copy properties from\n\
+ * one object to another excluding any originally\n\
+ * listed. Returned function will create a new `{}`.\n\
+ *\n\
+ * @param {String} excluded properties ...\n\
+ * @return {Function}\n\
+ */\n\
+\n\
+function exclude () {\n\
+  var excludes = [].slice.call(arguments);\n\
+\n\
+  function excludeProps (res, obj) {\n\
+    Object.keys(obj).forEach(function (key) {\n\
+      if (!~excludes.indexOf(key)) res[key] = obj[key];\n\
+    });\n\
+  }\n\
+\n\
+  return function extendExclude () {\n\
+    var args = [].slice.call(arguments)\n\
+      , i = 0\n\
+      , res = {};\n\
+\n\
+    for (; i < args.length; i++) {\n\
+      excludeProps(res, args[i]);\n\
+    }\n\
+\n\
+    return res;\n\
+  };\n\
+};\n\
+\n\
+/*!\n\
+ * Primary Exports\n\
+ */\n\
+\n\
+module.exports = AssertionError;\n\
+\n\
+/**\n\
+ * ### AssertionError\n\
+ *\n\
+ * An extension of the JavaScript `Error` constructor for\n\
+ * assertion and validation scenarios.\n\
+ *\n\
+ * @param {String} message\n\
+ * @param {Object} properties to include (optional)\n\
+ * @param {callee} start stack function (optional)\n\
+ */\n\
+\n\
+function AssertionError (message, _props, ssf) {\n\
+  var extend = exclude('name', 'message', 'stack', 'constructor', 'toJSON')\n\
+    , props = extend(_props || {});\n\
+\n\
+  // default values\n\
+  this.message = message || 'Unspecified AssertionError';\n\
+  this.showDiff = false;\n\
+\n\
+  // copy from properties\n\
+  for (var key in props) {\n\
+    this[key] = props[key];\n\
+  }\n\
+\n\
+  // capture stack trace\n\
+  ssf = ssf || arguments.callee;\n\
+  if (ssf && Error.captureStackTrace) {\n\
+    Error.captureStackTrace(this, ssf);\n\
+  }\n\
+}\n\
+\n\
+/*!\n\
+ * Inherit from Error.prototype\n\
+ */\n\
+\n\
+AssertionError.prototype = Object.create(Error.prototype);\n\
+\n\
+/*!\n\
+ * Statically set name\n\
+ */\n\
+\n\
+AssertionError.prototype.name = 'AssertionError';\n\
+\n\
+/*!\n\
+ * Ensure correct constructor\n\
+ */\n\
+\n\
+AssertionError.prototype.constructor = AssertionError;\n\
+\n\
+/**\n\
+ * Allow errors to be converted to JSON for static transfer.\n\
+ *\n\
+ * @param {Boolean} include stack (default: `true`)\n\
+ * @return {Object} object that can be `JSON.stringify`\n\
+ */\n\
+\n\
+AssertionError.prototype.toJSON = function (stack) {\n\
+  var extend = exclude('constructor', 'toJSON', 'stack')\n\
+    , props = extend({ name: this.name }, this);\n\
+\n\
+  // include stack if exists and not turned off\n\
+  if (false !== stack && this.stack) {\n\
+    props.stack = this.stack;\n\
+  }\n\
+\n\
+  return props;\n\
+};\n\
+\n\
+//# sourceURL=components/chaijs/assertion-error/1.0.0/index.js"
+));
+
+require.modules["chaijs-assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
+require.modules["chaijs~assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
+require.modules["assertion-error"] = require.modules["chaijs~assertion-error@1.0.0"];
 
 
 require.register("chaijs~chai@2.1.0", Function("exports, module",
@@ -11756,6 +11756,1241 @@ module.exports = function (obj) {\n\
 require.modules["chaijs-chai"] = require.modules["chaijs~chai@2.1.0"];
 require.modules["chaijs~chai"] = require.modules["chaijs~chai@2.1.0"];
 require.modules["chai"] = require.modules["chaijs~chai@2.1.0"];
+
+
+require.register("component~indexof@0.0.3", Function("exports, module",
+"module.exports = function(arr, obj){\n\
+  if (arr.indexOf) return arr.indexOf(obj);\n\
+  for (var i = 0; i < arr.length; ++i) {\n\
+    if (arr[i] === obj) return i;\n\
+  }\n\
+  return -1;\n\
+};\n\
+//# sourceURL=components/component/indexof/0.0.3/index.js"
+));
+
+require.modules["component-indexof"] = require.modules["component~indexof@0.0.3"];
+require.modules["component~indexof"] = require.modules["component~indexof@0.0.3"];
+require.modules["indexof"] = require.modules["component~indexof@0.0.3"];
+
+
+require.register("component~emitter@1.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var index = require('component~indexof@0.0.3');\n\
+\n\
+/**\n\
+ * Expose `Emitter`.\n\
+ */\n\
+\n\
+module.exports = Emitter;\n\
+\n\
+/**\n\
+ * Initialize a new `Emitter`.\n\
+ *\n\
+ * @api public\n\
+ */\n\
+\n\
+function Emitter(obj) {\n\
+  if (obj) return mixin(obj);\n\
+};\n\
+\n\
+/**\n\
+ * Mixin the emitter properties.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @return {Object}\n\
+ * @api private\n\
+ */\n\
+\n\
+function mixin(obj) {\n\
+  for (var key in Emitter.prototype) {\n\
+    obj[key] = Emitter.prototype[key];\n\
+  }\n\
+  return obj;\n\
+}\n\
+\n\
+/**\n\
+ * Listen on the given `event` with `fn`.\n\
+ *\n\
+ * @param {String} event\n\
+ * @param {Function} fn\n\
+ * @return {Emitter}\n\
+ * @api public\n\
+ */\n\
+\n\
+Emitter.prototype.on = function(event, fn){\n\
+  this._callbacks = this._callbacks || {};\n\
+  (this._callbacks[event] = this._callbacks[event] || [])\n\
+    .push(fn);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Adds an `event` listener that will be invoked a single\n\
+ * time then automatically removed.\n\
+ *\n\
+ * @param {String} event\n\
+ * @param {Function} fn\n\
+ * @return {Emitter}\n\
+ * @api public\n\
+ */\n\
+\n\
+Emitter.prototype.once = function(event, fn){\n\
+  var self = this;\n\
+  this._callbacks = this._callbacks || {};\n\
+\n\
+  function on() {\n\
+    self.off(event, on);\n\
+    fn.apply(this, arguments);\n\
+  }\n\
+\n\
+  fn._off = on;\n\
+  this.on(event, on);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Remove the given callback for `event` or all\n\
+ * registered callbacks.\n\
+ *\n\
+ * @param {String} event\n\
+ * @param {Function} fn\n\
+ * @return {Emitter}\n\
+ * @api public\n\
+ */\n\
+\n\
+Emitter.prototype.off =\n\
+Emitter.prototype.removeListener =\n\
+Emitter.prototype.removeAllListeners = function(event, fn){\n\
+  this._callbacks = this._callbacks || {};\n\
+\n\
+  // all\n\
+  if (0 == arguments.length) {\n\
+    this._callbacks = {};\n\
+    return this;\n\
+  }\n\
+\n\
+  // specific event\n\
+  var callbacks = this._callbacks[event];\n\
+  if (!callbacks) return this;\n\
+\n\
+  // remove all handlers\n\
+  if (1 == arguments.length) {\n\
+    delete this._callbacks[event];\n\
+    return this;\n\
+  }\n\
+\n\
+  // remove specific handler\n\
+  var i = index(callbacks, fn._off || fn);\n\
+  if (~i) callbacks.splice(i, 1);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Emit `event` with the given args.\n\
+ *\n\
+ * @param {String} event\n\
+ * @param {Mixed} ...\n\
+ * @return {Emitter}\n\
+ */\n\
+\n\
+Emitter.prototype.emit = function(event){\n\
+  this._callbacks = this._callbacks || {};\n\
+  var args = [].slice.call(arguments, 1)\n\
+    , callbacks = this._callbacks[event];\n\
+\n\
+  if (callbacks) {\n\
+    callbacks = callbacks.slice(0);\n\
+    for (var i = 0, len = callbacks.length; i < len; ++i) {\n\
+      callbacks[i].apply(this, args);\n\
+    }\n\
+  }\n\
+\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Return array of callbacks for `event`.\n\
+ *\n\
+ * @param {String} event\n\
+ * @return {Array}\n\
+ * @api public\n\
+ */\n\
+\n\
+Emitter.prototype.listeners = function(event){\n\
+  this._callbacks = this._callbacks || {};\n\
+  return this._callbacks[event] || [];\n\
+};\n\
+\n\
+/**\n\
+ * Check if this emitter has `event` handlers.\n\
+ *\n\
+ * @param {String} event\n\
+ * @return {Boolean}\n\
+ * @api public\n\
+ */\n\
+\n\
+Emitter.prototype.hasListeners = function(event){\n\
+  return !! this.listeners(event).length;\n\
+};\n\
+\n\
+//# sourceURL=components/component/emitter/1.0.1/index.js"
+));
+
+require.modules["component-emitter"] = require.modules["component~emitter@1.0.1"];
+require.modules["component~emitter"] = require.modules["component~emitter@1.0.1"];
+require.modules["emitter"] = require.modules["component~emitter@1.0.1"];
+
+
+require.register("component~reduce@1.0.1", Function("exports, module",
+"\n\
+/**\n\
+ * Reduce `arr` with `fn`.\n\
+ *\n\
+ * @param {Array} arr\n\
+ * @param {Function} fn\n\
+ * @param {Mixed} initial\n\
+ *\n\
+ * TODO: combatible error handling?\n\
+ */\n\
+\n\
+module.exports = function(arr, fn, initial){  \n\
+  var idx = 0;\n\
+  var len = arr.length;\n\
+  var curr = arguments.length == 3\n\
+    ? initial\n\
+    : arr[idx++];\n\
+\n\
+  while (idx < len) {\n\
+    curr = fn.call(null, curr, arr[idx], ++idx, arr);\n\
+  }\n\
+  \n\
+  return curr;\n\
+};\n\
+//# sourceURL=components/component/reduce/1.0.1/index.js"
+));
+
+require.modules["component-reduce"] = require.modules["component~reduce@1.0.1"];
+require.modules["component~reduce"] = require.modules["component~reduce@1.0.1"];
+require.modules["reduce"] = require.modules["component~reduce@1.0.1"];
+
+
+require.register("johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026", Function("exports, module",
+"/**\n\
+ * Module dependencies.\n\
+ */\n\
+\n\
+var Emitter = require('component~emitter@1.0.1');\n\
+var reduce = require('component~reduce@1.0.1');\n\
+\n\
+/**\n\
+ * Root reference for iframes.\n\
+ */\n\
+\n\
+var root = 'undefined' == typeof window\n\
+  ? this\n\
+  : window;\n\
+\n\
+/**\n\
+ * Noop.\n\
+ */\n\
+\n\
+function noop(){};\n\
+\n\
+/**\n\
+ * Check if `obj` is a host object,\n\
+ * we don't want to serialize these :)\n\
+ *\n\
+ * TODO: future proof, move to compoent land\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @return {Boolean}\n\
+ * @api private\n\
+ */\n\
+\n\
+function isHost(obj) {\n\
+  var str = {}.toString.call(obj);\n\
+\n\
+  switch (str) {\n\
+    case '[object File]':\n\
+    case '[object Blob]':\n\
+    case '[object FormData]':\n\
+      return true;\n\
+    default:\n\
+      return false;\n\
+  }\n\
+}\n\
+\n\
+/**\n\
+ * Determine XHR.\n\
+ */\n\
+\n\
+function getXHR() {\n\
+  if (root.XMLHttpRequest\n\
+    && ('file:' != root.location.protocol || !root.ActiveXObject)) {\n\
+    return new XMLHttpRequest;\n\
+  } else {\n\
+    try { return new ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {}\n\
+    try { return new ActiveXObject('Msxml2.XMLHTTP.6.0'); } catch(e) {}\n\
+    try { return new ActiveXObject('Msxml2.XMLHTTP.3.0'); } catch(e) {}\n\
+    try { return new ActiveXObject('Msxml2.XMLHTTP'); } catch(e) {}\n\
+  }\n\
+  return false;\n\
+}\n\
+\n\
+/**\n\
+ * Removes leading and trailing whitespace, added to support IE.\n\
+ *\n\
+ * @param {String} s\n\
+ * @return {String}\n\
+ * @api private\n\
+ */\n\
+\n\
+var trim = ''.trim\n\
+  ? function(s) { return s.trim(); }\n\
+  : function(s) { return s.replace(/(^\\s*|\\s*$)/g, ''); };\n\
+\n\
+/**\n\
+ * Check if `obj` is an object.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @return {Boolean}\n\
+ * @api private\n\
+ */\n\
+\n\
+function isObject(obj) {\n\
+  return obj === Object(obj);\n\
+}\n\
+\n\
+/**\n\
+ * Serialize the given `obj`.\n\
+ *\n\
+ * @param {Object} obj\n\
+ * @return {String}\n\
+ * @api private\n\
+ */\n\
+\n\
+function serialize(obj) {\n\
+  if (!isObject(obj)) return obj;\n\
+  var pairs = [];\n\
+  for (var key in obj) {\n\
+    if (null != obj[key]) {\n\
+      pairs.push(encodeURIComponent(key)\n\
+        + '=' + encodeURIComponent(obj[key]));\n\
+    }\n\
+  }\n\
+  return pairs.join('&');\n\
+}\n\
+\n\
+/**\n\
+ * Expose serialization method.\n\
+ */\n\
+\n\
+ request.serializeObject = serialize;\n\
+\n\
+ /**\n\
+  * Parse the given x-www-form-urlencoded `str`.\n\
+  *\n\
+  * @param {String} str\n\
+  * @return {Object}\n\
+  * @api private\n\
+  */\n\
+\n\
+function parseString(str) {\n\
+  var obj = {};\n\
+  var pairs = str.split('&');\n\
+  var parts;\n\
+  var pair;\n\
+\n\
+  for (var i = 0, len = pairs.length; i < len; ++i) {\n\
+    pair = pairs[i];\n\
+    parts = pair.split('=');\n\
+    obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);\n\
+  }\n\
+\n\
+  return obj;\n\
+}\n\
+\n\
+/**\n\
+ * Expose parser.\n\
+ */\n\
+\n\
+request.parseString = parseString;\n\
+\n\
+/**\n\
+ * Default MIME type map.\n\
+ *\n\
+ *     superagent.types.xml = 'application/xml';\n\
+ *\n\
+ */\n\
+\n\
+request.types = {\n\
+  html: 'text/html',\n\
+  json: 'application/json',\n\
+  xml: 'application/xml',\n\
+  urlencoded: 'application/x-www-form-urlencoded',\n\
+  'form': 'application/x-www-form-urlencoded',\n\
+  'form-data': 'application/x-www-form-urlencoded'\n\
+};\n\
+\n\
+/**\n\
+ * Default serialization map.\n\
+ *\n\
+ *     superagent.serialize['application/xml'] = function(obj){\n\
+ *       return 'generated xml here';\n\
+ *     };\n\
+ *\n\
+ */\n\
+\n\
+ request.serialize = {\n\
+   'application/x-www-form-urlencoded': serialize,\n\
+   'application/json': JSON.stringify\n\
+ };\n\
+\n\
+ /**\n\
+  * Default parsers.\n\
+  *\n\
+  *     superagent.parse['application/xml'] = function(str){\n\
+  *       return { object parsed from str };\n\
+  *     };\n\
+  *\n\
+  */\n\
+\n\
+request.parse = {\n\
+  'application/x-www-form-urlencoded': parseString,\n\
+  'application/json': JSON.parse\n\
+};\n\
+\n\
+/**\n\
+ * Parse the given header `str` into\n\
+ * an object containing the mapped fields.\n\
+ *\n\
+ * @param {String} str\n\
+ * @return {Object}\n\
+ * @api private\n\
+ */\n\
+\n\
+function parseHeader(str) {\n\
+  var lines = str.split(/\\r?\\n\
+/);\n\
+  var fields = {};\n\
+  var index;\n\
+  var line;\n\
+  var field;\n\
+  var val;\n\
+\n\
+  lines.pop(); // trailing CRLF\n\
+\n\
+  for (var i = 0, len = lines.length; i < len; ++i) {\n\
+    line = lines[i];\n\
+    index = line.indexOf(':');\n\
+    field = line.slice(0, index).toLowerCase();\n\
+    val = trim(line.slice(index + 1));\n\
+    fields[field] = val;\n\
+  }\n\
+\n\
+  return fields;\n\
+}\n\
+\n\
+/**\n\
+ * Return the mime type for the given `str`.\n\
+ *\n\
+ * @param {String} str\n\
+ * @return {String}\n\
+ * @api private\n\
+ */\n\
+\n\
+function type(str){\n\
+  return str.split(/ *; */).shift();\n\
+};\n\
+\n\
+/**\n\
+ * Return header field parameters.\n\
+ *\n\
+ * @param {String} str\n\
+ * @return {Object}\n\
+ * @api private\n\
+ */\n\
+\n\
+function params(str){\n\
+  return reduce(str.split(/ *; */), function(obj, str){\n\
+    var parts = str.split(/ *= */)\n\
+      , key = parts.shift()\n\
+      , val = parts.shift();\n\
+\n\
+    if (key && val) obj[key] = val;\n\
+    return obj;\n\
+  }, {});\n\
+};\n\
+\n\
+/**\n\
+ * Initialize a new `Response` with the given `xhr`.\n\
+ *\n\
+ *  - set flags (.ok, .error, etc)\n\
+ *  - parse header\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *  Aliasing `superagent` as `request` is nice:\n\
+ *\n\
+ *      request = superagent;\n\
+ *\n\
+ *  We can use the promise-like API, or pass callbacks:\n\
+ *\n\
+ *      request.get('/').end(function(res){});\n\
+ *      request.get('/', function(res){});\n\
+ *\n\
+ *  Sending data can be chained:\n\
+ *\n\
+ *      request\n\
+ *        .post('/user')\n\
+ *        .send({ name: 'tj' })\n\
+ *        .end(function(res){});\n\
+ *\n\
+ *  Or passed to `.send()`:\n\
+ *\n\
+ *      request\n\
+ *        .post('/user')\n\
+ *        .send({ name: 'tj' }, function(res){});\n\
+ *\n\
+ *  Or passed to `.post()`:\n\
+ *\n\
+ *      request\n\
+ *        .post('/user', { name: 'tj' })\n\
+ *        .end(function(res){});\n\
+ *\n\
+ * Or further reduced to a single call for simple cases:\n\
+ *\n\
+ *      request\n\
+ *        .post('/user', { name: 'tj' }, function(res){});\n\
+ *\n\
+ * @param {XMLHTTPRequest} xhr\n\
+ * @param {Object} options\n\
+ * @api private\n\
+ */\n\
+\n\
+function Response(req, options) {\n\
+  options = options || {};\n\
+  this.req = req;\n\
+  this.xhr = this.req.xhr;\n\
+  this.text = this.xhr.responseText;\n\
+  this.setStatusProperties(this.xhr.status);\n\
+  this.header = this.headers = parseHeader(this.xhr.getAllResponseHeaders());\n\
+  // getAllResponseHeaders sometimes falsely returns \"\" for CORS requests, but\n\
+  // getResponseHeader still works. so we get content-type even if getting\n\
+  // other headers fails.\n\
+  this.header['content-type'] = this.xhr.getResponseHeader('content-type');\n\
+  this.setHeaderProperties(this.header);\n\
+  this.body = this.req.method != 'HEAD'\n\
+    ? this.parseBody(this.text)\n\
+    : null;\n\
+}\n\
+\n\
+/**\n\
+ * Get case-insensitive `field` value.\n\
+ *\n\
+ * @param {String} field\n\
+ * @return {String}\n\
+ * @api public\n\
+ */\n\
+\n\
+Response.prototype.get = function(field){\n\
+  return this.header[field.toLowerCase()];\n\
+};\n\
+\n\
+/**\n\
+ * Set header related properties:\n\
+ *\n\
+ *   - `.type` the content type without params\n\
+ *\n\
+ * A response of \"Content-Type: text/plain; charset=utf-8\"\n\
+ * will provide you with a `.type` of \"text/plain\".\n\
+ *\n\
+ * @param {Object} header\n\
+ * @api private\n\
+ */\n\
+\n\
+Response.prototype.setHeaderProperties = function(header){\n\
+  // content-type\n\
+  var ct = this.header['content-type'] || '';\n\
+  this.type = type(ct);\n\
+\n\
+  // params\n\
+  var obj = params(ct);\n\
+  for (var key in obj) this[key] = obj[key];\n\
+};\n\
+\n\
+/**\n\
+ * Parse the given body `str`.\n\
+ *\n\
+ * Used for auto-parsing of bodies. Parsers\n\
+ * are defined on the `superagent.parse` object.\n\
+ *\n\
+ * @param {String} str\n\
+ * @return {Mixed}\n\
+ * @api private\n\
+ */\n\
+\n\
+Response.prototype.parseBody = function(str){\n\
+  var parse = request.parse[this.type];\n\
+  return parse\n\
+    ? parse(str)\n\
+    : null;\n\
+};\n\
+\n\
+/**\n\
+ * Set flags such as `.ok` based on `status`.\n\
+ *\n\
+ * For example a 2xx response will give you a `.ok` of __true__\n\
+ * whereas 5xx will be __false__ and `.error` will be __true__. The\n\
+ * `.clientError` and `.serverError` are also available to be more\n\
+ * specific, and `.statusType` is the class of error ranging from 1..5\n\
+ * sometimes useful for mapping respond colors etc.\n\
+ *\n\
+ * \"sugar\" properties are also defined for common cases. Currently providing:\n\
+ *\n\
+ *   - .noContent\n\
+ *   - .badRequest\n\
+ *   - .unauthorized\n\
+ *   - .notAcceptable\n\
+ *   - .notFound\n\
+ *\n\
+ * @param {Number} status\n\
+ * @api private\n\
+ */\n\
+\n\
+Response.prototype.setStatusProperties = function(status){\n\
+  var type = status / 100 | 0;\n\
+\n\
+  // status / class\n\
+  this.status = status;\n\
+  this.statusType = type;\n\
+\n\
+  // basics\n\
+  this.info = 1 == type;\n\
+  this.ok = 2 == type;\n\
+  this.clientError = 4 == type;\n\
+  this.serverError = 5 == type;\n\
+  this.error = (4 == type || 5 == type)\n\
+    ? this.toError()\n\
+    : false;\n\
+\n\
+  // sugar\n\
+  this.accepted = 202 == status;\n\
+  this.noContent = 204 == status || 1223 == status;\n\
+  this.badRequest = 400 == status;\n\
+  this.unauthorized = 401 == status;\n\
+  this.notAcceptable = 406 == status;\n\
+  this.notFound = 404 == status;\n\
+  this.forbidden = 403 == status;\n\
+};\n\
+\n\
+/**\n\
+ * Return an `Error` representative of this response.\n\
+ *\n\
+ * @return {Error}\n\
+ * @api public\n\
+ */\n\
+\n\
+Response.prototype.toError = function(){\n\
+  var req = this.req;\n\
+  var method = req.method;\n\
+  var path = req.path;\n\
+\n\
+  var msg = 'cannot ' + method + ' ' + path + ' (' + this.status + ')';\n\
+  var err = new Error(msg);\n\
+  err.status = this.status;\n\
+  err.method = method;\n\
+  err.path = path;\n\
+\n\
+  return err;\n\
+};\n\
+\n\
+/**\n\
+ * Expose `Response`.\n\
+ */\n\
+\n\
+request.Response = Response;\n\
+\n\
+/**\n\
+ * Initialize a new `Request` with the given `method` and `url`.\n\
+ *\n\
+ * @param {String} method\n\
+ * @param {String} url\n\
+ * @api public\n\
+ */\n\
+\n\
+function Request(method, url) {\n\
+  var self = this;\n\
+  Emitter.call(this);\n\
+  this._query = this._query || [];\n\
+  this.method = method;\n\
+  this.url = url;\n\
+  this.header = {};\n\
+  this._header = {};\n\
+  this.on('end', function(){\n\
+    var res = new Response(self);\n\
+    if ('HEAD' == method) res.text = null;\n\
+    self.callback(null, res);\n\
+  });\n\
+}\n\
+\n\
+/**\n\
+ * Mixin `Emitter`.\n\
+ */\n\
+\n\
+Emitter(Request.prototype);\n\
+\n\
+/**\n\
+ * Allow for extension\n\
+ */\n\
+\n\
+Request.prototype.use = function(fn) {\n\
+  fn(this);\n\
+  return this;\n\
+}\n\
+\n\
+/**\n\
+ * Set timeout to `ms`.\n\
+ *\n\
+ * @param {Number} ms\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.timeout = function(ms){\n\
+  this._timeout = ms;\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Clear previous timeout.\n\
+ *\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.clearTimeout = function(){\n\
+  this._timeout = 0;\n\
+  clearTimeout(this._timer);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Abort the request, and clear potential timeout.\n\
+ *\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.abort = function(){\n\
+  if (this.aborted) return;\n\
+  this.aborted = true;\n\
+  this.xhr.abort();\n\
+  this.clearTimeout();\n\
+  this.emit('abort');\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Set header `field` to `val`, or multiple fields with one object.\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *      req.get('/')\n\
+ *        .set('Accept', 'application/json')\n\
+ *        .set('X-API-Key', 'foobar')\n\
+ *        .end(callback);\n\
+ *\n\
+ *      req.get('/')\n\
+ *        .set({ Accept: 'application/json', 'X-API-Key': 'foobar' })\n\
+ *        .end(callback);\n\
+ *\n\
+ * @param {String|Object} field\n\
+ * @param {String} val\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.set = function(field, val){\n\
+  if (isObject(field)) {\n\
+    for (var key in field) {\n\
+      this.set(key, field[key]);\n\
+    }\n\
+    return this;\n\
+  }\n\
+  this._header[field.toLowerCase()] = val;\n\
+  this.header[field] = val;\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Get case-insensitive header `field` value.\n\
+ *\n\
+ * @param {String} field\n\
+ * @return {String}\n\
+ * @api private\n\
+ */\n\
+\n\
+Request.prototype.getHeader = function(field){\n\
+  return this._header[field.toLowerCase()];\n\
+};\n\
+\n\
+/**\n\
+ * Set Content-Type to `type`, mapping values from `request.types`.\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *      superagent.types.xml = 'application/xml';\n\
+ *\n\
+ *      request.post('/')\n\
+ *        .type('xml')\n\
+ *        .send(xmlstring)\n\
+ *        .end(callback);\n\
+ *\n\
+ *      request.post('/')\n\
+ *        .type('application/xml')\n\
+ *        .send(xmlstring)\n\
+ *        .end(callback);\n\
+ *\n\
+ * @param {String} type\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.type = function(type){\n\
+  this.set('Content-Type', request.types[type] || type);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Set Accept to `type`, mapping values from `request.types`.\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *      superagent.types.json = 'application/json';\n\
+ *\n\
+ *      request.get('/agent')\n\
+ *        .accept('json')\n\
+ *        .end(callback);\n\
+ *\n\
+ *      request.get('/agent')\n\
+ *        .accept('application/json')\n\
+ *        .end(callback);\n\
+ *\n\
+ * @param {String} accept\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.accept = function(type){\n\
+  this.set('Accept', request.types[type] || type);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Set Authorization field value with `user` and `pass`.\n\
+ *\n\
+ * @param {String} user\n\
+ * @param {String} pass\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.auth = function(user, pass){\n\
+  var str = btoa(user + ':' + pass);\n\
+  this.set('Authorization', 'Basic ' + str);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+* Add query-string `val`.\n\
+*\n\
+* Examples:\n\
+*\n\
+*   request.get('/shoes')\n\
+*     .query('size=10')\n\
+*     .query({ color: 'blue' })\n\
+*\n\
+* @param {Object|String} val\n\
+* @return {Request} for chaining\n\
+* @api public\n\
+*/\n\
+\n\
+Request.prototype.query = function(val){\n\
+  if ('string' != typeof val) val = serialize(val);\n\
+  if (val) this._query.push(val);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Send `data`, defaulting the `.type()` to \"json\" when\n\
+ * an object is given.\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *       // querystring\n\
+ *       request.get('/search')\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // multiple data \"writes\"\n\
+ *       request.get('/search')\n\
+ *         .send({ search: 'query' })\n\
+ *         .send({ range: '1..5' })\n\
+ *         .send({ order: 'desc' })\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // manual json\n\
+ *       request.post('/user')\n\
+ *         .type('json')\n\
+ *         .send('{\"name\":\"tj\"})\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // auto json\n\
+ *       request.post('/user')\n\
+ *         .send({ name: 'tj' })\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // manual x-www-form-urlencoded\n\
+ *       request.post('/user')\n\
+ *         .type('form')\n\
+ *         .send('name=tj')\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // auto x-www-form-urlencoded\n\
+ *       request.post('/user')\n\
+ *         .type('form')\n\
+ *         .send({ name: 'tj' })\n\
+ *         .end(callback)\n\
+ *\n\
+ *       // defaults to x-www-form-urlencoded\n\
+  *      request.post('/user')\n\
+  *        .send('name=tobi')\n\
+  *        .send('species=ferret')\n\
+  *        .end(callback)\n\
+ *\n\
+ * @param {String|Object} data\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.send = function(data){\n\
+  var obj = isObject(data);\n\
+  var type = this.getHeader('Content-Type');\n\
+\n\
+  // merge\n\
+  if (obj && isObject(this._data)) {\n\
+    for (var key in data) {\n\
+      this._data[key] = data[key];\n\
+    }\n\
+  } else if ('string' == typeof data) {\n\
+    if (!type) this.type('form');\n\
+    type = this.getHeader('Content-Type');\n\
+    if ('application/x-www-form-urlencoded' == type) {\n\
+      this._data = this._data\n\
+        ? this._data + '&' + data\n\
+        : data;\n\
+    } else {\n\
+      this._data = (this._data || '') + data;\n\
+    }\n\
+  } else {\n\
+    this._data = data;\n\
+  }\n\
+\n\
+  if (!obj) return this;\n\
+  if (!type) this.type('json');\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Invoke the callback with `err` and `res`\n\
+ * and handle arity check.\n\
+ *\n\
+ * @param {Error} err\n\
+ * @param {Response} res\n\
+ * @api private\n\
+ */\n\
+\n\
+Request.prototype.callback = function(err, res){\n\
+  var fn = this._callback;\n\
+  if (2 == fn.length) return fn(err, res);\n\
+  if (err) return this.emit('error', err);\n\
+  fn(res);\n\
+};\n\
+\n\
+/**\n\
+ * Invoke callback with x-domain error.\n\
+ *\n\
+ * @api private\n\
+ */\n\
+\n\
+Request.prototype.crossDomainError = function(){\n\
+  var err = new Error('Origin is not allowed by Access-Control-Allow-Origin');\n\
+  err.crossDomain = true;\n\
+  this.callback(err);\n\
+};\n\
+\n\
+/**\n\
+ * Invoke callback with timeout error.\n\
+ *\n\
+ * @api private\n\
+ */\n\
+\n\
+Request.prototype.timeoutError = function(){\n\
+  var timeout = this._timeout;\n\
+  var err = new Error('timeout of ' + timeout + 'ms exceeded');\n\
+  err.timeout = timeout;\n\
+  this.callback(err);\n\
+};\n\
+\n\
+/**\n\
+ * Enable transmission of cookies with x-domain requests.\n\
+ *\n\
+ * Note that for this to work the origin must not be\n\
+ * using \"Access-Control-Allow-Origin\" with a wildcard,\n\
+ * and also must set \"Access-Control-Allow-Credentials\"\n\
+ * to \"true\".\n\
+ *\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.withCredentials = function(){\n\
+  this._withCredentials = true;\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Initiate request, invoking callback `fn(res)`\n\
+ * with an instanceof `Response`.\n\
+ *\n\
+ * @param {Function} fn\n\
+ * @return {Request} for chaining\n\
+ * @api public\n\
+ */\n\
+\n\
+Request.prototype.end = function(fn){\n\
+  var self = this;\n\
+  var xhr = this.xhr = getXHR();\n\
+  var query = this._query.join('&');\n\
+  var timeout = this._timeout;\n\
+  var data = this._data;\n\
+\n\
+  // store callback\n\
+  this._callback = fn || noop;\n\
+\n\
+  // state change\n\
+  xhr.onreadystatechange = function(){\n\
+    if (4 != xhr.readyState) return;\n\
+    if (0 == xhr.status) {\n\
+      if (self.aborted) return self.timeoutError();\n\
+      return self.crossDomainError();\n\
+    }\n\
+    self.emit('end');\n\
+  };\n\
+\n\
+  // progress\n\
+  if (xhr.upload) {\n\
+    xhr.upload.onprogress = function(e){\n\
+      e.percent = e.loaded / e.total * 100;\n\
+      self.emit('progress', e);\n\
+    };\n\
+  }\n\
+\n\
+  // timeout\n\
+  if (timeout && !this._timer) {\n\
+    this._timer = setTimeout(function(){\n\
+      self.abort();\n\
+    }, timeout);\n\
+  }\n\
+\n\
+  // querystring\n\
+  if (query) {\n\
+    query = request.serializeObject(query);\n\
+    this.url += ~this.url.indexOf('?')\n\
+      ? '&' + query\n\
+      : '?' + query;\n\
+  }\n\
+\n\
+  // initiate request\n\
+  xhr.open(this.method, this.url, true);\n\
+\n\
+  // CORS\n\
+  if (this._withCredentials) xhr.withCredentials = true;\n\
+\n\
+  // body\n\
+  if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {\n\
+    // serialize stuff\n\
+    var serialize = request.serialize[this.getHeader('Content-Type')];\n\
+    if (serialize) data = serialize(data);\n\
+  }\n\
+\n\
+  // set header fields\n\
+  for (var field in this.header) {\n\
+    if (null == this.header[field]) continue;\n\
+    xhr.setRequestHeader(field, this.header[field]);\n\
+  }\n\
+\n\
+  // send stuff\n\
+  xhr.send(data);\n\
+  return this;\n\
+};\n\
+\n\
+/**\n\
+ * Expose `Request`.\n\
+ */\n\
+\n\
+request.Request = Request;\n\
+\n\
+/**\n\
+ * Issue a request:\n\
+ *\n\
+ * Examples:\n\
+ *\n\
+ *    request('GET', '/users').end(callback)\n\
+ *    request('/users').end(callback)\n\
+ *    request('/users', callback)\n\
+ *\n\
+ * @param {String} method\n\
+ * @param {String|Function} url or callback\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+function request(method, url) {\n\
+  // callback\n\
+  if ('function' == typeof url) {\n\
+    return new Request('GET', method).end(url);\n\
+  }\n\
+\n\
+  // url first\n\
+  if (1 == arguments.length) {\n\
+    return new Request('GET', method);\n\
+  }\n\
+\n\
+  return new Request(method, url);\n\
+}\n\
+\n\
+/**\n\
+ * GET `url` with optional callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Mixed|Function} data or fn\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.get = function(url, data, fn){\n\
+  var req = request('GET', url);\n\
+  if ('function' == typeof data) fn = data, data = null;\n\
+  if (data) req.query(data);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * HEAD `url` with optional callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Mixed|Function} data or fn\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.head = function(url, data, fn){\n\
+  var req = request('HEAD', url);\n\
+  if ('function' == typeof data) fn = data, data = null;\n\
+  if (data) req.send(data);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * DELETE `url` with optional callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.del = function(url, fn){\n\
+  var req = request('DELETE', url);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * PATCH `url` with optional `data` and callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Mixed} data\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.patch = function(url, data, fn){\n\
+  var req = request('PATCH', url);\n\
+  if ('function' == typeof data) fn = data, data = null;\n\
+  if (data) req.send(data);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * POST `url` with optional `data` and callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Mixed} data\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.post = function(url, data, fn){\n\
+  var req = request('POST', url);\n\
+  if ('function' == typeof data) fn = data, data = null;\n\
+  if (data) req.send(data);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * PUT `url` with optional `data` and callback `fn(res)`.\n\
+ *\n\
+ * @param {String} url\n\
+ * @param {Mixed|Function} data or fn\n\
+ * @param {Function} fn\n\
+ * @return {Request}\n\
+ * @api public\n\
+ */\n\
+\n\
+request.put = function(url, data, fn){\n\
+  var req = request('PUT', url);\n\
+  if ('function' == typeof data) fn = data, data = null;\n\
+  if (data) req.send(data);\n\
+  if (fn) req.end(fn);\n\
+  return req;\n\
+};\n\
+\n\
+/**\n\
+ * Expose `request`.\n\
+ */\n\
+\n\
+module.exports = request;\n\
+\n\
+//# sourceURL=components/johntron/superagent/cbe473394b773f764bafb0aec075a285fd6ea026/lib/client.js"
+));
+
+require.modules["johntron-superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
+require.modules["johntron~superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
+require.modules["superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
 
 
 require.register("visionmedia~mocha@2.1.0", Function("exports, module",
@@ -18134,1241 +19369,6 @@ Mocha.process = process;\n\
 require.modules["visionmedia-mocha"] = require.modules["visionmedia~mocha@2.1.0"];
 require.modules["visionmedia~mocha"] = require.modules["visionmedia~mocha@2.1.0"];
 require.modules["mocha"] = require.modules["visionmedia~mocha@2.1.0"];
-
-
-require.register("component~indexof@0.0.3", Function("exports, module",
-"module.exports = function(arr, obj){\n\
-  if (arr.indexOf) return arr.indexOf(obj);\n\
-  for (var i = 0; i < arr.length; ++i) {\n\
-    if (arr[i] === obj) return i;\n\
-  }\n\
-  return -1;\n\
-};\n\
-//# sourceURL=components/component/indexof/0.0.3/index.js"
-));
-
-require.modules["component-indexof"] = require.modules["component~indexof@0.0.3"];
-require.modules["component~indexof"] = require.modules["component~indexof@0.0.3"];
-require.modules["indexof"] = require.modules["component~indexof@0.0.3"];
-
-
-require.register("component~emitter@1.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var index = require('component~indexof@0.0.3');\n\
-\n\
-/**\n\
- * Expose `Emitter`.\n\
- */\n\
-\n\
-module.exports = Emitter;\n\
-\n\
-/**\n\
- * Initialize a new `Emitter`.\n\
- *\n\
- * @api public\n\
- */\n\
-\n\
-function Emitter(obj) {\n\
-  if (obj) return mixin(obj);\n\
-};\n\
-\n\
-/**\n\
- * Mixin the emitter properties.\n\
- *\n\
- * @param {Object} obj\n\
- * @return {Object}\n\
- * @api private\n\
- */\n\
-\n\
-function mixin(obj) {\n\
-  for (var key in Emitter.prototype) {\n\
-    obj[key] = Emitter.prototype[key];\n\
-  }\n\
-  return obj;\n\
-}\n\
-\n\
-/**\n\
- * Listen on the given `event` with `fn`.\n\
- *\n\
- * @param {String} event\n\
- * @param {Function} fn\n\
- * @return {Emitter}\n\
- * @api public\n\
- */\n\
-\n\
-Emitter.prototype.on = function(event, fn){\n\
-  this._callbacks = this._callbacks || {};\n\
-  (this._callbacks[event] = this._callbacks[event] || [])\n\
-    .push(fn);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Adds an `event` listener that will be invoked a single\n\
- * time then automatically removed.\n\
- *\n\
- * @param {String} event\n\
- * @param {Function} fn\n\
- * @return {Emitter}\n\
- * @api public\n\
- */\n\
-\n\
-Emitter.prototype.once = function(event, fn){\n\
-  var self = this;\n\
-  this._callbacks = this._callbacks || {};\n\
-\n\
-  function on() {\n\
-    self.off(event, on);\n\
-    fn.apply(this, arguments);\n\
-  }\n\
-\n\
-  fn._off = on;\n\
-  this.on(event, on);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Remove the given callback for `event` or all\n\
- * registered callbacks.\n\
- *\n\
- * @param {String} event\n\
- * @param {Function} fn\n\
- * @return {Emitter}\n\
- * @api public\n\
- */\n\
-\n\
-Emitter.prototype.off =\n\
-Emitter.prototype.removeListener =\n\
-Emitter.prototype.removeAllListeners = function(event, fn){\n\
-  this._callbacks = this._callbacks || {};\n\
-\n\
-  // all\n\
-  if (0 == arguments.length) {\n\
-    this._callbacks = {};\n\
-    return this;\n\
-  }\n\
-\n\
-  // specific event\n\
-  var callbacks = this._callbacks[event];\n\
-  if (!callbacks) return this;\n\
-\n\
-  // remove all handlers\n\
-  if (1 == arguments.length) {\n\
-    delete this._callbacks[event];\n\
-    return this;\n\
-  }\n\
-\n\
-  // remove specific handler\n\
-  var i = index(callbacks, fn._off || fn);\n\
-  if (~i) callbacks.splice(i, 1);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Emit `event` with the given args.\n\
- *\n\
- * @param {String} event\n\
- * @param {Mixed} ...\n\
- * @return {Emitter}\n\
- */\n\
-\n\
-Emitter.prototype.emit = function(event){\n\
-  this._callbacks = this._callbacks || {};\n\
-  var args = [].slice.call(arguments, 1)\n\
-    , callbacks = this._callbacks[event];\n\
-\n\
-  if (callbacks) {\n\
-    callbacks = callbacks.slice(0);\n\
-    for (var i = 0, len = callbacks.length; i < len; ++i) {\n\
-      callbacks[i].apply(this, args);\n\
-    }\n\
-  }\n\
-\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Return array of callbacks for `event`.\n\
- *\n\
- * @param {String} event\n\
- * @return {Array}\n\
- * @api public\n\
- */\n\
-\n\
-Emitter.prototype.listeners = function(event){\n\
-  this._callbacks = this._callbacks || {};\n\
-  return this._callbacks[event] || [];\n\
-};\n\
-\n\
-/**\n\
- * Check if this emitter has `event` handlers.\n\
- *\n\
- * @param {String} event\n\
- * @return {Boolean}\n\
- * @api public\n\
- */\n\
-\n\
-Emitter.prototype.hasListeners = function(event){\n\
-  return !! this.listeners(event).length;\n\
-};\n\
-\n\
-//# sourceURL=components/component/emitter/1.0.1/index.js"
-));
-
-require.modules["component-emitter"] = require.modules["component~emitter@1.0.1"];
-require.modules["component~emitter"] = require.modules["component~emitter@1.0.1"];
-require.modules["emitter"] = require.modules["component~emitter@1.0.1"];
-
-
-require.register("component~reduce@1.0.1", Function("exports, module",
-"\n\
-/**\n\
- * Reduce `arr` with `fn`.\n\
- *\n\
- * @param {Array} arr\n\
- * @param {Function} fn\n\
- * @param {Mixed} initial\n\
- *\n\
- * TODO: combatible error handling?\n\
- */\n\
-\n\
-module.exports = function(arr, fn, initial){  \n\
-  var idx = 0;\n\
-  var len = arr.length;\n\
-  var curr = arguments.length == 3\n\
-    ? initial\n\
-    : arr[idx++];\n\
-\n\
-  while (idx < len) {\n\
-    curr = fn.call(null, curr, arr[idx], ++idx, arr);\n\
-  }\n\
-  \n\
-  return curr;\n\
-};\n\
-//# sourceURL=components/component/reduce/1.0.1/index.js"
-));
-
-require.modules["component-reduce"] = require.modules["component~reduce@1.0.1"];
-require.modules["component~reduce"] = require.modules["component~reduce@1.0.1"];
-require.modules["reduce"] = require.modules["component~reduce@1.0.1"];
-
-
-require.register("johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026", Function("exports, module",
-"/**\n\
- * Module dependencies.\n\
- */\n\
-\n\
-var Emitter = require('component~emitter@1.0.1');\n\
-var reduce = require('component~reduce@1.0.1');\n\
-\n\
-/**\n\
- * Root reference for iframes.\n\
- */\n\
-\n\
-var root = 'undefined' == typeof window\n\
-  ? this\n\
-  : window;\n\
-\n\
-/**\n\
- * Noop.\n\
- */\n\
-\n\
-function noop(){};\n\
-\n\
-/**\n\
- * Check if `obj` is a host object,\n\
- * we don't want to serialize these :)\n\
- *\n\
- * TODO: future proof, move to compoent land\n\
- *\n\
- * @param {Object} obj\n\
- * @return {Boolean}\n\
- * @api private\n\
- */\n\
-\n\
-function isHost(obj) {\n\
-  var str = {}.toString.call(obj);\n\
-\n\
-  switch (str) {\n\
-    case '[object File]':\n\
-    case '[object Blob]':\n\
-    case '[object FormData]':\n\
-      return true;\n\
-    default:\n\
-      return false;\n\
-  }\n\
-}\n\
-\n\
-/**\n\
- * Determine XHR.\n\
- */\n\
-\n\
-function getXHR() {\n\
-  if (root.XMLHttpRequest\n\
-    && ('file:' != root.location.protocol || !root.ActiveXObject)) {\n\
-    return new XMLHttpRequest;\n\
-  } else {\n\
-    try { return new ActiveXObject('Microsoft.XMLHTTP'); } catch(e) {}\n\
-    try { return new ActiveXObject('Msxml2.XMLHTTP.6.0'); } catch(e) {}\n\
-    try { return new ActiveXObject('Msxml2.XMLHTTP.3.0'); } catch(e) {}\n\
-    try { return new ActiveXObject('Msxml2.XMLHTTP'); } catch(e) {}\n\
-  }\n\
-  return false;\n\
-}\n\
-\n\
-/**\n\
- * Removes leading and trailing whitespace, added to support IE.\n\
- *\n\
- * @param {String} s\n\
- * @return {String}\n\
- * @api private\n\
- */\n\
-\n\
-var trim = ''.trim\n\
-  ? function(s) { return s.trim(); }\n\
-  : function(s) { return s.replace(/(^\\s*|\\s*$)/g, ''); };\n\
-\n\
-/**\n\
- * Check if `obj` is an object.\n\
- *\n\
- * @param {Object} obj\n\
- * @return {Boolean}\n\
- * @api private\n\
- */\n\
-\n\
-function isObject(obj) {\n\
-  return obj === Object(obj);\n\
-}\n\
-\n\
-/**\n\
- * Serialize the given `obj`.\n\
- *\n\
- * @param {Object} obj\n\
- * @return {String}\n\
- * @api private\n\
- */\n\
-\n\
-function serialize(obj) {\n\
-  if (!isObject(obj)) return obj;\n\
-  var pairs = [];\n\
-  for (var key in obj) {\n\
-    if (null != obj[key]) {\n\
-      pairs.push(encodeURIComponent(key)\n\
-        + '=' + encodeURIComponent(obj[key]));\n\
-    }\n\
-  }\n\
-  return pairs.join('&');\n\
-}\n\
-\n\
-/**\n\
- * Expose serialization method.\n\
- */\n\
-\n\
- request.serializeObject = serialize;\n\
-\n\
- /**\n\
-  * Parse the given x-www-form-urlencoded `str`.\n\
-  *\n\
-  * @param {String} str\n\
-  * @return {Object}\n\
-  * @api private\n\
-  */\n\
-\n\
-function parseString(str) {\n\
-  var obj = {};\n\
-  var pairs = str.split('&');\n\
-  var parts;\n\
-  var pair;\n\
-\n\
-  for (var i = 0, len = pairs.length; i < len; ++i) {\n\
-    pair = pairs[i];\n\
-    parts = pair.split('=');\n\
-    obj[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);\n\
-  }\n\
-\n\
-  return obj;\n\
-}\n\
-\n\
-/**\n\
- * Expose parser.\n\
- */\n\
-\n\
-request.parseString = parseString;\n\
-\n\
-/**\n\
- * Default MIME type map.\n\
- *\n\
- *     superagent.types.xml = 'application/xml';\n\
- *\n\
- */\n\
-\n\
-request.types = {\n\
-  html: 'text/html',\n\
-  json: 'application/json',\n\
-  xml: 'application/xml',\n\
-  urlencoded: 'application/x-www-form-urlencoded',\n\
-  'form': 'application/x-www-form-urlencoded',\n\
-  'form-data': 'application/x-www-form-urlencoded'\n\
-};\n\
-\n\
-/**\n\
- * Default serialization map.\n\
- *\n\
- *     superagent.serialize['application/xml'] = function(obj){\n\
- *       return 'generated xml here';\n\
- *     };\n\
- *\n\
- */\n\
-\n\
- request.serialize = {\n\
-   'application/x-www-form-urlencoded': serialize,\n\
-   'application/json': JSON.stringify\n\
- };\n\
-\n\
- /**\n\
-  * Default parsers.\n\
-  *\n\
-  *     superagent.parse['application/xml'] = function(str){\n\
-  *       return { object parsed from str };\n\
-  *     };\n\
-  *\n\
-  */\n\
-\n\
-request.parse = {\n\
-  'application/x-www-form-urlencoded': parseString,\n\
-  'application/json': JSON.parse\n\
-};\n\
-\n\
-/**\n\
- * Parse the given header `str` into\n\
- * an object containing the mapped fields.\n\
- *\n\
- * @param {String} str\n\
- * @return {Object}\n\
- * @api private\n\
- */\n\
-\n\
-function parseHeader(str) {\n\
-  var lines = str.split(/\\r?\\n\
-/);\n\
-  var fields = {};\n\
-  var index;\n\
-  var line;\n\
-  var field;\n\
-  var val;\n\
-\n\
-  lines.pop(); // trailing CRLF\n\
-\n\
-  for (var i = 0, len = lines.length; i < len; ++i) {\n\
-    line = lines[i];\n\
-    index = line.indexOf(':');\n\
-    field = line.slice(0, index).toLowerCase();\n\
-    val = trim(line.slice(index + 1));\n\
-    fields[field] = val;\n\
-  }\n\
-\n\
-  return fields;\n\
-}\n\
-\n\
-/**\n\
- * Return the mime type for the given `str`.\n\
- *\n\
- * @param {String} str\n\
- * @return {String}\n\
- * @api private\n\
- */\n\
-\n\
-function type(str){\n\
-  return str.split(/ *; */).shift();\n\
-};\n\
-\n\
-/**\n\
- * Return header field parameters.\n\
- *\n\
- * @param {String} str\n\
- * @return {Object}\n\
- * @api private\n\
- */\n\
-\n\
-function params(str){\n\
-  return reduce(str.split(/ *; */), function(obj, str){\n\
-    var parts = str.split(/ *= */)\n\
-      , key = parts.shift()\n\
-      , val = parts.shift();\n\
-\n\
-    if (key && val) obj[key] = val;\n\
-    return obj;\n\
-  }, {});\n\
-};\n\
-\n\
-/**\n\
- * Initialize a new `Response` with the given `xhr`.\n\
- *\n\
- *  - set flags (.ok, .error, etc)\n\
- *  - parse header\n\
- *\n\
- * Examples:\n\
- *\n\
- *  Aliasing `superagent` as `request` is nice:\n\
- *\n\
- *      request = superagent;\n\
- *\n\
- *  We can use the promise-like API, or pass callbacks:\n\
- *\n\
- *      request.get('/').end(function(res){});\n\
- *      request.get('/', function(res){});\n\
- *\n\
- *  Sending data can be chained:\n\
- *\n\
- *      request\n\
- *        .post('/user')\n\
- *        .send({ name: 'tj' })\n\
- *        .end(function(res){});\n\
- *\n\
- *  Or passed to `.send()`:\n\
- *\n\
- *      request\n\
- *        .post('/user')\n\
- *        .send({ name: 'tj' }, function(res){});\n\
- *\n\
- *  Or passed to `.post()`:\n\
- *\n\
- *      request\n\
- *        .post('/user', { name: 'tj' })\n\
- *        .end(function(res){});\n\
- *\n\
- * Or further reduced to a single call for simple cases:\n\
- *\n\
- *      request\n\
- *        .post('/user', { name: 'tj' }, function(res){});\n\
- *\n\
- * @param {XMLHTTPRequest} xhr\n\
- * @param {Object} options\n\
- * @api private\n\
- */\n\
-\n\
-function Response(req, options) {\n\
-  options = options || {};\n\
-  this.req = req;\n\
-  this.xhr = this.req.xhr;\n\
-  this.text = this.xhr.responseText;\n\
-  this.setStatusProperties(this.xhr.status);\n\
-  this.header = this.headers = parseHeader(this.xhr.getAllResponseHeaders());\n\
-  // getAllResponseHeaders sometimes falsely returns \"\" for CORS requests, but\n\
-  // getResponseHeader still works. so we get content-type even if getting\n\
-  // other headers fails.\n\
-  this.header['content-type'] = this.xhr.getResponseHeader('content-type');\n\
-  this.setHeaderProperties(this.header);\n\
-  this.body = this.req.method != 'HEAD'\n\
-    ? this.parseBody(this.text)\n\
-    : null;\n\
-}\n\
-\n\
-/**\n\
- * Get case-insensitive `field` value.\n\
- *\n\
- * @param {String} field\n\
- * @return {String}\n\
- * @api public\n\
- */\n\
-\n\
-Response.prototype.get = function(field){\n\
-  return this.header[field.toLowerCase()];\n\
-};\n\
-\n\
-/**\n\
- * Set header related properties:\n\
- *\n\
- *   - `.type` the content type without params\n\
- *\n\
- * A response of \"Content-Type: text/plain; charset=utf-8\"\n\
- * will provide you with a `.type` of \"text/plain\".\n\
- *\n\
- * @param {Object} header\n\
- * @api private\n\
- */\n\
-\n\
-Response.prototype.setHeaderProperties = function(header){\n\
-  // content-type\n\
-  var ct = this.header['content-type'] || '';\n\
-  this.type = type(ct);\n\
-\n\
-  // params\n\
-  var obj = params(ct);\n\
-  for (var key in obj) this[key] = obj[key];\n\
-};\n\
-\n\
-/**\n\
- * Parse the given body `str`.\n\
- *\n\
- * Used for auto-parsing of bodies. Parsers\n\
- * are defined on the `superagent.parse` object.\n\
- *\n\
- * @param {String} str\n\
- * @return {Mixed}\n\
- * @api private\n\
- */\n\
-\n\
-Response.prototype.parseBody = function(str){\n\
-  var parse = request.parse[this.type];\n\
-  return parse\n\
-    ? parse(str)\n\
-    : null;\n\
-};\n\
-\n\
-/**\n\
- * Set flags such as `.ok` based on `status`.\n\
- *\n\
- * For example a 2xx response will give you a `.ok` of __true__\n\
- * whereas 5xx will be __false__ and `.error` will be __true__. The\n\
- * `.clientError` and `.serverError` are also available to be more\n\
- * specific, and `.statusType` is the class of error ranging from 1..5\n\
- * sometimes useful for mapping respond colors etc.\n\
- *\n\
- * \"sugar\" properties are also defined for common cases. Currently providing:\n\
- *\n\
- *   - .noContent\n\
- *   - .badRequest\n\
- *   - .unauthorized\n\
- *   - .notAcceptable\n\
- *   - .notFound\n\
- *\n\
- * @param {Number} status\n\
- * @api private\n\
- */\n\
-\n\
-Response.prototype.setStatusProperties = function(status){\n\
-  var type = status / 100 | 0;\n\
-\n\
-  // status / class\n\
-  this.status = status;\n\
-  this.statusType = type;\n\
-\n\
-  // basics\n\
-  this.info = 1 == type;\n\
-  this.ok = 2 == type;\n\
-  this.clientError = 4 == type;\n\
-  this.serverError = 5 == type;\n\
-  this.error = (4 == type || 5 == type)\n\
-    ? this.toError()\n\
-    : false;\n\
-\n\
-  // sugar\n\
-  this.accepted = 202 == status;\n\
-  this.noContent = 204 == status || 1223 == status;\n\
-  this.badRequest = 400 == status;\n\
-  this.unauthorized = 401 == status;\n\
-  this.notAcceptable = 406 == status;\n\
-  this.notFound = 404 == status;\n\
-  this.forbidden = 403 == status;\n\
-};\n\
-\n\
-/**\n\
- * Return an `Error` representative of this response.\n\
- *\n\
- * @return {Error}\n\
- * @api public\n\
- */\n\
-\n\
-Response.prototype.toError = function(){\n\
-  var req = this.req;\n\
-  var method = req.method;\n\
-  var path = req.path;\n\
-\n\
-  var msg = 'cannot ' + method + ' ' + path + ' (' + this.status + ')';\n\
-  var err = new Error(msg);\n\
-  err.status = this.status;\n\
-  err.method = method;\n\
-  err.path = path;\n\
-\n\
-  return err;\n\
-};\n\
-\n\
-/**\n\
- * Expose `Response`.\n\
- */\n\
-\n\
-request.Response = Response;\n\
-\n\
-/**\n\
- * Initialize a new `Request` with the given `method` and `url`.\n\
- *\n\
- * @param {String} method\n\
- * @param {String} url\n\
- * @api public\n\
- */\n\
-\n\
-function Request(method, url) {\n\
-  var self = this;\n\
-  Emitter.call(this);\n\
-  this._query = this._query || [];\n\
-  this.method = method;\n\
-  this.url = url;\n\
-  this.header = {};\n\
-  this._header = {};\n\
-  this.on('end', function(){\n\
-    var res = new Response(self);\n\
-    if ('HEAD' == method) res.text = null;\n\
-    self.callback(null, res);\n\
-  });\n\
-}\n\
-\n\
-/**\n\
- * Mixin `Emitter`.\n\
- */\n\
-\n\
-Emitter(Request.prototype);\n\
-\n\
-/**\n\
- * Allow for extension\n\
- */\n\
-\n\
-Request.prototype.use = function(fn) {\n\
-  fn(this);\n\
-  return this;\n\
-}\n\
-\n\
-/**\n\
- * Set timeout to `ms`.\n\
- *\n\
- * @param {Number} ms\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.timeout = function(ms){\n\
-  this._timeout = ms;\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Clear previous timeout.\n\
- *\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.clearTimeout = function(){\n\
-  this._timeout = 0;\n\
-  clearTimeout(this._timer);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Abort the request, and clear potential timeout.\n\
- *\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.abort = function(){\n\
-  if (this.aborted) return;\n\
-  this.aborted = true;\n\
-  this.xhr.abort();\n\
-  this.clearTimeout();\n\
-  this.emit('abort');\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Set header `field` to `val`, or multiple fields with one object.\n\
- *\n\
- * Examples:\n\
- *\n\
- *      req.get('/')\n\
- *        .set('Accept', 'application/json')\n\
- *        .set('X-API-Key', 'foobar')\n\
- *        .end(callback);\n\
- *\n\
- *      req.get('/')\n\
- *        .set({ Accept: 'application/json', 'X-API-Key': 'foobar' })\n\
- *        .end(callback);\n\
- *\n\
- * @param {String|Object} field\n\
- * @param {String} val\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.set = function(field, val){\n\
-  if (isObject(field)) {\n\
-    for (var key in field) {\n\
-      this.set(key, field[key]);\n\
-    }\n\
-    return this;\n\
-  }\n\
-  this._header[field.toLowerCase()] = val;\n\
-  this.header[field] = val;\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Get case-insensitive header `field` value.\n\
- *\n\
- * @param {String} field\n\
- * @return {String}\n\
- * @api private\n\
- */\n\
-\n\
-Request.prototype.getHeader = function(field){\n\
-  return this._header[field.toLowerCase()];\n\
-};\n\
-\n\
-/**\n\
- * Set Content-Type to `type`, mapping values from `request.types`.\n\
- *\n\
- * Examples:\n\
- *\n\
- *      superagent.types.xml = 'application/xml';\n\
- *\n\
- *      request.post('/')\n\
- *        .type('xml')\n\
- *        .send(xmlstring)\n\
- *        .end(callback);\n\
- *\n\
- *      request.post('/')\n\
- *        .type('application/xml')\n\
- *        .send(xmlstring)\n\
- *        .end(callback);\n\
- *\n\
- * @param {String} type\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.type = function(type){\n\
-  this.set('Content-Type', request.types[type] || type);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Set Accept to `type`, mapping values from `request.types`.\n\
- *\n\
- * Examples:\n\
- *\n\
- *      superagent.types.json = 'application/json';\n\
- *\n\
- *      request.get('/agent')\n\
- *        .accept('json')\n\
- *        .end(callback);\n\
- *\n\
- *      request.get('/agent')\n\
- *        .accept('application/json')\n\
- *        .end(callback);\n\
- *\n\
- * @param {String} accept\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.accept = function(type){\n\
-  this.set('Accept', request.types[type] || type);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Set Authorization field value with `user` and `pass`.\n\
- *\n\
- * @param {String} user\n\
- * @param {String} pass\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.auth = function(user, pass){\n\
-  var str = btoa(user + ':' + pass);\n\
-  this.set('Authorization', 'Basic ' + str);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
-* Add query-string `val`.\n\
-*\n\
-* Examples:\n\
-*\n\
-*   request.get('/shoes')\n\
-*     .query('size=10')\n\
-*     .query({ color: 'blue' })\n\
-*\n\
-* @param {Object|String} val\n\
-* @return {Request} for chaining\n\
-* @api public\n\
-*/\n\
-\n\
-Request.prototype.query = function(val){\n\
-  if ('string' != typeof val) val = serialize(val);\n\
-  if (val) this._query.push(val);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Send `data`, defaulting the `.type()` to \"json\" when\n\
- * an object is given.\n\
- *\n\
- * Examples:\n\
- *\n\
- *       // querystring\n\
- *       request.get('/search')\n\
- *         .end(callback)\n\
- *\n\
- *       // multiple data \"writes\"\n\
- *       request.get('/search')\n\
- *         .send({ search: 'query' })\n\
- *         .send({ range: '1..5' })\n\
- *         .send({ order: 'desc' })\n\
- *         .end(callback)\n\
- *\n\
- *       // manual json\n\
- *       request.post('/user')\n\
- *         .type('json')\n\
- *         .send('{\"name\":\"tj\"})\n\
- *         .end(callback)\n\
- *\n\
- *       // auto json\n\
- *       request.post('/user')\n\
- *         .send({ name: 'tj' })\n\
- *         .end(callback)\n\
- *\n\
- *       // manual x-www-form-urlencoded\n\
- *       request.post('/user')\n\
- *         .type('form')\n\
- *         .send('name=tj')\n\
- *         .end(callback)\n\
- *\n\
- *       // auto x-www-form-urlencoded\n\
- *       request.post('/user')\n\
- *         .type('form')\n\
- *         .send({ name: 'tj' })\n\
- *         .end(callback)\n\
- *\n\
- *       // defaults to x-www-form-urlencoded\n\
-  *      request.post('/user')\n\
-  *        .send('name=tobi')\n\
-  *        .send('species=ferret')\n\
-  *        .end(callback)\n\
- *\n\
- * @param {String|Object} data\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.send = function(data){\n\
-  var obj = isObject(data);\n\
-  var type = this.getHeader('Content-Type');\n\
-\n\
-  // merge\n\
-  if (obj && isObject(this._data)) {\n\
-    for (var key in data) {\n\
-      this._data[key] = data[key];\n\
-    }\n\
-  } else if ('string' == typeof data) {\n\
-    if (!type) this.type('form');\n\
-    type = this.getHeader('Content-Type');\n\
-    if ('application/x-www-form-urlencoded' == type) {\n\
-      this._data = this._data\n\
-        ? this._data + '&' + data\n\
-        : data;\n\
-    } else {\n\
-      this._data = (this._data || '') + data;\n\
-    }\n\
-  } else {\n\
-    this._data = data;\n\
-  }\n\
-\n\
-  if (!obj) return this;\n\
-  if (!type) this.type('json');\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Invoke the callback with `err` and `res`\n\
- * and handle arity check.\n\
- *\n\
- * @param {Error} err\n\
- * @param {Response} res\n\
- * @api private\n\
- */\n\
-\n\
-Request.prototype.callback = function(err, res){\n\
-  var fn = this._callback;\n\
-  if (2 == fn.length) return fn(err, res);\n\
-  if (err) return this.emit('error', err);\n\
-  fn(res);\n\
-};\n\
-\n\
-/**\n\
- * Invoke callback with x-domain error.\n\
- *\n\
- * @api private\n\
- */\n\
-\n\
-Request.prototype.crossDomainError = function(){\n\
-  var err = new Error('Origin is not allowed by Access-Control-Allow-Origin');\n\
-  err.crossDomain = true;\n\
-  this.callback(err);\n\
-};\n\
-\n\
-/**\n\
- * Invoke callback with timeout error.\n\
- *\n\
- * @api private\n\
- */\n\
-\n\
-Request.prototype.timeoutError = function(){\n\
-  var timeout = this._timeout;\n\
-  var err = new Error('timeout of ' + timeout + 'ms exceeded');\n\
-  err.timeout = timeout;\n\
-  this.callback(err);\n\
-};\n\
-\n\
-/**\n\
- * Enable transmission of cookies with x-domain requests.\n\
- *\n\
- * Note that for this to work the origin must not be\n\
- * using \"Access-Control-Allow-Origin\" with a wildcard,\n\
- * and also must set \"Access-Control-Allow-Credentials\"\n\
- * to \"true\".\n\
- *\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.withCredentials = function(){\n\
-  this._withCredentials = true;\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Initiate request, invoking callback `fn(res)`\n\
- * with an instanceof `Response`.\n\
- *\n\
- * @param {Function} fn\n\
- * @return {Request} for chaining\n\
- * @api public\n\
- */\n\
-\n\
-Request.prototype.end = function(fn){\n\
-  var self = this;\n\
-  var xhr = this.xhr = getXHR();\n\
-  var query = this._query.join('&');\n\
-  var timeout = this._timeout;\n\
-  var data = this._data;\n\
-\n\
-  // store callback\n\
-  this._callback = fn || noop;\n\
-\n\
-  // state change\n\
-  xhr.onreadystatechange = function(){\n\
-    if (4 != xhr.readyState) return;\n\
-    if (0 == xhr.status) {\n\
-      if (self.aborted) return self.timeoutError();\n\
-      return self.crossDomainError();\n\
-    }\n\
-    self.emit('end');\n\
-  };\n\
-\n\
-  // progress\n\
-  if (xhr.upload) {\n\
-    xhr.upload.onprogress = function(e){\n\
-      e.percent = e.loaded / e.total * 100;\n\
-      self.emit('progress', e);\n\
-    };\n\
-  }\n\
-\n\
-  // timeout\n\
-  if (timeout && !this._timer) {\n\
-    this._timer = setTimeout(function(){\n\
-      self.abort();\n\
-    }, timeout);\n\
-  }\n\
-\n\
-  // querystring\n\
-  if (query) {\n\
-    query = request.serializeObject(query);\n\
-    this.url += ~this.url.indexOf('?')\n\
-      ? '&' + query\n\
-      : '?' + query;\n\
-  }\n\
-\n\
-  // initiate request\n\
-  xhr.open(this.method, this.url, true);\n\
-\n\
-  // CORS\n\
-  if (this._withCredentials) xhr.withCredentials = true;\n\
-\n\
-  // body\n\
-  if ('GET' != this.method && 'HEAD' != this.method && 'string' != typeof data && !isHost(data)) {\n\
-    // serialize stuff\n\
-    var serialize = request.serialize[this.getHeader('Content-Type')];\n\
-    if (serialize) data = serialize(data);\n\
-  }\n\
-\n\
-  // set header fields\n\
-  for (var field in this.header) {\n\
-    if (null == this.header[field]) continue;\n\
-    xhr.setRequestHeader(field, this.header[field]);\n\
-  }\n\
-\n\
-  // send stuff\n\
-  xhr.send(data);\n\
-  return this;\n\
-};\n\
-\n\
-/**\n\
- * Expose `Request`.\n\
- */\n\
-\n\
-request.Request = Request;\n\
-\n\
-/**\n\
- * Issue a request:\n\
- *\n\
- * Examples:\n\
- *\n\
- *    request('GET', '/users').end(callback)\n\
- *    request('/users').end(callback)\n\
- *    request('/users', callback)\n\
- *\n\
- * @param {String} method\n\
- * @param {String|Function} url or callback\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-function request(method, url) {\n\
-  // callback\n\
-  if ('function' == typeof url) {\n\
-    return new Request('GET', method).end(url);\n\
-  }\n\
-\n\
-  // url first\n\
-  if (1 == arguments.length) {\n\
-    return new Request('GET', method);\n\
-  }\n\
-\n\
-  return new Request(method, url);\n\
-}\n\
-\n\
-/**\n\
- * GET `url` with optional callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Mixed|Function} data or fn\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.get = function(url, data, fn){\n\
-  var req = request('GET', url);\n\
-  if ('function' == typeof data) fn = data, data = null;\n\
-  if (data) req.query(data);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * HEAD `url` with optional callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Mixed|Function} data or fn\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.head = function(url, data, fn){\n\
-  var req = request('HEAD', url);\n\
-  if ('function' == typeof data) fn = data, data = null;\n\
-  if (data) req.send(data);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * DELETE `url` with optional callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.del = function(url, fn){\n\
-  var req = request('DELETE', url);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * PATCH `url` with optional `data` and callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Mixed} data\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.patch = function(url, data, fn){\n\
-  var req = request('PATCH', url);\n\
-  if ('function' == typeof data) fn = data, data = null;\n\
-  if (data) req.send(data);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * POST `url` with optional `data` and callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Mixed} data\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.post = function(url, data, fn){\n\
-  var req = request('POST', url);\n\
-  if ('function' == typeof data) fn = data, data = null;\n\
-  if (data) req.send(data);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * PUT `url` with optional `data` and callback `fn(res)`.\n\
- *\n\
- * @param {String} url\n\
- * @param {Mixed|Function} data or fn\n\
- * @param {Function} fn\n\
- * @return {Request}\n\
- * @api public\n\
- */\n\
-\n\
-request.put = function(url, data, fn){\n\
-  var req = request('PUT', url);\n\
-  if ('function' == typeof data) fn = data, data = null;\n\
-  if (data) req.send(data);\n\
-  if (fn) req.end(fn);\n\
-  return req;\n\
-};\n\
-\n\
-/**\n\
- * Expose `request`.\n\
- */\n\
-\n\
-module.exports = request;\n\
-\n\
-//# sourceURL=components/johntron/superagent/cbe473394b773f764bafb0aec075a285fd6ea026/lib/client.js"
-));
-
-require.modules["johntron-superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
-require.modules["johntron~superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
-require.modules["superagent"] = require.modules["johntron~superagent@cbe473394b773f764bafb0aec075a285fd6ea026"];
 
 
 require.register("johntron~sinon@f6c79fdb53d73ff7e2ad06f096b16eaf4add68eb", Function("exports, module",
@@ -52059,6 +52059,9 @@ IxiaViewModel.prototype.getResultHistory = function (params, callback) {\n\
         url: url,\n\
         dataType: 'json',\n\
         success: function (data, textStatus, jqXhr) {\n\
+            if (isRefreshDashboard) {\n\
+                self.testResultsHistory.removeAll();\n\
+            }\n\
             if (data['total_number']) {\n\
                 self.vmDashboard.totalHistoryResults = data['total_number'];\n\
             }\n\
@@ -67970,6 +67973,7 @@ TestTemplateViewModel.prototype.runTest = function (options) {\n\
         logger.error('Validation failed due to HTTP error');\n\
         util.lightbox.error(translate(\"Validating test\"));\n\
         self.startingTest = false;\n\
+        self.rootVm.getResultHistory();\n\
     });\n\
     //self.status(\"RUNNING\");\n\
     if(util.lightbox.isOpen) {\n\
@@ -68004,12 +68008,14 @@ TestTemplateViewModel.prototype.cancelTest = function (options) {\n\
         success: function(data, textStatus, jqXhr){\n\
             self.status(\"STOPPED\");\n\
             self.startingTest = false;\n\
+            self.rootVm.getResultHistory();\n\
         }\n\
     }).fail(function () {\n\
         self.status(\"ERROR\");\n\
         logger.error('Validation failed due to HTTP error');\n\
         util.lightbox.error(translate(\"Validating test\"));\n\
         self.startingTest = false;\n\
+        self.rootVm.getResultHistory();\n\
     });\n\
 };\n\
 \n\
