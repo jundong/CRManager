@@ -116,20 +116,16 @@
                                 <img src="static/images/port-selected.png" data-bind="visible: port3() == 'selected' || status()[3] == '1'">
                             </td>
                         </tr>
-                        <tr>
+                        <tr data-bind="visible: slot() != 0">
                             <th colspan="5">
                                 <ul class="single-pane">
                                     <li><label>{% trans %}Port Group{% endtrans %}</label><input class="long" type="text" data-bind="value: group" /></li>
                                 </ul>
                             </th>
                         </tr>
-                        <tr>
-                            <th colspan="5">
-                                <td><a class="save-button" href="javascript:void(0);" data-bind="click: saveGroup, clickBubble: false">{% trans %}Save{% endtrans %}</a></td>
-                            </th>
-                        </tr>
                     </tbody>
                 </table>
+                <a class="save-button" href="javascript:void(0);" data-bind="click: saveGroup, clickBubble: false">{% trans %}Save{% endtrans %}</a>
             </div>
         </div>
         <div class="main" id="changePasswordMain" data-bind="visible: changePasswordTabSelected">

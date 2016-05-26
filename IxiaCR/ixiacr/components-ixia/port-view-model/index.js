@@ -29,11 +29,6 @@ PortViewModel.typesafe = function (that) {
     return that;
 };
 
-PortViewModel.prototype.saveGroup = function () {
-    var self = PortViewModel.typesafe(this);
-        self.save();
-}
-
 PortViewModel.prototype.save = function () {
     var self = PortViewModel.typesafe(this);
 
@@ -63,7 +58,9 @@ PortViewModel.prototype.updatePorts = function () {
         self.rootVm.availablePorts.remove(foundExisting);
         ports = self.rootVm.availablePorts();
         ports.push(self);
-        self.rootVm.availablePorts(ports);
+        self.rootVm.availablePorts(ports.sort(function(pre, next) {
+            return (pre.id() < next.id() ? -1 : 1)
+        }));
     }
 }
 
@@ -118,7 +115,8 @@ PortViewModel.prototype.selectedPort = function (port, event) {
         }
     }
     self.selected(selected);
-    self.updatePorts();
+    //self.updatePorts();
+    self.save();
 }
 
 PortViewModel.prototype.inflate = function (flatPort) {

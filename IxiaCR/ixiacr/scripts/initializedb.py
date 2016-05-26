@@ -197,6 +197,14 @@ def import_db(cmd):
              'port2': u'available',
              'port3': u'available',
              'group': u'1',
+             'selected': u'0:0:0:0'},
+            {'device_id': u'1',
+             'slot': u'1',
+             'port0': u'available',
+             'port1': u'available',
+             'port2': u'available',
+             'port3': u'available',
+             'group': u'1',
              'selected': u'0:0:0:0'}
         ]
 

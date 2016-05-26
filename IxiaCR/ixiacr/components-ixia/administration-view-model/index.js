@@ -72,10 +72,14 @@ function AdministrationViewModel(rootVm) {
     self.deviceListVisible = ko.observable(true);
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));
 
+    //self.group = ko.observable(1);
     self.availablePorts = ko.observableArray(self.rootVm.availablePorts());
     self.rootVm.availablePorts.subscribe(function (ports) {
         self.applyFilters(self.rootVm.availablePorts,ko.observableArray(ports));
         self.availablePorts(ports);
+        //if (self.availablePorts().length > 0) {
+        //    self.group(self.availablePorts()[0].group());
+        //}
     });
 
     self.displayCustomers = ko.computed({
@@ -156,6 +160,19 @@ function AdministrationViewModel(rootVm) {
 }
 
 module.exports = AdministrationViewModel;
+
+AdministrationViewModel.prototype.saveGroup = function () {
+    var self = this;
+    var foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {
+        return (item.slot() == 1);
+    });
+    for (var i = 0; i < self.rootVm.availablePorts().length; i++) {
+        if (self.rootVm.availablePorts()[i].slot() == 0) {
+            self.rootVm.availablePorts()[i].group(foundExisting.group());
+        }
+        self.rootVm.availablePorts()[i].save();
+    }
+}
 
 AdministrationViewModel.prototype.render = function ($parent, template) {
     this.$el = domify(template);

@@ -219,13 +219,16 @@ class IxiaTestHandler(base.Handler):
             if not device:
                 raise 'No Device found'
 
-            port = Port.query.filter_by(device_id=device.id).first()
-            if port:
+            portObjs = Port.query.filter_by(device_id=device.id).all()
+            for port in portObjs:
+                if port.selected == '0:0:0:0':
+                    continue
+
                 for index in range(4):
                     if port.status[index] == '1':
                         ports.append(index)
-            else:
-                raise 'No Port found'
+            if len(ports) == 0:
+                raise 'No Port Selected'
 
             bpsFiles = data['bpt_name'].split(',')
             bpsTest = aTestBpt(device.host, device.username, device.password, port.slot, ports, port.group, forceful='true', test_id=data['id'], created_by=1, test_result_id=result_id)

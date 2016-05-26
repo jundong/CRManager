@@ -430,6 +430,7 @@ class IxiaAdminHandler(base.Handler):
             if 'id' in data:
                 port = Port.query.filter_by(id=data['id']).first()
                 if port:
+                    port.slot = data['slot']
                     port.port0 = data['port0']
                     port.port1 = data['port1']
                     port.port2 = data['port2']
