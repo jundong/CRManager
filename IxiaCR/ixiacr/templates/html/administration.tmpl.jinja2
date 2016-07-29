@@ -86,40 +86,25 @@
                     <thead>
                         <tr>
                             <td>{% trans %}Slot #{% endtrans %}</td>
-                            <td>{% trans %}Port 1{% endtrans %}</td>
-                            <td>{% trans %}Port 2{% endtrans %}</td>
-                            <td>{% trans %}Port 3{% endtrans %}</td>
-                            <td>{% trans %}Port 4{% endtrans %}</td>
+                            <!-- ko foreach: ports -->
+                            <td>{% trans %}Port <span data-bind="text: $index" />{% endtrans %}</td>
+                            <!-- /ko -->
                         </tr>
                     </thead>
                     <tbody data-bind="foreach: availablePorts">
                         <tr>
-                            <td data-bind="text: slot"></td>
-                            <td data-bind="click: selectedPort, clickBubble: false" id="port0">
-                                <img src="static/images/port-available.png" data-bind="visible: port0() == 'available' && status()[0] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="visible: port0() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="visible: port0() == 'selected' || status()[0] == '1'">
+                            <td ><span data-bind="text: $index" /></td>
+                            <!-- ko foreach: $data -->
+                            <td data-bind="click: selectedPort, clickBubble: false">
+                                <img src="static/images/port-available.png" data-bind="visible: !selected()">
+                                <img src="static/images/port-selected.png" data-bind="visible: selected()">
                             </td>
-                            <td data-bind="click: selectedPort, clickBubble: false" id="port1">
-                                <img src="static/images/port-available.png" data-bind="visible: port1() == 'available' && status()[1] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="visible: port1() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="visible: port1() == 'selected' || status()[1] == '1'">
-                            </td>
-                            <td data-bind="click: selectedPort, clickBubble: false" id="port2">
-                                <img src="static/images/port-available.png" data-bind="visible: port2() == 'available' && status()[2] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="visible: port2() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="visible: port2() == 'selected' || status()[2] == '1'">
-                            </td>
-                            <td data-bind="click: selectedPort, clickBubble: false" id="port3">
-                                <img src="static/images/port-available.png" data-bind="visible: port3() == 'available' && status()[3] == '0'">
-                                <img src="static/images/port-pulse.png" data-bind="visible: port3() == 'reserved'">
-                                <img src="static/images/port-selected.png" data-bind="visible: port3() == 'selected' || status()[3] == '1'">
-                            </td>
+                            <!-- /ko -->
                         </tr>
-                        <tr data-bind="visible: slot() != 0">
+                        <tr data-bind="visible: $parent.showIndex() == $index()">
                             <th colspan="5">
                                 <ul class="single-pane">
-                                    <li><label>{% trans %}Port Group{% endtrans %}</label><input class="long" type="text" data-bind="value: group" /></li>
+                                    <li><label>{% trans %}Port Group{% endtrans %}</label><input class="long" type="text" data-bind="value: $parent.group" /></li>
                                 </ul>
                             </th>
                         </tr>

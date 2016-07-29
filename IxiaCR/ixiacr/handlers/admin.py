@@ -21,6 +21,8 @@ from ixiacr.tasks import (reset_db_task,
                               shutdown_task)
 from ixiacr.lib import IxiaLogger
 from ixiacr.lib.utils import admin_helper
+from ixiacr.lib.bps.bpsRest import BPS
+
 ixiacrlogger = IxiaLogger(__name__)
 
 _ = TranslationStringFactory('messages')
@@ -382,6 +384,26 @@ class IxiaAdminHandler(base.Handler):
                 db.add(device)
                 db.flush()
 
+            if device.name == 'BPS':
+                try:
+                    Port.query.delete()
+                    transaction.commit()
+
+                    device = Device.query.filter_by(name=u'BPS').first()
+                    bps = BPS(device.host, device.username, device.password)
+                    bps.login()
+                    ports = bps.getPortsStatus()
+                    for port in ports:
+                        db.add(Port(device_id=device.id,
+                            slot=port['slot'],
+                            port=port['port'],
+                            group=1,
+                            reserved=port['reserved'],
+                            selected=False))
+                    transaction.commit()
+                except Exception:
+                    pass
+
             self.items.append({"id": device.id})
 
             if len(self.messages) == 0:
@@ -431,10 +453,7 @@ class IxiaAdminHandler(base.Handler):
                 port = Port.query.filter_by(id=data['id']).first()
                 if port:
                     port.slot = data['slot']
-                    port.port0 = data['port0']
-                    port.port1 = data['port1']
-                    port.port2 = data['port2']
-                    port.port3 = data['port3']
+                    port.port = data['port']
                     port.group = data['group']
                     port.selected = data['selected']
                     db.add(port)

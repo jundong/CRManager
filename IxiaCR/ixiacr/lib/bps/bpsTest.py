@@ -72,39 +72,7 @@ class usingWebApi(object):
             validatedSlotValues = self.connectObj.httpGet("%s/api/v1/admin/vmdeployment/controller/validatedSlotValues" %(self.url))
             print validatedSlotValues
         except Exception as e:
-            print e   
-           
-    # def unassignSlotsFromController(self, unassignedSlotDict):
-    #     print "\nUnassignSlotsFromController ::"
-    #     try:
-    #         unassignedSlotList = []
-    #         unassignedSlotList.append(unassignedSlotDict)
-    #         unassignSlotsFromController = self.connectObj.httpPost("admin/vmdeployment/controller/unassignSlotsFromController", WebObject(unassignedSlotList))
-    #         print unassignSlotsFromController
-    #     except Exception as e:
-    #         print e
-    #
-    # def assignSlotsToController(self, assignedSlotDict):
-    #     print "\nAssignSlotsToController ::"
-    #     try:
-    #         assignedSlotLis = []
-    #         assignedSlotLis.append(assignedSlotDict)
-    #         assignSlotsToController = self.connectObj.httpPost("admin/vmdeployment/controller/assignSlotsToController", WebObject(assignedSlotLis))
-    #         print assignSlotsToController
-    #     except Exception as e:
-    #         print e
-    #
-    # def createNetworkObject(self,nicNum,testNet):
-    #     #print "got nic number %s", nicNum
-    #     nicNum=int(nicNum)
-    #     nicObjList=[]
-    #     nic=1
-    #     while nic <= nicNum:
-    #             adptName= "Network Adapter " + str(nic)
-    #             netObject=WebObject(adapter = adptName,network=testNet)
-    #             nicObjList.append(netObject)
-    #             nic=nic+1
-    #     return(nicObjList)
+            print e
 
     def queryIPDefaultSettings(self):
         print "\nqueryIPDefaultSettings ::"
@@ -120,34 +88,6 @@ class usingWebApi(object):
             del vmSlots[vmSlots.index(slId)]
         
         return vmSlots
-    
-    # def VEDeployment(self, hy_dict, vmName, mgmNet, testNet, staticNetworkDictList):
-    #     print "\nVEDeployment ::"
-    #     try:
-    #         hvObj = WebObject(hy_dict)
-    #         print "going to connect Hypervisor "
-    #         self.connectObj.httpPost("admin/vmdeployment/hypervisor",hvObj)
-    #         print "Connected successfully to Hypervisor......"
-    #         dsObj=self.connectObj.httpPost("admin/vmdeployment/hypervisor/datastores",hvObj)
-    #         dsList=json.loads(dsObj)
-    #         print "dsList : %s" %(dsList)
-    #         datastore=dsList[0]["name"]
-    #         print "dataStore : %s" %(datastore)
-    #
-    #         nicObjList=self.createNetworkObject(2,testNet)
-    #         print "nicObjList : %s" %(nicObjList)
-    #
-    #         #NetworkConfigurationObjList = []
-    #         #NetworkConfigurationObjList.append(staticNetworkDict)
-    #         createObj=WebObject(hostInfo=hvObj,defaultVmName= vmName,vmNo=2,datastore=datastore,mngmNetwork=mgmNet,testNetworks=nicObjList, ipConfigs=WebObject(staticNetworkDictList))
-    #
-    #         placeJobs = self.connectObj.httpPost("admin/vmdeployment/operation",createObj)
-    #         print "placeJobs : " ,placeJobs
-    #         VEDeployment = self.connectObj.httpPost("admin/vmdeployment/operation/create")
-    #         print "VEDeployment :",VEDeployment
-    #
-    #     except Exception as e:
-    #         print e
 
 
 class aTestBpt(object):
@@ -397,13 +337,6 @@ class aTestBpt(object):
               print "Response Text = %s" %response["responseText"]
 
         #self.bps.runCustomCommand("/api/v1/bps/workingmodel","patch",newParams={"componentId":"appsim_1","elementId":"rampDist","paramId":"steady","value":"24:01:10"})
-        #response = self.bps.getResponse()
-        #if response:
-        #   print "Operation = %s" %response["Operation"]
-        #   print "response Code = %s" %response["responseCode"]
-        #   print "Response Text = %s" %response["responseText"]
-
-        #self.bps.runCustomCommand("/api/v1/bps/workingmodel/operations/save","post")
         #response = self.bps.getResponse()
         #if response:
         #   print "Operation = %s" %response["Operation"]

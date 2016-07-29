@@ -599,12 +599,24 @@ IxiaViewModel.prototype.getAvailablePorts = function (callback, responseData) {
         dataType: 'json',
         success: function (data, textStatus, jqXhr) {
             var availablePorts = data;
+            var ports = [];
+            var slot = 0;
             for (var i = 0; i < availablePorts.length; i++) {
                 var port = new PortViewModel(self);
                 port.inflate(availablePorts[i]);
-
-                self.availablePorts.push(port);
+                if (slot == port.slot()) {
+                    ports.push(port);
+                } else {
+                    self.availablePorts.push(ports);
+                    slot = port.slot();
+                    ports = [];
+                    ports.push(port);
+                }
+                if (i == availablePorts.length - 1) {
+                    self.availablePorts.push(ports);
+                }
             }
+
             if (callback){
                 callback(responseData);
             }

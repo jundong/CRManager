@@ -52152,12 +52152,24 @@ IxiaViewModel.prototype.getAvailablePorts = function (callback, responseData) {\
         dataType: 'json',\n\
         success: function (data, textStatus, jqXhr) {\n\
             var availablePorts = data;\n\
+            var ports = [];\n\
+            var slot = 0;\n\
             for (var i = 0; i < availablePorts.length; i++) {\n\
                 var port = new PortViewModel(self);\n\
                 port.inflate(availablePorts[i]);\n\
-\n\
-                self.availablePorts.push(port);\n\
+                if (slot == port.slot()) {\n\
+                    ports.push(port);\n\
+                } else {\n\
+                    self.availablePorts.push(ports);\n\
+                    slot = port.slot();\n\
+                    ports = [];\n\
+                    ports.push(port);\n\
+                }\n\
+                if (i == availablePorts.length - 1) {\n\
+                    self.availablePorts.push(ports);\n\
+                }\n\
             }\n\
+\n\
             if (callback){\n\
                 callback(responseData);\n\
             }\n\
@@ -68117,14 +68129,10 @@ function PortViewModel(rootVm) {\n\
     self.id = ko.observable();\n\
     self.device_id = ko.observable();\n\
     self.slot = ko.observable();\n\
-    //available, reserved, selected\n\
-    self.port0 = ko.observable();\n\
-    self.port1 = ko.observable();\n\
-    self.port2 = ko.observable();\n\
-    self.port3 = ko.observable();\n\
+    self.port = ko.observable();\n\
     self.group = ko.observable();\n\
+    self.reserved = ko.observable();\n\
     self.selected = ko.observable();\n\
-    self.status = ko.observableArray();\n\
 }\n\
 \n\
 PortViewModel.typesafe = function (that) {\n\
@@ -68154,74 +68162,50 @@ PortViewModel.prototype.save = function () {\n\
     });\n\
 };\n\
 \n\
+PortViewModel.prototype.save_group = function () {\n\
+    var self = PortViewModel.typesafe(this);\n\
+\n\
+    $.ajax({\n\
+        type: util.getRequestMethod('save_port'),\n\
+        url: util.getConfigSetting('save_port'),\n\
+        data: util.formatRequestData('save_port', self.toFlatObject()),\n\
+        dataType: 'json',\n\
+        success: function (data, textStatus, jqXhr) {\n\
+        },\n\
+        error: function (jqXhr, textStatus, errorThrown) {\n\
+            logger.error(errorThrown);\n\
+        }\n\
+    });\n\
+};\n\
+\n\
 PortViewModel.prototype.updatePorts = function () {\n\
     var self = PortViewModel.typesafe(this);\n\
-    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {\n\
-        return self.id() == item.id();\n\
-    });\n\
-\n\
-    if (foundExisting !== null) {\n\
-        self.rootVm.availablePorts.remove(foundExisting);\n\
-        ports = self.rootVm.availablePorts();\n\
-        ports.push(self);\n\
-        self.rootVm.availablePorts(ports.sort(function(pre, next) {\n\
-            return (pre.id() < next.id() ? -1 : 1)\n\
-        }));\n\
-    }\n\
+    self.rootVm.getAvailablePorts();\n\
+//    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {\n\
+//        return self.id() == item.id();\n\
+//    });\n\
+//\n\
+//    if (foundExisting !== null) {\n\
+//        self.rootVm.availablePorts.remove(foundExisting);\n\
+//        ports = self.rootVm.availablePorts();\n\
+//        ports.push(self);\n\
+//        self.rootVm.availablePorts(ports.sort(function(pre, next) {\n\
+//            return (pre.id() < next.id() ? -1 : 1)\n\
+//        }));\n\
+//    }\n\
 }\n\
 \n\
 PortViewModel.prototype.selectedPort = function (port, event) {\n\
     var self = PortViewModel.typesafe(this),\n\
         id = event.currentTarget.id;\n\
 \n\
-    if (id == 'port0') {\n\
-        if (self.port0() == 'selected') {\n\
-            self.port0('available');\n\
-            self.status()[0] = 0;\n\
-        } else {\n\
-            self.port0('selected');\n\
-            self.status()[0] = 1;\n\
-        }\n\
-    }\n\
-    else if (id == 'port1') {\n\
-        if (self.port1() == 'selected') {\n\
-            self.port1('available');\n\
-            self.status()[1] = 0;\n\
-        } else {\n\
-            self.port1('selected');\n\
-            self.status()[1] = 1;\n\
-        }\n\
-    }\n\
-    else if (id == 'port2') {\n\
-        if (self.port2() == 'selected') {\n\
-            self.port2('available');\n\
-            self.status()[2] = 0;\n\
-        } else {\n\
-            self.port2('selected');\n\
-            self.status()[2] = 1;\n\
-        }\n\
-    }\n\
-    else if (id == 'port3') {\n\
-        if (self.port3() == 'selected') {\n\
-            self.port3('available');\n\
-            self.status()[3] = 0;\n\
-        } else {\n\
-            self.port3('selected');\n\
-            self.status()[3] = 1;\n\
-        }\n\
+    //We need to update DB here\n\
+    if (self.selected()) {\n\
+        self.selected(false);\n\
+    } else {\n\
+        self.selected(true);\n\
     }\n\
 \n\
-    //We need to update DB here\n\
-    var selected = '';\n\
-    for (var i = 0; i < self.status().length; i++) {\n\
-        if (i == 0) {\n\
-            selected = selected + self.status()[i];\n\
-        } else {\n\
-            selected = selected + ':' + self.status()[i];\n\
-        }\n\
-    }\n\
-    self.selected(selected);\n\
-    //self.updatePorts();\n\
     self.save();\n\
 }\n\
 \n\
@@ -68231,13 +68215,10 @@ PortViewModel.prototype.inflate = function (flatPort) {\n\
     self.id(flatPort.id);\n\
     self.device_id(flatPort.device_id);\n\
     self.slot(flatPort.slot);\n\
-    self.port0(flatPort.port0);\n\
-    self.port1(flatPort.port1);\n\
-    self.port2(flatPort.port2);\n\
-    self.port3(flatPort.port3);\n\
+    self.port(flatPort.port);\n\
     self.selected(flatPort.selected);\n\
     self.group(flatPort.group);\n\
-    self.status(flatPort.status);\n\
+    self.reserved(flatPort.reserved);\n\
 };\n\
 \n\
 PortViewModel.prototype.getNormalizedFlatObject = function (flatObject) {\n\
@@ -68245,12 +68226,9 @@ PortViewModel.prototype.getNormalizedFlatObject = function (flatObject) {\n\
 \n\
     flatObject.device_id = null;\n\
     flatObject.slot = null;\n\
-    flatObject.port0 = null;\n\
-    flatObject.port1 = null;\n\
-    flatObject.port2 = null;\n\
-    flatObject.port3 = null;\n\
+    flatObject.port = null;\n\
     flatObject.selected = null;\n\
-    flatObject.status = null;\n\
+    flatObject.reserved = null;\n\
     flatObject.group = null;\n\
 \n\
     return flatObject;\n\
@@ -68262,12 +68240,9 @@ PortViewModel.prototype.toFlatObject = function(){\n\
         id: self.id(),\n\
         device_id: self.device_id(),\n\
         slot: self.slot(),\n\
-        port0: self.port0(),\n\
-        port1: self.port1(),\n\
-        port2: self.port2(),\n\
-        port3: self.port3(),\n\
+        port: self.port(),\n\
         selected: self.selected(),\n\
-        status: self.status(),\n\
+        reserved: self.reserved(),\n\
         group: self.group()\n\
     };\n\
 \n\
@@ -68282,12 +68257,9 @@ PortViewModel.prototype.clone = function(){\n\
     newTest.id(self.id);\n\
     newTest.device_id(self.device_id);\n\
     newTest.slot(self.slot);\n\
-    newTest.port0(self.port0);\n\
-    newTest.port1(self.port1);\n\
-    newTest.port2(self.port2);\n\
-    newTest.port3(self.port3);\n\
+    newTest.port(self.port);\n\
     newTest.selected(self.selected);\n\
-    newTest.status(self.status);\n\
+    newTest.reserved(self.reserved);\n\
     newTest.group(self.group);\n\
 \n\
     return newTest;\n\
@@ -69386,14 +69358,38 @@ function AdministrationViewModel(rootVm) {\n\
     self.deviceListVisible = ko.observable(true);\n\
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));\n\
 \n\
-    //self.group = ko.observable(1);\n\
+    self.group = ko.observable(1);\n\
     self.availablePorts = ko.observableArray(self.rootVm.availablePorts());\n\
+    self.ports = ko.computed(function () {\n\
+        var ports = [];\n\
+        var port = 0;\n\
+        ports.push(port);\n\
+        for (var i = 0; i < self.availablePorts().length; i++) {\n\
+            for (var j = 0; j < self.availablePorts()[i].length; j++) {\n\
+                if (self.availablePorts()[i][j].port() > port) {\n\
+                    port = self.availablePorts()[i][j].port();\n\
+                    ports.push(port);\n\
+                }\n\
+\n\
+                if (self.group() != self.availablePorts()[i][j].group()) {\n\
+                    self.group(self.availablePorts()[i][j].group())\n\
+                }\n\
+            }\n\
+        }\n\
+        return ports;\n\
+    });\n\
+\n\
+    self.showIndex = ko.computed(function () {\n\
+        return (self.availablePorts().length - 1);\n\
+    });\n\
+\n\
+    self.slotIndex = ko.computed(function () {\n\
+        return (self.availablePorts().length - 1);\n\
+    });\n\
+\n\
     self.rootVm.availablePorts.subscribe(function (ports) {\n\
         self.applyFilters(self.rootVm.availablePorts,ko.observableArray(ports));\n\
         self.availablePorts(ports);\n\
-        //if (self.availablePorts().length > 0) {\n\
-        //    self.group(self.availablePorts()[0].group());\n\
-        //}\n\
     });\n\
 \n\
     self.displayCustomers = ko.computed({\n\
@@ -69477,14 +69473,18 @@ module.exports = AdministrationViewModel;\n\
 \n\
 AdministrationViewModel.prototype.saveGroup = function () {\n\
     var self = this;\n\
-    var foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {\n\
-        return (item.slot() == 1);\n\
-    });\n\
+    var refresh = false;\n\
     for (var i = 0; i < self.rootVm.availablePorts().length; i++) {\n\
-        if (self.rootVm.availablePorts()[i].slot() == 0) {\n\
-            self.rootVm.availablePorts()[i].group(foundExisting.group());\n\
+        for (var j = 0; j < self.rootVm.availablePorts()[i].length; j++) {\n\
+            if (self.rootVm.availablePorts()[i][j].group() != self.group()) {\n\
+                self.rootVm.availablePorts()[i][j].group(self.group());\n\
+                self.rootVm.availablePorts()[i][j].save_group();\n\
+                refresh = true;\n\
+            }\n\
         }\n\
-        self.rootVm.availablePorts()[i].save();\n\
+    }\n\
+    if (refresh) {\n\
+        self.rootVm.getAvailablePorts();\n\
     }\n\
 }\n\
 \n\

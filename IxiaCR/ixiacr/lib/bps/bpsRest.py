@@ -1,6 +1,6 @@
 import requests
 import json
-import time
+import re
 import os
 from os.path import basename
 from os.path import join
@@ -356,4 +356,31 @@ class BPS(object):
         r.close()
         if(r.status_code == 200):
             print 'Your csv having the test details has been successfully downloaded'
+
+    def getPortsStatus(self):
+        portList = []
+        service = 'https://' + self.ipstr + '/api/v1/bps/ports/'
+        r = self.session.get(service)
+        if(r.status_code == 200):
+            portsStatus = r.json()['portReservationState']
+
+            pRE = re.compile('\[slot=\d+,port=\d+\]=\d+')
+            for p in pRE.findall(portsStatus):
+                m = re.match('\[slot=(\d+),port=(\d+)\]=(\d+)', p)
+                ml = m.groups()
+                portList.append({'slot': ml[0], 'port': ml[1], 'reserved':False})
+
+            pRE = re.compile('\[slot=\d+,port=\d+\]=\d+:\[reserved=\S+,number=\d+\]')
+            for p in pRE.findall(portsStatus):
+                m = re.match('\[slot=(\d+),port=(\d+)\]=\d+:\[reserved=(\S+),number=(\d+)\]', p)
+                ml = m.groups()
+                for index in range(len(portList)):
+                    if portList[index]['slot'] == ml[0] and portList[index]['port'] == ml[1]:
+                        portList[index]['reserved'] = True
+
+        return portList
         
+if __name__ == "__main__":
+    bps = BPS('10.210.100.30', 'admin', 'admin')
+    bps.login()
+    portsStatus = bps.getPortsStatus()

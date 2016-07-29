@@ -1,0 +1,16 @@
+{
+    "name": "port-view-model",
+    "repo": "components-ixia/port-view-model",
+    "description": "Manages data for port",
+    "version": "0.0.1",
+    "keywords": [],
+    "dependencies": {},
+    "development": {},
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": [
+        "index.js"
+    ],
+    "local": [
+    ]
+}

@@ -221,12 +221,10 @@ class IxiaTestHandler(base.Handler):
 
             portObjs = Port.query.filter_by(device_id=device.id).all()
             for port in portObjs:
-                if port.selected == '0:0:0:0':
+                if not port.selected:
                     continue
+                ports.append(port.port)
 
-                for index in range(4):
-                    if port.status[index] == '1':
-                        ports.append(index)
             if len(ports) == 0:
                 raise 'No Port Selected'
 

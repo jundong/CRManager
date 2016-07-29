@@ -230,17 +230,11 @@ class Port(Base):
     device_id = Column(Integer, ForeignKey('devices.id',
                                                 onupdate="CASCADE",
                                                 ondelete="CASCADE"))
-    slot = Column(Integer, nullable=False, unique=True)
-    port0 = Column(Unicode(64), nullable=False, unique=False)
-    port1 = Column(Unicode(64), nullable=False, unique=False)
-    port2 = Column(Unicode(64), nullable=False, unique=False)
-    port3 = Column(Unicode(64), nullable=False, unique=False)
-    group = Column(Integer, nullable=False, unique=False)
-    selected = Column(Unicode(64), nullable=False, unique=False)
-
-    @property
-    def status(self):
-        return self.selected.split(':')
+    slot = Column(Integer, nullable=False, unique=False)
+    port = Column(Integer, nullable=False, unique=False)
+    group = Column(Integer, nullable=False, unique=False, default=1) #1-12
+    reserved = Column(Boolean, nullable=False, unique=False, default=False)
+    selected = Column(Boolean, nullable=False, unique=False, default=False)
 
 
 class DeviceHistory(Base):

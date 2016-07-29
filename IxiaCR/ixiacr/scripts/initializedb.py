@@ -11,6 +11,7 @@ from pyramid.paster import get_appsettings
 
 from ixiacr.models import *
 from ixiacr.lib import IxiaLogger
+from ixiacr.lib.bps.bpsRest import BPS
 
 LOGGING_FILENAME = os.path.join(os.getenv('IXIACR'), 'logs/ixiacr_initialize_db.log')
 LOGGING_MAX_BYTES = 10485760
@@ -189,35 +190,95 @@ def import_db(cmd):
                 password=device['password']))
             transaction.commit()
 
-        ports = [
-            {'device_id': u'1',
-             'slot': u'0',
-             'port0': u'available',
-             'port1': u'available',
-             'port2': u'available',
-             'port3': u'available',
-             'group': u'1',
-             'selected': u'0:0:0:0'},
-            {'device_id': u'1',
-             'slot': u'1',
-             'port0': u'available',
-             'port1': u'available',
-             'port2': u'available',
-             'port3': u'available',
-             'group': u'1',
-             'selected': u'0:0:0:0'}
-        ]
+        try:
+            device = Device.query.filter_by(name=u'BPS').first()
+            bps = BPS(device.host, device.username, device.password)
+            bps.login()
+            ports = bps.getPortsStatus()
+            for port in ports:
+                db.add(Port(device_id=device.id,
+                    slot=port['slot'],
+                    port=port['port'],
+                    group=1,
+                    reserved=port['reserved'],
+                    selected=False))
+                transaction.commit()
+        except Exception:
+            ports = [
+                {
+                    'device_id': u'1',
+                    'slot': u'0',
+                    'port': u'0',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'0',
+                    'port': u'1',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'0',
+                    'port': u'2',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'0',
+                    'port': u'3',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'1',
+                    'port': u'0',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'1',
+                    'port': u'1',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'1',
+                    'port': u'2',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                },
+                {
+                    'device_id': u'1',
+                    'slot': u'1',
+                    'port': u'3',
+                    'group': u'1',
+                    'reserved': False,
+                    'selected': False
+                }
+            ]
 
-        for port in ports:
-            db.add(Port(device_id=port['device_id'],
-                slot=port['slot'],
-                port0=port['port0'],
-                port1=port['port1'],
-                port2=port['port2'],
-                port3=port['port3'],
-                group=port['group'],
-                selected=port['selected']))
-            transaction.commit()
+            for port in ports:
+                db.add(Port(device_id=port['device_id'],
+                    slot=port['slot'],
+                    port=port['port'],
+                    group=port['group'],
+                    reserved=port['reserved'],
+                    selected=port['selected']))
+                transaction.commit()
 
         cases = [
             # {

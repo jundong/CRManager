@@ -44,37 +44,20 @@ PortViewModel.prototype.save = function () {
     });
 };
 
-PortViewModel.prototype.save_group = function () {
-    var self = PortViewModel.typesafe(this);
-
-    $.ajax({
-        type: util.getRequestMethod('save_port'),
-        url: util.getConfigSetting('save_port'),
-        data: util.formatRequestData('save_port', self.toFlatObject()),
-        dataType: 'json',
-        success: function (data, textStatus, jqXhr) {
-        },
-        error: function (jqXhr, textStatus, errorThrown) {
-            logger.error(errorThrown);
-        }
-    });
-};
-
 PortViewModel.prototype.updatePorts = function () {
     var self = PortViewModel.typesafe(this);
-    self.rootVm.getAvailablePorts();
-//    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {
-//        return self.id() == item.id();
-//    });
-//
-//    if (foundExisting !== null) {
-//        self.rootVm.availablePorts.remove(foundExisting);
-//        ports = self.rootVm.availablePorts();
-//        ports.push(self);
-//        self.rootVm.availablePorts(ports.sort(function(pre, next) {
-//            return (pre.id() < next.id() ? -1 : 1)
-//        }));
-//    }
+    foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {
+        return self.id() == item.id();
+    });
+
+    if (foundExisting !== null) {
+        self.rootVm.availablePorts.remove(foundExisting);
+        ports = self.rootVm.availablePorts();
+        ports.push(self);
+        self.rootVm.availablePorts(ports.sort(function(pre, next) {
+            return (pre.id() < next.id() ? -1 : 1)
+        }));
+    }
 }
 
 PortViewModel.prototype.selectedPort = function (port, event) {

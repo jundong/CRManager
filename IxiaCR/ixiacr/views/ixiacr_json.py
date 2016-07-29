@@ -465,17 +465,14 @@ def get_ports(request):
     ports = []
 
     try:
-        for port in Port.query.all():
+        for port in Port.query.order_by(Port.slot.asc()).all():
             ports.append({'id': port.id,
                         'device_id': port.device_id,
                         'slot': port.slot,
-                        'port0': port.port0,
-                        'port1': port.port1,
-                        'port2': port.port2,
-                        'port3': port.port3,
+                        'port': port.port,
                         'selected': port.selected,
                         'group': port.group,
-                        'status': port.status})
+                        'reserved': port.reserved})
 
         return ports
 

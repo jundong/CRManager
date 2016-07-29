@@ -72,14 +72,38 @@ function AdministrationViewModel(rootVm) {
     self.deviceListVisible = ko.observable(true);
     self.currentDevice = ko.observable(new TestDeviceViewModel(self.rootVm));
 
-    //self.group = ko.observable(1);
+    self.group = ko.observable(1);
     self.availablePorts = ko.observableArray(self.rootVm.availablePorts());
+    self.ports = ko.computed(function () {
+        var ports = [];
+        var port = 0;
+        ports.push(port);
+        for (var i = 0; i < self.availablePorts().length; i++) {
+            for (var j = 0; j < self.availablePorts()[i].length; j++) {
+                if (self.availablePorts()[i][j].port() > port) {
+                    port = self.availablePorts()[i][j].port();
+                    ports.push(port);
+                }
+
+                if (self.group() != self.availablePorts()[i][j].group()) {
+                    self.group(self.availablePorts()[i][j].group())
+                }
+            }
+        }
+        return ports;
+    });
+
+    self.showIndex = ko.computed(function () {
+        return (self.availablePorts().length - 1);
+    });
+
+    self.slotIndex = ko.computed(function () {
+        return (self.availablePorts().length - 1);
+    });
+
     self.rootVm.availablePorts.subscribe(function (ports) {
         self.applyFilters(self.rootVm.availablePorts,ko.observableArray(ports));
         self.availablePorts(ports);
-        //if (self.availablePorts().length > 0) {
-        //    self.group(self.availablePorts()[0].group());
-        //}
     });
 
     self.displayCustomers = ko.computed({
@@ -163,14 +187,18 @@ module.exports = AdministrationViewModel;
 
 AdministrationViewModel.prototype.saveGroup = function () {
     var self = this;
-    var foundExisting = ko.utils.arrayFirst(self.rootVm.availablePorts(), function (item) {
-        return (item.slot() == 1);
-    });
+    var refresh = false;
     for (var i = 0; i < self.rootVm.availablePorts().length; i++) {
-        if (self.rootVm.availablePorts()[i].slot() == 0) {
-            self.rootVm.availablePorts()[i].group(foundExisting.group());
+        for (var j = 0; j < self.rootVm.availablePorts()[i].length; j++) {
+            if (self.rootVm.availablePorts()[i][j].group() != self.group()) {
+                self.rootVm.availablePorts()[i][j].group(self.group());
+                self.rootVm.availablePorts()[i][j].save_group();
+                refresh = true;
+            }
         }
-        self.rootVm.availablePorts()[i].save();
+    }
+    if (refresh) {
+        self.rootVm.getAvailablePorts();
     }
 }
 
